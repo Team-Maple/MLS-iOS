@@ -13,6 +13,8 @@
 		087D3F922DA7A795002F924D /* MLSDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F902DA7A795002F924D /* MLSDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		087D3F942DA7A798002F924D /* MLSData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F932DA7A798002F924D /* MLSData.framework */; };
 		087D3F952DA7A798002F924D /* MLSData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F932DA7A798002F924D /* MLSData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		087D40402DA7BC52002F924D /* MemoryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087D403F2DA7BC52002F924D /* MemoryStorage.swift */; };
+		087D40442DA7BC5D002F924D /* DiskStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087D40432DA7BC5D002F924D /* DiskStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +53,10 @@
 		087D3F872DA7A77B002F924D /* MLSDomain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MLSDomain.xcodeproj; sourceTree = "<group>"; };
 		087D3F902DA7A795002F924D /* MLSDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		087D3F932DA7A798002F924D /* MLSData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		087D401D2DA7BACD002F924D /* MLSImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLSImageLoader.h; sourceTree = "<group>"; };
+		087D401F2DA7BACD002F924D /* MLSImageLoader.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MLSImageLoader.xcodeproj; sourceTree = "<group>"; };
+		087D403F2DA7BC52002F924D /* MemoryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryStorage.swift; sourceTree = "<group>"; };
+		087D40432DA7BC5D002F924D /* DiskStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -92,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				087D3EEA2DA7972C002F924D /* MLS */,
+				087D40202DA7BACD002F924D /* MLSImageLoader */,
 				087D3F3F2DA7A3F4002F924D /* MLSPresentation */,
 				087D3F882DA7A77B002F924D /* MLSDomain */,
 				087D3F662DA7A747002F924D /* MLSData */,
@@ -176,6 +183,54 @@
 			path = MLSDomain;
 			sourceTree = "<group>";
 		};
+		087D3FFE2DA7BA8C002F924D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		087D40002DA7BA8C002F924D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		087D401E2DA7BACD002F924D /* MLSImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				087D403D2DA7BC42002F924D /* Storage */,
+				087D401D2DA7BACD002F924D /* MLSImageLoader.h */,
+			);
+			path = MLSImageLoader;
+			sourceTree = "<group>";
+		};
+		087D40202DA7BACD002F924D /* MLSImageLoader */ = {
+			isa = PBXGroup;
+			children = (
+				087D401E2DA7BACD002F924D /* MLSImageLoader */,
+				087D401F2DA7BACD002F924D /* MLSImageLoader.xcodeproj */,
+			);
+			path = MLSImageLoader;
+			sourceTree = "<group>";
+		};
+		087D40212DA7BACD002F924D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		087D403D2DA7BC42002F924D /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				087D403F2DA7BC52002F924D /* MemoryStorage.swift */,
+				087D40432DA7BC5D002F924D /* DiskStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -231,6 +286,18 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 087D40002DA7BA8C002F924D /* Products */;
+					ProjectRef = 087D3F652DA7A747002F924D /* MLSData.xcodeproj */;
+				},
+				{
+					ProductGroup = 087D3FFE2DA7BA8C002F924D /* Products */;
+					ProjectRef = 087D3F872DA7A77B002F924D /* MLSDomain.xcodeproj */;
+				},
+				{
+					ProductGroup = 087D40212DA7BACD002F924D /* Products */;
+					ProjectRef = 087D401F2DA7BACD002F924D /* MLSImageLoader.xcodeproj */;
+				},
+				{
 					ProductGroup = 087D3F402DA7A3F4002F924D /* Products */;
 					ProjectRef = 087D3F3E2DA7A3F4002F924D /* MLSPresentation.xcodeproj */;
 				},
@@ -267,6 +334,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				087D40402DA7BC52002F924D /* MemoryStorage.swift in Sources */,
+				087D40442DA7BC5D002F924D /* DiskStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
