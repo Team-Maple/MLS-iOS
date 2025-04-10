@@ -6,8 +6,51 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		087D3F482DA7A3FF002F924D /* MLSPresentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F462DA7A3F4002F924D /* MLSPresentation.framework */; };
+		087D3F492DA7A3FF002F924D /* MLSPresentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F462DA7A3F4002F924D /* MLSPresentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		087D3F912DA7A795002F924D /* MLSDomain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F902DA7A795002F924D /* MLSDomain.framework */; };
+		087D3F922DA7A795002F924D /* MLSDomain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F902DA7A795002F924D /* MLSDomain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		087D3F942DA7A798002F924D /* MLSData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F932DA7A798002F924D /* MLSData.framework */; };
+		087D3F952DA7A798002F924D /* MLSData.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D3F932DA7A798002F924D /* MLSData.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		087D3F452DA7A3F4002F924D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 087D3F3E2DA7A3F4002F924D /* MLSPresentation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 087D3F312DA7A3B3002F924D;
+			remoteInfo = MLSPresentation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		087D3F4A2DA7A3FF002F924D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				087D3F952DA7A798002F924D /* MLSData.framework in Embed Frameworks */,
+				087D3F492DA7A3FF002F924D /* MLSPresentation.framework in Embed Frameworks */,
+				087D3F922DA7A795002F924D /* MLSDomain.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		087D3EE82DA7972C002F924D /* MLS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		087D3F3C2DA7A3F4002F924D /* MLSPresentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLSPresentation.h; sourceTree = "<group>"; };
+		087D3F3E2DA7A3F4002F924D /* MLSPresentation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MLSPresentation.xcodeproj; sourceTree = "<group>"; };
+		087D3F632DA7A747002F924D /* MLSData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLSData.h; sourceTree = "<group>"; };
+		087D3F652DA7A747002F924D /* MLSData.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MLSData.xcodeproj; sourceTree = "<group>"; };
+		087D3F852DA7A77B002F924D /* MLSDomain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MLSDomain.h; sourceTree = "<group>"; };
+		087D3F872DA7A77B002F924D /* MLSDomain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MLSDomain.xcodeproj; sourceTree = "<group>"; };
+		087D3F902DA7A795002F924D /* MLSDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		087D3F932DA7A798002F924D /* MLSData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -36,6 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				087D3F942DA7A798002F924D /* MLSData.framework in Frameworks */,
+				087D3F482DA7A3FF002F924D /* MLSPresentation.framework in Frameworks */,
+				087D3F912DA7A795002F924D /* MLSDomain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +92,10 @@
 			isa = PBXGroup;
 			children = (
 				087D3EEA2DA7972C002F924D /* MLS */,
+				087D3F3F2DA7A3F4002F924D /* MLSPresentation */,
+				087D3F882DA7A77B002F924D /* MLSDomain */,
+				087D3F662DA7A747002F924D /* MLSData */,
+				087D3F472DA7A3FF002F924D /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +108,74 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		087D3F3D2DA7A3F4002F924D /* MLSPresentation */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F3C2DA7A3F4002F924D /* MLSPresentation.h */,
+			);
+			path = MLSPresentation;
+			sourceTree = "<group>";
+		};
+		087D3F3F2DA7A3F4002F924D /* MLSPresentation */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F3D2DA7A3F4002F924D /* MLSPresentation */,
+				087D3F3E2DA7A3F4002F924D /* MLSPresentation.xcodeproj */,
+			);
+			path = MLSPresentation;
+			sourceTree = "<group>";
+		};
+		087D3F402DA7A3F4002F924D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F462DA7A3F4002F924D /* MLSPresentation.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		087D3F472DA7A3FF002F924D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F932DA7A798002F924D /* MLSData.framework */,
+				087D3F902DA7A795002F924D /* MLSDomain.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		087D3F642DA7A747002F924D /* MLSData */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F632DA7A747002F924D /* MLSData.h */,
+			);
+			path = MLSData;
+			sourceTree = "<group>";
+		};
+		087D3F662DA7A747002F924D /* MLSData */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F642DA7A747002F924D /* MLSData */,
+				087D3F652DA7A747002F924D /* MLSData.xcodeproj */,
+			);
+			path = MLSData;
+			sourceTree = "<group>";
+		};
+		087D3F862DA7A77B002F924D /* MLSDomain */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F852DA7A77B002F924D /* MLSDomain.h */,
+			);
+			path = MLSDomain;
+			sourceTree = "<group>";
+		};
+		087D3F882DA7A77B002F924D /* MLSDomain */ = {
+			isa = PBXGroup;
+			children = (
+				087D3F862DA7A77B002F924D /* MLSDomain */,
+				087D3F872DA7A77B002F924D /* MLSDomain.xcodeproj */,
+			);
+			path = MLSDomain;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -68,6 +186,7 @@
 				087D3EE42DA7972C002F924D /* Sources */,
 				087D3EE52DA7972C002F924D /* Frameworks */,
 				087D3EE62DA7972C002F924D /* Resources */,
+				087D3F4A2DA7A3FF002F924D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -110,12 +229,28 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 087D3EE92DA7972C002F924D /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 087D3F402DA7A3F4002F924D /* Products */;
+					ProjectRef = 087D3F3E2DA7A3F4002F924D /* MLSPresentation.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				087D3EE72DA7972C002F924D /* MLS */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		087D3F462DA7A3F4002F924D /* MLSPresentation.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MLSPresentation.framework;
+			remoteRef = 087D3F452DA7A3F4002F924D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		087D3EE62DA7972C002F924D /* Resources */ = {
