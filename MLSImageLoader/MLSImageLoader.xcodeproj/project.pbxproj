@@ -6,92 +6,62 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		087D402A2DA7BAE1002F924D /* MLSImageLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D40292DA7BAE1002F924D /* MLSImageLoader.framework */; };
-		087D402B2DA7BAE1002F924D /* MLSImageLoader.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D40292DA7BAE1002F924D /* MLSImageLoader.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		087D402C2DA7BAE1002F924D /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				087D402B2DA7BAE1002F924D /* MLSImageLoader.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		087D3F312DA7A3B3002F924D /* MLSPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		087D40292DA7BAE1002F924D /* MLSImageLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSImageLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		087D40122DA7BAB7002F924D /* MLSImageLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSImageLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		087D3F362DA7A3B3002F924D /* Exceptions for "MLSPresentation" folder in "MLSPresentation" target */ = {
+		087D40172DA7BAB7002F924D /* Exceptions for "MLSImageLoader" folder in "MLSImageLoader" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
-				MLSPresentation.h,
+				MLSImageLoader.h,
 			);
-			target = 087D3F302DA7A3B3002F924D /* MLSPresentation */;
+			target = 087D40112DA7BAB7002F924D /* MLSImageLoader */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		087D3F332DA7A3B3002F924D /* MLSPresentation */ = {
+		087D40142DA7BAB7002F924D /* MLSImageLoader */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				087D3F362DA7A3B3002F924D /* Exceptions for "MLSPresentation" folder in "MLSPresentation" target */,
+				087D40172DA7BAB7002F924D /* Exceptions for "MLSImageLoader" folder in "MLSImageLoader" target */,
 			);
-			path = MLSPresentation;
+			path = MLSImageLoader;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		087D3F2E2DA7A3B3002F924D /* Frameworks */ = {
+		087D400F2DA7BAB7002F924D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				087D402A2DA7BAE1002F924D /* MLSImageLoader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		087D3F272DA7A3B3002F924D = {
+		087D40082DA7BAB7002F924D = {
 			isa = PBXGroup;
 			children = (
-				087D3F332DA7A3B3002F924D /* MLSPresentation */,
-				087D40282DA7BAE1002F924D /* Frameworks */,
-				087D3F322DA7A3B3002F924D /* Products */,
+				087D40142DA7BAB7002F924D /* MLSImageLoader */,
+				087D40132DA7BAB7002F924D /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		087D3F322DA7A3B3002F924D /* Products */ = {
+		087D40132DA7BAB7002F924D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				087D3F312DA7A3B3002F924D /* MLSPresentation.framework */,
+				087D40122DA7BAB7002F924D /* MLSImageLoader.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		087D40282DA7BAE1002F924D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				087D40292DA7BAE1002F924D /* MLSImageLoader.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		087D3F2C2DA7A3B3002F924D /* Headers */ = {
+		087D400D2DA7BAB7002F924D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -101,65 +71,64 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		087D3F302DA7A3B3002F924D /* MLSPresentation */ = {
+		087D40112DA7BAB7002F924D /* MLSImageLoader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 087D3F372DA7A3B3002F924D /* Build configuration list for PBXNativeTarget "MLSPresentation" */;
+			buildConfigurationList = 087D40182DA7BAB7002F924D /* Build configuration list for PBXNativeTarget "MLSImageLoader" */;
 			buildPhases = (
-				087D3F2C2DA7A3B3002F924D /* Headers */,
-				087D3F2D2DA7A3B3002F924D /* Sources */,
-				087D3F2E2DA7A3B3002F924D /* Frameworks */,
-				087D3F2F2DA7A3B3002F924D /* Resources */,
-				087D402C2DA7BAE1002F924D /* Embed Frameworks */,
+				087D400D2DA7BAB7002F924D /* Headers */,
+				087D400E2DA7BAB7002F924D /* Sources */,
+				087D400F2DA7BAB7002F924D /* Frameworks */,
+				087D40102DA7BAB7002F924D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				087D3F332DA7A3B3002F924D /* MLSPresentation */,
+				087D40142DA7BAB7002F924D /* MLSImageLoader */,
 			);
-			name = MLSPresentation;
+			name = MLSImageLoader;
 			packageProductDependencies = (
 			);
-			productName = MLSPresentation;
-			productReference = 087D3F312DA7A3B3002F924D /* MLSPresentation.framework */;
+			productName = MLSImageLoader;
+			productReference = 087D40122DA7BAB7002F924D /* MLSImageLoader.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		087D3F282DA7A3B3002F924D /* Project object */ = {
+		087D40092DA7BAB7002F924D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					087D3F302DA7A3B3002F924D = {
+					087D40112DA7BAB7002F924D = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = 087D3F2B2DA7A3B3002F924D /* Build configuration list for PBXProject "MLSPresentation" */;
+			buildConfigurationList = 087D400C2DA7BAB7002F924D /* Build configuration list for PBXProject "MLSImageLoader" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 087D3F272DA7A3B3002F924D;
+			mainGroup = 087D40082DA7BAB7002F924D;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 087D3F322DA7A3B3002F924D /* Products */;
+			productRefGroup = 087D40132DA7BAB7002F924D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				087D3F302DA7A3B3002F924D /* MLSPresentation */,
+				087D40112DA7BAB7002F924D /* MLSImageLoader */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		087D3F2F2DA7A3B3002F924D /* Resources */ = {
+		087D40102DA7BAB7002F924D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -169,7 +138,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		087D3F2D2DA7A3B3002F924D /* Sources */ = {
+		087D400E2DA7BAB7002F924D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -179,7 +148,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		087D3F382DA7A3B3002F924D /* Debug */ = {
+		087D40192DA7BAB7002F924D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -201,7 +170,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSPresentation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSImageLoader;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -211,7 +180,7 @@
 			};
 			name = Debug;
 		};
-		087D3F392DA7A3B3002F924D /* Release */ = {
+		087D401A2DA7BAB7002F924D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -233,7 +202,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSPresentation;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSImageLoader;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -243,7 +212,7 @@
 			};
 			name = Release;
 		};
-		087D3F3A2DA7A3B3002F924D /* Debug */ = {
+		087D401B2DA7BAB7002F924D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -309,7 +278,7 @@
 			};
 			name = Debug;
 		};
-		087D3F3B2DA7A3B3002F924D /* Release */ = {
+		087D401C2DA7BAB7002F924D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -371,25 +340,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		087D3F2B2DA7A3B3002F924D /* Build configuration list for PBXProject "MLSPresentation" */ = {
+		087D400C2DA7BAB7002F924D /* Build configuration list for PBXProject "MLSImageLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F3A2DA7A3B3002F924D /* Debug */,
-				087D3F3B2DA7A3B3002F924D /* Release */,
+				087D401B2DA7BAB7002F924D /* Debug */,
+				087D401C2DA7BAB7002F924D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		087D3F372DA7A3B3002F924D /* Build configuration list for PBXNativeTarget "MLSPresentation" */ = {
+		087D40182DA7BAB7002F924D /* Build configuration list for PBXNativeTarget "MLSImageLoader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F382DA7A3B3002F924D /* Debug */,
-				087D3F392DA7A3B3002F924D /* Release */,
+				087D40192DA7BAB7002F924D /* Debug */,
+				087D401A2DA7BAB7002F924D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 087D3F282DA7A3B3002F924D /* Project object */;
+	rootObject = 087D40092DA7BAB7002F924D /* Project object */;
 }
