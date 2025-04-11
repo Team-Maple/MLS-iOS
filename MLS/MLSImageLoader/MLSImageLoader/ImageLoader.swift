@@ -10,20 +10,20 @@ public enum ImageLoaderError: Error {
 /// 이미지 로더 설정 클래스
 public final class ImageLoaderConfigure {
     /// 메모리 캐시 만료 시간 (기본값 300초)
-    var memoryCacheExpiration: TimeInterval = 300
+    public var memoryCacheExpiration: TimeInterval = 300
     /// 메모리 캐시 갯수 제한 (기본값 100개)
-    var memoryCacheCountLimit = 100 // 최대 100개까지 저장
+    public var memoryCacheCountLimit = 100 // 최대 100개까지 저장
     /// 메모리 코스트 제한 (최대 50MB까지 저장 기본 값 50MB)
-    var memoryCacheTotalCostLimit = 50 * 1024 * 1024
+    public var memoryCacheTotalCostLimit = 50 * 1024 * 1024
 }
 
 /// URL을 통해 이미지를 비동기적으로 로드하는 클래스
 public final class ImageLoader {
     
-    static let shared = ImageLoader()
+    public static let shared = ImageLoader()
     
     /// 이미지 로더 설정 객체
-    let configure = ImageLoaderConfigure()
+    public let configure = ImageLoaderConfigure()
     
     private init() {}
     
@@ -32,7 +32,7 @@ public final class ImageLoader {
     ///   - stringURL: 이미지 URL 문자열
     ///   - defaultImage: 로드 실패 시 반환할 기본 이미지
     ///   - completion: 로드 완료 후 호출되는 클로저
-    func loadImage(url: URL?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
+    public func loadImage(url: URL?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
         loadImage(url: url) { result in
             switch result {
             case .success(let image):
