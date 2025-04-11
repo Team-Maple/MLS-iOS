@@ -6,28 +6,8 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		087D402A2DA7BAE1002F924D /* MLSImageLoader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 087D40292DA7BAE1002F924D /* MLSImageLoader.framework */; };
-		087D402B2DA7BAE1002F924D /* MLSImageLoader.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 087D40292DA7BAE1002F924D /* MLSImageLoader.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		087D402C2DA7BAE1002F924D /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				087D402B2DA7BAE1002F924D /* MLSImageLoader.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		087D3F312DA7A3B3002F924D /* MLSPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		087D40292DA7BAE1002F924D /* MLSImageLoader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSImageLoader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,7 +36,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				087D402A2DA7BAE1002F924D /* MLSImageLoader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,7 +46,6 @@
 			isa = PBXGroup;
 			children = (
 				087D3F332DA7A3B3002F924D /* MLSPresentation */,
-				087D40282DA7BAE1002F924D /* Frameworks */,
 				087D3F322DA7A3B3002F924D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,14 +56,6 @@
 				087D3F312DA7A3B3002F924D /* MLSPresentation.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		087D40282DA7BAE1002F924D /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				087D40292DA7BAE1002F924D /* MLSImageLoader.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -109,7 +79,6 @@
 				087D3F2D2DA7A3B3002F924D /* Sources */,
 				087D3F2E2DA7A3B3002F924D /* Frameworks */,
 				087D3F2F2DA7A3B3002F924D /* Resources */,
-				087D402C2DA7BAE1002F924D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
