@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		087D3F582DA7A736002F924D /* MLSData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08EBDADA2DAD379B0014DC9A /* MLSData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		087D3F5D2DA7A736002F924D /* Exceptions for "MLSData" folder in "MLSData" target */ = {
+		08EBDADF2DAD379B0014DC9A /* Exceptions for "MLSData" folder in "MLSData" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				MLSData.h,
 			);
-			target = 087D3F572DA7A736002F924D /* MLSData */;
+			target = 08EBDAD92DAD379B0014DC9A /* MLSData */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		087D3F5A2DA7A736002F924D /* MLSData */ = {
+		08EBDADC2DAD379B0014DC9A /* MLSData */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				087D3F5D2DA7A736002F924D /* Exceptions for "MLSData" folder in "MLSData" target */,
+				08EBDADF2DAD379B0014DC9A /* Exceptions for "MLSData" folder in "MLSData" target */,
 			);
 			path = MLSData;
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		087D3F552DA7A736002F924D /* Frameworks */ = {
+		08EBDAD72DAD379B0014DC9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		087D3F4E2DA7A736002F924D = {
+		08EBDAD02DAD379B0014DC9A = {
 			isa = PBXGroup;
 			children = (
-				087D3F5A2DA7A736002F924D /* MLSData */,
-				087D3F592DA7A736002F924D /* Products */,
+				08EBDADC2DAD379B0014DC9A /* MLSData */,
+				08EBDADB2DAD379B0014DC9A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		087D3F592DA7A736002F924D /* Products */ = {
+		08EBDADB2DAD379B0014DC9A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				087D3F582DA7A736002F924D /* MLSData.framework */,
+				08EBDADA2DAD379B0014DC9A /* MLSData.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		087D3F532DA7A736002F924D /* Headers */ = {
+		08EBDAD52DAD379B0014DC9A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -71,64 +71,64 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		087D3F572DA7A736002F924D /* MLSData */ = {
+		08EBDAD92DAD379B0014DC9A /* MLSData */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 087D3F5E2DA7A736002F924D /* Build configuration list for PBXNativeTarget "MLSData" */;
+			buildConfigurationList = 08EBDAE02DAD379B0014DC9A /* Build configuration list for PBXNativeTarget "MLSData" */;
 			buildPhases = (
-				087D3F532DA7A736002F924D /* Headers */,
-				087D3F542DA7A736002F924D /* Sources */,
-				087D3F552DA7A736002F924D /* Frameworks */,
-				087D3F562DA7A736002F924D /* Resources */,
+				08EBDAD52DAD379B0014DC9A /* Headers */,
+				08EBDAD62DAD379B0014DC9A /* Sources */,
+				08EBDAD72DAD379B0014DC9A /* Frameworks */,
+				08EBDAD82DAD379B0014DC9A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				087D3F5A2DA7A736002F924D /* MLSData */,
+				08EBDADC2DAD379B0014DC9A /* MLSData */,
 			);
 			name = MLSData;
 			packageProductDependencies = (
 			);
 			productName = MLSData;
-			productReference = 087D3F582DA7A736002F924D /* MLSData.framework */;
+			productReference = 08EBDADA2DAD379B0014DC9A /* MLSData.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		087D3F4F2DA7A736002F924D /* Project object */ = {
+		08EBDAD12DAD379B0014DC9A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					087D3F572DA7A736002F924D = {
+					08EBDAD92DAD379B0014DC9A = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
 			};
-			buildConfigurationList = 087D3F522DA7A736002F924D /* Build configuration list for PBXProject "MLSData" */;
+			buildConfigurationList = 08EBDAD42DAD379B0014DC9A /* Build configuration list for PBXProject "MLSData" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 087D3F4E2DA7A736002F924D;
+			mainGroup = 08EBDAD02DAD379B0014DC9A;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 087D3F592DA7A736002F924D /* Products */;
+			productRefGroup = 08EBDADB2DAD379B0014DC9A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				087D3F572DA7A736002F924D /* MLSData */,
+				08EBDAD92DAD379B0014DC9A /* MLSData */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		087D3F562DA7A736002F924D /* Resources */ = {
+		08EBDAD82DAD379B0014DC9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		087D3F542DA7A736002F924D /* Sources */ = {
+		08EBDAD62DAD379B0014DC9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -148,7 +148,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		087D3F5F2DA7A736002F924D /* Debug */ = {
+		08EBDAE12DAD379B0014DC9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -162,6 +162,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -173,14 +174,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		087D3F602DA7A736002F924D /* Release */ = {
+		08EBDAE22DAD379B0014DC9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -194,6 +199,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -205,14 +211,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSData;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
-		087D3F612DA7A736002F924D /* Debug */ = {
+		08EBDAE32DAD379B0014DC9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -278,7 +288,7 @@
 			};
 			name = Debug;
 		};
-		087D3F622DA7A736002F924D /* Release */ = {
+		08EBDAE42DAD379B0014DC9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -340,25 +350,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		087D3F522DA7A736002F924D /* Build configuration list for PBXProject "MLSData" */ = {
+		08EBDAD42DAD379B0014DC9A /* Build configuration list for PBXProject "MLSData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F612DA7A736002F924D /* Debug */,
-				087D3F622DA7A736002F924D /* Release */,
+				08EBDAE32DAD379B0014DC9A /* Debug */,
+				08EBDAE42DAD379B0014DC9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		087D3F5E2DA7A736002F924D /* Build configuration list for PBXNativeTarget "MLSData" */ = {
+		08EBDAE02DAD379B0014DC9A /* Build configuration list for PBXNativeTarget "MLSData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F5F2DA7A736002F924D /* Debug */,
-				087D3F602DA7A736002F924D /* Release */,
+				08EBDAE12DAD379B0014DC9A /* Debug */,
+				08EBDAE22DAD379B0014DC9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 087D3F4F2DA7A736002F924D /* Project object */;
+	rootObject = 08EBDAD12DAD379B0014DC9A /* Project object */;
 }
