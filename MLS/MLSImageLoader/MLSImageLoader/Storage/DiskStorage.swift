@@ -38,8 +38,10 @@ internal final class DiskStorage {
     private var totalCacheSize: Int = 0
     
     private init() {
-        self.cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first!
-            .appendingPathComponent("ImageCache")
+        guard let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else {
+            fatalError("시스템 손상")
+        }
+        self.cacheDirectory = cacheDirectory.appendingPathComponent("ImageCache")
         try? fileManager.createDirectory(at: cacheDirectory, withIntermediateDirectories: true)
         // 캐시저장소 로드
         loadCacheData()
