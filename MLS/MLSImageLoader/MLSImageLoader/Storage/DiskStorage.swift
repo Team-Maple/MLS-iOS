@@ -1,4 +1,5 @@
 import UIKit
+import os
 
 /// 캐시할 이미지와 추가 데이터를 저장하는 구조체
 internal struct CacheData {
@@ -53,7 +54,7 @@ internal final class DiskStorage {
     /// - Parameters:
     ///   - url: 이미지 주소
     ///   - completion: url에 해당하는 이미지를 return (없으면 nil)
-    func loadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+    func fetchImage(url: URL, completion: @escaping (UIImage?) -> Void) {
         queue.async { [weak self] in
             guard let self else {
                 DispatchQueue.main.async { completion(nil) }
@@ -106,7 +107,7 @@ internal final class DiskStorage {
                     self.totalCacheSize += data.count
                     self.checkCache()
                 } catch {
-                    print("디스크 캐시 저장 실패: ", error)
+                    os_log("디스크 캐시 저장 실패")
                 }
             }
         }
@@ -116,6 +117,7 @@ internal final class DiskStorage {
     /// - Parameter url: 이미지 주소
     /// - Returns: 변경된 파일명을 return
     private func createFilePath(url: URL) -> String {
+        // ToBe: - 파일명 길이 확인
         url.absoluteString
             .replacingOccurrences(of: "/", with: "_")
             .replacingOccurrences(of: ":", with: "_")
@@ -146,7 +148,7 @@ internal final class DiskStorage {
                     self.totalCacheSize += fileSize
                 }
             } catch {
-                print("캐시 로드 실패: ", error)
+                os_log("캐시 로드 실패")
             }
         }
     }

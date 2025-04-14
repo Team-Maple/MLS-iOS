@@ -68,10 +68,10 @@ private extension ImageLoader {
         }
         
         // 디스크 캐시에서 이미지 조회
-        DiskStorage.shared.loadImage(url: url) { image in
+        DiskStorage.shared.fetchImage(url: url) { image in
             if let image {
                 // 디스크에서 가져온 이미지를 메모리캐시에 저장
-                MemoryStorage.shared.store(image: image, stringURL: url.absoluteString)
+                MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
                 completion(.success(image))
             } else {
                 // 메모리와 디스크 둘다 없다면 네트워크 요청
@@ -79,7 +79,7 @@ private extension ImageLoader {
                     switch result {
                     case .success(let data):
                         if let data, let image = UIImage(data: data) {
-                            MemoryStorage.shared.store(image: image, stringURL: url.absoluteString)
+                            MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
                             DiskStorage.shared.saveImage(image: image, url: url)
                             completion(.success(image))
                         } else {

@@ -48,7 +48,7 @@ internal final class MemoryStorage {
     /// - Parameters:
     ///   - image: 저장할 이미지
     ///   - stringURL: 이미지 URL 문자열
-    func store(image: UIImage?, stringURL: String) {
+    func saveImage(image: UIImage?, stringURL: String) {
         let cachedData = StorageData(image: image, expiration: ImageLoader.shared.configure.memoryCacheExpiration)
         
         let cost = image?.jpegData(compressionQuality: 1.0)?.count ?? 1
