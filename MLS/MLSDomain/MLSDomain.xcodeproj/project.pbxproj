@@ -7,24 +7,24 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		087D3F7A2DA7A769002F924D /* MLSDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08EBDAB32DAD37350014DC9A /* MLSDomain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSDomain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		087D3F7F2DA7A769002F924D /* Exceptions for "MLSDomain" folder in "MLSDomain" target */ = {
+		08EBDAB82DAD37350014DC9A /* Exceptions for "MLSDomain" folder in "MLSDomain" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			publicHeaders = (
 				MLSDomain.h,
 			);
-			target = 087D3F792DA7A769002F924D /* MLSDomain */;
+			target = 08EBDAB22DAD37350014DC9A /* MLSDomain */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		087D3F7C2DA7A769002F924D /* MLSDomain */ = {
+		08EBDAB52DAD37350014DC9A /* MLSDomain */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				087D3F7F2DA7A769002F924D /* Exceptions for "MLSDomain" folder in "MLSDomain" target */,
+				08EBDAB82DAD37350014DC9A /* Exceptions for "MLSDomain" folder in "MLSDomain" target */,
 			);
 			path = MLSDomain;
 			sourceTree = "<group>";
@@ -32,7 +32,7 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		087D3F772DA7A769002F924D /* Frameworks */ = {
+		08EBDAB02DAD37350014DC9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		087D3F702DA7A769002F924D = {
+		08EBDAA92DAD37350014DC9A = {
 			isa = PBXGroup;
 			children = (
-				087D3F7C2DA7A769002F924D /* MLSDomain */,
-				087D3F7B2DA7A769002F924D /* Products */,
+				08EBDAB52DAD37350014DC9A /* MLSDomain */,
+				08EBDAB42DAD37350014DC9A /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		087D3F7B2DA7A769002F924D /* Products */ = {
+		08EBDAB42DAD37350014DC9A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				087D3F7A2DA7A769002F924D /* MLSDomain.framework */,
+				08EBDAB32DAD37350014DC9A /* MLSDomain.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,7 +61,7 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		087D3F752DA7A769002F924D /* Headers */ = {
+		08EBDAAE2DAD37350014DC9A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -71,64 +71,65 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		087D3F792DA7A769002F924D /* MLSDomain */ = {
+		08EBDAB22DAD37350014DC9A /* MLSDomain */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 087D3F802DA7A769002F924D /* Build configuration list for PBXNativeTarget "MLSDomain" */;
+			buildConfigurationList = 08EBDAB92DAD37350014DC9A /* Build configuration list for PBXNativeTarget "MLSDomain" */;
 			buildPhases = (
-				087D3F752DA7A769002F924D /* Headers */,
-				087D3F762DA7A769002F924D /* Sources */,
-				087D3F772DA7A769002F924D /* Frameworks */,
-				087D3F782DA7A769002F924D /* Resources */,
+				08EBDAAE2DAD37350014DC9A /* Headers */,
+				08EBDAAF2DAD37350014DC9A /* Sources */,
+				08EBDAB02DAD37350014DC9A /* Frameworks */,
+				08EBDAB12DAD37350014DC9A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				087D3F7C2DA7A769002F924D /* MLSDomain */,
+				08EBDAB52DAD37350014DC9A /* MLSDomain */,
 			);
 			name = MLSDomain;
 			packageProductDependencies = (
 			);
 			productName = MLSDomain;
-			productReference = 087D3F7A2DA7A769002F924D /* MLSDomain.framework */;
+			productReference = 08EBDAB32DAD37350014DC9A /* MLSDomain.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		087D3F712DA7A769002F924D /* Project object */ = {
+		08EBDAAA2DAD37350014DC9A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
-					087D3F792DA7A769002F924D = {
+					08EBDAB22DAD37350014DC9A = {
 						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
 					};
 				};
 			};
-			buildConfigurationList = 087D3F742DA7A769002F924D /* Build configuration list for PBXProject "MLSDomain" */;
+			buildConfigurationList = 08EBDAAD2DAD37350014DC9A /* Build configuration list for PBXProject "MLSDomain" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 087D3F702DA7A769002F924D;
+			mainGroup = 08EBDAA92DAD37350014DC9A;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 087D3F7B2DA7A769002F924D /* Products */;
+			productRefGroup = 08EBDAB42DAD37350014DC9A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				087D3F792DA7A769002F924D /* MLSDomain */,
+				08EBDAB22DAD37350014DC9A /* MLSDomain */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		087D3F782DA7A769002F924D /* Resources */ = {
+		08EBDAB12DAD37350014DC9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +139,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		087D3F762DA7A769002F924D /* Sources */ = {
+		08EBDAAF2DAD37350014DC9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -148,10 +149,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		087D3F812DA7A769002F924D /* Debug */ = {
+		08EBDABA2DAD37350014DC9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -162,6 +164,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -173,17 +176,23 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSDomain;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		087D3F822DA7A769002F924D /* Release */ = {
+		08EBDABB2DAD37350014DC9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -194,6 +203,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -205,14 +215,18 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSDomain;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
-		087D3F832DA7A769002F924D /* Debug */ = {
+		08EBDABC2DAD37350014DC9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -278,7 +292,7 @@
 			};
 			name = Debug;
 		};
-		087D3F842DA7A769002F924D /* Release */ = {
+		08EBDABD2DAD37350014DC9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -340,25 +354,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		087D3F742DA7A769002F924D /* Build configuration list for PBXProject "MLSDomain" */ = {
+		08EBDAAD2DAD37350014DC9A /* Build configuration list for PBXProject "MLSDomain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F832DA7A769002F924D /* Debug */,
-				087D3F842DA7A769002F924D /* Release */,
+				08EBDABC2DAD37350014DC9A /* Debug */,
+				08EBDABD2DAD37350014DC9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		087D3F802DA7A769002F924D /* Build configuration list for PBXNativeTarget "MLSDomain" */ = {
+		08EBDAB92DAD37350014DC9A /* Build configuration list for PBXNativeTarget "MLSDomain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				087D3F812DA7A769002F924D /* Debug */,
-				087D3F822DA7A769002F924D /* Release */,
+				08EBDABA2DAD37350014DC9A /* Debug */,
+				08EBDABB2DAD37350014DC9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 087D3F712DA7A769002F924D /* Project object */;
+	rootObject = 08EBDAAA2DAD37350014DC9A /* Project object */;
 }
