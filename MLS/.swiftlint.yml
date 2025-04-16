@@ -1,0 +1,7 @@
+# 기본(default) 룰이 아닌 룰들을 활성화
+opt_in_rules:
+    - sorted_imports
+    
+line_length:
+  warning: 9999
+  error: 200
