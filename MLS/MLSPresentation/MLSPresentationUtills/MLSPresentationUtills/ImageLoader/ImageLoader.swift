@@ -15,7 +15,6 @@ public final class ImageLoaderConfigure {
     public var memoryCacheCountLimit = 100 // 최대 100개까지 저장
     /// 메모리 코스트 제한 (최대 50MB까지 저장 기본 값 50MB)
     public var memoryCacheTotalCostLimit = 50 * 1024 * 1024
-    
     /// 디스크 캐시 만료 시간 (기본값 일주일)
     public var diskCacheExpiration: TimeInterval = 7 * 24 * 60 * 60 // 7일
     /// 디스크 캐시 갯수 제한
@@ -27,12 +26,12 @@ public final class ImageLoaderConfigure {
 /// URL을 통해 이미지를 비동기적으로 로드하는 클래스
 public final class ImageLoader {
     public static let shared = ImageLoader()
-    
+
     /// 이미지 로더 설정 객체
     public let configure = ImageLoaderConfigure()
-    
+
     private init() {}
-    
+
     /// URL을 통해 이미지를 로드하고, 실패 시 기본 이미지를 반환하는 메서드
     /// - Parameters:
     ///   - stringURL: 이미지 URL 문자열
@@ -60,13 +59,13 @@ private extension ImageLoader {
             completion(.failure(ImageLoaderError.invalidURL))
             return
         }
-        
+
         // 메모리 캐시에서 이미지 조회
         if let cachedImage = MemoryStorage.shared.fetchImage(stringURL: url.absoluteString) {
             completion(.success(cachedImage))
             return
         }
-        
+
         // 디스크 캐시에서 이미지 조회
         DiskStorage.shared.fetchImage(url: url) { image in
             if let image {
@@ -92,7 +91,7 @@ private extension ImageLoader {
             }
         }
     }
-    
+
     /// URL을 통해 데이터를 요청하는 메서드
     /// - Parameters:
     ///   - url: 요청할 URL 객체

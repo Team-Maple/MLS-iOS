@@ -1,5 +1,5 @@
-import UIKit
 import os
+import UIKit
 
 /// 캐시할 이미지와 추가 데이터를 저장하는 구조체
 internal struct CacheData {
@@ -7,7 +7,7 @@ internal struct CacheData {
     let creationDate: Date
     let expirationDate: Date
     let fileSize: Int
-    
+
     /// 초기화 메소드
     /// - Parameters:
     ///   - fileName: 재구성한 파일명
@@ -20,7 +20,7 @@ internal struct CacheData {
         self.expirationDate = creationDate.addingTimeInterval(expiration)
         self.fileSize = fileSize
     }
-    
+
     var isExpired: Bool {
         return Date() > expirationDate
     }
@@ -29,7 +29,7 @@ internal struct CacheData {
 internal final class DiskStorage {
     // 싱글톤 인스턴스
     static let shared = DiskStorage()
-    
+
     private let fileManager = FileManager.default
     private let cacheDirectory: URL
     // 우선순위 보장과 저장시 안정성을 위한 큐
@@ -37,7 +37,7 @@ internal final class DiskStorage {
     // fileName을 키로 캐시데이터 저장
     private var cacheDatas: [String: CacheData] = [:]
     private var totalCacheSize: Int = 0
-    
+
     private init() {
         guard let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else {
             fatalError("시스템 손상")
@@ -49,7 +49,7 @@ internal final class DiskStorage {
         // 주기적으로 정리
         startCacheCleanup()
     }
-    
+
     /// 캐싱된 이미지를 불러오는 메소드
     /// - Parameters:
     ///   - url: 이미지 주소
@@ -60,17 +60,17 @@ internal final class DiskStorage {
                 DispatchQueue.main.async { completion(nil) }
                 return
             }
-            
+
             let fileName = self.createFilePath(url: url)
             let fileURL = self.cacheDirectory.appendingPathComponent(fileName)
-            
+
             // 기존 저장소 확인
             guard let cacheData = self.cacheDatas[fileName], !cacheData.isExpired else {
                 self.cleanCache(key: fileName)
                 DispatchQueue.main.async { completion(nil) }
                 return
             }
-            
+
             if self.fileManager.fileExists(atPath: fileURL.path),
                let imageData = try? Data(contentsOf: fileURL),
                let image = UIImage(data: imageData) {
@@ -82,7 +82,7 @@ internal final class DiskStorage {
             }
         }
     }
-    
+
     /// 이미지를 캐시에 저장하는 메소드
     /// - Parameters:
     ///   - image: 이미지
@@ -90,10 +90,10 @@ internal final class DiskStorage {
     func saveImage(image: UIImage, url: URL) {
         queue.async(flags: .barrier) { [weak self] in
             guard let self, let data = image.jpegData(compressionQuality: 0.8) else { return }
-            
+
             let fileName = self.createFilePath(url: url)
             let fileURL = self.cacheDirectory.appendingPathComponent(fileName)
-            
+
             if !self.fileManager.fileExists(atPath: fileURL.path) {
                 do {
                     try data.write(to: fileURL)
@@ -112,7 +112,7 @@ internal final class DiskStorage {
             }
         }
     }
-    
+
     /// 충돌 방지를 위한 파일 이름 재구성 메소드
     /// - Parameter url: 이미지 주소
     /// - Returns: 변경된 파일명을 return
@@ -123,12 +123,12 @@ internal final class DiskStorage {
             .replacingOccurrences(of: ":", with: "_")
             .addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? url.lastPathComponent
     }
-    
+
     /// 캐시저장소를 로드하는 메소드
     private func loadCacheData() {
         queue.async(flags: .barrier) { [weak self] in
             guard let self else { return }
-                
+
             do {
                 let files = try self.fileManager.contentsOfDirectory(at: self.cacheDirectory, includingPropertiesForKeys: [.creationDateKey, .fileSizeKey])
                 for fileURL in files {
@@ -136,7 +136,7 @@ internal final class DiskStorage {
                     let attributes = try fileURL.resourceValues(forKeys: [.creationDateKey, .fileSizeKey])
                     let creationDate = attributes.creationDate ?? Date()
                     let fileSize = attributes.fileSize ?? 0
-                        
+
                     // 기본 만료 시간 적용
                     let cacheData = CacheData(
                         fileName: fileName,
@@ -152,28 +152,28 @@ internal final class DiskStorage {
             }
         }
     }
-    
+
     /// 캐시 삭제를 위한 제약을 검사하는 메소드
     private func checkCache() {
         queue.async(flags: .barrier) { [weak self] in
             guard let self else { return }
-                
+
             let config = ImageLoader.shared.configure
-                
+
             /// 만료된 캐시 제거
             self.cacheDatas.forEach { key, data in
                 if data.isExpired {
                     self.cleanCache(key: key)
                 }
             }
-                
+
             /// 개수 제한
             while self.cacheDatas.count > config.diskCacheCountLimit {
                 if let oldest = self.cacheDatas.min(by: { $0.value.creationDate < $1.value.creationDate }) {
                     self.cleanCache(key: oldest.key)
                 }
             }
-                
+
             /// 용량 제한
             while self.totalCacheSize > config.diskCacheSizeLimit {
                 if let oldest = self.cacheDatas.min(by: { $0.value.creationDate < $1.value.creationDate }) {
@@ -182,7 +182,7 @@ internal final class DiskStorage {
             }
         }
     }
-        
+
     /// 저장된 캐시를 제거하는 메소드
     private func cleanCache(key: String) {
         queue.async(flags: .barrier) { [weak self] in
@@ -193,7 +193,7 @@ internal final class DiskStorage {
             self.cacheDatas.removeValue(forKey: key)
         }
     }
-        
+
     /// 주기적으로 캐시를 정리하는 메소드
     private func startCacheCleanup() {
         DispatchQueue.global(qos: .background).async { [weak self] in
