@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		770DADA92DB0158C00C54347 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 770DADA82DB0158C00C54347 /* RxCocoa */; };
+		770DADAB2DB0158C00C54347 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 770DADAA2DB0158C00C54347 /* RxRelay */; };
+		770DADAD2DB0158C00C54347 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 770DADAC2DB0158C00C54347 /* RxSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		08EBDADA2DAD379B0014DC9A /* MLSData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				770DADAD2DB0158C00C54347 /* RxSwift in Frameworks */,
+				770DADAB2DB0158C00C54347 /* RxRelay in Frameworks */,
+				770DADA92DB0158C00C54347 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,6 +98,9 @@
 			);
 			name = MLSData;
 			packageProductDependencies = (
+				770DADA82DB0158C00C54347 /* RxCocoa */,
+				770DADAA2DB0158C00C54347 /* RxRelay */,
+				770DADAC2DB0158C00C54347 /* RxSwift */,
 			);
 			productName = MLSData;
 			productReference = 08EBDADA2DAD379B0014DC9A /* MLSData.framework */;
@@ -105,6 +117,7 @@
 				TargetAttributes = {
 					08EBDAD92DAD379B0014DC9A = {
 						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
 					};
 				};
 			};
@@ -117,6 +130,9 @@
 			);
 			mainGroup = 08EBDAD02DAD379B0014DC9A;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				770DADA72DB0158C00C54347 /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08EBDADB2DAD379B0014DC9A /* Products */;
 			projectDirPath = "";
@@ -151,7 +167,8 @@
 		08EBDAE12DAD379B0014DC9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -180,6 +197,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -188,7 +206,8 @@
 		08EBDAE22DAD379B0014DC9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -369,6 +388,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		770DADA72DB0158C00C54347 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		770DADA82DB0158C00C54347 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770DADA72DB0158C00C54347 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		770DADAA2DB0158C00C54347 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770DADA72DB0158C00C54347 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		770DADAC2DB0158C00C54347 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770DADA72DB0158C00C54347 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 08EBDAD12DAD379B0014DC9A /* Project object */;
 }
