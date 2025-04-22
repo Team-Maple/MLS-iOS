@@ -1,5 +1,5 @@
 import Foundation
 
 public protocol Responsable {
-    public associatedtype Response: Decodable
+    associatedtype Response: Decodable
 }
