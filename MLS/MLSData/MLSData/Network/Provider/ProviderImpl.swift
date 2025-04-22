@@ -3,13 +3,12 @@ import os
 
 import RxSwift
 
-final class ProviderImpl: Provider {
-    private let subsystem = "com.donggle.MLS"
-
+public final class ProviderImpl: Provider {
+    
     private let session: URLSession
     private let disposeBag = DisposeBag()
 
-    init() {
+    public init() {
         let session = URLSession.shared
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 30
@@ -17,27 +16,12 @@ final class ProviderImpl: Provider {
         self.session = session
     }
 
-    func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
+    public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
         return Observable.create { [weak self] observer in
-            guard let self else {
-                observer.onError(NetworkError.providerDeallocated)
-                return Disposables.create()
-            }
-
-            do {
-                var request = try endPoint.getUrlRequest()
-
-                let task = session.dataTask(with: request) { data, response, error in
-
-                    let taskResult = self.checkValidation(data: data, response: response, error: error)
-                    switch taskResult {
-                    case .success(let data):
-                        
-                        guard let data else {
-                            observer.onError(NetworkError.noData)
-                            return
-                        }
-                        
+            self?.sendRequest(endPoint: endPoint, completion: { result in
+                switch result {
+                case .success(let data):
+                    if let data = data {
                         do {
                             let decoded = try JSONDecoder().decode(T.Response.self, from: data)
                             observer.onNext(decoded)
@@ -45,60 +29,57 @@ final class ProviderImpl: Provider {
                         } catch {
                             observer.onError(NetworkError.decodeError(error))
                         }
-                    case .failure(let error):
-                        observer.onError(error)
+                    } else {
+                        observer.onError(NetworkError.noData)
                     }
+                case .failure(let error):
+                    observer.onError(error)
                 }
-                
-                task.resume()
-
-                return Disposables.create {
-                    task.cancel()
-                }
-            } catch {
-                observer.onError(NetworkError.urlRequest(error))
-                return Disposables.create()
-            }
-        }
-    }
-
-    func requestData(endPoint: Requestable, interceptor: Interceptor?) -> Completable {
-        return Completable.create { [weak self] completable in
-            guard let self else {
-                completable(.error(NetworkError.providerDeallocated))
-                return Disposables.create()
-            }
-
-            do {
-                var request = try endPoint.getUrlRequest()
-
-                let task = session.dataTask(with: request) { data, response, error in
-
-                    let taskResult = self.checkValidation(data: data, response: response, error: error)
-                    
-                    switch taskResult {
-                    case .success:
-                        completable(.completed)
-                    case .failure(let error):
-                        completable(.error(error))
-                    }
-                }
-
-                task.resume()
-
-                return Disposables.create {
-                    task.cancel()
-                }
-            } catch {
-                completable(.error(NetworkError.urlRequest(error)))
-                return Disposables.create()
-            }
-        }
-    }
-    
-    func sendRequest() -> Completable {
-        return Completable.create { completable in
+            })
             return Disposables.create()
+        }
+    }
+
+    public func requestData(endPoint: Requestable, interceptor: Interceptor?) -> Completable {
+        return Completable.create { [weak self] completable in
+            self?.sendRequest(endPoint: endPoint, completion: { result in
+                switch result {
+                case .success(let data):
+                    if let data = data {
+                        completable(.completed)
+                    } else {
+                        completable(.error(NetworkError.noData))
+                    }
+                case .failure(let error):
+                    completable(.error(error))
+                }
+            })
+            return Disposables.create()
+        }
+    }
+}
+
+private extension ProviderImpl {
+    func sendRequest<T: Requestable>(endPoint: T, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
+        do {
+            var request = try endPoint.getUrlRequest()
+            
+            let task = session.dataTask(with: request) { [weak self] data, response, error in
+                guard let self else {
+                    completion(.failure(.providerDeallocated))
+                    return
+                }
+                let taskResult = checkValidation(data: data, response: response, error: error)
+                switch taskResult {
+                case .success(let data):
+                    completion(.success(data))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+            task.resume()
+        } catch {
+            completion(.failure(NetworkError.urlRequest(error)))
         }
     }
     

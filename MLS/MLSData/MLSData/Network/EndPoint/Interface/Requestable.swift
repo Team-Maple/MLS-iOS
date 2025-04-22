@@ -1,6 +1,6 @@
 import Foundation
 
-protocol Requestable {
+public protocol Requestable {
     var baseURL: String { get set }
     var path: String { get set }
     var method: HTTPMethod { get set }

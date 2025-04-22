@@ -1,11 +1,11 @@
 import Foundation
 
-enum HTTPMethod: String {
+public enum HTTPMethod: String {
     case GET, POST, DELETE, PUT
 }
 
 /// 네트워크 레이어에서 사용하는 에러
-enum NetworkError: Error {
+public enum NetworkError: Error {
     case providerDeallocated
     case urlRequest(Error)
     case network(Error)

@@ -1,6 +1,5 @@
 import Foundation
 
-
-protocol Responsable {
-    associatedtype Response: Decodable
+public protocol Responsable {
+    public associatedtype Response: Decodable
 }
