@@ -29,36 +29,27 @@ final class ProviderImpl: Provider {
 
                 let task = session.dataTask(with: request) { data, response, error in
 
-                    if let error {
-                        observer.onError(NetworkError.network(error))
-                        return
-                    }
-
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        observer.onError(NetworkError.httpError)
-                        return
-                    }
-
-                    guard (200 ... 299).contains(httpResponse.statusCode) else {
-                        let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown"
-                        observer.onError(NetworkError.statusError(httpResponse.statusCode, errorMessage))
-                        return
-                    }
-
-                    guard let data else {
-                        observer.onError(NetworkError.noData)
-                        return
-                    }
-
-                    do {
-                        let decoded = try JSONDecoder().decode(T.Response.self, from: data)
-                        observer.onNext(decoded)
-                        observer.onCompleted()
-                    } catch {
-                        observer.onError(NetworkError.decodeError(error))
+                    let taskResult = self.checkValidation(data: data, response: response, error: error)
+                    switch taskResult {
+                    case .success(let data):
+                        
+                        guard let data else {
+                            observer.onError(NetworkError.noData)
+                            return
+                        }
+                        
+                        do {
+                            let decoded = try JSONDecoder().decode(T.Response.self, from: data)
+                            observer.onNext(decoded)
+                            observer.onCompleted()
+                        } catch {
+                            observer.onError(NetworkError.decodeError(error))
+                        }
+                    case .failure(let error):
+                        observer.onError(error)
                     }
                 }
-
+                
                 task.resume()
 
                 return Disposables.create {
@@ -81,29 +72,16 @@ final class ProviderImpl: Provider {
             do {
                 var request = try endPoint.getUrlRequest()
 
-                if let interceptor {
-                    request = try interceptor.adapt(request)
-                }
-
                 let task = session.dataTask(with: request) { data, response, error in
 
-                    if let error {
+                    let taskResult = self.checkValidation(data: data, response: response, error: error)
+                    
+                    switch taskResult {
+                    case .success:
+                        completable(.completed)
+                    case .failure(let error):
                         completable(.error(error))
-                        return
                     }
-
-                    guard let httpResponse = response as? HTTPURLResponse else {
-                        completable(.error(NetworkError.invalidResponse))
-                        return
-                    }
-
-                    guard (200 ... 299).contains(httpResponse.statusCode) else {
-                        let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown"
-                        completable(.error(NetworkError.statusError(httpResponse.statusCode, errorMessage)))
-                        return
-                    }
-
-                    completable(.completed)
                 }
 
                 task.resume()
@@ -116,5 +94,28 @@ final class ProviderImpl: Provider {
                 return Disposables.create()
             }
         }
+    }
+    
+    func sendRequest() -> Completable {
+        return Completable.create { completable in
+            return Disposables.create()
+        }
+    }
+    
+    func checkValidation(data: Data?, response: URLResponse?, error: Error?) -> Result<Data?, NetworkError> {
+        if let error {
+            return .failure(NetworkError.network(error))
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return .failure(NetworkError.httpError)
+        }
+
+        guard (200 ... 299).contains(httpResponse.statusCode) else {
+            let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown"
+            return .failure(NetworkError.statusError(httpResponse.statusCode, errorMessage))
+        }
+        
+        return .success(data)
     }
 }
