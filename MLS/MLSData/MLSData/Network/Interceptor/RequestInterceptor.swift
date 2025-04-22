@@ -11,7 +11,7 @@ final class RequestInterceptor: Interceptor {
         }
         return modified
     }
-    
+
     func retry(_ request: URLRequest, response: HTTPURLResponse?, error: Error?) -> Observable<Bool> {
         // ex) 인증실패 -> 잘못된 토큰? -> 토큰 재발행
         if let response, response.statusCode == 401 {
@@ -20,4 +20,3 @@ final class RequestInterceptor: Interceptor {
         return Observable.just(false)
     }
 }
-
