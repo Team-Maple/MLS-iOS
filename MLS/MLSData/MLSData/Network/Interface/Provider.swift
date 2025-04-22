@@ -1,9 +1,8 @@
 import Foundation
-
 import RxSwift
 
 protocol Provider {
-    func requestData<T: Decodable>(endPoint: EndPoint, interceptor: Interceptor?) -> Observable<T>
+    func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response>
 
-    func requestData(endPoint: EndPoint, interceptor: Interceptor?) -> Completable
+    func requestData(endPoint: Requestable, interceptor: Interceptor?) -> Completable
 }

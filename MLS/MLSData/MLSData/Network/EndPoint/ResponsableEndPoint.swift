@@ -1,6 +1,8 @@
 import Foundation
 
-struct EndPoint: Requestable {
+struct ResponsableEndPoint<T: Decodable>: Requestable, Responsable {
+    typealias Response = T
+
     var baseURL: String
     var path: String
     var method: HTTPMethod
@@ -17,5 +19,3 @@ struct EndPoint: Requestable {
         self.body = body
     }
 }
-
-
