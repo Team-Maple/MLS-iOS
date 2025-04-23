@@ -1,17 +1,17 @@
 import Foundation
 
 /// 응답값이 있는 엔드포인트
-struct ResponsableEndPoint<T: Decodable>: Requestable, Responsable {
-    typealias Response = T
+public struct ResponsableEndPoint<T: Decodable>: Requestable, Responsable {
+    public typealias Response = T
 
-    var baseURL: String
-    var path: String
-    var method: HTTPMethod
-    var query: (any Encodable)?
-    var headers: [String: String]?
-    var body: (any Encodable)?
+    public var baseURL: String
+    public var path: String
+    public var method: HTTPMethod
+    public var query: (any Encodable)?
+    public var headers: [String: String]?
+    public var body: (any Encodable)?
 
-    init(baseURL: String, path: String, method: HTTPMethod, query: (any Encodable)? = nil, headers: [String: String]? = nil, body: (any Encodable)? = nil) {
+    public init(baseURL: String, path: String, method: HTTPMethod, query: (any Encodable)? = nil, headers: [String: String]? = nil, body: (any Encodable)? = nil) {
         self.baseURL = baseURL
         self.path = path
         self.method = method

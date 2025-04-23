@@ -1,7 +1,7 @@
 import Foundation
 import RxSwift
 
-protocol Provider {
+public protocol Provider {
     ///  엔드포인트를 이용하여 응답이 있는 통신을 위한 함수
     /// - Parameters:
     ///   - endPoint: 목적지에 대한 정보를 담고있는 엔드포인트 객체
