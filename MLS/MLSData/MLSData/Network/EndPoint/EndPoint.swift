@@ -1,5 +1,6 @@
 import Foundation
 
+/// 응답값이 없는 엔드포인트
 struct EndPoint: Requestable {
     var baseURL: String
     var path: String
@@ -17,5 +18,3 @@ struct EndPoint: Requestable {
         self.body = body
     }
 }
-
-

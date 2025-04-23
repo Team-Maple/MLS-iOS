@@ -1,5 +1,6 @@
 import Foundation
 
+/// 응답값이 있는 엔드포인트
 struct ResponsableEndPoint<T: Decodable>: Requestable, Responsable {
     typealias Response = T
 
