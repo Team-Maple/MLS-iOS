@@ -4,7 +4,7 @@ import os
 import RxSwift
 
 public final class ProviderImpl: Provider {
-    
+
     private let session: URLSession
     private let disposeBag = DisposeBag()
 
@@ -45,7 +45,7 @@ public final class ProviderImpl: Provider {
             self?.sendRequest(endPoint: endPoint, completion: { result in
                 switch result {
                 case .success(let data):
-                    if let data = data {
+                    if data != nil {
                         completable(.completed)
                     } else {
                         completable(.error(NetworkError.noData))
@@ -60,10 +60,14 @@ public final class ProviderImpl: Provider {
 }
 
 private extension ProviderImpl {
+    /// 엔드 포인트를 이용하여 요청을 보내기 위한 함수
+    /// - Parameters:
+    ///   - endPoint: 요청을 위한 엔드포인트 객체
+    ///   - completion: 응답 결과
     func sendRequest<T: Requestable>(endPoint: T, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
-            var request = try endPoint.getUrlRequest()
-            
+            let request = try endPoint.getUrlRequest()
+
             let task = session.dataTask(with: request) { [weak self] data, response, error in
                 guard let self else {
                     completion(.failure(.providerDeallocated))
@@ -82,7 +86,13 @@ private extension ProviderImpl {
             completion(.failure(NetworkError.urlRequest(error)))
         }
     }
-    
+
+    ///  통신간의 유효성 검사를 위한 함수
+    /// - Parameters:
+    ///   - data: 통신 결과로 돌려받은 데이터
+    ///   - response: 상태코드를 포함한 통신 응답
+    ///   - error: 통신간에 발생한 에러
+    /// - Returns: 유효성검사 결과에 따른 데이터와 에러
     func checkValidation(data: Data?, response: URLResponse?, error: Error?) -> Result<Data?, NetworkError> {
         if let error {
             return .failure(NetworkError.network(error))
@@ -96,7 +106,7 @@ private extension ProviderImpl {
             let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown"
             return .failure(NetworkError.statusError(httpResponse.statusCode, errorMessage))
         }
-        
+
         return .success(data)
     }
 }

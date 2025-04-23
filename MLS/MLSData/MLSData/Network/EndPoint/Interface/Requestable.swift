@@ -10,6 +10,8 @@ public protocol Requestable {
 }
 
 extension Requestable {
+    /// 엔드포인트 객체의 속성들을 이용하여 Request를 만드는 함수
+    /// - Returns: API 통신에 필요한 요청 -> Request
     func getUrlRequest() throws -> URLRequest {
         guard var urlComponents = URLComponents(string: baseURL + path) else {
             throw URLError(.badURL)
@@ -42,4 +44,3 @@ extension Requestable {
         return request
     }
 }
-
