@@ -1,9 +1,16 @@
 import UIKit
 
+import Presentation
+import DomainInterface
+import Domain
+import Data
+import MLSCore
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ImageLoader.shared.configure.diskCacheCountLimit = 10
         return true
     }
 
