@@ -6,21 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		085A7A3B2DAD42AF0046663F /* MLSPresentationUtills.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085A7A3A2DAD42AF0046663F /* MLSPresentationUtills.framework */; };
-		085A7A3C2DAD42AF0046663F /* MLSPresentationUtills.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 085A7A3A2DAD42AF0046663F /* MLSPresentationUtills.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-/* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		085A7A392DAD42AF0046663F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 085A797B2DAD39A80046663F /* MLSPresentationUtills.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 08A9CF522DAD393E0092E7E1;
-			remoteInfo = MLSPresentationUtills;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		085A79972DAD3A6D0046663F /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -28,7 +13,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				085A7A3C2DAD42AF0046663F /* MLSPresentationUtills.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -36,7 +20,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		085A797B2DAD39A80046663F /* MLSPresentationUtills.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MLSPresentationUtills.xcodeproj; path = MLSPresentationUtills/MLSPresentationUtills.xcodeproj; sourceTree = "<group>"; };
 		08EBDAF52DAD37D70014DC9A /* MLSPresentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MLSPresentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,21 +49,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				085A7A3B2DAD42AF0046663F /* MLSPresentationUtills.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		085A79D42DAD3DB10046663F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				085A7A3A2DAD42AF0046663F /* MLSPresentationUtills.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		085A7A372DAD42AF0046663F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,7 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				08EBDAF72DAD37D70014DC9A /* MLSPresentation */,
-				085A797B2DAD39A80046663F /* MLSPresentationUtills.xcodeproj */,
 				085A7A372DAD42AF0046663F /* Frameworks */,
 				08EBDAF62DAD37D70014DC9A /* Products */,
 			);
@@ -170,28 +143,12 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08EBDAF62DAD37D70014DC9A /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 085A79D42DAD3DB10046663F /* Products */;
-					ProjectRef = 085A797B2DAD39A80046663F /* MLSPresentationUtills.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				08EBDAF42DAD37D70014DC9A /* MLSPresentation */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		085A7A3A2DAD42AF0046663F /* MLSPresentationUtills.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = MLSPresentationUtills.framework;
-			remoteRef = 085A7A392DAD42AF0046663F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		08EBDAF32DAD37D70014DC9A /* Resources */ = {
