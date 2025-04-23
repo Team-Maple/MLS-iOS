@@ -6,7 +6,6 @@ import RxSwift
 public final class ProviderImpl: Provider {
 
     private let session: URLSession
-    private let disposeBag = DisposeBag()
 
     public init() {
         let session = URLSession.shared
