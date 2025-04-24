@@ -11,6 +11,7 @@
 		084A25702DB93C1400C395C0 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A256E2DB93C1400C395C0 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25C82DB93E0500C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25C72DB93E0500C395C0 /* Core.framework */; };
 		084A25C92DB93E0500C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25C72DB93E0500C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		084A26172DBA2E2200C395C0 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A26162DBA2E2200C395C0 /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,6 +33,7 @@
 		084A256E2DB93C1400C395C0 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25722DB93C1900C395C0 /* MLSCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25C72DB93E0500C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		084A26162DBA2E2200C395C0 /* Data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		0879294D2DB90F3A009C301F /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -69,6 +71,7 @@
 		087929432DB90F3A009C301F = {
 			isa = PBXGroup;
 			children = (
+				084A26162DBA2E2200C395C0 /* Data.h */,
 				0879294F2DB90F3A009C301F /* Data */,
 				084A256D2DB93C1400C395C0 /* Frameworks */,
 				0879294E2DB90F3A009C301F /* Products */,
@@ -90,6 +93,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				084A26172DBA2E2200C395C0 /* Data.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +147,8 @@
 			);
 			mainGroup = 087929432DB90F3A009C301F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0879294E2DB90F3A009C301F /* Products */;
 			projectDirPath = "";
@@ -177,7 +183,7 @@
 		087929542DB90F3A009C301F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -214,7 +220,7 @@
 		087929552DB90F3A009C301F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

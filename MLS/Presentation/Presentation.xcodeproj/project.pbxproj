@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		084A25602DB93BF600C395C0 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A255F2DB93BF600C395C0 /* DomainInterface.framework */; };
 		084A25612DB93BF600C395C0 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A255F2DB93BF600C395C0 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084A25D42DB93E2600C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25D32DB93E2600C395C0 /* Core.framework */; };
-		084A25D52DB93E2600C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25D32DB93E2600C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		084A260F2DBA2CBB00C395C0 /* Presentation.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A260E2DBA2CBB00C395C0 /* Presentation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		084A263A2DBA325D00C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A26392DBA325D00C395C0 /* Core.framework */; };
+		084A263B2DBA325D00C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A26392DBA325D00C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,7 +22,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				084A25612DB93BF600C395C0 /* DomainInterface.framework in Embed Frameworks */,
-				084A25D52DB93E2600C395C0 /* Core.framework in Embed Frameworks */,
+				084A263B2DBA325D00C395C0 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,6 +33,8 @@
 		084A255B2DB93BF000C395C0 /* MLSCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A255F2DB93BF600C395C0 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25D32DB93E2600C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		084A260E2DBA2CBB00C395C0 /* Presentation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Presentation.h; sourceTree = "<group>"; };
+		084A26392DBA325D00C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0879290E2DB90EEF009C301F /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -49,7 +52,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				084A25602DB93BF600C395C0 /* DomainInterface.framework in Frameworks */,
-				084A25D42DB93E2600C395C0 /* Core.framework in Frameworks */,
+				084A263A2DBA325D00C395C0 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +62,7 @@
 		084A255A2DB93BF000C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				084A26392DBA325D00C395C0 /* Core.framework */,
 				084A25D32DB93E2600C395C0 /* Core.framework */,
 				084A255F2DB93BF600C395C0 /* DomainInterface.framework */,
 				084A255B2DB93BF000C395C0 /* MLSCore.framework */,
@@ -69,6 +73,7 @@
 		087929042DB90EEF009C301F = {
 			isa = PBXGroup;
 			children = (
+				084A260E2DBA2CBB00C395C0 /* Presentation.h */,
 				083565F52DB91DDE003051F1 /* Presentation */,
 				084A255A2DB93BF000C395C0 /* Frameworks */,
 				0879290F2DB90EEF009C301F /* Products */,
@@ -90,6 +95,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				084A260F2DBA2CBB00C395C0 /* Presentation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +183,7 @@
 		087929152DB90EEF009C301F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -215,7 +221,7 @@
 		087929162DB90EEF009C301F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

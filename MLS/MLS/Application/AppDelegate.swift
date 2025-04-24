@@ -1,10 +1,10 @@
 import UIKit
 
-import Presentation
-import DomainInterface
-import Domain
+import Core
 import Data
-import MLSCore
+import Domain
+import DomainInterface
+import Presentation
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

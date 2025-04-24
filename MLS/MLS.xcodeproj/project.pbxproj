@@ -15,8 +15,6 @@
 		084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25512DB93BC500C395C0 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25552DB93BC800C395C0 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25542DB93BC800C395C0 /* Data.framework */; };
 		084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25542DB93BC800C395C0 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084A25582DB93BCB00C395C0 /* MLSCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25572DB93BCB00C395C0 /* MLSCore.framework */; };
-		084A25592DB93BCB00C395C0 /* MLSCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25572DB93BCB00C395C0 /* MLSCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25D62DB93E2C00C395C0 /* Core.framework */; };
 		084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25D62DB93E2C00C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		085A7F752DAF99570046663F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 085A7F742DAF99570046663F /* .swiftlint.yml */; };
@@ -31,7 +29,6 @@
 			files = (
 				084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */,
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
-				084A25592DB93BCB00C395C0 /* MLSCore.framework in Embed Frameworks */,
 				084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */,
 				084A25502DB93BC200C395C0 /* DomainInterface.framework in Embed Frameworks */,
 				084A25342DB93A5400C395C0 /* Presentation.framework in Embed Frameworks */,
@@ -86,7 +83,6 @@
 			files = (
 				084A25552DB93BC800C395C0 /* Data.framework in Frameworks */,
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
-				084A25582DB93BCB00C395C0 /* MLSCore.framework in Frameworks */,
 				084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */,
 				084A254F2DB93BC200C395C0 /* DomainInterface.framework in Frameworks */,
 				084A25332DB93A5400C395C0 /* Presentation.framework in Frameworks */,
