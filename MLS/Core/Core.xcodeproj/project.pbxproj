@@ -10,7 +10,7 @@
 		084A265E2DBA354400C395C0 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 084A265D2DBA354400C395C0 /* RxCocoa */; };
 		084A26602DBA354400C395C0 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 084A265F2DBA354400C395C0 /* RxRelay */; };
 		084A26622DBA354400C395C0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 084A26612DBA354400C395C0 /* RxSwift */; };
-		084A26642DBA359C00C395C0 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A26632DBA359C00C395C0 /* Core.h */; };
+		084A26642DBA359C00C395C0 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A26632DBA359C00C395C0 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
