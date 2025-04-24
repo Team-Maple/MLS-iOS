@@ -96,6 +96,9 @@ private extension ProviderImpl {
     /// - Returns: 유효성검사 결과에 따른 데이터와 에러
     func checkValidation(data: Data?, response: URLResponse?, error: Error?) -> Result<Data?, NetworkError> {
         if let error {
+            if let urlError = error as? URLError, urlError.code == .unsupportedURL {
+                return .failure(NetworkError.urlRequest(error))
+            }
             return .failure(NetworkError.network(error))
         }
 
