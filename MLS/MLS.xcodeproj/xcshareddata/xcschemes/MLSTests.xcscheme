@@ -19,7 +19,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "77BEAFE02DBA7F59002FFCFC"
+               BlueprintIdentifier = "77BEB03F2DBA84B0002FFCFC"
                BuildableName = "MLSTests.xctest"
                BlueprintName = "MLSTests"
                ReferencedContainer = "container:MLS.xcodeproj">
