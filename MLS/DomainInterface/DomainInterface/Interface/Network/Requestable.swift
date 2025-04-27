@@ -13,19 +13,25 @@ extension Requestable {
     /// 엔드포인트 객체의 속성들을 이용하여 Request를 만드는 함수
     /// - Returns: API 통신에 필요한 요청 -> Request
     public func getUrlRequest() throws -> URLRequest {
-        guard var urlComponents = URLComponents(string: baseURL + path) else {
+        guard var base = URL(string: baseURL) else {
+            throw URLError(.badURL)
+        }
+
+        base.appendPathComponent(path)
+
+        guard var components = URLComponents(url: base, resolvingAgainstBaseURL: false) else {
             throw URLError(.badURL)
         }
 
         if let query = query {
             let queryData = try JSONEncoder().encode(query)
             let dictionary = try JSONSerialization.jsonObject(with: queryData, options: []) as? [String: Any]
-            urlComponents.queryItems = dictionary?.map {
+            components.queryItems = dictionary?.map {
                 URLQueryItem(name: $0.key, value: "\($0.value)")
             }
         }
 
-        guard let url = urlComponents.url else {
+        guard let url = components.url else {
             throw URLError(.badURL)
         }
 
