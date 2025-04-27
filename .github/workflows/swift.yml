@@ -1,0 +1,70 @@
+name: MLS CI
+
+on:
+  push:
+    branches: [ "dev" ]
+  pull_request:
+    branches: [ "dev" ]
+
+jobs:  # <-- jobs 시작!
+
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app  # 원하는 버전에 맞게 수정
+
+      - name: Install dependencies
+        run: |
+          brew install swiftlint || true
+
+      - name: Build project
+        run: |
+          xcodebuild \
+            -workspace MLS.xcworkspace \
+            -scheme MLS \
+            -destination 'platform=iOS Simulator,name=iPhone 15' \
+            build
+
+  lint:  # <-- lint도 jobs 안에 있어야 함
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # 자동 생성 토큰으로 push 가능
+
+      - name: Install SwiftLint
+        run: brew install swiftlint || true
+
+      - name: Run SwiftLint AutoCorrect
+        run: swiftlint autocorrect --format
+
+      - name: Commit and Push if needed
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          # 브랜치 이름 가져오기
+          BRANCH_NAME=$(echo "${GITHUB_REF##*/}")
+      
+          # 브랜치에서 #숫자 패턴 추출 (ex. #123)
+          if [[ $BRANCH_NAME =~ (#[0-9]+) ]]; then
+            TAG=${BASH_REMATCH[1]}
+          else
+            TAG="#0" # 없으면 디폴트 #0
+          fi
+
+          git add .
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "style/${TAG}: Apply SwiftLint autocorrect"
+            git push
+          fi
