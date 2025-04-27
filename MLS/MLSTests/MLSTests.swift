@@ -1,9 +1,14 @@
 import XCTest
 
 class MLSTests: XCTestCase {
-    override func setUp() {
+
+    override func setUpWithError() throws {
     }
 
-    override func tearDown() {
+    override func tearDownWithError() throws {
+    }
+
+    func testBuild() throws {
+        XCTAssert(true)
     }
 }
