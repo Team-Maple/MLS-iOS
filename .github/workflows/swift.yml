@@ -24,11 +24,13 @@ jobs:  # <-- jobs 시작!
 
       - name: Build project
         run: |
+          cd MLS
           xcodebuild \
             -workspace MLS.xcworkspace \
             -scheme MLS \
             -destination 'platform=iOS Simulator,name=iPhone 15' \
             build
+
 
   lint:  # <-- lint도 jobs 안에 있어야 함
     runs-on: macos-latest
