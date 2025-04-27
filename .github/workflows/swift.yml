@@ -1,72 +1,90 @@
 name: MLS CI
 
 on:
-  push:
-    branches: [ "dev" ]
   pull_request:
-    branches: [ "dev" ]
+    branches: [main, dev]
 
-jobs:  # <-- jobs 시작!
+jobs:
+  autocorrect:
+    name: 🤖 Autocorrect Workflow
+    runs-on: macos-15  # 최신 macOS 15 환경에서 실행
+    if: github.actor != 'github-actions[bot]'&& github.base_ref == 'dev' # Actions 봇 커밋은 무시 && dev에서만 자동 수정 진행
+
+    steps:
+      - name: Checkout Repository  # 저장소 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: 🛠️ Set up Xcode  # Xcode 16.2 선택
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
+
+      - name: ⬇️ Install SwiftLint  # SwiftLint 설치
+        run: brew install swiftlint
+
+      - name: 🎨 Run SwiftLint Autocorrect  # SwiftLint 자동 수정 실행
+        run: swiftlint --fix
+
+      - name: 🚀 Commit and Push Changes  # 변경 사항 자동 커밋 및 푸시
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin "${GITHUB_HEAD_REF}:${GITHUB_HEAD_REF}"
+          git checkout "${GITHUB_HEAD_REF}"
+
+          BRANCH_NAME="${GITHUB_HEAD_REF}"
+          if [[ "$BRANCH_NAME" =~ \#([0-9]+) ]]; then
+            ISSUE_NUMBER="${BASH_REMATCH[1]}"
+          else
+            ISSUE_NUMBER=""
+          fi
+
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "style/#${ISSUE_NUMBER}: Apply SwiftLint autocorrect"
+            git push --set-upstream origin "${GITHUB_HEAD_REF}"
+          else
+            echo "No changes to commit"
+          fi
 
   build:
-    runs-on: macos-latest
+    name: 🏗️ Build Workflow
+    runs-on: macos-15  # 최신 macOS 15 환경에서 실행
+    if: github.actor != 'github-actions[bot]'  # Actions 봇 커밋은 무시
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository  # 저장소 코드 체크아웃
         uses: actions/checkout@v4
 
-      - name: Set up Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.0.app  # 원하는 버전에 맞게 수정
+      - name: 🛠️ Select Xcode 16.2  # Xcode 16.2 버전 사용 설정
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app
 
-      - name: Install dependencies
+      - name: ⬇️ Install SwiftLint  # SwiftLint 설치
+        run: brew install swiftlint
+        
+      - name: 🎨 Run SwiftLint  # SwiftLint 코드 스타일 검사 실행
+        run: swiftlint
+
+      - name: 🔍 Detect Default Scheme  # 기본 scheme 자동 검지
+        id: detect_scheme
         run: |
-          brew install swiftlint || true
+          SCHEME=$(xcodebuild -list -json | jq -r '.project.schemes[0]')
+          echo "Detected scheme: $SCHEME"
+          echo "scheme=$SCHEME" >> "$GITHUB_OUTPUT"
 
-      - name: Build project
+      - name: 🔍 Detect Latest iPhone Simulator  # 최신 사용 가능한 iPhone 시뮬레이터 검지
+        id: detect_latest_simulator
         run: |
-          cd MLS
-          xcodebuild \
-            -workspace MLS.xcworkspace \
-            -scheme MLS \
-            -destination 'platform=iOS Simulator,name=iPhone 15' \
-            build
+          DEVICE=$(xcrun simctl list devices available | grep -Eo 'iPhone .* \([0-9A-F\-]+\)' | head -n 1)
+          UDID=$(echo "$DEVICE" | grep -Eo '[0-9A-F\-]{36}')
+          NAME=$(echo "$DEVICE" | cut -d '(' -f1 | xargs)
+          echo "Detected simulator: $NAME ($UDID)"
+          echo "sim_name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "sim_udid=$UDID" >> "$GITHUB_OUTPUT"
 
-
-  lint:  # <-- lint도 jobs 안에 있어야 함
-    runs-on: macos-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }} # 자동 생성 토큰으로 push 가능
-
-      - name: Install SwiftLint
-        run: brew install swiftlint || true
-
-      - name: Run SwiftLint AutoCorrect
-        run: swiftlint autocorrect --format
-
-      - name: Commit and Push if needed
+      - name: 🏗️ Build the project  # 자동 검지된 Scheme과 Simulator로 빌드 수행
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # 브랜치 이름 가져오기
-          BRANCH_NAME=$(echo "${GITHUB_REF##*/}")
-      
-          # 브랜치에서 #숫자 패턴 추출 (ex. #123)
-          if [[ $BRANCH_NAME =~ (#[0-9]+) ]]; then
-            TAG=${BASH_REMATCH[1]}
-          else
-            TAG="#0" # 없으면 디폴트 #0
-          fi
-
-          git add .
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "style/${TAG}: Apply SwiftLint autocorrect"
-            git push
-          fi
+          WORKSPACE=$(find . -name "*.xcworkspace" | head -n 1)
+          xcodebuild -scheme "${{ steps.detect_scheme.outputs.scheme }}" \
+            -workspace "$WORKSPACE" \
+            -destination "platform=iOS Simulator,id=${{ steps.detect_latest_simulator.outputs.sim_udid }}" \
+            clean build | xcpretty
