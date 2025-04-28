@@ -10,6 +10,8 @@ import Presentation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        let some: [Int] = []
+        some[0]
         ImageLoader.shared.configure.diskCacheCountLimit = 10
         return true
     }
