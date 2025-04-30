@@ -7,7 +7,7 @@ public final class DIContainer {
     private var services: [ObjectIdentifier: [String: () -> Any]] = [:]
     // 동시성 문제를 해결하기 위한 큐 생성
     private let serviceQueue = DispatchQueue(label: "com.dicontainer.serviceQueue")
-    
+
     /// 구현체 등록을 위한 함수
     /// - Parameters:
     ///   - type: 등록하는 객체의 타입
@@ -16,7 +16,7 @@ public final class DIContainer {
     public static func register<T>(type: T.Type, name: String? = nil, object: @escaping () -> T) {
         shared.register(type: type, name: name, object: object)
     }
-    
+
     /// 등록된 구현체를 가져오기 위한 함수
     /// - Parameters:
     ///   - type: 가져올 객체의 타입

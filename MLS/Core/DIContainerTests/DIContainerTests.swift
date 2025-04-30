@@ -60,7 +60,7 @@ class DIContainerTests: XCTestCase {
     /// 타입 안전성 테스트
     func testTypeSafety() {
         DIContainer.register(type: Service.self, name: "A") { ServiceA() as Service }
-        
+
         let anotherService: AnotherService? = DIContainer.resolve(type: AnotherService.self, name: "A")
 
         XCTAssertNil(anotherService)
