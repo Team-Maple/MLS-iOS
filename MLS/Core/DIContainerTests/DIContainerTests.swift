@@ -73,16 +73,16 @@ class DIContainerTests: XCTestCase {
         let group = DispatchGroup()
 
         // 동시에 등록 및 호출
-        for i in 0..<100 {
+        for index in 0..<100 {
             group.enter()
             queue.async {
-                let name = "Test\(i)"
+                let name = "Test\(index)"
                 DIContainer.register(type: Service.self, name: name) {
-                    i % 2 == 0 ? ServiceA() as Service : ServiceB() as Service
+                    index % 2 == 0 ? ServiceA() as Service : ServiceB() as Service
                 }
                 let service: Service? = DIContainer.resolve(type: Service.self, name: name)
                 XCTAssertNotNil(service)
-                XCTAssertEqual(service?.perform(), i % 2 == 0 ? "ServiceA" : "ServiceB")
+                XCTAssertEqual(service?.perform(), index % 2 == 0 ? "ServiceA" : "ServiceB")
                 group.leave()
             }
         }
