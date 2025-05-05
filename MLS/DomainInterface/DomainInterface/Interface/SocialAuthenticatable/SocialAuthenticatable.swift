@@ -1,6 +1,6 @@
 import Foundation
 
-protocol SocialAuthenticatable {
+public protocol SocialAuthenticatable {
     associatedtype Credential: Encodable
     
     func getCredential() -> Credential
