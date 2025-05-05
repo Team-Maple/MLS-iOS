@@ -5,7 +5,7 @@ import DomainInterface
 
 import RxSwift
 
-public final class AppleLoginProvider: NSObject, SocialAuthenticatableProvider {
+public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvider {
 
     public struct Credential: Encodable {
         var idToken: String?
@@ -32,7 +32,7 @@ public final class AppleLoginProvider: NSObject, SocialAuthenticatableProvider {
 }
 
 // MARK: - Delegate
-extension AppleLoginProvider: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
+extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
 
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         let scenes = UIApplication.shared.connectedScenes
