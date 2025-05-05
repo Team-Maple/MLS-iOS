@@ -1,24 +1,24 @@
-import Foundation
 import AuthenticationServices
+import Foundation
 
 import DomainInterface
 
 import RxSwift
 
-public final class AppleLoginProvider: NSObject, SocialAuthenticatable {
-    
+public final class AppleLoginProvider: NSObject, SocialAuthenticatableProvider {
+
     public struct Credential: Encodable {
         var idToken: String?
         var authorizationCode: String?
     }
-    
+
     private let authServiceResponse = PublishSubject<Credential>()
-    
+
     public func getCredential() -> Observable<Credential> {
         performRequest()
         return authServiceResponse
     }
-    
+
     private func performRequest() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
@@ -33,7 +33,7 @@ public final class AppleLoginProvider: NSObject, SocialAuthenticatable {
 
 // MARK: - Delegate
 extension AppleLoginProvider: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
-    
+
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
