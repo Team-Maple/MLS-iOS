@@ -1,7 +1,9 @@
 import Foundation
 
+import RxSwift
+
 public protocol SocialLoginUseCase {
     var provider: any SocialAuthenticatable { get set }
     
-    func execute() -> Encodable
+    func execute() -> Observable<Encodable>
 }

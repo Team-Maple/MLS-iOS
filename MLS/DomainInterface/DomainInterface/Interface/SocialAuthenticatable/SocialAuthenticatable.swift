@@ -1,7 +1,9 @@
 import Foundation
 
+import RxSwift
+
 public protocol SocialAuthenticatable {
     associatedtype Credential: Encodable
     
-    func getCredential() -> Credential
+    func getCredential() ->Observable<Credential>
 }
