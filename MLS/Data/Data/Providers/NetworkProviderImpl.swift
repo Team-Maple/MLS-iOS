@@ -1,11 +1,10 @@
 import Foundation
-import os
 
 import DomainInterface
 
 import RxSwift
 
-public final class ProviderImpl: Provider {
+public final class NetworkProviderImpl: NetworkProvider {
 
     private let session: URLSession
 
@@ -60,7 +59,7 @@ public final class ProviderImpl: Provider {
     }
 }
 
-private extension ProviderImpl {
+private extension NetworkProviderImpl {
     /// 엔드 포인트를 이용하여 요청을 보내기 위한 함수
     /// - Parameters:
     ///   - endPoint: 요청을 위한 엔드포인트 객체
