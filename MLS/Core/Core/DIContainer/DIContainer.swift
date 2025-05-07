@@ -2,11 +2,11 @@ import Foundation
 
 /// 의존성 주입을 위한 컨테이너
 public final class DIContainer {
-    private static let shared = DIContainer()
+    internal static let shared = DIContainer()
     // 저장 타입식별자 : [이름 식별자 : 객체 클로저] 형태
-    private var services: [ObjectIdentifier: [String: () -> Any]] = [:]
+    internal var services: [ObjectIdentifier: [String: () -> Any]] = [:]
     // 동시성 문제를 해결하기 위한 큐 생성
-    private let serviceQueue = DispatchQueue(label: "com.dicontainer.serviceQueue")
+    internal let serviceQueue = DispatchQueue(label: "com.dicontainer.serviceQueue")
 
     /// 구현체 등록을 위한 함수
     /// - Parameters:
@@ -49,19 +49,6 @@ private extension DIContainer {
                 return nil
             }
             return instance
-        }
-    }
-}
-
-// 테스트를 위한 서비스 초기화 함수
-extension DIContainer {
-    public static func resetForTesting() {
-        shared.resetForTesting()
-    }
-
-    private func resetForTesting() {
-        serviceQueue.sync {
-            services.removeAll()
         }
     }
 }
