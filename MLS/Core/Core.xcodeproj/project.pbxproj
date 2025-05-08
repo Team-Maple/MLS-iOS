@@ -10,12 +10,10 @@
 		084A265E2DBA354400C395C0 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 084A265D2DBA354400C395C0 /* RxCocoa */; };
 		084A26602DBA354400C395C0 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 084A265F2DBA354400C395C0 /* RxRelay */; };
 		084A26622DBA354400C395C0 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 084A26612DBA354400C395C0 /* RxSwift */; };
-		084A26642DBA359C00C395C0 /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A26632DBA359C00C395C0 /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		084A25832DB93DDB00C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		084A26632DBA359C00C395C0 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -43,7 +41,6 @@
 		084A25792DB93DDB00C395C0 = {
 			isa = PBXGroup;
 			children = (
-				084A26632DBA359C00C395C0 /* Core.h */,
 				084A25852DB93DDB00C395C0 /* Core */,
 				084A25842DB93DDB00C395C0 /* Products */,
 			);
@@ -64,7 +61,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084A26642DBA359C00C395C0 /* Core.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +158,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -170,6 +166,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -200,7 +197,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -208,6 +205,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

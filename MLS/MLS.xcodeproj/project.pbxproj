@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0801759F2DCD27E600D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801759E2DCD27E600D0919F /* DomainInterface.framework */; };
+		080175A02DCD27E600D0919F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801759E2DCD27E600D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25332DB93A5400C395C0 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25322DB93A5400C395C0 /* Presentation.framework */; };
 		084A25342DB93A5400C395C0 /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25322DB93A5400C395C0 /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084A254F2DB93BC200C395C0 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A254E2DB93BC200C395C0 /* DomainInterface.framework */; };
-		084A25502DB93BC200C395C0 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A254E2DB93BC200C395C0 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25512DB93BC500C395C0 /* Domain.framework */; };
 		084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25512DB93BC500C395C0 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25552DB93BC800C395C0 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25542DB93BC800C395C0 /* Data.framework */; };
@@ -37,10 +37,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				080175A02DCD27E600D0919F /* DomainInterface.framework in Embed Frameworks */,
 				084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */,
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
 				084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */,
-				084A25502DB93BC200C395C0 /* DomainInterface.framework in Embed Frameworks */,
 				084A25342DB93A5400C395C0 /* Presentation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -49,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0801759E2DCD27E600D0919F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		080D22992DB9188800294C28 /* Data.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Data.xcodeproj; sourceTree = "<group>"; };
 		080D229C2DB9188800294C28 /* Domain.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Domain.xcodeproj; sourceTree = "<group>"; };
 		080D22AA2DB9188800294C28 /* DomainInterface.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = DomainInterface.xcodeproj; sourceTree = "<group>"; };
@@ -97,10 +98,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0801759F2DCD27E600D0919F /* DomainInterface.framework in Frameworks */,
 				084A25552DB93BC800C395C0 /* Data.framework in Frameworks */,
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
 				084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */,
-				084A254F2DB93BC200C395C0 /* DomainInterface.framework in Frameworks */,
 				084A25332DB93A5400C395C0 /* Presentation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -160,6 +161,7 @@
 		084A25312DB93A5400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0801759E2DCD27E600D0919F /* DomainInterface.framework */,
 				084A25D62DB93E2C00C395C0 /* Core.framework */,
 				084A25572DB93BCB00C395C0 /* MLSCore.framework */,
 				084A25542DB93BC800C395C0 /* Data.framework */,
