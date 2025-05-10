@@ -1,5 +1,7 @@
 import Foundation
 
+import DomainInterface
+
 /// 응답값이 없는 엔드포인트
 public struct EndPoint: Requestable {
     public var baseURL: String
@@ -9,7 +11,14 @@ public struct EndPoint: Requestable {
     public var headers: [String: String]?
     public var body: (any Encodable)?
 
-    public init(baseURL: String, path: String, method: HTTPMethod, query: (any Encodable)? = nil, headers: [String: String]? = nil, body: (any Encodable)? = nil) {
+    public init(
+        baseURL: String,
+        path: String,
+        method: HTTPMethod,
+        query: (any Encodable)? = nil,
+        headers: [String: String]? = nil,
+        body: (any Encodable)? = nil
+    ) {
         self.baseURL = baseURL
         self.path = path
         self.method = method

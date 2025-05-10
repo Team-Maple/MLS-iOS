@@ -8,9 +8,6 @@
       location = "container:Presentation/Presentation.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:DomainInterface/DomainInterface.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Domain/Domain.xcodeproj">
    </FileRef>
    <FileRef

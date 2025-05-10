@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		084A256F2DB93C1400C395C0 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A256E2DB93C1400C395C0 /* DomainInterface.framework */; };
-		084A25702DB93C1400C395C0 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A256E2DB93C1400C395C0 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		080175492DCD274B00D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080175482DCD274B00D0919F /* DomainInterface.framework */; };
+		0801754A2DCD274B00D0919F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 080175482DCD274B00D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25C82DB93E0500C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25C72DB93E0500C395C0 /* Core.framework */; };
 		084A25C92DB93E0500C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25C72DB93E0500C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084A26172DBA2E2200C395C0 /* Data.h in Headers */ = {isa = PBXBuildFile; fileRef = 084A26162DBA2E2200C395C0 /* Data.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -21,7 +20,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				084A25702DB93C1400C395C0 /* DomainInterface.framework in Embed Frameworks */,
+				0801754A2DCD274B00D0919F /* DomainInterface.framework in Embed Frameworks */,
 				084A25C92DB93E0500C395C0 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -30,10 +29,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		080175482DCD274B00D0919F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A256E2DB93C1400C395C0 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25722DB93C1900C395C0 /* MLSCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MLSCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25C72DB93E0500C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		084A26162DBA2E2200C395C0 /* Data.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		0879294D2DB90F3A009C301F /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -50,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084A256F2DB93C1400C395C0 /* DomainInterface.framework in Frameworks */,
+				080175492DCD274B00D0919F /* DomainInterface.framework in Frameworks */,
 				084A25C82DB93E0500C395C0 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -61,6 +60,7 @@
 		084A256D2DB93C1400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				080175482DCD274B00D0919F /* DomainInterface.framework */,
 				084A25C72DB93E0500C395C0 /* Core.framework */,
 				084A25722DB93C1900C395C0 /* MLSCore.framework */,
 				084A256E2DB93C1400C395C0 /* DomainInterface.framework */,
@@ -71,7 +71,6 @@
 		087929432DB90F3A009C301F = {
 			isa = PBXGroup;
 			children = (
-				084A26162DBA2E2200C395C0 /* Data.h */,
 				0879294F2DB90F3A009C301F /* Data */,
 				084A256D2DB93C1400C395C0 /* Frameworks */,
 				0879294E2DB90F3A009C301F /* Products */,
@@ -93,7 +92,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				084A26172DBA2E2200C395C0 /* Data.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +184,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -223,7 +221,7 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
