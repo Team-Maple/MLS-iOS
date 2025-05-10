@@ -6,14 +6,74 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; };
+		0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0858ABE82DCFD8610060EBCA /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */; };
+		0858ABEA2DCFD8720060EBCA /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0858ABE92DCFD8720060EBCA /* SnapKit-Dynamic */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0858ABE12DCFD7700060EBCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0858ABA52DCFD6940060EBCA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0858ABAD2DCFD6940060EBCA;
+			remoteInfo = DesignSystem;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0858ABE32DCFD7700060EBCA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignSystemDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0858ABDA2DCFD7580060EBCA /* Exceptions for "DesignSystemDemo" folder in "DesignSystemDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0858ABC82DCFD7560060EBCA /* DesignSystemDemo */;
+		};
+		0858ABF72DCFDBB90060EBCA /* Exceptions for "DesignSystem" folder in "DesignSystemDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resource/Image.xcassets,
+			);
+			target = 0858ABC82DCFD7560060EBCA /* DesignSystemDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0858ABB02DCFD6940060EBCA /* DesignSystem */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0858ABF72DCFDBB90060EBCA /* Exceptions for "DesignSystem" folder in "DesignSystemDemo" target */,
+			);
 			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0858ABDA2DCFD7580060EBCA /* Exceptions for "DesignSystemDemo" folder in "DesignSystemDemo" target */,
+			);
+			path = DesignSystemDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +83,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0858ABE82DCFD8610060EBCA /* SnapKit-Dynamic in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0858ABC62DCFD7560060EBCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */,
+				0858ABEA2DCFD8720060EBCA /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				0858ABB02DCFD6940060EBCA /* DesignSystem */,
+				0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */,
+				0858ABDE2DCFD7700060EBCA /* Frameworks */,
 				0858ABAF2DCFD6940060EBCA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +113,16 @@
 			isa = PBXGroup;
 			children = (
 				0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */,
+				0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		0858ABDE2DCFD7700060EBCA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -76,10 +156,36 @@
 			);
 			name = DesignSystem;
 			packageProductDependencies = (
+				0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */,
 			);
 			productName = DesignSystem;
 			productReference = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		0858ABC82DCFD7560060EBCA /* DesignSystemDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0858ABDB2DCFD7580060EBCA /* Build configuration list for PBXNativeTarget "DesignSystemDemo" */;
+			buildPhases = (
+				0858ABC52DCFD7560060EBCA /* Sources */,
+				0858ABC62DCFD7560060EBCA /* Frameworks */,
+				0858ABC72DCFD7560060EBCA /* Resources */,
+				0858ABE32DCFD7700060EBCA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0858ABE22DCFD7700060EBCA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */,
+			);
+			name = DesignSystemDemo;
+			packageProductDependencies = (
+				0858ABE92DCFD8720060EBCA /* SnapKit-Dynamic */,
+			);
+			productName = DesignSystemDemo;
+			productReference = 0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -88,9 +194,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					0858ABAD2DCFD6940060EBCA = {
+						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
+					};
+					0858ABC82DCFD7560060EBCA = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -104,18 +215,29 @@
 			);
 			mainGroup = 0858ABA42DCFD6940060EBCA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0858ABAF2DCFD6940060EBCA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				0858ABAD2DCFD6940060EBCA /* DesignSystem */,
+				0858ABC82DCFD7560060EBCA /* DesignSystemDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0858ABAC2DCFD6940060EBCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0858ABC72DCFD7560060EBCA /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -132,13 +254,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		0858ABC52DCFD7560060EBCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0858ABE22DCFD7700060EBCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0858ABAD2DCFD6940060EBCA /* DesignSystem */;
+			targetProxy = 0858ABE12DCFD7700060EBCA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0858ABB52DCFD6940060EBCA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
@@ -167,6 +305,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -176,6 +315,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
@@ -334,6 +474,70 @@
 			};
 			name = Release;
 		};
+		0858ABDC2DCFD7580060EBCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0858ABDD2DCFD7580060EBCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -355,7 +559,40 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		0858ABDB2DCFD7580060EBCA /* Build configuration list for PBXNativeTarget "DesignSystemDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0858ABDC2DCFD7580060EBCA /* Debug */,
+				0858ABDD2DCFD7580060EBCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		0858ABE92DCFD8720060EBCA /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0858ABA52DCFD6940060EBCA /* Project object */;
 }

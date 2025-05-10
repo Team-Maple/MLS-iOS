@@ -98,6 +98,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		08ED49012DCFDD25002C21A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -166,6 +173,10 @@
 				{
 					ProductGroup = 0858AB512DCFD6510060EBCA /* Products */;
 					ProjectRef = 0858AB502DCFD6510060EBCA /* AuthFeature.xcodeproj */;
+				},
+				{
+					ProductGroup = 08ED49012DCFDD25002C21A2 /* Products */;
+					ProjectRef = 0858ABB92DCFD6A10060EBCA /* DesignSystem.xcodeproj */;
 				},
 			);
 			projectRoot = "";

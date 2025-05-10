@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		0801754B2DCD275300D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; };
 		0801754C2DCD275300D0919F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		080175502DCD275900D0919F /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801754F2DCD275900D0919F /* Core.framework */; };
-		080175512DCD275900D0919F /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801754F2DCD275900D0919F /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25CD2DB93E1E00C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; };
 		084A25CE2DB93E1E00C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; };
+		08ED490E2DCFDD63002C21A2 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49312DCFDEF6002C21A2 /* RxSwift */; };
+		08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49352DCFDF8F002C21A2 /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,17 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		080175522DCD275900D0919F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				080175512DCD275900D0919F /* Core.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		0803C7752DB9120F0016193E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -45,6 +36,17 @@
 			files = (
 				0801754C2DCD275300D0919F /* DomainInterface.framework in Embed Frameworks */,
 				084A25CE2DB93E1E00C395C0 /* Core.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08ED490F2DCFDD63002C21A2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				08ED490E2DCFDD63002C21A2 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -58,6 +60,7 @@
 		084A256A2DB93C0F00C395C0 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		084A25CC2DB93E1E00C395C0 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		087929232DB90F11009C301F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08ED490C2DCFDD63002C21A2 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,7 +81,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				080175502DCD275900D0919F /* Core.framework in Frameworks */,
+				08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */,
+				08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */,
 				0801754B2DCD275300D0919F /* DomainInterface.framework in Frameworks */,
 				084A25CD2DB93E1E00C395C0 /* Core.framework in Frameworks */,
 			);
@@ -97,6 +102,7 @@
 		084A25662DB93C0C00C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08ED490C2DCFDD63002C21A2 /* Core.framework */,
 				0801754F2DCD275900D0919F /* Core.framework */,
 				084A25CC2DB93E1E00C395C0 /* Core.framework */,
 				084A256A2DB93C0F00C395C0 /* DomainInterface.framework */,
@@ -152,7 +158,7 @@
 				0801752A2DCD26B300D0919F /* Sources */,
 				0801752B2DCD26B300D0919F /* Frameworks */,
 				0801752C2DCD26B300D0919F /* Resources */,
-				080175522DCD275900D0919F /* Embed Frameworks */,
+				08ED490F2DCFDD63002C21A2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,6 +169,7 @@
 			);
 			name = DomainInterface;
 			packageProductDependencies = (
+				08ED49312DCFDEF6002C21A2 /* RxSwift */,
 			);
 			productName = DomainInterface;
 			productReference = 0801752E2DCD26B300D0919F /* DomainInterface.framework */;
@@ -188,6 +195,7 @@
 			);
 			name = Domain;
 			packageProductDependencies = (
+				08ED49352DCFDF8F002C21A2 /* RxSwift */,
 			);
 			productName = Domain;
 			productReference = 087929232DB90F11009C301F /* Domain.framework */;
@@ -220,6 +228,9 @@
 			);
 			mainGroup = 087929192DB90F11009C301F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 087929242DB90F11009C301F /* Products */;
 			projectDirPath = "";
@@ -581,6 +592,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08ED49312DCFDEF6002C21A2 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		08ED49352DCFDF8F002C21A2 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0879291A2DB90F11009C301F /* Project object */;
 }
