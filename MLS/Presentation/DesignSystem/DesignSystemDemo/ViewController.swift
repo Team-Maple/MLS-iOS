@@ -14,7 +14,8 @@ class ViewController: UIViewController {
     }()
 
     let views: [(UIViewController, String)] = [
-        (CheckButtonTestViewController(), "CheckButton")
+        (CheckButtonTestViewController(), "CheckButton"),
+        (HeaderTestViewController(), "HeaderView")
     ]
     
     override func viewDidLoad() {

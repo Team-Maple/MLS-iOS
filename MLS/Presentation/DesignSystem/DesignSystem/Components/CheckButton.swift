@@ -106,7 +106,7 @@ public final class CheckButton: UIButton {
     
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowForward")
+        let image = DesignSystemAsset.image(named: "arrowRight")
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
