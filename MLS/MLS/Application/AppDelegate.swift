@@ -5,12 +5,14 @@ import Data
 import Domain
 import DomainInterface
 import Presentation
+import DesignSystem
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ImageLoader.shared.configure.diskCacheCountLimit = 10
+        FontManager.registerFonts()
         return true
     }
 

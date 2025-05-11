@@ -2,34 +2,177 @@ import UIKit
 
 internal import SnapKit
 
-public class CheckButton: UIView {
-
-    enum DesignSystemAsset {
-        static func image(named name: String) -> UIImage? {
-            let bundle = Bundle(for: CheckButton.self)
-            return UIImage(named: name, in: bundle, compatibleWith: nil)
+public final class CheckButton: UIButton {
+    // MARK: - Types
+    public enum ButtonType {
+        case big
+        case small
+        
+        public var spacing: CGFloat {
+            switch self {
+            case .big:
+                return 16
+            case .small:
+                return 10
+            }
+        }
+        
+        public var font: UIFont? {
+            switch self {
+            case .big:
+                return .subTitleBold
+            case .small:
+                return .body2
+            }
+        }
+        
+        public var verticalInset: CGFloat {
+            switch self {
+            case .big:
+                return 16
+            case .small:
+                return 10
+            }
+        }
+        
+        public var subtitleIsHidden: Bool {
+            switch self {
+            case .big:
+                return false
+            case .small:
+                return true
+            }
         }
     }
+    
+    private struct Constant {
+        static let imageSize: CGFloat = 24
+        static let cornerRadius: CGFloat = 6
+        static let horizontalInset: CGFloat = 20
+        static let labelSpacing: CGFloat = 4
+    }
 
-    private let checkImageView = UIImageView(image: DesignSystemAsset.image(named: "checkicon")?.withRenderingMode(.alwaysTemplate))
-
-    public init() {
+    // MARK: - Properties
+    private let type: ButtonType
+    public var title: String?
+    public var subTitle: String?
+    public override var isSelected: Bool {
+        didSet {
+            updateTintColor()
+        }
+    }
+    
+    private lazy var contentStackView: UIStackView = { [weak self] in
+        let view = UIStackView()
+        view.isUserInteractionEnabled = false
+        view.spacing = self?.type.spacing ?? 0
+        return view
+    }()
+    
+    private let labelTrailingView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let checkIconImageView: UIImageView = {
+        let image = DesignSystemAsset.image(named: "checkicon")
+        let view = UIImageView(image: image)
+        return view
+    }()
+    
+    private let buttonTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .textColor
+        return label
+    }()
+    
+    private let buttonSubTitleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .textColor
+        label.font = .body
+        return label
+    }()
+    
+    public let rightButton: UIButton = {
+        let button = UIButton()
+        let image = DesignSystemAsset.image(named: "arrowForward")
+        button.setImage(image, for: .normal)
+        button.tintColor = .textColor
+        return button
+    }()
+    
+    // MARK: - init
+    public init(type: ButtonType, title: String?, subTitle: String?) {
+        self.type = type
+        self.title = title
+        self.subTitle = subTitle
         super.init(frame: .zero)
-        self.addSubview(checkImageView)
-        checkImageView.tintColor = .red
-        checkImageView.snp.makeConstraints { make in
-            make.size.equalTo(50)
-            make.center.equalToSuperview()
-        }
+        self.addViews()
+        self.setupContstraints()
+        self.configureUI()
     }
-
+    
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError("\(#file), \(#function) Error")
     }
 }
 
-extension UIImage {
-    func tinted(with color: UIColor) -> UIImage {
-        return self.withRenderingMode(.alwaysTemplate).withTintColor(color)
+// MARK: - SetUp
+private extension CheckButton {
+    func addViews() {
+        self.addSubview(contentStackView)
+        labelTrailingView.addSubview(buttonTitleLabel)
+        labelTrailingView.addSubview(buttonSubTitleLabel)
+        
+        contentStackView.addArrangedSubview(checkIconImageView)
+        contentStackView.addArrangedSubview(labelTrailingView)
+        contentStackView.addArrangedSubview(UIView())
+        contentStackView.addArrangedSubview(rightButton)
+    }
+
+    func setupContstraints() {
+        contentStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.verticalEdges.equalToSuperview().inset(type.verticalInset)
+        }
+        checkIconImageView.snp.makeConstraints { make in
+            make.size.equalTo(Constant.imageSize)
+        }
+        buttonTitleLabel.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        buttonSubTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(buttonTitleLabel.snp.trailing).offset(Constant.labelSpacing)
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
+        rightButton.snp.makeConstraints { make in
+            make.size.equalTo(Constant.imageSize)
+        }
+    }
+
+    func configureUI() {
+        updateTintColor()
+        buttonTitleLabel.text = title
+        buttonTitleLabel.font = type.font
+        buttonSubTitleLabel.text = subTitle
+        buttonSubTitleLabel.isHidden = type.subtitleIsHidden
+        
+        if type == .big {
+            self.layer.cornerRadius = Constant.cornerRadius
+            self.layer.borderColor = UIColor.neutral300.cgColor
+            self.layer.borderWidth = 1
+            self.clipsToBounds = true
+            self.rightButton.isHidden = true
+        } else {
+            self.layer.cornerRadius = 0
+            self.layer.borderWidth = 0
+            self.rightButton.isHidden = false
+        }
+    }
+    
+    func updateTintColor() {
+        checkIconImageView.tintColor = isSelected ? .primary : .neutral300
     }
 }
