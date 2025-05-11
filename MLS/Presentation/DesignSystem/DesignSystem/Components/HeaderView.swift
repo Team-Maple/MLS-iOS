@@ -6,6 +6,7 @@ public final class HeaderView: UIView {
     // MARK: - Types
     private struct Constant {
         static let imageSize: CGFloat = 44
+        static let rightInset: CGFloat = 16
     }
     
     // MARK: - Properties
@@ -96,7 +97,7 @@ private extension HeaderView {
             make.size.equalTo(Constant.imageSize)
         }
         spacingView.snp.makeConstraints { make in
-            make.width.equalTo(16)
+            make.width.equalTo(Constant.rightInset)
         }
     }
 
