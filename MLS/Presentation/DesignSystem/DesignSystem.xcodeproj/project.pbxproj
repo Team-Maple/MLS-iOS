@@ -9,8 +9,8 @@
 /* Begin PBXBuildFile section */
 		0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; };
 		0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0858ABE82DCFD8610060EBCA /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */; };
 		0858ABEA2DCFD8720060EBCA /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 0858ABE92DCFD8720060EBCA /* SnapKit-Dynamic */; };
+		08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3C2DD1C8F400868C70 /* SnapKit */; };
 		08ED4DD02DCFF891002C21A2 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DCF2DCFF891002C21A2 /* RxCocoa */; };
 		08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD12DCFF895002C21A2 /* RxRelay */; };
 		08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD32DCFF899002C21A2 /* RxSwift */; };
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0858ABE82DCFD8610060EBCA /* SnapKit-Dynamic in Frameworks */,
+				08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +170,7 @@
 			);
 			name = DesignSystem;
 			packageProductDependencies = (
-				0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */,
+				08686A3C2DD1C8F400868C70 /* SnapKit */,
 			);
 			productName = DesignSystem;
 			productReference = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */;
@@ -293,7 +293,7 @@
 		0858ABB52DCFD6940060EBCA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -333,7 +333,7 @@
 		0858ABB62DCFD6940060EBCA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -608,15 +608,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0858ABE72DCFD8610060EBCA /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
 		0858ABE92DCFD8720060EBCA /* SnapKit-Dynamic */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = "SnapKit-Dynamic";
+		};
+		08686A3C2DD1C8F400868C70 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 		08ED4DCF2DCFF891002C21A2 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
