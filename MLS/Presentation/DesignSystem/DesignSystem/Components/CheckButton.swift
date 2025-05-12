@@ -175,6 +175,7 @@ private extension CheckButton {
             self.layer.borderWidth = 1
             self.clipsToBounds = true
             self.rightButton.isHidden = true
+            self.backgroundColor = .neutral100
         } else {
             self.layer.cornerRadius = 0
             self.layer.borderWidth = 0
