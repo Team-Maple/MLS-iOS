@@ -51,6 +51,8 @@ final class HeaderTestViewController: UIViewController {
         button.isOn = true
         return button
     }()
+    
+    private let dividerView: DividerView = DividerView()
 }
 
 // MARK: - Life Cycle
@@ -69,6 +71,7 @@ extension HeaderTestViewController {
 private extension HeaderTestViewController {
     func addViews() {
         view.addSubview(headerView)
+        view.addSubview(dividerView)
         view.addSubview(leftButtonHiddenToggle)
         view.addSubview(leftLabel)
         view.addSubview(rightButtonHiddenToggle)
@@ -80,6 +83,10 @@ private extension HeaderTestViewController {
     func setupContstraints() {
         headerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+        }
+        dividerView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom).offset(15)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
         leftButtonHiddenToggle.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(30)
