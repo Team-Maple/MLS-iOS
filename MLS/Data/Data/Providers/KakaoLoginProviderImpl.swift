@@ -11,9 +11,9 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
         var accessToken: String?
         var email: String?
     }
-
-    public init() {}
     
+    public init() {}
+
     /// 카카오에 요청을 보내서 access 토큰을 포함한 정보를 가져오는 함수
     /// - Returns: accessToken + email
     public func getCredential() -> Observable<Credential> {
