@@ -5,8 +5,6 @@ import Data
 import DesignSystem
 import Domain
 import DomainInterface
-import Presentation
-import DesignSystem
 
 import KakaoSDKCommon
 
