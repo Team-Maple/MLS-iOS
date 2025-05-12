@@ -5,41 +5,41 @@ internal import SnapKit
 public final class CheckButton: UIButton {
     // MARK: - Types
     public enum ButtonType {
-        case big
-        case small
+        case normal
+        case list
         
         public var spacing: CGFloat {
             switch self {
-            case .big:
+            case .normal:
                 return 16
-            case .small:
+            case .list:
                 return 10
             }
         }
         
         public var font: UIFont? {
             switch self {
-            case .big:
+            case .normal:
                 return .subTitleBold
-            case .small:
+            case .list:
                 return .body2
             }
         }
         
         public var verticalInset: CGFloat {
             switch self {
-            case .big:
+            case .normal:
                 return 16
-            case .small:
+            case .list:
                 return 10
             }
         }
         
         public var subtitleIsHidden: Bool {
             switch self {
-            case .big:
+            case .normal:
                 return false
-            case .small:
+            case .list:
                 return true
             }
         }
@@ -169,7 +169,7 @@ private extension CheckButton {
         buttonTitleLabel.font = type.font
         buttonSubTitleLabel.isHidden = type.subtitleIsHidden
         
-        if type == .big {
+        if type == .normal {
             self.layer.cornerRadius = Constant.cornerRadius
             self.layer.borderColor = UIColor.neutral300.cgColor
             self.layer.borderWidth = 1

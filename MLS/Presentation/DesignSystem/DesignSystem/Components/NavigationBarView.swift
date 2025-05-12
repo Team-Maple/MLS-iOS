@@ -2,7 +2,7 @@ import UIKit
 
 internal import SnapKit
 
-public final class HeaderView: UIView {
+public final class NavigationBarView: UIView {
     // MARK: - Types
     private struct Constant {
         static let imageSize: CGFloat = 44
@@ -56,7 +56,7 @@ public final class HeaderView: UIView {
 }
 
 // MARK: - SetUp
-private extension HeaderView {
+private extension NavigationBarView {
     func setupButtonTitle(textButtonTitle: String?) {
         if let textButtonTitle = textButtonTitle, let lineHeight = UIFont.body2?.lineHeight {
             let paragraphStyle = NSMutableParagraphStyle()

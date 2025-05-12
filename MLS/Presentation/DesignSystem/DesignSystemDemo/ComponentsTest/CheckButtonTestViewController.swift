@@ -9,11 +9,11 @@ import RxSwift
 final class CheckButtonTestViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
-    private var bigCheckButton = CheckButton(type: .big, title: nil, subTitle: nil)
-    private var smallCheckButton = CheckButton(type: .small, title: nil, subTitle: nil)
+    private var bigCheckButton = CheckButton(type: .normal, title: nil, subTitle: nil)
+    private var smallCheckButton = CheckButton(type: .list, title: nil, subTitle: nil)
     
     private let typeSegmentControl: UISegmentedControl = {
-        let items = ["BIG", "SMALL"]
+        let items = ["normal", "list"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
@@ -48,6 +48,16 @@ final class CheckButtonTestViewController: UIViewController {
         label.text = "SubTitle"
         return label
     }()
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.title = "CheckButton"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
 }
 
 // MARK: - Life Cycle

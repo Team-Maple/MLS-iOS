@@ -69,5 +69,53 @@ public extension TermsAgreementViewController {
             .map { Reactor.Action.marketingAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isTotalAgree }
+            .withUnretained(self)
+            .subscribe { owner, isAgree in
+                owner.mainView.totalAgreeButton.isSelected = isAgree
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isOldAgree }
+            .withUnretained(self)
+            .subscribe { owner, isAgree in
+                owner.mainView.oldAgreeButton.isSelected = isAgree
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isServiceTermsAgree }
+            .withUnretained(self)
+            .subscribe { owner, isAgree in
+                owner.mainView.serviceTermsAgreeButton.isSelected = isAgree
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isPersonalInformationAgree }
+            .withUnretained(self)
+            .subscribe { owner, isAgree in
+                owner.mainView.personalInformationAgreeButton.isSelected = isAgree
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.isMarketingAgree }
+            .withUnretained(self)
+            .subscribe { owner, isAgree in
+                owner.mainView.marketingAgreeButton.isSelected = isAgree
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map { $0.bottomButtonIsEnabled }
+            .withUnretained(self)
+            .subscribe { owner, isEnabled in
+                owner.mainView.bottomButton.isEnabled = isEnabled
+            }
+            .disposed(by: disposeBag)
     }
 }

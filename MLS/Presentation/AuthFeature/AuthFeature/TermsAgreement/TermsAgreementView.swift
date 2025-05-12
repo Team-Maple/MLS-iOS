@@ -19,8 +19,8 @@ public final class TermsAgreementView: UIView {
     }
     
     // MARK: - Properties
-    private let headerView: HeaderView = {
-        let view = HeaderView()
+    private let headerView: NavigationBarView = {
+        let view = NavigationBarView()
         view.rightButton.isHidden = true
         return view
     }()
@@ -49,7 +49,7 @@ public final class TermsAgreementView: UIView {
     }()
     
     public let totalAgreeButton: CheckButton = {
-        let button = CheckButton(type: .big, title: "전체동의", subTitle: "(선택 약관 포함)")
+        let button = CheckButton(type: .normal, title: "전체동의", subTitle: "(선택 약관 포함)")
         return button
     }()
     
@@ -64,29 +64,27 @@ public final class TermsAgreementView: UIView {
     }()
     
     public let oldAgreeButton: CheckButton = {
-        let button = CheckButton(type: .small, title: "(필수) 만 14세 이상", subTitle: nil)
+        let button = CheckButton(type: .list, title: "(필수) 만 14세 이상", subTitle: nil)
         return button
     }()
     
     public let serviceTermsAgreeButton: CheckButton = {
-        let button = CheckButton(type: .small, title: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
+        let button = CheckButton(type: .list, title: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
         return button
     }()
     
     public let personalInformationAgreeButton: CheckButton = {
-        let button = CheckButton(type: .small, title: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
+        let button = CheckButton(type: .list, title: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
         return button
     }()
     
     public let marketingAgreeButton: CheckButton = {
-        let button = CheckButton(type: .small, title: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
+        let button = CheckButton(type: .list, title: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
         return button
     }()
     
-    private let bottomButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("시작하기", for: .normal)
-        button.backgroundColor = .primary
+    public let bottomButton: CommonButton = {
+        let button = CommonButton(commonButtonType: .normal, normalTitle: "시작하기", disabledTitle: "시작하기")
         return button
     }()
     
@@ -141,7 +139,6 @@ private extension TermsAgreementView {
         bottomButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview().inset(Constant.bottomButtonBottomSpacing)
-            make.height.equalTo(30)
         }
         termsStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
