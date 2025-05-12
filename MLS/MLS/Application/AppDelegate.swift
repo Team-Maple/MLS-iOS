@@ -4,7 +4,6 @@ import Core
 import Data
 import Domain
 import DomainInterface
-import Presentation
 import DesignSystem
 
 @main

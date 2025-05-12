@@ -13,9 +13,10 @@ class ViewController: UIViewController {
         return view
     }()
 
-    let views: [(UIViewController, String)] = [
-        (CheckButtonTestViewController(), "CheckButton"),
-        (HeaderTestViewController(), "HeaderView")
+    let views: [UIViewController] = [
+        CheckButtonTestViewController(),
+        NavigationBarTestViewController(),
+        CommonButtonTestViewController()
     ]
     
     override func viewDidLoad() {
@@ -23,6 +24,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         tableView.dataSource = self
         tableView.delegate = self
+        navigationItem.title = "MLS Design System"
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in
@@ -38,13 +40,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.text = views[indexPath.row].1
+        cell.textLabel?.text = views[indexPath.row].title
         cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nextController = views[indexPath.row].0
+        let nextController = views[indexPath.row]
         navigationController?.pushViewController(nextController, animated: true)
     }
 }

@@ -6,13 +6,13 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-final class HeaderTestViewController: UIViewController {
+final class NavigationBarTestViewController: UIViewController {
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
-    private let headerView: HeaderView = {
-        let view = HeaderView(textButtonTitle: "TextButton")
+    private let headerView: NavigationBarView = {
+        let view = NavigationBarView(textButtonTitle: "TextButton")
         return view
     }()
     
@@ -53,10 +53,19 @@ final class HeaderTestViewController: UIViewController {
     }()
     
     private let dividerView: DividerView = DividerView()
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        self.title = "NavigationBar"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Cycle
-extension HeaderTestViewController {
+extension NavigationBarTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,7 +77,7 @@ extension HeaderTestViewController {
 }
 
 // MARK: - SetUp
-private extension HeaderTestViewController {
+private extension NavigationBarTestViewController {
     func addViews() {
         view.addSubview(headerView)
         view.addSubview(dividerView)
