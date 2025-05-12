@@ -8,20 +8,33 @@
 
 /* Begin PBXBuildFile section */
 		0858ABF02DCFDA450060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
-		0858ABF12DCFDA450060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0858ABF42DCFDA510060EBCA /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABF32DCFDA510060EBCA /* Presentation.framework */; };
-		0858ABF52DCFDA510060EBCA /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABF32DCFDA510060EBCA /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08686A132DD1C0E300868C70 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
+		08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08686A322DD1C48600868C70 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A312DD1C48600868C70 /* ReactorKit */; };
+		08686A342DD1C48C00868C70 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A332DD1C48C00868C70 /* RxSwift */; };
+		08686A362DD1C49000868C70 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A352DD1C49000868C70 /* RxCocoa */; };
+		08686A382DD1C49300868C70 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A372DD1C49300868C70 /* RxRelay */; };
+		08686A3B2DD1C78500868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3A2DD1C78500868C70 /* SnapKit */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		08686A152DD1C0E300868C70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0858AB362DCFD62C0060EBCA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0858AB3E2DCFD62C0060EBCA;
+			remoteInfo = AuthFeature;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		0858ABF22DCFDA450060EBCA /* Embed Frameworks */ = {
+		08686A172DD1C0E300868C70 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0858ABF52DCFDA510060EBCA /* Presentation.framework in Embed Frameworks */,
-				0858ABF12DCFDA450060EBCA /* DesignSystem.framework in Embed Frameworks */,
+				08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -32,12 +45,31 @@
 		0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858ABF32DCFDA510060EBCA /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		08686A0F2DD1C08A00868C70 /* Exceptions for "AuthFeatureDemo" folder in "AuthFeatureDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 086869FD2DD1C08800868C70 /* AuthFeatureDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		0858AB412DCFD62C0060EBCA /* AuthFeature */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = AuthFeature;
+			sourceTree = "<group>";
+		};
+		086869FF2DD1C08800868C70 /* AuthFeatureDemo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				08686A0F2DD1C08A00868C70 /* Exceptions for "AuthFeatureDemo" folder in "AuthFeatureDemo" target */,
+			);
+			path = AuthFeatureDemo;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -47,8 +79,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0858ABF42DCFDA510060EBCA /* Presentation.framework in Frameworks */,
+				08686A382DD1C49300868C70 /* RxRelay in Frameworks */,
+				08686A322DD1C48600868C70 /* ReactorKit in Frameworks */,
+				08686A362DD1C49000868C70 /* RxCocoa in Frameworks */,
+				08686A3B2DD1C78500868C70 /* SnapKit in Frameworks */,
+				08686A342DD1C48C00868C70 /* RxSwift in Frameworks */,
 				0858ABF02DCFDA450060EBCA /* DesignSystem.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		086869FB2DD1C08800868C70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08686A132DD1C0E300868C70 /* AuthFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				0858AB412DCFD62C0060EBCA /* AuthFeature */,
+				086869FF2DD1C08800868C70 /* AuthFeatureDemo */,
 				0858ABEE2DCFDA450060EBCA /* Frameworks */,
 				0858AB402DCFD62C0060EBCA /* Products */,
 			);
@@ -68,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */,
+				086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,7 +148,6 @@
 				0858AB3B2DCFD62C0060EBCA /* Sources */,
 				0858AB3C2DCFD62C0060EBCA /* Frameworks */,
 				0858AB3D2DCFD62C0060EBCA /* Resources */,
-				0858ABF22DCFDA450060EBCA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -113,10 +158,39 @@
 			);
 			name = AuthFeature;
 			packageProductDependencies = (
+				08686A312DD1C48600868C70 /* ReactorKit */,
+				08686A332DD1C48C00868C70 /* RxSwift */,
+				08686A352DD1C49000868C70 /* RxCocoa */,
+				08686A372DD1C49300868C70 /* RxRelay */,
+				08686A3A2DD1C78500868C70 /* SnapKit */,
 			);
 			productName = AuthFeature;
 			productReference = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */;
 			productType = "com.apple.product-type.framework";
+		};
+		086869FD2DD1C08800868C70 /* AuthFeatureDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08686A102DD1C08A00868C70 /* Build configuration list for PBXNativeTarget "AuthFeatureDemo" */;
+			buildPhases = (
+				086869FA2DD1C08800868C70 /* Sources */,
+				086869FB2DD1C08800868C70 /* Frameworks */,
+				086869FC2DD1C08800868C70 /* Resources */,
+				08686A172DD1C0E300868C70 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				08686A162DD1C0E300868C70 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				086869FF2DD1C08800868C70 /* AuthFeatureDemo */,
+			);
+			name = AuthFeatureDemo;
+			packageProductDependencies = (
+			);
+			productName = AuthFeatureDemo;
+			productReference = 086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */;
+			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
@@ -125,9 +199,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					0858AB3E2DCFD62C0060EBCA = {
+						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
+					};
+					086869FD2DD1C08800868C70 = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -141,18 +220,31 @@
 			);
 			mainGroup = 0858AB352DCFD62C0060EBCA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0858AB402DCFD62C0060EBCA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				0858AB3E2DCFD62C0060EBCA /* AuthFeature */,
+				086869FD2DD1C08800868C70 /* AuthFeatureDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		0858AB3D2DCFD62C0060EBCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		086869FC2DD1C08800868C70 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -169,13 +261,29 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		086869FA2DD1C08800868C70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		08686A162DD1C0E300868C70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0858AB3E2DCFD62C0060EBCA /* AuthFeature */;
+			targetProxy = 08686A152DD1C0E300868C70 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		0858AB462DCFD62C0060EBCA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
@@ -204,6 +312,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -212,7 +321,8 @@
 		0858AB472DCFD62C0060EBCA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
@@ -371,6 +481,58 @@
 			};
 			name = Release;
 		};
+		08686A112DD1C08A00868C70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuthFeatureDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.AuthFeatureDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08686A122DD1C08A00868C70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AuthFeatureDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.AuthFeatureDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -392,7 +554,71 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		08686A102DD1C08A00868C70 /* Build configuration list for PBXNativeTarget "AuthFeatureDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08686A112DD1C08A00868C70 /* Debug */,
+				08686A122DD1C08A00868C70 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactorKit/ReactorKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+		086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+		08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08686A312DD1C48600868C70 /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		08686A332DD1C48C00868C70 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		08686A352DD1C49000868C70 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		08686A372DD1C49300868C70 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		08686A3A2DD1C78500868C70 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0858AB362DCFD62C0060EBCA /* Project object */;
 }

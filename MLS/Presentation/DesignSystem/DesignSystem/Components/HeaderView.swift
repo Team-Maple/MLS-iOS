@@ -18,7 +18,7 @@ public final class HeaderView: UIView {
     
     public let leftButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = DesignSystemAsset.image(named: "arrowLeft")
+        let image = DesignSystemAsset.image(named: "arrowLeft")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
@@ -26,7 +26,7 @@ public final class HeaderView: UIView {
 
     public let rightButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = DesignSystemAsset.image(named: "arrowRight")
+        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
