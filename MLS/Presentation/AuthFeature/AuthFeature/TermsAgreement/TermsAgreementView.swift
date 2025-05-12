@@ -83,7 +83,7 @@ public final class TermsAgreementView: UIView {
         return button
     }()
     
-    private let bottomButton: CommonButton = {
+    public let bottomButton: CommonButton = {
         let button = CommonButton(commonButtonType: .normal, normalTitle: "시작하기", disabledTitle: "시작하기")
         return button
     }()
