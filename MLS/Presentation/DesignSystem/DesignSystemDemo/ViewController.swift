@@ -8,21 +8,45 @@ import SnapKit
 
 class ViewController: UIViewController {
 
-    let checkButton = CheckButton(type: .small, title: "전체동의", subTitle: "(선택 약관 포함)")
-    let disposeBag = DisposeBag()
+    let tableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .plain)
+        return view
+    }()
 
+    let views: [UIViewController] = [
+        CheckButtonTestViewController(),
+        NavigationBarTestViewController(),
+        CommonButtonTestViewController()
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(checkButton)
-        checkButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(16)
-            make.center.equalToSuperview()
+        self.view.backgroundColor = .systemBackground
+        tableView.dataSource = self
+        tableView.delegate = self
+        navigationItem.title = "MLS Design System"
+        
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        checkButton.rx.tap
-            .withUnretained(self)
-            .subscribe { (owner, _) in
-                owner.checkButton.isSelected.toggle()
-            }
-            .disposed(by: disposeBag)
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return views.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = views[indexPath.row].title
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextController = views[indexPath.row]
+        navigationController?.pushViewController(nextController, animated: true)
     }
 }

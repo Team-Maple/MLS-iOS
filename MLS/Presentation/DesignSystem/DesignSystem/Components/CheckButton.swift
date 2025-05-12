@@ -5,41 +5,41 @@ internal import SnapKit
 public final class CheckButton: UIButton {
     // MARK: - Types
     public enum ButtonType {
-        case big
-        case small
+        case normal
+        case list
         
         public var spacing: CGFloat {
             switch self {
-            case .big:
+            case .normal:
                 return 16
-            case .small:
+            case .list:
                 return 10
             }
         }
         
         public var font: UIFont? {
             switch self {
-            case .big:
+            case .normal:
                 return .subTitleBold
-            case .small:
+            case .list:
                 return .body2
             }
         }
         
         public var verticalInset: CGFloat {
             switch self {
-            case .big:
+            case .normal:
                 return 16
-            case .small:
+            case .list:
                 return 10
             }
         }
         
         public var subtitleIsHidden: Bool {
             switch self {
-            case .big:
+            case .normal:
                 return false
-            case .small:
+            case .list:
                 return true
             }
         }
@@ -54,8 +54,19 @@ public final class CheckButton: UIButton {
 
     // MARK: - Properties
     private let type: ButtonType
-    public var title: String?
-    public var subTitle: String?
+    
+    public var title: String? {
+        didSet {
+            updateText()
+        }
+    }
+    
+    public var subTitle: String? {
+        didSet {
+            updateText()
+        }
+    }
+    
     public override var isSelected: Bool {
         didSet {
             updateTintColor()
@@ -75,7 +86,7 @@ public final class CheckButton: UIButton {
     }()
     
     private let checkIconImageView: UIImageView = {
-        let image = DesignSystemAsset.image(named: "checkicon")
+        let image = DesignSystemAsset.image(named: "checkicon")?.withRenderingMode(.alwaysTemplate)
         let view = UIImageView(image: image)
         return view
     }()
@@ -95,7 +106,7 @@ public final class CheckButton: UIButton {
     
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowForward")
+        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
@@ -154,17 +165,17 @@ private extension CheckButton {
 
     func configureUI() {
         updateTintColor()
-        buttonTitleLabel.text = title
+        updateText()
         buttonTitleLabel.font = type.font
-        buttonSubTitleLabel.text = subTitle
         buttonSubTitleLabel.isHidden = type.subtitleIsHidden
         
-        if type == .big {
+        if type == .normal {
             self.layer.cornerRadius = Constant.cornerRadius
             self.layer.borderColor = UIColor.neutral300.cgColor
             self.layer.borderWidth = 1
             self.clipsToBounds = true
             self.rightButton.isHidden = true
+            self.backgroundColor = .neutral100
         } else {
             self.layer.cornerRadius = 0
             self.layer.borderWidth = 0
@@ -174,5 +185,10 @@ private extension CheckButton {
     
     func updateTintColor() {
         checkIconImageView.tintColor = isSelected ? .primary : .neutral300
+    }
+    
+    func updateText() {
+        buttonTitleLabel.text = title
+        buttonSubTitleLabel.text = subTitle
     }
 }

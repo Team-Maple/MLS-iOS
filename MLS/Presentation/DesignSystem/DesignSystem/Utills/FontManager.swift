@@ -1,4 +1,6 @@
 import UIKit
+import os
+
 
 public class FontManager {
 
@@ -13,17 +15,17 @@ public class FontManager {
 
         fontNames.forEach { fontName in
             guard let fontURL = Bundle.designSystem.url(forResource: fontName, withExtension: "ttf") else {
-                print("Font file not found: \(fontName)")
+                os_log(.error, "Font file not found: \(fontName)")
                 return
             }
 
             var error: Unmanaged<CFError>?
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
-
+            
             if let error = error {
-                print("Error registering font: \(error.takeUnretainedValue())")
+                os_log(.error, "Error registering font: \(error.takeUnretainedValue())")
             } else {
-                print("\(fontName) registered successfully")
+                os_log(.error, "\(fontName) registered successfully")
             }
         }
     }
