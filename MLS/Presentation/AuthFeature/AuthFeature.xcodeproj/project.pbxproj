@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		0858ABF02DCFDA450060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
 		08686A132DD1C0E300868C70 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
-		08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */ 
+    {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08686A322DD1C48600868C70 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A312DD1C48600868C70 /* ReactorKit */; };
 		08686A342DD1C48C00868C70 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A332DD1C48C00868C70 /* RxSwift */; };
 		08686A362DD1C49000868C70 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A352DD1C49000868C70 /* RxCocoa */; };
