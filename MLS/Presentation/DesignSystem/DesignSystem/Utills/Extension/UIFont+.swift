@@ -3,7 +3,7 @@ import UIKit
 public extension UIFont {
     static let h1 = korFont(style: .bold, size: 32)
     static let h2 = korFont(style: .semiBold, size: 28)
-    static let h3 = korFont(style: .regular, size: 20)
+    static let h3 = korFont(style: .bold, size: 20)
     static let subTitle = korFont(style: .regular, size: 16)
     static let subTitleBold = korFont(style: .bold, size: 16)
     static let body = korFont(style: .regular, size: 16)

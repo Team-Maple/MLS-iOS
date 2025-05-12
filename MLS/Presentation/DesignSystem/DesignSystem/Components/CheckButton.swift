@@ -86,7 +86,7 @@ public final class CheckButton: UIButton {
     }()
     
     private let checkIconImageView: UIImageView = {
-        let image = DesignSystemAsset.image(named: "checkicon")
+        let image = DesignSystemAsset.image(named: "checkicon")?.withRenderingMode(.alwaysTemplate)
         let view = UIImageView(image: image)
         return view
     }()
@@ -106,7 +106,7 @@ public final class CheckButton: UIButton {
     
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowRight")
+        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button

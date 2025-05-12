@@ -1,5 +1,3 @@
-import Presentation
-
 import ReactorKit
 internal import RxSwift
 internal import RxCocoa
@@ -7,11 +5,26 @@ internal import RxCocoa
 public final class TermsAgreementReactor: Reactor {
     
     // MARK: - Reactor
-    public enum Action { }
+    public enum Action {
+        case backButtonTapped
+        case totalAgreeButtonTapped
+        case oldAgreeButtonTapped
+        case serviceTermsAgreeButtonTapped
+        case personalInformationAgreeButtonTapped
+        case marketingAgreeButtonTapped
+    }
     
-    public enum Mutation { }
+    public enum Mutation {
+        case setState
+    }
     
-    public struct State { }
+    public struct State {
+        var isTotalAgree: Bool = false
+        var isOldAgree: Bool = false
+        var isServiceTermsAgree: Bool = false
+        var isPersonalInformationAgree: Bool = false
+        var isMarketingAgree: Bool = false
+    }
     
     // MARK: - properties
     public var initialState: State
@@ -24,13 +37,34 @@ public final class TermsAgreementReactor: Reactor {
     
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action {
+        case .backButtonTapped:
+            return Observable.just(.setState)
+        case .totalAgreeButtonTapped:
+            print("Tapped")
+            return Observable.just(.setState)
+        case .oldAgreeButtonTapped:
+            print("Tapped")
+            return Observable.just(.setState)
+        case .serviceTermsAgreeButtonTapped:
+            print("Tapped")
+            return Observable.just(.setState)
+        case .personalInformationAgreeButtonTapped:
+            print("Tapped")
+            return Observable.just(.setState)
+        case .marketingAgreeButtonTapped:
+            print("Tapped")
+            return Observable.just(.setState)
+        }
     }
     
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        switch mutation { }
+        switch mutation {
+        case .setState:
+            return newState
+        }
         
         return newState
     }

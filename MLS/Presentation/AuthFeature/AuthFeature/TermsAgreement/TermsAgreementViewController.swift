@@ -44,5 +44,30 @@ private extension TermsAgreementViewController {
 }
 
 public extension TermsAgreementViewController {
-    func bind(reactor: Reactor) { }
+    func bind(reactor: Reactor) {
+        mainView.totalAgreeButton.rx.tap
+            .map { Reactor.Action.totalAgreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.oldAgreeButton.rx.tap
+            .map { Reactor.Action.oldAgreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.serviceTermsAgreeButton.rx.tap
+            .map { Reactor.Action.serviceTermsAgreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.personalInformationAgreeButton.rx.tap
+            .map { Reactor.Action.personalInformationAgreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.marketingAgreeButton.rx.tap
+            .map { Reactor.Action.marketingAgreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 }
