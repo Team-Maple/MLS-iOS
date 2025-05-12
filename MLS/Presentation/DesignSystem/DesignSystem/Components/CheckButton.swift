@@ -54,8 +54,19 @@ public final class CheckButton: UIButton {
 
     // MARK: - Properties
     private let type: ButtonType
-    public var title: String?
-    public var subTitle: String?
+    
+    public var title: String? {
+        didSet {
+            updateText()
+        }
+    }
+    
+    public var subTitle: String? {
+        didSet {
+            updateText()
+        }
+    }
+    
     public override var isSelected: Bool {
         didSet {
             updateTintColor()
@@ -95,7 +106,7 @@ public final class CheckButton: UIButton {
     
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowForward")
+        let image = DesignSystemAsset.image(named: "arrowRight")
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
@@ -154,9 +165,8 @@ private extension CheckButton {
 
     func configureUI() {
         updateTintColor()
-        buttonTitleLabel.text = title
+        updateText()
         buttonTitleLabel.font = type.font
-        buttonSubTitleLabel.text = subTitle
         buttonSubTitleLabel.isHidden = type.subtitleIsHidden
         
         if type == .big {
@@ -174,5 +184,10 @@ private extension CheckButton {
     
     func updateTintColor() {
         checkIconImageView.tintColor = isSelected ? .primary : .neutral300
+    }
+    
+    func updateText() {
+        buttonTitleLabel.text = title
+        buttonSubTitleLabel.text = subTitle
     }
 }
