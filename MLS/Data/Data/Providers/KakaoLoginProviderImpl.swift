@@ -13,40 +13,35 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
     }
 
     public init() {}
-
+    
+    /// 카카오에 요청을 보내서 access 토큰을 포함한 정보를 가져오는 함수
+    /// - Returns: accessToken + email
     public func getCredential() -> Observable<Credential> {
-        let observable = PublishSubject<Credential>()
+        return Observable.create { [weak self] observer in
 
-        if UserApi.isKakaoTalkLoginAvailable() {
-            // 카카오톡 설치되어있을때
-            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-                self.fetchEmail(oauthToken: oauthToken, error: error, observer: observable.asObserver())
+            let disposable = Disposables.create()
+
+            if UserApi.isKakaoTalkLoginAvailable() {
+                // 카카오톡이 설치되어있을때 (앱)
+                UserApi.shared.loginWithKakaoTalk { oauthToken, error in
+                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
+                }
+            } else {
+                // 카카오톡이 설치되어있지않을때 (웹)
+                UserApi.shared.loginWithKakaoAccount { oauthToken, error in
+                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
+                }
             }
-        } else {
-            // 카카오톡이 설치되어있지않을때
-            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
-                self.fetchEmail(oauthToken: oauthToken, error: error, observer: observable.asObserver())
-            }
+
+            return disposable
         }
-
-        return observable
-        
-//        return Observable.create { [weak self] observer in
-//            if UserApi.isKakaoTalkLoginAvailable() {
-//                // 카카오톡 설치되어있을때
-//                UserApi.shared.loginWithKakaoTalk { (oauthToken, error) in
-//                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
-//                }
-//            } else {
-//                // 카카오톡이 설치되어있지않을때
-//                UserApi.shared.loginWithKakaoAccount { (oauthToken, error) in
-//                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
-//                }
-//            }
-//            return Disposables.create()
-//        }
     }
-
+    
+    /// access 토큰을 이용하여 email 정보를 가져오는 함수
+    /// - Parameters:
+    ///   - oauthToken: accessToken을 포함한 OAuthToken
+    ///   - error: 발생한 에러
+    ///   - observer: Credential을 관리하는 스트림
     private func fetchEmail(oauthToken: OAuthToken?, error: Error?, observer: AnyObserver<Credential>) {
         if let error = error {
             observer.onError(error)

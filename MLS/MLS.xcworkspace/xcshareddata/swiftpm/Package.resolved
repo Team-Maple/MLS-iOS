@@ -1,5 +1,5 @@
 {
-  "originHash" : "72f43e00aedd85914f19519d7e5dd9bf4925e99402ba2f835080eda22f87bf5b",
+  "originHash" : "582bec4a3b5f47b5b2e650715eedf41f670e3abd94977516af0a226bbd3cdc68",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -16,7 +16,16 @@
       "location" : "https://github.com/kakao/kakao-ios-sdk",
       "state" : {
         "branch" : "master",
-        "revision" : "2c780b70d4197be3f72deee2fd82ea3e3b767007"
+        "revision" : "787763e335949dfad6b721aa04771e22d04e1493"
+      }
+    },
+    {
+      "identity" : "reactorkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactorKit/ReactorKit",
+      "state" : {
+        "revision" : "8fa33f09c6f6621a2aa536d739956d53b84dd139",
+        "version" : "3.2.0"
       }
     },
     {
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "weakmaptable",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactorKit/WeakMapTable.git",
+      "state" : {
+        "revision" : "cb05d64cef2bbf51e85c53adee937df46540a74e",
+        "version" : "1.2.1"
       }
     }
   ],

@@ -2,12 +2,12 @@ import UIKit
 
 import Data
 
-import RxSwift
 import RxCocoa
+import RxSwift
 
 class ViewController: UIViewController {
     let disposeBag = DisposeBag()
-    
+
     let button: UIButton = {
         let btn = UIButton()
         btn.backgroundColor = .red
@@ -33,26 +33,20 @@ class ViewController: UIViewController {
     }
 
     private func bindActions() {
-//        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
-        button.rx.tap
-            .withUnretained(self)
-            .subscribe { owner, _ in
-                let kakaoLoginProvider = KakaoLoginProviderImpl()
-                kakaoLoginProvider.getCredential()
-                    .subscribe(onNext: { credential in
-                        print("Credential received: \(credential)")
-                    }, onError: { error in
-                        print("Login error: \(error)")
-                    }, onDisposed: {
-                        print("Subscription disposed")
-                    })
-                    .disposed(by: owner.disposeBag)
-            }
-            .disposed(by: disposeBag)
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
     }
 
     @objc private func handleLogin() {
-            print("handleLogin called")
-            
-        }
+        print("handleLogin called")
+        let kakaoLoginProvider = KakaoLoginProviderImpl()
+        kakaoLoginProvider.getCredential()
+            .subscribe(onNext: { credential in
+                print("Credential received: \(credential)")
+            }, onError: { error in
+                print("Login error: \(error)")
+            }, onDisposed: {
+                print("Subscription disposed")
+            })
+            .disposed(by: disposeBag)
+    }
 }
