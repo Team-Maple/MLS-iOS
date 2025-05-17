@@ -48,8 +48,8 @@ public final class TermsAgreementView: UIView {
         return label
     }()
     
-    public let totalAgreeButton: CheckButton = {
-        let button = CheckButton(type: .normal, title: "전체동의", subTitle: "(선택 약관 포함)")
+    public let totalAgreeButton: CheckBoxButton = {
+        let button = CheckBoxButton(style: .normal, title: "전체동의", subTitle: "(선택 약관 포함)")
         return button
     }()
     
@@ -63,23 +63,23 @@ public final class TermsAgreementView: UIView {
         return view
     }()
     
-    public let oldAgreeButton: CheckButton = {
-        let button = CheckButton(type: .list, title: "(필수) 만 14세 이상", subTitle: nil)
+    public let oldAgreeButton: CheckBoxButton = {
+        let button = CheckBoxButton(style: .list, title: "(필수) 만 14세 이상", subTitle: nil)
         return button
     }()
     
-    public let serviceTermsAgreeButton: CheckButton = {
-        let button = CheckButton(type: .list, title: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
+    public let serviceTermsAgreeButton: CheckBoxButton = {
+        let button = CheckBoxButton(style: .list, title: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
         return button
     }()
     
-    public let personalInformationAgreeButton: CheckButton = {
-        let button = CheckButton(type: .list, title: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
+    public let personalInformationAgreeButton: CheckBoxButton = {
+        let button = CheckBoxButton(style: .list, title: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
         return button
     }()
     
-    public let marketingAgreeButton: CheckButton = {
-        let button = CheckButton(type: .list, title: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
+    public let marketingAgreeButton: CheckBoxButton = {
+        let button = CheckBoxButton(style: .list, title: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
         return button
     }()
     

@@ -14,7 +14,7 @@ class ViewController: UIViewController {
     }()
 
     let views: [UIViewController] = [
-        CheckButtonTestViewController(),
+        CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
         CommonButtonTestViewController()
     ]
