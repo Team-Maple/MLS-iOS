@@ -1,20 +1,24 @@
 import UIKit
 
 extension NSAttributedString {
-    static func makeCustomFontString(font: UIFont?, text: String?, color: UIColor? = .textColor) -> NSAttributedString? {
-        guard let text, let color else { return nil }
+    static func makeStyledString(
+        font: UIFont?,
+        text: String?,
+        color: UIColor? = .textColor,
+        alignment: NSTextAlignment = .center,
+        lineHeight: CGFloat = 1.4
+    ) -> NSAttributedString? {
+        guard let text, let color, let font else { return nil }
         let paragraphStyle = NSMutableParagraphStyle()
-        if let lineHeight = font?.lineHeight {
-            paragraphStyle.minimumLineHeight = lineHeight * 1.4
-            paragraphStyle.maximumLineHeight = lineHeight * 1.4
-        }
-        paragraphStyle.alignment = .center
+        paragraphStyle.minimumLineHeight = font.lineHeight * lineHeight
+        paragraphStyle.maximumLineHeight = font.lineHeight * lineHeight
+        paragraphStyle.alignment = alignment
         
         let attributedString = NSAttributedString(
             string: text,
             attributes: [
-                .underlineStyle: NSUnderlineStyle.single.rawValue,
-                .underlineColor: color,
+                .font: font,
+                .foregroundColor: color,
                 .paragraphStyle: paragraphStyle
             ]
         )
