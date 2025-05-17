@@ -2,20 +2,11 @@ import UIKit
 
 internal import SnapKit
 
-public final class CheckButton: UIButton {
+public final class CheckBoxButton: UIButton {
     // MARK: - Types
-    public enum ButtonType {
+    public enum CheckBoxButtonStyle {
         case normal
         case list
-        
-        public var spacing: CGFloat {
-            switch self {
-            case .normal:
-                return 16
-            case .list:
-                return 10
-            }
-        }
         
         public var font: UIFont? {
             switch self {
@@ -50,12 +41,13 @@ public final class CheckButton: UIButton {
         static let cornerRadius: CGFloat = 6
         static let horizontalInset: CGFloat = 20
         static let labelSpacing: CGFloat = 4
+        static let spacing: CGFloat = 8
     }
 
     // MARK: - Properties
-    private let type: ButtonType
+    private let style: CheckBoxButtonStyle
     
-    public var title: String? {
+    public var mainTitle: String? {
         didSet {
             updateText()
         }
@@ -76,14 +68,11 @@ public final class CheckButton: UIButton {
     private lazy var contentStackView: UIStackView = { [weak self] in
         let view = UIStackView()
         view.isUserInteractionEnabled = false
-        view.spacing = self?.type.spacing ?? 0
+        view.spacing = Constant.spacing
         return view
     }()
     
-    private let labelTrailingView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    private let labelTrailingView: UIView = UIView()
     
     private let checkIconImageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "checkicon")?.withRenderingMode(.alwaysTemplate)
@@ -91,18 +80,9 @@ public final class CheckButton: UIButton {
         return view
     }()
     
-    private let buttonTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .textColor
-        return label
-    }()
+    private let buttonTitleLabel: UILabel = UILabel()
     
-    private let buttonSubTitleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .textColor
-        label.font = .body
-        return label
-    }()
+    private let buttonSubTitleLabel: UILabel = UILabel()
     
     public let rightButton: UIButton = {
         let button = UIButton()
@@ -113,9 +93,9 @@ public final class CheckButton: UIButton {
     }()
     
     // MARK: - init
-    public init(type: ButtonType, title: String?, subTitle: String?) {
-        self.type = type
-        self.title = title
+    public init(style: CheckBoxButtonStyle, mainTitle: String?, subTitle: String?) {
+        self.style = style
+        self.mainTitle = mainTitle
         self.subTitle = subTitle
         super.init(frame: .zero)
         self.addViews()
@@ -129,7 +109,7 @@ public final class CheckButton: UIButton {
 }
 
 // MARK: - SetUp
-private extension CheckButton {
+private extension CheckBoxButton {
     func addViews() {
         self.addSubview(contentStackView)
         labelTrailingView.addSubview(buttonTitleLabel)
@@ -144,7 +124,7 @@ private extension CheckButton {
     func setupContstraints() {
         contentStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
-            make.verticalEdges.equalToSuperview().inset(type.verticalInset)
+            make.verticalEdges.equalToSuperview().inset(style.verticalInset)
         }
         checkIconImageView.snp.makeConstraints { make in
             make.size.equalTo(Constant.imageSize)
@@ -166,10 +146,10 @@ private extension CheckButton {
     func configureUI() {
         updateTintColor()
         updateText()
-        buttonTitleLabel.font = type.font
-        buttonSubTitleLabel.isHidden = type.subtitleIsHidden
+        buttonTitleLabel.font = style.font
+        buttonSubTitleLabel.isHidden = style.subtitleIsHidden
         
-        if type == .normal {
+        if style == .normal {
             self.layer.cornerRadius = Constant.cornerRadius
             self.layer.borderColor = UIColor.neutral300.cgColor
             self.layer.borderWidth = 1
@@ -188,7 +168,7 @@ private extension CheckButton {
     }
     
     func updateText() {
-        buttonTitleLabel.text = title
-        buttonSubTitleLabel.text = subTitle
+        buttonTitleLabel.attributedText = .makeStyledString(font: style.font, text: mainTitle)
+        buttonSubTitleLabel.attributedText = .makeStyledString(font: .body, text: subTitle)
     }
 }

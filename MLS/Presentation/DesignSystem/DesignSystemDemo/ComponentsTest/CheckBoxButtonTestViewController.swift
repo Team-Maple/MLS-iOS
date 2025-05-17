@@ -6,11 +6,11 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-final class CheckButtonTestViewController: UIViewController {
+final class CheckBoxButtonTestViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
-    private var bigCheckButton = CheckButton(type: .normal, title: nil, subTitle: nil)
-    private var smallCheckButton = CheckButton(type: .list, title: nil, subTitle: nil)
+    private var bigCheckButton = CheckBoxButton(style: .normal, mainTitle: nil, subTitle: nil)
+    private var smallCheckButton = CheckBoxButton(style: .list, mainTitle: nil, subTitle: nil)
     
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["normal", "list"]
@@ -51,7 +51,7 @@ final class CheckButtonTestViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        self.title = "CheckButton"
+        self.title = "CheckBoxButton"
     }
     
     required init?(coder: NSCoder) {
@@ -61,7 +61,7 @@ final class CheckButtonTestViewController: UIViewController {
 }
 
 // MARK: - Life Cycle
-extension CheckButtonTestViewController {
+extension CheckBoxButtonTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
@@ -72,7 +72,7 @@ extension CheckButtonTestViewController {
 }
 
 // MARK: - SetUp
-private extension CheckButtonTestViewController {
+private extension CheckBoxButtonTestViewController {
     func addViews() {
         view.addSubview(bigCheckButton)
         view.addSubview(smallCheckButton)
@@ -147,8 +147,8 @@ private extension CheckButtonTestViewController {
         mainTitleTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
-                owner.bigCheckButton.title = text
-                owner.smallCheckButton.title = text
+                owner.bigCheckButton.mainTitle = text
+                owner.smallCheckButton.mainTitle = text
             }
             .disposed(by: disposeBag)
         

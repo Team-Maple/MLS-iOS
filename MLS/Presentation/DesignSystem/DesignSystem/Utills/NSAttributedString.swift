@@ -6,11 +6,11 @@ extension NSAttributedString {
         text: String?,
         color: UIColor? = .textColor,
         alignment: NSTextAlignment = .center,
-        lineHeight: CGFloat = 1.4
+        lineHeight: CGFloat = 1.17
     ) -> NSAttributedString? {
         guard let text, let color, let font else { return nil }
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.minimumLineHeight = font.lineHeight * lineHeight
+        paragraphStyle.minimumLineHeight = 0
         paragraphStyle.maximumLineHeight = font.lineHeight * lineHeight
         paragraphStyle.alignment = alignment
         
