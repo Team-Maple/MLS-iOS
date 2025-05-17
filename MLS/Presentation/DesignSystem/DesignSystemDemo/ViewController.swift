@@ -16,7 +16,8 @@ class ViewController: UIViewController {
     let views: [UIViewController] = [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
-        CommonButtonTestViewController()
+        CommonButtonTestViewController(),
+        InputBoxTextViewController()
     ]
     
     override func viewDidLoad() {
