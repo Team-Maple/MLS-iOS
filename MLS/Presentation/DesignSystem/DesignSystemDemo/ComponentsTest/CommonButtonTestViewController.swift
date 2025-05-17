@@ -8,8 +8,8 @@ final class CommonButtonTestViewController: UIViewController {
     
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private let commonButton = CommonButton(commonButtonType: .normal, normalTitle: "NormalTitle", disabledTitle: "DisabledTitle")
-    private let textButton = CommonButton(commonButtonType: .text, normalTitle: "NormalTitle", disabledTitle: "DisabledTitle")
+    private let commonButton = CommonButton(style: .normal, title: "NormalTitle", disabledTitle: "DisabledTitle")
+    private let textButton = CommonButton(style: .text, title: "NormalTitle", disabledTitle: "DisabledTitle")
     
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["normal", "text"]

@@ -4,21 +4,32 @@ internal import SnapKit
 
 public final class CommonButton: UIButton {
     // MARK: - Type
-    public enum CommonButtonType {
+    public enum CommonButtonStyle {
         case normal
         case text
+        
+        public var height: CGFloat {
+            switch self {
+            case .normal:
+                return 54
+            case .text:
+                return 44
+            }
+        }
     }
     private struct Constant {
-        static let height: CGFloat = 48
+        static let height: CGFloat = 54
+        static let normalStyleCornerRadius: CGFloat = 8
+        static let textLineHeight: CGFloat = 1.2
     }
     // MARK: - Properties
-    private let commonButtonType: CommonButtonType
+    private let style: CommonButtonStyle
     
     // MARK: - init
-    public init(commonButtonType: CommonButtonType, normalTitle: String?, disabledTitle: String?) {
-        self.commonButtonType = commonButtonType
+    public init(style: CommonButtonStyle, title: String?, disabledTitle: String?) {
+        self.style = style
         super.init(frame: .zero)
-        self.configureUI(normalTitle: normalTitle, disabledTitle: disabledTitle)
+        self.configureUI(title: title, disabledTitle: disabledTitle)
     }
     
     required init?(coder: NSCoder) {
@@ -28,31 +39,31 @@ public final class CommonButton: UIButton {
 
 // MARK: - SetUp
 private extension CommonButton {
-    func configureUI(normalTitle: String?, disabledTitle: String?) {
+    func configureUI(title: String?, disabledTitle: String?) {
         
-        switch commonButtonType {
+        switch style {
         case .normal:
-            self.setTitle(normalTitle, for: .normal)
-            self.setTitle(disabledTitle, for: .disabled)
-            self.titleLabel?.font = .subTitleBold
+            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: title, color: .white), for: .normal)
+            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: disabledTitle, color: .white), for: .disabled)
             self.setBackgroundImage(UIImage.fromColor(.primary700), for: .normal)
             self.setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
-            self.layer.cornerRadius = 8
+            self.layer.cornerRadius = Constant.normalStyleCornerRadius
             self.clipsToBounds = true
-            self.snp.makeConstraints { make in make.height.equalTo(Constant.height) }
+            self.snp.makeConstraints { make in make.height.equalTo(style.height) }
         case .text:
             self.titleLabel?.font = .caption
-            if let textButtonTitle = normalTitle,
+            if let textButtonTitle = title,
                let disabledTitle = disabledTitle,
                let lineHeight = UIFont.caption?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.minimumLineHeight = lineHeight * 1.2
-                paragraphStyle.maximumLineHeight = lineHeight * 1.2
+                paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
+                paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.alignment = .center
                 
                 let enabledAttributedString = NSAttributedString(
                     string: textButtonTitle,
                     attributes: [
+                        .foregroundColor: UIColor.neutral700,
                         .underlineStyle: NSUnderlineStyle.single.rawValue,
                         .underlineColor: UIColor.neutral700,
                         .paragraphStyle: paragraphStyle
@@ -61,13 +72,12 @@ private extension CommonButton {
                 let disabledAttributedString = NSAttributedString(
                     string: disabledTitle,
                     attributes: [
+                        .foregroundColor: UIColor.neutral700,
                         .underlineStyle: NSUnderlineStyle.single.rawValue,
                         .underlineColor: UIColor.neutral700,
                         .paragraphStyle: paragraphStyle
                     ]
                 )
-                self.setTitleColor(.neutral700, for: .normal)
-                self.setTitleColor(.neutral700, for: .disabled)
                 self.setAttributedTitle(enabledAttributedString, for: .normal)
                 self.setAttributedTitle(disabledAttributedString, for: .disabled)
             }
