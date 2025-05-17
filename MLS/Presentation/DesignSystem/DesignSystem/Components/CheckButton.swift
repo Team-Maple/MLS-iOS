@@ -184,7 +184,7 @@ private extension CheckButton {
     }
     
     func updateTintColor() {
-        checkIconImageView.tintColor = isSelected ? .primary : .neutral300
+        checkIconImageView.tintColor = isSelected ? .primary700 : .neutral300
     }
     
     func updateText() {

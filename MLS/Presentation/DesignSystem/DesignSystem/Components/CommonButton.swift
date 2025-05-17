@@ -35,7 +35,7 @@ private extension CommonButton {
             self.setTitle(normalTitle, for: .normal)
             self.setTitle(disabledTitle, for: .disabled)
             self.titleLabel?.font = .subTitleBold
-            self.setBackgroundImage(UIImage.fromColor(.primary), for: .normal)
+            self.setBackgroundImage(UIImage.fromColor(.primary700), for: .normal)
             self.setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
             self.layer.cornerRadius = 8
             self.clipsToBounds = true
