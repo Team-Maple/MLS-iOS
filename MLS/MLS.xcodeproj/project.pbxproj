@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		0801759F2DCD27E600D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801759E2DCD27E600D0919F /* DomainInterface.framework */; };
 		080175A02DCD27E600D0919F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801759E2DCD27E600D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		084A25332DB93A5400C395C0 /* Presentation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25322DB93A5400C395C0 /* Presentation.framework */; };
-		084A25342DB93A5400C395C0 /* Presentation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25322DB93A5400C395C0 /* Presentation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25512DB93BC500C395C0 /* Domain.framework */; };
 		084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25512DB93BC500C395C0 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		084A25552DB93BC800C395C0 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25542DB93BC800C395C0 /* Data.framework */; };
@@ -51,7 +49,6 @@
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
 				0858ABFD2DCFDBF20060EBCA /* DesignSystem.framework in Embed Frameworks */,
 				084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */,
-				084A25342DB93A5400C395C0 /* Presentation.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,7 +118,6 @@
 				084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */,
 				77660AD72DD0D3DD007A4EF3 /* KakaoSDKUser in Frameworks */,
 				08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */,
-				084A25332DB93A5400C395C0 /* Presentation.framework in Frameworks */,
 				08ED4DB12DCFE098002C21A2 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
