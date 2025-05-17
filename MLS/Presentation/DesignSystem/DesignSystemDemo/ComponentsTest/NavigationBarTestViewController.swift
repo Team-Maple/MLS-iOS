@@ -11,8 +11,8 @@ final class NavigationBarTestViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     
-    private let headerView: NavigationBarView = {
-        let view = NavigationBarView(textButtonTitle: "TextButton")
+    private let headerView: NavigationBar = {
+        let view = NavigationBar(textButtonTitle: "TextButton")
         return view
     }()
     

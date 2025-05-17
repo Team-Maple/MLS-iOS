@@ -19,8 +19,8 @@ public final class TermsAgreementView: UIView {
     }
     
     // MARK: - Properties
-    private let headerView: NavigationBarView = {
-        let view = NavigationBarView()
+    private let headerView: NavigationBar = {
+        let view = NavigationBar()
         view.rightButton.isHidden = true
         return view
     }()
