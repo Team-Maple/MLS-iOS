@@ -11,19 +11,11 @@ public final class InputBox: UIStackView {
     }
     
     private var labelText: String?
-    
     private var placeHodler: String?
     
     // MARK: - Components
-    public let label: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-    
-    public let textField: UITextField = {
-        let tf = UITextField()
-        return tf
-    }()
+    public let label = UILabel()
+    public let textField = UITextField()
     
     private lazy var borderView: UIView = {
         let view = UIView()
