@@ -17,7 +17,8 @@ class ViewController: UIViewController {
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
         CommonButtonTestViewController(),
-        InputBoxTextViewController()
+        InputBoxTextViewController(),
+        DropDownBoxTextViewController()
     ]
     
     override func viewDidLoad() {

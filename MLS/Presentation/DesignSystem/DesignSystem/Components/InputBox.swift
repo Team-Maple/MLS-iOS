@@ -11,30 +11,21 @@ public final class InputBox: UIStackView {
     }
     
     private var labelText: String?
-    
     private var placeHodler: String?
     
     // MARK: - Components
-    public let label: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+    public let label = UILabel()
+    public let textField = UITextField()
     
-    public let textField: UITextField = {
-        let tf = UITextField()
-        return tf
-    }()
-    
-    private lazy var borderView: UIView = {
+    public lazy var borderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
         view.addSubview(textField)
         
         textField.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(16)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(24)
+            make.verticalEdges.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
         return view
     }()
@@ -71,9 +62,16 @@ private extension InputBox {
         textField.attributedPlaceholder = .makeStyledString(font: .body, text: placeHolder, color: .neutral500, alignment: .left)
     }
     
+    func setupConstaraints() {
+        borderView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+        }
+    }
+    
     func configureUI(label: String?) {
         setupStackView()
         setupLabel(label: label)
+        setupConstaraints()
     }
     
     func setBorderColor() {
