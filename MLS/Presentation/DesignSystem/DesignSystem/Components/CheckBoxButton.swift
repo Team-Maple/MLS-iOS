@@ -52,15 +52,6 @@ public final class CheckBoxButton: UIButton {
                 return 0
             }
         }
-        
-        public var borderWidth: CGFloat {
-            switch self {
-            case .normal:
-                return 1
-            case .list:
-                return 0
-            }
-        }
     }
     
     private struct Constant {
@@ -176,11 +167,9 @@ private extension CheckBoxButton {
         buttonSubTitleLabel.isHidden = style.subtitleIsHidden
         
         self.layer.cornerRadius = style.cornerRadius
-        self.layer.borderWidth = style.borderWidth
         self.rightButton.isHidden = style.rightButtonIsHidden
         
         if style == .normal {
-            self.layer.borderColor = UIColor.neutral300.cgColor
             self.clipsToBounds = true
             self.backgroundColor = .neutral100
         }
