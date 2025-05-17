@@ -22,7 +22,7 @@ public final class CheckButton: UIButton {
             case .normal:
                 return .subTitleBold
             case .list:
-                return .body2
+                return .caption
             }
         }
         

@@ -41,10 +41,10 @@ private extension CommonButton {
             self.clipsToBounds = true
             self.snp.makeConstraints { make in make.height.equalTo(Constant.height) }
         case .text:
-            self.titleLabel?.font = .body2
+            self.titleLabel?.font = .caption
             if let textButtonTitle = normalTitle,
                let disabledTitle = disabledTitle,
-               let lineHeight = UIFont.body2?.lineHeight {
+               let lineHeight = UIFont.caption?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * 1.2
                 paragraphStyle.maximumLineHeight = lineHeight * 1.2
