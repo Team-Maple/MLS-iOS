@@ -1,12 +1,12 @@
 import UIKit
 
 extension NSAttributedString {
-    static func makeStyledString(
+    public static func makeStyledString(
         font: UIFont?,
         text: String?,
         color: UIColor? = .textColor,
         alignment: NSTextAlignment = .center,
-        lineHeight: CGFloat = 1.4
+        lineHeight: CGFloat = 1.17
     ) -> NSAttributedString? {
         guard let text, let color, let font else { return nil }
         let paragraphStyle = NSMutableParagraphStyle()

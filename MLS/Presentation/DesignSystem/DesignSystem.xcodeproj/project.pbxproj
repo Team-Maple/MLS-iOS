@@ -11,9 +11,9 @@
 		0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3C2DD1C8F400868C70 /* SnapKit */; };
 		08686A702DD1E70500868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A6F2DD1E70500868C70 /* SnapKit */; };
-		08ED4DD02DCFF891002C21A2 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DCF2DCFF891002C21A2 /* RxCocoa */; };
 		08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD12DCFF895002C21A2 /* RxRelay */; };
 		08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD32DCFF899002C21A2 /* RxSwift */; };
+		77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77A33E942DD89FB800F14EC1 /* RxCocoa */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,9 +102,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08ED4DD02DCFF891002C21A2 /* RxCocoa in Frameworks */,
 				0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */,
 				08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */,
+				77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */,
 				08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */,
 				08686A702DD1E70500868C70 /* SnapKit in Frameworks */,
 			);
@@ -195,10 +195,10 @@
 			);
 			name = DesignSystemDemo;
 			packageProductDependencies = (
-				08ED4DCF2DCFF891002C21A2 /* RxCocoa */,
 				08ED4DD12DCFF895002C21A2 /* RxRelay */,
 				08ED4DD32DCFF899002C21A2 /* RxSwift */,
 				08686A6F2DD1E70500868C70 /* SnapKit */,
+				77A33E942DD89FB800F14EC1 /* RxCocoa */,
 			);
 			productName = DesignSystemDemo;
 			productReference = 0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */;
@@ -618,11 +618,6 @@
 			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		08ED4DCF2DCFF891002C21A2 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
 		08ED4DD12DCFF895002C21A2 /* RxRelay */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
@@ -632,6 +627,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		77A33E942DD89FB800F14EC1 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
