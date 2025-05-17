@@ -18,7 +18,8 @@ class ViewController: UIViewController {
         NavigationBarTestViewController(),
         CommonButtonTestViewController(),
         InputBoxTextViewController(),
-        DropDownBoxTextViewController()
+        DropDownBoxTextViewController(),
+        ToastMakerTestViewController(),
     ]
     
     override func viewDidLoad() {
