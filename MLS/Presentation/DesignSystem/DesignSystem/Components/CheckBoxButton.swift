@@ -34,11 +34,37 @@ public final class CheckBoxButton: UIButton {
                 return true
             }
         }
+        
+        public var rightButtonIsHidden: Bool {
+            switch self {
+            case .normal:
+                return true
+            case .list:
+                return false
+            }
+        }
+        
+        public var cornerRadius: CGFloat {
+            switch self {
+            case .normal:
+                return 6
+            case .list:
+                return 0
+            }
+        }
+        
+        public var borderWidth: CGFloat {
+            switch self {
+            case .normal:
+                return 1
+            case .list:
+                return 0
+            }
+        }
     }
     
     private struct Constant {
         static let imageSize: CGFloat = 24
-        static let cornerRadius: CGFloat = 6
         static let horizontalInset: CGFloat = 20
         static let labelSpacing: CGFloat = 4
         static let spacing: CGFloat = 8
@@ -149,17 +175,14 @@ private extension CheckBoxButton {
         buttonTitleLabel.font = style.font
         buttonSubTitleLabel.isHidden = style.subtitleIsHidden
         
+        self.layer.cornerRadius = style.cornerRadius
+        self.layer.borderWidth = style.borderWidth
+        self.rightButton.isHidden = style.rightButtonIsHidden
+        
         if style == .normal {
-            self.layer.cornerRadius = Constant.cornerRadius
             self.layer.borderColor = UIColor.neutral300.cgColor
-            self.layer.borderWidth = 1
             self.clipsToBounds = true
-            self.rightButton.isHidden = true
             self.backgroundColor = .neutral100
-        } else {
-            self.layer.cornerRadius = 0
-            self.layer.borderWidth = 0
-            self.rightButton.isHidden = false
         }
     }
     
