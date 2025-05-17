@@ -22,7 +22,7 @@ public final class CheckButton: UIButton {
             case .normal:
                 return .subTitleBold
             case .list:
-                return .body2
+                return .caption
             }
         }
         
@@ -184,7 +184,7 @@ private extension CheckButton {
     }
     
     func updateTintColor() {
-        checkIconImageView.tintColor = isSelected ? .primary : .neutral300
+        checkIconImageView.tintColor = isSelected ? .primary700 : .neutral300
     }
     
     func updateText() {

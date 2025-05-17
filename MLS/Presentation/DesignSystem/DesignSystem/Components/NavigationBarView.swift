@@ -35,7 +35,7 @@ public final class NavigationBarView: UIView {
     public let textButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .neutral700
-        button.titleLabel?.font = .body2
+        button.titleLabel?.font = .body
         return button
     }()
     
@@ -58,7 +58,7 @@ public final class NavigationBarView: UIView {
 // MARK: - SetUp
 private extension NavigationBarView {
     func setupButtonTitle(textButtonTitle: String?) {
-        if let textButtonTitle = textButtonTitle, let lineHeight = UIFont.body2?.lineHeight {
+        if let textButtonTitle = textButtonTitle, let lineHeight = UIFont.caption?.lineHeight {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.minimumLineHeight = lineHeight * 1.2
             paragraphStyle.maximumLineHeight = lineHeight * 1.2

@@ -35,16 +35,16 @@ private extension CommonButton {
             self.setTitle(normalTitle, for: .normal)
             self.setTitle(disabledTitle, for: .disabled)
             self.titleLabel?.font = .subTitleBold
-            self.setBackgroundImage(UIImage.fromColor(.primary), for: .normal)
+            self.setBackgroundImage(UIImage.fromColor(.primary700), for: .normal)
             self.setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
             self.layer.cornerRadius = 8
             self.clipsToBounds = true
             self.snp.makeConstraints { make in make.height.equalTo(Constant.height) }
         case .text:
-            self.titleLabel?.font = .body2
+            self.titleLabel?.font = .caption
             if let textButtonTitle = normalTitle,
                let disabledTitle = disabledTitle,
-               let lineHeight = UIFont.body2?.lineHeight {
+               let lineHeight = UIFont.caption?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * 1.2
                 paragraphStyle.maximumLineHeight = lineHeight * 1.2
