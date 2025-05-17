@@ -6,17 +6,11 @@ import SnapKit
 import RxCocoa
 import RxSwift
 
-final class InputBoxTextViewController: UIViewController {
+final class DropDownBoxTextViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
-    private var inputBox = InputBox(label: "label", placeHodler: "placeHolder")
-    
-    private let typeSegmentControl: UISegmentedControl = {
-        let items = ["edit", "error"]
-        let control = UISegmentedControl(items: items)
-        control.selectedSegmentIndex = 0
-        return control
-    }()
+    private var dropDownBox = DropDownBox(menus: ["1", "2"])
+    private lazy var inputBox = dropDownBox.inputBox
     
     private let labelTextField: UITextField = {
         let view = UITextField()
@@ -36,12 +30,13 @@ final class InputBoxTextViewController: UIViewController {
         return view
     }()
     
-    private let textTextField: UITextField = {
+    private let countTextField: UITextField = {
         let view = UITextField()
-        view.placeholder = "text"
-        view.text = "text"
+        view.placeholder = "count"
+        view.text = "4"
         view.layer.borderColor = UIColor.gray.cgColor
         view.layer.borderWidth = 1
+        view.keyboardType = .numberPad
         return view
     }()
     
@@ -57,15 +52,15 @@ final class InputBoxTextViewController: UIViewController {
         return label
     }()
     
-    private let textTextLabel: UILabel = {
+    private let countTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "text"
+        label.text = "메뉴개수"
         return label
     }()
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        self.title = "InputBox"
+        self.title = "DropDownBox"
     }
     
     required init?(coder: NSCoder) {
@@ -75,7 +70,7 @@ final class InputBoxTextViewController: UIViewController {
 }
 
 // MARK: - Life Cycle
-extension InputBoxTextViewController {
+extension DropDownBoxTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
@@ -86,30 +81,24 @@ extension InputBoxTextViewController {
 }
 
 // MARK: - SetUp
-private extension InputBoxTextViewController {
+private extension DropDownBoxTextViewController {
     func addViews() {
-        view.addSubview(inputBox)
-        view.addSubview(typeSegmentControl)
         view.addSubview(labelTextLabel)
         view.addSubview(labelTextField)
         view.addSubview(placeHolderTextLabel)
         view.addSubview(placeHolderTextField)
-        view.addSubview(textTextLabel)
-        view.addSubview(textTextField)
+        view.addSubview(countTextLabel)
+        view.addSubview(countTextField)
+        view.addSubview(dropDownBox)
     }
 
     func setupContstraints() {
-        inputBox.snp.makeConstraints { make in
+        dropDownBox.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
         
-        typeSegmentControl.snp.makeConstraints { make in
-            make.top.equalTo(inputBox.snp.bottom).offset(30)
-            make.horizontalEdges.equalToSuperview().inset(16)
-        }
-        
         labelTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
+            make.top.equalTo(dropDownBox.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
         
@@ -128,13 +117,13 @@ private extension InputBoxTextViewController {
             make.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        textTextLabel.snp.makeConstraints { make in
+        countTextLabel.snp.makeConstraints { make in
             make.top.equalTo(placeHolderTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
         
-        textTextField.snp.makeConstraints { make in
-            make.top.equalTo(textTextLabel.snp.bottom).offset(10)
+        countTextField.snp.makeConstraints { make in
+            make.top.equalTo(countTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
     }
@@ -144,17 +133,6 @@ private extension InputBoxTextViewController {
     }
     
     func bind() {
-        typeSegmentControl.rx.selectedSegmentIndex
-            .withUnretained(self)
-            .subscribe { (owner, index) in
-                if index == 0 {
-                    owner.inputBox.setType(type: .edit)
-                } else {
-                    owner.inputBox.setType(type: .error)
-                }
-            }
-            .disposed(by: disposeBag)
-        
         labelTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, text in
@@ -169,10 +147,14 @@ private extension InputBoxTextViewController {
             }
             .disposed(by: disposeBag)
         
-        textTextField.rx.text
+        countTextField.rx.text
             .withUnretained(self)
-            .subscribe { (owner, text) in
-                owner.inputBox.textField.attributedText = .makeStyledString(font: .body, text: text, alignment: .left)
+            .subscribe { (owner, count) in
+                guard let count = Int(count ?? "") else { return }
+                owner.dropDownBox.menus = []
+                for index in 1...count {
+                    owner.dropDownBox.menus.append("메뉴\(index)")
+                }
             }
             .disposed(by: disposeBag)
     }
