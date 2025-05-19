@@ -53,7 +53,6 @@ private extension CommonButton {
         case .text:
             self.titleLabel?.font = .caption
             if let textButtonTitle = title,
-               let disabledTitle = disabledTitle,
                let lineHeight = UIFont.caption?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
@@ -69,17 +68,20 @@ private extension CommonButton {
                         .paragraphStyle: paragraphStyle
                     ]
                 )
-                let disabledAttributedString = NSAttributedString(
-                    string: disabledTitle,
-                    attributes: [
-                        .foregroundColor: UIColor.neutral700,
-                        .underlineStyle: NSUnderlineStyle.single.rawValue,
-                        .underlineColor: UIColor.neutral700,
-                        .paragraphStyle: paragraphStyle
-                    ]
-                )
                 self.setAttributedTitle(enabledAttributedString, for: .normal)
-                self.setAttributedTitle(disabledAttributedString, for: .disabled)
+                
+                if let disabledTitle = disabledTitle {
+                    let disabledAttributedString = NSAttributedString(
+                        string: disabledTitle,
+                        attributes: [
+                            .foregroundColor: UIColor.neutral700,
+                            .underlineStyle: NSUnderlineStyle.single.rawValue,
+                            .underlineColor: UIColor.neutral700,
+                            .paragraphStyle: paragraphStyle
+                        ]
+                    )
+                    self.setAttributedTitle(disabledAttributedString, for: .disabled)
+                }
             }
         }
     }

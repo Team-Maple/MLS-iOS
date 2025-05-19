@@ -1,6 +1,5 @@
 import ReactorKit
 internal import RxSwift
-internal import RxCocoa
 
 public final class TermsAgreementReactor: Reactor {
     
