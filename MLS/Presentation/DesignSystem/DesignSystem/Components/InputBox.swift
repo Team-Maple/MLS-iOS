@@ -94,7 +94,7 @@ public extension InputBox {
             case .edit:
                 return .neutral300
             case .error:
-                return .error
+                return .error900
             }
         }
     }
