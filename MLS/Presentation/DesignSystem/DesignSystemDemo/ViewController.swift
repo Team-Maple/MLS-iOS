@@ -20,6 +20,7 @@ class ViewController: UIViewController {
         InputBoxTextViewController(),
         DropDownBoxTextViewController(),
         ToastMakerTestViewController(),
+        ErrorMessageTextViewController(),
     ]
     
     override func viewDidLoad() {
