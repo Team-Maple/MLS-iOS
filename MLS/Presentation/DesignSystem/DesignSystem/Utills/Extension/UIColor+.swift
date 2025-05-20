@@ -19,8 +19,8 @@ public extension UIColor {
     static let neutral200 = UIColor(hexCode: "E9E9E9")
     static let neutral100 = UIColor(hexCode: "F5F5F5")
     
-    static let white = UIColor(hexCode: "FFFFFF")
-    static let clear = UIColor(hexCode: "FFFFFF", alpha: 0)
+    static let white0 = UIColor(hexCode: "FFFFFF")
+    static let clear0 = UIColor(hexCode: "FFFFFF", alpha: 0)
     static let error900 = UIColor(hexCode: "FF4B4B")
     static let error100 = UIColor(hexCode: "FFEFEF")
     static let success = UIColor(hexCode: "15CC00")
