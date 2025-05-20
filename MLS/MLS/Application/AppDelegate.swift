@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import Core
 import Data
 import DesignSystem

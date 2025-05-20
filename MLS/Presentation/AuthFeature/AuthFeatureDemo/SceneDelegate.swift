@@ -2,6 +2,7 @@ import UIKit
 
 import AuthFeature
 import AuthFeatureInterface
+import BaseFeature
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
