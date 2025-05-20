@@ -35,7 +35,7 @@ extension CommonButtonTestViewController {
         super.viewDidLoad()
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
         self.bind()
     }
@@ -50,7 +50,7 @@ private extension CommonButtonTestViewController {
         self.view.addSubview(buttonStateToggle)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         self.commonButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)

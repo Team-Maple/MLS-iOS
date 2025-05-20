@@ -70,7 +70,7 @@ extension NavigationBarTestViewController {
         super.viewDidLoad()
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
         self.bind()
     }
@@ -89,7 +89,7 @@ private extension NavigationBarTestViewController {
         view.addSubview(textLabel)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }

@@ -79,7 +79,7 @@ extension InputBoxTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
         self.bind()
     }
@@ -98,7 +98,7 @@ private extension InputBoxTextViewController {
         view.addSubview(textTextField)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         inputBox.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }

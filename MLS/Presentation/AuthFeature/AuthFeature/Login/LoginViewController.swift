@@ -35,7 +35,7 @@ extension LoginViewController {
         super.viewDidLoad()
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
     }
 }
@@ -46,7 +46,7 @@ private extension LoginViewController {
         self.view.addSubview(mainView)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         self.mainView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide)

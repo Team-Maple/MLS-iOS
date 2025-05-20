@@ -20,7 +20,7 @@ extension TermsAgreementViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
     }
 }
@@ -31,7 +31,7 @@ private extension TermsAgreementViewController {
         self.view.addSubview(mainView)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }

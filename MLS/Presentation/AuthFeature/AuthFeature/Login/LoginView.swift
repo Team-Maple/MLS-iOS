@@ -97,7 +97,7 @@ final class LoginView: UIView {
         super.init(frame: .zero)
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
     }
     
@@ -128,7 +128,7 @@ private extension LoginView {
         self.appleLoginButton.addSubview(appleLoginLabel)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         self.loginImageView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width * 1.49)
