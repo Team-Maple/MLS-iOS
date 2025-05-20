@@ -7,20 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08501BD92DDCA9DF0055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
-		08501BDA2DDCA9DF0055CBCE /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
-		08501BEB2DDCACD20055CBCE /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0858ABF02DCFDA450060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
-		08686A132DD1C0E300868C70 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
-		08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		08686A322DD1C48600868C70 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A312DD1C48600868C70 /* ReactorKit */; };
-		08686A342DD1C48C00868C70 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A332DD1C48C00868C70 /* RxSwift */; };
-		08686A362DD1C49000868C70 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A352DD1C49000868C70 /* RxCocoa */; };
-		08686A382DD1C49300868C70 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A372DD1C49300868C70 /* RxRelay */; };
-		08686A3B2DD1C78500868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3A2DD1C78500868C70 /* SnapKit */; };
-		08EECF942DD908D00047AFE2 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; };
-		08EECF952DD908D00047AFE2 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
+		0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
+		0850205F2DDCD9240055CBCE /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; };
+		085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
+		085020642DDCD9640055CBCE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 085020632DDCD9640055CBCE /* RxCocoa */; };
+		085020662DDCD9640055CBCE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 085020652DDCD9640055CBCE /* RxRelay */; };
+		085020682DDCD9640055CBCE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 085020672DDCD9640055CBCE /* RxSwift */; };
+		0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 085020692DDCD9720055CBCE /* SnapKit */; };
+		0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0850206B2DDCD97E0055CBCE /* ReactorKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,33 +42,6 @@
 			remoteInfo = AuthFeature;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		08686A172DD1C0E300868C70 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				08686A142DD1C0E300868C70 /* AuthFeature.framework in Embed Frameworks */,
-				08501BDA2DDCA9DF0055CBCE /* AuthFeatureInterface.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		08EECF962DD908D00047AFE2 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				08EECF952DD908D00047AFE2 /* BaseFeature.framework in Embed Frameworks */,
-				08501BEB2DDCACD20055CBCE /* AuthFeatureInterface.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,14 +95,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08686A382DD1C49300868C70 /* RxRelay in Frameworks */,
+				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
+				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
+				0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */,
+				085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */,
+				0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */,
 				08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */,
-				08686A322DD1C48600868C70 /* ReactorKit in Frameworks */,
-				08686A362DD1C49000868C70 /* RxCocoa in Frameworks */,
-				08686A3B2DD1C78500868C70 /* SnapKit in Frameworks */,
-				08686A342DD1C48C00868C70 /* RxSwift in Frameworks */,
-				0858ABF02DCFDA450060EBCA /* DesignSystem.framework in Frameworks */,
-				08EECF942DD908D00047AFE2 /* BaseFeature.framework in Frameworks */,
+				085020642DDCD9640055CBCE /* RxCocoa in Frameworks */,
+				0850205F2DDCD9240055CBCE /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,8 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08686A132DD1C0E300868C70 /* AuthFeature.framework in Frameworks */,
-				08501BD92DDCA9DF0055CBCE /* AuthFeatureInterface.framework in Frameworks */,
+				0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */,
+				0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,7 +200,6 @@
 				0858AB3B2DCFD62C0060EBCA /* Sources */,
 				0858AB3C2DCFD62C0060EBCA /* Frameworks */,
 				0858AB3D2DCFD62C0060EBCA /* Resources */,
-				08EECF962DD908D00047AFE2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -243,11 +211,11 @@
 			);
 			name = AuthFeature;
 			packageProductDependencies = (
-				08686A312DD1C48600868C70 /* ReactorKit */,
-				08686A332DD1C48C00868C70 /* RxSwift */,
-				08686A352DD1C49000868C70 /* RxCocoa */,
-				08686A372DD1C49300868C70 /* RxRelay */,
-				08686A3A2DD1C78500868C70 /* SnapKit */,
+				085020632DDCD9640055CBCE /* RxCocoa */,
+				085020652DDCD9640055CBCE /* RxRelay */,
+				085020672DDCD9640055CBCE /* RxSwift */,
+				085020692DDCD9720055CBCE /* SnapKit */,
+				0850206B2DDCD97E0055CBCE /* ReactorKit */,
 			);
 			productName = AuthFeature;
 			productReference = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */;
@@ -260,7 +228,6 @@
 				086869FA2DD1C08800868C70 /* Sources */,
 				086869FB2DD1C08800868C70 /* Frameworks */,
 				086869FC2DD1C08800868C70 /* Resources */,
-				08686A172DD1C0E300868C70 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -703,9 +670,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.AuthFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -729,9 +700,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.AuthFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -804,30 +779,30 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		08686A312DD1C48600868C70 /* ReactorKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
-			productName = ReactorKit;
-		};
-		08686A332DD1C48C00868C70 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-		08686A352DD1C49000868C70 /* RxCocoa */ = {
+		085020632DDCD9640055CBCE /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
 		};
-		08686A372DD1C49300868C70 /* RxRelay */ = {
+		085020652DDCD9640055CBCE /* RxRelay */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
 		};
-		08686A3A2DD1C78500868C70 /* SnapKit */ = {
+		085020672DDCD9640055CBCE /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		085020692DDCD9720055CBCE /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		0850206B2DDCD97E0055CBCE /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
