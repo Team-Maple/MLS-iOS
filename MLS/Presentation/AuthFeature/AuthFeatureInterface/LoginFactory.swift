@@ -1,5 +1,5 @@
-import UIKit
+import BaseFeature
 
 public protocol LoginFactory {
-    func make(isReLogin: Bool, termsAgreementsFactory: TermsAgreementFactory) -> UIViewController
+    func make(isReLogin: Bool, termsAgreementsFactory: TermsAgreementFactory) -> BaseViewController
 }

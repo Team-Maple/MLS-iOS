@@ -1,11 +1,13 @@
 import UIKit
 
+import BaseFeature
+
 internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-public class TermsAgreementViewController: UIViewController, View {
+public class TermsAgreementViewController: BaseViewController, View {
     
     public typealias Reactor = TermsAgreementReactor
     
@@ -19,16 +21,16 @@ public class TermsAgreementViewController: UIViewController, View {
 extension TermsAgreementViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI()
+        addViews()
+        setupConstraints()
+        configureUI()
     }
 }
 
 // MARK: - SetUp
 private extension TermsAgreementViewController {
     func addViews() {
-        self.view.addSubview(mainView)
+        view.addSubview(mainView)
     }
 
     func setupConstraints() {
@@ -38,8 +40,8 @@ private extension TermsAgreementViewController {
     }
 
     func configureUI() {
-        self.view.backgroundColor = .systemBackground
-        self.navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.isHidden = true
     }
 }
 

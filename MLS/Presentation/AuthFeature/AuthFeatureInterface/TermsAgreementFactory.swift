@@ -1,5 +1,5 @@
-import UIKit
+import BaseFeature
 
 public protocol TermsAgreementFactory {
-    func make() -> UIViewController
+    func make() -> BaseViewController
 }

@@ -1,13 +1,14 @@
 import UIKit
 
 import AuthFeatureInterface
+import BaseFeature
 
 internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-public final class LoginViewController: UIViewController, View {
+public final class LoginViewController: BaseViewController, View {
     
     public typealias Reactor = LoginReactor
     
@@ -21,7 +22,7 @@ public final class LoginViewController: UIViewController, View {
     public init(isRelogin: Bool, termsAgreementsFactory: TermsAgreementFactory) {
         self.mainView = LoginView(isRelogin: isRelogin)
         self.termsAgreementsFactory = termsAgreementsFactory
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
