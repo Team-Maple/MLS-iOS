@@ -42,7 +42,7 @@ public final class NavigationBar: UIView {
     public init(textButtonTitle: String? = nil) {
         super.init(frame: .zero)
         self.addViews(textButtonTitle: textButtonTitle)
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI(textButtonTitle: textButtonTitle)
     }
     
@@ -62,7 +62,7 @@ private extension NavigationBar {
         contentStackView.addArrangedSubview(rightButton)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         contentStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

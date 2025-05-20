@@ -28,7 +28,7 @@ extension ToastMakerTestViewController {
         super.viewDidLoad()
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
     }
 }
@@ -39,7 +39,7 @@ private extension ToastMakerTestViewController {
         self.view.addSubview(toast)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         toast.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()

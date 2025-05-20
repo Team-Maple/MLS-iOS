@@ -65,7 +65,7 @@ extension CheckBoxButtonTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
         self.bind()
     }
@@ -83,7 +83,7 @@ private extension CheckBoxButtonTestViewController {
         view.addSubview(subTitleTextField)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         bigCheckButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }

@@ -20,7 +20,7 @@ public final class TermsAgreementView: UIView {
     }
     
     // MARK: - Properties
-    private let headerView: NavigationBar = {
+    let headerView: NavigationBar = {
         let view = NavigationBar()
         view.rightButton.isHidden = true
         return view
@@ -87,7 +87,7 @@ public final class TermsAgreementView: UIView {
     init() {
         super.init(frame: .zero)
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -111,7 +111,7 @@ private extension TermsAgreementView {
         termsStackView.addArrangedSubview(marketingAgreeButton)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }

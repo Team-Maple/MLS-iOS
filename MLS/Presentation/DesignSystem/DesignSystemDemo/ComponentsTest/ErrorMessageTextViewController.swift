@@ -42,7 +42,7 @@ extension ErrorMessageTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
         self.bind()
     }
@@ -56,7 +56,7 @@ private extension ErrorMessageTextViewController {
         view.addSubview(messageTextField)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         errorMessage.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()

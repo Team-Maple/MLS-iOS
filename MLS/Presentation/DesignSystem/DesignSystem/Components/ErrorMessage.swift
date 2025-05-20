@@ -26,7 +26,7 @@ public final class ErrorMessage: UIView {
         super.init(frame: .zero)
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI(message: message)
     }
     
@@ -42,7 +42,7 @@ private extension ErrorMessage {
         self.addSubview(label)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
