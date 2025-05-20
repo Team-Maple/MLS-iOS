@@ -5,6 +5,11 @@ internal import RxSwift
 
 public final class LoginReactor: Reactor {
     
+    public enum Route {
+        case none
+        case termsAgreements
+    }
+    
     // MARK: - Reactor
     public enum Action {
         case kakaoLoginButtonTapped
@@ -14,9 +19,12 @@ public final class LoginReactor: Reactor {
     
     public enum Mutation {
         case tryLogin
+        case moveToTermsAgreementsScene
     }
     
-    public struct State { }
+    public struct State {
+        @Pulse var route: Route = .none
+    }
     
     // MARK: - properties
     public var initialState: State
@@ -37,8 +45,7 @@ public final class LoginReactor: Reactor {
             os_log("appleLoginButtonTapped")
             return Observable.just(.tryLogin)
         case .guestLoginButtonTapped:
-            os_log("guestLoginButtonTapped")
-            return Observable.just(.tryLogin)
+            return Observable.just(.moveToTermsAgreementsScene)
         }
     }
     
@@ -48,6 +55,8 @@ public final class LoginReactor: Reactor {
         switch mutation {
         case .tryLogin:
             break
+        case .moveToTermsAgreementsScene:
+            newState.route = .termsAgreements
         }
         
         return newState

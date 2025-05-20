@@ -1,5 +1,7 @@
 import UIKit
 
+import AuthFeatureInterface
+
 internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
@@ -14,9 +16,11 @@ public final class LoginViewController: UIViewController, View {
     
     private let mainView: LoginView
     
+    private let termsAgreementsFactory: TermsAgreementFactory
     
-    public init(isRelogin: Bool) {
-        mainView = LoginView(isRelogin: isRelogin)
+    public init(isRelogin: Bool, termsAgreementsFactory: TermsAgreementFactory) {
+        self.mainView = LoginView(isRelogin: isRelogin)
+        self.termsAgreementsFactory = termsAgreementsFactory
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,5 +82,17 @@ public extension LoginViewController {
     }
     
     func bindViewState(reactor: Reactor) {
+        reactor.pulse(\.$route)
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .termsAgreements:
+                    let controller = owner.termsAgreementsFactory.make()
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

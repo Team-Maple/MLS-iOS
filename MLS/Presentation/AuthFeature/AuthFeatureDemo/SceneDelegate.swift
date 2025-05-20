@@ -1,14 +1,16 @@
 import UIKit
 
 import AuthFeature
+import AuthFeatureInterface
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        let startVC = LoginViewController(isRelogin: true)
-        startVC.reactor = LoginReactor()
+        let loginFactory: LoginFactory = LoginFactoryImpl()
+        let termsAgreementsFactory: TermsAgreementFactory = TermsAgreementFactoryImpl()
+        let startVC = loginFactory.make(isReLogin: false, termsAgreementsFactory: termsAgreementsFactory)
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = UINavigationController(rootViewController: startVC)
