@@ -4,7 +4,7 @@ import DesignSystem
 
 internal import SnapKit
 
-public final class OnBoardingQuestionView: UIView {
+public final class OnBoardingNotificationView: UIView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 16
@@ -16,20 +16,14 @@ public final class OnBoardingQuestionView: UIView {
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "img_onBoarding_question")
+        view.image = DesignSystemAsset.image(named: "img_onBoarding_notification")
         return view
     }()
     
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h4, text: "효율적인 메이플랜드 플레이를\n위해 몇가지만 물어볼게요")
+        label.attributedText = .makeStyledString(font: .h4, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
         label.numberOfLines = 2
-        return label
-    }()
-    
-    private let regularTeextLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "나도 예티를 잡을 수 있을까?", color: .neutral700)
         return label
     }()
     
@@ -37,7 +31,6 @@ public final class OnBoardingQuestionView: UIView {
         let view = UIView()
         view.addSubview(imageView)
         view.addSubview(boldTextLabel)
-        view.addSubview(regularTeextLabel)
         
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -47,11 +40,6 @@ public final class OnBoardingQuestionView: UIView {
         
         boldTextLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(4)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
-        regularTeextLabel.snp.makeConstraints { make in
-            make.top.equalTo(boldTextLabel.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.bottom.equalToSuperview()
         }
         
@@ -73,7 +61,7 @@ public final class OnBoardingQuestionView: UIView {
 }
 
 // MARK: - SetUp
-private extension OnBoardingQuestionView {
+private extension OnBoardingNotificationView {
     func addViews() {
         addSubview(contentView)
         addSubview(nextButton)

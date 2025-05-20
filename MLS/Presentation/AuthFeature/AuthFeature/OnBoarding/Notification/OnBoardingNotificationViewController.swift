@@ -5,17 +5,17 @@ internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-public class OnBoardingQuestionViewController: UIViewController {
+public class OnBoardingNotificationViewController: UIViewController {
     // MARK: - Properties
     
     // MARK: - Components
     public var disposeBag = DisposeBag()
     
-    private var mainView = OnBoardingQuestionView()
+    private var mainView = OnBoardingNotificationView()
 }
 
 // MARK: - Life Cycle
-extension OnBoardingQuestionViewController {
+extension OnBoardingNotificationViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -23,7 +23,7 @@ extension OnBoardingQuestionViewController {
 }
 
 // MARK: - SetUp
-private extension OnBoardingQuestionViewController {
+private extension OnBoardingNotificationViewController {
     func addViews() {
         view.addSubview(mainView)
     }
@@ -35,7 +35,7 @@ private extension OnBoardingQuestionViewController {
     }
     
     func configureUI() {
-        addViews() 
+        addViews()
         setupConstraints()
         
         view.backgroundColor = .white0
@@ -43,11 +43,11 @@ private extension OnBoardingQuestionViewController {
 }
 
 // MARK: - Private Methods
-private extension OnBoardingQuestionViewController {
+private extension OnBoardingNotificationViewController {
     
 }
 
 // MARK: - Bind
-public extension OnBoardingQuestionViewController {
+public extension OnBoardingNotificationViewController {
     
 }
