@@ -7,7 +7,8 @@ internal import SnapKit
 public final class TermsAgreementView: UIView {
     // MARK: - Type
     private struct Constant {
-        static let imageSize: CGFloat = 55
+        static let imageTopSpacing: CGFloat = 20
+        static let imageSize: CGFloat = 60
         static let horizontalInset: CGFloat = 16
         static let totalButtonBottomSpacing: CGFloat = -14
         static let titleLabelTopSpacing: CGFloat = 16
@@ -116,7 +117,7 @@ private extension TermsAgreementView {
             make.top.leading.trailing.equalToSuperview()
         }
         logoImageView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom)
+            make.top.equalTo(headerView.snp.bottom).offset(Constant.imageTopSpacing)
             make.size.equalTo(Constant.imageSize)
             make.leading.equalToSuperview().inset(Constant.horizontalInset)
         }
