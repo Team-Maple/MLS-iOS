@@ -38,14 +38,14 @@ final class LoginView: UIView {
         return button
     }()
     
-    let kakaoLogoImageView: UIImageView = {
+    private let kakaoLogoImageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "kakaoLogo")
         let view = UIImageView(image: image)
         view.contentMode = .scaleAspectFit
         return view
     }()
     
-    let kakaoLoginLabel: UILabel = {
+    private let kakaoLoginLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .korFont(style: .semiBold, size: 15), text: "카카오로 계속하기", color: .init(hexCode: "#000000", alpha: 0.85))
         return label
@@ -58,14 +58,14 @@ final class LoginView: UIView {
         return button
     }()
     
-    let appleLogoImageView: UIImageView = {
+    private let appleLogoImageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "AppleLogo")
         let view = UIImageView(image: image)
         view.contentMode = .scaleAspectFit
         return view
     }()
     
-    let appleLoginLabel: UILabel = {
+    private let appleLoginLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .korFont(style: .semiBold, size: 15), text: "Apple로 계속하기", color: .init(hexCode: "#FFFFFF"))
         return label

@@ -45,5 +45,28 @@ private extension LoginViewController {
 }
 
 public extension LoginViewController {
-    func bind(reactor: Reactor) { }
+    func bind(reactor: Reactor) {
+        bindUserActions(reactor: reactor)
+        bindViewState(reactor: reactor)
+    }
+    
+    func bindUserActions(reactor: Reactor) {
+        mainView.kakaoLoginButton.rx.tap
+            .map { Reactor.Action.kakaoLoginButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.appleLoginButton.rx.tap
+            .map { Reactor.Action.appleLoginButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.guestLoginButton.rx.tap
+            .map { Reactor.Action.guestLoginButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindViewState(reactor: Reactor) {
+    }
 }
