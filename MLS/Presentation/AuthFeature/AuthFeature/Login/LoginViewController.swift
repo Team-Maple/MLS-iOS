@@ -12,7 +12,17 @@ public final class LoginViewController: UIViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     
-    private var mainView = LoginView()
+    private let mainView: LoginView
+    
+    
+    public init(isRelogin: Bool) {
+        mainView = LoginView(isRelogin: isRelogin)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Cycle

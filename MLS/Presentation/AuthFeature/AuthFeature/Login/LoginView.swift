@@ -15,6 +15,8 @@ final class LoginView: UIView {
         static let buttonStackViewBottomInset: CGFloat = 16
         static let horizontalInset: CGFloat = 16
         static let buttonCenterXInset: CGFloat = buttonLogoImageLeadingInset + buttonLogoImageSize
+        static let labelHeight: CGFloat = 28
+        static let subTitleBottomSpacing: CGFloat = -25
     }
     
     // MARK: - Properties
@@ -76,8 +78,22 @@ final class LoginView: UIView {
         return button
     }()
 
+    private let isRelogin: Bool
+    
+    private let mainTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .h5, text: "모험가님,")
+        return label
+    }()
+    
+    private let subTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .h5Regular, text: "다시 오신 걸 환영해요!")
+        return label
+    }()
     // MARK: - init
-    init() {
+    init(isRelogin: Bool) {
+        self.isRelogin = isRelogin
         super.init(frame: .zero)
         
         self.addViews()
@@ -97,7 +113,13 @@ private extension LoginView {
         self.addSubview(buttonStackView)
         self.buttonStackView.addArrangedSubview(kakaoLoginButton)
         self.buttonStackView.addArrangedSubview(appleLoginButton)
-        self.buttonStackView.addArrangedSubview(guestLoginButton)
+        
+        if isRelogin {
+            self.addSubview(mainTitleLabel)
+            self.addSubview(subTitleLabel)
+        } else {
+            self.buttonStackView.addArrangedSubview(guestLoginButton)
+        }
         
         self.kakaoLoginButton.addSubview(kakaoLogoImageView)
         self.kakaoLoginButton.addSubview(kakaoLoginLabel)
@@ -148,8 +170,21 @@ private extension LoginView {
             make.centerX.equalToSuperview().inset(Constant.buttonCenterXInset)
         }
         
-        self.guestLoginButton.snp.makeConstraints { make in
-            make.height.equalTo(Constant.buttonHeight)
+        if isRelogin {
+            self.subTitleLabel.snp.makeConstraints { make in
+                make.bottom.equalTo(buttonStackView.snp.top).offset(Constant.subTitleBottomSpacing)
+                make.centerX.equalToSuperview()
+                make.height.equalTo(Constant.labelHeight)
+            }
+            self.mainTitleLabel.snp.makeConstraints { make in
+                make.bottom.equalTo(subTitleLabel.snp.top)
+                make.centerX.equalToSuperview()
+                make.height.equalTo(Constant.labelHeight)
+            }
+        } else {
+            self.guestLoginButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.buttonHeight)
+            }
         }
     }
 
