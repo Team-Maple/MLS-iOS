@@ -45,6 +45,16 @@ private extension TermsAgreementViewController {
 
 public extension TermsAgreementViewController {
     func bind(reactor: Reactor) {
+        bindUserActions(reactor: reactor)
+        bindViewState(reactor: reactor)
+    }
+    
+    func bindUserActions(reactor: Reactor) {
+        mainView.headerView.leftButton.rx.tap
+            .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         mainView.totalAgreeButton.rx.tap
             .map { Reactor.Action.totalAgreeButtonTapped }
             .bind(to: reactor.action)
@@ -69,9 +79,12 @@ public extension TermsAgreementViewController {
             .map { Reactor.Action.marketingAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+    }
+    
+    func bindViewState(reactor: Reactor) {
         reactor.state
             .map { $0.isTotalAgree }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
                 owner.mainView.totalAgreeButton.isSelected = isAgree
@@ -80,6 +93,7 @@ public extension TermsAgreementViewController {
         
         reactor.state
             .map { $0.isOldAgree }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
                 owner.mainView.oldAgreeButton.isSelected = isAgree
@@ -88,6 +102,7 @@ public extension TermsAgreementViewController {
         
         reactor.state
             .map { $0.isServiceTermsAgree }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
                 owner.mainView.serviceTermsAgreeButton.isSelected = isAgree
@@ -96,6 +111,7 @@ public extension TermsAgreementViewController {
         
         reactor.state
             .map { $0.isPersonalInformationAgree }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
                 owner.mainView.personalInformationAgreeButton.isSelected = isAgree
@@ -104,6 +120,7 @@ public extension TermsAgreementViewController {
         
         reactor.state
             .map { $0.isMarketingAgree }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
                 owner.mainView.marketingAgreeButton.isSelected = isAgree
@@ -112,9 +129,22 @@ public extension TermsAgreementViewController {
         
         reactor.state
             .map { $0.bottomButtonIsEnabled }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isEnabled in
                 owner.mainView.bottomButton.isEnabled = isEnabled
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.pulse(\.$route)
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .dismiss:
+                    owner.navigationController?.popViewController(animated: true)
+                default:
+                    break
+                }
             }
             .disposed(by: disposeBag)
     }
