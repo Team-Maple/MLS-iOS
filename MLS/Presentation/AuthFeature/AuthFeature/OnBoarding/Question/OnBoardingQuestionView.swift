@@ -95,6 +95,6 @@ private extension OnBoardingQuestionView {
         addViews()
         setupConstraints()
         
-        backgroundColor = .clear0
+        backgroundColor = .clearMLS
     }
 }

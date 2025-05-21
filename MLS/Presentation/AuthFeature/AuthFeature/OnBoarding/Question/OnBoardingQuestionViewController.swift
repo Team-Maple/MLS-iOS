@@ -38,7 +38,7 @@ private extension OnBoardingQuestionViewController {
         addViews() 
         setupConstraints()
         
-        view.backgroundColor = .white0
+        view.backgroundColor = .whiteMLS
     }
 }
 

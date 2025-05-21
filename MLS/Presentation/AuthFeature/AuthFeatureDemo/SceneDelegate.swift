@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let startVC = loginFactory.make(isReLogin: false, termsAgreementsFactory: termsAgreementsFactory)
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = navController
+        window?.rootViewController = UINavigationController(rootViewController: startVC)
         window?.makeKeyAndVisible()
     }
 

@@ -38,7 +38,7 @@ private extension OnBoardingNotificationViewController {
         addViews()
         setupConstraints()
         
-        view.backgroundColor = .white0
+        view.backgroundColor = .whiteMLS
     }
 }
 

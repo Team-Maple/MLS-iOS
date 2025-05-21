@@ -81,6 +81,6 @@ private extension OnBoardingInputView {
         addViews()
         setupConstraints()
         
-        backgroundColor = .clear0
+        backgroundColor = .clearMLS
     }
 }

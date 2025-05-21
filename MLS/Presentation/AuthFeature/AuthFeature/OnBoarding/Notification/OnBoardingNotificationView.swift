@@ -83,6 +83,6 @@ private extension OnBoardingNotificationView {
         addViews()
         setupConstraints()
         
-        backgroundColor = .clear0
+        backgroundColor = .clearMLS
     }
 }

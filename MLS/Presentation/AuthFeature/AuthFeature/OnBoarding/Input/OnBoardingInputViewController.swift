@@ -38,7 +38,7 @@ private extension OnBoardingInputViewController {
         addViews()
         setupConstraints()
         
-        view.backgroundColor = .white0
+        view.backgroundColor = .whiteMLS
     }
 }
 
