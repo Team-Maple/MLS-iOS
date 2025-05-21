@@ -1,11 +1,13 @@
 import UIKit
 
+import BaseFeature
+
 internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-public class OnBoardingInputViewController: UIViewController {
+public class OnBoardingInputViewController: BaseViewController {
     // MARK: - Properties
     
     // MARK: - Components
@@ -37,8 +39,6 @@ private extension OnBoardingInputViewController {
     func configureUI() {
         addViews()
         setupConstraints()
-        
-        view.backgroundColor = .whiteMLS
     }
 }
 

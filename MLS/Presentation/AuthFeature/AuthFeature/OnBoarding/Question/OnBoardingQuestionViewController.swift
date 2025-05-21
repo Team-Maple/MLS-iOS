@@ -1,11 +1,13 @@
 import UIKit
 
+import BaseFeature
+
 internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-public class OnBoardingQuestionViewController: UIViewController {
+public class OnBoardingQuestionViewController: BaseViewController {
     // MARK: - Properties
     
     // MARK: - Components
@@ -37,8 +39,6 @@ private extension OnBoardingQuestionViewController {
     func configureUI() {
         addViews() 
         setupConstraints()
-        
-        view.backgroundColor = .whiteMLS
     }
 }
 
