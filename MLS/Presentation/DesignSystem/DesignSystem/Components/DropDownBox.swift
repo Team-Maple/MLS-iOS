@@ -6,6 +6,11 @@ public final class DropDownBox: UIStackView {
     // MARK: - Properties
     private var isExpanded = false
     private var tableViewHeightConstraint: Constraint?
+    private var selectedIndex: Int? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
     public var menus = [String]() {
         didSet {
@@ -117,12 +122,14 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.textLabel?.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], color: .neutral500, alignment: .left)
+        cell.textLabel?.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], color: selectedIndex == indexPath.row ? .textColor : .neutral500, alignment: .left)
+        cell.selectionStyle = .none
         return cell
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         inputBox.textField.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], alignment: .left)
+        selectedIndex = indexPath.row
         toggleDropdown()
     }
 

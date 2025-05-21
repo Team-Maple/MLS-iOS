@@ -10,9 +10,6 @@ public final class InputBox: UIStackView {
         }
     }
     
-    private var labelText: String?
-    private var placeHodler: String?
-    
     // MARK: - Components
     public let label = UILabel()
     public let textField = UITextField()
@@ -32,12 +29,11 @@ public final class InputBox: UIStackView {
     
     // MARK: - Init
     public init(label: String? = nil, placeHodler: String? = nil) {
-        self.labelText = label
-        self.placeHodler = placeHodler
         super.init(frame: .zero)
-        configureUI(label: label)
+        configureUI(label: label, placeHodler: placeHodler)
     }
     
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -68,9 +64,10 @@ private extension InputBox {
         }
     }
     
-    func configureUI(label: String?) {
+    func configureUI(label: String?, placeHodler: String?) {
         setupStackView()
         setupLabel(label: label)
+        setupTextField(placeHolder: placeHodler)
         setupConstaraints()
     }
     
@@ -97,5 +94,22 @@ public extension InputBox {
                 return .error900
             }
         }
+    }
+}
+
+// MARK: - UITextFieldDelegate
+extension InputBox: UITextFieldDelegate {
+    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if string.contains(UIPasteboard.general.string ?? "") {
+            return false
+        }
+        return true
+    }
+        
+    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        if action == #selector(paste(_:)) {
+            return false
+        }
+        return super.canPerformAction(action, withSender: sender)
     }
 }
