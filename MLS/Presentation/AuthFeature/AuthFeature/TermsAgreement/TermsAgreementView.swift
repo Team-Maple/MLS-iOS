@@ -7,7 +7,8 @@ internal import SnapKit
 public final class TermsAgreementView: UIView {
     // MARK: - Type
     private struct Constant {
-        static let imageSize: CGFloat = 55
+        static let imageTopSpacing: CGFloat = 20
+        static let imageSize: CGFloat = 60
         static let horizontalInset: CGFloat = 16
         static let totalButtonBottomSpacing: CGFloat = -14
         static let titleLabelTopSpacing: CGFloat = 16
@@ -20,7 +21,7 @@ public final class TermsAgreementView: UIView {
     }
     
     // MARK: - Properties
-    private let headerView: NavigationBar = {
+    let headerView: NavigationBar = {
         let view = NavigationBar()
         view.rightButton.isHidden = true
         return view
@@ -87,7 +88,7 @@ public final class TermsAgreementView: UIView {
     init() {
         super.init(frame: .zero)
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -111,12 +112,12 @@ private extension TermsAgreementView {
         termsStackView.addArrangedSubview(marketingAgreeButton)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }
         logoImageView.snp.makeConstraints { make in
-            make.top.equalTo(headerView.snp.bottom)
+            make.top.equalTo(headerView.snp.bottom).offset(Constant.imageTopSpacing)
             make.size.equalTo(Constant.imageSize)
             make.leading.equalToSuperview().inset(Constant.horizontalInset)
         }

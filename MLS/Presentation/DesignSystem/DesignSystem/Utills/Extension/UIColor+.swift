@@ -19,12 +19,12 @@ public extension UIColor {
     static let neutral200 = UIColor(hexCode: "E9E9E9")
     static let neutral100 = UIColor(hexCode: "F5F5F5")
     
-    static let white0 = UIColor(hexCode: "FFFFFF")
-    static let clear0 = UIColor(hexCode: "FFFFFF", alpha: 0)
+    static let whiteMLS = UIColor(hexCode: "FFFFFF")
+    static let clearMLS = UIColor(hexCode: "FFFFFF", alpha: 0)
     static let error900 = UIColor(hexCode: "FF4B4B")
     static let error100 = UIColor(hexCode: "FFEFEF")
     static let success = UIColor(hexCode: "15CC00")
-    static let red = UIColor(hexCode: "FF0000")
+    static let redMLS = UIColor(hexCode: "FF0000")
 
     convenience init(hexCode: String, alpha: CGFloat = 1.0) {
         var hexFormatted: String = hexCode.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

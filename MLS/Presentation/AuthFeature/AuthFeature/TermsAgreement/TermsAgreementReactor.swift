@@ -1,8 +1,11 @@
 import ReactorKit
 internal import RxSwift
-internal import RxCocoa
 
 public final class TermsAgreementReactor: Reactor {
+    public enum Route {
+        case none
+        case dismiss
+    }
     
     // MARK: - Reactor
     public enum Action {
@@ -15,15 +18,17 @@ public final class TermsAgreementReactor: Reactor {
     }
     
     public enum Mutation {
-        case temp
         case changeIsTotalAgreeState
         case changeIsOldAgreeState
         case changeIsServiceTermsAgreeState
         case changeIsPersonalInformationAgreeState
         case changeIsMarketingAgreeState
+        case moveToRecentScene
     }
     
     public struct State {
+        @Pulse var route: Route = .none
+        
         var isTotalAgree: Bool = false
         var isOldAgree: Bool = false
         var isServiceTermsAgree: Bool = false
@@ -45,7 +50,7 @@ public final class TermsAgreementReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .backButtonTapped:
-            return Observable.just(.temp)
+            return Observable.just(.moveToRecentScene)
         case .totalAgreeButtonTapped:
             return Observable.just(.changeIsTotalAgreeState)
         case .oldAgreeButtonTapped:
@@ -62,8 +67,6 @@ public final class TermsAgreementReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .temp:
-            return newState
         case .changeIsTotalAgreeState:
             newState.isOldAgree = newState.isTotalAgree ? false : true
             newState.isServiceTermsAgree = newState.isTotalAgree ? false : true
@@ -78,6 +81,8 @@ public final class TermsAgreementReactor: Reactor {
             newState.isPersonalInformationAgree.toggle()
         case .changeIsMarketingAgreeState:
             newState.isMarketingAgree.toggle()
+        case .moveToRecentScene:
+            newState.route = .dismiss
         }
         if newState.isOldAgree == true
             && newState.isServiceTermsAgree == true

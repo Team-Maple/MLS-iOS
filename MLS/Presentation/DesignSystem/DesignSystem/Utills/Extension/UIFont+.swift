@@ -6,6 +6,7 @@ public extension UIFont {
     static let h3 = korFont(style: .bold, size: 24)
     static let h4 = korFont(style: .bold, size: 22)
     static let h5 = korFont(style: .bold, size: 20)
+    static let h5Regular = korFont(style: .regular, size: 20)
 
     static let subTitle = korFont(style: .medium, size: 16)
     static let subTitleBold = korFont(style: .bold, size: 16)

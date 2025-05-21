@@ -17,7 +17,7 @@ public final class Toast: UIView {
         super.init(frame: .zero)
         
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI(message: message)
     }
     
@@ -32,7 +32,7 @@ private extension Toast {
         self.addSubview(label)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalEdges)

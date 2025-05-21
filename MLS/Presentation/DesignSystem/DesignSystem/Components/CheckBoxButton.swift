@@ -116,7 +116,7 @@ public final class CheckBoxButton: UIButton {
         self.subTitle = subTitle
         super.init(frame: .zero)
         self.addViews()
-        self.setupContstraints()
+        self.setupConstraints()
         self.configureUI()
     }
     
@@ -138,7 +138,7 @@ private extension CheckBoxButton {
         contentStackView.addArrangedSubview(rightButton)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
         contentStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.verticalEdges.equalToSuperview().inset(style.verticalInset)
