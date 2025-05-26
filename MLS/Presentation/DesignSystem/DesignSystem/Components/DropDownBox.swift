@@ -129,6 +129,7 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         inputBox.textField.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], alignment: .left)
+        inputBox.textField.sendActions(for: .editingChanged)
         selectedIndex = indexPath.row
         toggleDropdown()
     }

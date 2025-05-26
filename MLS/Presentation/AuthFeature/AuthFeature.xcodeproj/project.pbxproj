@@ -10,13 +10,18 @@
 		08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
 		0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
 		0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
-		0850205F2DDCD9240055CBCE /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; };
 		085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
 		085020642DDCD9640055CBCE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 085020632DDCD9640055CBCE /* RxCocoa */; };
 		085020662DDCD9640055CBCE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 085020652DDCD9640055CBCE /* RxRelay */; };
 		085020682DDCD9640055CBCE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 085020672DDCD9640055CBCE /* RxSwift */; };
 		0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 085020692DDCD9720055CBCE /* SnapKit */; };
 		0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0850206B2DDCD97E0055CBCE /* ReactorKit */; };
+		774D008C2DDE1005008BA694 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 774D008B2DDE1005008BA694 /* BaseFeature.framework */; };
+		774D008D2DDE1005008BA694 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 774D008B2DDE1005008BA694 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F4B902DDE133600684E34 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 778F4B8F2DDE133600684E34 /* SnapKit */; };
+		778F4B922DDEF74D00684E34 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F4B912DDEF74D00684E34 /* BaseFeature.framework */; };
+		778F4B932DDEF74D00684E34 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F4B912DDEF74D00684E34 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F4C6D2DDEFB6800684E34 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 778F4C6C2DDEFB6800684E34 /* ReactorKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +48,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		774D008E2DDE1005008BA694 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				774D008D2DDE1005008BA694 /* BaseFeature.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F4B942DDEF74D00684E34 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				778F4B932DDEF74D00684E34 /* BaseFeature.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +80,9 @@
 		0858ABF32DCFDA510060EBCA /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EECF932DD908D00047AFE2 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		774D008B2DDE1005008BA694 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F4B892DDE108F00684E34 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F4B912DDEF74D00684E34 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -60,11 +93,29 @@
 			);
 			target = 086869FD2DD1C08800868C70 /* AuthFeatureDemo */;
 		};
+		778F50E32DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeature" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				OnBoardingFactory.swift,
+			);
+			target = 0858AB3E2DCFD62C0060EBCA /* AuthFeature */;
+		};
+		778F50E42DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeatureInterface" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				OnBoardingFactory.swift,
+			);
+			target = 08501BC52DDCA9DF0055CBCE /* AuthFeatureInterface */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		08501BC72DDCA9DF0055CBCE /* AuthFeatureInterface */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				778F50E32DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeature" target */,
+				778F50E42DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeatureInterface" target */,
+			);
 			path = AuthFeatureInterface;
 			sourceTree = "<group>";
 		};
@@ -88,6 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778F4B922DDEF74D00684E34 /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +147,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				774D008C2DDE1005008BA694 /* BaseFeature.framework in Frameworks */,
 				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
 				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
 				0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */,
@@ -102,7 +155,6 @@
 				0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */,
 				08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */,
 				085020642DDCD9640055CBCE /* RxCocoa in Frameworks */,
-				0850205F2DDCD9240055CBCE /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,7 +162,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778F4B902DDE133600684E34 /* SnapKit in Frameworks */,
 				0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */,
+				778F4C6D2DDEFB6800684E34 /* ReactorKit in Frameworks */,
 				0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +196,9 @@
 		0858ABEE2DCFDA450060EBCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				778F4B912DDEF74D00684E34 /* BaseFeature.framework */,
+				778F4B892DDE108F00684E34 /* BaseFeature.framework */,
+				774D008B2DDE1005008BA694 /* BaseFeature.framework */,
 				08EECF932DD908D00047AFE2 /* BaseFeature.framework */,
 				0858ABF32DCFDA510060EBCA /* Presentation.framework */,
 				0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */,
@@ -177,6 +234,7 @@
 				08501BC22DDCA9DF0055CBCE /* Sources */,
 				08501BC32DDCA9DF0055CBCE /* Frameworks */,
 				08501BC42DDCA9DF0055CBCE /* Resources */,
+				778F4B942DDEF74D00684E34 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -200,6 +258,7 @@
 				0858AB3B2DCFD62C0060EBCA /* Sources */,
 				0858AB3C2DCFD62C0060EBCA /* Frameworks */,
 				0858AB3D2DCFD62C0060EBCA /* Resources */,
+				774D008E2DDE1005008BA694 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -240,6 +299,8 @@
 			);
 			name = AuthFeatureDemo;
 			packageProductDependencies = (
+				778F4B8F2DDE133600684E34 /* SnapKit */,
+				778F4C6C2DDEFB6800684E34 /* ReactorKit */,
 			);
 			productName = AuthFeatureDemo;
 			productReference = 086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */;
@@ -800,6 +861,16 @@
 			productName = SnapKit;
 		};
 		0850206B2DDCD97E0055CBCE /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		778F4B8F2DDE133600684E34 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		778F4C6C2DDEFB6800684E34 /* ReactorKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
 			productName = ReactorKit;
