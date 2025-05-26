@@ -17,6 +17,15 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingNotificationView()
+    
+    public init(factory: OnBoardingFactory) {
+        self.factory = factory
+        super.init()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Cycle

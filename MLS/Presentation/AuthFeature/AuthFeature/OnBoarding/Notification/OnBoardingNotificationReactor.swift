@@ -38,7 +38,7 @@ public final class OnBoardingNotificationReactor: Reactor {
     var disposeBag = DisposeBag()
     
     // MARK: - init
-    init() {
+    public init() {
         self.initialState = State()
     }
     

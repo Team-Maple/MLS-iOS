@@ -28,7 +28,8 @@ class ViewController: UIViewController {
         inputVC.reactor = OnBoardingInputReactor()
         inputVC.title = "온보딩 입력"
         
-        let notiVC = OnBoardingNotificationViewController()
+        let notiVC = OnBoardingNotificationViewController(factory: OnBoardingNotificationFactoryImpl())
+        notiVC.reactor = OnBoardingNotificationReactor()
         notiVC.title = "온보딩 알림"
         
         return [
