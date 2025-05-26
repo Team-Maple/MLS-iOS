@@ -25,6 +25,7 @@ public extension UIColor {
     static let error100 = UIColor(hexCode: "FFEFEF")
     static let success = UIColor(hexCode: "15CC00")
     static let redMLS = UIColor(hexCode: "FF0000")
+    static let overlays = UIColor(hexCode: "000000", alpha: 0.2)
 
     convenience init(hexCode: String, alpha: CGFloat = 1.0) {
         var hexFormatted: String = hexCode.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()

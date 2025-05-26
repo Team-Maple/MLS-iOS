@@ -7,14 +7,26 @@ internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-final class ModalViewController: BaseViewController, View {
-    
+final class ModalViewController: BaseViewController, View, ModalPresentable {
+    // MARK: - Properties
     typealias Reactor = ModalReactor
     
-    // MARK: - Properties
     var disposeBag = DisposeBag()
     
+    var modalHeight: CGFloat?
+    var modalStyle: ModalStyle
+    
     private var mainView = ModalView()
+    
+    init(modalHeight: CGFloat? = nil, modalStyle: ModalStyle) {
+        self.modalHeight = modalHeight
+        self.modalStyle = modalStyle
+        super.init()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Cycle
@@ -30,9 +42,15 @@ extension ModalViewController {
 
 // MARK: - SetUp
 private extension ModalViewController {
-    func addViews() { }
+    func addViews() {
+        view.addSubview(mainView)
+    }
 
-    func setupConstraints() { }
+    func setupConstraints() {
+        mainView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
 
     func configureUI() { }
 }

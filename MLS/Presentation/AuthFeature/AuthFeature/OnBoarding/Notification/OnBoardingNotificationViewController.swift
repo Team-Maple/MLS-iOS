@@ -2,6 +2,7 @@ import os
 import UIKit
 
 import BaseFeature
+import AuthFeatureInterface
 
 import ReactorKit
 internal import RxCocoa
@@ -11,14 +12,14 @@ internal import SnapKit
 public class OnBoardingNotificationViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingNotificationReactor
-    private let factory: OnBoardingFactory
+    private let factory: OnBoardingPresentableFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingNotificationView()
     
-    public init(factory: OnBoardingFactory) {
+    public init(factory: OnBoardingPresentableFactory) {
         self.factory = factory
         super.init()
     }
@@ -87,7 +88,7 @@ public extension OnBoardingNotificationViewController {
                     os_log("moveToHome")
                 case .modal:
                     let vc = owner.factory.make()
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    owner.presentModal(vc)
                 default:
                     break
                 }

@@ -9,7 +9,7 @@ public final class OnBoardingQuestionView: OnBoardingBaseView {
     private enum Constant {
         static let horizontalInset = 16
         static let verticalInset = 16
-        static let imgSize = 160
+        static let imgSize = 220
         static let resizeCenterY = 70
     }
     
