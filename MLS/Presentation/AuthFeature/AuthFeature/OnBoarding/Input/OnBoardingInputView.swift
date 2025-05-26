@@ -4,13 +4,14 @@ import DesignSystem
 
 internal import SnapKit
 
-public final class OnBoardingInputView: UIView {
+public final class OnBoardingInputView: OnBoardingBaseView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let verticalInset: CGFloat = 40
         static let verticalSpacing: CGFloat = 28
         static let horizontalSpacing: CGFloat = 8
+        static let bottomInset: CGFloat = 16
     }
 
     // MARK: - Components
@@ -21,20 +22,21 @@ public final class OnBoardingInputView: UIView {
         return label
     }()
 
-    private let inputBox: InputBox = {
+    public let inputBox: InputBox = {
         let box = InputBox(label: "레벨", placeHodler: "1~200")
         box.textField.keyboardType = .numberPad
         return box
     }()
     
-    private let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: ["마법사", "전사", "궁수", "도적", "등등",])
+    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: ["마법사", "전사", "궁수", "도적", "등등",])
     
-    private let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
+    public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
     
     // MARK: - init
-    init() {
-        super.init(frame: .zero)
-        configureUI()
+    override init() {
+        super.init()
+        addViews()
+        setupConstraints()
     }
     
     @available(*, unavailable)
@@ -54,7 +56,7 @@ private extension OnBoardingInputView {
     
     func setupConstraints() {
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Constant.verticalInset)
+            make.top.equalTo(headerView.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
         
@@ -73,14 +75,7 @@ private extension OnBoardingInputView {
         
         nextButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
-            make.bottom.equalToSuperview().inset(Constant.verticalInset)
+            make.bottom.equalToSuperview().inset(Constant.bottomInset)
         }
-    }
-    
-    func configureUI() {
-        addViews()
-        setupConstraints()
-        
-        backgroundColor = .clearMLS
     }
 }
