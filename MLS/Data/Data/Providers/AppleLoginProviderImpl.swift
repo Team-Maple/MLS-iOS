@@ -12,9 +12,9 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
         var authorizationCode: String?
     }
 
-    private let authServiceResponse = PublishSubject<Credential>()
+    private let authServiceResponse = PublishSubject<Encodable>()
 
-    public func getCredential() -> Observable<Credential> {
+    public func getCredential() -> Observable<Encodable> {
         performRequest()
         return authServiceResponse
     }
