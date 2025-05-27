@@ -42,10 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return KakaoLoginProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            let scenes = UIApplication.shared.connectedScenes
-            let windowScene = scenes.first as? UIWindowScene
-            let window = windowScene?.windows.first ?? UIWindow()
-            return AppleLoginProviderImpl(window: window)
+            return AppleLoginProviderImpl()
         }
     }
 
