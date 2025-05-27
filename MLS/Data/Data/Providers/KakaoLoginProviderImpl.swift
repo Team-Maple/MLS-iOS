@@ -16,7 +16,7 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
 
     /// 카카오에 요청을 보내서 access 토큰을 포함한 정보를 가져오는 함수
     /// - Returns: accessToken + email
-    public func getCredential() -> Observable<Credential> {
+    public func getCredential() -> Observable<Encodable> {
         return Observable.create { [weak self] observer in
 
             let disposable = Disposables.create()
@@ -42,7 +42,7 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
     ///   - oauthToken: accessToken을 포함한 OAuthToken
     ///   - error: 발생한 에러
     ///   - observer: Credential을 관리하는 스트림
-    private func fetchEmail(oauthToken: OAuthToken?, error: Error?, observer: AnyObserver<Credential>) {
+    private func fetchEmail(oauthToken: OAuthToken?, error: Error?, observer: AnyObserver<Encodable>) {
         if let error = error {
             observer.onError(error)
             return
