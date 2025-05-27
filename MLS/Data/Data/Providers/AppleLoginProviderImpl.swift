@@ -12,6 +12,12 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
         var authorizationCode: String?
     }
 
+    private let window: UIWindow
+
+    public init(window: UIWindow) {
+        self.window = window
+    }
+
     private let authServiceResponse = PublishSubject<Encodable>()
 
     public func getCredential() -> Observable<Encodable> {
@@ -22,8 +28,6 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
     private func performRequest() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.presentationContextProvider = self
@@ -35,9 +39,7 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
 extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
 
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        let scenes = UIApplication.shared.connectedScenes
-        let windowScene = scenes.first as? UIWindowScene
-        return windowScene?.windows.first ?? UIWindow()
+        return window
     }
 
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {

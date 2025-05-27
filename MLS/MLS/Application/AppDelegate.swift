@@ -1,5 +1,7 @@
 import UIKit
 
+import AuthFeature
+import AuthFeatureInterface
 import BaseFeature
 import Core
 import Data
@@ -14,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ImageLoader.shared.configure.diskCacheCountLimit = 10
         FontManager.registerFonts()
-
+        registerDependencies()
         let kakaoNativeAppKey: String = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? ""
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
         return true
@@ -25,4 +27,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+
+    func registerDependencies() {
+        registerProvider()
+        registerUseCase()
+        registerFactory()
+    }
+
+    func registerProvider() {
+        DIContainer.register(type: NetworkProvider.self) {
+            return NetworkProviderImpl()
+        }
+        DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
+            return KakaoLoginProviderImpl()
+        }
+        DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
+            let scenes = UIApplication.shared.connectedScenes
+            let windowScene = scenes.first as? UIWindowScene
+            let window = windowScene?.windows.first ?? UIWindow()
+            return AppleLoginProviderImpl(window: window)
+        }
+    }
+
+    func registerUseCase() {
+        DIContainer.register(type: SocialLoginUseCase.self, name: "kakao") {
+            let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")
+            return SocialLoginUseCaseImpl(provider: provider)
+        }
+        DIContainer.register(type: SocialLoginUseCase.self, name: "apple") {
+            let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
+            return SocialLoginUseCaseImpl(provider: provider)
+        }
+    }
+
+    func registerFactory() {
+        DIContainer.register(type: LoginFactory.self) {
+            return LoginFactoryImpl()
+        }
+        DIContainer.register(type: TermsAgreementFactory.self) {
+            return TermsAgreementFactoryImpl()
+        }
+    }
 }

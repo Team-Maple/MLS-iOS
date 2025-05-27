@@ -1,5 +1,8 @@
 import os
 
+import Core
+import DomainInterface
+
 import ReactorKit
 internal import RxSwift
 
@@ -29,9 +32,13 @@ public final class LoginReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    private let appleLoginUseCase: SocialLoginUseCase
+    private let kakaoLoginUseCase: SocialLoginUseCase
     
     // MARK: - init
-    public init() {
+    public init(appleLoginUseCase: SocialLoginUseCase, kakaoLoginUseCase: SocialLoginUseCase) {
+        self.appleLoginUseCase = appleLoginUseCase
+        self.kakaoLoginUseCase = kakaoLoginUseCase
         self.initialState = State()
     }
     
@@ -40,10 +47,17 @@ public final class LoginReactor: Reactor {
         switch action {
         case .kakaoLoginButtonTapped:
             os_log("kakaoLoginButtonTapped")
-            return Observable.just(.tryLogin)
+            return kakaoLoginUseCase.execute()
+                .map { credential in
+                    print(credential)
+                    return .tryLogin
+                }
         case .appleLoginButtonTapped:
-            os_log("appleLoginButtonTapped")
-            return Observable.just(.tryLogin)
+            return appleLoginUseCase.execute()
+                .map { credential in
+                    print(credential)
+                    return .tryLogin
+                }
         case .guestLoginButtonTapped:
             return Observable.just(.moveToTermsAgreementsScene)
         }
