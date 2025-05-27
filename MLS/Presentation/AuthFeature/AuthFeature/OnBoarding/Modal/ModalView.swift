@@ -22,14 +22,14 @@ public final class ModalView: UIView {
     
     private let regularTeextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "놓치지 않도록 푸시 알림으로\n가장 먼저 알려들리게요.", color: .neutral700, alignment: .left)
+        label.attributedText = .makeStyledString(font: .caption, text: "놓치지 않도록 푸시 알림으로\n가장 먼저 알려들리게요.", color: .neutral700, alignment: .left)
         label.numberOfLines = 2
         return label
     }()
     
-    private let agreeButton = CommonButton(style: .normal, title: "동의하고 알림 받기", disabledTitle: nil)
+    public let agreeButton = CommonButton(style: .normal, title: "동의하고 알림 받기", disabledTitle: nil)
     
-    private let disagreeButton = CommonButton(style: .text, title: "다음에 하기", disabledTitle: nil)
+    public let disagreeButton = CommonButton(style: .text, title: "다음에 하기", disabledTitle: nil)
     
     // MARK: - init
     init() {

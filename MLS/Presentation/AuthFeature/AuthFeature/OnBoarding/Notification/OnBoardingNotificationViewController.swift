@@ -35,6 +35,11 @@ public extension OnBoardingNotificationViewController {
         super.viewDidLoad()
         configureUI()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // 권한 설정 확인하여 toast
+        super.viewWillAppear(animated)
+    }
 }
 
 // MARK: - SetUp

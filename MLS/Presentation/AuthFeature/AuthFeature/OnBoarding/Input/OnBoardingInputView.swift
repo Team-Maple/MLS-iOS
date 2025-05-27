@@ -30,7 +30,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
     
     public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: ["마법사", "전사", "궁수", "도적", "등등",])
     
-    public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
+    public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "다음")
     
     // MARK: - init
     override init() {

@@ -3,13 +3,27 @@ internal import RxSwift
 internal import RxCocoa
 
 public final class ModalReactor: Reactor {
-    
     // MARK: - Reactor
-    public enum Action { }
+    public enum Route {
+        case none
+        case dismiss
+    }
     
-    public enum Mutation { }
+    public enum Action {
+        case agreeButtonTapped
+        case disagreeButtonTapped
+    }
     
-    public struct State { }
+    public enum Mutation {
+        case showPermission
+        case moveToPreScene
+    }
+    
+    public struct State {
+        @Pulse var route: Route = .none
+        
+        var isAgreeNotification: Bool = false
+    }
     
     // MARK: - properties
     public var initialState: State
@@ -22,13 +36,26 @@ public final class ModalReactor: Reactor {
     
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action {
+        case .agreeButtonTapped:
+            return Observable.just(.showPermission)
+        case .disagreeButtonTapped:
+            return Observable.just(.moveToPreScene)
+        }
     }
     
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        switch mutation { }
+        switch mutation {
+        case .showPermission:
+            // 권한 설정
+//            newState.isAgreeNotification = true
+            newState.isAgreeNotification = false
+            newState.route = .dismiss
+        case .moveToPreScene:
+            newState.route = .dismiss
+        }
         
         return newState
     }

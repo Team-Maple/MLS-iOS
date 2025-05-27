@@ -57,13 +57,33 @@ private extension ModalViewController {
 
 extension ModalViewController {
     func bind(reactor: Reactor) {
-          bindUserActions(reactor: reactor)
+        bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
     
     func bindUserActions(reactor: Reactor) {
+        mainView.agreeButton.rx.tap
+            .map { Reactor.Action.agreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.disagreeButton.rx.tap
+            .map { Reactor.Action.disagreeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func bindViewState(reactor: Reactor) {
+        reactor.pulse(\.$route)
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .dismiss:
+                    owner.dismissCurrentModal()
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

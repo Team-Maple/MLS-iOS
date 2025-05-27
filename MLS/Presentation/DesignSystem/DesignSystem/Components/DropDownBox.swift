@@ -35,6 +35,8 @@ public final class DropDownBox: UIStackView {
         tableView.layer.borderColor = UIColor.neutral300.cgColor
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
+        tableView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
+        tableView.register(DropDownCell.self, forCellReuseIdentifier: "DropDownCell")
         return tableView
     }()
     
@@ -85,6 +87,10 @@ private extension DropDownBox {
         
         inputBox.borderView.layer.borderColor = UIColor.neutral300.cgColor
         inputBox.textField.isUserInteractionEnabled = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        inputBox.borderView.addGestureRecognizer(tapGesture)
+        inputBox.borderView.isUserInteractionEnabled = true
     }
     
     func setupTableView() {
@@ -101,7 +107,6 @@ private extension DropDownBox {
         let action = UIAction { [weak self] _ in
             self?.toggleDropdown()
         }
-        
         iconButton.addAction(action, for: .touchUpInside)
     }
     
@@ -109,8 +114,13 @@ private extension DropDownBox {
         isExpanded.toggle()
         tableView.isHidden = !isExpanded
         iconButton.setImage(isExpanded ? .arrowUp : .arrowDown, for: .normal)
-        let height = CGFloat(menus.count) * 44
+        let height = CGFloat(menus.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
+        layoutIfNeeded()
+    }
+        
+    @objc private func handleTap() {
+        toggleDropdown()
     }
 }
 
@@ -121,16 +131,19 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], color: selectedIndex == indexPath.row ? .textColor : .neutral500, alignment: .left)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell", for: indexPath) as? DropDownCell else {
+            return UITableViewCell()
+        }
+        let isSelected = selectedIndex == indexPath.row
+        cell.injection(with: menus[indexPath.row], isSelected: isSelected)
         cell.selectionStyle = .none
         return cell
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndex = indexPath.row
         inputBox.textField.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], alignment: .left)
         inputBox.textField.sendActions(for: .editingChanged)
-        selectedIndex = indexPath.row
         toggleDropdown()
     }
 

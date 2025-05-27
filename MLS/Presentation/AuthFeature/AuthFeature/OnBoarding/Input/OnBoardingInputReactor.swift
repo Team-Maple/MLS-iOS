@@ -32,6 +32,7 @@ public final class OnBoardingInputReactor: Reactor {
         
         var level: Int? = nil
         var role: String? = nil
+        var isEnableButton: Bool = false
     }
     
     // MARK: - properties
@@ -62,13 +63,20 @@ public final class OnBoardingInputReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
+        newState.isEnableButton = false
         switch mutation {
         case .moveToPreScene:
             newState.route = .dismiss
         case .changeLevel(let level):
             newState.level = level
+            if newState.level != nil && newState.role != nil {
+                newState.isEnableButton = true
+            }
         case .changeRole(let role):
             newState.role = role
+            if newState.level != nil && newState.role != nil {
+                newState.isEnableButton = true
+            }
         case .moveToHomeScene:
             newState.route = .home
         case .moveToNextScene:

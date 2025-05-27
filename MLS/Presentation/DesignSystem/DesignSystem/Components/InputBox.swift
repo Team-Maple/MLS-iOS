@@ -18,6 +18,8 @@ public final class InputBox: UIStackView {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.neutral300.cgColor
+        
         view.addSubview(textField)
         
         textField.snp.makeConstraints { make in

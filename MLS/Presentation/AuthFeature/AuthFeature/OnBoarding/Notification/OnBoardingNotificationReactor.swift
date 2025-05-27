@@ -14,8 +14,6 @@ public final class OnBoardingNotificationReactor: Reactor {
     public enum Action {
         case backButtonTapped
         case nextButtonTapped
-        case agreeButtonTapped
-        case disagreeButtonTapped
         case cancelOnBoarding
     }
     
@@ -23,8 +21,6 @@ public final class OnBoardingNotificationReactor: Reactor {
         case moveToPreScene
         case moveToHomeScene
         case showModalAndCompleteOnBoarding
-        case agreeNotification
-        case disagreeNotification
     }
     
     public struct State {
@@ -49,10 +45,6 @@ public final class OnBoardingNotificationReactor: Reactor {
             return Observable.just(.moveToPreScene)
         case .nextButtonTapped:
             return Observable.just(.showModalAndCompleteOnBoarding)
-        case .agreeButtonTapped:
-            return Observable.just(.agreeNotification)
-        case .disagreeButtonTapped:
-            return Observable.just(.disagreeNotification)
         case .cancelOnBoarding:
             return Observable.just(.moveToHomeScene)
         }
@@ -73,10 +65,6 @@ public final class OnBoardingNotificationReactor: Reactor {
             } else {
                 newState.route = .modal
             }
-        case .agreeNotification:
-            // 알람 설정 띄우기
-            newState.isCheckNotification = true
-        case .disagreeNotification:
             newState.isCheckNotification = true
         }
         

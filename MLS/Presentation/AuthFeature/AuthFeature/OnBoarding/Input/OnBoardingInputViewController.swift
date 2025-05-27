@@ -109,6 +109,14 @@ public extension OnBoardingInputViewController {
             }
             .disposed(by: disposeBag)
         
+        reactor.state
+            .map { $0.isEnableButton }
+            .withUnretained(self)
+            .subscribe { owner, isEnableButton in
+                owner.mainView.nextButton.isEnabled = isEnableButton
+            }
+            .disposed(by: disposeBag)
+        
         reactor.pulse(\.$route)
             .withUnretained(self)
             .subscribe { owner, route in
