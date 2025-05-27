@@ -83,20 +83,6 @@ public extension InputBox {
     func setType(type: InputBoxType) {
         self.type = type
     }
-    
-    enum InputBoxType {
-        case edit
-        case error
-        
-        var borderColor: UIColor {
-            switch self {
-            case .edit:
-                return .neutral300
-            case .error:
-                return .error900
-            }
-        }
-    }
 }
 
 // MARK: - UITextFieldDelegate
@@ -113,5 +99,19 @@ extension InputBox: UITextFieldDelegate {
             return false
         }
         return super.canPerformAction(action, withSender: sender)
+    }
+}
+
+public enum InputBoxType {
+    case edit
+    case error
+    
+    var borderColor: UIColor {
+        switch self {
+        case .edit:
+            return .neutral300
+        case .error:
+            return .error900
+        }
     }
 }

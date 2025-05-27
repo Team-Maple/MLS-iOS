@@ -1,6 +1,8 @@
+import DomainInterface
+
 import ReactorKit
-internal import RxSwift
 internal import RxCocoa
+internal import RxSwift
 
 public final class OnBoardingInputReactor: Reactor {
     // MARK: - Reactor
@@ -25,6 +27,8 @@ public final class OnBoardingInputReactor: Reactor {
         case changeRole(String?)
         case moveToHomeScene
         case moveToNextScene
+        case setButtonEnabled(Bool)
+        case setLevelValid(Bool)
     }
     
     public struct State {
@@ -32,15 +36,18 @@ public final class OnBoardingInputReactor: Reactor {
         
         var level: Int? = nil
         var role: String? = nil
-        var isEnableButton: Bool = false
+        var isButtonEnabled: Bool = false
+        var isLevelValid: Bool = false
     }
     
     // MARK: - properties
     public var initialState: State
+    public var useCase: OnBoardingInputUseCase
     var disposeBag = DisposeBag()
     
     // MARK: - init
-    public init() {
+    public init(useCase: OnBoardingInputUseCase) {
+        self.useCase = useCase
         self.initialState = State()
     }
     
@@ -50,9 +57,18 @@ public final class OnBoardingInputReactor: Reactor {
         case .backButtonTapped:
             return Observable.just(.moveToPreScene)
         case .inputLevel(let level):
-            return Observable.just(.changeLevel(level))
+            let changeLevel = Observable.just(Mutation.changeLevel(level))
+            let validateButton = useCase.checkEmptyData(level: level, role: currentState.role)
+                .map(Mutation.setButtonEnabled)
+            let validateLevel = useCase.checkValidLevel(level: level)
+                .map(Mutation.setLevelValid)
+            return .merge(changeLevel, validateButton, validateLevel)
         case .inputRole(let role):
-            return Observable.just(.changeRole(role))
+            return useCase.checkEmptyData(level: currentState.level, role: role)
+                .map { isValid in
+                    [.changeRole(role), .setButtonEnabled(isValid)]
+                }
+                .flatMap { Observable.from($0) }
         case .cancelOnBoarding:
             return Observable.just(.moveToHomeScene)
         case .nextButtonTapped:
@@ -63,24 +79,22 @@ public final class OnBoardingInputReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        newState.isEnableButton = false
+        newState.isButtonEnabled = false
         switch mutation {
         case .moveToPreScene:
             newState.route = .dismiss
         case .changeLevel(let level):
             newState.level = level
-            if newState.level != nil && newState.role != nil {
-                newState.isEnableButton = true
-            }
         case .changeRole(let role):
             newState.role = role
-            if newState.level != nil && newState.role != nil {
-                newState.isEnableButton = true
-            }
         case .moveToHomeScene:
             newState.route = .home
         case .moveToNextScene:
             newState.route = .notification
+        case .setButtonEnabled(let isEnabled):
+            newState.isButtonEnabled = isEnabled
+        case .setLevelValid(let isValid):
+            newState.isLevelValid = isValid
         }
         
         return newState

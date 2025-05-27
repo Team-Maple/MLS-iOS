@@ -2,6 +2,7 @@ import os
 import UIKit
 
 import BaseFeature
+import DesignSystem
 
 import ReactorKit
 internal import RxCocoa
@@ -110,11 +111,18 @@ public extension OnBoardingInputViewController {
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isEnableButton }
+            .map { $0.isLevelValid }
+            .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { owner, isEnableButton in
-                owner.mainView.nextButton.isEnabled = isEnableButton
+            .subscribe { owner, isLevelValid in
+                owner.mainView.inputBox.setType(type: isLevelValid ? InputBoxType.edit : InputBoxType.error)
             }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isButtonEnabled }
+            .distinctUntilChanged()
+            .bind(to: mainView.nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
         reactor.pulse(\.$route)
