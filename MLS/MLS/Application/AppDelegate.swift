@@ -27,7 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+}
 
+private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
         registerUseCase()
@@ -58,11 +60,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func registerFactory() {
-        DIContainer.register(type: LoginFactory.self) {
-            return LoginFactoryImpl()
-        }
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl()
+        }
+
+        DIContainer.register(type: LoginFactory.self) {
+            return LoginFactoryImpl(
+                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
+                appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+            )
         }
     }
 }
