@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
 		0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
 		0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
-		085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
 		085020642DDCD9640055CBCE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 085020632DDCD9640055CBCE /* RxCocoa */; };
 		085020662DDCD9640055CBCE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 085020652DDCD9640055CBCE /* RxRelay */; };
 		085020682DDCD9640055CBCE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 085020672DDCD9640055CBCE /* RxSwift */; };
@@ -35,6 +33,14 @@
 		778F55E12DE6DEC500684E34 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55E02DE6DEC500684E34 /* DomainInterface.framework */; };
 		778F55E22DE6DEC500684E34 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55E02DE6DEC500684E34 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		778F55F12DE8CC0F00684E34 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 778F55F02DE8CC0F00684E34 /* RxKeyboard */; };
+		08E41EB82DE5E78900D6ACD3 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; };
+		08E41EB92DE5E78900D6ACD3 /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08501BC62DDCA9DF0055CBCE /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E41EBB2DE5E78A00D6ACD3 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; };
+		08E41EBC2DE5E78A00D6ACD3 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E41EBD2DE5E78B00D6ACD3 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; };
+		08E41EBE2DE5E78B00D6ACD3 /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E41EBF2DE5E78D00D6ACD3 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; };
+		08E41EC02DE5E78D00D6ACD3 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08EECF932DD908D00047AFE2 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +68,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		774D008E2DDE1005008BA694 /* Embed Frameworks */ = {
+		08E41EBA2DE5E78900D6ACD3 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -71,11 +77,13 @@
 				778F55CE2DE5AF7300684E34 /* Domain.framework in Embed Frameworks */,
 				778F55822DE5A8DA00684E34 /* DomainInterface.framework in Embed Frameworks */,
 				774D008D2DDE1005008BA694 /* BaseFeature.framework in Embed Frameworks */,
+				08E41EBE2DE5E78B00D6ACD3 /* DesignSystem.framework in Embed Frameworks */,
+				08E41EB92DE5E78900D6ACD3 /* AuthFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		778F4B942DDEF74D00684E34 /* Embed Frameworks */ = {
+		08E41EC12DE5E78D00D6ACD3 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
@@ -96,6 +104,7 @@
 				778F55DC2DE6DEBF00684E34 /* Data.framework in Embed Frameworks */,
 				778F55E22DE6DEC500684E34 /* DomainInterface.framework in Embed Frameworks */,
 				778F55D82DE6DEBB00684E34 /* Core.framework in Embed Frameworks */,
+				08E41EC02DE5E78D00D6ACD3 /* BaseFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -159,7 +168,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				778F4B922DDEF74D00684E34 /* BaseFeature.framework in Frameworks */,
+				08E41EBF2DE5E78D00D6ACD3 /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,14 +178,14 @@
 			files = (
 				778F55CD2DE5AF7300684E34 /* Domain.framework in Frameworks */,
 				778F55F12DE8CC0F00684E34 /* RxKeyboard in Frameworks */,
-				774D008C2DDE1005008BA694 /* BaseFeature.framework in Frameworks */,
+				08E41EBB2DE5E78A00D6ACD3 /* BaseFeature.framework in Frameworks */,
+				08E41EBD2DE5E78B00D6ACD3 /* DesignSystem.framework in Frameworks */,
 				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
+				08E41EB82DE5E78900D6ACD3 /* AuthFeatureInterface.framework in Frameworks */,
 				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
 				0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */,
-				085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */,
 				0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */,
 				778F55812DE5A8DA00684E34 /* DomainInterface.framework in Frameworks */,
-				08501BEA2DDCACD20055CBCE /* AuthFeatureInterface.framework in Frameworks */,
 				085020642DDCD9640055CBCE /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,7 +279,7 @@
 				08501BC22DDCA9DF0055CBCE /* Sources */,
 				08501BC32DDCA9DF0055CBCE /* Frameworks */,
 				08501BC42DDCA9DF0055CBCE /* Resources */,
-				778F4B942DDEF74D00684E34 /* Embed Frameworks */,
+				08E41EC12DE5E78D00D6ACD3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -294,7 +303,7 @@
 				0858AB3B2DCFD62C0060EBCA /* Sources */,
 				0858AB3C2DCFD62C0060EBCA /* Frameworks */,
 				0858AB3D2DCFD62C0060EBCA /* Resources */,
-				774D008E2DDE1005008BA694 /* Embed Frameworks */,
+				08E41EBA2DE5E78900D6ACD3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -467,9 +476,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -511,9 +522,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -553,9 +566,11 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -592,9 +607,11 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

@@ -22,9 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-    }
-    
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
+}
+
+private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
         registerUseCase()
@@ -39,10 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return KakaoLoginProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            let scenes = UIApplication.shared.connectedScenes
-            let windowScene = scenes.first as? UIWindowScene
-            let window = windowScene?.windows.first ?? UIWindow()
-            return AppleLoginProviderImpl(window: window)
+            return AppleLoginProviderImpl()
         }
         DIContainer.register(type: OnBoardingInputRepository.self) {
             return OnBoardingInputRepositoryImpl()
@@ -65,9 +63,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func registerFactory() {
-        DIContainer.register(type: LoginFactory.self) {
-            return LoginFactoryImpl()
-        }
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl()
         }
@@ -80,6 +75,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DIContainer.register(type: OnBoardingPresentableFactory.self) {
             return OnBoardingNotificationFactoryImpl()
         }
+        DIContainer.register(type: LoginFactory.self) {
+            return LoginFactoryImpl(
+                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
+                appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+            )
+        }
     }
 }
-

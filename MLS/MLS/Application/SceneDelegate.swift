@@ -16,13 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
         window = UIWindow(windowScene: windowScene)
-        let startViewController = loginFactory.make(
-            isReLogin: false,
-            termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-            appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-            kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
-        )
-        window?.rootViewController = startViewController
+        let startViewController = loginFactory.make(isReLogin: false)
+        window?.rootViewController = UINavigationController(rootViewController: startViewController)
         window?.makeKeyAndVisible()
     }
 
