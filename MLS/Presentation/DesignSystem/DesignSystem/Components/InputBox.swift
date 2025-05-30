@@ -18,6 +18,8 @@ public final class InputBox: UIStackView {
         let view = UIView()
         view.layer.cornerRadius = 8
         view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.neutral300.cgColor
+        
         view.addSubview(textField)
         
         textField.snp.makeConstraints { make in
@@ -81,35 +83,18 @@ public extension InputBox {
     func setType(type: InputBoxType) {
         self.type = type
     }
-    
-    enum InputBoxType {
-        case edit
-        case error
-        
-        var borderColor: UIColor {
-            switch self {
-            case .edit:
-                return .neutral300
-            case .error:
-                return .error900
-            }
-        }
-    }
 }
 
-// MARK: - UITextFieldDelegate
-extension InputBox: UITextFieldDelegate {
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.contains(UIPasteboard.general.string ?? "") {
-            return false
+public enum InputBoxType {
+    case edit
+    case error
+    
+    var borderColor: UIColor {
+        switch self {
+        case .edit:
+            return .neutral300
+        case .error:
+            return .error900
         }
-        return true
-    }
-        
-    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(paste(_:)) {
-            return false
-        }
-        return super.canPerformAction(action, withSender: sender)
     }
 }

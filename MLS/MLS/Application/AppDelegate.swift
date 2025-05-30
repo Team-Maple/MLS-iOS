@@ -46,6 +46,9 @@ private extension AppDelegate {
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
             return AppleLoginProviderImpl()
         }
+        DIContainer.register(type: OnBoardingInputRepository.self) {
+            return OnBoardingInputRepositoryImpl()
+        }
     }
 
     func registerUseCase() {
@@ -57,13 +60,25 @@ private extension AppDelegate {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
         }
+        DIContainer.register(type: OnBoardingInputUseCase.self) {
+            let repository = DIContainer.resolve(type: OnBoardingInputRepository.self)
+            return OnBoardingInputUseCaseImpl(repository: repository)
+        }
     }
 
     func registerFactory() {
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl()
         }
-
+        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingQuestion") {
+            return OnBoardingQuestionFactoryImpl()
+        }
+        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingInput") {
+            return OnBoardingInputFactoryImpl()
+        }
+        DIContainer.register(type: OnBoardingPresentableFactory.self) {
+            return OnBoardingNotificationFactoryImpl()
+        }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),

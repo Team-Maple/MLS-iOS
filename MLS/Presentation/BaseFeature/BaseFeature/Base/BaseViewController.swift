@@ -24,6 +24,7 @@ extension BaseViewController {
 // MARK: - SetUp
 private extension BaseViewController {
     func configureUI() {
+        navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
     }
 }

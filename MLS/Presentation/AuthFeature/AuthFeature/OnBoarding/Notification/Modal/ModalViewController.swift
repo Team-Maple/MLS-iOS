@@ -1,26 +1,26 @@
-import os
 import UIKit
 
 import BaseFeature
-import AuthFeatureInterface
 
-import ReactorKit
+internal import SnapKit
 internal import RxCocoa
 internal import RxSwift
-internal import SnapKit
+import ReactorKit
 
-public class OnBoardingNotificationViewController: BaseViewController, View {
+final class ModalViewController: BaseViewController, View, ModalPresentable {
     // MARK: - Properties
-    public typealias Reactor = OnBoardingNotificationReactor
-    private let factory: OnBoardingPresentableFactory
-
-    // MARK: - Components
-    public var disposeBag = DisposeBag()
-
-    private var mainView = OnBoardingNotificationView()
+    typealias Reactor = ModalReactor
     
-    public init(factory: OnBoardingPresentableFactory) {
-        self.factory = factory
+    var disposeBag = DisposeBag()
+    
+    var modalHeight: CGFloat?
+    var modalStyle: ModalStyle
+    
+    private var mainView = ModalView()
+    
+    init(modalHeight: CGFloat? = nil, modalStyle: ModalStyle) {
+        self.modalHeight = modalHeight
+        self.modalStyle = modalStyle
         super.init()
     }
     
@@ -30,53 +30,49 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
 }
 
 // MARK: - Life Cycle
-public extension OnBoardingNotificationViewController {
+extension ModalViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        addViews()
+        setupConstraints()
         configureUI()
     }
 }
 
 // MARK: - SetUp
-private extension OnBoardingNotificationViewController {
+private extension ModalViewController {
     func addViews() {
         view.addSubview(mainView)
     }
 
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges.equalToSuperview()
         }
     }
 
-    func configureUI() {
-        addViews()
-        setupConstraints()
-    }
+    func configureUI() { }
 }
 
-// MARK: - Private Methods
-private extension OnBoardingNotificationViewController {}
-
-// MARK: - Bind
-public extension OnBoardingNotificationViewController {
+extension ModalViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-
+    
     func bindUserActions(reactor: Reactor) {
-        mainView.nextButton.rx.tap
-            .map { Reactor.Action.nextButtonTapped }
+        mainView.agreeButton.rx.tap
+            .map { Reactor.Action.agreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        mainView.headerView.leftButton.rx.tap
-            .map { Reactor.Action.backButtonTapped }
+        mainView.disagreeButton.rx.tap
+            .map { Reactor.Action.disagreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-
+    
     func bindViewState(reactor: Reactor) {
         reactor.pulse(\.$route)
             .withUnretained(self)
@@ -84,11 +80,6 @@ public extension OnBoardingNotificationViewController {
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
-                case .home:
-                    os_log("moveToHome")
-                case .modal:
-                    let vc = owner.factory.make()
-                    owner.presentModal(vc)
                 default:
                     break
                 }

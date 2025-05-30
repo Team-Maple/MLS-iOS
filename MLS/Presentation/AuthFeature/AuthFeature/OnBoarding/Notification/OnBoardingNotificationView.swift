@@ -4,12 +4,12 @@ import DesignSystem
 
 internal import SnapKit
 
-public final class OnBoardingNotificationView: UIView {
+public final class OnBoardingNotificationView: OnBoardingBaseView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 16
         static let verticalInset = 16
-        static let imgSize = 160
+        static let imgSize = 220
         static let resizeCenterY = 70
     }
     
@@ -46,12 +46,13 @@ public final class OnBoardingNotificationView: UIView {
         return view
     }()
     
-    private let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
+    public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
     
     // MARK: - init
-    init() {
-        super.init(frame: .zero)
-        configureUI()
+    override init() {
+        super.init()
+        addViews()
+        setupConstraints()
     }
     
     @available(*, unavailable)
@@ -77,12 +78,5 @@ private extension OnBoardingNotificationView {
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(Constant.verticalInset)
         }
-    }
-    
-    func configureUI() {
-        addViews()
-        setupConstraints()
-        
-        backgroundColor = .clearMLS
     }
 }
