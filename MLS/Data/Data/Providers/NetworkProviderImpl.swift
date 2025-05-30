@@ -18,7 +18,7 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
         return Observable.create { [weak self] observer in
-            self?.sendRequest(endPoint: endPoint, completion: { result in
+            self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
                 switch result {
                 case .success(let data):
                     if let data = data {
@@ -42,7 +42,7 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     public func requestData(endPoint: Requestable, interceptor: Interceptor?) -> Completable {
         return Completable.create { [weak self] completable in
-            self?.sendRequest(endPoint: endPoint, completion: { result in
+            self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
                 switch result {
                 case .success(let data):
                     if data != nil {
@@ -64,15 +64,17 @@ private extension NetworkProviderImpl {
     /// - Parameters:
     ///   - endPoint: 요청을 위한 엔드포인트 객체
     ///   - completion: 응답 결과
-    func sendRequest<T: Requestable>(endPoint: T, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
+    func sendRequest<T: Requestable>(endPoint: T, interceptor: Interceptor?, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
-            let request = try endPoint.getUrlRequest()
-
+            var request = try endPoint.getUrlRequest()
+            if let interceptor = interceptor { request = interceptor.adapt(request) }
+//            print(request.allHTTPHeaderFields)
             let task = session.dataTask(with: request) { [weak self] data, response, error in
                 guard let self else {
                     completion(.failure(.providerDeallocated))
                     return
                 }
+//                print("Task resume Success!!@!@!@!")
                 let taskResult = checkValidation(data: data, response: response, error: error)
                 switch taskResult {
                 case .success(let data):
