@@ -28,7 +28,7 @@ public final class OnBoardingInputReactor: Reactor {
         case moveToHomeScene
         case moveToNextScene
         case setButtonEnabled(Bool)
-        case setLevelValid(Bool)
+        case setLevelValid(Bool?)
     }
     
     public struct State {
@@ -37,7 +37,7 @@ public final class OnBoardingInputReactor: Reactor {
         var level: Int? = nil
         var role: String? = nil
         var isButtonEnabled: Bool = false
-        var isLevelValid: Bool = false
+        var isLevelValid: Bool? = false
     }
     
     // MARK: - properties
@@ -78,8 +78,7 @@ public final class OnBoardingInputReactor: Reactor {
     
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
-        newState.isButtonEnabled = false
+
         switch mutation {
         case .moveToPreScene:
             newState.route = .dismiss

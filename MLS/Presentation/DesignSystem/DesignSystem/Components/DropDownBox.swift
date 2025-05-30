@@ -27,7 +27,7 @@ public final class DropDownBox: UIStackView {
         return view
     }()
     
-    private let tableView: UITableView = {
+    public let tableView: UITableView = {
         let tableView = UITableView()
         tableView.isHidden = true
         tableView.layer.borderWidth = 1
@@ -116,11 +116,15 @@ private extension DropDownBox {
         iconButton.setImage(isExpanded ? .arrowUp : .arrowDown, for: .normal)
         let height = CGFloat(menus.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
-        layoutIfNeeded()
+    }
+    
+    func removeKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
         
     @objc private func handleTap() {
         toggleDropdown()
+        removeKeyboard()
     }
 }
 

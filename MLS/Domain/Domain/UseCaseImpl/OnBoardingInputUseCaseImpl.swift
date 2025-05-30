@@ -13,7 +13,7 @@ public class OnBoardingInputUseCaseImpl: OnBoardingInputUseCase {
         return repository.checkEmptyData(level: level, role: role)
     }
     
-    public func checkValidLevel(level: Int?) -> RxSwift.Observable<Bool> {
+    public func checkValidLevel(level: Int?) -> Observable<Bool?> {
         return repository.checkValidLevel(level: level)
     }
 }

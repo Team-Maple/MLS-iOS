@@ -1,6 +1,6 @@
 import ReactorKit
-internal import RxSwift
 internal import RxCocoa
+internal import RxSwift
 
 public final class OnBoardingNotificationReactor: Reactor {
     // MARK: - Reactor
@@ -20,13 +20,11 @@ public final class OnBoardingNotificationReactor: Reactor {
     public enum Mutation {
         case moveToPreScene
         case moveToHomeScene
-        case showModalAndCompleteOnBoarding
+        case showModal
     }
     
     public struct State {
         @Pulse var route: Route = .none
-        
-        var isCheckNotification: Bool = false
     }
     
     // MARK: - properties
@@ -44,7 +42,7 @@ public final class OnBoardingNotificationReactor: Reactor {
         case .backButtonTapped:
             return Observable.just(.moveToPreScene)
         case .nextButtonTapped:
-            return Observable.just(.showModalAndCompleteOnBoarding)
+            return Observable.just(.showModal)
         case .cancelOnBoarding:
             return Observable.just(.moveToHomeScene)
         }
@@ -58,14 +56,8 @@ public final class OnBoardingNotificationReactor: Reactor {
             newState.route = .dismiss
         case .moveToHomeScene:
             newState.route = .home
-        case .showModalAndCompleteOnBoarding:
-            if newState.isCheckNotification {
-                // 정보 저장
-                newState.route = .home
-            } else {
-                newState.route = .modal
-            }
-            newState.isCheckNotification = true
+        case .showModal:
+            newState.route = .modal
         }
         
         return newState

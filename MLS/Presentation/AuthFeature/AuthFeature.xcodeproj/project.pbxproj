@@ -24,6 +24,17 @@
 		778F4C6D2DDEFB6800684E34 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 778F4C6C2DDEFB6800684E34 /* ReactorKit */; };
 		778F55812DE5A8DA00684E34 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55802DE5A8DA00684E34 /* DomainInterface.framework */; };
 		778F55822DE5A8DA00684E34 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55802DE5A8DA00684E34 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55CD2DE5AF7300684E34 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55CC2DE5AF7300684E34 /* Domain.framework */; };
+		778F55CE2DE5AF7300684E34 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55CC2DE5AF7300684E34 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55D72DE6DEBB00684E34 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55D62DE6DEBB00684E34 /* Core.framework */; };
+		778F55D82DE6DEBB00684E34 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55D62DE6DEBB00684E34 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55DB2DE6DEBF00684E34 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55DA2DE6DEBF00684E34 /* Data.framework */; };
+		778F55DC2DE6DEBF00684E34 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55DA2DE6DEBF00684E34 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55DE2DE6DEC200684E34 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55DD2DE6DEC200684E34 /* Domain.framework */; };
+		778F55DF2DE6DEC200684E34 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55DD2DE6DEC200684E34 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55E12DE6DEC500684E34 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55E02DE6DEC500684E34 /* DomainInterface.framework */; };
+		778F55E22DE6DEC500684E34 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55E02DE6DEC500684E34 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778F55F12DE8CC0F00684E34 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 778F55F02DE8CC0F00684E34 /* RxKeyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +68,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				778F55CE2DE5AF7300684E34 /* Domain.framework in Embed Frameworks */,
 				778F55822DE5A8DA00684E34 /* DomainInterface.framework in Embed Frameworks */,
 				774D008D2DDE1005008BA694 /* BaseFeature.framework in Embed Frameworks */,
 			);
@@ -70,6 +82,20 @@
 			dstSubfolderSpec = 10;
 			files = (
 				778F4B932DDEF74D00684E34 /* BaseFeature.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		778F55D92DE6DEBB00684E34 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				778F55DF2DE6DEC200684E34 /* Domain.framework in Embed Frameworks */,
+				778F55DC2DE6DEBF00684E34 /* Data.framework in Embed Frameworks */,
+				778F55E22DE6DEC500684E34 /* DomainInterface.framework in Embed Frameworks */,
+				778F55D82DE6DEBB00684E34 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -88,6 +114,13 @@
 		778F4B912DDEF74D00684E34 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F557C2DE5A8A800684E34 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F55802DE5A8DA00684E34 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55CC2DE5AF7300684E34 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55CF2DE5B2A600684E34 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55D32DE5B2B100684E34 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55D62DE6DEBB00684E34 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55DA2DE6DEBF00684E34 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55DD2DE6DEC200684E34 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55E02DE6DEC500684E34 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -98,29 +131,11 @@
 			);
 			target = 086869FD2DD1C08800868C70 /* AuthFeatureDemo */;
 		};
-		778F50E32DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeature" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				OnBoardingFactory.swift,
-			);
-			target = 0858AB3E2DCFD62C0060EBCA /* AuthFeature */;
-		};
-		778F50E42DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeatureInterface" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				OnBoardingFactory.swift,
-			);
-			target = 08501BC52DDCA9DF0055CBCE /* AuthFeatureInterface */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		08501BC72DDCA9DF0055CBCE /* AuthFeatureInterface */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				778F50E32DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeature" target */,
-				778F50E42DE3574800684E34 /* Exceptions for "AuthFeatureInterface" folder in "AuthFeatureInterface" target */,
-			);
 			path = AuthFeatureInterface;
 			sourceTree = "<group>";
 		};
@@ -152,6 +167,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778F55CD2DE5AF7300684E34 /* Domain.framework in Frameworks */,
+				778F55F12DE8CC0F00684E34 /* RxKeyboard in Frameworks */,
 				774D008C2DDE1005008BA694 /* BaseFeature.framework in Frameworks */,
 				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
 				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
@@ -168,10 +185,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				778F55DB2DE6DEBF00684E34 /* Data.framework in Frameworks */,
 				778F4B902DDE133600684E34 /* SnapKit in Frameworks */,
 				0850205A2DDCD9200055CBCE /* AuthFeature.framework in Frameworks */,
 				778F4C6D2DDEFB6800684E34 /* ReactorKit in Frameworks */,
+				778F55D72DE6DEBB00684E34 /* Core.framework in Frameworks */,
 				0850205D2DDCD9210055CBCE /* AuthFeatureInterface.framework in Frameworks */,
+				778F55E12DE6DEC500684E34 /* DomainInterface.framework in Frameworks */,
+				778F55DE2DE6DEC200684E34 /* Domain.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,6 +223,13 @@
 		0858ABEE2DCFDA450060EBCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				778F55E02DE6DEC500684E34 /* DomainInterface.framework */,
+				778F55DD2DE6DEC200684E34 /* Domain.framework */,
+				778F55DA2DE6DEBF00684E34 /* Data.framework */,
+				778F55D62DE6DEBB00684E34 /* Core.framework */,
+				778F55D32DE5B2B100684E34 /* DomainInterface.framework */,
+				778F55CF2DE5B2A600684E34 /* Core.framework */,
+				778F55CC2DE5AF7300684E34 /* Domain.framework */,
 				778F55802DE5A8DA00684E34 /* DomainInterface.framework */,
 				778F557C2DE5A8A800684E34 /* DomainInterface.framework */,
 				778F4B912DDEF74D00684E34 /* BaseFeature.framework */,
@@ -283,6 +311,7 @@
 				085020672DDCD9640055CBCE /* RxSwift */,
 				085020692DDCD9720055CBCE /* SnapKit */,
 				0850206B2DDCD97E0055CBCE /* ReactorKit */,
+				778F55F02DE8CC0F00684E34 /* RxKeyboard */,
 			);
 			productName = AuthFeature;
 			productReference = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */;
@@ -295,6 +324,7 @@
 				086869FA2DD1C08800868C70 /* Sources */,
 				086869FB2DD1C08800868C70 /* Frameworks */,
 				086869FC2DD1C08800868C70 /* Resources */,
+				778F55D92DE6DEBB00684E34 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -350,6 +380,7 @@
 				086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */,
 				086869F12DD1BF9F00868C70 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				08686A392DD1C78500868C70 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				778F55EF2DE8CC0F00684E34 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 0858AB402DCFD62C0060EBCA /* Products */;
@@ -845,6 +876,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		778F55EF2DE8CC0F00684E34 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -882,6 +921,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 086869EE2DD1BF8F00868C70 /* XCRemoteSwiftPackageReference "ReactorKit" */;
 			productName = ReactorKit;
+		};
+		778F55F02DE8CC0F00684E34 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778F55EF2DE8CC0F00684E34 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

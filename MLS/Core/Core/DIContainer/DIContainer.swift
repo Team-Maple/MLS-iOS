@@ -22,7 +22,7 @@ public final class DIContainer {
     ///   - type: 가져올 객체의 타입
     ///   - name: 가져올 객체의 식별자
     /// - Returns: 저장되어있던 객체
-    public static func resolve<T>(type: T.Type, name: String? = nil) -> T? {
+    public static func resolve<T>(type: T.Type, name: String? = nil) -> T {
         shared.resolve(type: type, name: name)
     }
 }
@@ -42,13 +42,13 @@ private extension DIContainer {
         }
     }
 
-    private func resolve<T>(type: T.Type, name: String?) -> T? {
-        serviceQueue.sync {
+    private func resolve<T>(type: T.Type, name: String?) -> T {
+//        serviceQueue.sync {
             let key = ObjectIdentifier(type)
             guard let namedServices = services[key], let result = namedServices[name ?? "default"], let instance = result() as? T else {
-                return nil
+                fatalError("\(type) does not registered")
             }
             return instance
-        }
+//        }
     }
 }

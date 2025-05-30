@@ -1,6 +1,10 @@
 import UIKit
 
 import AuthFeature
+import AuthFeatureInterface
+import Core
+import Domain
+import DomainInterface
 
 import RxCocoa
 import RxSwift
@@ -20,15 +24,15 @@ class ViewController: UIViewController {
         termVC.reactor = TermsAgreementReactor()
         termVC.title = "약관 동의"
         
-        let questionVC = OnBoardingQuestionViewController(factory: OnBoardingQuestionFactoryImpl())
+        let questionVC = OnBoardingQuestionViewController(factory: DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingQuestion"))
         questionVC.reactor = OnBoardingQuestionReactor()
         questionVC.title = "온보딩 진입"
         
-        let inputVC = OnBoardingInputViewController(factory: OnBoardingInputFactoryImpl())
-        inputVC.reactor = OnBoardingInputReactor()
+        let inputVC = OnBoardingInputViewController(factory: DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingInput"))
+        inputVC.reactor = OnBoardingInputReactor(useCase: OnBoardingInputUseCaseImpl(repository: DIContainer.resolve(type: OnBoardingInputRepository.self)))
         inputVC.title = "온보딩 입력"
         
-        let notiVC = OnBoardingNotificationViewController(factory: OnBoardingNotificationFactoryImpl())
+        let notiVC = OnBoardingNotificationViewController(factory: DIContainer.resolve(type: OnBoardingPresentableFactory.self))
         notiVC.reactor = OnBoardingNotificationReactor()
         notiVC.title = "온보딩 알림"
         

@@ -1,5 +1,12 @@
 import UIKit
 
+import AuthFeature
+import AuthFeatureInterface
+import Core
+import Data
+import Domain
+import DomainInterface
+
 import KakaoSDKAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -7,8 +14,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = ViewController()
+        let startViewController = loginFactory.make(
+            isReLogin: false,
+            termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
+            appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
+            kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+        )
+        window?.rootViewController = startViewController
         window?.makeKeyAndVisible()
     }
 

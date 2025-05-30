@@ -85,23 +85,6 @@ public extension InputBox {
     }
 }
 
-// MARK: - UITextFieldDelegate
-extension InputBox: UITextFieldDelegate {
-    public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.contains(UIPasteboard.general.string ?? "") {
-            return false
-        }
-        return true
-    }
-        
-    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        if action == #selector(paste(_:)) {
-            return false
-        }
-        return super.canPerformAction(action, withSender: sender)
-    }
-}
-
 public enum InputBoxType {
     case edit
     case error

@@ -79,7 +79,7 @@ extension ModalViewController {
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
-                    owner.dismissCurrentModal()
+                    owner.navigationController?.popViewController(animated: true)
                 default:
                     break
                 }
