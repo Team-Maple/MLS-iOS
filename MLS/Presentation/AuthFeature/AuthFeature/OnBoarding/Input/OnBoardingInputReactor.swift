@@ -37,17 +37,19 @@ public final class OnBoardingInputReactor: Reactor {
         var level: Int? = nil
         var role: String? = nil
         var isButtonEnabled: Bool = false
-        var isLevelValid: Bool? = false
+        var isLevelValid: Bool? = nil
     }
     
     // MARK: - properties
     public var initialState: State
-    public var useCase: OnBoardingInputUseCase
+    public var checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
+    public var checkValidLevelUseCase: CheckValidLevelUseCase
     var disposeBag = DisposeBag()
     
     // MARK: - init
-    public init(useCase: OnBoardingInputUseCase) {
-        self.useCase = useCase
+    public init(checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase, checkValidLevelUseCase: CheckValidLevelUseCase) {
+        self.checkEmptyUseCase = checkEmptyUseCase
+        self.checkValidLevelUseCase = checkValidLevelUseCase
         self.initialState = State()
     }
     
@@ -58,13 +60,13 @@ public final class OnBoardingInputReactor: Reactor {
             return Observable.just(.moveToPreScene)
         case .inputLevel(let level):
             let changeLevel = Observable.just(Mutation.changeLevel(level))
-            let validateButton = useCase.checkEmptyData(level: level, role: currentState.role)
+            let validateButton = checkEmptyUseCase.excute(level: level, role: currentState.role)
                 .map(Mutation.setButtonEnabled)
-            let validateLevel = useCase.checkValidLevel(level: level)
+            let validateLevel = checkValidLevelUseCase.excute(level: level)
                 .map(Mutation.setLevelValid)
             return .merge(changeLevel, validateButton, validateLevel)
         case .inputRole(let role):
-            return useCase.checkEmptyData(level: currentState.level, role: role)
+            return checkEmptyUseCase.excute(level: currentState.level, role: role)
                 .map { isValid in
                     [.changeRole(role), .setButtonEnabled(isValid)]
                 }

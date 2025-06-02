@@ -4,7 +4,7 @@ import DesignSystem
 
 internal import SnapKit
 
-public final class ModalView: UIView {
+public final class OnBoardingModalView: UIView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 20
@@ -45,7 +45,7 @@ public final class ModalView: UIView {
 }
 
 // MARK: - SetUp
-private extension ModalView {
+private extension OnBoardingModalView {
     func addViews() {
         addSubview(boldTextLabel)
         addSubview(regularTeextLabel)

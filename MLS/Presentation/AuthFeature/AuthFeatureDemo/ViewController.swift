@@ -17,23 +17,19 @@ class ViewController: UIViewController {
     }()
     
     lazy var views: [UIViewController] = {
-        let loginVC = LoginViewController(isRelogin: false, termsAgreementsFactory: TermsAgreementFactoryImpl())
+        let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
         loginVC.title = "로그인"
         
-        let termVC = TermsAgreementViewController()
-        termVC.reactor = TermsAgreementReactor()
+        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make()
         termVC.title = "약관 동의"
         
-        let questionVC = OnBoardingQuestionViewController(factory: DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingQuestion"))
-        questionVC.reactor = OnBoardingQuestionReactor()
+        let questionVC = DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingQuestion").make()
         questionVC.title = "온보딩 진입"
         
-        let inputVC = OnBoardingInputViewController(factory: DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingInput"))
-        inputVC.reactor = OnBoardingInputReactor(useCase: OnBoardingInputUseCaseImpl(repository: DIContainer.resolve(type: OnBoardingInputRepository.self)))
+        let inputVC = DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingInput").make()
         inputVC.title = "온보딩 입력"
         
-        let notiVC = OnBoardingNotificationViewController(factory: DIContainer.resolve(type: OnBoardingPresentableFactory.self))
-        notiVC.reactor = OnBoardingNotificationReactor()
+        let notiVC = DIContainer.resolve(type: OnBoardingPresentableFactory.self).make()
         notiVC.title = "온보딩 알림"
         
         return [

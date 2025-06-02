@@ -12,7 +12,7 @@ internal import SnapKit
 public class OnBoardingNotificationViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingNotificationReactor
-    private let factory: OnBoardingPresentableFactory
+    private let onBoardingModalFactory: OnBoardingPresentableFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
@@ -20,7 +20,7 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
     private var mainView = OnBoardingNotificationView()
     
     public init(factory: OnBoardingPresentableFactory) {
-        self.factory = factory
+        self.onBoardingModalFactory = factory
         super.init()
     }
     
@@ -87,7 +87,7 @@ public extension OnBoardingNotificationViewController {
                 case .home:
                     os_log("moveToHome")
                 case .modal:
-                    let vc = owner.factory.make()
+                    let vc = owner.onBoardingModalFactory.make()
                     owner.presentModal(vc)
                 default:
                     break

@@ -5,6 +5,7 @@ public final class TermsAgreementReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case onBoarding
     }
     
     // MARK: - Reactor
@@ -15,6 +16,7 @@ public final class TermsAgreementReactor: Reactor {
         case serviceTermsAgreeButtonTapped
         case personalInformationAgreeButtonTapped
         case marketingAgreeButtonTapped
+        case bottomButtonTapped
     }
     
     public enum Mutation {
@@ -24,6 +26,7 @@ public final class TermsAgreementReactor: Reactor {
         case changeIsPersonalInformationAgreeState
         case changeIsMarketingAgreeState
         case moveToRecentScene
+        case moveToOnBoarding
     }
     
     public struct State {
@@ -61,6 +64,8 @@ public final class TermsAgreementReactor: Reactor {
             return Observable.just(.changeIsPersonalInformationAgreeState)
         case .marketingAgreeButtonTapped:
             return Observable.just(.changeIsMarketingAgreeState)
+        case .bottomButtonTapped:
+            return Observable.just(.moveToOnBoarding)
         }
     }
     
@@ -83,6 +88,8 @@ public final class TermsAgreementReactor: Reactor {
             newState.isMarketingAgree.toggle()
         case .moveToRecentScene:
             newState.route = .dismiss
+        case .moveToOnBoarding:
+            newState.route = .onBoarding
         }
         if newState.isOldAgree == true
             && newState.isServiceTermsAgree == true

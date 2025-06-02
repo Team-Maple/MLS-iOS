@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		08E41EC52DE5E79F00D6ACD3 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; };
-		08E41EC62DE5E79F00D6ACD3 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		08E41EC82DE5E7A000D6ACD3 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; };
-		08E41EC92DE5E7A000D6ACD3 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		08E41ECA2DE5E7A400D6ACD3 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; };
-		08E41ECB2DE5E7A400D6ACD3 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0801754B2DCD275300D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; };
+		0801754C2DCD275300D0919F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0801752E2DCD26B300D0919F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		084A25CD2DB93E1E00C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; };
+		084A25CE2DB93E1E00C395C0 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25CC2DB93E1E00C395C0 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; };
+		08ED490E2DCFDD63002C21A2 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49312DCFDEF6002C21A2 /* RxSwift */; };
 		08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49352DCFDF8F002C21A2 /* RxSwift */; };
 /* End PBXBuildFile section */
@@ -28,25 +28,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		08E41EC72DE5E79F00D6ACD3 /* Embed Frameworks */ = {
+		0803C7752DB9120F0016193E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				08E41EC92DE5E7A000D6ACD3 /* DomainInterface.framework in Embed Frameworks */,
-				08E41EC62DE5E79F00D6ACD3 /* Core.framework in Embed Frameworks */,
+				0801754C2DCD275300D0919F /* DomainInterface.framework in Embed Frameworks */,
+				084A25CE2DB93E1E00C395C0 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		08E41ECC2DE5E7A400D6ACD3 /* Embed Frameworks */ = {
+		08ED490F2DCFDD63002C21A2 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				08E41ECB2DE5E7A400D6ACD3 /* Core.framework in Embed Frameworks */,
+				08ED490E2DCFDD63002C21A2 /* Core.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -82,7 +82,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */,
-				08E41ECA2DE5E7A400D6ACD3 /* Core.framework in Frameworks */,
+				08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,9 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08E41EC82DE5E7A000D6ACD3 /* DomainInterface.framework in Frameworks */,
 				08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */,
-				08E41EC52DE5E79F00D6ACD3 /* Core.framework in Frameworks */,
+				0801754B2DCD275300D0919F /* DomainInterface.framework in Frameworks */,
+				084A25CD2DB93E1E00C395C0 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +158,7 @@
 				0801752A2DCD26B300D0919F /* Sources */,
 				0801752B2DCD26B300D0919F /* Frameworks */,
 				0801752C2DCD26B300D0919F /* Resources */,
-				08E41ECC2DE5E7A400D6ACD3 /* Embed Frameworks */,
+				08ED490F2DCFDD63002C21A2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -183,7 +183,7 @@
 				0879291F2DB90F11009C301F /* Sources */,
 				087929202DB90F11009C301F /* Frameworks */,
 				087929212DB90F11009C301F /* Resources */,
-				08E41EC72DE5E79F00D6ACD3 /* Embed Frameworks */,
+				0803C7752DB9120F0016193E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -288,12 +288,10 @@
 		080175342DCD26B300D0919F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -327,12 +325,10 @@
 		080175352DCD26B300D0919F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -368,11 +364,9 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -409,11 +403,9 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

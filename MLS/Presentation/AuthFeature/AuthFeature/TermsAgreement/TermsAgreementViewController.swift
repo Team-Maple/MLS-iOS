@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import AuthFeatureInterface
 
 internal import SnapKit
 internal import RxCocoa
@@ -14,7 +15,18 @@ public class TermsAgreementViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     
+    private let onBoardingFactory: OnBoardingFactory
+    
     private var mainView = TermsAgreementView()
+    
+    public init(onBoardingFactory: OnBoardingFactory) {
+        self.onBoardingFactory = onBoardingFactory
+        super.init()
+    }
+    
+    @MainActor required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Life Cycle
@@ -81,6 +93,11 @@ public extension TermsAgreementViewController {
             .map { Reactor.Action.marketingAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.bottomButton.rx.tap
+            .map { Reactor.Action.bottomButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func bindViewState(reactor: Reactor) {
@@ -144,6 +161,9 @@ public extension TermsAgreementViewController {
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
+                case .onBoarding:
+                    let vc = owner.onBoardingFactory.make()
+                    owner.navigationController?.pushViewController(vc, animated: true)
                 default:
                     break
                 }

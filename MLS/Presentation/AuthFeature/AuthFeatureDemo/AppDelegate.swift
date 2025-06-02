@@ -2,21 +2,25 @@ import UIKit
 
 import AuthFeature
 import AuthFeatureInterface
+import BaseFeature
 import Core
 import Data
 import DesignSystem
 import Domain
 import DomainInterface
 
+import KakaoSDKCommon
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        ImageLoader.shared.configure.diskCacheCountLimit = 10
         FontManager.registerFonts()
         registerDependencies()
+        let kakaoNativeAppKey: String = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? ""
+        KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
         return true
     }
-
-    // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
@@ -42,9 +46,6 @@ private extension AppDelegate {
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
             return AppleLoginProviderImpl()
         }
-        DIContainer.register(type: OnBoardingInputRepository.self) {
-            return OnBoardingInputRepositoryImpl()
-        }
     }
 
     func registerUseCase() {
@@ -56,9 +57,11 @@ private extension AppDelegate {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
         }
-        DIContainer.register(type: OnBoardingInputUseCase.self) {
-            let repository = DIContainer.resolve(type: OnBoardingInputRepository.self)
-            return OnBoardingInputUseCaseImpl(repository: repository)
+        DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
+            return CheckEmptyLevelAndRoleUseCaseImpl()
+        }
+        DIContainer.register(type: CheckValidLevelUseCase.self) {
+            return CheckValidLevelUseCaseImpl()
         }
     }
 
@@ -72,8 +75,11 @@ private extension AppDelegate {
         DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingInput") {
             return OnBoardingInputFactoryImpl()
         }
-        DIContainer.register(type: OnBoardingPresentableFactory.self) {
+        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingNotification") {
             return OnBoardingNotificationFactoryImpl()
+        }
+        DIContainer.register(type: OnBoardingPresentableFactory.self) {
+            return OnBoardingModalFactoryImpl()
         }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(

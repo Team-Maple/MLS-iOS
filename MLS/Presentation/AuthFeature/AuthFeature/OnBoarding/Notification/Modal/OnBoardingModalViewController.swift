@@ -7,16 +7,16 @@ internal import RxCocoa
 internal import RxSwift
 import ReactorKit
 
-final class ModalViewController: BaseViewController, View, ModalPresentable {
+final class OnBoardingModalViewController: BaseViewController, View, ModalPresentable {
     // MARK: - Properties
-    typealias Reactor = ModalReactor
+    typealias Reactor = OnBoardingModalReactor
     
     var disposeBag = DisposeBag()
     
     var modalHeight: CGFloat?
     var modalStyle: ModalStyle
     
-    private var mainView = ModalView()
+    private var mainView = OnBoardingModalView()
     
     init(modalHeight: CGFloat? = nil, modalStyle: ModalStyle) {
         self.modalHeight = modalHeight
@@ -30,7 +30,7 @@ final class ModalViewController: BaseViewController, View, ModalPresentable {
 }
 
 // MARK: - Life Cycle
-extension ModalViewController {
+extension OnBoardingModalViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,7 +41,7 @@ extension ModalViewController {
 }
 
 // MARK: - SetUp
-private extension ModalViewController {
+private extension OnBoardingModalViewController {
     func addViews() {
         view.addSubview(mainView)
     }
@@ -55,7 +55,7 @@ private extension ModalViewController {
     func configureUI() { }
 }
 
-extension ModalViewController {
+extension OnBoardingModalViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)

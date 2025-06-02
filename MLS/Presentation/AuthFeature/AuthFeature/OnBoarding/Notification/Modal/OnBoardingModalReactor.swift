@@ -2,7 +2,7 @@ import ReactorKit
 internal import RxSwift
 internal import RxCocoa
 
-public final class ModalReactor: Reactor {
+public final class OnBoardingModalReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
