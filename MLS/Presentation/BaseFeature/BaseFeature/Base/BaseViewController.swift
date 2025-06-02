@@ -1,13 +1,13 @@
-import UIKit
 import os
+import UIKit
 
 open class BaseViewController: UIViewController {
-    
+
     public init() {
         super.init(nibName: nil, bundle: nil)
         os_log("init: \(String(describing: self))")
     }
-    
+
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

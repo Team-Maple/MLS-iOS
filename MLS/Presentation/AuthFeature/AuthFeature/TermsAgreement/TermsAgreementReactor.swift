@@ -7,7 +7,7 @@ public final class TermsAgreementReactor: Reactor {
         case dismiss
         case onBoarding
     }
-    
+
     // MARK: - Reactor
     public enum Action {
         case backButtonTapped
@@ -18,7 +18,7 @@ public final class TermsAgreementReactor: Reactor {
         case marketingAgreeButtonTapped
         case bottomButtonTapped
     }
-    
+
     public enum Mutation {
         case changeIsTotalAgreeState
         case changeIsOldAgreeState
@@ -28,10 +28,10 @@ public final class TermsAgreementReactor: Reactor {
         case moveToRecentScene
         case moveToOnBoarding
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
-        
+
         var isTotalAgree: Bool = false
         var isOldAgree: Bool = false
         var isServiceTermsAgree: Bool = false
@@ -39,16 +39,16 @@ public final class TermsAgreementReactor: Reactor {
         var isMarketingAgree: Bool = false
         var bottomButtonIsEnabled: Bool = false
     }
-    
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
+
     // MARK: - init
     public init() {
         self.initialState = State()
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -68,7 +68,7 @@ public final class TermsAgreementReactor: Reactor {
             return Observable.just(.moveToOnBoarding)
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
@@ -93,8 +93,7 @@ public final class TermsAgreementReactor: Reactor {
         }
         if newState.isOldAgree == true
             && newState.isServiceTermsAgree == true
-            && newState.isPersonalInformationAgree == true
-        {
+            && newState.isPersonalInformationAgree == true {
             newState.bottomButtonIsEnabled = true
             if newState.isMarketingAgree == true {
                 newState.isTotalAgree = true

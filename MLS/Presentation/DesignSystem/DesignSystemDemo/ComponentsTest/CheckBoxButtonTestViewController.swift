@@ -2,23 +2,23 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 final class CheckBoxButtonTestViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
     private var bigCheckButton = CheckBoxButton(style: .normal, mainTitle: nil, subTitle: nil)
     private var smallCheckButton = CheckBoxButton(style: .list, mainTitle: nil, subTitle: nil)
-    
+
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["normal", "list"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
     }()
-    
+
     private let mainTitleTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "MainTitle"
@@ -27,7 +27,7 @@ final class CheckBoxButtonTestViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let subTitleTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "SubTitle"
@@ -36,24 +36,24 @@ final class CheckBoxButtonTestViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let mainTitleTextLabel: UILabel = {
         let label = UILabel()
         label.text = "MainTitle"
         return label
     }()
-    
+
     private let subTitleTextLabel: UILabel = {
         let label = UILabel()
         label.text = "SubTitle"
         return label
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "CheckBoxButton"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -115,7 +115,7 @@ private extension CheckBoxButtonTestViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
     }
-    
+
     func bind() {
         bigCheckButton.rx.tap
             .withUnretained(self)
@@ -123,14 +123,14 @@ private extension CheckBoxButtonTestViewController {
                 owner.bigCheckButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
-        
+
         smallCheckButton.rx.tap
             .withUnretained(self)
             .subscribe { (owner, _) in
                 owner.smallCheckButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
-        
+
         typeSegmentControl.rx.selectedSegmentIndex
             .withUnretained(self)
             .subscribe { (owner, index) in
@@ -143,7 +143,7 @@ private extension CheckBoxButtonTestViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         mainTitleTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
@@ -151,7 +151,7 @@ private extension CheckBoxButtonTestViewController {
                 owner.smallCheckButton.mainTitle = text
             }
             .disposed(by: disposeBag)
-        
+
         subTitleTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in

@@ -2,63 +2,63 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 final class NavigationBarTestViewController: UIViewController {
-    
+
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     private let headerView: NavigationBar = {
         let view = NavigationBar(textButtonTitle: "TextButton")
         return view
     }()
-    
+
     private let leftLabel: UILabel = {
         let label = UILabel()
         label.text = "Left"
         return label
     }()
-    
+
     private let leftButtonHiddenToggle: UISwitch = {
         let button = UISwitch()
         button.isOn = true
         return button
     }()
-    
+
     private let rightLabel: UILabel = {
         let label = UILabel()
         label.text = "right"
         return label
     }()
-    
+
     private let rightButtonHiddenToggle: UISwitch = {
         let button = UISwitch()
         button.isOn = true
         return button
     }()
-    
+
     private let textLabel: UILabel = {
         let label = UILabel()
         label.text = "text"
         return label
     }()
-    
+
     private let textButtonHiddenToggle: UISwitch = {
         let button = UISwitch()
         button.isOn = true
         return button
     }()
-    
+
     private let dividerView: DividerView = DividerView()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "NavigationBar"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -68,7 +68,7 @@ final class NavigationBarTestViewController: UIViewController {
 extension NavigationBarTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.addViews()
         self.setupConstraints()
         self.configureUI()
@@ -126,7 +126,7 @@ private extension NavigationBarTestViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
     }
-    
+
     func bind() {
         leftButtonHiddenToggle.rx.isOn
             .withUnretained(self)
@@ -134,14 +134,14 @@ private extension NavigationBarTestViewController {
                 owner.headerView.leftButton.isHidden = !isOn
             }
             .disposed(by: disposeBag)
-        
+
         rightButtonHiddenToggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in
                 owner.headerView.rightButton.isHidden = !isOn
             }
             .disposed(by: disposeBag)
-        
+
         textButtonHiddenToggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in

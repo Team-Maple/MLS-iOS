@@ -9,7 +9,7 @@ public class OnBoardingBaseView: UIView {
         view.rightButton.isHidden = true
         return view
     }()
-    
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
@@ -17,7 +17,7 @@ public class OnBoardingBaseView: UIView {
         setupConstraints()
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -28,13 +28,13 @@ private extension OnBoardingBaseView {
     func addViews() {
         addSubview(headerView)
     }
-    
+
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .clearMLS
     }

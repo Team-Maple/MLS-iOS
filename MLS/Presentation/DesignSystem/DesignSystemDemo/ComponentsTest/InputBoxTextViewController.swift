@@ -2,22 +2,22 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 final class InputBoxTextViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
     private var inputBox = InputBox(label: "label", placeHodler: "placeHolder")
-    
+
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["edit", "error"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
     }()
-    
+
     private let labelTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "label"
@@ -26,7 +26,7 @@ final class InputBoxTextViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let placeHolderTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "placeHolder"
@@ -35,7 +35,7 @@ final class InputBoxTextViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let textTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "text"
@@ -44,30 +44,30 @@ final class InputBoxTextViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let labelTextLabel: UILabel = {
         let label = UILabel()
         label.text = "label"
         return label
     }()
-    
+
     private let placeHolderTextLabel: UILabel = {
         let label = UILabel()
         label.text = "placeHolder"
         return label
     }()
-    
+
     private let textTextLabel: UILabel = {
         let label = UILabel()
         label.text = "text"
         return label
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "InputBox"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -102,37 +102,37 @@ private extension InputBoxTextViewController {
         inputBox.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        
+
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(inputBox.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         labelTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         labelTextField.snp.makeConstraints { make in
             make.top.equalTo(labelTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         placeHolderTextLabel.snp.makeConstraints { make in
             make.top.equalTo(labelTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         placeHolderTextField.snp.makeConstraints { make in
             make.top.equalTo(placeHolderTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         textTextLabel.snp.makeConstraints { make in
             make.top.equalTo(placeHolderTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         textTextField.snp.makeConstraints { make in
             make.top.equalTo(textTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -142,7 +142,7 @@ private extension InputBoxTextViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
     }
-    
+
     func bind() {
         typeSegmentControl.rx.selectedSegmentIndex
             .withUnretained(self)
@@ -154,21 +154,21 @@ private extension InputBoxTextViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         labelTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, text in
                 owner.inputBox.label.attributedText = .makeStyledString(font: .caption, text: text, color: .neutral700, alignment: .left)
             }
             .disposed(by: disposeBag)
-        
+
         placeHolderTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, text in
                 owner.inputBox.textField.attributedPlaceholder = .makeStyledString(font: .body, text: text, color: .neutral500, alignment: .left)
             }
             .disposed(by: disposeBag)
-        
+
         textTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in

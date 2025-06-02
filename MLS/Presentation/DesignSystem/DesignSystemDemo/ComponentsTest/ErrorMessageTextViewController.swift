@@ -2,15 +2,15 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 final class ErrorMessageTextViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
     private var errorMessage = ErrorMessage(message: nil)
-    
+
     private let messageTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "message"
@@ -30,7 +30,7 @@ final class ErrorMessageTextViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.title = "ErrorMessage"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,12 +61,12 @@ private extension ErrorMessageTextViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         messageTextLabel.snp.makeConstraints { make in
             make.top.equalTo(errorMessage.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         messageTextField.snp.makeConstraints { make in
             make.top.equalTo(messageTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -76,7 +76,7 @@ private extension ErrorMessageTextViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
     }
-    
+
     func bind() {
         messageTextField.rx.text
             .withUnretained(self)

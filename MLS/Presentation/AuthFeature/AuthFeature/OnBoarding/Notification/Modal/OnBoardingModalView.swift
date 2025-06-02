@@ -11,7 +11,7 @@ public final class OnBoardingModalView: UIView {
         static let verticalInset = 16
         static let verticalSpacing = 8
     }
-    
+
     // MARK: - Components
     private let boldTextLabel: UILabel = {
         let label = UILabel()
@@ -19,26 +19,26 @@ public final class OnBoardingModalView: UIView {
         label.numberOfLines = 2
         return label
     }()
-    
+
     private let regularTeextLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .caption, text: "놓치지 않도록 푸시 알림으로\n가장 먼저 알려들리게요.", color: .neutral700, alignment: .left)
         label.numberOfLines = 2
         return label
     }()
-    
+
     public let agreeButton = CommonButton(style: .normal, title: "동의하고 알림 받기", disabledTitle: nil)
-    
+
     public let disagreeButton = CommonButton(style: .text, title: "다음에 하기", disabledTitle: nil)
-    
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -58,17 +58,17 @@ private extension OnBoardingModalView {
             make.top.equalToSuperview().inset(28)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         regularTeextLabel.snp.makeConstraints { make in
             make.top.equalTo(boldTextLabel.snp.bottom).offset(Constant.verticalSpacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         agreeButton.snp.makeConstraints { make in
             make.top.equalTo(regularTeextLabel.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         disagreeButton.snp.makeConstraints { make in
             make.top.equalTo(agreeButton.snp.bottom).offset(Constant.verticalSpacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)

@@ -13,7 +13,7 @@ public extension UIFont {
 
     static let body = korFont(style: .regular, size: 16)
     static let caption = korFont(style: .regular, size: 14)
-    
+
     static func korFont(style: FontStyle, size: CGFloat) -> UIFont? {
         return UIFont(name: "Pretendard\(style.rawValue)", size: size)
     }

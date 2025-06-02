@@ -8,19 +8,19 @@ public final class Toast: UIView {
         static let horizontalEdges: CGFloat = 24
         static let cornerRadius: CGFloat = 8
     }
-    
+
     // MARK: - Properties
     private let label: UILabel = UILabel()
-    
+
     // MARK: - init
     public init(message: String?) {
         super.init(frame: .zero)
-        
+
         self.addViews()
         self.setupConstraints()
         self.configureUI(message: message)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

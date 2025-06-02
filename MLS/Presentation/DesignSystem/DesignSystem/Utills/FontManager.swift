@@ -1,6 +1,5 @@
-import UIKit
 import os
-
+import UIKit
 
 public class FontManager {
 
@@ -21,7 +20,7 @@ public class FontManager {
 
             var error: Unmanaged<CFError>?
             CTFontManagerRegisterFontsForURL(fontURL as CFURL, .process, &error)
-            
+
             if let error = error {
                 os_log(.error, "Error registering font: \(error.takeUnretainedValue())")
             } else {
@@ -30,7 +29,6 @@ public class FontManager {
         }
     }
 }
-
 
 extension Bundle {
     static var designSystem: Bundle {

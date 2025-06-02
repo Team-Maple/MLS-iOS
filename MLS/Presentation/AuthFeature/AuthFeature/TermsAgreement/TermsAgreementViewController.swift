@@ -1,29 +1,29 @@
 import UIKit
 
-import BaseFeature
 import AuthFeatureInterface
+import BaseFeature
 
-internal import SnapKit
+import ReactorKit
 internal import RxCocoa
 internal import RxSwift
-import ReactorKit
+internal import SnapKit
 
 public class TermsAgreementViewController: BaseViewController, View {
-    
+
     public typealias Reactor = TermsAgreementReactor
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let onBoardingFactory: OnBoardingFactory
-    
+
     private var mainView = TermsAgreementView()
-    
+
     public init(onBoardingFactory: OnBoardingFactory) {
         self.onBoardingFactory = onBoardingFactory
         super.init()
     }
-    
+
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,44 +62,44 @@ public extension TermsAgreementViewController {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     func bindUserActions(reactor: Reactor) {
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.totalAgreeButton.rx.tap
             .map { Reactor.Action.totalAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.oldAgreeButton.rx.tap
             .map { Reactor.Action.oldAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.serviceTermsAgreeButton.rx.tap
             .map { Reactor.Action.serviceTermsAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.personalInformationAgreeButton.rx.tap
             .map { Reactor.Action.personalInformationAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.marketingAgreeButton.rx.tap
             .map { Reactor.Action.marketingAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.bottomButton.rx.tap
             .map { Reactor.Action.bottomButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
+
     func bindViewState(reactor: Reactor) {
         reactor.state
             .map { $0.isTotalAgree }
@@ -109,7 +109,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.totalAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map { $0.isOldAgree }
             .distinctUntilChanged()
@@ -118,7 +118,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.oldAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map { $0.isServiceTermsAgree }
             .distinctUntilChanged()
@@ -127,7 +127,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.serviceTermsAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map { $0.isPersonalInformationAgree }
             .distinctUntilChanged()
@@ -136,7 +136,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.personalInformationAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map { $0.isMarketingAgree }
             .distinctUntilChanged()
@@ -145,7 +145,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.marketingAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map { $0.bottomButtonIsEnabled }
             .distinctUntilChanged()
@@ -154,7 +154,7 @@ public extension TermsAgreementViewController {
                 owner.mainView.bottomButton.isEnabled = isEnabled
             }
             .disposed(by: disposeBag)
-        
+
         reactor.pulse(\.$route)
             .withUnretained(self)
             .subscribe { (owner, route) in

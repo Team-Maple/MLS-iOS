@@ -11,25 +11,25 @@ public final class ErrorMessage: UIView {
         static let height: CGFloat = 36
         static let iconSize: CGFloat = 16
     }
-    
+
     // MARK: - Properties
     private let iconView: UIImageView = {
         let view = UIImageView()
         view.image = .error
         return view
     }()
-    
+
     public let label = UILabel()
-    
+
     // MARK: - init
     public init(message: String?) {
         super.init(frame: .zero)
-        
+
         self.addViews()
         self.setupConstraints()
         self.configureUI(message: message)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -46,13 +46,13 @@ private extension ErrorMessage {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
-        
+
         iconView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(Constant.horizontalEdges)
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
             make.leading.equalTo(iconView.snp.trailing).offset(Constant.spacing)

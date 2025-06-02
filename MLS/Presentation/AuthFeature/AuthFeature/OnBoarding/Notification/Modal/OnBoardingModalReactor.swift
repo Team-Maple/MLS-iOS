@@ -1,6 +1,6 @@
 import ReactorKit
-internal import RxSwift
 internal import RxCocoa
+internal import RxSwift
 
 public final class OnBoardingModalReactor: Reactor {
     // MARK: - Reactor
@@ -8,32 +8,32 @@ public final class OnBoardingModalReactor: Reactor {
         case none
         case dismiss
     }
-    
+
     public enum Action {
         case agreeButtonTapped
         case disagreeButtonTapped
     }
-    
+
     public enum Mutation {
         case showPermission
         case moveToPreScene
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
-        
+
         var isAgreeNotification: Bool = false
     }
-    
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
+
     // MARK: - init
     public init() {
         self.initialState = State()
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -43,10 +43,10 @@ public final class OnBoardingModalReactor: Reactor {
             return Observable.just(.moveToPreScene)
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .showPermission:
             // 권한 설정
@@ -56,7 +56,7 @@ public final class OnBoardingModalReactor: Reactor {
         case .moveToPreScene:
             newState.route = .dismiss
         }
-        
+
         return newState
     }
 }

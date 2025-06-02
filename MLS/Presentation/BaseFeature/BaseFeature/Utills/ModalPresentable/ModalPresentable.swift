@@ -18,7 +18,7 @@ internal enum ModalConfig {
     static let containerHorizontalInset: CGFloat = 8
     static let containerVerticalContentInset: CGFloat = 16
     static let bottomSheetStyleBottomInset: CGFloat = 34
-    
+
     static let gestureBarTopInset: CGFloat = 12
     static let gestureBarWidth: CGFloat = 60
     static let gestureBarHeight: CGFloat = 4

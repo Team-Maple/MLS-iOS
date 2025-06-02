@@ -5,25 +5,25 @@ import DesignSystem
 import RxSwift
 
 final class CommonButtonTestViewController: UIViewController {
-    
+
     // MARK: - Properties
     var disposeBag = DisposeBag()
     private let commonButton = CommonButton(style: .normal, title: "NormalTitle", disabledTitle: "DisabledTitle")
     private let textButton = CommonButton(style: .text, title: "NormalTitle", disabledTitle: "DisabledTitle")
-    
+
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["normal", "text"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
     }()
-    
+
     private let buttonStateToggle = ToggleLabel(text: "isEnabled")
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "CommonButton"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,7 +33,7 @@ final class CommonButtonTestViewController: UIViewController {
 extension CommonButtonTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.addViews()
         self.setupConstraints()
         self.configureUI()
@@ -73,7 +73,7 @@ private extension CommonButtonTestViewController {
         self.view.backgroundColor = .systemBackground
         self.title = "CommonButton"
     }
-    
+
     func bind() {
         self.typeSegmentControl.rx.selectedSegmentIndex
             .withUnretained(self)
@@ -88,7 +88,7 @@ private extension CommonButtonTestViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         self.buttonStateToggle.toggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in

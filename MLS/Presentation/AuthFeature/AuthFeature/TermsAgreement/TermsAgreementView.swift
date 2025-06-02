@@ -19,38 +19,38 @@ public final class TermsAgreementView: UIView {
         static let bottomButtonBottomSpacing: CGFloat = 16
         static let termsSpacing: CGFloat = 4
     }
-    
+
     // MARK: - Properties
     let headerView: NavigationBar = {
         let view = NavigationBar()
         view.rightButton.isHidden = true
         return view
     }()
-    
+
     private let logoImageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "logo")
         let view = UIImageView(image: image)
         view.contentMode = .scaleAspectFill
         return view
     }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .h3, text: "필수약관에 동의해주세요")
         return label
     }()
-    
+
     private let subTitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .subTitle, text: "메랜사를 더 편하게 즐기기 위해 필요한 항목이에요", color: .neutral700)
         return label
     }()
-    
+
     public let totalAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .normal, mainTitle: "전체동의", subTitle: "(선택 약관 포함)")
         return button
     }()
-    
+
     private let termsStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -58,39 +58,39 @@ public final class TermsAgreementView: UIView {
         view.spacing = Constant.termsSpacing
         return view
     }()
-    
+
     public let oldAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .list, mainTitle: "(필수) 만 14세 이상", subTitle: nil)
         return button
     }()
-    
+
     public let serviceTermsAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .list, mainTitle: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
         return button
     }()
-    
+
     public let personalInformationAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .list, mainTitle: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
         return button
     }()
-    
+
     public let marketingAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .list, mainTitle: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
         return button
     }()
-    
+
     public let bottomButton: CommonButton = {
         let button = CommonButton(style: .normal, title: "다음", disabledTitle: "다음")
         return button
     }()
-    
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
         self.addViews()
         self.setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

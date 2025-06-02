@@ -13,7 +13,7 @@ final class DropDownCell: UITableViewCell {
 
     // MARK: - Components
     private let titleLabel = UILabel()
-    
+
     private let backgroundColorView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Constant.radius

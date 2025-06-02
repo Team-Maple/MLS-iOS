@@ -10,32 +10,32 @@ public final class OnBoardingNotificationReactor: Reactor {
         case home
         case modal
     }
-    
+
     public enum Action {
         case backButtonTapped
         case nextButtonTapped
         case cancelOnBoarding
     }
-    
+
     public enum Mutation {
         case moveToPreScene
         case moveToHomeScene
         case showModal
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
     }
-    
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
+
     // MARK: - init
     public init() {
         self.initialState = State()
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -47,10 +47,10 @@ public final class OnBoardingNotificationReactor: Reactor {
             return Observable.just(.moveToHomeScene)
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .moveToPreScene:
             newState.route = .dismiss
@@ -59,7 +59,7 @@ public final class OnBoardingNotificationReactor: Reactor {
         case .showModal:
             newState.route = .modal
         }
-        
+
         return newState
     }
 }

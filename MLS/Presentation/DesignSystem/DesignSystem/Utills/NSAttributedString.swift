@@ -13,7 +13,7 @@ extension NSAttributedString {
         paragraphStyle.minimumLineHeight = 0
         paragraphStyle.maximumLineHeight = font.lineHeight * lineHeight
         paragraphStyle.alignment = alignment
-        
+
         let attributedString = NSAttributedString(
             string: text,
             attributes: [
@@ -22,7 +22,7 @@ extension NSAttributedString {
                 .paragraphStyle: paragraphStyle
             ]
         )
-        
+
         return attributedString
     }
 }

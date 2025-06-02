@@ -3,19 +3,19 @@ import UIKit
 internal import DesignSystem
 
 final class ModalWrapperView: UIView {
-    
+
     weak var parentViewController: UIViewController?
 
     let dimView = UIView()
     let containerView = UIView()
     let gestureBar = UIView()
-    
+
     private var initialY: CGFloat = 0
 
     init(contentViewController: UIViewController & ModalPresentable, parent: UIViewController) {
         super.init(frame: .zero)
         self.parentViewController = parent
-        
+
         // 뒷배경 뷰 (반투명)
         dimView.backgroundColor = .overlays
         dimView.alpha = 0
@@ -57,7 +57,7 @@ final class ModalWrapperView: UIView {
         }
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
         containerView.addGestureRecognizer(panGesture)
-        
+
         // 자식 뷰컨트롤러 embed
         parent.addChild(contentViewController)
         containerView.addSubview(contentViewController.view)
@@ -74,10 +74,10 @@ final class ModalWrapperView: UIView {
         }
         contentViewController.didMove(toParent: parent)
     }
-    
+
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: containerView)
-        
+
         switch gesture.state {
         case .began:
             // 초기화 필요 시 여기에
@@ -112,7 +112,6 @@ final class ModalWrapperView: UIView {
             break
         }
     }
-
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

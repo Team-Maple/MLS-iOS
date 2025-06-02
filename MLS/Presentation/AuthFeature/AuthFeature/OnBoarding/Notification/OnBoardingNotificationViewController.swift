@@ -1,8 +1,8 @@
 import os
 import UIKit
 
-import BaseFeature
 import AuthFeatureInterface
+import BaseFeature
 
 import ReactorKit
 internal import RxCocoa
@@ -18,12 +18,12 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingNotificationView()
-    
+
     public init(factory: OnBoardingPresentableFactory) {
         self.onBoardingModalFactory = factory
         super.init()
     }
-    
+
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -70,7 +70,7 @@ public extension OnBoardingNotificationViewController {
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)

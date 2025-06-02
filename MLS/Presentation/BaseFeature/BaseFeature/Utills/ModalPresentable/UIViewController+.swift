@@ -6,7 +6,7 @@ internal import SnapKit
 private var modalWrapperKey: UInt8 = 0
 
 public extension UIViewController {
-    
+
     private var modalWrapperView: ModalWrapperView? {
         get { objc_getAssociatedObject(self, &modalWrapperKey) as? ModalWrapperView }
         set { objc_setAssociatedObject(self, &modalWrapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }

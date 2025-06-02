@@ -12,7 +12,7 @@ public final class OnBoardingInputReactor: Reactor {
         case home
         case notification
     }
-    
+
     public enum Action {
         case backButtonTapped
         case inputLevel(Int?)
@@ -20,7 +20,7 @@ public final class OnBoardingInputReactor: Reactor {
         case cancelOnBoarding
         case nextButtonTapped
     }
-    
+
     public enum Mutation {
         case moveToPreScene
         case changeLevel(Int?)
@@ -30,29 +30,29 @@ public final class OnBoardingInputReactor: Reactor {
         case setButtonEnabled(Bool)
         case setLevelValid(Bool?)
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
-        
-        var level: Int? = nil
-        var role: String? = nil
+
+        var level: Int?
+        var role: String?
         var isButtonEnabled: Bool = false
-        var isLevelValid: Bool? = nil
+        var isLevelValid: Bool?
     }
-    
+
     // MARK: - properties
     public var initialState: State
     public var checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     public var checkValidLevelUseCase: CheckValidLevelUseCase
     var disposeBag = DisposeBag()
-    
+
     // MARK: - init
     public init(checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase, checkValidLevelUseCase: CheckValidLevelUseCase) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
         self.initialState = State()
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -77,7 +77,7 @@ public final class OnBoardingInputReactor: Reactor {
             return Observable.just(.moveToNextScene)
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
 
@@ -97,7 +97,7 @@ public final class OnBoardingInputReactor: Reactor {
         case .setLevelValid(let isValid):
             newState.isLevelValid = isValid
         }
-        
+
         return newState
     }
 }

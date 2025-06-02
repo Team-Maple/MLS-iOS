@@ -9,14 +9,14 @@ public final class NavigationBar: UIView {
         static let rightInset: CGFloat = 16
         static let lineHeight: CGFloat = 1.17
     }
-    
+
     // MARK: - Properties
     private let contentStackView: UIStackView = {
         let view = UIStackView()
         view.alignment = .center
         return view
     }()
-    
+
     public let leftButton: UIButton = {
         let button = UIButton(type: .system)
         let image = DesignSystemAsset.image(named: "arrowLeft")?.withRenderingMode(.alwaysTemplate)
@@ -32,9 +32,9 @@ public final class NavigationBar: UIView {
         button.tintColor = .textColor
         return button
     }()
-    
+
     public let textButton: UIButton = UIButton(type: .system)
-    
+
     private let leftSpacingView: UIView = UIView()
     private let rightSpacingView: UIView = UIView()
 
@@ -45,7 +45,7 @@ public final class NavigationBar: UIView {
         self.setupConstraints()
         self.configureUI(textButtonTitle: textButtonTitle)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -83,7 +83,7 @@ private extension NavigationBar {
             paragraphStyle.minimumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.maximumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.alignment = .center
-            
+
             let attributedString = NSAttributedString(
                 string: textButtonTitle,
                 attributes: [

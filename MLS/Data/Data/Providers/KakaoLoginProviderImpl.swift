@@ -11,7 +11,7 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
         var accessToken: String?
         var email: String?
     }
-    
+
     public init() {}
 
     /// 카카오에 요청을 보내서 access 토큰을 포함한 정보를 가져오는 함수
@@ -36,7 +36,7 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
             return disposable
         }
     }
-    
+
     /// access 토큰을 이용하여 email 정보를 가져오는 함수
     /// - Parameters:
     ///   - oauthToken: accessToken을 포함한 OAuthToken

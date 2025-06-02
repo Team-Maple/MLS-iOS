@@ -2,21 +2,21 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxSwift
+import SnapKit
 
 final class ToastMakerTestViewController: UIViewController {
-    
+
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     let toast = Toast(message: "토스트 테스트")
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "Toast"
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -26,7 +26,7 @@ final class ToastMakerTestViewController: UIViewController {
 extension ToastMakerTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.addViews()
         self.setupConstraints()
         self.configureUI()

@@ -7,7 +7,7 @@ public final class CommonButton: UIButton {
     public enum CommonButtonStyle {
         case normal
         case text
-        
+
         public var height: CGFloat {
             switch self {
             case .normal:
@@ -24,14 +24,14 @@ public final class CommonButton: UIButton {
     }
     // MARK: - Properties
     private let style: CommonButtonStyle
-    
+
     // MARK: - init
     public init(style: CommonButtonStyle, title: String?, disabledTitle: String?) {
         self.style = style
         super.init(frame: .zero)
         self.configureUI(title: title, disabledTitle: disabledTitle)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -40,7 +40,7 @@ public final class CommonButton: UIButton {
 // MARK: - SetUp
 private extension CommonButton {
     func configureUI(title: String?, disabledTitle: String?) {
-        
+
         switch style {
         case .normal:
             self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: title, color: .white), for: .normal)
@@ -58,7 +58,7 @@ private extension CommonButton {
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.alignment = .center
-                
+
                 let enabledAttributedString = NSAttributedString(
                     string: textButtonTitle,
                     attributes: [
@@ -69,7 +69,7 @@ private extension CommonButton {
                     ]
                 )
                 self.setAttributedTitle(enabledAttributedString, for: .normal)
-                
+
                 if let disabledTitle = disabledTitle {
                     let disabledAttributedString = NSAttributedString(
                         string: disabledTitle,
