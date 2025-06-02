@@ -8,6 +8,8 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     private let session: URLSession
 
+    private let retryAttempt: Int = 2
+
     public init() {
         let session = URLSession.shared
         let configuration = URLSessionConfiguration.default
@@ -18,7 +20,7 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
         return Observable.create { [weak self] observer in
-            self?.sendRequest(endPoint: endPoint, completion: { result in
+            self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
                 switch result {
                 case .success(let data):
                     if let data = data {
@@ -38,11 +40,22 @@ public final class NetworkProviderImpl: NetworkProvider {
             })
             return Disposables.create()
         }
+        .retry(when: { (errors: Observable<Error>) in
+            errors
+                .enumerated()
+                .flatMap { attempt, error -> Observable<Void> in
+                    if attempt < self.retryAttempt, let networkError = error as? NetworkError, networkError == .retry {
+                        return Observable.just(())
+                    } else {
+                        return Observable.error(error)
+                    }
+                }
+        })
     }
 
     public func requestData(endPoint: Requestable, interceptor: Interceptor?) -> Completable {
         return Completable.create { [weak self] completable in
-            self?.sendRequest(endPoint: endPoint, completion: { result in
+            self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
                 switch result {
                 case .success(let data):
                     if data != nil {
@@ -56,6 +69,17 @@ public final class NetworkProviderImpl: NetworkProvider {
             })
             return Disposables.create()
         }
+        .retry(when: { (errors: Observable<Error>) in
+            errors
+                .enumerated()
+                .flatMap { attempt, error -> Observable<Void> in
+                    if attempt < self.retryAttempt, let networkError = error as? NetworkError, networkError == .retry {
+                        return Observable.just(())
+                    } else {
+                        return Observable.error(error)
+                    }
+                }
+        })
     }
 }
 
@@ -64,16 +88,16 @@ private extension NetworkProviderImpl {
     /// - Parameters:
     ///   - endPoint: 요청을 위한 엔드포인트 객체
     ///   - completion: 응답 결과
-    func sendRequest<T: Requestable>(endPoint: T, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
+    func sendRequest<T: Requestable>(endPoint: T, interceptor: Interceptor?, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
-            let request = try endPoint.getUrlRequest()
-
+            var request = try endPoint.getUrlRequest()
+            if let interceptor = interceptor { request = interceptor.adapt(request) }
             let task = session.dataTask(with: request) { [weak self] data, response, error in
                 guard let self else {
                     completion(.failure(.providerDeallocated))
                     return
                 }
-                let taskResult = checkValidation(data: data, response: response, error: error)
+                let taskResult = checkValidation(data: data, response: response, error: error, interceptor: interceptor)
                 switch taskResult {
                 case .success(let data):
                     completion(.success(data))
@@ -93,7 +117,12 @@ private extension NetworkProviderImpl {
     ///   - response: 상태코드를 포함한 통신 응답
     ///   - error: 통신간에 발생한 에러
     /// - Returns: 유효성검사 결과에 따른 데이터와 에러
-    func checkValidation(data: Data?, response: URLResponse?, error: Error?) -> Result<Data?, NetworkError> {
+    func checkValidation(data: Data?, response: URLResponse?, error: Error?, interceptor: Interceptor?) -> Result<Data?, NetworkError> {
+        if let interceptor = interceptor {
+            if interceptor.retry(data: data, response: response, error: error) {
+                return .failure(.retry)
+            }
+        }
         if let error {
             if let urlError = error as? URLError, urlError.code == .unsupportedURL {
                 return .failure(NetworkError.urlRequest(error))
