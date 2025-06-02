@@ -14,5 +14,5 @@ public protocol Interceptor {
     ///   - response: 돌려받은 응답
     ///   - error: 통신간에 발생한 에러
     /// - Returns: 재요청이 필요하면 true, 필요없으면 false
-    func retry(_ request: URLRequest, response: HTTPURLResponse?, error: Error?) -> Observable<Bool>
+    func retry(data: Data?, response: URLResponse?, error: Error?) -> Bool
 }
