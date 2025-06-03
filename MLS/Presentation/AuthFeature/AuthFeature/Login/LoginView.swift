@@ -96,9 +96,9 @@ final class LoginView: UIView {
         self.isRelogin = isRelogin
         super.init(frame: .zero)
 
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI()
+        addViews()
+        setupConstraints()
+        configureUI()
     }
 
     required init?(coder: NSCoder) {
@@ -109,80 +109,79 @@ final class LoginView: UIView {
 // MARK: - SetUp
 private extension LoginView {
     func addViews() {
-        self.addSubview(loginImageView)
-        self.addSubview(buttonStackView)
-        self.buttonStackView.addArrangedSubview(kakaoLoginButton)
-        self.buttonStackView.addArrangedSubview(appleLoginButton)
+        addSubview(loginImageView)
+        addSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(kakaoLoginButton)
+        buttonStackView.addArrangedSubview(appleLoginButton)
 
         if isRelogin {
-            self.addSubview(mainTitleLabel)
-            self.addSubview(subTitleLabel)
+            addSubview(mainTitleLabel)
+            addSubview(subTitleLabel)
         } else {
-            self.buttonStackView.addArrangedSubview(guestLoginButton)
+            buttonStackView.addArrangedSubview(guestLoginButton)
         }
 
-        self.kakaoLoginButton.addSubview(kakaoLogoImageView)
-        self.kakaoLoginButton.addSubview(kakaoLoginLabel)
-
-        self.appleLoginButton.addSubview(appleLogoImageView)
-        self.appleLoginButton.addSubview(appleLoginLabel)
+        kakaoLoginButton.addSubview(kakaoLogoImageView)
+        kakaoLoginButton.addSubview(kakaoLoginLabel)
+        appleLoginButton.addSubview(appleLogoImageView)
+        appleLoginButton.addSubview(appleLoginLabel)
     }
 
     func setupConstraints() {
-        self.loginImageView.snp.makeConstraints { make in
+        loginImageView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width * 1.49)
             make.top.horizontalEdges.equalToSuperview()
         }
 
-        self.buttonStackView.snp.makeConstraints { make in
+        buttonStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview().inset(Constant.buttonStackViewBottomInset)
         }
 
-        self.kakaoLoginButton.snp.makeConstraints { make in
+        kakaoLoginButton.snp.makeConstraints { make in
             make.height.equalTo(Constant.buttonHeight)
         }
 
-        self.kakaoLogoImageView.snp.makeConstraints { make in
+        kakaoLogoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(Constant.buttonLogoImageLeadingInset)
             make.size.equalTo(Constant.buttonLogoImageSize)
         }
 
-        self.kakaoLoginLabel.snp.makeConstraints { make in
+        kakaoLoginLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview().inset(Constant.buttonCenterXInset)
         }
 
-        self.appleLoginButton.snp.makeConstraints { make in
+        appleLoginButton.snp.makeConstraints { make in
             make.height.equalTo(Constant.buttonHeight)
         }
 
-        self.appleLogoImageView.snp.makeConstraints { make in
+        appleLogoImageView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(Constant.buttonLogoImageLeadingInset)
             make.size.equalTo(Constant.buttonLogoImageSize)
         }
 
-        self.appleLoginLabel.snp.makeConstraints { make in
+        appleLoginLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview().inset(Constant.buttonCenterXInset)
         }
 
         if isRelogin {
-            self.subTitleLabel.snp.makeConstraints { make in
+            subTitleLabel.snp.makeConstraints { make in
                 make.bottom.equalTo(buttonStackView.snp.top).offset(Constant.subTitleBottomSpacing)
                 make.centerX.equalToSuperview()
                 make.height.equalTo(Constant.labelHeight)
             }
-            self.mainTitleLabel.snp.makeConstraints { make in
+            mainTitleLabel.snp.makeConstraints { make in
                 make.bottom.equalTo(subTitleLabel.snp.top)
                 make.centerX.equalToSuperview()
                 make.height.equalTo(Constant.labelHeight)
             }
         } else {
-            self.guestLoginButton.snp.makeConstraints { make in
+            guestLoginButton.snp.makeConstraints { make in
                 make.height.equalTo(Constant.buttonHeight)
             }
         }
