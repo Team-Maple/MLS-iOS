@@ -4,7 +4,7 @@ import BaseFeature
 public struct OnBoardingQuestionFactoryImpl: OnBoardingQuestionFactory {
 
     private let onBoardingInputFactory: OnBoardingInputFactory
-    
+
     public init(onBoardingInputFactory: OnBoardingInputFactory) {
         self.onBoardingInputFactory = onBoardingInputFactory
     }

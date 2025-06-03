@@ -2,7 +2,7 @@ import AuthFeatureInterface
 import BaseFeature
 
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
-    
+
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
 
     public init(onBoardingQuestionFactory: OnBoardingQuestionFactory) {

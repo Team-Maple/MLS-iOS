@@ -4,7 +4,7 @@ import BaseFeature
 public struct OnBoardingNotificationFactoryImpl: OnBoardingNotificationFactory {
 
     private let onBoardingModalFactory: OnBoardingModalFactory
-    
+
     public init(onBoardingModalFactory: OnBoardingModalFactory) {
         self.onBoardingModalFactory = onBoardingModalFactory
     }
