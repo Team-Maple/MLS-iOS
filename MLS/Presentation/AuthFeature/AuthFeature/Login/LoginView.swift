@@ -67,7 +67,7 @@ final class LoginView: UIView {
         return view
     }()
 
-    private let appleLoginLabel: UILabel = {
+    let appleLoginLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .korFont(style: .semiBold, size: 15), text: "Apple로 계속하기", color: .init(hexCode: "#FFFFFF"))
         return label
