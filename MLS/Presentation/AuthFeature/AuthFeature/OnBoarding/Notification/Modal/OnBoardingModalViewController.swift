@@ -13,7 +13,7 @@ final class OnBoardingModalViewController: BaseViewController, View, ModalPresen
 
     var disposeBag = DisposeBag()
 
-    var modalHeight: CGFloat? = nil
+    var modalHeight: CGFloat?
     var modalStyle: ModalStyle = .modal
 
     private var mainView = OnBoardingModalView()

@@ -6,7 +6,7 @@ import DomainInterface
 public struct OnBoardingInputFactoryImpl: OnBoardingFactory {
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
-    
+
     public init(checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase, checkValidLevelUseCase: CheckValidLevelUseCase) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
