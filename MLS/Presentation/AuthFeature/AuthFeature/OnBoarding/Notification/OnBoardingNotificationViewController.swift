@@ -12,14 +12,14 @@ internal import SnapKit
 public class OnBoardingNotificationViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingNotificationReactor
-    private let onBoardingModalFactory: OnBoardingPresentableFactory
+    private let onBoardingModalFactory: OnBoardingModalFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingNotificationView()
 
-    public init(factory: OnBoardingPresentableFactory) {
+    public init(factory: OnBoardingModalFactory) {
         self.onBoardingModalFactory = factory
         super.init()
     }

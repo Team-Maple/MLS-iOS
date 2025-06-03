@@ -14,14 +14,14 @@ internal import SnapKit
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
-    private let onBoardingNotificationFactory: OnBoardingFactory
+    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
 
-    public init(factory: OnBoardingFactory) {
+    public init(factory: OnBoardingNotificationFactory) {
         self.onBoardingNotificationFactory = factory
         super.init()
     }

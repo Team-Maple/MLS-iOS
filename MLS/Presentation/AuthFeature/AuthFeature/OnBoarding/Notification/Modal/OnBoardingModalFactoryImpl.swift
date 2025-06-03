@@ -1,16 +1,12 @@
-import UIKit
-
 import AuthFeatureInterface
 import BaseFeature
-import Core
 
-public struct OnBoardingModalFactoryImpl: OnBoardingPresentableFactory {
+public struct OnBoardingModalFactoryImpl: OnBoardingModalFactory {
     public init() {}
 
-    public func make() -> UIViewController & ModalPresentable {
+    public func make() -> BaseViewController & ModalPresentable {
         let viewController = OnBoardingModalViewController()
         viewController.reactor = OnBoardingModalReactor()
         return viewController
     }
-
 }

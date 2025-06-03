@@ -1,14 +1,16 @@
 import AuthFeatureInterface
 import BaseFeature
-import Core
-import Domain
-import DomainInterface
 
-public struct OnBoardingQuestionFactoryImpl: OnBoardingFactory {
-    public init() {}
+public struct OnBoardingQuestionFactoryImpl: OnBoardingQuestionFactory {
+
+    private let onBoardingInputFactory: OnBoardingInputFactory
+    
+    public init(onBoardingInputFactory: OnBoardingInputFactory) {
+        self.onBoardingInputFactory = onBoardingInputFactory
+    }
 
     public func make() -> BaseViewController {
-        let viewController = OnBoardingQuestionViewController(factory: DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingInput"))
+        let viewController = OnBoardingQuestionViewController(factory: onBoardingInputFactory)
         viewController.reactor = OnBoardingQuestionReactor()
         return viewController
     }

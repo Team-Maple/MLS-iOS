@@ -1,14 +1,16 @@
-import UIKit
-
 import AuthFeatureInterface
 import BaseFeature
-import Core
 
-public struct OnBoardingNotificationFactoryImpl: OnBoardingFactory {
-    public init() {}
+public struct OnBoardingNotificationFactoryImpl: OnBoardingNotificationFactory {
+
+    private let onBoardingModalFactory: OnBoardingModalFactory
+    
+    public init(onBoardingModalFactory: OnBoardingModalFactory) {
+        self.onBoardingModalFactory = onBoardingModalFactory
+    }
 
     public func make() -> BaseViewController {
-        let viewController = OnBoardingNotificationViewController(factory: DIContainer.resolve(type: OnBoardingPresentableFactory.self))
+        let viewController = OnBoardingNotificationViewController(factory: onBoardingModalFactory)
         viewController.reactor = OnBoardingNotificationReactor()
         return viewController
     }

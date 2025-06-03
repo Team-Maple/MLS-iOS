@@ -15,12 +15,12 @@ public class TermsAgreementViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    private let onBoardingFactory: OnBoardingFactory
+    private let onBoardingQuestionFactory: OnBoardingQuestionFactory
 
     private var mainView = TermsAgreementView()
 
-    public init(onBoardingFactory: OnBoardingFactory) {
-        self.onBoardingFactory = onBoardingFactory
+    public init(onBoardingQuestionFactory: OnBoardingQuestionFactory) {
+        self.onBoardingQuestionFactory = onBoardingQuestionFactory
         super.init()
     }
 
