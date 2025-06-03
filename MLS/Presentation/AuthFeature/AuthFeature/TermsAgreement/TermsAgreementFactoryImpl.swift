@@ -1,6 +1,5 @@
 import AuthFeatureInterface
 import BaseFeature
-import Core
 
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
     
@@ -11,7 +10,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
     }
 
     public func make() -> BaseViewController {
-        let viewController = TermsAgreementViewController(onBoardingFactory: onBoardingQuestionFactory)
+        let viewController = TermsAgreementViewController(onBoardingQuestionFactory: onBoardingQuestionFactory)
         viewController.reactor = TermsAgreementReactor()
         return viewController
     }

@@ -162,7 +162,7 @@ public extension TermsAgreementViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .onBoarding:
-                    let vc = owner.onBoardingFactory.make()
+                    let vc = owner.onBoardingQuestionFactory.make()
                     owner.navigationController?.pushViewController(vc, animated: true)
                 default:
                     break
