@@ -14,7 +14,7 @@ public enum ModalStyle {
 internal enum ModalConfig {
     static let containerCornerRadius: CGFloat = 20
     static let containerTransformY: CGFloat = 400
-    static let containerBottomInset: CGFloat = 2
+    static let containerBottomInset: CGFloat = 8
     static let containerHorizontalInset: CGFloat = 8
     static let containerVerticalContentInset: CGFloat = 16
     static let bottomSheetStyleBottomInset: CGFloat = 34
