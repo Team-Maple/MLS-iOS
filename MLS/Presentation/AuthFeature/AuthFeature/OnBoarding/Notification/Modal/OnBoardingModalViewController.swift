@@ -13,20 +13,10 @@ final class OnBoardingModalViewController: BaseViewController, View, ModalPresen
 
     var disposeBag = DisposeBag()
 
-    var modalHeight: CGFloat?
-    var modalStyle: ModalStyle
+    var modalHeight: CGFloat? = nil
+    var modalStyle: ModalStyle = .modal
 
     private var mainView = OnBoardingModalView()
-
-    init(modalHeight: CGFloat? = nil, modalStyle: ModalStyle) {
-        self.modalHeight = modalHeight
-        self.modalStyle = modalStyle
-        super.init()
-    }
-
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Life Cycle

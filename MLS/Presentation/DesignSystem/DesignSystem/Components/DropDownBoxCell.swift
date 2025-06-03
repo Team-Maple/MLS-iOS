@@ -2,7 +2,7 @@ import UIKit
 
 internal import SnapKit
 
-final class DropDownCell: UITableViewCell {
+final class DropDownBoxCell: UITableViewCell {
     // MARK: - Type
     private enum Constant {
         static var horizontalInset: CGFloat = 20
@@ -34,7 +34,7 @@ final class DropDownCell: UITableViewCell {
 }
 
 // MARK: - SetUp
-private extension DropDownCell {
+private extension DropDownBoxCell {
     func addViews() {
         contentView.addSubview(backgroundColorView)
         backgroundColorView.addSubview(titleLabel)
@@ -53,7 +53,7 @@ private extension DropDownCell {
     }
 }
 
-extension DropDownCell {
+extension DropDownBoxCell {
     func injection(with input: String, isSelected: Bool) {
         titleLabel.attributedText = .makeStyledString(font: .body, text: input, color: isSelected ? .textColor : .neutral500, alignment: .left)
         backgroundColorView.backgroundColor = isSelected ? .neutral100 : .clearMLS

@@ -11,11 +11,10 @@ public final class NetworkProviderImpl: NetworkProvider {
     private let retryAttempt: Int = 2
 
     public init() {
-        let session = URLSession.shared
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 30
         configuration.timeoutIntervalForResource = 60
-        self.session = session
+        self.session = URLSession(configuration: configuration)
     }
 
     public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {

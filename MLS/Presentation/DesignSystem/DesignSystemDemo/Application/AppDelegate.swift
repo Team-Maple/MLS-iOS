@@ -67,7 +67,10 @@ private extension AppDelegate {
             return OnBoardingQuestionFactoryImpl()
         }
         DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingInput") {
-            return OnBoardingInputFactoryImpl()
+            return OnBoardingInputFactoryImpl(
+                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self)
+            )
         }
         DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingNotification") {
             return OnBoardingNotificationFactoryImpl()

@@ -36,7 +36,7 @@ public final class DropDownBox: UIStackView {
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
-        tableView.register(DropDownCell.self, forCellReuseIdentifier: "DropDownCell")
+        tableView.register(DropDownBoxCell.self, forCellReuseIdentifier: "DropDownCell")
         return tableView
     }()
 
@@ -135,7 +135,7 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell", for: indexPath) as? DropDownCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DropDownCell", for: indexPath) as? DropDownBoxCell else {
             return UITableViewCell()
         }
         let isSelected = selectedIndex == indexPath.row
