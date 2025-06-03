@@ -66,23 +66,30 @@ private extension AppDelegate {
     }
 
     func registerFactory() {
-        DIContainer.register(type: TermsAgreementFactory.self) {
-            return TermsAgreementFactoryImpl()
+        DIContainer.register(type: OnBoardingModalFactory.self) {
+            return OnBoardingModalFactoryImpl()
         }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingQuestion") {
-            return OnBoardingQuestionFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingInput") {
-            return OnBoardingInputFactoryImpl(
-                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
-                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self)
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+            return OnBoardingNotificationFactoryImpl(
+                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
             )
         }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingNotification") {
-            return OnBoardingNotificationFactoryImpl()
+        DIContainer.register(type: OnBoardingInputFactory.self) {
+            return OnBoardingInputFactoryImpl(
+                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
+                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+            )
         }
-        DIContainer.register(type: OnBoardingPresentableFactory.self) {
-            return OnBoardingModalFactoryImpl()
+        DIContainer.register(type: OnBoardingQuestionFactory.self) {
+            return OnBoardingQuestionFactoryImpl(
+                onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self)
+            )
+        }
+        DIContainer.register(type: TermsAgreementFactory.self) {
+            return TermsAgreementFactoryImpl(
+                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self)
+            )
         }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
