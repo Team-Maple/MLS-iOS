@@ -24,6 +24,7 @@ public class OnBoardingQuestionViewController: BaseViewController, View {
         super.init()
     }
 
+    @available(*, unavailable)
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -97,11 +98,11 @@ public extension OnBoardingQuestionViewController {
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
-                    case .home:
+                case .home:
                     os_log("moveToHome")
                 case .input:
-                    let vc = owner.onBoardingInputFactory.make()
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let inputViewController = owner.onBoardingInputFactory.make()
+                    owner.navigationController?.pushViewController(inputViewController, animated: true)
                 default:
                     break
                 }

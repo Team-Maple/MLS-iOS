@@ -153,8 +153,8 @@ public extension OnBoardingInputViewController {
                 case .home:
                     os_log("moveToHome")
                 case .notification:
-                    let vc = owner.onBoardingNotificationFactory.make()
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let notificationViewController = owner.onBoardingNotificationFactory.make()
+                    owner.navigationController?.pushViewController(notificationViewController, animated: true)
                 default:
                     break
                 }

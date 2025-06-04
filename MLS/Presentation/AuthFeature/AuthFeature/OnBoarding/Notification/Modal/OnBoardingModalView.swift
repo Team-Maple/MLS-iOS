@@ -15,7 +15,7 @@ public final class OnBoardingModalView: UIView {
     // MARK: - Components
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h5, text: "메이플랜드 이벤트 알림을 위해\n알림 허용이 필요해요", alignment: .left)
+        label.attributedText = .makeStyledString(font: .heading5, text: "메이플랜드 이벤트 알림을 위해\n알림 허용이 필요해요", alignment: .left)
         label.numberOfLines = 2
         return label
     }()

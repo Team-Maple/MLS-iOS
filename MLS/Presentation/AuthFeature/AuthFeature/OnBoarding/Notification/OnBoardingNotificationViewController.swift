@@ -87,8 +87,8 @@ public extension OnBoardingNotificationViewController {
                 case .home:
                     os_log("moveToHome")
                 case .modal:
-                    let vc = owner.onBoardingModalFactory.make()
-                    owner.presentModal(vc)
+                    let modalViewController = owner.onBoardingModalFactory.make()
+                    owner.presentModal(modalViewController)
                 default:
                     break
                 }

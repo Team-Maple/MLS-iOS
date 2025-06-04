@@ -22,7 +22,7 @@ public final class OnBoardingQuestionView: OnBoardingBaseView {
 
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h4, text: "효율적인 메이플랜드 플레이를\n위해 몇가지만 물어볼게요")
+        label.attributedText = .makeStyledString(font: .heading4, text: "효율적인 메이플랜드 플레이를\n위해 몇가지만 물어볼게요")
         label.numberOfLines = 2
         return label
     }()

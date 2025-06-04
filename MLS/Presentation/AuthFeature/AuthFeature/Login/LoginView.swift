@@ -82,13 +82,13 @@ final class LoginView: UIView {
 
     private let mainTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h5, text: "모험가님,")
+        label.attributedText = .makeStyledString(font: .heading5, text: "모험가님,")
         return label
     }()
 
     private let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h5Regular, text: "다시 오신 걸 환영해요!")
+        label.attributedText = .makeStyledString(font: .heading5Regular, text: "다시 오신 걸 환영해요!")
         return label
     }()
     // MARK: - init

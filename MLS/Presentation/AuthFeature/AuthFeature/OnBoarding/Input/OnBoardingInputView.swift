@@ -24,7 +24,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
     // MARK: - Components
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h4, text: "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
+        label.attributedText = .makeStyledString(font: .heading4, text: "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
         label.numberOfLines = 2
         return label
     }()
@@ -47,7 +47,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
         addViews()
         setupConstraints()
         configureUI()
-        bind()
+        setGesture()
     }
 
     @available(*, unavailable)
@@ -101,7 +101,8 @@ private extension OnBoardingInputView {
         errorMessage.isHidden = true
     }
 
-    func bind() {
+    /// inputBox를 제외한 영역 선택시 키보드 제거
+    func setGesture() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.cancelsTouchesInView = false
         addGestureRecognizer(tapGesture)
@@ -122,6 +123,11 @@ private extension OnBoardingInputView {
 
 // MARK: - UITextFieldDelegate
 extension OnBoardingInputView: UITextFieldDelegate {
+    /// textField의 붙여넣기 기능 차단
+    /// - Parameters:
+    ///   - action: 선택자를 나타내는 selector
+    ///   - sender: 동작을 트리거한 객체
+    /// - Returns: 붙여넣기가 허용되면 true / 허용되지 않으면 false
     override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(paste(_:)) {
             return false

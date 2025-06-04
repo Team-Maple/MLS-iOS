@@ -22,7 +22,7 @@ public final class OnBoardingNotificationView: OnBoardingBaseView {
 
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h4, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
+        label.attributedText = .makeStyledString(font: .heading4, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
         label.numberOfLines = 2
         return label
     }()

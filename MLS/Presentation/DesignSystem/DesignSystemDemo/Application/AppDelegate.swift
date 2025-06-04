@@ -32,13 +32,13 @@ private extension AppDelegate {
 
     func registerProvider() {
         DIContainer.register(type: NetworkProvider.self) {
-            return NetworkProviderImpl()
+            NetworkProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
-            return KakaoLoginProviderImpl()
+            KakaoLoginProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            return AppleLoginProviderImpl()
+            AppleLoginProviderImpl()
         }
     }
 
@@ -52,34 +52,41 @@ private extension AppDelegate {
             return SocialLoginUseCaseImpl(provider: provider)
         }
         DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
-            return CheckEmptyLevelAndRoleUseCaseImpl()
+            CheckEmptyLevelAndRoleUseCaseImpl()
         }
         DIContainer.register(type: CheckValidLevelUseCase.self) {
-            return CheckValidLevelUseCaseImpl()
+            CheckValidLevelUseCaseImpl()
         }
     }
 
     func registerFactory() {
-        DIContainer.register(type: TermsAgreementFactory.self) {
-            return TermsAgreementFactoryImpl()
+        DIContainer.register(type: OnBoardingModalFactory.self) {
+            OnBoardingModalFactoryImpl()
         }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingQuestion") {
-            return OnBoardingQuestionFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingInput") {
-            return OnBoardingInputFactoryImpl(
-                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
-                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self)
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+            OnBoardingNotificationFactoryImpl(
+                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
             )
         }
-        DIContainer.register(type: OnBoardingFactory.self, name: "onBoardingNotification") {
-            return OnBoardingNotificationFactoryImpl()
+        DIContainer.register(type: OnBoardingInputFactory.self) {
+            OnBoardingInputFactoryImpl(
+                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
+                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+            )
         }
-        DIContainer.register(type: OnBoardingPresentableFactory.self) {
-            return OnBoardingModalFactoryImpl()
+        DIContainer.register(type: OnBoardingQuestionFactory.self) {
+            OnBoardingQuestionFactoryImpl(
+                onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self)
+            )
+        }
+        DIContainer.register(type: TermsAgreementFactory.self) {
+            TermsAgreementFactoryImpl(
+                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self)
+            )
         }
         DIContainer.register(type: LoginFactory.self) {
-            return LoginFactoryImpl(
+            LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
                 appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
                 kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")

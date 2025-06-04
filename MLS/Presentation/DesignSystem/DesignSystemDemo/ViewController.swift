@@ -32,13 +32,13 @@ class ViewController: UIViewController {
         let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make()
         termVC.title = "약관 동의"
 
-        let questionVC = DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingQuestion").make()
+        let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()
         questionVC.title = "온보딩 진입"
 
-        let inputVC = DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingInput").make()
+        let inputVC = DIContainer.resolve(type: OnBoardingInputFactory.self).make()
         inputVC.title = "온보딩 입력"
 
-        let notiVC = DIContainer.resolve(type: OnBoardingFactory.self, name: "onBoardingNotification").make()
+        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make()
         notiVC.title = "온보딩 알림"
 
         return [
