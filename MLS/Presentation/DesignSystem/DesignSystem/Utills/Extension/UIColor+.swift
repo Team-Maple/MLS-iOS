@@ -21,14 +21,14 @@ public extension UIColor {
 
     static let whiteMLS = UIColor(hexCode: "FFFFFF")
     static let clearMLS = UIColor(hexCode: "FFFFFF", alpha: 0)
-    
+
     static let error900 = UIColor(hexCode: "FF4B4B")
     static let error100 = UIColor(hexCode: "FFEFEF")
-    
+
     static let success = UIColor(hexCode: "15CC00")
     static let redMLS = UIColor(hexCode: "FF0000")
     static let overlays = UIColor(hexCode: "000000", alpha: 0.2)
-    
+
     static let listMonster = UIColor(hexCode: "FFEFCE")
     static let listItem = UIColor(hexCode: "F1EEFC")
     static let listMap = UIColor(hexCode: "EEF9E0")
