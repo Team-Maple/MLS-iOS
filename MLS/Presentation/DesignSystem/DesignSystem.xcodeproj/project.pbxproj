@@ -11,15 +11,22 @@
 		0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3C2DD1C8F400868C70 /* SnapKit */; };
 		08686A702DD1E70500868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A6F2DD1E70500868C70 /* SnapKit */; };
+		08E424D52DF0B71200D6ACD3 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F22DE8D7E500684E34 /* AuthFeature.framework */; };
+		08E424D62DF0B71200D6ACD3 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F22DE8D7E500684E34 /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424D72DF0B71600D6ACD3 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */; };
+		08E424D82DF0B71600D6ACD3 /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424D92DF0B71800D6ACD3 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776AD6822DE985C300991745 /* BaseFeature.framework */; };
+		08E424DA2DF0B71800D6ACD3 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 776AD6822DE985C300991745 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424DB2DF0B71A00D6ACD3 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F62DE8D7E500684E34 /* Core.framework */; };
+		08E424DC2DF0B71A00D6ACD3 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F62DE8D7E500684E34 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424DD2DF0B71B00D6ACD3 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FC2DE8D87000684E34 /* Data.framework */; };
+		08E424DE2DF0B71B00D6ACD3 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FC2DE8D87000684E34 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424DF2DF0B71C00D6ACD3 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F82DE8D7E500684E34 /* Domain.framework */; };
+		08E424E02DF0B71C00D6ACD3 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F82DE8D7E500684E34 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08E424E12DF0B71D00D6ACD3 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FA2DE8D7E500684E34 /* DomainInterface.framework */; };
+		08E424E22DF0B71D00D6ACD3 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FA2DE8D7E500684E34 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD12DCFF895002C21A2 /* RxRelay */; };
 		08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD32DCFF899002C21A2 /* RxSwift */; };
-		776AD6832DE985C300991745 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776AD6822DE985C300991745 /* BaseFeature.framework */; };
-		778F55F32DE8D7E500684E34 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F22DE8D7E500684E34 /* AuthFeature.framework */; };
-		778F55F52DE8D7E500684E34 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */; };
-		778F55F72DE8D7E500684E34 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F62DE8D7E500684E34 /* Core.framework */; };
-		778F55F92DE8D7E500684E34 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F82DE8D7E500684E34 /* Domain.framework */; };
-		778F55FB2DE8D7E500684E34 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FA2DE8D7E500684E34 /* DomainInterface.framework */; };
-		778F55FD2DE8D87000684E34 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FC2DE8D87000684E34 /* Data.framework */; };
 		778F56002DE8D8D900684E34 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 778F55FF2DE8D8D900684E34 /* ReactorKit */; };
 		77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77A33E942DD89FB800F14EC1 /* RxCocoa */; };
 /* End PBXBuildFile section */
@@ -41,7 +48,14 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				08E424DE2DF0B71B00D6ACD3 /* Data.framework in Embed Frameworks */,
+				08E424DA2DF0B71800D6ACD3 /* BaseFeature.framework in Embed Frameworks */,
+				08E424D82DF0B71600D6ACD3 /* AuthFeatureInterface.framework in Embed Frameworks */,
 				0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */,
+				08E424DC2DF0B71A00D6ACD3 /* Core.framework in Embed Frameworks */,
+				08E424D62DF0B71200D6ACD3 /* AuthFeature.framework in Embed Frameworks */,
+				08E424E22DF0B71D00D6ACD3 /* DomainInterface.framework in Embed Frameworks */,
+				08E424E02DF0B71C00D6ACD3 /* Domain.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -117,19 +131,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				776AD6832DE985C300991745 /* BaseFeature.framework in Frameworks */,
-				778F55FD2DE8D87000684E34 /* Data.framework in Frameworks */,
-				778F55F32DE8D7E500684E34 /* AuthFeature.framework in Frameworks */,
-				778F55F52DE8D7E500684E34 /* AuthFeatureInterface.framework in Frameworks */,
-				778F55F72DE8D7E500684E34 /* Core.framework in Frameworks */,
-				778F55F92DE8D7E500684E34 /* Domain.framework in Frameworks */,
-				778F55FB2DE8D7E500684E34 /* DomainInterface.framework in Frameworks */,
+				08E424D92DF0B71800D6ACD3 /* BaseFeature.framework in Frameworks */,
 				0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */,
+				08E424DB2DF0B71A00D6ACD3 /* Core.framework in Frameworks */,
+				08E424DD2DF0B71B00D6ACD3 /* Data.framework in Frameworks */,
 				08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */,
 				77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */,
 				08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */,
+				08E424E12DF0B71D00D6ACD3 /* DomainInterface.framework in Frameworks */,
+				08E424DF2DF0B71C00D6ACD3 /* Domain.framework in Frameworks */,
+				08E424D72DF0B71600D6ACD3 /* AuthFeatureInterface.framework in Frameworks */,
 				778F56002DE8D8D900684E34 /* ReactorKit in Frameworks */,
 				08686A702DD1E70500868C70 /* SnapKit in Frameworks */,
+				08E424D52DF0B71200D6ACD3 /* AuthFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,6 +551,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -549,7 +564,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.DesignSystemDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -568,6 +583,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -580,7 +596,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.DesignSystemDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
