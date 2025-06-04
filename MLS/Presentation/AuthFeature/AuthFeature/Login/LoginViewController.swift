@@ -71,9 +71,37 @@ public extension LoginViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
+        mainView.kakaoLoginButton.rx.controlEvent(.touchDown)
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.mainView.kakaoLoginButton.backgroundColor = .init(hexCode: "#E5CE00")
+            }
+            .disposed(by: disposeBag)
+
+        mainView.kakaoLoginButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchCancel])
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.mainView.kakaoLoginButton.backgroundColor = .init(hexCode: "#FEE500")
+            }
+            .disposed(by: disposeBag)
+
         mainView.appleLoginButton.rx.tap
             .map { Reactor.Action.appleLoginButtonTapped }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.appleLoginButton.rx.controlEvent(.touchDown)
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.mainView.appleLoginLabel.textColor = .init(hexCode: "#E5E5E5")
+            }
+            .disposed(by: disposeBag)
+
+        mainView.appleLoginButton.rx.controlEvent([.touchUpInside, .touchUpOutside, .touchCancel])
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.mainView.appleLoginLabel.textColor = .whiteMLS
+            }
             .disposed(by: disposeBag)
 
         mainView.guestLoginButton.rx.tap
