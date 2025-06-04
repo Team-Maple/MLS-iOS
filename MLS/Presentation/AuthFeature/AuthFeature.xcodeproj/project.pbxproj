@@ -28,7 +28,6 @@
 		08E425042DF0BCCC00D6ACD3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08E425032DF0BCCC00D6ACD3 /* RxCocoa */; };
 		7787BFB92DED80ED0011C907 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7787BFB82DED80ED0011C907 /* RxKeyboard */; };
 		77EB17C62DED816D004FB380 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB17C52DED816D004FB380 /* BaseFeature.framework */; };
-		77EB17C72DED816D004FB380 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB17C52DED816D004FB380 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77EB17CA2DED81E0004FB380 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77EB17C92DED81E0004FB380 /* SnapKit */; };
 		77EB17CC2DED81F2004FB380 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77EB17CB2DED81F2004FB380 /* ReactorKit */; };
 		77EB18E42DEDA126004FB380 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E02DEDA126004FB380 /* BaseFeature.framework */; };
@@ -66,17 +65,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		77EB17C82DED816D004FB380 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				77EB17C72DED816D004FB380 /* BaseFeature.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		77EB18EC2DEDA126004FB380 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,7 +244,6 @@
 				08501BC22DDCA9DF0055CBCE /* Sources */,
 				08501BC32DDCA9DF0055CBCE /* Frameworks */,
 				08501BC42DDCA9DF0055CBCE /* Resources */,
-				77EB17C82DED816D004FB380 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
