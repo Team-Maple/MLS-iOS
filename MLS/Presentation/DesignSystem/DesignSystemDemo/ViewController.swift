@@ -1,7 +1,5 @@
 import UIKit
 
-import AuthFeature
-import AuthFeatureInterface
 import Core
 import DesignSystem
 
@@ -24,31 +22,6 @@ class ViewController: UIViewController {
         ToastMakerTestViewController(),
         ErrorMessageTextViewController()
     ]
-
-    lazy var authViews: [UIViewController] = {
-        let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
-        loginVC.title = "로그인"
-
-        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make()
-        termVC.title = "약관 동의"
-
-        let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()
-        questionVC.title = "온보딩 진입"
-
-        let inputVC = DIContainer.resolve(type: OnBoardingInputFactory.self).make()
-        inputVC.title = "온보딩 입력"
-
-        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make()
-        notiVC.title = "온보딩 알림"
-
-        return [
-            loginVC,
-            termVC,
-            questionVC,
-            inputVC,
-            notiVC
-        ]
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +46,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case 0:
             return "Components"
-        case 1:
-            return "Auth"
         default:
             return nil
         }
@@ -84,8 +55,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case 0:
             return componentViews.count
-        case 1:
-            return authViews.count
         default:
             return 0
         }
@@ -98,8 +67,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             viewController = componentViews[indexPath.row]
-        case 1:
-            viewController = authViews[indexPath.row]
         default:
             return cell
         }
@@ -115,8 +82,6 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.section {
         case 0:
             nextController = componentViews[indexPath.row]
-        case 1:
-            nextController = authViews[indexPath.row]
         default:
             return
         }

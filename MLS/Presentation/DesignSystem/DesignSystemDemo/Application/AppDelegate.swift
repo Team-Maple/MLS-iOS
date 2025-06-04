@@ -1,7 +1,5 @@
 import UIKit
 
-import AuthFeature
-import AuthFeatureInterface
 import Core
 import Data
 import DesignSystem
@@ -27,7 +25,6 @@ private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
         registerUseCase()
-        registerFactory()
     }
 
     func registerProvider() {
@@ -56,41 +53,6 @@ private extension AppDelegate {
         }
         DIContainer.register(type: CheckValidLevelUseCase.self) {
             CheckValidLevelUseCaseImpl()
-        }
-    }
-
-    func registerFactory() {
-        DIContainer.register(type: OnBoardingModalFactory.self) {
-            OnBoardingModalFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
-            OnBoardingNotificationFactoryImpl(
-                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
-            )
-        }
-        DIContainer.register(type: OnBoardingInputFactory.self) {
-            OnBoardingInputFactoryImpl(
-                checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
-                checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
-                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
-            )
-        }
-        DIContainer.register(type: OnBoardingQuestionFactory.self) {
-            OnBoardingQuestionFactoryImpl(
-                onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self)
-            )
-        }
-        DIContainer.register(type: TermsAgreementFactory.self) {
-            TermsAgreementFactoryImpl(
-                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self)
-            )
-        }
-        DIContainer.register(type: LoginFactory.self) {
-            LoginFactoryImpl(
-                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-                appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
-            )
         }
     }
 }
