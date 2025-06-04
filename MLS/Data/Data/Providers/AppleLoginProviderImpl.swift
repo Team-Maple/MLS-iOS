@@ -12,9 +12,11 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
         var authorizationCode: String?
     }
 
-    private let authServiceResponse = PublishSubject<Credential>()
+    public override init() {}
 
-    public func getCredential() -> Observable<Credential> {
+    private let authServiceResponse = PublishSubject<Encodable>()
+
+    public func getCredential() -> Observable<Encodable> {
         performRequest()
         return authServiceResponse
     }
@@ -22,8 +24,6 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
     private func performRequest() {
         let provider = ASAuthorizationAppleIDProvider()
         let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-
         let controller = ASAuthorizationController(authorizationRequests: [request])
         controller.delegate = self
         controller.presentationContextProvider = self

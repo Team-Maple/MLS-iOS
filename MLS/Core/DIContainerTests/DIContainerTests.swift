@@ -39,8 +39,8 @@ class DIContainerTests: XCTestCase {
         XCTAssertEqual(service?.perform(), "ServiceA")
     }
 
-    /// 중복 등록 시 fatalError 테스트
-    /// fatalError 구문은 주석처리하고 테스트 진행
+    // 중복 등록 시 fatalError 테스트
+    // fatalError 구문은 주석처리하고 테스트 진행
 //    func testDuplicateRegistration() {
 //        DIContainer.register(type: Service.self, name: "A") { ServiceA() as Service }
 //        DIContainer.register(type: Service.self, name: "A") { ServiceB() as Service }

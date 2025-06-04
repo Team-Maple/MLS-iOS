@@ -1,0 +1,688 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; };
+		0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A3C2DD1C8F400868C70 /* SnapKit */; };
+		08686A702DD1E70500868C70 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08686A6F2DD1E70500868C70 /* SnapKit */; };
+		08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD12DCFF895002C21A2 /* RxRelay */; };
+		08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DD32DCFF899002C21A2 /* RxSwift */; };
+		776AD6832DE985C300991745 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776AD6822DE985C300991745 /* BaseFeature.framework */; };
+		778F55F32DE8D7E500684E34 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F22DE8D7E500684E34 /* AuthFeature.framework */; };
+		778F55F52DE8D7E500684E34 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */; };
+		778F55F72DE8D7E500684E34 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F62DE8D7E500684E34 /* Core.framework */; };
+		778F55F92DE8D7E500684E34 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55F82DE8D7E500684E34 /* Domain.framework */; };
+		778F55FB2DE8D7E500684E34 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FA2DE8D7E500684E34 /* DomainInterface.framework */; };
+		778F55FD2DE8D87000684E34 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778F55FC2DE8D87000684E34 /* Data.framework */; };
+		778F56002DE8D8D900684E34 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 778F55FF2DE8D8D900684E34 /* ReactorKit */; };
+		77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77A33E942DD89FB800F14EC1 /* RxCocoa */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0858ABE12DCFD7700060EBCA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0858ABA52DCFD6940060EBCA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0858ABAD2DCFD6940060EBCA;
+			remoteInfo = DesignSystem;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0858ABE32DCFD7700060EBCA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0858ABE02DCFD7700060EBCA /* DesignSystem.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignSystemDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		776AD6822DE985C300991745 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55F22DE8D7E500684E34 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55F62DE8D7E500684E34 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55F82DE8D7E500684E34 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55FA2DE8D7E500684E34 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778F55FC2DE8D87000684E34 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		0858ABDA2DCFD7580060EBCA /* Exceptions for "DesignSystemDemo" folder in "DesignSystemDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0858ABC82DCFD7560060EBCA /* DesignSystemDemo */;
+		};
+		0858ABF72DCFDBB90060EBCA /* Exceptions for "DesignSystem" folder in "DesignSystemDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resource/Image.xcassets,
+			);
+			target = 0858ABC82DCFD7560060EBCA /* DesignSystemDemo */;
+		};
+		08ED4E072DD07FC5002C21A2 /* Exceptions for "DesignSystem" folder in "DesignSystem" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 0858ABAD2DCFD6940060EBCA /* DesignSystem */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0858ABB02DCFD6940060EBCA /* DesignSystem */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				08ED4E072DD07FC5002C21A2 /* Exceptions for "DesignSystem" folder in "DesignSystem" target */,
+				0858ABF72DCFDBB90060EBCA /* Exceptions for "DesignSystem" folder in "DesignSystemDemo" target */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0858ABDA2DCFD7580060EBCA /* Exceptions for "DesignSystemDemo" folder in "DesignSystemDemo" target */,
+			);
+			path = DesignSystemDemo;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0858ABAB2DCFD6940060EBCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08686A3D2DD1C8F400868C70 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0858ABC62DCFD7560060EBCA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				776AD6832DE985C300991745 /* BaseFeature.framework in Frameworks */,
+				778F55FD2DE8D87000684E34 /* Data.framework in Frameworks */,
+				778F55F32DE8D7E500684E34 /* AuthFeature.framework in Frameworks */,
+				778F55F52DE8D7E500684E34 /* AuthFeatureInterface.framework in Frameworks */,
+				778F55F72DE8D7E500684E34 /* Core.framework in Frameworks */,
+				778F55F92DE8D7E500684E34 /* Domain.framework in Frameworks */,
+				778F55FB2DE8D7E500684E34 /* DomainInterface.framework in Frameworks */,
+				0858ABDF2DCFD7700060EBCA /* DesignSystem.framework in Frameworks */,
+				08ED4DD42DCFF899002C21A2 /* RxSwift in Frameworks */,
+				77A33E952DD89FB800F14EC1 /* RxCocoa in Frameworks */,
+				08ED4DD22DCFF895002C21A2 /* RxRelay in Frameworks */,
+				778F56002DE8D8D900684E34 /* ReactorKit in Frameworks */,
+				08686A702DD1E70500868C70 /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0858ABA42DCFD6940060EBCA = {
+			isa = PBXGroup;
+			children = (
+				0858ABB02DCFD6940060EBCA /* DesignSystem */,
+				0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */,
+				0858ABDE2DCFD7700060EBCA /* Frameworks */,
+				0858ABAF2DCFD6940060EBCA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0858ABAF2DCFD6940060EBCA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */,
+				0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0858ABDE2DCFD7700060EBCA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				776AD6822DE985C300991745 /* BaseFeature.framework */,
+				778F55FC2DE8D87000684E34 /* Data.framework */,
+				778F55F22DE8D7E500684E34 /* AuthFeature.framework */,
+				778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */,
+				778F55F62DE8D7E500684E34 /* Core.framework */,
+				778F55F82DE8D7E500684E34 /* Domain.framework */,
+				778F55FA2DE8D7E500684E34 /* DomainInterface.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0858ABA92DCFD6940060EBCA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0858ABAD2DCFD6940060EBCA /* DesignSystem */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0858ABB42DCFD6940060EBCA /* Build configuration list for PBXNativeTarget "DesignSystem" */;
+			buildPhases = (
+				0858ABA92DCFD6940060EBCA /* Headers */,
+				0858ABAA2DCFD6940060EBCA /* Sources */,
+				0858ABAB2DCFD6940060EBCA /* Frameworks */,
+				0858ABAC2DCFD6940060EBCA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0858ABB02DCFD6940060EBCA /* DesignSystem */,
+			);
+			name = DesignSystem;
+			packageProductDependencies = (
+				08686A3C2DD1C8F400868C70 /* SnapKit */,
+			);
+			productName = DesignSystem;
+			productReference = 0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0858ABC82DCFD7560060EBCA /* DesignSystemDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0858ABDB2DCFD7580060EBCA /* Build configuration list for PBXNativeTarget "DesignSystemDemo" */;
+			buildPhases = (
+				0858ABC52DCFD7560060EBCA /* Sources */,
+				0858ABC62DCFD7560060EBCA /* Frameworks */,
+				0858ABC72DCFD7560060EBCA /* Resources */,
+				0858ABE32DCFD7700060EBCA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0858ABE22DCFD7700060EBCA /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0858ABCA2DCFD7560060EBCA /* DesignSystemDemo */,
+			);
+			name = DesignSystemDemo;
+			packageProductDependencies = (
+				08ED4DD12DCFF895002C21A2 /* RxRelay */,
+				08ED4DD32DCFF899002C21A2 /* RxSwift */,
+				08686A6F2DD1E70500868C70 /* SnapKit */,
+				77A33E942DD89FB800F14EC1 /* RxCocoa */,
+				778F55FF2DE8D8D900684E34 /* ReactorKit */,
+			);
+			productName = DesignSystemDemo;
+			productReference = 0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0858ABA52DCFD6940060EBCA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					0858ABAD2DCFD6940060EBCA = {
+						CreatedOnToolsVersion = 16.2;
+						LastSwiftMigration = 1620;
+					};
+					0858ABC82DCFD7560060EBCA = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = 0858ABA82DCFD6940060EBCA /* Build configuration list for PBXProject "DesignSystem" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0858ABA42DCFD6940060EBCA;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */,
+				08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				778F55FE2DE8D8D900684E34 /* XCRemoteSwiftPackageReference "ReactorKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0858ABAF2DCFD6940060EBCA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0858ABAD2DCFD6940060EBCA /* DesignSystem */,
+				0858ABC82DCFD7560060EBCA /* DesignSystemDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0858ABAC2DCFD6940060EBCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0858ABC72DCFD7560060EBCA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0858ABAA2DCFD6940060EBCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0858ABC52DCFD7560060EBCA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0858ABE22DCFD7700060EBCA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0858ABAD2DCFD6940060EBCA /* DesignSystem */;
+			targetProxy = 0858ABE12DCFD7700060EBCA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0858ABB52DCFD6940060EBCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystem/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystem;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0858ABB62DCFD6940060EBCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystem/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystem;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		0858ABB72DCFD6940060EBCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0858ABB82DCFD6940060EBCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0858ABDC2DCFD7580060EBCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		0858ABDD2DCFD7580060EBCA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DesignSystemDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DesignSystemDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0858ABA82DCFD6940060EBCA /* Build configuration list for PBXProject "DesignSystem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0858ABB72DCFD6940060EBCA /* Debug */,
+				0858ABB82DCFD6940060EBCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0858ABB42DCFD6940060EBCA /* Build configuration list for PBXNativeTarget "DesignSystem" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0858ABB52DCFD6940060EBCA /* Debug */,
+				0858ABB62DCFD6940060EBCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0858ABDB2DCFD7580060EBCA /* Build configuration list for PBXNativeTarget "DesignSystemDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0858ABDC2DCFD7580060EBCA /* Debug */,
+				0858ABDD2DCFD7580060EBCA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+		778F55FE2DE8D8D900684E34 /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactorKit/ReactorKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08686A3C2DD1C8F400868C70 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		08686A6F2DD1E70500868C70 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858ABE62DCFD8610060EBCA /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		08ED4DD12DCFF895002C21A2 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		08ED4DD32DCFF899002C21A2 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		778F55FF2DE8D8D900684E34 /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 778F55FE2DE8D8D900684E34 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		77A33E942DD89FB800F14EC1 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED4DB82DCFE91F002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 0858ABA52DCFD6940060EBCA /* Project object */;
+}
