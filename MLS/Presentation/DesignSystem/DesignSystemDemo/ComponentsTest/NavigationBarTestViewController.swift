@@ -12,13 +12,13 @@ final class NavigationBarTestViewController: UIViewController {
     var disposeBag = DisposeBag()
 
     private let headerView: NavigationBar = {
-        let view = NavigationBar(textButtonTitle: "TextButton")
+        let view = NavigationBar(underlineTextButtonTitle: "underline", boldTextButtonTitle: "bold")
         return view
     }()
 
     private let leftLabel: UILabel = {
         let label = UILabel()
-        label.text = "Left"
+        label.text = "left"
         return label
     }()
 
@@ -40,15 +40,27 @@ final class NavigationBarTestViewController: UIViewController {
         return button
     }()
 
-    private let textLabel: UILabel = {
+    private let underlineTextLabel: UILabel = {
         let label = UILabel()
-        label.text = "text"
+        label.text = "underline"
         return label
     }()
 
-    private let textButtonHiddenToggle: UISwitch = {
+    private let underlineTextButtonHiddenToggle: UISwitch = {
         let button = UISwitch()
         button.isOn = true
+        return button
+    }()
+
+    private let boldTextLabel: UILabel = {
+        let label = UILabel()
+        label.text = "bold"
+        return label
+    }()
+
+    private let boldTextButtonHiddenToggle: UISwitch = {
+        let button = UISwitch()
+        button.isOn = false
         return button
     }()
 
@@ -85,8 +97,10 @@ private extension NavigationBarTestViewController {
         view.addSubview(leftLabel)
         view.addSubview(rightButtonHiddenToggle)
         view.addSubview(rightLabel)
-        view.addSubview(textButtonHiddenToggle)
-        view.addSubview(textLabel)
+        view.addSubview(underlineTextButtonHiddenToggle)
+        view.addSubview(underlineTextLabel)
+        view.addSubview(boldTextButtonHiddenToggle)
+        view.addSubview(boldTextLabel)
     }
 
     func setupConstraints() {
@@ -113,13 +127,22 @@ private extension NavigationBarTestViewController {
             make.leading.equalToSuperview().inset(16)
             make.centerY.equalTo(rightButtonHiddenToggle)
         }
-        textButtonHiddenToggle.snp.makeConstraints { make in
+        underlineTextButtonHiddenToggle.snp.makeConstraints { make in
             make.top.equalTo(rightButtonHiddenToggle.snp.bottom).offset(30)
             make.trailing.equalToSuperview().inset(16)
         }
-        textLabel.snp.makeConstraints { make in
+        underlineTextLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
-            make.centerY.equalTo(textButtonHiddenToggle)
+            make.centerY.equalTo(underlineTextButtonHiddenToggle)
+        }
+        
+        boldTextButtonHiddenToggle.snp.makeConstraints { make in
+            make.top.equalTo(underlineTextLabel.snp.bottom).offset(30)
+            make.trailing.equalToSuperview().inset(16)
+        }
+        boldTextLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.centerY.equalTo(boldTextButtonHiddenToggle)
         }
     }
 
@@ -142,10 +165,21 @@ private extension NavigationBarTestViewController {
             }
             .disposed(by: disposeBag)
 
-        textButtonHiddenToggle.rx.isOn
+        underlineTextButtonHiddenToggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in
-                owner.headerView.textButton.isHidden = !isOn
+                owner.headerView.underlineTextButton.isHidden = !isOn
+                owner.headerView.boldTextButton.isHidden = isOn
+                owner.boldTextButtonHiddenToggle.isOn = !isOn
+            }
+            .disposed(by: disposeBag)
+        
+        boldTextButtonHiddenToggle.rx.isOn
+            .withUnretained(self)
+            .subscribe { (owner, isOn) in
+                owner.headerView.boldTextButton.isHidden = !isOn
+                owner.headerView.underlineTextButton.isHidden = isOn
+                owner.underlineTextButtonHiddenToggle.isOn = !isOn
             }
             .disposed(by: disposeBag)
     }
