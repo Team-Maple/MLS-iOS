@@ -120,6 +120,10 @@ public extension LoginViewController {
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .home:
                     let controller = UIViewController()
+                    controller.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .error:
+                    let controller = UIViewController()
                     controller.view.backgroundColor = .red
                     owner.navigationController?.pushViewController(controller, animated: true)
                 default:

@@ -12,6 +12,7 @@ public final class LoginReactor: Reactor {
         case none
         case termsAgreements(credential: Encodable)
         case home
+        case error
     }
 
     // MARK: - Reactor
@@ -24,6 +25,7 @@ public final class LoginReactor: Reactor {
     public enum Mutation {
         case moveToHomeScene
         case moveToTermsAgreementsScene(credential: Encodable)
+        case moveToErrorScene
     }
 
     public struct State {
@@ -64,6 +66,9 @@ public final class LoginReactor: Reactor {
                 .map { result in
                     return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
                 }
+                .catch { error in
+                    return Observable.just(.moveToErrorScene)
+                }
         case .appleLoginButtonTapped:
             return fetchAppleCredentialUseCase.execute()
                 .withUnretained(self)
@@ -72,6 +77,9 @@ public final class LoginReactor: Reactor {
                 }
                 .map { result in
                     return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
+                }
+                .catch { error in
+                    return Observable.just(.moveToErrorScene)
                 }
         case .guestLoginButtonTapped:
             return Observable.just(.moveToHomeScene)
@@ -85,6 +93,8 @@ public final class LoginReactor: Reactor {
             newState.route = .home
         case .moveToTermsAgreementsScene(let credential):
             newState.route = .termsAgreements(credential: credential)
+        case .moveToErrorScene:
+            newState.route = .error
         }
         return newState
     }

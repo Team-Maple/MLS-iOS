@@ -13,7 +13,8 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func loginWithApple(credential: Encodable) -> Observable<LoginResponse> {
-        return Observable.just(.init(isRegister: true, accessToken: "testToken", refreshToken: "testToken"))
+        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
+        return Observable.error(error)
     }
     
     public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
