@@ -7,21 +7,64 @@ public final class CommonButton: UIButton {
     public enum CommonButtonStyle {
         case normal
         case text
+        case border
 
         public var height: CGFloat {
             switch self {
-            case .normal:
+            case .normal, .border:
                 return 54
             case .text:
                 return 44
             }
         }
+
+        public var backgroundColor: UIColor {
+            switch self {
+            case .normal:
+                .primary700
+            case .text, .border:
+                .clearMLS
+            }
+        }
+
+        public var borderColor: CGColor {
+            switch self {
+            case .normal, .text:
+                UIColor.clearMLS.cgColor
+            case .border:
+                UIColor.neutral300.cgColor
+            }
+        }
+
+        public var textColor: UIColor {
+            switch self {
+            case .normal:
+                .whiteMLS
+            case .text:
+                .neutral700
+            case .border:
+                .textColor
+            }
+        }
+        
+        public var font: UIFont? {
+            switch self {
+            case .normal:
+                .subTitleBold
+            case .text:
+                .caption
+            case .border:
+                .body
+            }
+        }
     }
-    private struct Constant {
+
+    private enum Constant {
         static let height: CGFloat = 54
         static let normalStyleCornerRadius: CGFloat = 8
         static let textLineHeight: CGFloat = 1.2
     }
+
     // MARK: - Properties
     private let style: CommonButtonStyle
 
@@ -32,6 +75,7 @@ public final class CommonButton: UIButton {
         self.configureUI(title: title, disabledTitle: disabledTitle)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -40,20 +84,21 @@ public final class CommonButton: UIButton {
 // MARK: - SetUp
 private extension CommonButton {
     func configureUI(title: String?, disabledTitle: String?) {
-
         switch style {
-        case .normal:
-            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: title, color: .white), for: .normal)
-            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: disabledTitle, color: .white), for: .disabled)
-            self.setBackgroundImage(UIImage.fromColor(.primary700), for: .normal)
-            self.setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
-            self.layer.cornerRadius = Constant.normalStyleCornerRadius
-            self.clipsToBounds = true
-            self.snp.makeConstraints { make in make.height.equalTo(style.height) }
+        case .normal, .border:
+            setAttributedTitle(.makeStyledString(font: style.font, text: title, color: style.textColor), for: .normal)
+            setAttributedTitle(.makeStyledString(font: .subTitleBold, text: disabledTitle, color: .whiteMLS), for: .disabled)
+            setBackgroundImage(UIImage.fromColor(style.backgroundColor), for: .normal)
+            setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
+            layer.cornerRadius = Constant.normalStyleCornerRadius
+            layer.borderColor = self.style.borderColor
+            clipsToBounds = true
+            snp.makeConstraints { make in make.height.equalTo(style.height) }
         case .text:
-            self.titleLabel?.font = .caption
+            self.titleLabel?.font = style.font
             if let textButtonTitle = title,
-               let lineHeight = UIFont.caption?.lineHeight {
+               let lineHeight = style.font?.lineHeight
+            {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight
@@ -62,9 +107,9 @@ private extension CommonButton {
                 let enabledAttributedString = NSAttributedString(
                     string: textButtonTitle,
                     attributes: [
-                        .foregroundColor: UIColor.neutral700,
+                        .foregroundColor: style.textColor,
                         .underlineStyle: NSUnderlineStyle.single.rawValue,
-                        .underlineColor: UIColor.neutral700,
+                        .underlineColor: style.textColor,
                         .paragraphStyle: paragraphStyle
                     ]
                 )
@@ -74,9 +119,9 @@ private extension CommonButton {
                     let disabledAttributedString = NSAttributedString(
                         string: disabledTitle,
                         attributes: [
-                            .foregroundColor: UIColor.neutral700,
+                            .foregroundColor: style.textColor,
                             .underlineStyle: NSUnderlineStyle.single.rawValue,
-                            .underlineColor: UIColor.neutral700,
+                            .underlineColor: style.textColor,
                             .paragraphStyle: paragraphStyle
                         ]
                     )
