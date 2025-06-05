@@ -123,9 +123,8 @@ public extension LoginViewController {
                     controller.view.backgroundColor = .green
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .error:
-                    let controller = UIViewController()
-                    controller.view.backgroundColor = .red
-                    owner.navigationController?.pushViewController(controller, animated: true)
+                    let controller = BaseErrorViewController()
+                    owner.present(controller, animated: true)
                 default:
                     break
                 }
