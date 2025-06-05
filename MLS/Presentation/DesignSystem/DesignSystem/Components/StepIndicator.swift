@@ -1,5 +1,7 @@
 import UIKit
 
+internal import SnapKit
+
 public final class StepIndicator: UIStackView {
     // MARK: - Type
     private enum Constant {

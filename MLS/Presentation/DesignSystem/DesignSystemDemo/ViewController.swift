@@ -22,7 +22,8 @@ class ViewController: UIViewController {
         ToastMakerTestViewController(),
         ErrorMessageTextViewController(),
         StepIndicatorTestViewController(),
-        HeaderTestViewController()
+        HeaderTestViewController(),
+        TapButtonTestViewController(),
     ]
 
     override func viewDidLoad() {
