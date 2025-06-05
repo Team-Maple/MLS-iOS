@@ -91,9 +91,16 @@ public final class TermsAgreementReactor: Reactor {
         case .moveToOnBoarding:
             newState.route = .onBoarding
         }
-        if newState.isOldAgree == true && newState.isServiceTermsAgree == true && newState.isPersonalInformationAgree == true && newState.isMarketingAgree == true {
+        if newState.isOldAgree == true &&
+            newState.isServiceTermsAgree == true &&
+            newState.isPersonalInformationAgree == true
+        {
+            if newState.isMarketingAgree == true {
+                newState.isTotalAgree = true
+            } else {
+                newState.isTotalAgree = false
+            }
             newState.bottomButtonIsEnabled = true
-            newState.isTotalAgree = true
         } else {
             newState.bottomButtonIsEnabled = false
             newState.isTotalAgree = false
