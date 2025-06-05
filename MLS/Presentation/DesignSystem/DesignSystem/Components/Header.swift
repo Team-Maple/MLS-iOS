@@ -28,6 +28,7 @@ public final class Header: UIStackView {
     private enum Constant {
         static let iconSize: CGFloat = 24
         static let spacing: CGFloat = 16
+        static let mainTypeHeight: CGFloat = 44
     }
     
     // MARK: - Properties
