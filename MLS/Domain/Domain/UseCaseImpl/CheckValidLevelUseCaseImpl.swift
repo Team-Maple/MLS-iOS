@@ -12,6 +12,6 @@ public class CheckValidLevelUseCaseImpl: CheckValidLevelUseCase {
         guard let level = level else {
             return .just(nil)
         }
-        return .just((0 ... 200).contains(level))
+        return .just((1 ... 200).contains(level))
     }
 }
