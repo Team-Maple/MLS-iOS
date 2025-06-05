@@ -21,7 +21,8 @@ class ViewController: UIViewController {
         DropDownBoxTextViewController(),
         ToastMakerTestViewController(),
         ErrorMessageTextViewController(),
-        StepIndicatorTestViewController()
+        StepIndicatorTestViewController(),
+        HeaderTestViewController()
     ]
 
     override func viewDidLoad() {
