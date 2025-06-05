@@ -66,6 +66,12 @@ private extension Header {
     }
     
     func setupConstraints() {
+        if style == .main {
+            snp.makeConstraints { make in
+                make.height.equalTo(Constant.mainTypeHeight)
+            }
+        }
+        
         firstIconView.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }
