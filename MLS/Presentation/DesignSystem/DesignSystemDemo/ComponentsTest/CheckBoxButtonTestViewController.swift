@@ -9,11 +9,13 @@ import SnapKit
 final class CheckBoxButtonTestViewController: UIViewController {
     // MARK: - Properties
     private var disposeBag = DisposeBag()
-    private var bigCheckButton = CheckBoxButton(style: .normal, mainTitle: nil, subTitle: nil)
-    private var smallCheckButton = CheckBoxButton(style: .list, mainTitle: nil, subTitle: nil)
+    private var normalButton = CheckBoxButton(style: .normal, mainTitle: nil, subTitle: nil)
+    private var smallButton = CheckBoxButton(style: .listSmall, mainTitle: nil, subTitle: nil)
+    private var mediumButton = CheckBoxButton(style: .listMedium, mainTitle: nil, subTitle: nil)
+    private var largeButton = CheckBoxButton(style: .listLarge, mainTitle: nil, subTitle: nil)
 
     private let typeSegmentControl: UISegmentedControl = {
-        let items = ["normal", "list"]
+        let items = ["normal", "listSmall", "listMedium", "listLarge"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
@@ -74,8 +76,10 @@ extension CheckBoxButtonTestViewController {
 // MARK: - SetUp
 private extension CheckBoxButtonTestViewController {
     func addViews() {
-        view.addSubview(bigCheckButton)
-        view.addSubview(smallCheckButton)
+        view.addSubview(normalButton)
+        view.addSubview(smallButton)
+        view.addSubview(mediumButton)
+        view.addSubview(largeButton)
         view.addSubview(typeSegmentControl)
         view.addSubview(mainTitleTextLabel)
         view.addSubview(mainTitleTextField)
@@ -84,28 +88,42 @@ private extension CheckBoxButtonTestViewController {
     }
 
     func setupConstraints() {
-        bigCheckButton.snp.makeConstraints { make in
+        normalButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        smallCheckButton.snp.makeConstraints { make in
+        
+        smallButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
+        
+        mediumButton.snp.makeConstraints { make in
+            make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
+        
+        largeButton.snp.makeConstraints { make in
+            make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
+        
         typeSegmentControl.snp.makeConstraints { make in
-            make.top.equalTo(bigCheckButton.snp.bottom).offset(30)
+            make.top.equalTo(normalButton.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
+        
         mainTitleTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
+        
         mainTitleTextField.snp.makeConstraints { make in
             make.top.equalTo(mainTitleTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
+        
         subTitleTextLabel.snp.makeConstraints { make in
             make.top.equalTo(mainTitleTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
+        
         subTitleTextField.snp.makeConstraints { make in
             make.top.equalTo(subTitleTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -117,29 +135,58 @@ private extension CheckBoxButtonTestViewController {
     }
 
     func bind() {
-        bigCheckButton.rx.tap
+        normalButton.rx.tap
             .withUnretained(self)
             .subscribe { (owner, _) in
-                owner.bigCheckButton.isSelected.toggle()
+                owner.normalButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
 
-        smallCheckButton.rx.tap
+        smallButton.rx.tap
             .withUnretained(self)
             .subscribe { (owner, _) in
-                owner.smallCheckButton.isSelected.toggle()
+                owner.smallButton.isSelected.toggle()
+            }
+            .disposed(by: disposeBag)
+        
+        mediumButton.rx.tap
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.mediumButton.isSelected.toggle()
+            }
+            .disposed(by: disposeBag)
+        
+        largeButton.rx.tap
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.largeButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
 
         typeSegmentControl.rx.selectedSegmentIndex
             .withUnretained(self)
             .subscribe { (owner, index) in
-                if index == 0 {
-                    owner.bigCheckButton.isHidden = false
-                    owner.smallCheckButton.isHidden = true
-                } else {
-                    owner.bigCheckButton.isHidden = true
-                    owner.smallCheckButton.isHidden = false
+                switch index {
+                case 0:
+                    owner.normalButton.isHidden = false
+                    owner.smallButton.isHidden = true
+                    owner.mediumButton.isHidden = true
+                    owner.largeButton.isHidden = true
+                case 1:
+                    owner.normalButton.isHidden = true
+                    owner.smallButton.isHidden = false
+                    owner.mediumButton.isHidden = true
+                    owner.largeButton.isHidden = true
+                case 2:
+                    owner.normalButton.isHidden = true
+                    owner.smallButton.isHidden = true
+                    owner.mediumButton.isHidden = false
+                    owner.largeButton.isHidden = true
+                default:
+                    owner.normalButton.isHidden = true
+                    owner.smallButton.isHidden = true
+                    owner.mediumButton.isHidden = true
+                    owner.largeButton.isHidden = false
                 }
             }
             .disposed(by: disposeBag)
@@ -147,15 +194,17 @@ private extension CheckBoxButtonTestViewController {
         mainTitleTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
-                owner.bigCheckButton.mainTitle = text
-                owner.smallCheckButton.mainTitle = text
+                owner.normalButton.mainTitle = text
+                owner.smallButton.mainTitle = text
+                owner.mediumButton.mainTitle = text
+                owner.largeButton.mainTitle = text
             }
             .disposed(by: disposeBag)
 
         subTitleTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
-                owner.bigCheckButton.subTitle = text
+                owner.normalButton.subTitle = text
             }
             .disposed(by: disposeBag)
     }
