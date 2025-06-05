@@ -1,6 +1,6 @@
 import Foundation
 
-struct LoginResponse {
+public struct LoginResponse {
     var isRegister: Bool
     var accessToken: String
     var refreshToken: String

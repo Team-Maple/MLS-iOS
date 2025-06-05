@@ -2,6 +2,6 @@ import Foundation
 
 import RxSwift
 
-protocol LoginWithKakaoUseCase {
+public protocol LoginWithKakaoUseCase {
     func execute(credential: Encodable) -> Observable<LoginResponse>
 }

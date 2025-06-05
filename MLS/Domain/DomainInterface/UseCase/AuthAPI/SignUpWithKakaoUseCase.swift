@@ -2,6 +2,6 @@ import Foundation
 
 import RxSwift
 
-protocol SignUpWithKakaoUseCase {
+public protocol SignUpWithKakaoUseCase {
     func execute(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
 }

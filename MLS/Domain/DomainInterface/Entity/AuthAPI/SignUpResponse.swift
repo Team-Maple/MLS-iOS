@@ -1,6 +1,6 @@
 import Foundation
 
-struct SignUpResponse {
+public struct SignUpResponse {
     var accessToken: String
     var refreshToken: String
 }

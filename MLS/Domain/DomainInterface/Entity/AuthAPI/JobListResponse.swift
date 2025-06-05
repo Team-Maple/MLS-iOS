@@ -1,5 +1,5 @@
 import Foundation
 
-struct JobListResponse {
+public struct JobListResponse {
     var jobList: [String]
 }

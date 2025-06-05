@@ -2,6 +2,6 @@ import Foundation
 
 import RxSwift
 
-protocol SignUpWithAppleUseCase {
+public protocol SignUpWithAppleUseCase {
     func execute(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
 }

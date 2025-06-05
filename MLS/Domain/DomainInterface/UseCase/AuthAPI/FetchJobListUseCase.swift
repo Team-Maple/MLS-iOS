@@ -2,6 +2,6 @@ import Foundation
 
 import RxSwift
 
-protocol FetchJobListUseCase {
+public protocol FetchJobListUseCase {
     func execute() -> Observable<JobListResponse>
 }

@@ -3,7 +3,7 @@ import Foundation
 import RxSwift
 
 /// 사용자 인증 및 회원 관련 API 호출을 담당하는 레포지토리 프로토콜
-protocol AuthAPIRepository {
+public protocol AuthAPIRepository {
     
     /// 카카오 로그인 API 호출
     ///
