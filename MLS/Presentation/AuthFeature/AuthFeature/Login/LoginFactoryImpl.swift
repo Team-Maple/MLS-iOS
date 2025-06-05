@@ -5,15 +5,15 @@ import DomainInterface
 public struct LoginFactoryImpl: LoginFactory {
 
     private let termsAgreementsFactory: TermsAgreementFactory
-    private let appleLoginUseCase: SocialLoginUseCase
-    private let kakaoLoginUseCase: SocialLoginUseCase
+    private let appleLoginUseCase: FetchSocialCredentialUseCase
+    private let kakaoLoginUseCase: FetchSocialCredentialUseCase
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
-        appleLoginUseCase: SocialLoginUseCase,
-        kakaoLoginUseCase: SocialLoginUseCase,
+        appleLoginUseCase: FetchSocialCredentialUseCase,
+        kakaoLoginUseCase: FetchSocialCredentialUseCase,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase
     ) {
@@ -29,8 +29,8 @@ public struct LoginFactoryImpl: LoginFactory {
     ) -> BaseViewController {
         let viewController = LoginViewController(isRelogin: isReLogin, termsAgreementsFactory: termsAgreementsFactory)
         viewController.reactor = LoginReactor(
-            appleLoginUseCase: appleLoginUseCase,
-            kakaoLoginUseCase: kakaoLoginUseCase,
+            fetchAppleCredentialUseCase: appleLoginUseCase,
+            fetchKakaoCredentialUseCase: kakaoLoginUseCase,
             loginWithAppleUseCase: loginWithAppleUseCase,
             loginWithKakaoUseCase: loginWithKakaoUseCase
         )

@@ -49,11 +49,11 @@ private extension AppDelegate {
     }
 
     func registerUseCase() {
-        DIContainer.register(type: SocialLoginUseCase.self, name: "kakao") {
+        DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "kakao") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")
             return SocialLoginUseCaseImpl(provider: provider)
         }
-        DIContainer.register(type: SocialLoginUseCase.self, name: "apple") {
+        DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "apple") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
         }
@@ -94,8 +94,8 @@ private extension AppDelegate {
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-                appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao"),
+                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
                 loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
                 loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
             )

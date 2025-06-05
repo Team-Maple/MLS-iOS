@@ -118,6 +118,10 @@ public extension LoginViewController {
                 case .termsAgreements:
                     let controller = owner.termsAgreementsFactory.make()
                     owner.navigationController?.pushViewController(controller, animated: true)
+                case .home:
+                    let controller = UIViewController()
+                    controller.view.backgroundColor = .red
+                    owner.navigationController?.pushViewController(controller, animated: true)
                 default:
                     break
                 }

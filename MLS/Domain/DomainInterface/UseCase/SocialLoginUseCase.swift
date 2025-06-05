@@ -2,6 +2,6 @@ import Foundation
 
 import RxSwift
 
-public protocol SocialLoginUseCase {
+public protocol FetchSocialCredentialUseCase {
     func execute() -> Observable<Encodable>
 }

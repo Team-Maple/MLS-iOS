@@ -11,6 +11,7 @@ public final class LoginReactor: Reactor {
     public enum Route {
         case none
         case termsAgreements
+        case home
     }
 
     // MARK: - Reactor
@@ -21,7 +22,7 @@ public final class LoginReactor: Reactor {
     }
 
     public enum Mutation {
-        case tryLogin
+        case moveToHomeScene
         case moveToTermsAgreementsScene
     }
 
@@ -32,20 +33,20 @@ public final class LoginReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    private let appleLoginUseCase: SocialLoginUseCase
-    private let kakaoLoginUseCase: SocialLoginUseCase
+    private let fetchAppleCredentialUseCase: FetchSocialCredentialUseCase
+    private let fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
 
     // MARK: - init
     public init(
-        appleLoginUseCase: SocialLoginUseCase,
-        kakaoLoginUseCase: SocialLoginUseCase,
+        fetchAppleCredentialUseCase: FetchSocialCredentialUseCase,
+        fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase
     ) {
-        self.appleLoginUseCase = appleLoginUseCase
-        self.kakaoLoginUseCase = kakaoLoginUseCase
+        self.fetchAppleCredentialUseCase = fetchAppleCredentialUseCase
+        self.fetchKakaoCredentialUseCase = fetchKakaoCredentialUseCase
         self.loginWithAppleUseCase = loginWithAppleUseCase
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
         self.initialState = State()
@@ -55,33 +56,36 @@ public final class LoginReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .kakaoLoginButtonTapped:
-            os_log("kakaoLoginButtonTapped")
-            return kakaoLoginUseCase.execute()
-                .map { credential in
-                    print(credential)
-                    return .tryLogin
+            return fetchKakaoCredentialUseCase.execute()
+                .withUnretained(self)
+                .flatMap { (owner, credential) in
+                    return owner.loginWithKakaoUseCase.execute(credential: credential)
+                }
+                .map { response in
+                    return response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene
                 }
         case .appleLoginButtonTapped:
-            return appleLoginUseCase.execute()
-                .map { credential in
-                    print(credential)
-                    return .tryLogin
+            return fetchAppleCredentialUseCase.execute()
+                .withUnretained(self)
+                .flatMap { (owner, credential) in
+                    return owner.loginWithAppleUseCase.execute(credential: credential)
+                }
+                .map { response in
+                    return response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene
                 }
         case .guestLoginButtonTapped:
-            return Observable.just(.moveToTermsAgreementsScene)
+            return Observable.just(.moveToHomeScene)
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-
         switch mutation {
-        case .tryLogin:
-            break
+        case .moveToHomeScene:
+            newState.route = .home
         case .moveToTermsAgreementsScene:
             newState.route = .termsAgreements
         }
-
         return newState
     }
 }
