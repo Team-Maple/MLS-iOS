@@ -10,9 +10,10 @@ final class CommonButtonTestViewController: UIViewController {
     var disposeBag = DisposeBag()
     private let commonButton = CommonButton(style: .normal, title: "NormalTitle", disabledTitle: "DisabledTitle")
     private let textButton = CommonButton(style: .text, title: "NormalTitle", disabledTitle: "DisabledTitle")
+    private let borderButton = CommonButton(style: .border, title: "NormalTitle", disabledTitle: "DisabledTitle")
 
     private let typeSegmentControl: UISegmentedControl = {
-        let items = ["normal", "text"]
+        let items = ["normal", "text", "border"]
         let control = UISegmentedControl(items: items)
         control.selectedSegmentIndex = 0
         return control
@@ -34,36 +35,45 @@ extension CommonButtonTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI()
-        self.bind()
+        addViews()
+        setupConstraints()
+        configureUI()
+        bind()
     }
 }
 
 // MARK: - SetUp
 private extension CommonButtonTestViewController {
     func addViews() {
-        self.view.addSubview(commonButton)
-        self.view.addSubview(textButton)
-        self.view.addSubview(typeSegmentControl)
-        self.view.addSubview(buttonStateToggle)
+        view.addSubview(commonButton)
+        view.addSubview(textButton)
+        view.addSubview(borderButton)
+        view.addSubview(typeSegmentControl)
+        view.addSubview(buttonStateToggle)
     }
 
     func setupConstraints() {
-        self.commonButton.snp.makeConstraints { make in
+        commonButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        self.textButton.snp.makeConstraints { make in
+        
+        textButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        self.typeSegmentControl.snp.makeConstraints { make in
+        
+        borderButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
+        }
+        
+        typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(textButton.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        self.buttonStateToggle.snp.makeConstraints { make in
+        
+        buttonStateToggle.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
@@ -82,9 +92,15 @@ private extension CommonButtonTestViewController {
                 case 0:
                     owner.commonButton.isHidden = false
                     owner.textButton.isHidden = true
-                default:
+                    owner.borderButton.isHidden = true
+                case 1:
                     owner.commonButton.isHidden = true
                     owner.textButton.isHidden = false
+                    owner.borderButton.isHidden = true
+                default:
+                    owner.commonButton.isHidden = true
+                    owner.textButton.isHidden = true
+                    owner.borderButton.isHidden = false
                 }
             }
             .disposed(by: disposeBag)
@@ -94,6 +110,7 @@ private extension CommonButtonTestViewController {
             .subscribe { (owner, isOn) in
                 owner.commonButton.isEnabled = isOn
                 owner.textButton.isEnabled = isOn
+                owner.borderButton.isEnabled = isOn
             }
             .disposed(by: disposeBag)
     }
