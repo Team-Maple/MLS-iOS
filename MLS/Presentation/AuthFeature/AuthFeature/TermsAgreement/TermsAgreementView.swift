@@ -60,22 +60,22 @@ public final class TermsAgreementView: UIView {
     }()
 
     public let oldAgreeButton: CheckBoxButton = {
-        let button = CheckBoxButton(style: .list, mainTitle: "(필수) 만 14세 이상", subTitle: nil)
+        let button = CheckBoxButton(style: .listMedium, mainTitle: "(필수) 만 14세 이상", subTitle: nil)
         return button
     }()
 
     public let serviceTermsAgreeButton: CheckBoxButton = {
-        let button = CheckBoxButton(style: .list, mainTitle: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
+        let button = CheckBoxButton(style: .listMedium, mainTitle: "(필수) 메랜사 서비스 이용약관 동의", subTitle: nil)
         return button
     }()
 
     public let personalInformationAgreeButton: CheckBoxButton = {
-        let button = CheckBoxButton(style: .list, mainTitle: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
+        let button = CheckBoxButton(style: .listMedium, mainTitle: "(필수) 개인정보 수집 및 이용 동의", subTitle: nil)
         return button
     }()
 
     public let marketingAgreeButton: CheckBoxButton = {
-        let button = CheckBoxButton(style: .list, mainTitle: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
+        let button = CheckBoxButton(style: .listMedium, mainTitle: "(선택) 마케팅 정보 수신 동의", subTitle: nil)
         return button
     }()
 
