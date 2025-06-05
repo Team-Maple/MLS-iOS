@@ -5,6 +5,9 @@ import DomainInterface
 import RxSwift
 
 public class AuthAPIRepositoryMock: AuthAPIRepository {
+    
+    public init() {}
+
     public func loginWithKakao(credential: Encodable) -> Observable<LoginResponse> {
         return Observable.just(.init(isRegister: false, accessToken: "testToken", refreshToken: "testToken"))
     }

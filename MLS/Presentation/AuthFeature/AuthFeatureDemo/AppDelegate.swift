@@ -5,6 +5,7 @@ import AuthFeatureInterface
 import BaseFeature
 import Core
 import Data
+import DataMock
 import DesignSystem
 import Domain
 import DomainInterface
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
+        registerRepository()
         registerUseCase()
         registerFactory()
     }
@@ -45,6 +47,12 @@ private extension AppDelegate {
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
             return AppleLoginProviderImpl()
+        }
+    }
+
+    func registerRepository() {
+        DIContainer.register(type: AuthAPIRepository.self) {
+            return AuthAPIRepositoryMock()
         }
     }
 
@@ -62,6 +70,24 @@ private extension AppDelegate {
         }
         DIContainer.register(type: CheckValidLevelUseCase.self) {
             return CheckValidLevelUseCaseImpl()
+        }
+        DIContainer.register(type: FetchJobListUseCase.self) {
+            return FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LoginWithAppleUseCase.self) {
+            return LoginWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LoginWithKakaoUseCase.self) {
+            return LoginWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: SignUpWithAppleUseCase.self) {
+            return SignUpWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: SignUpWithKakaoUseCase.self) {
+            return SignUpWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: UpdateUserInfoUseCase.self) {
+            return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
     }
 
