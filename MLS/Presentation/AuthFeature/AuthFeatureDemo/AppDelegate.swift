@@ -43,10 +43,10 @@ private extension AppDelegate {
             return NetworkProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
-            return KakaoLoginProviderImpl()
+            return KakaoLoginProviderMock()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            return AppleLoginProviderImpl()
+            return AppleLoginProviderMock()
         }
     }
 
@@ -121,7 +121,9 @@ private extension AppDelegate {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
                 appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
             )
         }
     }

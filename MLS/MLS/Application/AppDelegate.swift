@@ -95,7 +95,9 @@ private extension AppDelegate {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
                 appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
             )
         }
     }

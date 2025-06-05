@@ -34,11 +34,20 @@ public final class LoginReactor: Reactor {
     var disposeBag = DisposeBag()
     private let appleLoginUseCase: SocialLoginUseCase
     private let kakaoLoginUseCase: SocialLoginUseCase
+    private let loginWithAppleUseCase: LoginWithAppleUseCase
+    private let loginWithKakaoUseCase: LoginWithKakaoUseCase
 
     // MARK: - init
-    public init(appleLoginUseCase: SocialLoginUseCase, kakaoLoginUseCase: SocialLoginUseCase) {
+    public init(
+        appleLoginUseCase: SocialLoginUseCase,
+        kakaoLoginUseCase: SocialLoginUseCase,
+        loginWithAppleUseCase: LoginWithAppleUseCase,
+        loginWithKakaoUseCase: LoginWithKakaoUseCase
+    ) {
         self.appleLoginUseCase = appleLoginUseCase
         self.kakaoLoginUseCase = kakaoLoginUseCase
+        self.loginWithAppleUseCase = loginWithAppleUseCase
+        self.loginWithKakaoUseCase = loginWithKakaoUseCase
         self.initialState = State()
     }
 
