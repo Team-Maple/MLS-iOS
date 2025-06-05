@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
         loginVC.title = "로그인"
 
-        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make()
+        struct Credential: Encodable {
+            var some: String
+        }
+        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: Credential(some: "some"))
         termVC.title = "약관 동의"
 
         let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()

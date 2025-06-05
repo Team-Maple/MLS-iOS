@@ -43,9 +43,11 @@ public final class TermsAgreementReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    private let credential: Encodable
 
     // MARK: - init
-    public init() {
+    public init(credential: Encodable) {
+        self.credential = credential
         self.initialState = State()
     }
 

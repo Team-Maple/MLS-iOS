@@ -10,7 +10,7 @@ public final class LoginReactor: Reactor {
 
     public enum Route {
         case none
-        case termsAgreements
+        case termsAgreements(credential: Encodable)
         case home
     }
 
@@ -23,7 +23,7 @@ public final class LoginReactor: Reactor {
 
     public enum Mutation {
         case moveToHomeScene
-        case moveToTermsAgreementsScene
+        case moveToTermsAgreementsScene(credential: Encodable)
     }
 
     public struct State {
@@ -59,19 +59,19 @@ public final class LoginReactor: Reactor {
             return fetchKakaoCredentialUseCase.execute()
                 .withUnretained(self)
                 .flatMap { (owner, credential) in
-                    return owner.loginWithKakaoUseCase.execute(credential: credential)
+                    return owner.loginWithKakaoUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
-                .map { response in
-                    return response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene
+                .map { result in
+                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
                 }
         case .appleLoginButtonTapped:
             return fetchAppleCredentialUseCase.execute()
                 .withUnretained(self)
                 .flatMap { (owner, credential) in
-                    return owner.loginWithAppleUseCase.execute(credential: credential)
+                    return owner.loginWithAppleUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
-                .map { response in
-                    return response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene
+                .map { result in
+                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
                 }
         case .guestLoginButtonTapped:
             return Observable.just(.moveToHomeScene)
@@ -83,8 +83,8 @@ public final class LoginReactor: Reactor {
         switch mutation {
         case .moveToHomeScene:
             newState.route = .home
-        case .moveToTermsAgreementsScene:
-            newState.route = .termsAgreements
+        case .moveToTermsAgreementsScene(let credential):
+            newState.route = .termsAgreements(credential: credential)
         }
         return newState
     }

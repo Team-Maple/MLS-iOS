@@ -9,9 +9,9 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
         self.onBoardingQuestionFactory = onBoardingQuestionFactory
     }
 
-    public func make() -> BaseViewController {
+    public func make(credential: Encodable) -> BaseViewController {
         let viewController = TermsAgreementViewController(onBoardingQuestionFactory: onBoardingQuestionFactory)
-        viewController.reactor = TermsAgreementReactor()
+        viewController.reactor = TermsAgreementReactor(credential: credential)
         return viewController
     }
 }

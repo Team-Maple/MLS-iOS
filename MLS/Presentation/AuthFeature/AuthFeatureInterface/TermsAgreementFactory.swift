@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol TermsAgreementFactory {
-    func make() -> BaseViewController
+    func make(credential: Encodable) -> BaseViewController
 }
