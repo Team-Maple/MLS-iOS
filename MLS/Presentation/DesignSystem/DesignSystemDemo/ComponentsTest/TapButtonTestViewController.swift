@@ -10,7 +10,7 @@ final class TapButtonTestViewController: UIViewController {
     var disposeBag = DisposeBag()
     private let tapButton = TapButton(text: "text")
 
-    private let buttonStateToggle = ToggleLabel(text: "isSelected")
+    private let buttonStateToggle = ToggleBox(text: "isSelected")
     
     init() {
         super.init(nibName: nil, bundle: nil)
