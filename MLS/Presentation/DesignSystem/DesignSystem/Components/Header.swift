@@ -22,7 +22,7 @@ public final class Header: UIStackView {
             case .main:
                 return [.search, .bell]
             case .filter:
-                return [.markX]
+                return [.largeX]
             }
         }
     }

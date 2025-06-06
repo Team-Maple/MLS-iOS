@@ -8,7 +8,7 @@ public final class TapButton: UIButton {
         static let height: CGFloat = 34
         static let borderWidth: CGFloat = 1
         static let radius: CGFloat = 17
-        static let contentInsets: NSDirectionalEdgeInsets = .init(top: 5, leading: 10, bottom: 5, trailing: 10)
+        static let contentInsets: NSDirectionalEdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
     }
     
     // MARK: - Properties
@@ -50,7 +50,6 @@ private extension TapButton {
     func configureUI() {
         var config = UIButton.Configuration.plain()
         config.contentInsets = Constant.contentInsets
-        config.cornerStyle = .medium
         configuration = config
     }
         
