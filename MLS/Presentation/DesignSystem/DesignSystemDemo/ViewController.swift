@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         StepIndicatorTestViewController(),
         HeaderTestViewController(),
         TapButtonTestViewController(),
+        TagChipTestViewController(),
     ]
 
     override func viewDidLoad() {
