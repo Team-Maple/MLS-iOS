@@ -19,7 +19,7 @@ final class CommonButtonTestViewController: UIViewController {
         return control
     }()
 
-    private let buttonStateToggle = ToggleLabel(text: "isEnabled")
+    private let buttonStateToggle = ToggleBox(text: "isEnabled")
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "CommonButton"
