@@ -28,9 +28,7 @@ public final class TermsAgreementReactor: Reactor {
         case changeIsServiceTermsAgreeState
         case changeIsPersonalInformationAgreeState
         case changeIsMarketingAgreeState
-        case moveToRecentScene
-        case moveToOnBoardingScene
-        case moveToErrorScene
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -73,7 +71,7 @@ public final class TermsAgreementReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .backButtonTapped:
-            return Observable.just(.moveToRecentScene)
+            return Observable.just(.navigateTo(route: .dismiss))
         case .totalAgreeButtonTapped:
             return Observable.just(.changeIsTotalAgreeState)
         case .oldAgreeButtonTapped:
@@ -92,22 +90,20 @@ public final class TermsAgreementReactor: Reactor {
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
                         let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-                        return owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult) ? .moveToOnBoardingScene : .moveToErrorScene
+                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
+                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
                     }
-                    .catch { _ in
-                        return Observable.just(.moveToErrorScene)
-                    }
+                    .catchAndReturn(.navigateTo(route: .error))
             case .apple:
                 return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
                     .withUnretained(self)
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
                         let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-                        return owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult) ? .moveToOnBoardingScene : .moveToErrorScene
+                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
+                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
                     }
-                    .catch { _ in
-                        return Observable.just(.moveToErrorScene)
-                    }
+                    .catchAndReturn(.navigateTo(route: .error))
             }
         }
     }
@@ -129,12 +125,8 @@ public final class TermsAgreementReactor: Reactor {
             newState.isPersonalInformationAgree.toggle()
         case .changeIsMarketingAgreeState:
             newState.isMarketingAgree.toggle()
-        case .moveToRecentScene:
-            newState.route = .dismiss
-        case .moveToOnBoardingScene:
-            newState.route = .onBoarding
-        case .moveToErrorScene:
-            newState.route = .error
+        case .navigateTo(let route):
+            newState.route = route
         }
         if newState.isOldAgree == true &&
             newState.isServiceTermsAgree == true &&
