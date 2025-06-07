@@ -5,7 +5,6 @@ internal import SnapKit
 public final class GuideAlert: UIView {
     // MARK: - Type
     private enum Constant {
-        static let horizontalInset: CGFloat = 20
         static let verticalInset: CGFloat = 20
         static let iconSize: CGFloat = 48
         static let verticalSpacing: CGFloat = 24
@@ -69,13 +68,13 @@ private extension GuideAlert {
 
         textLabel.snp.makeConstraints { make in
             make.top.equalTo(warningIconView.snp.bottom).offset(Constant.verticalInset)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
         }
 
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(textLabel.snp.bottom).offset(Constant.verticalSpacing)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
-            make.bottom.equalToSuperview().inset(Constant.verticalInset)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
             make.height.equalTo(Constant.stackViewHeight)
         }
 
