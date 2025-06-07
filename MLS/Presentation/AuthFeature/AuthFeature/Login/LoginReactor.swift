@@ -23,9 +23,7 @@ public final class LoginReactor: Reactor {
     }
 
     public enum Mutation {
-        case moveToHomeScene
-        case moveToTermsAgreementsScene(credential: Encodable, platform: LoginPlatform)
-        case moveToErrorScene
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -64,11 +62,11 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithKakaoUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential, platform: .kakao)
+                    return result.response.isRegister
+                    ? .navigateTo(route: .home)
+                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
                 }
-                .catch { error in
-                    return Observable.just(.moveToErrorScene)
-                }
+                .catchAndReturn(.navigateTo(route: .error))
         case .appleLoginButtonTapped:
             return fetchAppleCredentialUseCase.execute()
                 .withUnretained(self)
@@ -76,25 +74,21 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithAppleUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential, platform: .apple)
+                    return result.response.isRegister
+                    ? .navigateTo(route: .home)
+                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
                 }
-                .catch { error in
-                    return Observable.just(.moveToErrorScene)
-                }
+                .catchAndReturn(.navigateTo(route: .error))
         case .guestLoginButtonTapped:
-            return Observable.just(.moveToHomeScene)
+            return Observable.just(.navigateTo(route: .home))
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .moveToHomeScene:
-            newState.route = .home
-        case .moveToTermsAgreementsScene(let credential, let platform):
-            newState.route = .termsAgreements(credential: credential, platform: platform)
-        case .moveToErrorScene:
-            newState.route = .error
+        case .navigateTo(let route):
+            newState.route = route
         }
         return newState
     }
