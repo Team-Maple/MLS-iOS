@@ -35,8 +35,8 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func fetchJobList() -> Observable<JobListResponse> {
-        if tryCount == 0 {
-            tryCount += 1
+        tryCount += 1
+        if tryCount == 1 {
             let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "직업 리스트 조회 실패"])
             return Observable.error(error)
         } else {
@@ -51,8 +51,8 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
-        if tryCount == 0 {
-            tryCount += 1
+        tryCount += 1
+        if tryCount % 2 == 0 {
             let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "유저 정보 수정 실패"])
             return .error(error)
         } else {

@@ -66,7 +66,7 @@ public final class KeyChainRepositoryImpl: TokenRepository {
         // 3. Create
         let status = SecItemAdd(keyChainQuery, nil)
         if status == errSecSuccess {
-            os_log("Successfully fetched \(type.rawValue) from KeyChain: \(value)")
+            os_log("Successfully saved \(type.rawValue) from KeyChain: \(value)")
             return .success(())
         } else {
             return .failure(TokenRepositoryError.unhandledError(status: status))

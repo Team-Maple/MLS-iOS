@@ -15,7 +15,7 @@ public final class OnBoardingInputReactor: Reactor {
     }
 
     public enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case backButtonTapped
         case skipButtonTapped
         case nextButtonTapped
@@ -67,14 +67,12 @@ public final class OnBoardingInputReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return fetchJobListUseCase.execute()
                 .map { response in
                     return .setJobList(jobList: response.jobList)
                 }
-                .catch { _ in
-                    return Observable.just(.navigateTo(route: .error))
-                }
+                .catchAndReturn(.navigateTo(route: .error))
         case .backButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
         case .skipButtonTapped:
