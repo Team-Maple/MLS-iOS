@@ -20,9 +20,7 @@ public final class OnBoardingQuestionReactor: Reactor {
 
     public enum Mutation {
         case showToast
-        case moveToInputScene
-        case moveToPreScene
-        case moveToHomeScene
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -45,11 +43,11 @@ public final class OnBoardingQuestionReactor: Reactor {
         case .viewDidLoad:
             return Observable.just(.showToast)
         case .nextButtonTapped:
-            return Observable.just(.moveToInputScene)
+            return Observable.just(.navigateTo(route: .input))
         case .backButtonTapped:
-            return Observable.just(.moveToPreScene)
+            return Observable.just(.navigateTo(route: .dismiss))
         case .skipButtonTapped:
-            return Observable.just(.moveToHomeScene)
+            return Observable.just(.navigateTo(route: .home))
         }
     }
 
@@ -59,12 +57,8 @@ public final class OnBoardingQuestionReactor: Reactor {
         switch mutation {
         case .showToast:
             newState.isShowToast.toggle()
-        case .moveToInputScene:
-            newState.route = .input
-        case .moveToPreScene:
-            newState.route = .dismiss
-        case .moveToHomeScene:
-            newState.route = .home
+        case .navigateTo(let route):
+            newState.route = route
         }
 
         return newState
