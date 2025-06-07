@@ -70,9 +70,6 @@ private extension OnBoardingInputViewController {
     }
 }
 
-// MARK: - Private Methods
-private extension OnBoardingInputViewController {}
-
 // MARK: - Bind
 public extension OnBoardingInputViewController {
     func bind(reactor: Reactor) {
@@ -81,8 +78,8 @@ public extension OnBoardingInputViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
-        rx.viewDidLoad
-            .map { Reactor.Action.viewDidLoad }
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -141,9 +138,11 @@ public extension OnBoardingInputViewController {
             .bind(to: mainView.nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { owner, route in
+            .subscribe(onNext: { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
@@ -160,7 +159,7 @@ public extension OnBoardingInputViewController {
                 default:
                     break
                 }
-            }
+            })
             .disposed(by: disposeBag)
     }
 }

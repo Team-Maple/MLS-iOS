@@ -155,7 +155,9 @@ public extension TermsAgreementViewController {
             }
             .disposed(by: disposeBag)
 
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
