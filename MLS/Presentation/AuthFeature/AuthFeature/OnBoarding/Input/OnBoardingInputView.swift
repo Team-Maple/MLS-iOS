@@ -35,7 +35,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
         return box
     }()
 
-    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: ["마법사", "전사", "궁수", "도적", "등등"])
+    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: [])
 
     public let errorMessage = ErrorMessage(message: "1에서 200까지 숫자만 입력해주세요")
 

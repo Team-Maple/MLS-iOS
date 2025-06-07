@@ -39,6 +39,8 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
-        return .empty()
+        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "유저 정보 수정 실패"])
+//        return .empty()
+        return .error(error)
     }
 }

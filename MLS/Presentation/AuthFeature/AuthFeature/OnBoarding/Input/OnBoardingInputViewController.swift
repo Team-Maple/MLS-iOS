@@ -81,6 +81,11 @@ public extension OnBoardingInputViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
@@ -103,28 +108,20 @@ public extension OnBoardingInputViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.headerView.textButton.rx.tap
+            .map { Reactor.Action.skipButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map { $0.level }
+            .map { $0.jobList }
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { _, level in
-                if let level = level {
-                    os_log("input level: %d", level)
-                }
-            }
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map { $0.role }
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .subscribe { _, role in
-                if let role = role {
-                    os_log("input role: %@", role as NSString)
-                }
+            .subscribe { (owner, list) in
+                owner.mainView.dropDownBox.menus = list
             }
             .disposed(by: disposeBag)
 
@@ -151,10 +148,15 @@ public extension OnBoardingInputViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .home:
-                    os_log("moveToHome")
+                    let controller = UIViewController()
+                    controller.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(controller, animated: true)
                 case .notification:
                     let notificationViewController = owner.onBoardingNotificationFactory.make()
                     owner.navigationController?.pushViewController(notificationViewController, animated: true)
+                case .error:
+                    let errorViewController = BaseErrorViewController()
+                    owner.present(errorViewController, animated: true)
                 default:
                     break
                 }
