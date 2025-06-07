@@ -36,7 +36,6 @@ public extension OnBoardingQuestionViewController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        showToast()
     }
 }
 
@@ -53,13 +52,6 @@ private extension OnBoardingQuestionViewController {
     }
 }
 
-// MARK: - Methods
-private extension OnBoardingQuestionViewController {
-    func showToast() {
-        reactor?.action.onNext(.enterScene)
-    }
-}
-
 // MARK: - Bind
 public extension OnBoardingQuestionViewController {
     func bind(reactor: Reactor) {
@@ -68,10 +60,10 @@ public extension OnBoardingQuestionViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
-//        rx.viewDidLoad
-//            .map { Reactor.en}
-//        rx.viewDidLoad
         rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
         
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
@@ -80,6 +72,11 @@ public extension OnBoardingQuestionViewController {
 
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.headerView.textButton.rx.tap
+            .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -104,7 +101,9 @@ public extension OnBoardingQuestionViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .home:
-                    os_log("moveToHome")
+                    let homeViewController = UIViewController()
+                    homeViewController.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(homeViewController, animated: true)
                 case .input:
                     let inputViewController = owner.onBoardingInputFactory.make()
                     owner.navigationController?.pushViewController(inputViewController, animated: true)

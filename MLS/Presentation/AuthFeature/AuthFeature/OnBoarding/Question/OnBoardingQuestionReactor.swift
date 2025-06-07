@@ -12,10 +12,10 @@ public final class OnBoardingQuestionReactor: Reactor {
     }
 
     public enum Action {
-        case enterScene
+        case viewDidLoad
         case nextButtonTapped
         case backButtonTapped
-        case cancelOnBoarding
+        case skipButtonTapped
     }
 
     public enum Mutation {
@@ -42,13 +42,13 @@ public final class OnBoardingQuestionReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .enterScene:
+        case .viewDidLoad:
             return Observable.just(.showToast)
         case .nextButtonTapped:
             return Observable.just(.moveToInputScene)
         case .backButtonTapped:
             return Observable.just(.moveToPreScene)
-        case .cancelOnBoarding:
+        case .skipButtonTapped:
             return Observable.just(.moveToHomeScene)
         }
     }
