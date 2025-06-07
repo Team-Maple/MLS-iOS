@@ -4,9 +4,9 @@ import AuthFeatureInterface
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public class TermsAgreementViewController: BaseViewController, View {
 

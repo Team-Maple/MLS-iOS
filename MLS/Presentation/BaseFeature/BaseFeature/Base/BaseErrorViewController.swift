@@ -1,10 +1,10 @@
 import UIKit
 
-internal import DesignSystem
+import DesignSystem
 
-internal import SnapKit
+import SnapKit
 import RxCocoa
-internal import RxSwift
+import RxSwift
 import ReactorKit
 
 public final class BaseErrorViewController: BaseViewController {

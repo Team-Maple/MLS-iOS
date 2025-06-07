@@ -2,7 +2,7 @@ import UIKit
 
 import DesignSystem
 
-internal import SnapKit
+import SnapKit
 
 public final class OnBoardingNotificationView: OnBoardingBaseView {
     // MARK: - Type
@@ -49,7 +49,7 @@ public final class OnBoardingNotificationView: OnBoardingBaseView {
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
 
     // MARK: - init
-    override init() {
+    init() {
         super.init()
         addViews()
         setupConstraints()

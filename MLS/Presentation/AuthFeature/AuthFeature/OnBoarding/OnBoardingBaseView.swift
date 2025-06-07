@@ -12,11 +12,12 @@ public class OnBoardingBaseView: UIView {
     }()
 
     // MARK: - init
-    init() {
+    init(leftButtonIsHidden: Bool = false) {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
         configureUI()
+        if leftButtonIsHidden { headerView.leftButton.isHidden = true }
     }
 
     required init?(coder: NSCoder) {

@@ -4,7 +4,7 @@ import Core
 import DomainInterface
 
 import ReactorKit
-internal import RxSwift
+import RxSwift
 
 public final class LoginReactor: Reactor {
 

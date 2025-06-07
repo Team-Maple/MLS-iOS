@@ -6,10 +6,10 @@ import BaseFeature
 import DesignSystem
 
 import ReactorKit
-internal import RxCocoa
+import RxCocoa
 import RxKeyboard
-internal import RxSwift
-internal import SnapKit
+import RxSwift
+import SnapKit
 
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties

@@ -3,9 +3,9 @@ import UIKit
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 final class OnBoardingModalViewController: BaseViewController, View, ModalPresentable {
     // MARK: - Properties

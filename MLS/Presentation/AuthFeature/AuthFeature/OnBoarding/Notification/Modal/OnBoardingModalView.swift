@@ -2,7 +2,7 @@ import UIKit
 
 import DesignSystem
 
-internal import SnapKit
+import SnapKit
 
 public final class OnBoardingModalView: UIView {
     // MARK: - Type

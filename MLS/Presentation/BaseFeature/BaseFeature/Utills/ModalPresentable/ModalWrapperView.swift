@@ -1,6 +1,6 @@
 import UIKit
 
-internal import DesignSystem
+import DesignSystem
 
 final class ModalWrapperView: UIView {
 

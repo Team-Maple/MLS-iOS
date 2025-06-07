@@ -5,9 +5,9 @@ import AuthFeatureInterface
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public class OnBoardingQuestionViewController: BaseViewController, View {
     // MARK: - Properties
@@ -68,6 +68,11 @@ public extension OnBoardingQuestionViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+//        rx.viewDidLoad
+//            .map { Reactor.en}
+//        rx.viewDidLoad
+        rx.viewDidLoad
+        
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)

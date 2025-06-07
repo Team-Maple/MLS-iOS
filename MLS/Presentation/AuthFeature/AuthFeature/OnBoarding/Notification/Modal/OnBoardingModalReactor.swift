@@ -1,6 +1,6 @@
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
+import RxCocoa
+import RxSwift
 
 public final class OnBoardingModalReactor: Reactor {
     // MARK: - Reactor

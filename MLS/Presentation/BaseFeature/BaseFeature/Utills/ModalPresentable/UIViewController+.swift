@@ -1,7 +1,7 @@
 import UIKit
 
-internal import DesignSystem
-internal import SnapKit
+import DesignSystem
+import SnapKit
 
 private var modalWrapperKey: UInt8 = 0
 

@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public final class OnBoardingInputView: OnBoardingBaseView {
     // MARK: - Type
@@ -42,7 +42,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "다음")
 
     // MARK: - init
-    override init() {
+    init() {
         super.init()
         addViews()
         setupConstraints()

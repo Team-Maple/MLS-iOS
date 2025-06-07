@@ -1,7 +1,7 @@
 import DomainInterface
 
 import ReactorKit
-internal import RxSwift
+import RxSwift
 
 public final class TermsAgreementReactor: Reactor {
     public enum Route {

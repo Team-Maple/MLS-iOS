@@ -1,8 +1,8 @@
 import DomainInterface
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
+import RxCocoa
+import RxSwift
 
 public final class OnBoardingInputReactor: Reactor {
     // MARK: - Reactor
