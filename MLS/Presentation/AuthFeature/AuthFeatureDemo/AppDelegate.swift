@@ -52,6 +52,9 @@ private extension AppDelegate {
         DIContainer.register(type: AuthAPIRepository.self) {
             return AuthAPIRepositoryMock()
         }
+        DIContainer.register(type: TokenRepository.self) {
+            return KeyChainRepositoryImpl()
+        }
     }
 
     func registerUseCase() {
@@ -86,6 +89,15 @@ private extension AppDelegate {
         }
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
+            return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: SaveTokenToLocalUseCase.self) {
+            return SaveTokenToLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
+            return DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
     }
 
