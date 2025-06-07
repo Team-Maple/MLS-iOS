@@ -7,7 +7,6 @@ internal import SnapKit
 public final class OnBoardingModalView: UIView {
     // MARK: - Type
     private enum Constant {
-        static let horizontalInset = 20
         static let verticalInset = 16
         static let verticalSpacing = 8
     }
@@ -56,22 +55,22 @@ private extension OnBoardingModalView {
     func setupConstraints() {
         boldTextLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(28)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
         }
 
         regularTeextLabel.snp.makeConstraints { make in
             make.top.equalTo(boldTextLabel.snp.bottom).offset(Constant.verticalSpacing)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
         }
 
         agreeButton.snp.makeConstraints { make in
             make.top.equalTo(regularTeextLabel.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
         }
 
         disagreeButton.snp.makeConstraints { make in
             make.top.equalTo(agreeButton.snp.bottom).offset(Constant.verticalSpacing)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview().inset(Constant.verticalInset)
         }
     }
