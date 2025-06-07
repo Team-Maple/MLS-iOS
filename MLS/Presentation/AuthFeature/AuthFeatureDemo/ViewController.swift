@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         struct Credential: Encodable {
             var some: String
         }
-        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: Credential(some: "some"))
+        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: Credential(some: "some"), platform: .kakao)
         termVC.title = "약관 동의"
 
         let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()

@@ -115,8 +115,8 @@ public extension LoginViewController {
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
-                case .termsAgreements(let credential):
-                    let controller = owner.termsAgreementsFactory.make(credential: credential)
+                case .termsAgreements(let credential, let platform):
+                    let controller = owner.termsAgreementsFactory.make(credential: credential, platform: platform)
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .home:
                     let controller = UIViewController()

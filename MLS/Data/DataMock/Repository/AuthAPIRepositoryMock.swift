@@ -13,8 +13,9 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func loginWithApple(credential: Encodable) -> Observable<LoginResponse> {
-        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
-        return Observable.error(error)
+//        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
+//        return Observable.error(error)
+        return Observable.just(.init(isRegister: false, accessToken: "testToken", refreshToken: "testToken"))
     }
     
     public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
@@ -22,7 +23,9 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
     
     public func signUpWithApple(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
-        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+//        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
+        return Observable.error(error)
     }
     
     public func fetchJobList() -> Observable<JobListResponse> {

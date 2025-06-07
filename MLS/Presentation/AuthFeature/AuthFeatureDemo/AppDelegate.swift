@@ -124,7 +124,10 @@ private extension AppDelegate {
         }
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl(
-                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self)
+                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self),
+                signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
+                signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
+                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
             )
         }
         DIContainer.register(type: LoginFactory.self) {

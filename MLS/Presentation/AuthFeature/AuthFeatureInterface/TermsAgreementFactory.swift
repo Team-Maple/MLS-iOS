@@ -1,5 +1,7 @@
 import BaseFeature
 
+import DomainInterface
+
 public protocol TermsAgreementFactory {
-    func make(credential: Encodable) -> BaseViewController
+    func make(credential: Encodable, platform: LoginPlatform) -> BaseViewController
 }

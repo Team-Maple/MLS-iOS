@@ -10,7 +10,7 @@ public final class LoginReactor: Reactor {
 
     public enum Route {
         case none
-        case termsAgreements(credential: Encodable)
+        case termsAgreements(credential: Encodable, platform: LoginPlatform)
         case home
         case error
     }
@@ -24,7 +24,7 @@ public final class LoginReactor: Reactor {
 
     public enum Mutation {
         case moveToHomeScene
-        case moveToTermsAgreementsScene(credential: Encodable)
+        case moveToTermsAgreementsScene(credential: Encodable, platform: LoginPlatform)
         case moveToErrorScene
     }
 
@@ -64,7 +64,7 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithKakaoUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
+                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential, platform: .kakao)
                 }
                 .catch { error in
                     return Observable.just(.moveToErrorScene)
@@ -76,7 +76,7 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithAppleUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential)
+                    return result.response.isRegister ? .moveToHomeScene : .moveToTermsAgreementsScene(credential: result.credential, platform: .apple)
                 }
                 .catch { error in
                     return Observable.just(.moveToErrorScene)
@@ -91,8 +91,8 @@ public final class LoginReactor: Reactor {
         switch mutation {
         case .moveToHomeScene:
             newState.route = .home
-        case .moveToTermsAgreementsScene(let credential):
-            newState.route = .termsAgreements(credential: credential)
+        case .moveToTermsAgreementsScene(let credential, let platform):
+            newState.route = .termsAgreements(credential: credential, platform: platform)
         case .moveToErrorScene:
             newState.route = .error
         }
