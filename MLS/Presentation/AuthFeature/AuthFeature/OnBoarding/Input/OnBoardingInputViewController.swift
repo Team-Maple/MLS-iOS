@@ -71,7 +71,7 @@ public extension OnBoardingInputViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
