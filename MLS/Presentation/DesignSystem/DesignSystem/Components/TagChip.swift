@@ -1,6 +1,6 @@
 import UIKit
 
-internal import SnapKit
+import SnapKit
 
 public final class TagChip: UIButton {
     // MARK: - Type
