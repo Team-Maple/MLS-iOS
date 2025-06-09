@@ -1,6 +1,6 @@
 import UIKit
 
-internal import SnapKit
+import SnapKit
 
 public final class Toast: UIView {
     private struct Constant {

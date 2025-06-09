@@ -1,6 +1,6 @@
 import UIKit
 
-internal import SnapKit
+import SnapKit
 
 final class DropDownBoxCell: UITableViewCell {
     // MARK: - Type
