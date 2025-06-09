@@ -2,7 +2,7 @@ import UIKit
 
 import DesignSystem
 
-internal import SnapKit
+import SnapKit
 
 final class LoginView: UIView {
     // MARK: - Type

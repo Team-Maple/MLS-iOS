@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-internal import SnapKit
+import SnapKit
 
-public final class OnBoardingNotificationView: OnBoardingBaseView {
+public final class NotificationView: UIView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 16
@@ -49,8 +49,8 @@ public final class OnBoardingNotificationView: OnBoardingBaseView {
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
 
     // MARK: - init
-    override init() {
-        super.init()
+    init() {
+        super.init(frame: .zero)
         addViews()
         setupConstraints()
     }
@@ -62,7 +62,7 @@ public final class OnBoardingNotificationView: OnBoardingBaseView {
 }
 
 // MARK: - SetUp
-private extension OnBoardingNotificationView {
+private extension NotificationView {
     func addViews() {
         addSubview(contentView)
         addSubview(nextButton)

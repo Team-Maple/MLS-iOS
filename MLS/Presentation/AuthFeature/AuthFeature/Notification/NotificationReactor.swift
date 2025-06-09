@@ -1,26 +1,20 @@
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
+import RxCocoa
+import RxSwift
 
-public final class OnBoardingNotificationReactor: Reactor {
+public final class NotificationReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
-        case dismiss
-        case home
-        case modal
+        case notificationAlert
     }
 
     public enum Action {
-        case backButtonTapped
         case nextButtonTapped
-        case cancelOnBoarding
     }
 
     public enum Mutation {
-        case moveToPreScene
-        case moveToHomeScene
-        case showModal
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -39,12 +33,8 @@ public final class OnBoardingNotificationReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .backButtonTapped:
-            return Observable.just(.moveToPreScene)
         case .nextButtonTapped:
-            return Observable.just(.showModal)
-        case .cancelOnBoarding:
-            return Observable.just(.moveToHomeScene)
+            return Observable.just(.navigateTo(route: .notificationAlert))
         }
     }
 
@@ -52,12 +42,8 @@ public final class OnBoardingNotificationReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .moveToPreScene:
-            newState.route = .dismiss
-        case .moveToHomeScene:
-            newState.route = .home
-        case .showModal:
-            newState.route = .modal
+        case .navigateTo(let route):
+            newState.route = route
         }
 
         return newState

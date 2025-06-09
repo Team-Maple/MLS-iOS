@@ -1,8 +1,8 @@
 import DomainInterface
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
+import RxCocoa
+import RxSwift
 
 public final class OnBoardingInputReactor: Reactor {
     // MARK: - Reactor
@@ -10,25 +10,25 @@ public final class OnBoardingInputReactor: Reactor {
         case none
         case dismiss
         case home
-        case notification
+        case error
     }
 
     public enum Action {
+        case viewWillAppear
         case backButtonTapped
+        case skipButtonTapped
+        case nextButtonTapped
         case inputLevel(Int?)
         case inputRole(String?)
-        case cancelOnBoarding
-        case nextButtonTapped
     }
 
     public enum Mutation {
-        case moveToPreScene
-        case changeLevel(Int?)
-        case changeRole(String?)
-        case moveToHomeScene
-        case moveToNextScene
+        case setJobList(jobList: [String])
         case setButtonEnabled(Bool)
         case setLevelValid(Bool?)
+        case setLevel(Int?)
+        case setRole(String?)
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -38,28 +38,54 @@ public final class OnBoardingInputReactor: Reactor {
         var role: String?
         var isButtonEnabled: Bool = false
         var isLevelValid: Bool?
+        var jobList: [String] = []
     }
 
     // MARK: - properties
     public var initialState: State
-    public var checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
-    public var checkValidLevelUseCase: CheckValidLevelUseCase
+    private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
+    private let checkValidLevelUseCase: CheckValidLevelUseCase
+    private let fetchJobListUseCase: FetchJobListUseCase
+    private let updateUserInfoUseCase: UpdateUserInfoUseCase
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init(checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase, checkValidLevelUseCase: CheckValidLevelUseCase) {
+    public init(
+        checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
+        checkValidLevelUseCase: CheckValidLevelUseCase,
+        fetchJobListUseCase: FetchJobListUseCase,
+        updateUserInfoUseCase: UpdateUserInfoUseCase
+    ) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
+        self.fetchJobListUseCase = fetchJobListUseCase
+        self.updateUserInfoUseCase = updateUserInfoUseCase
         self.initialState = State()
     }
 
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewWillAppear:
+            return fetchJobListUseCase.execute()
+                .map { response in
+                    return .setJobList(jobList: response.jobList)
+                }
+                .catchAndReturn(.navigateTo(route: .error))
         case .backButtonTapped:
-            return Observable.just(.moveToPreScene)
+            return Observable.just(.navigateTo(route: .dismiss))
+        case .skipButtonTapped:
+            return Observable.just(.navigateTo(route: .home))
+        case .nextButtonTapped:
+            if let level = currentState.level, let role = currentState.role {
+                return updateUserInfoUseCase.execute(level: level, selectedJob: role)
+                    .andThen(Observable.just(.navigateTo(route: .home)))
+                    .catchAndReturn(.navigateTo(route: .error))
+            } else {
+                return Observable.just(.navigateTo(route: .error))
+            }
         case .inputLevel(let level):
-            let changeLevel = Observable.just(Mutation.changeLevel(level))
+            let changeLevel = Observable.just(Mutation.setLevel(level))
             let validateButton = checkEmptyUseCase.excute(level: level, role: currentState.role)
                 .map(Mutation.setButtonEnabled)
             let validateLevel = checkValidLevelUseCase.excute(level: level)
@@ -68,13 +94,9 @@ public final class OnBoardingInputReactor: Reactor {
         case .inputRole(let role):
             return checkEmptyUseCase.excute(level: currentState.level, role: role)
                 .map { isValid in
-                    [.changeRole(role), .setButtonEnabled(isValid)]
+                    [.setRole(role), .setButtonEnabled(isValid)]
                 }
                 .flatMap { Observable.from($0) }
-        case .cancelOnBoarding:
-            return Observable.just(.moveToHomeScene)
-        case .nextButtonTapped:
-            return Observable.just(.moveToNextScene)
         }
     }
 
@@ -82,20 +104,18 @@ public final class OnBoardingInputReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .moveToPreScene:
-            newState.route = .dismiss
-        case .changeLevel(let level):
-            newState.level = level
-        case .changeRole(let role):
-            newState.role = role
-        case .moveToHomeScene:
-            newState.route = .home
-        case .moveToNextScene:
-            newState.route = .notification
+        case .setJobList(let jobList):
+            newState.jobList = jobList
         case .setButtonEnabled(let isEnabled):
             newState.isButtonEnabled = isEnabled
         case .setLevelValid(let isValid):
             newState.isLevelValid = isValid
+        case .setLevel(let level):
+            newState.level = level
+        case .setRole(let role):
+            newState.role = role
+        case .navigateTo(let route):
+            newState.route = route
         }
 
         return newState

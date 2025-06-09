@@ -1,6 +1,6 @@
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
+import RxCocoa
+import RxSwift
 
 public final class OnBoardingQuestionReactor: Reactor {
     // MARK: - Reactor
@@ -12,17 +12,15 @@ public final class OnBoardingQuestionReactor: Reactor {
     }
 
     public enum Action {
-        case enterScene
+        case viewDidLoad
         case nextButtonTapped
         case backButtonTapped
-        case cancelOnBoarding
+        case skipButtonTapped
     }
 
     public enum Mutation {
         case showToast
-        case moveToInputScene
-        case moveToPreScene
-        case moveToHomeScene
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -42,14 +40,14 @@ public final class OnBoardingQuestionReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .enterScene:
+        case .viewDidLoad:
             return Observable.just(.showToast)
         case .nextButtonTapped:
-            return Observable.just(.moveToInputScene)
+            return Observable.just(.navigateTo(route: .input))
         case .backButtonTapped:
-            return Observable.just(.moveToPreScene)
-        case .cancelOnBoarding:
-            return Observable.just(.moveToHomeScene)
+            return Observable.just(.navigateTo(route: .dismiss))
+        case .skipButtonTapped:
+            return Observable.just(.navigateTo(route: .home))
         }
     }
 
@@ -59,12 +57,8 @@ public final class OnBoardingQuestionReactor: Reactor {
         switch mutation {
         case .showToast:
             newState.isShowToast.toggle()
-        case .moveToInputScene:
-            newState.route = .input
-        case .moveToPreScene:
-            newState.route = .dismiss
-        case .moveToHomeScene:
-            newState.route = .home
+        case .navigateTo(let route):
+            newState.route = route
         }
 
         return newState

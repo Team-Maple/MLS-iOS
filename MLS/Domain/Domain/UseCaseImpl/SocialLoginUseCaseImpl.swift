@@ -4,7 +4,7 @@ import DomainInterface
 
 import RxSwift
 
-public class SocialLoginUseCaseImpl: SocialLoginUseCase {
+public class SocialLoginUseCaseImpl: FetchSocialCredentialUseCase {
     public var provider: any SocialAuthenticatableProvider
 
     public init(provider: any SocialAuthenticatableProvider) {

@@ -4,9 +4,9 @@ import AuthFeatureInterface
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public final class LoginViewController: BaseViewController, View {
 
@@ -111,13 +111,22 @@ public extension LoginViewController {
     }
 
     func bindViewState(reactor: Reactor) {
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
-                case .termsAgreements:
-                    let controller = owner.termsAgreementsFactory.make()
+                case .termsAgreements(let credential, let platform):
+                    let controller = owner.termsAgreementsFactory.make(credential: credential, platform: platform)
                     owner.navigationController?.pushViewController(controller, animated: true)
+                case .home:
+                    let controller = UIViewController()
+                    controller.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .error:
+                    let controller = BaseErrorViewController()
+                    owner.present(controller, animated: true)
                 default:
                     break
                 }

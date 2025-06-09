@@ -15,6 +15,11 @@
 		085020682DDCD9640055CBCE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 085020672DDCD9640055CBCE /* RxSwift */; };
 		0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 085020692DDCD9720055CBCE /* SnapKit */; };
 		0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0850206B2DDCD97E0055CBCE /* ReactorKit */; };
+		085BDA622DF18617009CFB90 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDA612DF18617009CFB90 /* DomainInterface.framework */; };
+		085BDA6D2DF1A4DA009CFB90 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDA6C2DF1A4DA009CFB90 /* BaseFeature.framework */; };
+		085BDA6E2DF1A4DA009CFB90 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDA6C2DF1A4DA009CFB90 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		085BDF572DF459FE009CFB90 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF562DF459FE009CFB90 /* DomainInterface.framework */; };
+		085BDF582DF459FE009CFB90 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF562DF459FE009CFB90 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08E424F72DF0BB3C00D6ACD3 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E424F62DF0BB3C00D6ACD3 /* Domain.framework */; };
 		08E424F82DF0BB3C00D6ACD3 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08E424F62DF0BB3C00D6ACD3 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08E424F92DF0BC5C00D6ACD3 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */; };
@@ -26,12 +31,12 @@
 		08E425002DF0BC9F00D6ACD3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08E424FF2DF0BC9F00D6ACD3 /* RxSwift */; };
 		08E425022DF0BCA400D6ACD3 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08E425012DF0BCA400D6ACD3 /* RxRelay */; };
 		08E425042DF0BCCC00D6ACD3 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08E425032DF0BCCC00D6ACD3 /* RxCocoa */; };
+		08E4255B2DF17D5300D6ACD3 /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E4255A2DF17D5300D6ACD3 /* DataMock.framework */; };
+		08E4255C2DF17D5300D6ACD3 /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08E4255A2DF17D5300D6ACD3 /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7787BFB92DED80ED0011C907 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7787BFB82DED80ED0011C907 /* RxKeyboard */; };
 		77EB17C62DED816D004FB380 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB17C52DED816D004FB380 /* BaseFeature.framework */; };
 		77EB17CA2DED81E0004FB380 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77EB17C92DED81E0004FB380 /* SnapKit */; };
 		77EB17CC2DED81F2004FB380 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77EB17CB2DED81F2004FB380 /* ReactorKit */; };
-		77EB18E42DEDA126004FB380 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E02DEDA126004FB380 /* BaseFeature.framework */; };
-		77EB18E52DEDA126004FB380 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E02DEDA126004FB380 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77EB18E62DEDA126004FB380 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E12DEDA126004FB380 /* Core.framework */; };
 		77EB18E72DEDA126004FB380 /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E12DEDA126004FB380 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77EB18E82DEDA126004FB380 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18E22DEDA126004FB380 /* Data.framework */; };
@@ -65,6 +70,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		085BDF592DF459FE009CFB90 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				085BDF582DF459FE009CFB90 /* DomainInterface.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77EB18EC2DEDA126004FB380 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,9 +91,10 @@
 				08E424FE2DF0BC7800D6ACD3 /* DesignSystem.framework in Embed Frameworks */,
 				08E424F82DF0BB3C00D6ACD3 /* Domain.framework in Embed Frameworks */,
 				77EB18E92DEDA126004FB380 /* Data.framework in Embed Frameworks */,
-				77EB18E52DEDA126004FB380 /* BaseFeature.framework in Embed Frameworks */,
+				08E4255C2DF17D5300D6ACD3 /* DataMock.framework in Embed Frameworks */,
 				77EB18EB2DEDA126004FB380 /* DomainInterface.framework in Embed Frameworks */,
 				77EB18E72DEDA126004FB380 /* Core.framework in Embed Frameworks */,
+				085BDA6E2DF1A4DA009CFB90 /* BaseFeature.framework in Embed Frameworks */,
 				08E424FA2DF0BC5C00D6ACD3 /* AuthFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -90,8 +107,12 @@
 		0858AB3F2DCFD62C0060EBCA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858ABEF2DCFDA450060EBCA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858ABF32DCFDA510060EBCA /* Presentation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Presentation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		085BDA612DF18617009CFB90 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		085BDA6C2DF1A4DA009CFB90 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		085BDF562DF459FE009CFB90 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		086869FE2DD1C08800868C70 /* AuthFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuthFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E424F62DF0BB3C00D6ACD3 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08E4255A2DF17D5300D6ACD3 /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EECF932DD908D00047AFE2 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB17C52DED816D004FB380 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB18E02DEDA126004FB380 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				085BDF572DF459FE009CFB90 /* DomainInterface.framework in Frameworks */,
 				77EB17C62DED816D004FB380 /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -144,6 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				085BDA622DF18617009CFB90 /* DomainInterface.framework in Frameworks */,
 				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
 				7787BFB92DED80ED0011C907 /* RxKeyboard in Frameworks */,
 				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
@@ -164,14 +187,15 @@
 				77EB18E62DEDA126004FB380 /* Core.framework in Frameworks */,
 				08E424F92DF0BC5C00D6ACD3 /* AuthFeature.framework in Frameworks */,
 				08E425042DF0BCCC00D6ACD3 /* RxCocoa in Frameworks */,
-				77EB18E42DEDA126004FB380 /* BaseFeature.framework in Frameworks */,
 				08E424F72DF0BB3C00D6ACD3 /* Domain.framework in Frameworks */,
 				77EB18E82DEDA126004FB380 /* Data.framework in Frameworks */,
+				085BDA6D2DF1A4DA009CFB90 /* BaseFeature.framework in Frameworks */,
 				08E425022DF0BCA400D6ACD3 /* RxRelay in Frameworks */,
 				08E424FB2DF0BC5E00D6ACD3 /* AuthFeatureInterface.framework in Frameworks */,
 				08E424FD2DF0BC7800D6ACD3 /* DesignSystem.framework in Frameworks */,
 				77EB17CC2DED81F2004FB380 /* ReactorKit in Frameworks */,
 				77EB18EA2DEDA126004FB380 /* DomainInterface.framework in Frameworks */,
+				08E4255B2DF17D5300D6ACD3 /* DataMock.framework in Frameworks */,
 				08E425002DF0BC9F00D6ACD3 /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,6 +227,10 @@
 		0858ABEE2DCFDA450060EBCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				085BDF562DF459FE009CFB90 /* DomainInterface.framework */,
+				085BDA6C2DF1A4DA009CFB90 /* BaseFeature.framework */,
+				085BDA612DF18617009CFB90 /* DomainInterface.framework */,
+				08E4255A2DF17D5300D6ACD3 /* DataMock.framework */,
 				08E424F62DF0BB3C00D6ACD3 /* Domain.framework */,
 				77EB18E02DEDA126004FB380 /* BaseFeature.framework */,
 				77EB18E12DEDA126004FB380 /* Core.framework */,
@@ -244,6 +272,7 @@
 				08501BC22DDCA9DF0055CBCE /* Sources */,
 				08501BC32DDCA9DF0055CBCE /* Frameworks */,
 				08501BC42DDCA9DF0055CBCE /* Resources */,
+				085BDF592DF459FE009CFB90 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -440,7 +469,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -486,7 +515,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -747,6 +776,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -778,6 +808,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

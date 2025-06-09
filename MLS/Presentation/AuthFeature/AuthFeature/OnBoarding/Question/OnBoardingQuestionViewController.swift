@@ -5,9 +5,9 @@ import AuthFeatureInterface
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public class OnBoardingQuestionViewController: BaseViewController, View {
     // MARK: - Properties
@@ -36,7 +36,6 @@ public extension OnBoardingQuestionViewController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        showToast()
     }
 }
 
@@ -53,13 +52,6 @@ private extension OnBoardingQuestionViewController {
     }
 }
 
-// MARK: - Methods
-private extension OnBoardingQuestionViewController {
-    func showToast() {
-        reactor?.action.onNext(.enterScene)
-    }
-}
-
 // MARK: - Bind
 public extension OnBoardingQuestionViewController {
     func bind(reactor: Reactor) {
@@ -68,6 +60,11 @@ public extension OnBoardingQuestionViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewDidLoad
+            .map { Reactor.Action.viewDidLoad }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
@@ -75,6 +72,11 @@ public extension OnBoardingQuestionViewController {
 
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.headerView.textButton.rx.tap
+            .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -92,14 +94,18 @@ public extension OnBoardingQuestionViewController {
             }
             .disposed(by: disposeBag)
 
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .home:
-                    os_log("moveToHome")
+                    let homeViewController = UIViewController()
+                    homeViewController.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(homeViewController, animated: true)
                 case .input:
                     let inputViewController = owner.onBoardingInputFactory.make()
                     owner.navigationController?.pushViewController(inputViewController, animated: true)

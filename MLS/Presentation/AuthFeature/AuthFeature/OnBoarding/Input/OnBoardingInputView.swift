@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public final class OnBoardingInputView: OnBoardingBaseView {
     // MARK: - Type
@@ -35,14 +35,14 @@ public final class OnBoardingInputView: OnBoardingBaseView {
         return box
     }()
 
-    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: ["마법사", "전사", "궁수", "도적", "등등"])
+    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: [])
 
     public let errorMessage = ErrorMessage(message: "1에서 200까지 숫자만 입력해주세요")
 
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "다음")
 
     // MARK: - init
-    override init() {
+    init() {
         super.init()
         addViews()
         setupConstraints()

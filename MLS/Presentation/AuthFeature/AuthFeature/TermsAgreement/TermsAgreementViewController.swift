@@ -4,9 +4,9 @@ import AuthFeatureInterface
 import BaseFeature
 
 import ReactorKit
-internal import RxCocoa
-internal import RxSwift
-internal import SnapKit
+import RxCocoa
+import RxSwift
+import SnapKit
 
 public class TermsAgreementViewController: BaseViewController, View {
 
@@ -155,7 +155,9 @@ public extension TermsAgreementViewController {
             }
             .disposed(by: disposeBag)
 
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
@@ -163,7 +165,10 @@ public extension TermsAgreementViewController {
                     owner.navigationController?.popViewController(animated: true)
                 case .onBoarding:
                     let questionViewController = owner.onBoardingQuestionFactory.make()
-                    owner.navigationController?.pushViewController(questionViewController, animated: true)
+                    owner.navigationController?.setViewControllers([questionViewController], animated: true)
+                case .error:
+                    let errorViewController = BaseErrorViewController()
+                    owner.present(errorViewController, animated: true)
                 default:
                     break
                 }

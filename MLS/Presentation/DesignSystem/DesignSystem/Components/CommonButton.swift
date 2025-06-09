@@ -1,6 +1,6 @@
 import UIKit
 
-internal import SnapKit
+import SnapKit
 
 public final class CommonButton: UIButton {
     // MARK: - Type

@@ -6,30 +6,19 @@ import BaseFeature
 import DesignSystem
 
 import ReactorKit
-internal import RxCocoa
+import RxCocoa
 import RxKeyboard
-internal import RxSwift
-internal import SnapKit
+import RxSwift
+import SnapKit
 
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
-    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
-
-    public init(factory: OnBoardingNotificationFactory) {
-        self.onBoardingNotificationFactory = factory
-        super.init()
-    }
-
-    @available(*, unavailable)
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Life Cycle
@@ -70,9 +59,6 @@ private extension OnBoardingInputViewController {
     }
 }
 
-// MARK: - Private Methods
-private extension OnBoardingInputViewController {}
-
 // MARK: - Bind
 public extension OnBoardingInputViewController {
     func bind(reactor: Reactor) {
@@ -81,6 +67,11 @@ public extension OnBoardingInputViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
@@ -103,28 +94,20 @@ public extension OnBoardingInputViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.headerView.textButton.rx.tap
+            .map { Reactor.Action.skipButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map { $0.level }
+            .map { $0.jobList }
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { _, level in
-                if let level = level {
-                    os_log("input level: %d", level)
-                }
-            }
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map { $0.role }
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .subscribe { _, role in
-                if let role = role {
-                    os_log("input role: %@", role as NSString)
-                }
+            .subscribe { (owner, list) in
+                owner.mainView.dropDownBox.menus = list
             }
             .disposed(by: disposeBag)
 
@@ -144,21 +127,25 @@ public extension OnBoardingInputViewController {
             .bind(to: mainView.nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        reactor.pulse(\.$route)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { owner, route in
+            .subscribe(onNext: { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .home:
-                    os_log("moveToHome")
-                case .notification:
-                    let notificationViewController = owner.onBoardingNotificationFactory.make()
-                    owner.navigationController?.pushViewController(notificationViewController, animated: true)
+                    let controller = UIViewController()
+                    controller.view.backgroundColor = .green
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .error:
+                    let errorViewController = BaseErrorViewController()
+                    owner.present(errorViewController, animated: true)
                 default:
                     break
                 }
-            }
+            })
             .disposed(by: disposeBag)
     }
 }

@@ -1,11 +1,14 @@
+import DomainInterface
+
 import ReactorKit
-internal import RxSwift
+import RxSwift
 
 public final class TermsAgreementReactor: Reactor {
     public enum Route {
         case none
         case dismiss
         case onBoarding
+        case error
     }
 
     // MARK: - Reactor
@@ -25,8 +28,7 @@ public final class TermsAgreementReactor: Reactor {
         case changeIsServiceTermsAgreeState
         case changeIsPersonalInformationAgreeState
         case changeIsMarketingAgreeState
-        case moveToRecentScene
-        case moveToOnBoarding
+        case navigateTo(route: Route)
     }
 
     public struct State {
@@ -43,9 +45,25 @@ public final class TermsAgreementReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    private let credential: Encodable
+    private let socialPlatform: LoginPlatform
+    private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
+    private let signUpWithAppleUseCase: SignUpWithAppleUseCase
+    private let saveTokenUseCase: SaveTokenToLocalUseCase
 
     // MARK: - init
-    public init() {
+    public init(
+        credential: Encodable,
+        socialPlatform: LoginPlatform,
+        signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
+        signUpWithAppleUseCase: SignUpWithAppleUseCase,
+        saveTokenUseCase: SaveTokenToLocalUseCase
+    ) {
+        self.credential = credential
+        self.socialPlatform = socialPlatform
+        self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
+        self.signUpWithAppleUseCase = signUpWithAppleUseCase
+        self.saveTokenUseCase = saveTokenUseCase
         self.initialState = State()
     }
 
@@ -53,7 +71,7 @@ public final class TermsAgreementReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .backButtonTapped:
-            return Observable.just(.moveToRecentScene)
+            return Observable.just(.navigateTo(route: .dismiss))
         case .totalAgreeButtonTapped:
             return Observable.just(.changeIsTotalAgreeState)
         case .oldAgreeButtonTapped:
@@ -65,7 +83,28 @@ public final class TermsAgreementReactor: Reactor {
         case .marketingAgreeButtonTapped:
             return Observable.just(.changeIsMarketingAgreeState)
         case .bottomButtonTapped:
-            return Observable.just(.moveToOnBoarding)
+            switch socialPlatform {
+            case .kakao:
+                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                    .withUnretained(self)
+                    .map { (owner, response) in
+                        let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
+                        let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
+                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
+                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
+                    }
+                    .catchAndReturn(.navigateTo(route: .error))
+            case .apple:
+                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                    .withUnretained(self)
+                    .map { (owner, response) in
+                        let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
+                        let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
+                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
+                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
+                    }
+                    .catchAndReturn(.navigateTo(route: .error))
+            }
         }
     }
 
@@ -86,18 +125,29 @@ public final class TermsAgreementReactor: Reactor {
             newState.isPersonalInformationAgree.toggle()
         case .changeIsMarketingAgreeState:
             newState.isMarketingAgree.toggle()
-        case .moveToRecentScene:
-            newState.route = .dismiss
-        case .moveToOnBoarding:
-            newState.route = .onBoarding
+        case .navigateTo(let route):
+            newState.route = route
         }
-        if newState.isOldAgree == true && newState.isServiceTermsAgree == true && newState.isPersonalInformationAgree == true && newState.isMarketingAgree == true {
+        if newState.isOldAgree == true &&
+            newState.isServiceTermsAgree == true &&
+            newState.isPersonalInformationAgree == true {
+            if newState.isMarketingAgree == true {
+                newState.isTotalAgree = true
+            } else {
+                newState.isTotalAgree = false
+            }
             newState.bottomButtonIsEnabled = true
-            newState.isTotalAgree = true
         } else {
             newState.bottomButtonIsEnabled = false
             newState.isTotalAgree = false
         }
         return newState
+    }
+
+    private func isTokenSaveSuccess(access: Result<Void, Error>, refresh: Result<Void, Error>) -> Bool {
+        if case .success = access, case .success = refresh {
+            return true
+        }
+        return false
     }
 }

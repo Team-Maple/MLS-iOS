@@ -1,9 +1,9 @@
 import UIKit
 
-internal import DesignSystem
+import DesignSystem
 
-internal import RxSwift
-internal import SnapKit
+import RxSwift
+import SnapKit
 
 public final class ToastFactory {
 

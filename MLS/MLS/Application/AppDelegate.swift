@@ -5,6 +5,7 @@ import AuthFeatureInterface
 import BaseFeature
 import Core
 import Data
+import DataMock
 import DesignSystem
 import Domain
 import DomainInterface
@@ -32,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
+        registerRepository()
         registerUseCase()
         registerFactory()
     }
@@ -41,19 +43,28 @@ private extension AppDelegate {
             return NetworkProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
-            return KakaoLoginProviderImpl()
+            return KakaoLoginProviderMock()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            return AppleLoginProviderImpl()
+            return AppleLoginProviderMock()
+        }
+    }
+
+    func registerRepository() {
+        DIContainer.register(type: AuthAPIRepository.self) {
+            return AuthAPIRepositoryMock()
+        }
+        DIContainer.register(type: TokenRepository.self) {
+            return KeyChainRepositoryImpl()
         }
     }
 
     func registerUseCase() {
-        DIContainer.register(type: SocialLoginUseCase.self, name: "kakao") {
+        DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "kakao") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")
             return SocialLoginUseCaseImpl(provider: provider)
         }
-        DIContainer.register(type: SocialLoginUseCase.self, name: "apple") {
+        DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "apple") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
         }
@@ -63,22 +74,42 @@ private extension AppDelegate {
         DIContainer.register(type: CheckValidLevelUseCase.self) {
             return CheckValidLevelUseCaseImpl()
         }
+        DIContainer.register(type: FetchJobListUseCase.self) {
+            return FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LoginWithAppleUseCase.self) {
+            return LoginWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LoginWithKakaoUseCase.self) {
+            return LoginWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: SignUpWithAppleUseCase.self) {
+            return SignUpWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: SignUpWithKakaoUseCase.self) {
+            return SignUpWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: UpdateUserInfoUseCase.self) {
+            return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
+            return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: SaveTokenToLocalUseCase.self) {
+            return SaveTokenToLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
+            return DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
     }
 
     func registerFactory() {
-        DIContainer.register(type: OnBoardingModalFactory.self) {
-            return OnBoardingModalFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
-            return OnBoardingNotificationFactoryImpl(
-                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
-            )
-        }
         DIContainer.register(type: OnBoardingInputFactory.self) {
             return OnBoardingInputFactoryImpl(
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
-                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+                fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
+                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self)
             )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
@@ -88,15 +119,23 @@ private extension AppDelegate {
         }
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl(
-                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self)
+                onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self),
+                signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
+                signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
+                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
             )
         }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-                appleLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: SocialLoginUseCase.self, name: "kakao")
+                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
             )
+        }
+        DIContainer.register(type: NotificationFactory.self) {
+            return NotificationFactoryImpl(loginFactory: DIContainer.resolve(type: LoginFactory.self))
         }
     }
 }

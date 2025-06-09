@@ -20,7 +20,10 @@ class ViewController: UIViewController {
         let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
         loginVC.title = "로그인"
 
-        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make()
+        struct Credential: Encodable {
+            var some: String
+        }
+        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: Credential(some: "some"), platform: .apple)
         termVC.title = "약관 동의"
 
         let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()
@@ -29,15 +32,15 @@ class ViewController: UIViewController {
         let inputVC = DIContainer.resolve(type: OnBoardingInputFactory.self).make()
         inputVC.title = "온보딩 입력"
 
-        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make()
-        notiVC.title = "온보딩 알림"
+        let notiVC = DIContainer.resolve(type: NotificationFactory.self).make()
+        notiVC.title = "알림"
 
         return [
+            notiVC,
             loginVC,
             termVC,
             questionVC,
-            inputVC,
-            notiVC
+            inputVC
         ]
     }()
 

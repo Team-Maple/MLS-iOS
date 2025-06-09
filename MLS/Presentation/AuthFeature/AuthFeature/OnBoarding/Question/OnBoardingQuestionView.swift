@@ -2,7 +2,7 @@ import UIKit
 
 import DesignSystem
 
-internal import SnapKit
+import SnapKit
 
 public final class OnBoardingQuestionView: OnBoardingBaseView {
     // MARK: - Type
@@ -61,8 +61,8 @@ public final class OnBoardingQuestionView: OnBoardingBaseView {
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "")
 
     // MARK: - init
-    override init() {
-        super.init()
+    init() {
+        super.init(leftButtonIsHidden: true)
         addViews()
         setupConstraints()
     }
