@@ -74,7 +74,7 @@ public final class CardList: UIView {
     
     private let bookmarkButton: UIButton = {
         let button = UIButton()
-        button.setImage(.bookmark, for: .normal)
+        button.setImage(.bookmarkBorder, for: .normal)
         return button
     }()
 
@@ -133,7 +133,7 @@ public extension CardList {
     }
     
     func updateBookmark() {
-        bookmarkButton.setImage(isBookmarkSelected ? .bookmarkFill : .bookmark, for: .normal)
+        bookmarkButton.setImage(isBookmarkSelected ? .bookmarkFill : .bookmarkBorder, for: .normal)
     }
     
     func loadImage(image: UIImage) {
