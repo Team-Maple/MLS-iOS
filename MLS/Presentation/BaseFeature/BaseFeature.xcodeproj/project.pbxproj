@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		085020462DDCD6040055CBCE /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085020452DDCD6040055CBCE /* DesignSystem.framework */; };
 		0850204B2DDCD6AE0055CBCE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0850204A2DDCD6AE0055CBCE /* RxSwift */; };
 		0850204E2DDCD6C20055CBCE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0850204D2DDCD6C20055CBCE /* SnapKit */; };
 		085020542DDCD8E20055CBCE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 085020532DDCD8E20055CBCE /* RxCocoa */; };
 		085020562DDCD8E20055CBCE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 085020552DDCD8E20055CBCE /* RxRelay */; };
 		085020592DDCD8EE0055CBCE /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 085020582DDCD8EE0055CBCE /* ReactorKit */; };
+		772022362DF6BE7800BF8B5D /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085020452DDCD6040055CBCE /* DesignSystem.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,9 +36,9 @@
 				085020562DDCD8E20055CBCE /* RxRelay in Frameworks */,
 				0850204E2DDCD6C20055CBCE /* SnapKit in Frameworks */,
 				0850204B2DDCD6AE0055CBCE /* RxSwift in Frameworks */,
+				772022362DF6BE7800BF8B5D /* DesignSystem.framework in Frameworks */,
 				085020542DDCD8E20055CBCE /* RxCocoa in Frameworks */,
 				085020592DDCD8EE0055CBCE /* ReactorKit in Frameworks */,
-				085020462DDCD6040055CBCE /* DesignSystem.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
