@@ -14,22 +14,11 @@ import SnapKit
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
-    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
-
-    public init(factory: OnBoardingNotificationFactory) {
-        self.onBoardingNotificationFactory = factory
-        super.init()
-    }
-
-    @available(*, unavailable)
-    @MainActor required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Life Cycle
@@ -150,9 +139,6 @@ public extension OnBoardingInputViewController {
                     let controller = UIViewController()
                     controller.view.backgroundColor = .green
                     owner.navigationController?.pushViewController(controller, animated: true)
-                case .notification:
-                    let notificationViewController = owner.onBoardingNotificationFactory.make()
-                    owner.navigationController?.pushViewController(notificationViewController, animated: true)
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)

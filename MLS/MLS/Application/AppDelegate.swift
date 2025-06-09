@@ -66,19 +66,14 @@ private extension AppDelegate {
     }
 
     func registerFactory() {
-        DIContainer.register(type: OnBoardingModalFactory.self) {
-            return OnBoardingModalFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
-            return OnBoardingNotificationFactoryImpl(
-                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
-            )
+        DIContainer.register(type: NotificationFactory.self) {
+            return NotificationFactoryImpl()
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
             return OnBoardingInputFactoryImpl(
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
-                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+                onBoardingNotificationFactory: DIContainer.resolve(type: NotificationFactory.self)
             )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {

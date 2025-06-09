@@ -102,17 +102,9 @@ private extension AppDelegate {
     }
 
     func registerFactory() {
-        DIContainer.register(type: OnBoardingModalFactory.self) {
-            return OnBoardingModalFactoryImpl()
-        }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
-            return OnBoardingNotificationFactoryImpl(
-                onBoardingModalFactory: DIContainer.resolve(type: OnBoardingModalFactory.self)
-            )
-        }
+
         DIContainer.register(type: OnBoardingInputFactory.self) {
             return OnBoardingInputFactoryImpl(
-                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self),
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
@@ -140,6 +132,9 @@ private extension AppDelegate {
                 loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
                 loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
             )
+        }
+        DIContainer.register(type: NotificationFactory.self) {
+            return NotificationFactoryImpl(loginFactory: DIContainer.resolve(type: LoginFactory.self))
         }
     }
 }

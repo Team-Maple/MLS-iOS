@@ -32,15 +32,15 @@ class ViewController: UIViewController {
         let inputVC = DIContainer.resolve(type: OnBoardingInputFactory.self).make()
         inputVC.title = "온보딩 입력"
 
-        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make()
-        notiVC.title = "온보딩 알림"
+        let notiVC = DIContainer.resolve(type: NotificationFactory.self).make()
+        notiVC.title = "알림"
 
         return [
+            notiVC,
             loginVC,
             termVC,
             questionVC,
-            inputVC,
-            notiVC
+            inputVC
         ]
     }()
 
