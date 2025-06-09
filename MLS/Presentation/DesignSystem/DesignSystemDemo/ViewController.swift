@@ -27,6 +27,7 @@ class ViewController: UIViewController {
         TagChipTestViewController(),
         GuideAlertTestViewController(),
         CardListTestViewController(),
+        SearchBarTestViewController()
     ]
 
     override func viewDidLoad() {
