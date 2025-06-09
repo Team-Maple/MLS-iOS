@@ -165,7 +165,7 @@ public extension TermsAgreementViewController {
                     owner.navigationController?.popViewController(animated: true)
                 case .onBoarding:
                     let questionViewController = owner.onBoardingQuestionFactory.make()
-                    owner.navigationController?.pushViewController(questionViewController, animated: true)
+                    owner.navigationController?.setViewControllers([questionViewController], animated: true)
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
