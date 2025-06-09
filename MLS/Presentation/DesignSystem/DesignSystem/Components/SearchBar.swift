@@ -56,7 +56,6 @@ public final class SearchBar: UIView {
     private let fillLineView: UIView = {
         let view = UIView()
         view.backgroundColor = .primary700
-//        view.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         view.transform = CGAffineTransform(scaleX: 0, y: 1)
         return view
     }()
@@ -117,6 +116,7 @@ private extension SearchBar {
     func configureUI() {
         textField.delegate = self
         clearButton.addAction(.init(handler: { [weak self] _ in self?.textField.text = "" }),for: .touchUpInside)
+        searchButton.addAction(.init(handler: { [weak self] _ in self?.endEditing(true)}), for: .touchUpInside)
     }
 }
 
