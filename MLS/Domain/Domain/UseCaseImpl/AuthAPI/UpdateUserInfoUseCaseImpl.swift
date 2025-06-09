@@ -6,7 +6,7 @@ import RxSwift
 
 public class UpdateUserInfoUseCaseImpl: UpdateUserInfoUseCase {
     private var repository: AuthAPIRepository
-    
+
     public init(repository: AuthAPIRepository) {
         self.repository = repository
     }

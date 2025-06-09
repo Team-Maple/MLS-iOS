@@ -2,10 +2,10 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
+import ReactorKit
 import RxCocoa
 import RxSwift
-import ReactorKit
+import SnapKit
 
 public final class BaseErrorViewController: BaseViewController {
 
@@ -19,29 +19,29 @@ public final class BaseErrorViewController: BaseViewController {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     private let containerView: UIView = UIView()
-    
+
     private let imageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "errorImage")
         let view = UIImageView(image: image)
         return view
     }()
-    
+
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.attributedText = .makeStyledString(font: .body, text: "알 수 없는 오류가 발생했어요.\n이전 화면으로 돌아가 다시 시도해 주세요.")
         return label
     }()
-    
+
     private let backButton = CommonButton(style: .normal, title: "뒤로가기", disabledTitle: nil)
-    
+
     public override init() {
         super.init()
         modalPresentationStyle = .fullScreen
     }
-    
+
     @MainActor public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -51,7 +51,7 @@ public final class BaseErrorViewController: BaseViewController {
 extension BaseErrorViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
         configureUI()
@@ -90,7 +90,7 @@ private extension BaseErrorViewController {
     }
 
     func configureUI() { }
-    
+
     func bind() {
         backButton.rx.tap
             .withUnretained(self)

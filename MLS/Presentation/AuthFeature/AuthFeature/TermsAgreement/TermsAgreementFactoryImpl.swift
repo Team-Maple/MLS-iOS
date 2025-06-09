@@ -5,7 +5,7 @@ import DomainInterface
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
 
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
-    
+
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
     private let saveTokenUseCase: SaveTokenToLocalUseCase
@@ -21,7 +21,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
         self.saveTokenUseCase = saveTokenUseCase
     }
-    
+
     public func make(credential: any Encodable, platform: LoginPlatform) -> BaseViewController {
         let viewController = TermsAgreementViewController(onBoardingQuestionFactory: onBoardingQuestionFactory)
         viewController.reactor = TermsAgreementReactor(

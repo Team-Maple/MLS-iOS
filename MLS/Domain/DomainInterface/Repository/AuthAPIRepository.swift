@@ -4,19 +4,19 @@ import RxSwift
 
 /// 사용자 인증 및 회원 관련 API 호출을 담당하는 레포지토리 프로토콜
 public protocol AuthAPIRepository {
-    
+
     /// 카카오 로그인 API 호출
     ///
     /// - Parameter credential: 카카오 로그인에 필요한 자격 증명 (예: access token 등)
     /// - Returns: 로그인 응답을 담은 Observable
     func loginWithKakao(credential: Encodable) -> Observable<LoginResponse>
-    
+
     /// 애플 로그인 API 호출
     ///
     /// - Parameter credential: 애플 로그인에 필요한 자격 증명 (예: identity token 등)
     /// - Returns: 로그인 응답을 담은 Observable
     func loginWithApple(credential: Encodable) -> Observable<LoginResponse>
-    
+
     /// 카카오 회원가입 API 호출
     ///
     /// - Parameters:
@@ -24,7 +24,7 @@ public protocol AuthAPIRepository {
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
     func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
-    
+
     /// 애플 회원가입 API 호출
     ///
     /// - Parameters:
@@ -32,12 +32,12 @@ public protocol AuthAPIRepository {
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
     func signUpWithApple(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
-    
+
     /// 직업 목록 조회 API 호출
     ///
     /// - Returns: 직업 목록 응답을 담은 Observable
     func fetchJobList() -> Observable<JobListResponse>
-    
+
     /// 사용자 정보 수정 API 호출
     ///
     /// - Note: 별도의 파라미터 없이 사용자 정보를 수정

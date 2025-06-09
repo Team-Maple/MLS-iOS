@@ -130,8 +130,7 @@ public final class TermsAgreementReactor: Reactor {
         }
         if newState.isOldAgree == true &&
             newState.isServiceTermsAgree == true &&
-            newState.isPersonalInformationAgree == true
-        {
+            newState.isPersonalInformationAgree == true {
             if newState.isMarketingAgree == true {
                 newState.isTotalAgree = true
             } else {
@@ -144,7 +143,7 @@ public final class TermsAgreementReactor: Reactor {
         }
         return newState
     }
-    
+
     private func isTokenSaveSuccess(access: Result<Void, Error>, refresh: Result<Void, Error>) -> Bool {
         if case .success = access, case .success = refresh {
             return true

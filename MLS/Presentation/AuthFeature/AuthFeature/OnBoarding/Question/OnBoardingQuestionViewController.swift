@@ -64,7 +64,7 @@ public extension OnBoardingQuestionViewController {
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.nextButton.rx.tap
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
@@ -74,7 +74,7 @@ public extension OnBoardingQuestionViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.textButton.rx.tap
             .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)

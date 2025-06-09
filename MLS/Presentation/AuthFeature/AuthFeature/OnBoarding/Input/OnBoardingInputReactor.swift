@@ -77,7 +77,7 @@ public final class OnBoardingInputReactor: Reactor {
         case .skipButtonTapped:
             return Observable.just(.navigateTo(route: .home))
         case .nextButtonTapped:
-            if let level = currentState.level ,let role = currentState.role {
+            if let level = currentState.level, let role = currentState.role {
                 return updateUserInfoUseCase.execute(level: level, selectedJob: role)
                     .andThen(Observable.just(.navigateTo(route: .home)))
                     .catchAndReturn(.navigateTo(route: .error))

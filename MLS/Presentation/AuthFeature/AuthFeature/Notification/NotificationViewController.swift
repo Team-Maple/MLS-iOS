@@ -18,7 +18,7 @@ public class NotificationViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private var mainView = NotificationView()
-    
+
     private let loginFactory: LoginFactory
 
     public init(factory: LoginFactory) {

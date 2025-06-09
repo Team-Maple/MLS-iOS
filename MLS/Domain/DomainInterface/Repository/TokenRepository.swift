@@ -19,17 +19,15 @@ public protocol TokenRepository {
     /// - Parameter type: 가져오려는 토큰의 타입 (`accessToken` 또는 `refreshToken`)
     /// - Returns: 가져온 토큰을 담은 `Single<String>`
     func fetchToken(type: TokenType) -> Result<String, Error>
-    
+
     /// 토큰을 저장하는 메서드
     /// - Parameter type: 저장하려는 토큰의 타입 (`accessToken` 또는 `refreshToken`)
     /// - Parameter value: 저장할 토큰의 값
     /// - Returns: 완료 시 `Completable`
     func saveToken(type: TokenType, value: String) -> Result<Void, Error>
-    
+
     /// 토큰을 삭제하는 메서드
     /// - Parameter type: 삭제하려는 토큰의 타입 (`accessToken` 또는 `refreshToken`)
     /// - Returns: 완료 시 `Completable`
     func deleteToken(type: TokenType) -> Result<Void, Error>
 }
-
-

@@ -94,7 +94,7 @@ public extension OnBoardingInputViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.textButton.rx.tap
             .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)

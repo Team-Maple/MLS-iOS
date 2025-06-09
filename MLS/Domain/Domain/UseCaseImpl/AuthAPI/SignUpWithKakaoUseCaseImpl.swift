@@ -6,7 +6,7 @@ import RxSwift
 
 public class SignUpWithKakaoUseCaseImpl: SignUpWithKakaoUseCase {
     private var repository: AuthAPIRepository
-    
+
     public init(repository: AuthAPIRepository) {
         self.repository = repository
     }

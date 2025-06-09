@@ -6,7 +6,7 @@ import RxSwift
 
 public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
     private var repository: AuthAPIRepository
-    
+
     public init(repository: AuthAPIRepository) {
         self.repository = repository
     }
