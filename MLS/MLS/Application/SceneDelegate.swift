@@ -1,7 +1,9 @@
+import NotificationCenter
 import UIKit
 
 import AuthFeature
 import AuthFeatureInterface
+import BaseFeature
 import Core
 import Data
 import Domain
@@ -14,11 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
         window = UIWindow(windowScene: windowScene)
-        let startViewController = loginFactory.make(isReLogin: false)
-        window?.rootViewController = UINavigationController(rootViewController: startViewController)
-        window?.makeKeyAndVisible()
+        setStartViewController(window: window)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
@@ -35,6 +34,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let url = URLContexts.first?.url {
             if AuthApi.isKakaoTalkLoginUrl(url) {
                 _ = AuthController.handleOpenUrl(url: url)
+            }
+        }
+    }
+
+    func setStartViewController(window: UIWindow?) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            DispatchQueue.main.async {
+                let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
+                let notificationFactory: NotificationFactory = DIContainer.resolve(type: NotificationFactory.self)
+                if settings.authorizationStatus == .notDetermined {
+                    window?.rootViewController = UINavigationController(rootViewController: notificationFactory.make())
+                } else {
+                    window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
+                }
+                window?.makeKeyAndVisible()
             }
         }
     }

@@ -85,11 +85,9 @@ public extension NotificationViewController {
                     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
                         DispatchQueue.main.async {
                             let loginViewController = owner.loginFactory.make(isReLogin: false)
-                            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                                  let window = windowScene.keyWindow else { return }
                             if granted {
                                 UIApplication.shared.registerForRemoteNotifications()
-                                window.rootViewController = UINavigationController(rootViewController: loginViewController)
+                                owner.navigationController?.setViewControllers([loginViewController], animated: true)
                             } else {
                                 let alert = UIAlertController(
                                     title: "언제든 설정에서 알림을 켜거나 끄실 수 있어요.",
@@ -97,7 +95,7 @@ public extension NotificationViewController {
                                     preferredStyle: .alert
                                 )
                                 alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-                                    window.rootViewController = UINavigationController(rootViewController: loginViewController)
+                                    owner.navigationController?.setViewControllers([loginViewController], animated: true)
                                 }))
                                 owner.present(alert, animated: true)
                             }
