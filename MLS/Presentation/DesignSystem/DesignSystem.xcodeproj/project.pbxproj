@@ -59,6 +59,7 @@
 /* Begin PBXFileReference section */
 		0858ABAE2DCFD6940060EBCA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0858ABC92DCFD7560060EBCA /* DesignSystemDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DesignSystemDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		772022322DF6BE6000BF8B5D /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		776AD6822DE985C300991745 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F55F22DE8D7E500684E34 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778F55F42DE8D7E500684E34 /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +165,7 @@
 		0858ABDE2DCFD7700060EBCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				772022322DF6BE6000BF8B5D /* BaseFeature.framework */,
 				776AD6822DE985C300991745 /* BaseFeature.framework */,
 				778F55FC2DE8D87000684E34 /* Data.framework */,
 				778F55F22DE8D7E500684E34 /* AuthFeature.framework */,

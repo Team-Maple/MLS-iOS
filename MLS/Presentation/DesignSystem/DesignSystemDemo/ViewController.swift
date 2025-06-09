@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         TapButtonTestViewController(),
         TagChipTestViewController(),
         GuideAlertTestViewController(),
+        CardListTestViewController(),
     ]
 
     override func viewDidLoad() {
