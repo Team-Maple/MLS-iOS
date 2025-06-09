@@ -1,6 +1,6 @@
 import UIKit
 
-internal import SnapKit
+import SnapKit
 
 // MARK: - Model
 public struct TabItem {

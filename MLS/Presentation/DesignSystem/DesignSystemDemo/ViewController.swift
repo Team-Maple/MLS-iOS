@@ -33,6 +33,7 @@ class ViewController: UIViewController {
             CommonButtonTestViewController(),
             InputBoxTextViewController(),
         ], initialIndex: 1),
+        SearchBarTestViewController()
     ]
 
     override func viewDidLoad() {
