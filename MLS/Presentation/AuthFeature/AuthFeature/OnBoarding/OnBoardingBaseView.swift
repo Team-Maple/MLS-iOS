@@ -6,7 +6,7 @@ import DesignSystem
 public class OnBoardingBaseView: UIView {
     // MARK: - Components
     public let headerView: NavigationBar = {
-        let view = NavigationBar(textButtonTitle: "다음에 하기")
+        let view = NavigationBar(underlineTextButtonTitle: "다음에 하기")
         view.rightButton.isHidden = true
         return view
     }()

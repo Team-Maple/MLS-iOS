@@ -12,7 +12,7 @@ class ViewController: UIViewController {
         let view = UITableView(frame: .zero, style: .plain)
         return view
     }()
-
+    
     let componentViews: [UIViewController] = [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
@@ -20,7 +20,20 @@ class ViewController: UIViewController {
         InputBoxTextViewController(),
         DropDownBoxTextViewController(),
         ToastMakerTestViewController(),
-        ErrorMessageTextViewController()
+        ErrorMessageTextViewController(),
+        StepIndicatorTestViewController(),
+        HeaderTestViewController(),
+        TapButtonTestViewController(),
+        TagChipTestViewController(),
+        GuideAlertTestViewController(),
+        CardListTestViewController(),
+        BottomTabBarController(viewControllers: [
+            CheckBoxButtonTestViewController(),
+            NavigationBarTestViewController(),
+            CommonButtonTestViewController(),
+            InputBoxTextViewController(),
+        ], initialIndex: 1),
+        SearchBarTestViewController()
     ]
 
     override func viewDidLoad() {

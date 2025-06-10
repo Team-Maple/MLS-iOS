@@ -40,14 +40,6 @@ private extension AppDelegate {
     }
 
     func registerUseCase() {
-        DIContainer.register(type: SocialLoginUseCase.self, name: "kakao") {
-            let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")
-            return SocialLoginUseCaseImpl(provider: provider)
-        }
-        DIContainer.register(type: SocialLoginUseCase.self, name: "apple") {
-            let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "apple")
-            return SocialLoginUseCaseImpl(provider: provider)
-        }
         DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
             CheckEmptyLevelAndRoleUseCaseImpl()
         }
