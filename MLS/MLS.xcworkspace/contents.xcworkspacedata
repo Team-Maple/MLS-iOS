@@ -11,6 +11,9 @@
          location = "group:AuthFeature/AuthFeature.xcodeproj">
       </FileRef>
       <FileRef
+         location = "container:Presentation/DictionaryFeature/DictionaryFeature.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:BaseFeature/BaseFeature.xcodeproj">
       </FileRef>
       <FileRef
