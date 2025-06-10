@@ -7,31 +7,86 @@ public final class CommonButton: UIButton {
     public enum CommonButtonStyle {
         case normal
         case text
+        case border
 
         public var height: CGFloat {
             switch self {
-            case .normal:
+            case .normal, .border:
                 return 54
             case .text:
                 return 44
             }
         }
+
+        public var backgroundColor: UIColor {
+            switch self {
+            case .normal:
+                .primary700
+            case .text, .border:
+                .clearMLS
+            }
+        }
+
+        public var borderColor: UIColor {
+            switch self {
+            case .normal, .text:
+                UIColor.clearMLS
+            case .border:
+                UIColor.neutral300
+            }
+        }
+
+        public var textColor: UIColor {
+            switch self {
+            case .normal:
+                .whiteMLS
+            case .text:
+                .neutral700
+            case .border:
+                .textColor
+            }
+        }
+
+        public var font: UIFont? {
+            switch self {
+            case .normal:
+                .subTitleBold
+            case .text:
+                .caption
+            case .border:
+                .body
+            }
+        }
     }
-    private struct Constant {
+
+    private enum Constant {
         static let height: CGFloat = 54
         static let normalStyleCornerRadius: CGFloat = 8
         static let textLineHeight: CGFloat = 1.2
+        static let buttonInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
     }
+
     // MARK: - Properties
     private let style: CommonButtonStyle
+    private let title: String?
+    private let disabledTitle: String?
+
+    override public var isEnabled: Bool {
+        didSet {
+            configureUI()
+        }
+    }
 
     // MARK: - init
     public init(style: CommonButtonStyle, title: String?, disabledTitle: String?) {
         self.style = style
+        self.title = title
+        self.disabledTitle = disabledTitle
         super.init(frame: .zero)
-        self.configureUI(title: title, disabledTitle: disabledTitle)
+        configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -39,21 +94,30 @@ public final class CommonButton: UIButton {
 
 // MARK: - SetUp
 private extension CommonButton {
-    func configureUI(title: String?, disabledTitle: String?) {
+    func configureUI() {
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = Constant.buttonInsets
 
         switch style {
-        case .normal:
-            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: title, color: .white), for: .normal)
-            self.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: disabledTitle, color: .white), for: .disabled)
-            self.setBackgroundImage(UIImage.fromColor(.primary700), for: .normal)
-            self.setBackgroundImage(UIImage.fromColor(.neutral300), for: .disabled)
-            self.layer.cornerRadius = Constant.normalStyleCornerRadius
-            self.clipsToBounds = true
-            self.snp.makeConstraints { make in make.height.equalTo(style.height) }
+        case .normal, .border:
+            config.background.backgroundColor = isEnabled ? style.backgroundColor : .neutral300
+            config.background.cornerRadius = Constant.normalStyleCornerRadius
+            let currentTitle = isEnabled ? title : disabledTitle
+            config.attributedTitle = AttributedString(.makeStyledString(font: style.font, text: currentTitle, color: isEnabled ? style.textColor : .whiteMLS) ?? .init())
+            config.baseForegroundColor = isEnabled ? style.textColor : .whiteMLS
+            if style == .border {
+                config.background.strokeColor = isEnabled ? style.borderColor : .neutral300
+                config.background.strokeWidth = 1
+            }
+            configuration = config
+            snp.makeConstraints { make in
+                make.height.equalTo(style.height)
+            }
         case .text:
-            self.titleLabel?.font = .caption
-            if let textButtonTitle = title,
-               let lineHeight = UIFont.caption?.lineHeight {
+            config.background.backgroundColor = .clear
+            let currentTitle = isEnabled ? title : disabledTitle
+            if let textButtonTitle = currentTitle,
+               let lineHeight = style.font?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight
@@ -62,27 +126,15 @@ private extension CommonButton {
                 let enabledAttributedString = NSAttributedString(
                     string: textButtonTitle,
                     attributes: [
-                        .foregroundColor: UIColor.neutral700,
+                        .foregroundColor: isEnabled ? style.textColor : .neutral700,
                         .underlineStyle: NSUnderlineStyle.single.rawValue,
-                        .underlineColor: UIColor.neutral700,
+                        .underlineColor: isEnabled ? style.textColor : .neutral700,
                         .paragraphStyle: paragraphStyle
                     ]
                 )
-                self.setAttributedTitle(enabledAttributedString, for: .normal)
-
-                if let disabledTitle = disabledTitle {
-                    let disabledAttributedString = NSAttributedString(
-                        string: disabledTitle,
-                        attributes: [
-                            .foregroundColor: UIColor.neutral700,
-                            .underlineStyle: NSUnderlineStyle.single.rawValue,
-                            .underlineColor: UIColor.neutral700,
-                            .paragraphStyle: paragraphStyle
-                        ]
-                    )
-                    self.setAttributedTitle(disabledAttributedString, for: .disabled)
-                }
+                config.attributedTitle = AttributedString(enabledAttributedString)
             }
+            configuration = config
         }
     }
 }

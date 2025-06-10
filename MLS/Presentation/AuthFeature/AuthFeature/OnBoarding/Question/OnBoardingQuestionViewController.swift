@@ -75,7 +75,7 @@ public extension OnBoardingQuestionViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.headerView.textButton.rx.tap
+        mainView.headerView.underlineTextButton.rx.tap
             .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

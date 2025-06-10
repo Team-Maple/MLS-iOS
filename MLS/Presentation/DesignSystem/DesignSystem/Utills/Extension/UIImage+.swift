@@ -11,4 +11,19 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return image
     }
+
+    func resizeImage(to targetSize: CGSize, preserveAspectRatio: Bool = true) -> UIImage? {
+        let size: CGSize
+        if preserveAspectRatio {
+            let aspectRatio = min(targetSize.width / self.size.width, targetSize.height / self.size.height)
+            size = CGSize(width: self.size.width * aspectRatio, height: self.size.height * aspectRatio)
+        } else {
+            size = targetSize
+        }
+
+        let renderer = UIGraphicsImageRenderer(size: size)
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: size))
+        }
+    }
 }

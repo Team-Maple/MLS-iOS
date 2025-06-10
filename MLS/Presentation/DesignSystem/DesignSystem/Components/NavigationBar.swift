@@ -33,17 +33,18 @@ public final class NavigationBar: UIView {
         return button
     }()
 
-    public let textButton: UIButton = UIButton(type: .system)
+    public let underlineTextButton: UIButton = UIButton(type: .system)
+    public let boldTextButton: UIButton = UIButton()
 
     private let leftSpacingView: UIView = UIView()
     private let rightSpacingView: UIView = UIView()
 
     // MARK: - init
-    public init(textButtonTitle: String? = nil) {
+    public init(underlineTextButtonTitle: String? = nil, boldTextButtonTitle: String? = nil) {
         super.init(frame: .zero)
-        self.addViews(textButtonTitle: textButtonTitle)
+        self.addViews(underlineTextButtonTitle: underlineTextButtonTitle, boldTextButtonTitle: boldTextButtonTitle)
         self.setupConstraints()
-        self.configureUI(textButtonTitle: textButtonTitle)
+        self.configureUI(underlineTextButtonTitle: underlineTextButtonTitle, boldTextButtonTitle: boldTextButtonTitle)
     }
 
     required init?(coder: NSCoder) {
@@ -53,11 +54,12 @@ public final class NavigationBar: UIView {
 
 // MARK: - SetUp
 private extension NavigationBar {
-    func addViews(textButtonTitle: String? = nil) {
+    func addViews(underlineTextButtonTitle: String? = nil, boldTextButtonTitle: String? = nil) {
         self.addSubview(contentStackView)
         contentStackView.addArrangedSubview(leftButton)
         contentStackView.addArrangedSubview(leftSpacingView)
-        if textButtonTitle != nil { contentStackView.addArrangedSubview(textButton) }
+        if underlineTextButtonTitle != nil { contentStackView.addArrangedSubview(underlineTextButton) }
+        if boldTextButtonTitle != nil { contentStackView.addArrangedSubview(boldTextButton) }
         contentStackView.addArrangedSubview(rightSpacingView)
         contentStackView.addArrangedSubview(rightButton)
     }
@@ -77,15 +79,15 @@ private extension NavigationBar {
         }
     }
 
-    func configureUI(textButtonTitle: String?) {
-        if let textButtonTitle, let lineHeight = UIFont.caption?.lineHeight, let font = UIFont.body {
+    func configureUI(underlineTextButtonTitle: String?, boldTextButtonTitle: String?) {
+        if let underlineTextButtonTitle, let lineHeight = UIFont.caption?.lineHeight, let font = UIFont.body {
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.minimumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.maximumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.alignment = .center
 
             let attributedString = NSAttributedString(
-                string: textButtonTitle,
+                string: underlineTextButtonTitle,
                 attributes: [
                     .font: font,
                     .foregroundColor: UIColor.neutral700,
@@ -94,7 +96,11 @@ private extension NavigationBar {
                     .paragraphStyle: paragraphStyle
                 ]
             )
-            self.textButton.setAttributedTitle(attributedString, for: .normal)
+            self.underlineTextButton.setAttributedTitle(attributedString, for: .normal)
+        }
+
+        if let boldTextButtonTitle {
+            boldTextButton.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: boldTextButtonTitle), for: .normal)
         }
     }
 }
