@@ -11,10 +11,10 @@ public final class ToggleBox: UIView {
         static let radius: CGFloat = 8
         static let height: CGFloat = 60
     }
-    
+
     // MARK: - Components
     private let textLabel = UILabel()
-    
+
     public let toggle: UISwitch = {
         let button = UISwitch()
         button.thumbTintColor = .whiteMLS
@@ -46,7 +46,7 @@ private extension ToggleBox {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
-        
+
         textLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.margin)
             make.leading.equalToSuperview().inset(Constant.margin)

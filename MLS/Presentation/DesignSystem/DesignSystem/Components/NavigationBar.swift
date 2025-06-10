@@ -98,7 +98,7 @@ private extension NavigationBar {
             )
             self.underlineTextButton.setAttributedTitle(attributedString, for: .normal)
         }
-        
+
         if let boldTextButtonTitle {
             boldTextButton.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: boldTextButtonTitle), for: .normal)
         }

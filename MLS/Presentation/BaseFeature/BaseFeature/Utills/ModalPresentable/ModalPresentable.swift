@@ -9,7 +9,7 @@ public enum ModalStyle {
     case bottomSheet
     case modal
     case alert
-    
+
     var containerCornerRadius: CGFloat {
         switch self {
         case .bottomSheet, .modal:

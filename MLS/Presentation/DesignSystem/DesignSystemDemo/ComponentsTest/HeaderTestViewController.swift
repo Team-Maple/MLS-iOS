@@ -17,7 +17,7 @@ final class HeaderTestViewController: UIViewController {
         control.selectedSegmentIndex = 0
         return control
     }()
-    
+
     private let mainTextTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "text"
@@ -32,7 +32,7 @@ final class HeaderTestViewController: UIViewController {
         label.text = "text"
         return label
     }()
-    
+
     private let filterTextTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "text"
@@ -47,7 +47,7 @@ final class HeaderTestViewController: UIViewController {
         label.text = "text"
         return label
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "Header"
@@ -87,17 +87,17 @@ private extension HeaderTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         filterHeader.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(mainHeader.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         mainTextTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -107,7 +107,7 @@ private extension HeaderTestViewController {
             make.top.equalTo(mainTextTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         filterTextTextLabel.snp.makeConstraints { make in
             make.top.equalTo(mainTextTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -137,14 +137,14 @@ private extension HeaderTestViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         mainTextTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
                 owner.mainHeader.titleLabel.attributedText = .makeStyledString(font: owner.mainHeader.style.titleFont, text: text)
             }
             .disposed(by: disposeBag)
-        
+
         filterTextTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in

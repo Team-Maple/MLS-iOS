@@ -60,7 +60,7 @@ final class ModalWrapperView: UIView {
                 make.width.equalTo(ModalConfig.gestureBarWidth)
                 make.centerX.equalToSuperview()
             }
-            
+
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
             containerView.addGestureRecognizer(panGesture)
         case .alert:

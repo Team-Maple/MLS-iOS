@@ -48,12 +48,12 @@ private extension StepIndicatorTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         secondIndicator.snp.makeConstraints { make in
             make.top.equalTo(firstIndicator.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         thirdIndicator.snp.makeConstraints { make in
             make.top.equalTo(secondIndicator.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
@@ -62,7 +62,7 @@ private extension StepIndicatorTestViewController {
 
     func configureUI() {
         view.backgroundColor = .systemBackground
-        
+
         firstIndicator.selectIndicator(index: 0)
         secondIndicator.selectIndicator(index: 1)
         thirdIndicator.selectIndicator(index: 2)

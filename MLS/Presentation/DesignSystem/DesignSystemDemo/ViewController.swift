@@ -12,7 +12,7 @@ class ViewController: UIViewController {
         let view = UITableView(frame: .zero, style: .plain)
         return view
     }()
-    
+
     let componentViews: [UIViewController] = [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
             CheckBoxButtonTestViewController(),
             NavigationBarTestViewController(),
             CommonButtonTestViewController(),
-            InputBoxTextViewController(),
+            InputBoxTextViewController()
         ], initialIndex: 1),
         SearchBarTestViewController()
     ]

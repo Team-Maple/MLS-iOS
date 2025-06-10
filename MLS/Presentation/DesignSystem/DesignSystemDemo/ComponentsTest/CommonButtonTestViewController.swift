@@ -57,22 +57,22 @@ private extension CommonButtonTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         textButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         borderButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(textButton.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         buttonStateToggle.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)

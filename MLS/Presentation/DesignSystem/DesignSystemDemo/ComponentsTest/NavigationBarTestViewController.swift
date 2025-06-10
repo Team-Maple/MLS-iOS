@@ -135,7 +135,7 @@ private extension NavigationBarTestViewController {
             make.leading.equalToSuperview().inset(16)
             make.centerY.equalTo(underlineTextButtonHiddenToggle)
         }
-        
+
         boldTextButtonHiddenToggle.snp.makeConstraints { make in
             make.top.equalTo(underlineTextLabel.snp.bottom).offset(30)
             make.trailing.equalToSuperview().inset(16)
@@ -173,7 +173,7 @@ private extension NavigationBarTestViewController {
                 owner.boldTextButtonHiddenToggle.isOn = !isOn
             }
             .disposed(by: disposeBag)
-        
+
         boldTextButtonHiddenToggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in

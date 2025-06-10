@@ -11,7 +11,7 @@ public final class SearchBar: UIView {
         button.tintColor = .textColor
         return button
     }()
-    
+
     public let textField: UITextField = {
         let textField = UITextField()
         textField.font = .body2
@@ -22,7 +22,7 @@ public final class SearchBar: UIView {
         textField.returnKeyType = .search
         return textField
     }()
-    
+
     private let contentStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -30,7 +30,7 @@ public final class SearchBar: UIView {
         view.spacing = 8
         return view
     }()
-    
+
     public let searchButton: UIButton = {
         let button = UIButton(type: .system)
         let image = DesignSystemAsset.image(named: "search")?.withRenderingMode(.alwaysTemplate)
@@ -38,7 +38,7 @@ public final class SearchBar: UIView {
         button.tintColor = .textColor
         return button
     }()
-    
+
     public let clearButton: UIButton = {
         let button = UIButton(type: .custom)
         let image = DesignSystemAsset.image(named: "textFieldClear")
@@ -46,13 +46,13 @@ public final class SearchBar: UIView {
         button.isHidden = true
         return button
     }()
-    
+
     private let lineView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral300
         return view
     }()
-    
+
     private let fillLineView: UIView = {
         let view = UIView()
         view.backgroundColor = .primary700
@@ -63,12 +63,12 @@ public final class SearchBar: UIView {
     // MARK: - init
     public init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -115,7 +115,7 @@ private extension SearchBar {
 
     func configureUI() {
         textField.delegate = self
-        clearButton.addAction(.init(handler: { [weak self] _ in self?.textField.text = "" }),for: .touchUpInside)
+        clearButton.addAction(.init(handler: { [weak self] _ in self?.textField.text = "" }), for: .touchUpInside)
         searchButton.addAction(.init(handler: { [weak self] _ in self?.endEditing(true)}), for: .touchUpInside)
     }
 }
@@ -137,7 +137,6 @@ extension SearchBar: UITextFieldDelegate {
         }
     }
 
-
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.endEditing(true)
         self.clearButton.isHidden = true
@@ -152,4 +151,3 @@ extension SearchBar: UITextFieldDelegate {
         return true
     }
 }
-

@@ -6,7 +6,7 @@ public final class BottomTabBarController: UITabBarController {
     // MARK: - Components
     private let tabItems: [TabItem]
     private let customTabBar: BottomTabBar
-    
+
     // MARK: - Init
     public init(viewControllers: [UIViewController], initialIndex: Int = 0) {
         tabItems = [
@@ -20,12 +20,12 @@ public final class BottomTabBarController: UITabBarController {
         configureUI(controllers: viewControllers)
         selectedIndex = initialIndex
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override public func viewDidLoad() {
         super.viewDidLoad()
         addViews()

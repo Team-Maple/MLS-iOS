@@ -11,7 +11,7 @@ final class TapButtonTestViewController: UIViewController {
     private let tapButton = TapButton(text: "text")
 
     private let buttonStateToggle = ToggleBox(text: "isSelected")
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "TapButton"
@@ -46,7 +46,7 @@ private extension TapButtonTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         buttonStateToggle.snp.makeConstraints { make in
             make.top.equalTo(tapButton.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)

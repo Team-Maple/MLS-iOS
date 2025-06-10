@@ -17,14 +17,13 @@ final class TagChipTestViewController: UIViewController {
         control.selectedSegmentIndex = 0
         return control
     }()
-    
-    
+
     private let normalTextLabel: UILabel = {
         let label = UILabel()
         label.text = "normal"
         return label
     }()
-    
+
     private let normalTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "text"
@@ -33,13 +32,13 @@ final class TagChipTestViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     private let searchTextLabel: UILabel = {
         let label = UILabel()
         label.text = "search"
         return label
     }()
-    
+
     private let searchTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "text"
@@ -48,7 +47,7 @@ final class TagChipTestViewController: UIViewController {
         view.layer.borderWidth = 1
         return view
     }()
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         title = "TagChip"
@@ -88,32 +87,32 @@ private extension TagChipTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         searchTagChip.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(normalTagChip.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         normalTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         normalTextField.snp.makeConstraints { make in
             make.top.equalTo(normalTextLabel.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         searchTextLabel.snp.makeConstraints { make in
             make.top.equalTo(normalTextField.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)
         }
-        
+
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(searchTextLabel.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(16)

@@ -10,7 +10,7 @@ final class CardListTestViewController: UIViewController {
     // MARK: - Properties
     var disposeBag = DisposeBag()
     private let cardList = CardList()
-    
+
     private let mainTextTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "main"
@@ -25,7 +25,7 @@ final class CardListTestViewController: UIViewController {
         label.text = "main"
         return label
     }()
-    
+
     private let subTextTextField: UITextField = {
         let view = UITextField()
         view.placeholder = "sub"
@@ -40,9 +40,9 @@ final class CardListTestViewController: UIViewController {
         label.text = "sub"
         return label
     }()
-    
+
     private let cardListToggle = ToggleBox(text: "isBookmark")
-    
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.title = "CardList"
@@ -81,7 +81,7 @@ private extension CardListTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         mainTextTextLabel.snp.makeConstraints { make in
             make.top.equalTo(cardList.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -91,7 +91,7 @@ private extension CardListTestViewController {
             make.top.equalTo(mainTextTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         subTextTextLabel.snp.makeConstraints { make in
             make.top.equalTo(mainTextTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -101,7 +101,7 @@ private extension CardListTestViewController {
             make.top.equalTo(subTextTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         cardListToggle.snp.makeConstraints { make in
             make.top.equalTo(subTextTextField.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -128,14 +128,14 @@ private extension CardListTestViewController {
                 owner.cardList.mainText = text
             }
             .disposed(by: disposeBag)
-        
+
         subTextTextField.rx.text
             .withUnretained(self)
             .subscribe { (owner, text) in
                 owner.cardList.subText = text
             }
             .disposed(by: disposeBag)
-        
+
         cardListToggle.toggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in

@@ -58,7 +58,7 @@ public final class CheckBoxButton: UIButton {
                 return .clearMLS
             }
         }
-        
+
         public var textColor: UIColor {
             switch self {
             case .listSmall:
@@ -67,7 +67,7 @@ public final class CheckBoxButton: UIButton {
                 return .textColor
             }
         }
-        
+
         public var selecteTextColor: UIColor {
             switch self {
             case .listSmall:
@@ -76,7 +76,7 @@ public final class CheckBoxButton: UIButton {
                 return .textColor
             }
         }
-        
+
         public var height: CGFloat? {
             switch self {
             case .normal:
@@ -169,7 +169,7 @@ private extension CheckBoxButton {
         self.addSubview(contentStackView)
         labelTrailingView.addSubview(buttonTitleLabel)
         labelTrailingView.addSubview(buttonSubTitleLabel)
-        
+
         if style == .listLarge {
             contentStackView.addArrangedSubview(labelTrailingView)
             contentStackView.addArrangedSubview(UIView())
@@ -188,27 +188,27 @@ private extension CheckBoxButton {
                 make.height.equalTo(height)
             }
         }
-        
+
         contentStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.verticalEdges.equalToSuperview().inset(style.verticalInset)
         }
-        
+
         checkIconImageView.snp.makeConstraints { make in
             make.size.equalTo(Constant.imageSize)
         }
-        
+
         buttonTitleLabel.snp.makeConstraints { make in
             make.leading.top.bottom.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
+
         buttonSubTitleLabel.snp.makeConstraints { make in
             make.leading.equalTo(buttonTitleLabel.snp.trailing).offset(Constant.labelSpacing)
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
+
         rightButton.snp.makeConstraints { make in
             make.size.equalTo(Constant.imageSize)
         }
@@ -217,7 +217,7 @@ private extension CheckBoxButton {
     func configureUI() {
         updateTintColor()
         updateText()
-        
+
         buttonTitleLabel.font = style.font
         buttonSubTitleLabel.isHidden = style.subtitleIsHidden
         backgroundColor = style.backgroundColor

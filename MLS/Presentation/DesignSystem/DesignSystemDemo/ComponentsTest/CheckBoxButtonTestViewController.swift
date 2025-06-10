@@ -91,39 +91,39 @@ private extension CheckBoxButtonTestViewController {
         normalButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        
+
         smallButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        
+
         mediumButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        
+
         largeButton.snp.makeConstraints { make in
             make.horizontalEdges.top.equalTo(view.safeAreaLayoutGuide).inset(16)
         }
-        
+
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(normalButton.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         mainTitleTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         mainTitleTextField.snp.makeConstraints { make in
             make.top.equalTo(mainTitleTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         subTitleTextLabel.snp.makeConstraints { make in
             make.top.equalTo(mainTitleTextField.snp.bottom).offset(30)
             make.horizontalEdges.equalToSuperview().inset(16)
         }
-        
+
         subTitleTextField.snp.makeConstraints { make in
             make.top.equalTo(subTitleTextLabel.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(16)
@@ -148,14 +148,14 @@ private extension CheckBoxButtonTestViewController {
                 owner.smallButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
-        
+
         mediumButton.rx.tap
             .withUnretained(self)
             .subscribe { (owner, _) in
                 owner.mediumButton.isSelected.toggle()
             }
             .disposed(by: disposeBag)
-        
+
         largeButton.rx.tap
             .withUnretained(self)
             .subscribe { (owner, _) in

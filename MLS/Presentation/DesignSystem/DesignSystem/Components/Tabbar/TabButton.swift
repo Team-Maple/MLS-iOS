@@ -1,5 +1,5 @@
-import UIKit
 import SnapKit
+import UIKit
 
 public final class TabButton: UIButton {
     // MARK: - Type
@@ -9,14 +9,14 @@ public final class TabButton: UIButton {
         static let spacing: CGFloat = 4
         static let padding: CGFloat = 11
     }
-    
+
     // MARK: - Properties
     override public var isSelected: Bool {
         didSet {
             updateUI()
         }
     }
-    
+
     // MARK: - Components
     private let iconView = UIImageView()
     private let textLabel: UILabel = {
@@ -24,7 +24,7 @@ public final class TabButton: UIButton {
         label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
         return label
     }()
-    
+
     // MARK: - Init
     public init(icon: UIImage, text: String) {
         super.init(frame: .zero)
@@ -34,7 +34,7 @@ public final class TabButton: UIButton {
         setupConstraints()
         updateUI()
     }
-    
+
     @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
