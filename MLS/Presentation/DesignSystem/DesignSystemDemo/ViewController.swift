@@ -20,7 +20,20 @@ class ViewController: UIViewController {
         InputBoxTextViewController(),
         DropDownBoxTextViewController(),
         ToastMakerTestViewController(),
-        ErrorMessageTextViewController()
+        ErrorMessageTextViewController(),
+        StepIndicatorTestViewController(),
+        HeaderTestViewController(),
+        TapButtonTestViewController(),
+        TagChipTestViewController(),
+        GuideAlertTestViewController(),
+        CardListTestViewController(),
+        BottomTabBarController(viewControllers: [
+            CheckBoxButtonTestViewController(),
+            NavigationBarTestViewController(),
+            CommonButtonTestViewController(),
+            InputBoxTextViewController()
+        ], initialIndex: 1),
+        SearchBarTestViewController()
     ]
 
     override func viewDidLoad() {

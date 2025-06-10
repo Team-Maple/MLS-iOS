@@ -30,7 +30,7 @@ final class ModalWrapperView: UIView {
 
         // 모달 컨테이너
         containerView.backgroundColor = .systemBackground
-        containerView.layer.cornerRadius = ModalConfig.containerCornerRadius
+        containerView.layer.cornerRadius = contentViewController.modalStyle.containerCornerRadius
         containerView.clipsToBounds = true
         containerView.transform = CGAffineTransform(translationX: 0, y: ModalConfig.containerTransformY)
         addSubview(containerView)
@@ -42,6 +42,9 @@ final class ModalWrapperView: UIView {
             case .modal:
                 make.bottom.equalTo(safeAreaLayoutGuide).inset(ModalConfig.containerBottomInset)
                 make.horizontalEdges.equalToSuperview().inset(ModalConfig.containerHorizontalInset)
+            case .alert:
+                make.centerY.equalToSuperview()
+                make.horizontalEdges.equalToSuperview().inset(ModalConfig.containerHorizontalInset)
             }
         }
 
@@ -49,14 +52,20 @@ final class ModalWrapperView: UIView {
         gestureBar.layer.cornerRadius = ModalConfig.gestureBarHeight / 2
         gestureBar.clipsToBounds = true
         containerView.addSubview(gestureBar)
-        gestureBar.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(ModalConfig.gestureBarTopInset)
-            make.height.equalTo(ModalConfig.gestureBarHeight)
-            make.width.equalTo(ModalConfig.gestureBarWidth)
-            make.centerX.equalToSuperview()
+        switch contentViewController.modalStyle {
+        case .bottomSheet, .modal:
+            gestureBar.snp.makeConstraints { make in
+                make.top.equalToSuperview().inset(ModalConfig.gestureBarTopInset)
+                make.height.equalTo(ModalConfig.gestureBarHeight)
+                make.width.equalTo(ModalConfig.gestureBarWidth)
+                make.centerX.equalToSuperview()
+            }
+
+            let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+            containerView.addGestureRecognizer(panGesture)
+        case .alert:
+            break
         }
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        containerView.addGestureRecognizer(panGesture)
 
         // 자식 뷰컨트롤러 embed
         parent.addChild(contentViewController)
@@ -66,10 +75,13 @@ final class ModalWrapperView: UIView {
             case .bottomSheet:
                 make.bottom.equalToSuperview().inset(ModalConfig.bottomSheetStyleBottomInset)
                 make.top.equalToSuperview().inset(ModalConfig.containerVerticalContentInset)
+                make.horizontalEdges.equalToSuperview()
             case .modal:
                 make.verticalEdges.equalToSuperview().inset(ModalConfig.containerVerticalContentInset)
+                make.horizontalEdges.equalToSuperview().inset(ModalConfig.bottomSheetStyleHorizontalInset)
+            case .alert:
+                make.edges.equalToSuperview().inset(ModalConfig.alertSheetStyleInset)
             }
-            make.horizontalEdges.equalToSuperview()
             if let height = contentViewController.modalHeight { make.height.equalTo(height) }
         }
         contentViewController.didMove(toParent: parent)
