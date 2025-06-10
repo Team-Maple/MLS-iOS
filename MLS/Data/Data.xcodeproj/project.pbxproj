@@ -10,26 +10,11 @@
 		080175492DCD274B00D0919F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 080175482DCD274B00D0919F /* DomainInterface.framework */; };
 		084A25C82DB93E0500C395C0 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 084A25C72DB93E0500C395C0 /* Core.framework */; };
 		08E425522DF17B5C00D6ACD3 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E425512DF17B5C00D6ACD3 /* DomainInterface.framework */; };
-		08E425532DF17B5C00D6ACD3 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08E425512DF17B5C00D6ACD3 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		08E425562DF17B6300D6ACD3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08E425552DF17B6300D6ACD3 /* RxSwift */; };
 		08ED49342DCFDF78002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49332DCFDF78002C21A2 /* RxSwift */; };
 		77660F932DD259AA007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F922DD259AA007A4EF3 /* KakaoSDKAuth */; };
 		77660F952DD259AA007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F942DD259AA007A4EF3 /* KakaoSDKUser */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		08E425542DF17B5C00D6ACD3 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				08E425532DF17B5C00D6ACD3 /* DomainInterface.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		080175482DCD274B00D0919F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +149,6 @@
 				08E425372DF17B3700D6ACD3 /* Sources */,
 				08E425382DF17B3700D6ACD3 /* Frameworks */,
 				08E425392DF17B3700D6ACD3 /* Resources */,
-				08E425542DF17B5C00D6ACD3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -468,9 +452,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -512,9 +498,11 @@
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = W5QTRMS954;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
