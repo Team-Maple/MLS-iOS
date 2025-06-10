@@ -6,10 +6,105 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		081D9DC12DF80DF6004F850D /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DC02DF80DF6004F850D /* BaseFeature.framework */; };
+		081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DC42DF80E15004F850D /* DomainInterface.framework */; };
+		081D9DC82DF80E1A004F850D /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DC72DF80E1A004F850D /* DesignSystem.framework */; };
+		081D9DCA2DF80E27004F850D /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */; };
+		081D9DD02DF80E5C004F850D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DCF2DF80E5C004F850D /* RxCocoa */; };
+		081D9DD22DF80E5C004F850D /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DD12DF80E5C004F850D /* RxRelay */; };
+		081D9DD42DF80E5C004F850D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DD32DF80E5C004F850D /* RxSwift */; };
+		081D9DD72DF80E69004F850D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DD62DF80E69004F850D /* SnapKit */; };
+		081D9DDA2DF80E7E004F850D /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DD92DF80E7E004F850D /* ReactorKit */; };
+		081D9DDC2DF80EBB004F850D /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DDB2DF80EBB004F850D /* BaseFeature.framework */; };
+		081D9DE02DF80EC2004F850D /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DDF2DF80EC2004F850D /* DomainInterface.framework */; };
+		081D9DE22DF80F1D004F850D /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */; };
+		081D9DE32DF80F1D004F850D /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DE72DF80F20004F850D /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9C192DF80854004F850D /* DictionaryFeature.framework */; };
+		081D9DE82DF80F20004F850D /* DictionaryFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9C192DF80854004F850D /* DictionaryFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DEC2DF80F23004F850D /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DEB2DF80F23004F850D /* BaseFeature.framework */; };
+		081D9DED2DF80F23004F850D /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DEB2DF80F23004F850D /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DEF2DF80F2B004F850D /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DEE2DF80F2B004F850D /* Core.framework */; };
+		081D9DF02DF80F2B004F850D /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DEE2DF80F2B004F850D /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DF22DF80F30004F850D /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF12DF80F30004F850D /* Data.framework */; };
+		081D9DF32DF80F30004F850D /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF12DF80F30004F850D /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DF52DF80F34004F850D /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF42DF80F34004F850D /* DataMock.framework */; };
+		081D9DF62DF80F34004F850D /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF42DF80F34004F850D /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DF82DF80F3C004F850D /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF72DF80F3C004F850D /* DesignSystem.framework */; };
+		081D9DF92DF80F3C004F850D /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9DF72DF80F3C004F850D /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9DFB2DF80F44004F850D /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DFA2DF80F44004F850D /* RxCocoa */; };
+		081D9DFD2DF80F47004F850D /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DFC2DF80F47004F850D /* RxSwift */; };
+		081D9DFF2DF80F4B004F850D /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9DFE2DF80F4B004F850D /* RxRelay */; };
+		081D9E012DF80F53004F850D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9E002DF80F53004F850D /* SnapKit */; };
+		081D9E032DF80F58004F850D /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 081D9E022DF80F58004F850D /* ReactorKit */; };
+		081D9E052DF80F63004F850D /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E042DF80F63004F850D /* DomainInterface.framework */; };
+		081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E042DF80F63004F850D /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081D9E082DF80F68004F850D /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; };
+		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		081D9DCC2DF80E27004F850D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 081D9C102DF80854004F850D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081D9D752DF80CB1004F850D;
+			remoteInfo = DictionaryFeatureInterface;
+		};
+		081D9DE42DF80F1D004F850D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 081D9C102DF80854004F850D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081D9D752DF80CB1004F850D;
+			remoteInfo = DictionaryFeatureInterface;
+		};
+		081D9DE92DF80F20004F850D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 081D9C102DF80854004F850D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 081D9C182DF80854004F850D;
+			remoteInfo = DictionaryFeature;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		081D9DE62DF80F1D004F850D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				081D9DF92DF80F3C004F850D /* DesignSystem.framework in Embed Frameworks */,
+				081D9DE32DF80F1D004F850D /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+				081D9DED2DF80F23004F850D /* BaseFeature.framework in Embed Frameworks */,
+				081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */,
+				081D9DE82DF80F20004F850D /* DictionaryFeature.framework in Embed Frameworks */,
+				081D9DF32DF80F30004F850D /* Data.framework in Embed Frameworks */,
+				081D9DF62DF80F34004F850D /* DataMock.framework in Embed Frameworks */,
+				081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */,
+				081D9DF02DF80F2B004F850D /* Core.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		081D9C192DF80854004F850D /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DC02DF80DF6004F850D /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DC42DF80E15004F850D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DC72DF80E1A004F850D /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DDB2DF80EBB004F850D /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DDF2DF80EC2004F850D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DEB2DF80F23004F850D /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DEE2DF80F2B004F850D /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DF12DF80F30004F850D /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DF42DF80F34004F850D /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DF72DF80F3C004F850D /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9E042DF80F63004F850D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9E072DF80F68004F850D /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -48,6 +143,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081D9DD22DF80E5C004F850D /* RxRelay in Frameworks */,
+				081D9DD72DF80E69004F850D /* SnapKit in Frameworks */,
+				081D9DC82DF80E1A004F850D /* DesignSystem.framework in Frameworks */,
+				081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */,
+				081D9DDA2DF80E7E004F850D /* ReactorKit in Frameworks */,
+				081D9DD02DF80E5C004F850D /* RxCocoa in Frameworks */,
+				081D9DC12DF80DF6004F850D /* BaseFeature.framework in Frameworks */,
+				081D9DCA2DF80E27004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
+				081D9DD42DF80E5C004F850D /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +159,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081D9DE02DF80EC2004F850D /* DomainInterface.framework in Frameworks */,
+				081D9DDC2DF80EBB004F850D /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +168,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081D9DFF2DF80F4B004F850D /* RxRelay in Frameworks */,
+				081D9DFD2DF80F47004F850D /* RxSwift in Frameworks */,
+				081D9DF82DF80F3C004F850D /* DesignSystem.framework in Frameworks */,
+				081D9DE22DF80F1D004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
+				081D9DEC2DF80F23004F850D /* BaseFeature.framework in Frameworks */,
+				081D9DE72DF80F20004F850D /* DictionaryFeature.framework in Frameworks */,
+				081D9E082DF80F68004F850D /* Domain.framework in Frameworks */,
+				081D9DF22DF80F30004F850D /* Data.framework in Frameworks */,
+				081D9E052DF80F63004F850D /* DomainInterface.framework in Frameworks */,
+				081D9DF52DF80F34004F850D /* DataMock.framework in Frameworks */,
+				081D9DFB2DF80F44004F850D /* RxCocoa in Frameworks */,
+				081D9DEF2DF80F2B004F850D /* Core.framework in Frameworks */,
+				081D9E032DF80F58004F850D /* ReactorKit in Frameworks */,
+				081D9E012DF80F53004F850D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +194,7 @@
 				081D9C1B2DF80854004F850D /* DictionaryFeature */,
 				081D9D772DF80CB1004F850D /* DictionaryFeatureInterface */,
 				081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */,
+				081D9DBF2DF80DF6004F850D /* Frameworks */,
 				081D9C1A2DF80854004F850D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +207,25 @@
 				081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		081D9DBF2DF80DF6004F850D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				081D9E072DF80F68004F850D /* Domain.framework */,
+				081D9E042DF80F63004F850D /* DomainInterface.framework */,
+				081D9DF72DF80F3C004F850D /* DesignSystem.framework */,
+				081D9DF42DF80F34004F850D /* DataMock.framework */,
+				081D9DF12DF80F30004F850D /* Data.framework */,
+				081D9DEE2DF80F2B004F850D /* Core.framework */,
+				081D9DEB2DF80F23004F850D /* BaseFeature.framework */,
+				081D9DDF2DF80EC2004F850D /* DomainInterface.framework */,
+				081D9DDB2DF80EBB004F850D /* BaseFeature.framework */,
+				081D9DC72DF80E1A004F850D /* DesignSystem.framework */,
+				081D9DC42DF80E15004F850D /* DomainInterface.framework */,
+				081D9DC02DF80DF6004F850D /* BaseFeature.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,12 +260,18 @@
 			buildRules = (
 			);
 			dependencies = (
+				081D9DCD2DF80E27004F850D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				081D9C1B2DF80854004F850D /* DictionaryFeature */,
 			);
 			name = DictionaryFeature;
 			packageProductDependencies = (
+				081D9DCF2DF80E5C004F850D /* RxCocoa */,
+				081D9DD12DF80E5C004F850D /* RxRelay */,
+				081D9DD32DF80E5C004F850D /* RxSwift */,
+				081D9DD62DF80E69004F850D /* SnapKit */,
+				081D9DD92DF80E7E004F850D /* ReactorKit */,
 			);
 			productName = DictionaryFeature;
 			productReference = 081D9C192DF80854004F850D /* DictionaryFeature.framework */;
@@ -161,16 +307,24 @@
 				081D9DA62DF80DBD004F850D /* Sources */,
 				081D9DA72DF80DBD004F850D /* Frameworks */,
 				081D9DA82DF80DBD004F850D /* Resources */,
+				081D9DE62DF80F1D004F850D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				081D9DE52DF80F1D004F850D /* PBXTargetDependency */,
+				081D9DEA2DF80F20004F850D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */,
 			);
 			name = DictionaryFeatureDemo;
 			packageProductDependencies = (
+				081D9DFA2DF80F44004F850D /* RxCocoa */,
+				081D9DFC2DF80F47004F850D /* RxSwift */,
+				081D9DFE2DF80F4B004F850D /* RxRelay */,
+				081D9E002DF80F53004F850D /* SnapKit */,
+				081D9E022DF80F58004F850D /* ReactorKit */,
 			);
 			productName = DictionaryFeatureDemo;
 			productReference = 081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */;
@@ -208,6 +362,11 @@
 			);
 			mainGroup = 081D9C0F2DF80854004F850D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */,
+				081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 081D9C1A2DF80854004F850D /* Products */;
 			projectDirPath = "";
@@ -267,6 +426,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		081D9DCD2DF80E27004F850D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081D9D752DF80CB1004F850D /* DictionaryFeatureInterface */;
+			targetProxy = 081D9DCC2DF80E27004F850D /* PBXContainerItemProxy */;
+		};
+		081D9DE52DF80F1D004F850D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081D9D752DF80CB1004F850D /* DictionaryFeatureInterface */;
+			targetProxy = 081D9DE42DF80F1D004F850D /* PBXContainerItemProxy */;
+		};
+		081D9DEA2DF80F20004F850D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 081D9C182DF80854004F850D /* DictionaryFeature */;
+			targetProxy = 081D9DE92DF80F20004F850D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		081D9C202DF80854004F850D /* Debug */ = {
@@ -668,6 +845,86 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+		081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactorKit/ReactorKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		081D9DCF2DF80E5C004F850D /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		081D9DD12DF80E5C004F850D /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		081D9DD32DF80E5C004F850D /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		081D9DD62DF80E69004F850D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		081D9DD92DF80E7E004F850D /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		081D9DFA2DF80F44004F850D /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		081D9DFC2DF80F47004F850D /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		081D9DFE2DF80F4B004F850D /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		081D9E002DF80F53004F850D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		081D9E022DF80F58004F850D /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 081D9C102DF80854004F850D /* Project object */;
 }
