@@ -87,6 +87,8 @@ private extension Header {
     func configureUI() {
         axis = .horizontal
         spacing = Constant.spacing
+        titleLabel.font = style.titleFont
+        titleLabel.textColor = .textColor
         firstIconView.setImage(style.icons[0], for: .normal)
         if style == .main {
             secondIconView.setImage(style.icons[1], for: .normal)
