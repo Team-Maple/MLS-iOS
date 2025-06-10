@@ -53,7 +53,7 @@ final class ModalWrapperView: UIView {
         gestureBar.clipsToBounds = true
         containerView.addSubview(gestureBar)
         switch contentViewController.modalStyle {
-        case .bottomSheet, .modal:
+        case .modal:
             gestureBar.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(ModalConfig.gestureBarTopInset)
                 make.height.equalTo(ModalConfig.gestureBarHeight)
@@ -63,7 +63,7 @@ final class ModalWrapperView: UIView {
 
             let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
             containerView.addGestureRecognizer(panGesture)
-        case .alert:
+        case .bottomSheet, .alert:
             break
         }
 
