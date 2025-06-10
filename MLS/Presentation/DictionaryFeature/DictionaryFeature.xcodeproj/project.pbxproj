@@ -9,8 +9,18 @@
 /* Begin PBXFileReference section */
 		081D9C192DF80854004F850D /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		081D9D822DF80CC7004F850D /* DictionaryFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DictionaryFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		081D9DBB2DF80DBE004F850D /* Exceptions for "DictionaryFeatureDemo" folder in "DictionaryFeatureDemo" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 081D9DA92DF80DBD004F850D /* DictionaryFeatureDemo */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		081D9C1B2DF80854004F850D /* DictionaryFeature */ = {
@@ -23,8 +33,11 @@
 			path = DictionaryFeatureInterface;
 			sourceTree = "<group>";
 		};
-		081D9D832DF80CC7004F850D /* DictionaryFeatureDemo */ = {
+		081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				081D9DBB2DF80DBE004F850D /* Exceptions for "DictionaryFeatureDemo" folder in "DictionaryFeatureDemo" target */,
+			);
 			path = DictionaryFeatureDemo;
 			sourceTree = "<group>";
 		};
@@ -45,7 +58,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		081D9D7F2DF80CC7004F850D /* Frameworks */ = {
+		081D9DA72DF80DBD004F850D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -60,7 +73,7 @@
 			children = (
 				081D9C1B2DF80854004F850D /* DictionaryFeature */,
 				081D9D772DF80CB1004F850D /* DictionaryFeatureInterface */,
-				081D9D832DF80CC7004F850D /* DictionaryFeatureDemo */,
+				081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */,
 				081D9C1A2DF80854004F850D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,7 +83,7 @@
 			children = (
 				081D9C192DF80854004F850D /* DictionaryFeature.framework */,
 				081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */,
-				081D9D822DF80CC7004F850D /* DictionaryFeatureDemo.app */,
+				081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -141,26 +154,26 @@
 			productReference = 081D9D762DF80CB1004F850D /* DictionaryFeatureInterface.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		081D9D812DF80CC7004F850D /* DictionaryFeatureDemo */ = {
+		081D9DA92DF80DBD004F850D /* DictionaryFeatureDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 081D9D8E2DF80CC8004F850D /* Build configuration list for PBXNativeTarget "DictionaryFeatureDemo" */;
+			buildConfigurationList = 081D9DBC2DF80DBE004F850D /* Build configuration list for PBXNativeTarget "DictionaryFeatureDemo" */;
 			buildPhases = (
-				081D9D7E2DF80CC7004F850D /* Sources */,
-				081D9D7F2DF80CC7004F850D /* Frameworks */,
-				081D9D802DF80CC7004F850D /* Resources */,
+				081D9DA62DF80DBD004F850D /* Sources */,
+				081D9DA72DF80DBD004F850D /* Frameworks */,
+				081D9DA82DF80DBD004F850D /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				081D9D832DF80CC7004F850D /* DictionaryFeatureDemo */,
+				081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */,
 			);
 			name = DictionaryFeatureDemo;
 			packageProductDependencies = (
 			);
 			productName = DictionaryFeatureDemo;
-			productReference = 081D9D822DF80CC7004F850D /* DictionaryFeatureDemo.app */;
+			productReference = 081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -181,7 +194,7 @@
 						CreatedOnToolsVersion = 16.2;
 						LastSwiftMigration = 1620;
 					};
-					081D9D812DF80CC7004F850D = {
+					081D9DA92DF80DBD004F850D = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -202,7 +215,7 @@
 			targets = (
 				081D9C182DF80854004F850D /* DictionaryFeature */,
 				081D9D752DF80CB1004F850D /* DictionaryFeatureInterface */,
-				081D9D812DF80CC7004F850D /* DictionaryFeatureDemo */,
+				081D9DA92DF80DBD004F850D /* DictionaryFeatureDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -222,7 +235,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		081D9D802DF80CC7004F850D /* Resources */ = {
+		081D9DA82DF80DBD004F850D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -246,7 +259,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		081D9D7E2DF80CC7004F850D /* Sources */ = {
+		081D9DA62DF80DBD004F850D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -549,83 +562,69 @@
 			};
 			name = Release;
 		};
-		081D9D8F2DF80CC8004F850D /* Debug */ = {
+		081D9DBD2DF80DBE004F850D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DictionaryFeatureDemo/DictionaryFeatureDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DictionaryFeatureDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = W5QTRMS954;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_FILE = DictionaryFeatureDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DictionaryFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
 		};
-		081D9D902DF80CC8004F850D /* Release */ = {
+		081D9DBE2DF80DBE004F850D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = DictionaryFeatureDemo/DictionaryFeatureDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"DictionaryFeatureDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = W5QTRMS954;
-				ENABLE_HARDENED_RUNTIME = YES;
-				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
-				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
-				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_FILE = DictionaryFeatureDemo/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
-				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 15.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.DictionaryFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
 		};
@@ -659,11 +658,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		081D9D8E2DF80CC8004F850D /* Build configuration list for PBXNativeTarget "DictionaryFeatureDemo" */ = {
+		081D9DBC2DF80DBE004F850D /* Build configuration list for PBXNativeTarget "DictionaryFeatureDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				081D9D8F2DF80CC8004F850D /* Debug */,
-				081D9D902DF80CC8004F850D /* Release */,
+				081D9DBD2DF80DBE004F850D /* Debug */,
+				081D9DBE2DF80DBE004F850D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
