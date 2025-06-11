@@ -5,7 +5,7 @@ import DesignSystem
 import SnapKit
 
 public class PageTabbarCell: UICollectionViewCell {
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .caption
@@ -13,7 +13,7 @@ public class PageTabbarCell: UICollectionViewCell {
         label.numberOfLines = 1
         return label
     }()
-    
+
     private let indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .textColor
@@ -31,7 +31,7 @@ public class PageTabbarCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override var isSelected: Bool {
         didSet {
             let font: UIFont? = isSelected ? .subTitleBold : .caption
@@ -55,7 +55,7 @@ private extension PageTabbarCell {
             make.horizontalEdges.equalToSuperview()
             make.centerY.equalToSuperview()
         }
-        
+
         indicatorView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.horizontalEdges.equalToSuperview()

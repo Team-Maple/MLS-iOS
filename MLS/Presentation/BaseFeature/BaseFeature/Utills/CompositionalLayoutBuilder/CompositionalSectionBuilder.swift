@@ -74,19 +74,19 @@ public final class CompositionalSectionBuilder {
     public func build() -> NSCollectionLayoutSection? {
         return section
     }
-    
+
     @discardableResult
     public func interGroupSpacing(_ spacing: CGFloat) -> Self {
         section?.interGroupSpacing = spacing
         return self
     }
-    
+
     @discardableResult
     public func interItemSpacing(_ spacing: NSCollectionLayoutSpacing) -> Self {
         group?.interItemSpacing = spacing
         return self
     }
-    
+
     @discardableResult
     public func footer(height: CGFloat) -> Self {
         let footer = NSCollectionLayoutBoundarySupplementaryItem(
@@ -100,7 +100,7 @@ public final class CompositionalSectionBuilder {
         section?.boundarySupplementaryItems.append(footer)
         return self
     }
-    
+
     @discardableResult
     public func supplementaryItem(
         kind: String,
@@ -118,7 +118,7 @@ public final class CompositionalSectionBuilder {
         section?.boundarySupplementaryItems.append(header)
         return self
     }
-    
+
     @discardableResult
     public func decorationItem(
         kind: String,

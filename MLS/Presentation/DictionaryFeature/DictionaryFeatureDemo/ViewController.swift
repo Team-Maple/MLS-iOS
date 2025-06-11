@@ -10,24 +10,23 @@ import UIKit
 import BaseFeature
 import DictionaryFeature
 
-import SnapKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import SnapKit
 
 class ViewController: BaseViewController {
-    
+
     let button = {
         let button = UIButton(type: .system)
         button.setTitle("present", for: .normal)
         return button
     }()
-    
+
     let disposeBag = DisposeBag()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+
         view.addSubview(button)
         button.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -39,7 +38,7 @@ class ViewController: BaseViewController {
             }
             .disposed(by: disposeBag)
     }
-    
+
     func presentVC() {
         let viewController = ItemFilterBottomSheetViewController()
         viewController.reactor = ItemFilterBottomSheetViewReactor()

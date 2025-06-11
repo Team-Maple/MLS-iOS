@@ -1,6 +1,6 @@
 import ReactorKit
-import RxSwift
 import RxCocoa
+import RxSwift
 
 final public class ItemFilterBottomSheetViewReactor: Reactor {
     public enum Route {
@@ -11,11 +11,11 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
     public enum Action {
         case closeButtonTapped
     }
-    
+
     public enum Mutation {
         case navigateTo(route: Route)
     }
-    
+
     public struct State {
         var sections: [String] = [
             "직업/레벨",
@@ -49,7 +49,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             "석궁",
             "완드",
             "스태프",
-            "아대",
+            "아대"
         ]
         var projectiles: [String] = [
             "화살",
@@ -90,10 +90,10 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             "설치",
             "이동수단"
         ]
-        
+
         @Pulse var route: Route = .none
     }
-    
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
@@ -102,7 +102,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
     public init() {
         self.initialState = State()
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -110,15 +110,15 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             return Observable.just(.navigateTo(route: .dismiss))
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
         }
-        
+
         return newState
     }
 }

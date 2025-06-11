@@ -2,13 +2,13 @@ import UIKit
 
 import BaseFeature
 
-import SnapKit
+import ReactorKit
 import RxCocoa
 import RxSwift
-import ReactorKit
+import SnapKit
 
 final public class ItemFilterBottomSheetViewController: BaseViewController, View {
-    
+
     public typealias Reactor = ItemFilterBottomSheetViewReactor
 
     enum Section: Int, CaseIterable {
@@ -19,7 +19,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         case accessories
         case scrolls
         case etcItems
-        
+
         var headerTitle: String {
             switch self {
             case .job:
@@ -39,13 +39,13 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
             }
         }
     }
-    
+
     private var isScroll: Bool = false
 
     private var lastSelectedSection: Section = .job
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var mainView = ItemFilterBottomSheetView()
 
     public override init() {
@@ -61,7 +61,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
 extension ItemFilterBottomSheetViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
         configureUI()
@@ -84,7 +84,7 @@ private extension ItemFilterBottomSheetViewController {
         configureCategoryCollectionView()
         configureContentCollectionView()
     }
-    
+
     func configureCategoryCollectionView() {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
         mainView.categoryCollectionView.delegate = self
@@ -92,7 +92,7 @@ private extension ItemFilterBottomSheetViewController {
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
         mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .bottom)
     }
-    
+
     func configureContentCollectionView() {
         mainView.contentCollectionView.collectionViewLayout = createContentLayout()
         mainView.contentCollectionView.delegate = self
@@ -104,7 +104,7 @@ private extension ItemFilterBottomSheetViewController {
             withReuseIdentifier: SubTitleBoldHeaderView.identifier
         )
     }
-    
+
     func createCategoryLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
@@ -113,7 +113,7 @@ private extension ItemFilterBottomSheetViewController {
         layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
         return layout
     }
-    
+
     func createContentLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
@@ -134,14 +134,14 @@ extension ItemFilterBottomSheetViewController {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     func bindUserActions(reactor: Reactor) {
         mainView.headerView.firstIconView.rx.tap
             .map { Reactor.Action.closeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
+
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
@@ -168,7 +168,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             return Section.allCases.count
         }
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let reactor = reactor else { return 0 }
         if collectionView == mainView.categoryCollectionView {
@@ -192,7 +192,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             }
         }
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let reactor = reactor else { return UICollectionViewCell() }
         if collectionView == mainView.categoryCollectionView {
@@ -232,7 +232,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             return cell
         }
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == mainView.categoryCollectionView {
             guard let selectedSection = Section(rawValue: indexPath.row) else { return }
@@ -252,17 +252,17 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
-    
+
     public func collectionView(
         _ collectionView: UICollectionView,
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
-        
+
         guard kind == UICollectionView.elementKindSectionHeader else {
             return UICollectionReusableView()
         }
-        
+
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: SubTitleBoldHeaderView.identifier,
@@ -270,14 +270,13 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         ) as? SubTitleBoldHeaderView else {
             return UICollectionReusableView()
         }
-        
+
         // ✅ 섹션별로 제목 설정
         let headerTitle = Section(rawValue: indexPath.section)?.headerTitle
         headerView.configure(title: headerTitle)
         return headerView
     }
-    
-    
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !isScroll else { return }
         let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
@@ -295,7 +294,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         )
         mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
     }
-    
+
     // ✅ 스크롤 애니메이션이 끝나면 다시 플래그 해제
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         if scrollView == mainView.contentCollectionView {
@@ -303,4 +302,3 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         }
     }
 }
-

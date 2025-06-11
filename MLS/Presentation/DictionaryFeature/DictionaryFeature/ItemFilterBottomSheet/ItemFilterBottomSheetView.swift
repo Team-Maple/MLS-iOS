@@ -21,14 +21,14 @@ final class ItemFilterBottomSheetView: UIView {
         view.titleLabel.text = "필터"
         return view
     }()
-    
+
     private let toolBarStackView: UIStackView = {
         let view = UIStackView()
         view.spacing = 0
         view.axis = .vertical
         return view
     }()
-    
+
     private let buttonStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .horizontal
@@ -40,20 +40,20 @@ final class ItemFilterBottomSheetView: UIView {
             bottom: Constant.buttonStackViewBottomMargin,
             right: Constant.horizontalInset
         )
-        
+
         return view
     }()
-    
+
     public let clearButton: CommonButton = {
         let button = CommonButton(style: .border, title: "초기화", disabledTitle: nil)
         return button
     }()
-    
+
     public let applyButton: CommonButton = {
         let button = CommonButton(style: .normal, title: "n개의 아이템 보기", disabledTitle: nil)
         return button
     }()
-    
+
     private let buttonStackViewDividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral200
@@ -64,7 +64,7 @@ final class ItemFilterBottomSheetView: UIView {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
         return view
     }()
-    
+
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
         view.contentInset = .init(top: 40, left: 0, bottom: 0, right: 0)
@@ -75,12 +75,12 @@ final class ItemFilterBottomSheetView: UIView {
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

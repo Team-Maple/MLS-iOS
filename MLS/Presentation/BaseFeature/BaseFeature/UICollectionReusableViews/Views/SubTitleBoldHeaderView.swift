@@ -5,12 +5,12 @@ import DesignSystem
 import SnapKit
 
 final public class SubTitleBoldHeaderView: UICollectionReusableView {
-    
+
     private let headerLabel: UILabel = {
         let label = UILabel()
         return label
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()

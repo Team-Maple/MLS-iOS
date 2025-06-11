@@ -137,7 +137,7 @@ private extension CommonButton {
             }
             configuration = config
         }
-        
+
         self.configurationUpdateHandler = { [weak self] button in
             guard let self = self else { return }
             var updatedConfig = button.configuration

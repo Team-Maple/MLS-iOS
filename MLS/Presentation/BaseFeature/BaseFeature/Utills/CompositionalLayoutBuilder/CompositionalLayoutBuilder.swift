@@ -2,7 +2,7 @@ import UIKit
 
 public final class CompositionalLayoutBuilder {
     private var sections: [NSCollectionLayoutSection] = []
-    
+
     public init() {}
 
     @discardableResult
