@@ -42,11 +42,12 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
     
     private var isScroll: Bool = false
 
+    private var lastSelectedSection: Section = .job
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     
     private var mainView = ItemFilterBottomSheetView()
-    
+
     public override init() {
         super.init()
     }
@@ -233,11 +234,22 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if collectionView == mainView.categoryCollectionView {
-            mainView.contentCollectionView.scrollToItem(at: .SubSequence(row: 0, section: indexPath.row), at: .top, animated: true)
-            collectionView.collectionViewLayout.invalidateLayout()
+            guard let selectedSection = Section(rawValue: indexPath.row) else { return }
             isScroll = true
+            switch lastSelectedSection {
+            case .armors, .accessories, .scrolls, .etcItems:
+                switch selectedSection {
+                case .armors, .accessories, .scrolls, .etcItems:
+                    isScroll = false
+                default:
+                    mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
+                }
+            default:
+                mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
+            }
+            lastSelectedSection = selectedSection
+            collectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
@@ -250,7 +262,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         guard kind == UICollectionView.elementKindSectionHeader else {
             return UICollectionReusableView()
         }
-
+        
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: SubTitleBoldHeaderView.identifier,
@@ -258,7 +270,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         ) as? SubTitleBoldHeaderView else {
             return UICollectionReusableView()
         }
-
+        
         // ✅ 섹션별로 제목 설정
         let headerTitle = Section(rawValue: indexPath.section)?.headerTitle
         headerView.configure(title: headerTitle)
@@ -267,28 +279,28 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
     
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isScroll {
-            guard scrollView == mainView.contentCollectionView else { return }
-            let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
-            guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else {
-                return
-            }
-            let currentSection = topIndexPath.section
-            // 여기에 현재 섹션이 바뀌었을 때 tabbar 선택 업데이트
-            mainView.categoryCollectionView.selectItem(
-                at: IndexPath(row: currentSection, section: 0),
-                animated: false,
-                scrollPosition: .centeredHorizontally
-            )
-            mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+        guard !isScroll else { return }
+        let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
+        guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else {
+            return
+        }
+        let currentSection = topIndexPath.section
+        if let selectedSection = Section(rawValue: currentSection) {
+            lastSelectedSection = selectedSection
+        }
+        mainView.categoryCollectionView.selectItem(
+            at: IndexPath(row: currentSection, section: 0),
+            animated: false,
+            scrollPosition: .centeredHorizontally
+        )
+        mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    // ✅ 스크롤 애니메이션이 끝나면 다시 플래그 해제
+    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
+        if scrollView == mainView.contentCollectionView {
+            isScroll = false
         }
     }
-    
-    
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        isScroll = false
-        print(#function)
-    }
 }
-
 
