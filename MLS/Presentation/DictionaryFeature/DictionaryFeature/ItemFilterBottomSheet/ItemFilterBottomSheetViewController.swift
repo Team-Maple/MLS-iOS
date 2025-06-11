@@ -7,10 +7,7 @@ import RxCocoa
 import RxSwift
 import ReactorKit
 
-final public class ItemFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
-    public var modalHeight: CGFloat? = 500
-    
-    public var modalStyle: ModalStyle = .bottomSheet
+final public class ItemFilterBottomSheetViewController: BaseViewController, View {
     
     public typealias Reactor = ItemFilterBottomSheetViewReactor
     
@@ -41,9 +38,15 @@ extension ItemFilterBottomSheetViewController {
 
 // MARK: - SetUp
 private extension ItemFilterBottomSheetViewController {
-    func addViews() { }
+    func addViews() {
+        view.addSubview(mainView)
+    }
 
-    func setupConstraints() { }
+    func setupConstraints() {
+        mainView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
 
     func configureUI() { }
 }
