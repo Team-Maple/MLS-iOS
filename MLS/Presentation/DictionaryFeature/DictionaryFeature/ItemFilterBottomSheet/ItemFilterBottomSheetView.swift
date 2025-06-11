@@ -16,7 +16,7 @@ final class ItemFilterBottomSheetView: UIView {
     }
 
     // MARK: - Properties
-    private let headerView: Header = {
+    let headerView: Header = {
         let view = Header(style: .filter)
         view.titleLabel.text = "필터"
         return view

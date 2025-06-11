@@ -58,8 +58,26 @@ extension ItemFilterBottomSheetViewController {
     }
     
     func bindUserActions(reactor: Reactor) {
+        mainView.headerView.firstIconView.rx.tap
+            .map { Reactor.Action.closeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .dismiss:
+                    owner.dismiss(animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+
     }
 }
