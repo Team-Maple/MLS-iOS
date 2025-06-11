@@ -60,8 +60,15 @@ final class ItemFilterBottomSheetView: UIView {
         return view
     }()
 
+    public let categoryCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        return view
+    }()
+    
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.contentInset = .init(top: 40, left: 0, bottom: 0, right: 0)
+        view.allowsMultipleSelection = true
         return view
     }()
 
@@ -84,6 +91,7 @@ private extension ItemFilterBottomSheetView {
     func addViews() {
         addSubview(headerView)
         addSubview(toolBarStackView)
+        addSubview(categoryCollectionView)
         addSubview(contentCollectionView)
         toolBarStackView.addArrangedSubview(buttonStackView)
         buttonStackView.addArrangedSubview(clearButton)
@@ -102,8 +110,13 @@ private extension ItemFilterBottomSheetView {
         clearButton.snp.makeConstraints { make in
             make.width.equalTo(Constant.buttonSuperViewSize * 0.3)
         }
-        contentCollectionView.snp.makeConstraints { make in
+        categoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.collectionViewTopOffset)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(40)
+        }
+        contentCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(categoryCollectionView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(toolBarStackView.snp.top)
         }

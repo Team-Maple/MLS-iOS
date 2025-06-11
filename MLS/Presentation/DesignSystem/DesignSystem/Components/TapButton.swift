@@ -8,7 +8,7 @@ public final class TapButton: UIButton {
         static let height: CGFloat = 34
         static let borderWidth: CGFloat = 1
         static let radius: CGFloat = 17
-        static let contentInsets: NSDirectionalEdgeInsets = .init(top: 10, leading: 10, bottom: 10, trailing: 10)
+        static let contentInsets: NSDirectionalEdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
     }
 
     // MARK: - Properties
@@ -18,14 +18,14 @@ public final class TapButton: UIButton {
         }
     }
 
-    public var text: String {
+    public var text: String? {
         didSet {
             updateUI()
         }
     }
 
     // MARK: - init
-    public init(text: String) {
+    public init(text: String? = nil) {
         self.text = text
         super.init(frame: .zero)
 
@@ -59,7 +59,7 @@ private extension TapButton {
         config.baseBackgroundColor = .clear
         config.baseForegroundColor = isSelected ? .primary700 : .neutral700
         config.attributedTitle = AttributedString(.makeStyledString(font: isSelected ? .captionBold : .caption, text: text, color: isSelected ? .primary700 : .neutral700) ?? .init())
-        layer.borderColor = isSelected ? UIColor.primary700.cgColor : UIColor.neutral700.cgColor
+        layer.borderColor = isSelected ? UIColor.primary700.cgColor : UIColor.neutral200.cgColor
 
         layer.borderWidth = Constant.borderWidth
         layer.cornerRadius = Constant.radius

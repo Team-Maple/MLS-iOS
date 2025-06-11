@@ -10,6 +10,7 @@ public class PageTabbarCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .caption
         label.textColor = .neutral600
+        label.numberOfLines = 1
         return label
     }()
     
