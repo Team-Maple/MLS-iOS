@@ -104,7 +104,7 @@ private extension ItemFilterBottomSheetView {
         }
         contentCollectionView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.collectionViewTopOffset)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(toolBarStackView.snp.top)
         }
         buttonStackViewDividerView.snp.makeConstraints { make in

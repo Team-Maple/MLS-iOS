@@ -14,6 +14,7 @@ public extension UIColor {
 
     static let neutral900 = UIColor(hexCode: "313131")
     static let neutral700 = UIColor(hexCode: "575757")
+    static let neutral600 = UIColor(hexCode: "848484")
     static let neutral500 = UIColor(hexCode: "AFAFAF")
     static let neutral300 = UIColor(hexCode: "CFCFCF")
     static let neutral200 = UIColor(hexCode: "E9E9E9")
