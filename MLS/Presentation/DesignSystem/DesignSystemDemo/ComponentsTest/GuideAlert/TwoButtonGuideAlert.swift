@@ -12,7 +12,6 @@ final class TwoButtonGuideAlert: UIViewController, ModalPresentable {
     var disposeBag = DisposeBag()
 
     var modalHeight: CGFloat?
-    var modalStyle: ModalStyle = .modal
 
     private var mainView = GuideAlert(mainText: "북마크를 하려면 로그인이 필요해요.", ctaText: "로그인 하러 가기", cancelText: "취소")
 }

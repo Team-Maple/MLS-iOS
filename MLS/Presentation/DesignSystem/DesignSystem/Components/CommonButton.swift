@@ -129,12 +129,29 @@ private extension CommonButton {
                         .foregroundColor: isEnabled ? style.textColor : .neutral700,
                         .underlineStyle: NSUnderlineStyle.single.rawValue,
                         .underlineColor: isEnabled ? style.textColor : .neutral700,
-                        .paragraphStyle: paragraphStyle
+                        .paragraphStyle: paragraphStyle,
+                        .font: style.font ?? UIFont()
                     ]
                 )
                 config.attributedTitle = AttributedString(enabledAttributedString)
             }
             configuration = config
+        }
+
+        self.configurationUpdateHandler = { [weak self] button in
+            guard let self = self else { return }
+            var updatedConfig = button.configuration
+            switch button.state {
+            case .highlighted:
+                if self.style == .normal {
+                    updatedConfig?.background.backgroundColor = self.style.backgroundColor.withAlphaComponent(0.9)
+                } else if self.style == .border {
+                    updatedConfig?.background.backgroundColor = UIColor.neutral100
+                }
+            default:
+                updatedConfig?.background.backgroundColor = self.isEnabled ? self.style.backgroundColor : .neutral300
+            }
+            button.configuration = updatedConfig
         }
     }
 }

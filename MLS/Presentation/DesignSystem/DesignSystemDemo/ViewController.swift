@@ -13,7 +13,14 @@ class ViewController: UIViewController {
         return view
     }()
 
-    let componentViews: [UIViewController] = [
+    let bottomTabBarViewController = BottomTabBarController(viewControllers: [
+        CheckBoxButtonTestViewController(),
+        NavigationBarTestViewController(),
+        CommonButtonTestViewController(),
+        InputBoxTextViewController()
+    ], initialIndex: 1)
+    
+    lazy var componentViews: [UIViewController] = [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),
         CommonButtonTestViewController(),
@@ -27,12 +34,7 @@ class ViewController: UIViewController {
         TagChipTestViewController(),
         GuideAlertTestViewController(),
         CardListTestViewController(),
-        BottomTabBarController(viewControllers: [
-            CheckBoxButtonTestViewController(),
-            NavigationBarTestViewController(),
-            CommonButtonTestViewController(),
-            InputBoxTextViewController()
-        ], initialIndex: 1),
+        bottomTabBarViewController,
         SearchBarTestViewController()
     ]
 
@@ -42,6 +44,7 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         navigationItem.title = "MLS Design System"
+        bottomTabBarViewController.title = "BottomTabBar"
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints { make in

@@ -8,79 +8,20 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public class DictionaryMainReactor: Reactor {
-    // MARK: - Reactor
-    public enum Action {}
-        
-    public enum Mutation {}
-        
-    public struct State {}
-        
-    // MARK: - properties
-    public var initialState: State
-    var disposeBag = DisposeBag()
-        
-    // MARK: - init
-    public init() {
-        self.initialState = State()
-    }
-        
-    // MARK: - Reactor Methods
-    public func mutate(action: Action) -> Observable<Mutation> {
-        switch action {}
-    }
-        
-    public func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
-            
-        switch mutation {}
-            
-        return newState
-    }
-}
-
 public final class DictionaryMainViewController: BaseViewController, View {
     public typealias Reactor = DictionaryMainReactor
-    
-    // MARK: - Type
-    enum Constant {
-        static let pageTabSpacing: CGFloat = 20
-        static let pageTabHeight: CGFloat = 40
-        static let pageTabWidth: CGFloat = 50
-    }
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     private let initialIndex: Int
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
-    
-    private let tabItems = ["1", "2", "3", "4", "5"]
-    private lazy var viewControllers: [UIViewController] = [
-        createTestViewController(title: "페이지 1"),
-        createTestViewController(title: "페이지 2"),
-        createTestViewController(title: "페이지 3"),
-        createTestViewController(title: "페이지 4"),
-        createTestViewController(title: "페이지 5")
-    ]
-    
-    // MARK: - Components
-    private lazy var tabCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = Constant.pageTabSpacing
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(PageTabCell.self, forCellWithReuseIdentifier: PageTabCell.identifier)
-        return collectionView
-    }()
-    
-    private let divider = DividerView()
-    
-    private lazy var pageViewController: UIPageViewController = {
-        let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        return pageViewController
-    }()
-    
+        
+    private lazy var viewControllers: [UIViewController] = (1 ... 7).map {
+        createTestViewController(title: "페이지 \($0)")
+    }
+        
+    private let mainView = DictionaryMainView()
+
     public init(reactor: DictionaryMainReactor, initialIndex: Int = 0) {
         self.initialIndex = initialIndex
         super.init()
@@ -107,35 +48,37 @@ public extension DictionaryMainViewController {
 // MARK: - SetUp
 private extension DictionaryMainViewController {
     func addViews() {
-        view.addSubview(tabCollectionView)
-        view.addSubview(divider)
-        addChild(pageViewController)
-        view.addSubview(pageViewController.view)
-        pageViewController.didMove(toParent: self)
+        addChild(mainView.pageViewController)
+        mainView.pageViewController.didMove(toParent: self)
+        view.addSubview(mainView)
     }
     
     func setupConstraints() {
-        tabCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(Constant.pageTabHeight)
-        }
-        
-        divider.snp.makeConstraints { make in
-            make.top.equalTo(tabCollectionView.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
-        }
-        
-        pageViewController.view.snp.makeConstraints { make in
-            make.top.equalTo(divider.snp.bottom)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+        mainView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
     func configureUI() {
-        pageViewController.delegate = self
-        pageViewController.dataSource = self
+        mainView.pageViewController.delegate = self
+        mainView.pageViewController.dataSource = self
+        configureTabCollectionView()
+    }
+    
+    func configureTabCollectionView() {
+        mainView.tabCollectionView.collectionViewLayout = createTabLayout()
+        mainView.tabCollectionView.delegate = self
+        mainView.tabCollectionView.dataSource = self
+        mainView.tabCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
+    }
+    
+    func createTabLayout() -> UICollectionViewLayout {
+        let layoutFactory = LayoutFactory()
+        let layout = CompositionalLayoutBuilder()
+            .section { _ in layoutFactory.getPageTabbarLayout() }
+            .build()
+        layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
+        return layout
     }
     
     func createTestViewController(title: String) -> UIViewController {
@@ -155,14 +98,14 @@ private extension DictionaryMainViewController {
     func setInitialIndex() {
         let indexPath = IndexPath(item: initialIndex, section: 0)
         
-        pageViewController.setViewControllers(
+        mainView.pageViewController.setViewControllers(
             [viewControllers[initialIndex]],
             direction: .forward,
             animated: false,
             completion: nil
         )
 
-        tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+        mainView.tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
     }
 }
 
@@ -174,40 +117,12 @@ public extension DictionaryMainViewController {
     }
     
     func bindUserActions(reactor: Reactor) {
-        Observable.just(tabItems)
-            .bind(to: tabCollectionView.rx.items(cellIdentifier: PageTabCell.identifier, cellType: PageTabCell.self)) { index, item, cell in
-                cell.inject(input: item)
-                cell.isSelected = index == self.currentPageIndex.value
-            }
-            .disposed(by: disposeBag)
-        
-        tabCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                let newIndex = indexPath.row
-                let oldIndex = self.currentPageIndex.value
-
-                guard newIndex != oldIndex else { return }
-
-                let direction: UIPageViewController.NavigationDirection = newIndex > oldIndex ? .forward : .reverse
-
-                self.pageViewController.setViewControllers(
-                    [self.viewControllers[newIndex]],
-                    direction: direction,
-                    animated: true,
-                    completion: nil
-                )
-
-                self.currentPageIndex.accept(newIndex)
-                self.tabCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            })
-            .disposed(by: disposeBag)
     }
     
     func bindViewState(reactor: Reactor) {}
 }
 
-// MARK: - Delegate
+// MARK: - UIPageViewController DataSource & Delegate
 extension DictionaryMainViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = viewControllers.firstIndex(of: viewController) else { return nil }
@@ -226,11 +141,50 @@ extension DictionaryMainViewController: UIPageViewControllerDataSource, UIPageVi
            let newIndex = viewControllers.firstIndex(of: visibleViewController)
         {
             currentPageIndex.accept(newIndex)
-            tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+            mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
+            UIView.performWithoutAnimation {
+                mainView.tabCollectionView.performBatchUpdates(nil, completion: nil)
+            }
         }
     }
+}
+
+// MARK: - UICollectionView DataSource & Delegate
+extension DictionaryMainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let reactor = reactor else { return 0 }
+        return reactor.currentState.sections.count
+    }
     
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: Constant.pageTabWidth, height: Constant.pageTabHeight)
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let reactor = reactor else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PageTabbarCell.identifier, for: indexPath) as? PageTabbarCell else {
+            return UICollectionViewCell()
+        }
+        let title = reactor.currentState.sections[indexPath.row]
+        cell.configure(title: title)
+        cell.isSelected = indexPath.row == currentPageIndex.value
+        return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let newIndex = indexPath.row
+        let oldIndex = currentPageIndex.value
+        
+        guard newIndex != oldIndex else { return }
+        
+        let direction: UIPageViewController.NavigationDirection = newIndex > oldIndex ? .forward : .reverse
+        
+        mainView.pageViewController.setViewControllers(
+            [viewControllers[newIndex]],
+            direction: direction,
+            animated: true,
+            completion: nil
+        )
+        
+        currentPageIndex.accept(newIndex)
+        UIView.performWithoutAnimation {
+            mainView.tabCollectionView.performBatchUpdates(nil, completion: nil)
+        }
     }
 }

@@ -136,11 +136,6 @@
 			path = DictionaryFeatureDemo;
 			sourceTree = "<group>";
 		};
-		775D678C2DF9BB4500DDAD2F /* Utills */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Utills;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,7 +191,6 @@
 		081D9C0F2DF80854004F850D = {
 			isa = PBXGroup;
 			children = (
-				775D678C2DF9BB4500DDAD2F /* Utills */,
 				081D9C1B2DF80854004F850D /* DictionaryFeature */,
 				081D9D772DF80CB1004F850D /* DictionaryFeatureInterface */,
 				081D9DAB2DF80DBD004F850D /* DictionaryFeatureDemo */,
@@ -270,7 +264,6 @@
 			);
 			fileSystemSynchronizedGroups = (
 				081D9C1B2DF80854004F850D /* DictionaryFeature */,
-				775D678C2DF9BB4500DDAD2F /* Utills */,
 			);
 			name = DictionaryFeature;
 			packageProductDependencies = (
