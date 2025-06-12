@@ -200,7 +200,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
                 return UICollectionViewCell()
             }
             let title = reactor.currentState.sections[indexPath.row]
-            cell.configure(title: title)
+            cell.inject(title: title)
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
@@ -209,25 +209,25 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             switch Section(rawValue: indexPath.section)! {
             case .job:
                 let job = reactor.currentState.jobs[indexPath.row]
-                cell.configure(title: job)
+                cell.inject(title: job)
             case .weapons:
                 let weapons = reactor.currentState.weapons[indexPath.row]
-                cell.configure(title: weapons)
+                cell.inject(title: weapons)
             case .projectiles:
                 let projectiles = reactor.currentState.projectiles[indexPath.row]
-                cell.configure(title: projectiles)
+                cell.inject(title: projectiles)
             case .armors:
                 let armors = reactor.currentState.armors[indexPath.row]
-                cell.configure(title: armors)
+                cell.inject(title: armors)
             case .accessories:
                 let accessories = reactor.currentState.accessories[indexPath.row]
-                cell.configure(title: accessories)
+                cell.inject(title: accessories)
             case .scrolls:
                 let scrolls = reactor.currentState.scrolls[indexPath.row]
-                cell.configure(title: scrolls)
+                cell.inject(title: scrolls)
             case .etcItems:
                 let etcItems = reactor.currentState.etcItems[indexPath.row]
-                cell.configure(title: etcItems)
+                cell.inject(title: etcItems)
             }
             return cell
         }

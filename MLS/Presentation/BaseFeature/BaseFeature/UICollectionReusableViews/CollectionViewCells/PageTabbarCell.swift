@@ -67,7 +67,7 @@ private extension PageTabbarCell {
 }
 
 public extension PageTabbarCell {
-    func configure(title: String?) {
+    func inject(title: String?) {
         titleLabel.text = title
     }
 }

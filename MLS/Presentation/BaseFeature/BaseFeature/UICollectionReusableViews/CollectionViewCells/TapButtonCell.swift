@@ -46,7 +46,7 @@ private extension TapButtonCell {
 }
 
 public extension TapButtonCell {
-    func configure(title: String?) {
+    func inject(title: String?) {
         button.text = title
         button.titleLabel?.numberOfLines = 1
     }
