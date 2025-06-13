@@ -1,23 +1,28 @@
 import UIKit
-import SnapKit
+
 import DesignSystem
+
+import SnapKit
 
 final class DictionaryMainView: UIView {
     
     enum Constant {
         static let pageTabHeight: CGFloat = 40
+        static let bottomTabHeight: CGFloat = 64
     }
     
     // MARK: - Components
-    let tabCollectionView: UICollectionView = {
+    private let headerView = Header(style: .main, title: "도감")
+    
+    public let tabCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
     
-    let divider = DividerView()
+    private let divider = DividerView()
     
-    let pageViewController = UIPageViewController(
+    public let pageViewController = UIPageViewController(
         transitionStyle: .scroll,
         navigationOrientation: .horizontal
     )
@@ -35,26 +40,33 @@ final class DictionaryMainView: UIView {
     
     // MARK: - Layout
     private func addViews() {
+        addSubview(headerView)
         addSubview(tabCollectionView)
         addSubview(divider)
         addSubview(pageViewController.view)
     }
     
     private func setupConstraints() {
-        tabCollectionView.snp.makeConstraints { make in
+        headerView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        tabCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.pageTabHeight)
         }
         
         divider.snp.makeConstraints { make in
             make.top.equalTo(tabCollectionView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
         
         pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(divider.snp.bottom)
-            make.leading.trailing.bottom.equalTo(safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
         }
     }
 }

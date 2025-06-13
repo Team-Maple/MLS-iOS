@@ -33,6 +33,8 @@ public final class CardList: UIView {
             updateSubText()
         }
     }
+    
+    public var onBookmarkTapped: (() -> Void)?
 
     // MARK: - Components
     private lazy var imageContentView: UIView = {
@@ -119,11 +121,16 @@ private extension CardList {
     }
 
     func configureUI() {
+        backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.cardRadius
     }
-}
-
-public extension CardList {
+    
+    func bindButton() {
+        bookmarkButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.onBookmarkTapped?()
+        }), for: .touchUpInside)
+    }
+    
     func updateMainText() {
         mainTextLabel.attributedText = .makeStyledString(font: .subTitle, text: mainText, alignment: .left)
     }
@@ -135,8 +142,26 @@ public extension CardList {
     func updateBookmark() {
         bookmarkButton.setImage(isBookmarkSelected ? .bookmarkFill : .bookmarkBorder, for: .normal)
     }
+}
+
+public extension CardList {
+    func setMainText(text: String) {
+        mainText = text
+    }
+    
+    func setSubText(text: String) {
+        subText = text
+    }
 
     func loadImage(image: UIImage) {
         imageView.image = image
+    }
+    
+    func setBookMark(isBookmarked: Bool) {
+        isBookmarkSelected = isBookmarked
+    }
+    
+    func setBackgroundColor(color: UIColor) {
+        imageContentView.backgroundColor = color
     }
 }

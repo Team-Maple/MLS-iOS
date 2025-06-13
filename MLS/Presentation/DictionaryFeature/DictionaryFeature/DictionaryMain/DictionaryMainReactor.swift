@@ -1,6 +1,6 @@
 import ReactorKit
 
-public class DictionaryMainReactor: Reactor {
+public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor
     public enum Action {}
         
@@ -8,13 +8,12 @@ public class DictionaryMainReactor: Reactor {
         
     public struct State {
         var sections: [String] = [
-            "직업/레벨",
-            "무기",
-            "발사체",
-            "방어구",
-            "장신구",
-            "주문서",
-            "기타"
+            "전체",
+            "몬스터",
+            "아이템",
+            "맵",
+            "NPC",
+            "퀘스트",
         ]
     }
         

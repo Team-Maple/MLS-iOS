@@ -16,13 +16,25 @@ public final class DictionaryMainViewController: BaseViewController, View {
     private let initialIndex: Int
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
         
-    private lazy var viewControllers: [UIViewController] = (1 ... 7).map {
-        createTestViewController(title: "페이지 \($0)")
-    }
+    private var viewControllers: [UIViewController]
         
     private let mainView = DictionaryMainView()
 
     public init(reactor: DictionaryMainReactor, initialIndex: Int = 0) {
+        let vc1 = DictionaryListViewController<DictionaryListTotalReactor>(type: .total)
+        vc1.reactor = DictionaryListTotalReactor()
+        let vc2 = DictionaryListViewController<DictionaryListMonsterReactor>(type: .monster)
+        vc2.reactor = DictionaryListMonsterReactor()
+        let vc3 = DictionaryListViewController<DictionaryListItemReactor>(type: .item)
+        vc3.reactor = DictionaryListItemReactor()
+        let vc4 = DictionaryListViewController<DictionaryListMapReactor>(type: .map)
+        vc4.reactor = DictionaryListMapReactor()
+        let vc5 = DictionaryListViewController<DictionaryListNpcReactor>(type: .npc)
+        vc5.reactor = DictionaryListNpcReactor()
+        let vc6 = DictionaryListViewController<DictionaryListQuestReactor>(type: .quest)
+        vc6.reactor = DictionaryListQuestReactor()
+        viewControllers = [vc1, vc2, vc3, vc4, vc5, vc6]
+        
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -79,20 +91,6 @@ private extension DictionaryMainViewController {
             .build()
         layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
         return layout
-    }
-    
-    func createTestViewController(title: String) -> UIViewController {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .systemGray6
-        let label = UILabel()
-        label.text = title
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        viewController.view.addSubview(label)
-        label.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        return viewController
     }
     
     func setInitialIndex() {
