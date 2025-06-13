@@ -111,7 +111,6 @@ private extension ItemFilterBottomSheetViewController {
 
     func configureCategoryCollectionView() {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
-        mainView.categoryCollectionView.delegate = self
         mainView.categoryCollectionView.dataSource = self
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
         mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .bottom)
@@ -119,7 +118,6 @@ private extension ItemFilterBottomSheetViewController {
 
     func configureContentCollectionView() {
         mainView.contentCollectionView.collectionViewLayout = createContentLayout()
-        mainView.contentCollectionView.delegate = self
         mainView.contentCollectionView.dataSource = self
         mainView.contentCollectionView.register(TapButtonCell.self, forCellWithReuseIdentifier: TapButtonCell.identifier)
         mainView.contentCollectionView.register(FilterLevelSectionCell.self, forCellWithReuseIdentifier: FilterLevelSectionCell.identifier)
@@ -150,9 +148,67 @@ private extension ItemFilterBottomSheetViewController {
 }
 
 extension ItemFilterBottomSheetViewController {
+    
+    private func bind() {
+        mainView.categoryCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                guard let selectedSection = Section(rawValue: indexPath.row) else { return }
+                owner.isScroll = true
+                switch owner.lastSelectedSection {
+                case .armors, .accessories, .scrollTypes, .etcItems:
+                    switch selectedSection {
+                    case .armors, .accessories, .scrollTypes, .etcItems:
+                        owner.isScroll = false
+                    default:
+                        owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
+                    }
+                default:
+                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
+                }
+                owner.lastSelectedSection = selectedSection
+                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.didScroll
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                guard !owner.isScroll else { return }
+                let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
+                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
+                let currentSection = topIndexPath.section
+                if let selectedSection = Section(rawValue: currentSection) {
+                    owner.lastSelectedSection = selectedSection
+                }
+                owner.mainView.categoryCollectionView.selectItem(
+                    at: IndexPath(row: currentSection, section: 0),
+                    animated: false,
+                    scrollPosition: .centeredHorizontally
+                )
+                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.didEndScrollingAnimation
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.isScroll = false
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                print(owner.mainView.contentCollectionView.indexPathsForSelectedItems)
+            }
+            .disposed(by: disposeBag)
+    }
+
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bind()
     }
 
     func bindUserActions(reactor: Reactor) {
@@ -176,11 +232,10 @@ extension ItemFilterBottomSheetViewController {
                 }
             }
             .disposed(by: disposeBag)
-
     }
 }
 
-extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         if collectionView == mainView.categoryCollectionView {
             return 1
@@ -294,26 +349,6 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         }
     }
 
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == mainView.categoryCollectionView {
-            guard let selectedSection = Section(rawValue: indexPath.row) else { return }
-            isScroll = true
-            switch lastSelectedSection {
-            case .armors, .accessories, .scrollTypes, .etcItems:
-                switch selectedSection {
-                case .armors, .accessories, .scrollTypes, .etcItems:
-                    isScroll = false
-                default:
-                    mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
-                }
-            default:
-                mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
-            }
-            lastSelectedSection = selectedSection
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
-    }
-
     public func collectionView(
         _ collectionView: UICollectionView,
         viewForSupplementaryElementOfKind kind: String,
@@ -336,26 +371,5 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
         let headerTitle = Section(rawValue: indexPath.section)?.headerTitle
         headerView.inject(title: headerTitle)
         return headerView
-    }
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isScroll else { return }
-        let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
-        guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
-        let currentSection = topIndexPath.section
-        if let selectedSection = Section(rawValue: currentSection) {
-            lastSelectedSection = selectedSection
-        }
-        mainView.categoryCollectionView.selectItem(
-            at: IndexPath(row: currentSection, section: 0),
-            animated: false,
-            scrollPosition: .centeredHorizontally
-        )
-        mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
-    }
-
-    // ✅ 스크롤 애니메이션이 끝나면 다시 플래그 해제
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if scrollView == mainView.contentCollectionView { isScroll = false }
     }
 }
