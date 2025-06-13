@@ -42,6 +42,13 @@ public final class CompositionalSectionBuilder {
         }
         return self
     }
+    
+    @discardableResult
+    public func customGroup(group: (NSCollectionLayoutItem) -> NSCollectionLayoutGroup) -> Self {
+        guard let item = self.item else { return self }
+        self.group = group(item)
+        return self
+    }
 
     @discardableResult
     public func buildSection() -> Self {

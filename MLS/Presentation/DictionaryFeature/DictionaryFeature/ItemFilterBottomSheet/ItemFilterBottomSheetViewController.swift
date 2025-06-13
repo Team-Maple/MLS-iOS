@@ -18,27 +18,30 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         case projectiles
         case armors
         case accessories
+        case scrollTypes
         case scrolls
         case etcItems
         
-        var headerTitle: String {
+        var headerTitle: String? {
             switch self {
             case .job:
-                "직업"
+                return "직업"
             case .level:
-                "레벨"
+                return "레벨"
             case .weapons:
-                "무기"
+                return "무기"
             case .projectiles:
-                "발사체"
+                return "발사체"
             case .armors:
-                "방어구"
+                return "방어구"
             case .accessories:
-                "장신구"
-            case .scrolls:
-                "주문서"
+                return "장신구"
+            case .scrollTypes:
+                return "주문서"
             case .etcItems:
-                "기타"
+                return "기타"
+            default:
+                return nil
             }
         }
         
@@ -46,6 +49,15 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
             switch self {
             case .level:
                 return LayoutFactory.getLevelRangeSection()
+            case .scrolls:
+                return CompositionalSectionBuilder()
+                    .item(width: .fractionalWidth(0.5), height: .absolute(32))
+                    .group(.horizontal, width: .fractionalWidth(1), height: .estimated(300))
+                    .interItemSpacing(.fixed(3))
+                    .buildSection()
+                    .interGroupSpacing(16)
+                    .contentInsets(.init(top: 0, leading: 16, bottom: 32, trailing: 16))
+                    .decorationItem(kind: Neutral200DividerView.identifier, insets: .init(top: -20, leading: 16, bottom: 0, trailing: 16))
             default:
                 return LayoutFactory.getItemTagListSection()
             }
@@ -111,6 +123,7 @@ private extension ItemFilterBottomSheetViewController {
         mainView.contentCollectionView.dataSource = self
         mainView.contentCollectionView.register(TapButtonCell.self, forCellWithReuseIdentifier: TapButtonCell.identifier)
         mainView.contentCollectionView.register(FilterLevelSectionCell.self, forCellWithReuseIdentifier: FilterLevelSectionCell.identifier)
+        mainView.contentCollectionView.register(CheckBoxButtonListSmallCell.self, forCellWithReuseIdentifier: CheckBoxButtonListSmallCell.identifier)
         mainView.contentCollectionView.register(
             SubTitleBoldHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -122,7 +135,7 @@ private extension ItemFilterBottomSheetViewController {
         let layout = CompositionalLayoutBuilder()
             .section { _ in return LayoutFactory.getPageTabbarLayout() }
             .build()
-        layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
+        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 
@@ -131,6 +144,7 @@ private extension ItemFilterBottomSheetViewController {
         let layout = CompositionalLayoutBuilder()
             .setSections(layoutAry)
             .build()
+        layout.register(Neutral200DividerView.self, forDecorationViewOfKind: Neutral200DividerView.identifier)
         return layout
     }
 }
@@ -193,10 +207,12 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
                 return reactor.currentState.armors.count
             case .accessories:
                 return reactor.currentState.accessories.count
-            case .scrolls:
+            case .scrollTypes:
                 return reactor.currentState.scrolls.count
             case .etcItems:
                 return reactor.currentState.etcItems.count
+            case .scrolls:
+                return 10
             }
         }
     }
@@ -252,12 +268,20 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
                 let accessories = reactor.currentState.accessories[indexPath.row]
                 cell.inject(title: accessories)
                 return cell
-            case .scrolls:
+            case .scrollTypes:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
                     return UICollectionViewCell()
                 }
                 let scrolls = reactor.currentState.scrolls[indexPath.row]
                 cell.inject(title: scrolls)
+                return cell
+            case .scrolls:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as? CheckBoxButtonListSmallCell else {
+                    return UICollectionViewCell()
+                }
+//                let scrolls = reactor.currentState.scrolls[indexPath.row]
+//                cell.inject(title: scrolls)
+                cell.inject(title: "한손검")
                 return cell
             case .etcItems:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
@@ -275,9 +299,9 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             guard let selectedSection = Section(rawValue: indexPath.row) else { return }
             isScroll = true
             switch lastSelectedSection {
-            case .armors, .accessories, .scrolls, .etcItems:
+            case .armors, .accessories, .scrollTypes, .etcItems:
                 switch selectedSection {
-                case .armors, .accessories, .scrolls, .etcItems:
+                case .armors, .accessories, .scrollTypes, .etcItems:
                     isScroll = false
                 default:
                     mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)

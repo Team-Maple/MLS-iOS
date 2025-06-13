@@ -2,10 +2,10 @@ import UIKit
 
 import DesignSystem
 
-final public class PageTabbarDividerView: UICollectionReusableView {
+final public class Neutral300DividerView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .neutral500
+        backgroundColor = .neutral300
         layer.zPosition = -1
     }
 

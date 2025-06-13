@@ -12,7 +12,7 @@ public class LayoutFactory {
             .orthogonalScrolling(.continuous)
             .interGroupSpacing(20)
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
-            .decorationItem(kind: PageTabbarDividerView.identifier, insets: .init(top: 39, leading: 0, bottom: 0, trailing: 0))
+            .decorationItem(kind: Neutral300DividerView.identifier, insets: .init(top: 39, leading: 0, bottom: 0, trailing: 0))
     }
 
     static public func getItemTagListSection() -> CompositionalSectionBuilder {
