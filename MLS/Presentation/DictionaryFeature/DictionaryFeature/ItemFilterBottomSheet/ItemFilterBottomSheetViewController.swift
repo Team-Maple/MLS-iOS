@@ -13,17 +13,20 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
 
     enum Section: Int, CaseIterable {
         case job
+        case level
         case weapons
         case projectiles
         case armors
         case accessories
         case scrolls
         case etcItems
-
+        
         var headerTitle: String {
             switch self {
             case .job:
                 "직업"
+            case .level:
+                "레벨"
             case .weapons:
                 "무기"
             case .projectiles:
@@ -36,6 +39,15 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
                 "주문서"
             case .etcItems:
                 "기타"
+            }
+        }
+        
+        var layout: CompositionalSectionBuilder {
+            switch self {
+            case .level:
+                return LayoutFactory.getLevelRangeSection()
+            default:
+                return LayoutFactory.getItemTagListSection()
             }
         }
     }
@@ -98,6 +110,7 @@ private extension ItemFilterBottomSheetViewController {
         mainView.contentCollectionView.delegate = self
         mainView.contentCollectionView.dataSource = self
         mainView.contentCollectionView.register(TapButtonCell.self, forCellWithReuseIdentifier: TapButtonCell.identifier)
+        mainView.contentCollectionView.register(FilterLevelSectionCell.self, forCellWithReuseIdentifier: FilterLevelSectionCell.identifier)
         mainView.contentCollectionView.register(
             SubTitleBoldHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -106,24 +119,17 @@ private extension ItemFilterBottomSheetViewController {
     }
 
     func createCategoryLayout() -> UICollectionViewLayout {
-        let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return layoutFactory.getPageTabbarLayout() }
+            .section { _ in return LayoutFactory.getPageTabbarLayout() }
             .build()
         layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
         return layout
     }
 
     func createContentLayout() -> UICollectionViewLayout {
-        let layoutFactory = LayoutFactory()
+        let layoutAry = Section.allCases.compactMap { $0.layout.build() }
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
+            .setSections(layoutAry)
             .build()
         return layout
     }
@@ -177,6 +183,8 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             switch Section(rawValue: section)! {
             case .job:
                 return reactor.currentState.jobs.count
+            case .level:
+                return 1
             case .weapons:
                 return reactor.currentState.weapons.count
             case .projectiles:
@@ -203,33 +211,62 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
             cell.inject(title: title)
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
-                return UICollectionViewCell()
-            }
             switch Section(rawValue: indexPath.section)! {
             case .job:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let job = reactor.currentState.jobs[indexPath.row]
                 cell.inject(title: job)
+                return cell
+            case .level:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as? FilterLevelSectionCell else {
+                    return UICollectionViewCell()
+                }
+                return cell
             case .weapons:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let weapons = reactor.currentState.weapons[indexPath.row]
                 cell.inject(title: weapons)
+                return cell
             case .projectiles:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let projectiles = reactor.currentState.projectiles[indexPath.row]
                 cell.inject(title: projectiles)
+                return cell
             case .armors:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let armors = reactor.currentState.armors[indexPath.row]
                 cell.inject(title: armors)
+                return cell
             case .accessories:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let accessories = reactor.currentState.accessories[indexPath.row]
                 cell.inject(title: accessories)
+                return cell
             case .scrolls:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let scrolls = reactor.currentState.scrolls[indexPath.row]
                 cell.inject(title: scrolls)
+                return cell
             case .etcItems:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
+                    return UICollectionViewCell()
+                }
                 let etcItems = reactor.currentState.etcItems[indexPath.row]
                 cell.inject(title: etcItems)
+                return cell
             }
-            return cell
         }
     }
 
@@ -273,16 +310,14 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
 
         // ✅ 섹션별로 제목 설정
         let headerTitle = Section(rawValue: indexPath.section)?.headerTitle
-        headerView.configure(title: headerTitle)
+        headerView.inject(title: headerTitle)
         return headerView
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !isScroll else { return }
         let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
-        guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else {
-            return
-        }
+        guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
         let currentSection = topIndexPath.section
         if let selectedSection = Section(rawValue: currentSection) {
             lastSelectedSection = selectedSection
@@ -297,8 +332,6 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UIColle
 
     // ✅ 스크롤 애니메이션이 끝나면 다시 플래그 해제
     public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if scrollView == mainView.contentCollectionView {
-            isScroll = false
-        }
+        if scrollView == mainView.contentCollectionView { isScroll = false }
     }
 }

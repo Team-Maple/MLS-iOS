@@ -9,6 +9,12 @@ public final class CompositionalSectionBuilder {
         case horizontal, vertical
     }
 
+    public init(item: NSCollectionLayoutItem? = nil, group: NSCollectionLayoutGroup? = nil, section: NSCollectionLayoutSection? = nil) {
+        self.item = item
+        self.group = group
+        self.section = section
+    }
+    
     @discardableResult
     public func item(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) -> Self {
         let size = NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
