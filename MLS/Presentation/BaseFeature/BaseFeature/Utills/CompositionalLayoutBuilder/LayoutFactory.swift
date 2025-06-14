@@ -17,8 +17,8 @@ public class LayoutFactory {
 
     static public func getItemTagListSection() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
-            .item(width: .estimated(50), height: .absolute(34))
-            .group(.horizontal, width: .fractionalWidth(1), height: .estimated(100))
+            .item(width: .estimated(130), height: .absolute(34))
+            .group(.horizontal, width: .fractionalWidth(1), height: .absolute(34))
             .interItemSpacing(.fixed(8))
             .buildSection()
             .header(height: 22)

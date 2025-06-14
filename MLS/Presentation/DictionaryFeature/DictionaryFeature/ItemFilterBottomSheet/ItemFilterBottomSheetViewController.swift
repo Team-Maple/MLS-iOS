@@ -19,7 +19,9 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         case armors
         case accessories
         case scrollTypes
-        case scrolls
+        case weaponScrolls
+        case armorsScrolls
+        case etcScrolls
         case etcItems
         
         var headerTitle: String? {
@@ -39,7 +41,8 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         var layout: CompositionalSectionBuilder {
             switch self {
             case .level: return LayoutFactory.getLevelRangeSection()
-            case .scrolls: return CompositionalSectionBuilder()
+            case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                return CompositionalSectionBuilder()
                     .item(width: .fractionalWidth(0.5), height: .absolute(32))
                     .group(.horizontal, width: .fractionalWidth(1), height: .estimated(300))
                     .interItemSpacing(.fixed(3))
@@ -60,7 +63,9 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         case armors(String)
         case accessories(String)
         case scrollTypes(String)
-        case scrolls(String)
+        case weaponScrolls(String)
+        case armorScrolls(String)
+        case etcScrolls(String)
         case etcItems(String)
     }
 
@@ -184,7 +189,7 @@ private extension ItemFilterBottomSheetViewController {
                 }
                 cell.inject(title: title)
                 return cell
-            case .scrolls(let title):
+            case .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as? CheckBoxButtonListSmallCell else {
                     return UICollectionViewCell()
                 }
@@ -234,7 +239,9 @@ private extension ItemFilterBottomSheetViewController {
         snapshot.appendItems(reactor.currentState.armors.map { .armors($0) }, toSection: .armors)
         snapshot.appendItems(reactor.currentState.accessories.map { .accessories($0) }, toSection: .accessories)
         snapshot.appendItems(reactor.currentState.scrollTypes.map { .scrollTypes($0) }, toSection: .scrollTypes)
-        snapshot.appendItems(reactor.currentState.scrolls.map { .scrolls($0) }, toSection: .scrolls)
+        snapshot.appendItems(reactor.currentState.weaponScrolls.map { .weaponScrolls($0) }, toSection: .weaponScrolls)
+        snapshot.appendItems(reactor.currentState.armorScrolls.map { .armorScrolls($0) }, toSection: .armorsScrolls)
+        snapshot.appendItems(reactor.currentState.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
         snapshot.appendItems(reactor.currentState.etcItems.map { .etcItems($0) }, toSection: .etcItems)
         
         dataSource.apply(snapshot, animatingDifferences: true)
@@ -280,12 +287,16 @@ extension ItemFilterBottomSheetViewController {
                 if let selectedSection = FilterSection(rawValue: currentSection) {
                     owner.lastSelectedSection = selectedSection
                 }
-                owner.mainView.categoryCollectionView.selectItem(
-                    at: IndexPath(row: currentSection, section: 0),
-                    animated: false,
-                    scrollPosition: .centeredHorizontally
-                )
-                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+                if let maxSection = owner.reactor?.currentState.sections.count {
+                    if currentSection <= maxSection {
+                        owner.mainView.categoryCollectionView.selectItem(
+                            at: IndexPath(row: currentSection, section: 0),
+                            animated: false,
+                            scrollPosition: .centeredHorizontally
+                        )
+                        owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+                    }
+                }
             }
             .disposed(by: disposeBag)
         
@@ -307,15 +318,22 @@ extension ItemFilterBottomSheetViewController {
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
                 guard let section = FilterSection(rawValue: indexPath.section) else { return }
-
+                
                 switch section {
                 case .scrollTypes:
                     let selectedItems = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
                         .filter { $0.section == FilterSection.scrollTypes.rawValue }
                     for selectedIndexPath in selectedItems {
-                        if indexPath != selectedIndexPath { owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true) }
+                        if indexPath != selectedIndexPath {
+                            owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true)
+                        }
                     }
                     owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
+                case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                    let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
+                        .filter { $0.section == FilterSection.scrollTypes.rawValue }.first
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
+                    owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
                 case .level:
                     owner.mainView.contentCollectionView.deselectItem(at: indexPath, animated: true)
                 default:
@@ -326,19 +344,54 @@ extension ItemFilterBottomSheetViewController {
             .disposed(by: disposeBag)
         
         mainView.contentCollectionView.rx.itemDeselected
-            .map { Reactor.Action.filterDeselected(indexPath: $0) }
-            .bind(to: reactor.action)
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, indexPath) in
+                guard let section = FilterSection(rawValue: indexPath.section) else { return }
+                switch section {
+                case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                    let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
+                        .filter { $0.section == FilterSection.scrollTypes.rawValue }.first
+                    owner.reactor?.action.onNext(.filterDeselected(indexPath: indexPath))
+                    owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
+                default:
+                    reactor.action.onNext(.filterDeselected(indexPath: indexPath))
+                }
+            })
             .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map { $0.scrolls }
-            .distinctUntilChanged()
+            .map { (scrollTypes: $0.scrollTypes, weaponScrolls: $0.weaponScrolls, armorScrolls: $0.armorScrolls, etcScrolls: $0.etcScrolls)}
+            .distinctUntilChanged { $0 == $1 }
             .skip(1)
             .withUnretained(self)
             .subscribe { (owner, scrolls) in
-                owner.updateScrollsSection(with: scrolls)
+                var snapshot = owner.dataSource.snapshot()
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .scrollTypes))
+                snapshot.appendItems(scrolls.scrollTypes.map { .scrollTypes($0) }, toSection: .scrollTypes)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .weaponScrolls))
+                snapshot.appendItems(scrolls.weaponScrolls.map { .weaponScrolls($0) }, toSection: .weaponScrolls)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .armorsScrolls))
+                snapshot.appendItems(scrolls.armorScrolls.map { .armorScrolls($0) }, toSection: .armorsScrolls)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .etcScrolls))
+                snapshot.appendItems(scrolls.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
+                owner.dataSource.apply(snapshot, animatingDifferences: true) {
+                    guard let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
+                        .filter({ $0.section == FilterSection.scrollTypes.rawValue }).first else { return }
+                    var targetIndexPath: [IndexPath] = []
+                    switch selectedItem.row {
+                    case 0:
+                        targetIndexPath = owner.reactor?.currentState.selectedIndexs.filter { FilterSection(rawValue: $0.section) == .weaponScrolls } ?? []
+                    case 1:
+                        targetIndexPath = owner.reactor?.currentState.selectedIndexs.filter { FilterSection(rawValue: $0.section) == .armorsScrolls } ?? []
+                    case 2:
+                        targetIndexPath = owner.reactor?.currentState.selectedIndexs.filter { FilterSection(rawValue: $0.section) == .etcScrolls } ?? []
+                    default:
+                        break
+                    }
+                    for target in targetIndexPath { owner.mainView.contentCollectionView.selectItem(at: target, animated: true, scrollPosition: .left) }
+                }
             }
             .disposed(by: disposeBag)
             
@@ -366,23 +419,6 @@ extension ItemFilterBottomSheetViewController {
             }
             .disposed(by: disposeBag)
     }
-    
-    private func updateScrollsSection(with scrolls: [String]) {
-        var snapshot = dataSource.snapshot()
-        
-        // 섹션이 없다면 추가
-        if !snapshot.sectionIdentifiers.contains(.scrolls) {
-            snapshot.appendSections([.scrolls])
-        }
-        
-        // 기존 스크롤즈 아이템 제거
-        snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .scrolls))
-        
-        // 새 스크롤즈 아이템 추가
-        snapshot.appendItems(scrolls.map { .scrolls($0) }, toSection: .scrolls)
-        
-        dataSource.apply(snapshot, animatingDifferences: true)
-    }
 }
 
 extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
@@ -409,26 +445,37 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as? TagChipCell else {
                 return UICollectionViewCell()
             }
-            let items = reactor.currentState.selectedIndexs.map { dataSource.itemIdentifier(for: $0) }
-            let selectedTitles = items.compactMap { item -> String? in
-                switch item {
-                case .job(let title),
-                        .weapons(let title),
-                        .projectiles(let title),
-                        .armors(let title),
-                        .accessories(let title),
-                        .scrollTypes(let title),
-                        .scrolls(let title),
-                        .etcItems(let title):
-                    return title
-                case .level:
-                    let range = reactor.currentState.levelRange
-                    return "\(range.low) ~ \(range.high)"
-                default:
-                    return nil
+            let selectedTitles = reactor.currentState.selectedIndexs.map {
+                if let section = FilterSection(rawValue: $0.section) {
+                    switch section {
+                    case .job:
+                        return reactor.currentState.jobs[$0.row]
+                    case .weaponScrolls:
+                        return reactor.currentState.originWeaponScrolls[$0.row]
+                    case .armorsScrolls:
+                        return reactor.currentState.originArmorScrolls[$0.row]
+                    case .etcScrolls:
+                        return reactor.currentState.originEtcScrolls[$0.row]
+                    case .weapons:
+                        return reactor.currentState.weapons[$0.row]
+                    case .projectiles:
+                        return reactor.currentState.projectiles[$0.row]
+                    case .armors:
+                        return reactor.currentState.armors[$0.row]
+                    case .accessories:
+                        return reactor.currentState.accessories[$0.row]
+                    case .scrollTypes:
+                        return reactor.currentState.scrollTypes[$0.row]
+                    case .etcItems:
+                        return reactor.currentState.etcItems[$0.row]
+                    case .level:
+                        let range = reactor.currentState.levelRange
+                        return "\(range.low) ~ \(range.high)"
+                    }
                 }
+                return ""
             }
-            cell.inject(title: selectedTitles[indexPath.row])
+            cell.inject(title: selectedTitles[indexPath.row]) // 크래시
             cell.button.cancelButton.rx.tap
                 .withUnretained(self)
                 .subscribe { (owner, _) in

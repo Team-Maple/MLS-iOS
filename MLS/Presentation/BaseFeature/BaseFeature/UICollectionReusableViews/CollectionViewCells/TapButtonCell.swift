@@ -9,6 +9,7 @@ public class TapButtonCell: UICollectionViewCell {
     public let button: TapButton = {
         let button = TapButton()
         button.isUserInteractionEnabled = false
+        button.titleLabel?.numberOfLines = 1
         return button
     }()
 
@@ -48,6 +49,5 @@ private extension TapButtonCell {
 public extension TapButtonCell {
     func inject(title: String?) {
         button.text = title
-        button.titleLabel?.numberOfLines = 1
     }
 }
