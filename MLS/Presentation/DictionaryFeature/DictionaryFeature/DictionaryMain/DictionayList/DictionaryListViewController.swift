@@ -119,7 +119,22 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 isBookmarked: item.isBookmarked
             ),
             onBookmarkTapped: { [weak self] in
-                self?.reactor?.action.onNext(.toggleBookmark(item.id))
+                guard let self = self else { return }
+                if item.isBookmarked {
+                    self.reactor?.action.onNext(.toggleBookmark(item.id))
+                } else {
+                    GuideAlertFactory.show(
+                        mainText: "북마크를 하려면 로그인이 필요해요.",
+                        ctaText: "로그인 하기",
+                        cancelText: "취소",
+                        ctaAction: {
+                            print("로그인 화면으로 이동")
+                        },
+                        cancelAction: {
+                            print("취소됨")
+                        }
+                    )
+                }
             }
         )
 

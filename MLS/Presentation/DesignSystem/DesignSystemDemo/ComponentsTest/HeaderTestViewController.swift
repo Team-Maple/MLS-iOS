@@ -8,8 +8,8 @@ final class HeaderTestViewController: UIViewController {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private let mainHeader = Header(style: .main)
-    private let filterHeader = Header(style: .filter)
+    private let mainHeader = Header(style: .main, title: "메인")
+    private let filterHeader = Header(style: .filter, title: "필터")
 
     private let typeSegmentControl: UISegmentedControl = {
         let items = ["main", "filter"]
