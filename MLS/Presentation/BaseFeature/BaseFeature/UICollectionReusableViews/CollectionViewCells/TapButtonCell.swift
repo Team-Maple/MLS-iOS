@@ -8,8 +8,10 @@ public class TapButtonCell: UICollectionViewCell {
 
     public let button: TapButton = {
         let button = TapButton()
-        button.isUserInteractionEnabled = false
         button.titleLabel?.numberOfLines = 1
+        button.titleLabel?.lineBreakMode = .byTruncatingTail
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.minimumScaleFactor = 0.8
         return button
     }()
 
