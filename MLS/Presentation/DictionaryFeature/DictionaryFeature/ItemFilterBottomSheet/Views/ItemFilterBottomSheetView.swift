@@ -67,8 +67,20 @@ final class ItemFilterBottomSheetView: UIView {
 
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
-        view.contentInset = .init(top: 40, left: 0, bottom: 0, right: 0)
+        view.contentInset = .init(top: 32, left: 0, bottom: 40, right: 0)
         view.allowsMultipleSelection = true
+        return view
+    }()
+    
+    public let selectedItemCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.isHidden = true
+        return view
+    }()
+    
+    private let selectedItemDividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral200
         return view
     }()
 
@@ -93,10 +105,12 @@ private extension ItemFilterBottomSheetView {
         addSubview(toolBarStackView)
         addSubview(categoryCollectionView)
         addSubview(contentCollectionView)
+        toolBarStackView.addArrangedSubview(selectedItemCollectionView)
         toolBarStackView.addArrangedSubview(buttonStackView)
         buttonStackView.addArrangedSubview(clearButton)
         buttonStackView.addArrangedSubview(applyButton)
         buttonStackView.addSubview(buttonStackViewDividerView)
+        toolBarStackView.addSubview(selectedItemDividerView)
     }
 
     func setupConstraints() {
@@ -121,6 +135,13 @@ private extension ItemFilterBottomSheetView {
             make.bottom.equalTo(toolBarStackView.snp.top)
         }
         buttonStackViewDividerView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(2)
+        }
+        selectedItemCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(56)
+        }
+        selectedItemDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.height.equalTo(2)
         }

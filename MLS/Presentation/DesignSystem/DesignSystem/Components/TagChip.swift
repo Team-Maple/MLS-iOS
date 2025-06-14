@@ -11,54 +11,54 @@ public final class TagChip: UIButton {
         var borderWidth: CGFloat {
             switch self {
             case .normal:
-                return 1
-            case .search:
                 return 0
+            case .search:
+                return 1
             }
         }
 
         var borderColor: CGColor {
             switch self {
             case .normal:
-                return UIColor.neutral300.cgColor
-            case .search:
                 return UIColor.clearMLS.cgColor
+            case .search:
+                return UIColor.neutral300.cgColor
             }
         }
 
         var fontColor: UIColor {
             switch self {
             case .normal:
-                return .textColor
-            case .search:
                 return .primary700
+            case .search:
+                return .textColor
             }
         }
 
         var backgroundColor: UIColor {
             switch self {
             case .normal:
-                return .clearMLS
-            case .search:
                 return .primary50
+            case .search:
+                return .clearMLS
             }
         }
 
         var radius: CGFloat {
             switch self {
             case .normal:
-                return 8
-            case .search:
                 return 16
+            case .search:
+                return 8
             }
         }
 
         var contentInsets: NSDirectionalEdgeInsets {
             switch self {
             case .normal:
-                return .init(top: 6, leading: 10, bottom: 6, trailing: 10)
+                return .init(top: 4, leading: 12, bottom: 4, trailing: 8)
             case .search:
-                return .init(top: 6, leading: 12, bottom: 6, trailing: 12)
+                return .init(top: 4, leading: 10, bottom: 4, trailing: 10)
             }
         }
     }
@@ -75,14 +75,24 @@ public final class TagChip: UIButton {
         }
     }
 
-    public var text: String {
+    public var text: String? {
         didSet {
             updateUI()
         }
     }
 
+    public let mainTitleLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+
+    public let cancelButton: UIButton = {
+        let button = UIButton(type: .custom)
+        return button
+    }()
+
     // MARK: - init
-    public init(style: TagChipStyle, text: String) {
+    public init(style: TagChipStyle, text: String?) {
         self.style = style
         self.text = text
         super.init(frame: .zero)
@@ -100,28 +110,34 @@ public final class TagChip: UIButton {
 // MARK: - SetUp
 private extension TagChip {
     func setupConstraints() {
+        addSubview(mainTitleLabel)
+        addSubview(cancelButton)
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
+        }
+        mainTitleLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(style.contentInsets.leading)
+            make.centerY.equalToSuperview()
+        }
+        cancelButton.snp.makeConstraints { make in
+            make.leading.equalTo(mainTitleLabel.snp.trailing)
+            make.verticalEdges.equalToSuperview().inset(style.contentInsets.top)
+            make.size.equalTo(24)
+            make.trailing.equalToSuperview().inset(style.contentInsets.trailing)
         }
     }
 
     func configureUI() {
-        var config = UIButton.Configuration.plain()
-        let resizedImage = UIImage.smallX.resizeImage(to: CGSize(width: Constant.imageSize, height: Constant.imageSize))
-        config.image = resizedImage?.withRenderingMode(.alwaysTemplate).withTintColor(style.fontColor)
-        config.imagePlacement = .trailing
-        configuration = config
+        let image = UIImage.smallX.withRenderingMode(.alwaysTemplate)
+        cancelButton.setImage(image, for: .normal)
+        cancelButton.tintColor = style.fontColor
     }
 
     func updateUI() {
         backgroundColor = style.backgroundColor
-        var config = configuration ?? .plain()
-        config.contentInsets = style.contentInsets
-        config.baseForegroundColor = style.fontColor
-        config.attributedTitle = AttributedString(.makeStyledString(font: isSelected ? .captionBold : .caption, text: text, color: style.fontColor) ?? .init())
+        mainTitleLabel.attributedText = .makeStyledString(font: isSelected ? .captionBold : .caption, text: text, color: style.fontColor)
         layer.borderColor = style.borderColor
         layer.borderWidth = style.borderWidth
         layer.cornerRadius = style.radius
-        configuration = config
     }
 }

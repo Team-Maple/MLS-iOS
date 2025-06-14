@@ -4,6 +4,7 @@ import DesignSystem
 
 import SnapKit
 import RxSwift
+import RxCocoa
 
 public class FilterLevelSectionCell: UICollectionViewCell {
 
@@ -42,7 +43,7 @@ public class FilterLevelSectionCell: UICollectionViewCell {
         return view
     }()
 
-    private let slider: FilterSlider = {
+    public let slider: FilterSlider = {
         let slider = FilterSlider(minimumValue: 0, maximumValue: 200, initialLowerValue: 0, initialUpperValue: 200)
         return slider
     }()
@@ -65,7 +66,7 @@ public class FilterLevelSectionCell: UICollectionViewCell {
         return label
     }()
 
-    private var disposeBag = DisposeBag()
+    public var disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -149,12 +150,47 @@ private extension FilterLevelSectionCell {
                 owner.rightInputBox.textField.text = upperValue == 200 ? nil : "\(upperValue)"
             }
             .disposed(by: disposeBag)
+        
+        leftInputBox.textField.rx.text.orEmpty
+            .withUnretained(self)
+            .subscribe { (owner, text) in
+                if let value = Double(text) {
+                    owner.slider.lowerValue = value
+                } else {
+                    owner.slider.lowerValue = 0
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        rightInputBox.textField.rx.text.orEmpty
+            .withUnretained(self)
+            .subscribe { (owner, text) in
+                if let value = Double(text) {
+                    owner.slider.upperValue = value
+                } else {
+                    owner.slider.upperValue = 200
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        let leftBoxDidEnd = leftInputBox.textField.rx.controlEvent(.editingDidEnd).asObservable()
+        let rightBoxDidEnd = rightInputBox.textField.rx.controlEvent(.editingDidEnd).asObservable()
+        
+        Observable.merge([leftBoxDidEnd, rightBoxDidEnd])
+            .withUnretained(self)
+            .debounce(.seconds(1), scheduler: MainScheduler.instance)
+            .subscribe { (owner, _) in
+                if let leftValue = Double(owner.leftInputBox.textField.text ?? "0"), let rightValue = Double(owner.rightInputBox.textField.text ?? "200") {
+                    if leftValue > rightValue {
+                        owner.leftInputBox.textField.text = "\(Int(rightValue))"
+                        owner.slider.lowerValue = rightValue
+                        owner.rightInputBox.textField.text = "\(Int(leftValue))"
+                        owner.slider.upperValue = leftValue
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
     }
 
     func configureUI() { }
-}
-
-public extension FilterLevelSectionCell {
-    func inject() {
-    }
 }

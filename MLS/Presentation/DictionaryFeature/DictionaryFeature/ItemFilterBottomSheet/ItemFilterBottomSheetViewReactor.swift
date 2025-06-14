@@ -12,12 +12,17 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
     // MARK: - Reactor
     public enum Action {
         case closeButtonTapped
-        case filterTapped(indexPaths: [IndexPath]?)
+        case filterSelected(indexPath: IndexPath)
+        case filterDeselected(indexPath: IndexPath)
+        case changeLevelRange(low: Int, high: Int)
     }
 
     public enum Mutation {
         case navigateTo(route: Route)
-        case setState
+        case setScrolls(selectedIndex: Int?)
+        case appendSelectedItem(indexPath: IndexPath)
+        case removeSelectedItem(indexPath: IndexPath)
+        case setLevelRange(low: Int, high: Int)
     }
 
     public struct State {
@@ -87,11 +92,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             "방어구 주문서",
             "기타 주문서"
         ]
-        var scrolls: [String] = [
-//            "한손검",
-//            "한손검",
-//            "한손검"
-        ]
+        var scrolls: [String] = []
         var etcItems: [String] = [
             "마스터리북",
             "스킬북",
@@ -100,6 +101,8 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             "이동수단"
         ]
 
+        var selectedIndexs: [IndexPath] = []
+        var levelRange: (low: Int, high: Int) = (0, 200)
         @Pulse var route: Route = .none
     }
 
@@ -117,9 +120,30 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         switch action {
         case .closeButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
-        case .filterTapped(let indexPaths):
-            print(indexPaths)
-            return Observable.just(.setState)
+//        case .filterTapped(let indexPaths):
+//            if let indexPaths = indexPaths {
+//                let selectedScrollType = indexPaths.filter({ $0.section == ItemFilterBottomSheetViewController.FilterSection.scrollTypes.rawValue }).first
+//                return Observable.concat([
+//                    .just(.setScrolls(selectedIndex: selectedScrollType?.row)),
+//                    .just(.setSelectedItems(indexPaths: indexPaths))
+//                ])
+//            }
+//            return Observable.just(.setSelectedItems(indexPaths: []))
+        case .filterSelected(let indexPath):
+            let section = ItemFilterBottomSheetViewController.FilterSection(rawValue: indexPath.section)
+            switch section {
+            case .scrollTypes:
+                return Observable.concat([
+                    .just(.setScrolls(selectedIndex: indexPath.row)),
+                    .just(.appendSelectedItem(indexPath: indexPath))
+                ])
+            default:
+                return Observable.just(.appendSelectedItem(indexPath: indexPath))
+            }
+        case .filterDeselected(let indexPath):
+            return Observable.just(.removeSelectedItem(indexPath: indexPath))
+        case .changeLevelRange(low: let low, high: let high):
+            return Observable.just(.setLevelRange(low: low, high: high))
         }
     }
 
@@ -129,10 +153,65 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
-        case .setState:
-            return newState
+        case .appendSelectedItem(let indexPath):
+            newState.selectedIndexs.append(indexPath)
+        case .removeSelectedItem(let indexPath):
+            if let removeIndex = newState.selectedIndexs.firstIndex(of: indexPath) {
+                newState.selectedIndexs.remove(at: removeIndex)
+            }
+        case .setScrolls(let selectedIndex):
+            switch selectedIndex {
+            case 0:
+                newState.scrolls = [
+                    "한손검1",
+                    "한손검2",
+                    "한손검3",
+                    "한손검4",
+                    "한손검5",
+                    "한손검6",
+                    "한손검7",
+                    "한손검8",
+                    "한손검9",
+                    "한손검10"
+                ]
+            case 1:
+                newState.scrolls = [
+                    "갑옷1",
+                    "갑옷2",
+                    "갑옷3",
+                    "갑옷4",
+                    "갑옷5",
+                    "갑옷6",
+                    "갑옷7",
+                    "갑옷8",
+                    "갑옷9",
+                    "갑옷10"
+                ]
+            case 2:
+                newState.scrolls = [
+                    "기타1",
+                    "기타2",
+                    "기타3",
+                    "기타4",
+                    "기타5",
+                    "기타6",
+                    "기타7",
+                    "기타8",
+                    "기타9",
+                    "기타10"
+                ]
+            default:
+                newState.scrolls = []
+            }
+        case .setLevelRange(low: let low, high: let high):
+            let levelSection: IndexPath = .init(row: 0, section: ItemFilterBottomSheetViewController.FilterSection.level.rawValue)
+            if low == 0 && high == 200 {
+                if let removeIndex = newState.selectedIndexs.firstIndex(of: levelSection) { newState.selectedIndexs.remove(at: removeIndex) }
+            } else {
+                if !newState.selectedIndexs.contains(levelSection) { newState.selectedIndexs.append(levelSection) }
+            }
+            newState.levelRange = (low, high)
         }
-
         return newState
     }
 }
