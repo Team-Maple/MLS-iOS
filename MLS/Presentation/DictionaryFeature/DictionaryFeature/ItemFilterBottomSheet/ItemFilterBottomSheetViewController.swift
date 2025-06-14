@@ -303,13 +303,6 @@ extension ItemFilterBottomSheetViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        mainView.categoryCollectionView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe { (owner, _) in
-                owner.mainView.categoryCollectionView.invalidateIntrinsicContentSize()
-            }
-            .disposed(by: disposeBag)
-        
         mainView.contentCollectionView.rx.itemSelected
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
@@ -322,13 +315,13 @@ extension ItemFilterBottomSheetViewController {
                     for selectedIndexPath in selectedItems {
                         if indexPath != selectedIndexPath { owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true) }
                     }
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
                 case .level:
                     owner.mainView.contentCollectionView.deselectItem(at: indexPath, animated: true)
                 default:
-                    break
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
                 }
                 owner.view.endEditing(true)
-                owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
             }
             .disposed(by: disposeBag)
         
