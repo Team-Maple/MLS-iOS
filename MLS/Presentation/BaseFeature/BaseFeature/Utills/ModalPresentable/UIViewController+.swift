@@ -32,11 +32,7 @@ public extension UIViewController {
     @objc internal func dismissCurrentModal() {
         guard let wrapper = modalWrapperView else { return }
 
-        // dismiss 애니메이션
-        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseIn], animations: {
-            wrapper.dimView.alpha = 0
-            wrapper.containerView.transform = CGAffineTransform(translationX: 0, y: wrapper.containerView.bounds.height)
-        }, completion: { _ in
+        wrapper.animateDismiss {
             if let contentVC = wrapper.containerView.subviews.compactMap({ $0.next as? UIViewController }).first {
                 contentVC.willMove(toParent: nil)
                 contentVC.view.removeFromSuperview()
@@ -45,7 +41,7 @@ public extension UIViewController {
 
             wrapper.removeFromSuperview()
             self.modalWrapperView = nil
-        })
+        }
     }
 }
 

@@ -30,7 +30,6 @@ public final class BottomTabBarController: UITabBarController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        self.title = "BottomTabBar"
     }
 }
 

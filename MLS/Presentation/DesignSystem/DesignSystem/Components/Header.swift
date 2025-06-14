@@ -43,7 +43,8 @@ public final class Header: UIStackView {
     public let secondIconView = UIButton()
 
     // MARK: - init
-    public init(style: HeaderStyle) {
+    public init(style: HeaderStyle, title: String) {
+        titleLabel.attributedText = .makeStyledString(font: .heading3SemiBold, text: title)
         self.style = style
         super.init(frame: .zero)
 
@@ -85,8 +86,13 @@ private extension Header {
     }
 
     func configureUI() {
+        alignment = .center
+        isLayoutMarginsRelativeArrangement = true
+        layoutMargins = UIEdgeInsets(top: 0, left: Constant.spacing, bottom: 0, right: Constant.spacing)
         axis = .horizontal
         spacing = Constant.spacing
+        titleLabel.font = style.titleFont
+        titleLabel.textColor = .textColor
         firstIconView.setImage(style.icons[0], for: .normal)
         if style == .main {
             secondIconView.setImage(style.icons[1], for: .normal)

@@ -53,7 +53,7 @@ public final class CheckBoxButton: UIButton {
         public var backgroundColor: UIColor {
             switch self {
             case .normal:
-                return .whiteMLS
+                return .neutral100
             default:
                 return .clearMLS
             }

@@ -50,7 +50,7 @@ private extension TabButton {
 
     func setupConstraints() {
         snp.makeConstraints { make in
-            make.size.equalTo(Constant.buttonSize)
+            make.size.equalTo(Constant.buttonSize).priority(.low)
         }
 
         iconView.snp.makeConstraints { make in

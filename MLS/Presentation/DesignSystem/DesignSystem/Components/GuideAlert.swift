@@ -6,10 +6,13 @@ public final class GuideAlert: UIView {
     // MARK: - Type
     private enum Constant {
         static let verticalInset: CGFloat = 20
+        static let horizontalInset: CGFloat = 20
         static let iconSize: CGFloat = 48
         static let verticalSpacing: CGFloat = 24
         static let stackViewSpacing: CGFloat = 4
         static let stackViewHeight: CGFloat = 48
+        static let alertWidth: CGFloat = 327
+        static let radius: CGFloat = 24
     }
 
     // MARK: - Components
@@ -39,6 +42,7 @@ public final class GuideAlert: UIView {
 
         addViews(cancelText: cancelText)
         setupConstraints(ctaRatio: ctaRatio)
+        configureUI()
     }
 
     @available(*, unavailable)
@@ -53,6 +57,7 @@ private extension GuideAlert {
         addSubview(warningIconView)
         addSubview(textLabel)
         addSubview(buttonStackView)
+        
         if let cancelButton = cancelButton {
             buttonStackView.addArrangedSubview(cancelButton)
         }
@@ -60,6 +65,10 @@ private extension GuideAlert {
     }
 
     func setupConstraints(ctaRatio: Double) {
+        snp.makeConstraints { make in
+            make.width.equalTo(Constant.alertWidth)
+        }
+        
         warningIconView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(Constant.verticalInset)
             make.centerX.equalToSuperview()
@@ -68,13 +77,13 @@ private extension GuideAlert {
 
         textLabel.snp.makeConstraints { make in
             make.top.equalTo(warningIconView.snp.bottom).offset(Constant.verticalInset)
-            make.horizontalEdges.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
 
         buttonStackView.snp.makeConstraints { make in
             make.top.equalTo(textLabel.snp.bottom).offset(Constant.verticalSpacing)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.bottom.equalToSuperview().inset(Constant.verticalInset)
             make.height.equalTo(Constant.stackViewHeight)
         }
 
@@ -92,5 +101,10 @@ private extension GuideAlert {
                 make.width.equalTo(buttonStackView.snp.width)
             }
         }
+    }
+    
+    func configureUI() {
+        backgroundColor = .whiteMLS
+        layer.cornerRadius = Constant.radius
     }
 }
