@@ -11,7 +11,6 @@ public final class DictionaryListReactor: Reactor {
 
     public enum Mutation {
         case setItems([DictionaryItem])
-        case showToast(String)
     }
 
     public struct State {
@@ -44,20 +43,9 @@ public final class DictionaryListReactor: Reactor {
             
         case let .toggleBookmark(id):
             return toggleBookmarkUseCase.execute(id: id)
-                .flatMap { [weak self] _ -> Observable<Mutation> in
-                    guard let self = self else { return .empty() }
-                    
-                    return self.fetchDictionaryItemsUseCase.execute(type: self.dictionaryType)
-                        .map { newItems -> [Mutation] in
-                            var mutations: [Mutation] = [.setItems(newItems)]
-                            
-                            if let newItem = newItems.first(where: { $0.id == id }), newItem.isBookmarked {
-                                mutations.append(.showToast("북마크에 추가됐어요!"))
-                            }
-                            
-                            return mutations
-                        }
-                        .flatMap { Observable.from($0) }
+                .map { newItems in
+                    let filteredItems = newItems.filter { $0.type == self.dictionaryType.toItemType }
+                    return .setItems(filteredItems)
                 }
         }
     }
@@ -69,10 +57,8 @@ public final class DictionaryListReactor: Reactor {
         case let .setItems(items):
             newState.items = items
             newState.toastMessage = nil
-        case let .showToast(message):
-            newState.toastMessage = message
-        }
 
-        return newState
+            return newState
+        }
     }
 }

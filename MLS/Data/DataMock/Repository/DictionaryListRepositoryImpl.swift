@@ -38,7 +38,7 @@ extension DictionaryListRepositoryImpl {
             .distinctUntilChanged()
     }
 
-    public func toggleBookmark(id: String) -> Observable<Void> {
+    public func toggleBookmark(id: String) -> Observable<[DictionaryItem]> {
         if let index = allItems.firstIndex(where: { $0.id == id }) {
             var item = allItems[index]
             item.isBookmarked.toggle()
@@ -46,11 +46,6 @@ extension DictionaryListRepositoryImpl {
             itemsRelay.accept(allItems)
         }
 
-        return Observable.just(())
+        return Observable.just(allItems)
     }
-//
-//    public func setInitialItems(_ items: [DictionaryItem]) {
-//        self.allItems = items
-//        self.itemsRelay.accept(items)
-//    }
 }

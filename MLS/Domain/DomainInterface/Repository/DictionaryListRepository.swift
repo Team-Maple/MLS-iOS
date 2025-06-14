@@ -5,5 +5,5 @@ public protocol DictionaryListRepository {
 
     func fetchItems(type: DictionaryType) -> Observable<[DictionaryItem]>
     
-    func toggleBookmark(id: String) -> Observable<Void>
+    func toggleBookmark(id: String) -> Observable<[DictionaryItem]>
 }
