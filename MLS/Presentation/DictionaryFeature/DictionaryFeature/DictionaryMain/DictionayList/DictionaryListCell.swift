@@ -1,5 +1,6 @@
 import UIKit
 
+import DomainInterface
 import DesignSystem
 
 final class DictionaryListCell: UICollectionViewCell {
@@ -7,7 +8,7 @@ final class DictionaryListCell: UICollectionViewCell {
     private var onBookmarkTapped: (() -> Void)?
 
     // MARK: - Components
-    private let cellView = CardList()
+    public let cellView = CardList()
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -49,11 +50,28 @@ extension DictionaryListCell {
         cellView.loadImage(image: input.image)
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
-        cellView.setBookMark(isBookmarked: input.isBookmarked)
+        cellView.setBookmark(isBookmarked: input.isBookmarked)
         cellView.setBackgroundColor(color: input.type.backgroundColor)
         self.onBookmarkTapped = onBookmarkTapped
-        cellView.onBookmarkTapped = { [weak self] in
+        cellView.onBookmarkTapped = { [weak self] isSelected in
             self?.onBookmarkTapped?()
+        }
+    }
+}
+
+extension DictionaryItemType {
+    public var backgroundColor: UIColor {
+        switch self {
+        case .item:
+                .listItem
+        case .monster:
+                .listMonster
+        case .map:
+                .listMap
+        case .npc:
+                .listNPC
+        case .quest:
+                .listQuest
         }
     }
 }

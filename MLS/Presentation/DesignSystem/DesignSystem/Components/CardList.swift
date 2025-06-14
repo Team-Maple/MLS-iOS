@@ -34,7 +34,7 @@ public final class CardList: UIView {
         }
     }
     
-    public var onBookmarkTapped: (() -> Void)?
+    public var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
     private lazy var imageContentView: UIView = {
@@ -85,6 +85,7 @@ public final class CardList: UIView {
         addViews()
         setupConstraints()
         configureUI()
+        bindButton()
     }
 
     @available(*, unavailable)
@@ -127,7 +128,8 @@ private extension CardList {
     
     func bindButton() {
         bookmarkButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.onBookmarkTapped?()
+            guard let self = self else { return }
+            self.onBookmarkTapped?(self.isBookmarkSelected)
         }), for: .touchUpInside)
     }
     
@@ -157,7 +159,7 @@ public extension CardList {
         imageView.image = image
     }
     
-    func setBookMark(isBookmarked: Bool) {
+    func setBookmark(isBookmarked: Bool) {
         isBookmarkSelected = isBookmarked
     }
     

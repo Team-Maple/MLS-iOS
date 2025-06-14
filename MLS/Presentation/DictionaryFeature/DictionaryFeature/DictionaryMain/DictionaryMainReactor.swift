@@ -1,5 +1,7 @@
 import ReactorKit
 
+import DomainInterface
+
 public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor
     public enum Action {}
@@ -7,14 +9,7 @@ public final class DictionaryMainReactor: Reactor {
     public enum Mutation {}
         
     public struct State {
-        var sections: [String] = [
-            "전체",
-            "몬스터",
-            "아이템",
-            "맵",
-            "NPC",
-            "퀘스트",
-        ]
+        var sections = DictionaryType.allCases.map { $0.title }
     }
         
     // MARK: - properties

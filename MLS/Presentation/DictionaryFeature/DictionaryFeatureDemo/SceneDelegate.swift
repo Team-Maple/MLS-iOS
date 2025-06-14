@@ -9,14 +9,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-//        let startVC = ViewController()
-//        window?.rootViewController = UINavigationController(rootViewController: startVC)
-        let startVC = BottomTabBarController(viewControllers: [
-            UIViewController(),
-            DictionaryMainViewController(reactor: DictionaryMainReactor()),
-            UIViewController(),
-            UIViewController(),
-        ], initialIndex: 1)
+        let startVC = ViewController()
+        window?.rootViewController = UINavigationController(rootViewController: startVC)
         window?.rootViewController = startVC
         window?.makeKeyAndVisible()
     }

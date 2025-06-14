@@ -2,6 +2,8 @@ import UIKit
 
 import BaseFeature
 import DesignSystem
+import DomainInterface
+import DictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa
@@ -20,21 +22,13 @@ public final class DictionaryMainViewController: BaseViewController, View {
         
     private let mainView = DictionaryMainView()
 
-    public init(reactor: DictionaryMainReactor, initialIndex: Int = 0) {
-        let vc1 = DictionaryListViewController<DictionaryListTotalReactor>(type: .total)
-        vc1.reactor = DictionaryListTotalReactor()
-        let vc2 = DictionaryListViewController<DictionaryListMonsterReactor>(type: .monster)
-        vc2.reactor = DictionaryListMonsterReactor()
-        let vc3 = DictionaryListViewController<DictionaryListItemReactor>(type: .item)
-        vc3.reactor = DictionaryListItemReactor()
-        let vc4 = DictionaryListViewController<DictionaryListMapReactor>(type: .map)
-        vc4.reactor = DictionaryListMapReactor()
-        let vc5 = DictionaryListViewController<DictionaryListNpcReactor>(type: .npc)
-        vc5.reactor = DictionaryListNpcReactor()
-        let vc6 = DictionaryListViewController<DictionaryListQuestReactor>(type: .quest)
-        vc6.reactor = DictionaryListQuestReactor()
-        viewControllers = [vc1, vc2, vc3, vc4, vc5, vc6]
-        
+    public init(
+        reactor: DictionaryMainReactor,
+        initialIndex: Int = 0,
+        dictionaryListViewControllerFactory: DictionaryListFactory
+    ) {
+        let types: [DictionaryType] = DictionaryType.allCases
+        self.viewControllers = types.map { dictionaryListViewControllerFactory.make(type: $0) }
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
