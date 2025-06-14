@@ -1,3 +1,5 @@
+import Foundation
+
 import ReactorKit
 import RxCocoa
 import RxSwift
@@ -10,10 +12,12 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
     // MARK: - Reactor
     public enum Action {
         case closeButtonTapped
+        case filterTapped(indexPaths: [IndexPath]?)
     }
 
     public enum Mutation {
         case navigateTo(route: Route)
+        case setState
     }
 
     public struct State {
@@ -78,10 +82,15 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             "어깨장식",
             "귀장식"
         ]
-        var scrolls: [String] = [
+        var scrollTypes: [String] = [
             "무기 주문서",
             "방어구 주문서",
             "기타 주문서"
+        ]
+        var scrolls: [String] = [
+//            "한손검",
+//            "한손검",
+//            "한손검"
         ]
         var etcItems: [String] = [
             "마스터리북",
@@ -108,6 +117,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         switch action {
         case .closeButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
+        case .filterTapped(let indexPaths):
+            print(indexPaths)
+            return Observable.just(.setState)
         }
     }
 
@@ -117,6 +129,8 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case .setState:
+            return newState
         }
 
         return newState

@@ -196,13 +196,6 @@ extension ItemFilterBottomSheetViewController {
                 owner.isScroll = false
             }
             .disposed(by: disposeBag)
-        
-        mainView.contentCollectionView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe { (owner, indexPath) in
-                print(owner.mainView.contentCollectionView.indexPathsForSelectedItems)
-            }
-            .disposed(by: disposeBag)
     }
 
     public func bind(reactor: Reactor) {
@@ -216,6 +209,20 @@ extension ItemFilterBottomSheetViewController {
             .map { Reactor.Action.closeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .map { (owner, _) in Reactor.Action.filterTapped(indexPaths: owner.mainView.contentCollectionView.indexPathsForSelectedItems) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        
+        mainView.contentCollectionView.rx.itemDeselected
+            .withUnretained(self)
+            .map { (owner, _) in Reactor.Action.filterTapped(indexPaths: owner.mainView.contentCollectionView.indexPathsForSelectedItems) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
     }
 
     func bindViewState(reactor: Reactor) {
@@ -263,11 +270,11 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
             case .accessories:
                 return reactor.currentState.accessories.count
             case .scrollTypes:
-                return reactor.currentState.scrolls.count
+                return reactor.currentState.scrollTypes.count
             case .etcItems:
                 return reactor.currentState.etcItems.count
             case .scrolls:
-                return 10
+                return reactor.currentState.scrolls.count
             }
         }
     }
@@ -327,16 +334,15 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
                     return UICollectionViewCell()
                 }
-                let scrolls = reactor.currentState.scrolls[indexPath.row]
+                let scrolls = reactor.currentState.scrollTypes[indexPath.row]
                 cell.inject(title: scrolls)
                 return cell
             case .scrolls:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as? CheckBoxButtonListSmallCell else {
                     return UICollectionViewCell()
                 }
-//                let scrolls = reactor.currentState.scrolls[indexPath.row]
-//                cell.inject(title: scrolls)
-                cell.inject(title: "한손검")
+                let scrolls = reactor.currentState.scrolls[indexPath.row]
+                cell.inject(title: scrolls)
                 return cell
             case .etcItems:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
