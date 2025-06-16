@@ -73,14 +73,10 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
     // Diffable Data Source 타입 정의
     typealias DataSource = UICollectionViewDiffableDataSource<FilterSection, FilterItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<FilterSection, FilterItem>
-    private var dataSource: DataSource! = nil
-    
-    private var isScroll: Bool = false
-
-    private var lastSelectedSection: FilterSection = .job
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-
+    private var isScroll: Bool = false
+    private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
 
     public override init() {
@@ -270,70 +266,6 @@ extension ItemFilterBottomSheetViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
-        bind()
-    }
-
-    private func bind() {
-        mainView.categoryCollectionView.rx.itemSelected
-            .withUnretained(self)
-            .subscribe { (owner, indexPath) in
-                guard let selectedSection = FilterSection(rawValue: indexPath.row) else { return }
-                owner.isScroll = true
-                switch owner.lastSelectedSection {
-                case .armors, .accessories, .scrollTypes, .etcItems:
-                    switch selectedSection {
-                    case .armors, .accessories, .scrollTypes, .etcItems:
-                        owner.isScroll = false
-                    default:
-                        owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
-                    }
-                default:
-                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
-                }
-                owner.lastSelectedSection = selectedSection
-                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
-            }
-            .disposed(by: disposeBag)
-        
-        mainView.contentCollectionView.rx.didScroll
-            .withUnretained(self)
-            .subscribe { (owner, _) in
-                guard !owner.isScroll else { return }
-                let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
-                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
-                let currentSection = topIndexPath.section
-                if let selectedSection = FilterSection(rawValue: currentSection) {
-                    owner.lastSelectedSection = selectedSection
-                }
-                if let maxSection = owner.reactor?.currentState.sections.count {
-                    if currentSection <= maxSection {
-                        owner.mainView.categoryCollectionView.selectItem(
-                            at: IndexPath(row: currentSection, section: 0),
-                            animated: false,
-                            scrollPosition: .centeredHorizontally
-                        )
-                        owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
-                    }
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        mainView.contentCollectionView.rx.didEndScrollingAnimation
-            .withUnretained(self)
-            .subscribe { (owner, _) in
-                owner.isScroll = false
-            }
-            .disposed(by: disposeBag)
-        
-        let tapGesture = UITapGestureRecognizer()
-        tapGesture.cancelsTouchesInView = false
-        mainView.contentCollectionView.addGestureRecognizer(tapGesture)
-
-        tapGesture.rx.event
-            .bind { [weak self] _ in
-                self?.view.endEditing(true)
-            }
-            .disposed(by: disposeBag)
     }
 
     func bindUserActions(reactor: Reactor) {
@@ -385,6 +317,59 @@ extension ItemFilterBottomSheetViewController {
                     reactor.action.onNext(.filterDeselected(indexPath: indexPath))
                 }
             })
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.didScroll
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                guard !owner.isScroll else { return }
+                let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
+                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
+                let currentSection = topIndexPath.section
+                if let maxSection = owner.reactor?.currentState.sections.count {
+                    if currentSection <= maxSection {
+                        owner.mainView.categoryCollectionView.selectItem(
+                            at: IndexPath(row: currentSection, section: 0),
+                            animated: false,
+                            scrollPosition: .centeredHorizontally
+                        )
+                        owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.didEndScrollingAnimation
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.isScroll = false
+            }
+            .disposed(by: disposeBag)
+
+        mainView.categoryCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                var indexPath = indexPath
+                indexPath.row += 1
+                owner.isScroll = true
+                if indexPath.row == 7 {
+                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: 10), at: .bottom, animated: true)
+                } else {
+                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .centeredVertically, animated: true)
+                }
+                
+                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+            }
+            .disposed(by: disposeBag)
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        mainView.contentCollectionView.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .bind { [weak self] _ in
+                self?.view.endEditing(true)
+            }
             .disposed(by: disposeBag)
     }
 
