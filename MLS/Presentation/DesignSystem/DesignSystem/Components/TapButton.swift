@@ -10,6 +10,11 @@ public final class TapButton: UIButton {
         static let radius: CGFloat = 17
         static let contentInsets: NSDirectionalEdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
     }
+    
+    public let mainTitleLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
 
     // MARK: - Properties
     override public var isSelected: Bool {
@@ -45,24 +50,26 @@ private extension TapButton {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
+        addSubview(mainTitleLabel)
+        mainTitleLabel.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.contentInsets.leading)
+            make.verticalEdges.equalToSuperview().inset(Constant.contentInsets.top)
+        }
     }
 
     func configureUI() {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = Constant.contentInsets
-        configuration = config
+        backgroundColor = .clear
+        layer.borderWidth = Constant.borderWidth
+        layer.cornerRadius = Constant.radius
+        layer.borderColor = isSelected ? UIColor.primary700.cgColor : UIColor.neutral200.cgColor
     }
 
     func updateUI() {
-        var config = configuration ?? .plain()
-        config.contentInsets = Constant.contentInsets
-        config.baseBackgroundColor = .clear
-        config.baseForegroundColor = isSelected ? .primary700 : .neutral700
-        config.attributedTitle = AttributedString(.makeStyledString(font: isSelected ? .captionSemiBold : .caption, text: text, color: isSelected ? .primary700 : .neutral700) ?? .init())
+        mainTitleLabel.attributedText = .makeStyledString(
+            font: isSelected ? .captionSemiBold : .caption,
+            text: text,
+            color: isSelected ? .primary700 : .neutral700
+        )
         layer.borderColor = isSelected ? UIColor.primary700.cgColor : UIColor.neutral200.cgColor
-
-        layer.borderWidth = Constant.borderWidth
-        layer.cornerRadius = Constant.radius
-        configuration = config
     }
 }

@@ -48,6 +48,5 @@ public extension TapButtonCell {
     func inject(title: String?) {
         button.text = title
         button.isUserInteractionEnabled = false
-        button.titleLabel?.numberOfLines = 1
     }
 }
