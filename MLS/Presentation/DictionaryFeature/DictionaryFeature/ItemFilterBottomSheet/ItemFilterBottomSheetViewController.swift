@@ -41,6 +41,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         var layout: CompositionalSectionBuilder {
             switch self {
             case .level: return LayoutFactory.getLevelRangeSection()
+            case .scrollTypes: return LayoutFactory.getItemTagListSection(width: 130)
             case .weaponScrolls, .armorsScrolls, .etcScrolls:
                 return CompositionalSectionBuilder()
                     .item(width: .fractionalWidth(0.5), height: .absolute(32))

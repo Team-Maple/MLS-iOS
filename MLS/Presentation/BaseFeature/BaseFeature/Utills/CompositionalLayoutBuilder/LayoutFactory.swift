@@ -15,9 +15,9 @@ public class LayoutFactory {
             .decorationItem(kind: Neutral300DividerView.identifier, insets: .init(top: 39, leading: 0, bottom: 0, trailing: 0))
     }
 
-    static public func getItemTagListSection() -> CompositionalSectionBuilder {
+    static public func getItemTagListSection(width: CGFloat = 80) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
-            .item(width: .estimated(120), height: .absolute(34))
+            .item(width: .estimated(width), height: .absolute(34))
             .group(.horizontal, width: .fractionalWidth(1), height: .absolute(34))
             .interItemSpacing(.fixed(8))
             .buildSection()
