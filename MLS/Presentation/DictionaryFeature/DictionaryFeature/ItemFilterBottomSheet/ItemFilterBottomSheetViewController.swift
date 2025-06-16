@@ -41,6 +41,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
         var layout: CompositionalSectionBuilder {
             switch self {
             case .level: return LayoutFactory.getLevelRangeSection()
+            case .scrollTypes: return LayoutFactory.getItemTagListSection(width: 140)
             case .weaponScrolls, .armorsScrolls, .etcScrolls:
                 return CompositionalSectionBuilder()
                     .item(width: .fractionalWidth(0.5), height: .absolute(32))
@@ -490,10 +491,17 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                             cell.slider.upperValue = 200
                             owner.reactor?.action.onNext(.changeLevelRange(low: 0, high: 0))
                         }
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
+                    case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                        let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
+                            .filter { $0.section == FilterSection.scrollTypes.rawValue }.first
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
+                        owner.mainView.contentCollectionView.deselectItem(at: deselectedIndex, animated: false)
+                        owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
                     default:
                         owner.mainView.contentCollectionView.deselectItem(at: deselectedIndex, animated: true)
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                     }
-                    owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                 }
                 .disposed(by: cell.disposeBag)
             return cell
