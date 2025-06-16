@@ -32,7 +32,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         var projectiles: [String] = ["화살", "불릿", "표창"]
         var armors: [String] = ["모자", "전신", "상의", "하의", "장갑", "신발", "방패", "전신 갑옷" ]
         var accessories: [String] = ["귀고리", "망토", "훈장", "눈장식", "얼굴장식", "팬던트", "벨트", "반지", "어깨장식", "귀장식"]
-        @Pulse var scrollTypes: [String] = ["무기", "방어구", "기타"]
+        @Pulse var scrollTypes: [String] = ["무기 주문서", "방어구 주문서", "기타 주문서"]
         var originWeaponScrolls: [String] = ["한손검1", "한손검2", "한손검3", "한손검4", "한손검5", "한손검6", "한손검7", "한손검8", "한손검9", "한손검10"]
         var originArmorScrolls: [String] = ["갑옷1", "갑옷2", "갑옷3", "갑옷4", "갑옷5", "갑옷6", "갑옷7", "갑옷8", "갑옷9", "갑옷10"]
         var originEtcScrolls: [String] = ["기타1", "기타2", "기타3", "기타4", "기타5", "기타6", "기타7", "기타8", "기타9", "기타10"]
@@ -93,9 +93,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
             let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
             newState.scrollTypes = [
-                "무기\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
-                "방어구\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
-                "기타\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
+                "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
+                "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
+                "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
             ]
         case .removeSelectedItem(let indexPath):
             if let removeIndex = newState.selectedIndexs.firstIndex(of: indexPath) {
@@ -105,9 +105,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
             let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
             newState.scrollTypes = [
-                "무기\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
-                "방어구\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
-                "기타\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
+                "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
+                "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
+                "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
             ]
         case .setScrolls(let selectedIndex):
             switch selectedIndex {
