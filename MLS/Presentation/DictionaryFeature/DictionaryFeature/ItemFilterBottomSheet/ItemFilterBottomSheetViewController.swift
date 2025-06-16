@@ -346,7 +346,7 @@ extension ItemFilterBottomSheetViewController {
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
                 owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                let section = indexPath.row == 6 ? 10 : indexPath.row + 1
+                let section = indexPath.row == 6 ? 10 : indexPath.row == 0 ? 0 : indexPath.row + 1
                 owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: section), at: .top, animated: true)
             }
             .disposed(by: disposeBag)
