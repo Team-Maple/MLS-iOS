@@ -99,6 +99,15 @@ extension ItemFilterBottomSheetViewController {
         addViews()
         setupConstraints()
         configureUI()
+
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Modal Gesture 제거
+        navigationController?.presentationController?.presentedView?.gestureRecognizers?.forEach { $0.isEnabled = false }
+        presentationController?.presentedView?.gestureRecognizers?.forEach { $0.isEnabled = false }
     }
 }
 
@@ -199,12 +208,19 @@ private extension ItemFilterBottomSheetViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as? FilterLevelSectionCell, let reactor = self.reactor else { return UICollectionViewCell()
                 }
                 let leftValue = cell.slider.lowerValueObservable.map { Int ($0) }
-
                 let rightValue = cell.slider.upperValueObservable.map { Int ($0) }
-
                 Observable.combineLatest(leftValue, rightValue)
                     .map { low, high in Reactor.Action.changeLevelRange(low: low, high: high) }
                     .bind(to: reactor.action)
+                    .disposed(by: cell.disposeBag)
+
+                // Slider Thumb 동작 시 Scroll 비활성화
+                cell.slider.isThumbTracking
+                    .distinctUntilChanged()
+                    .withUnretained(self)
+                    .subscribe { (owner, isTracking) in
+                        owner.mainView.contentCollectionView.isScrollEnabled = !isTracking
+                    }
                     .disposed(by: cell.disposeBag)
                 return cell
             }

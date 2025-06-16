@@ -17,7 +17,7 @@ public class FilterSlider: UIControl {
         static let thumbShadowOpacity: Float = 1
         static let thumbShadowRadius: CGFloat = 10
         static let thumbShadowOffset = CGSize(width: 4, height: 4)
-        static let expandedTouchInset: CGFloat = -22
+        static let expandedTouchInset: CGFloat = -10
         static let animationDuration: TimeInterval = 0.25
     }
 
@@ -47,6 +47,8 @@ public class FilterSlider: UIControl {
         get { upperValueRelay.value }
         set { upperValueRelay.accept(boundValue(newValue, lower: minimumValue, upper: maximumValue)) }
     }
+    
+    public let isThumbTracking: BehaviorRelay<Bool> = .init(value: false)
 
     // MARK: - Observables
     public var minimumValueObservable: Observable<CGFloat> { minimumValueRelay.asObservable() }
@@ -216,6 +218,7 @@ public class FilterSlider: UIControl {
 
     // MARK: - Touch Handling
     public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        isThumbTracking.accept(true)
         previousLocation = touch.location(in: self)
 
         if lowerThumb.frame.insetBy(dx: Constant.expandedTouchInset, dy: Constant.expandedTouchInset).contains(previousLocation) {
@@ -230,6 +233,7 @@ public class FilterSlider: UIControl {
     }
 
     public override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        isThumbTracking.accept(true)
         let location = touch.location(in: self)
         let deltaLocation = location.x - previousLocation.x
         let deltaValue = (maximumValue - minimumValue) * deltaLocation / (bounds.width - Constant.thumbSize)
@@ -263,6 +267,7 @@ public class FilterSlider: UIControl {
     }
 
     public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+        isThumbTracking.accept(false)
         activeThumb = .none
     }
 

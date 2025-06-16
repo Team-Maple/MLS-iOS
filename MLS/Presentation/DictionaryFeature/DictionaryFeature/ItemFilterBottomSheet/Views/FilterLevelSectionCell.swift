@@ -152,6 +152,7 @@ private extension FilterLevelSectionCell {
             .disposed(by: disposeBag)
         
         leftInputBox.textField.rx.text.orEmpty
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { (owner, text) in
                 if let value = Double(text) {
@@ -163,6 +164,7 @@ private extension FilterLevelSectionCell {
             .disposed(by: disposeBag)
         
         rightInputBox.textField.rx.text.orEmpty
+            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { (owner, text) in
                 if let value = Double(text) {
