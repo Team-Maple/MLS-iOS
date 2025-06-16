@@ -323,17 +323,9 @@ extension ItemFilterBottomSheetViewController {
             .subscribe { (owner, _) in
                 guard owner.isUserScrollDragging else { return }
                 let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
-                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
-                let currentSection = topIndexPath.section
-                if let maxSection = owner.reactor?.currentState.sections.count {
-                    if currentSection <= maxSection {
-                        owner.mainView.categoryCollectionView.selectItem(
-                            at: IndexPath(row: currentSection, section: 0),
-                            animated: false,
-                            scrollPosition: .centeredHorizontally
-                        )
-                    }
-                }
+                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section }).first else { return }
+                let currentSection = topIndexPath.section == 0 ? 0 : topIndexPath.section - 1
+                owner.mainView.categoryCollectionView.selectItem(at: .init(row: currentSection, section: 0), animated: false, scrollPosition: .centeredHorizontally)
             }
             .disposed(by: disposeBag)
         
