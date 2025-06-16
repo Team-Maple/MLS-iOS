@@ -188,7 +188,6 @@ private extension ItemFilterBottomSheetViewController {
         return layout
     }
     
-    
     private func configureDataSource() {
         dataSource = DataSource(collectionView: mainView.contentCollectionView) { collectionView, indexPath, item in
             switch item {
@@ -405,7 +404,7 @@ extension ItemFilterBottomSheetViewController {
                 snapshot.appendItems(scrolls.armorScrolls.map { .armorScrolls($0) }, toSection: .armorsScrolls)
                 snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .etcScrolls))
                 snapshot.appendItems(scrolls.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
-                owner.dataSource.apply(snapshot, animatingDifferences: true) {
+                owner.dataSource.apply(snapshot, animatingDifferences: false) {
                     guard let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
                         .filter({ $0.section == FilterSection.scrollTypes.rawValue }).first else { return }
                     var targetIndexPath: [IndexPath] = []
