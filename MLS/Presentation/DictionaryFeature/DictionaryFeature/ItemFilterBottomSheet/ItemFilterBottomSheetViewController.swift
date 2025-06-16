@@ -75,7 +75,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
     typealias Snapshot = NSDiffableDataSourceSnapshot<FilterSection, FilterItem>
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    private var isScroll: Bool = false
+    private var isUserScrollDragging: Bool = false
     private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
 
@@ -277,7 +277,7 @@ extension ItemFilterBottomSheetViewController {
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
                 guard let section = FilterSection(rawValue: indexPath.section) else { return }
-                
+                owner.mainView.contentCollectionView.isScrollEnabled = true
                 switch section {
                 case .scrollTypes:
                     let selectedItems = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
@@ -321,7 +321,7 @@ extension ItemFilterBottomSheetViewController {
         mainView.contentCollectionView.rx.didScroll
             .withUnretained(self)
             .subscribe { (owner, _) in
-                guard !owner.isScroll else { return }
+                guard owner.isUserScrollDragging else { return }
                 let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
                 guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else { return }
                 let currentSection = topIndexPath.section
@@ -337,25 +337,26 @@ extension ItemFilterBottomSheetViewController {
             }
             .disposed(by: disposeBag)
         
-        mainView.contentCollectionView.rx.didEndScrollingAnimation
+        mainView.contentCollectionView.rx.willBeginDragging
             .withUnretained(self)
             .subscribe { (owner, _) in
-                owner.isScroll = false
+                owner.isUserScrollDragging = true
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.contentCollectionView.rx.didEndDecelerating
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.isUserScrollDragging = false
             }
             .disposed(by: disposeBag)
 
         mainView.categoryCollectionView.rx.itemSelected
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
-                var indexPath = indexPath
                 owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-                indexPath.row += 1
-                owner.isScroll = true
-                if indexPath.row == 7 {
-                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: 10), at: .top, animated: true)
-                } else {
-                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
-                }
+                let section = indexPath.row == 6 ? 10 : indexPath.row + 1
+                owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: section), at: .top, animated: true)
             }
             .disposed(by: disposeBag)
         
