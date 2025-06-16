@@ -136,14 +136,14 @@ private extension ItemFilterBottomSheetView {
         }
         buttonStackViewDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(2)
+            make.height.equalTo(1)
         }
         selectedItemCollectionView.snp.makeConstraints { make in
             make.height.equalTo(56)
         }
         selectedItemDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(2)
+            make.height.equalTo(1)
         }
     }
 
