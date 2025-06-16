@@ -135,7 +135,6 @@ private extension ItemFilterBottomSheetViewController {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
         mainView.categoryCollectionView.dataSource = self
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
-//        mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
     }
 
     func configureContentCollectionView() {
@@ -260,7 +259,10 @@ private extension ItemFilterBottomSheetViewController {
         snapshot.appendItems(reactor.currentState.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
         snapshot.appendItems(reactor.currentState.etcItems.map { .etcItems($0) }, toSection: .etcItems)
         
-        dataSource.apply(snapshot, animatingDifferences: true)
+        dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+            self?.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 
