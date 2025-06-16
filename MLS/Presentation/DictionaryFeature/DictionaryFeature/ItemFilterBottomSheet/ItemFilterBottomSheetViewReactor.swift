@@ -93,9 +93,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
             let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
             newState.scrollTypes = [
-                "무기 주문서 \(selectedWeaponScrollCount == 0 ? "" : "\(selectedWeaponScrollCount)")",
-                "방어구 주문서 \(selectedArmorScrollCount == 0 ? "" : "\(selectedArmorScrollCount)")",
-                "기타 주문서 \(selectedEtcScrollCount == 0 ? "" : "\(selectedEtcScrollCount)")"
+                "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
+                "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
+                "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
             ]
         case .removeSelectedItem(let indexPath):
             if let removeIndex = newState.selectedIndexs.firstIndex(of: indexPath) {
@@ -105,9 +105,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
             let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
             let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
             newState.scrollTypes = [
-                "무기 주문서 \(selectedWeaponScrollCount == 0 ? "" : "\(selectedWeaponScrollCount)")",
-                "방어구 주문서 \(selectedArmorScrollCount == 0 ? "" : "\(selectedArmorScrollCount)")",
-                "기타 주문서 \(selectedEtcScrollCount == 0 ? "" : "\(selectedEtcScrollCount)")"
+                "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
+                "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
+                "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
             ]
         case .setScrolls(let selectedIndex):
             switch selectedIndex {
