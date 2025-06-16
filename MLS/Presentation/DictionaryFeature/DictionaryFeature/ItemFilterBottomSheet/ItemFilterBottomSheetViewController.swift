@@ -257,7 +257,6 @@ private extension ItemFilterBottomSheetViewController {
         
         dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
-            self?.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
         }
     }
 }
@@ -333,7 +332,6 @@ extension ItemFilterBottomSheetViewController {
                             animated: false,
                             scrollPosition: .centeredHorizontally
                         )
-                        owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
                     }
                 }
             }
@@ -350,15 +348,14 @@ extension ItemFilterBottomSheetViewController {
             .withUnretained(self)
             .subscribe { (owner, indexPath) in
                 var indexPath = indexPath
+                owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 indexPath.row += 1
                 owner.isScroll = true
                 if indexPath.row == 7 {
-                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: 10), at: .bottom, animated: true)
+                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: 10), at: .top, animated: true)
                 } else {
-                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .centeredVertically, animated: true)
+                    owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
                 }
-                
-                owner.mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
             }
             .disposed(by: disposeBag)
         
