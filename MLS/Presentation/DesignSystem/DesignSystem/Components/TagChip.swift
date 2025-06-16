@@ -135,7 +135,7 @@ private extension TagChip {
 
     func updateUI() {
         backgroundColor = style.backgroundColor
-        mainTitleLabel.attributedText = .makeStyledString(font: isSelected ? .captionBold : .caption, text: text, color: style.fontColor)
+        mainTitleLabel.attributedText = .makeStyledString(font: isSelected ? .captionSemiBold : .caption, text: text, color: style.fontColor)
         layer.borderColor = style.borderColor
         layer.borderWidth = style.borderWidth
         layer.cornerRadius = style.radius

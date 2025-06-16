@@ -74,6 +74,7 @@ final class ItemFilterBottomSheetView: UIView {
     
     public let selectedItemCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.alwaysBounceVertical = false
         view.isHidden = true
         return view
     }()

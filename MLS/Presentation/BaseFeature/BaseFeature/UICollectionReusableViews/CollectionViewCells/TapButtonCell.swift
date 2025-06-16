@@ -49,8 +49,5 @@ public extension TapButtonCell {
         button.text = title
         button.isUserInteractionEnabled = false
         button.titleLabel?.numberOfLines = 1
-        button.titleLabel?.lineBreakMode = .byTruncatingTail
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.minimumScaleFactor = 0.8
     }
 }

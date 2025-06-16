@@ -58,7 +58,7 @@ private extension TapButton {
         config.contentInsets = Constant.contentInsets
         config.baseBackgroundColor = .clear
         config.baseForegroundColor = isSelected ? .primary700 : .neutral700
-        config.attributedTitle = AttributedString(.makeStyledString(font: isSelected ? .captionBold : .caption, text: text, color: isSelected ? .primary700 : .neutral700) ?? .init())
+        config.attributedTitle = AttributedString(.makeStyledString(font: isSelected ? .captionSemiBold : .caption, text: text, color: isSelected ? .primary700 : .neutral700) ?? .init())
         layer.borderColor = isSelected ? UIColor.primary700.cgColor : UIColor.neutral200.cgColor
 
         layer.borderWidth = Constant.borderWidth
