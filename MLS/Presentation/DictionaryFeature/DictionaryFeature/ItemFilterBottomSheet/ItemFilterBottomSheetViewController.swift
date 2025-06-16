@@ -306,6 +306,16 @@ extension ItemFilterBottomSheetViewController {
                 owner.isScroll = false
             }
             .disposed(by: disposeBag)
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        mainView.contentCollectionView.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .bind { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
     }
 
     func bindUserActions(reactor: Reactor) {
