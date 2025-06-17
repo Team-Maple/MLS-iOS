@@ -12,7 +12,7 @@ final class DictionaryMainView: UIView {
     }
     
     // MARK: - Components
-    private let headerView = Header(style: .main, title: "도감")
+    public let headerView = Header(style: .main, title: "도감")
     
     public let tabCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()

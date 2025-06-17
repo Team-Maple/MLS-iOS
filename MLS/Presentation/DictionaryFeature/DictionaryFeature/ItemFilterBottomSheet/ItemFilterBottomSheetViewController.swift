@@ -136,7 +136,7 @@ extension ItemFilterBottomSheetViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
-        mainView.headerView.firstIconView.rx.tap
+        mainView.headerView.firstIconButton.rx.tap
             .map { Reactor.Action.closeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

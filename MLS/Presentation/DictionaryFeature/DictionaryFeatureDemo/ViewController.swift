@@ -117,9 +117,10 @@ class ViewController: BaseViewController {
                     fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCaseImpl(repository: repository),
                     toggleBookmarkUseCase: ToggleBookmarkUseCaseImpl(repository: repository)
                 )
+        let searchFactory = DictionarySearchFactoryImpl()
         let viewController = BottomTabBarController(viewControllers: [
             UIViewController(),
-            DictionaryMainViewController(reactor: DictionaryMainReactor(), dictionaryListViewControllerFactory: dictFactory),
+            DictionaryMainViewController(reactor: DictionaryMainReactor(), dictionaryListFactory: dictFactory, searchFactory: searchFactory),
             UIViewController(),
             UIViewController(),
         ], initialIndex: 1)

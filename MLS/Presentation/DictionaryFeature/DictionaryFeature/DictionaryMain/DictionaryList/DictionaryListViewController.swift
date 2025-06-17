@@ -44,7 +44,8 @@ private extension DictionaryListViewController {
     
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
     
