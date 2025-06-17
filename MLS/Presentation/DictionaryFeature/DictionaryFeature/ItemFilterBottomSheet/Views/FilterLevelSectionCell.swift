@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import SnapKit
 
 public class FilterLevelSectionCell: UICollectionViewCell {
 
@@ -18,7 +18,7 @@ public class FilterLevelSectionCell: UICollectionViewCell {
     }
 
     private let leftInputBox: InputBox = {
-        let box = InputBox(label:"범위", placeHodler: "0")
+        let box = InputBox(label: "범위", placeHodler: "0")
         box.textField.keyboardType = .numberPad
         return box
     }()
@@ -79,7 +79,7 @@ public class FilterLevelSectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
@@ -133,7 +133,7 @@ private extension FilterLevelSectionCell {
             make.bottom.trailing.equalToSuperview()
         }
     }
-    
+
     func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
@@ -142,7 +142,7 @@ private extension FilterLevelSectionCell {
                 owner.leftInputBox.textField.text = lowValue == 0 ? nil : "\(lowValue)"
             }
             .disposed(by: disposeBag)
-        
+
         slider.upperValueObservable
             .withUnretained(self)
             .subscribe { (owner, value) in
@@ -150,7 +150,7 @@ private extension FilterLevelSectionCell {
                 owner.rightInputBox.textField.text = upperValue == 200 ? nil : "\(upperValue)"
             }
             .disposed(by: disposeBag)
-        
+
         leftInputBox.textField.rx.text.orEmpty
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
@@ -162,7 +162,7 @@ private extension FilterLevelSectionCell {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rightInputBox.textField.rx.text.orEmpty
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
@@ -174,10 +174,10 @@ private extension FilterLevelSectionCell {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         let leftBoxDidEnd = leftInputBox.textField.rx.controlEvent(.editingDidEnd).asObservable()
         let rightBoxDidEnd = rightInputBox.textField.rx.controlEvent(.editingDidEnd).asObservable()
-        
+
         Observable.merge([leftBoxDidEnd, rightBoxDidEnd])
             .withUnretained(self)
             .debounce(.seconds(1), scheduler: MainScheduler.instance)

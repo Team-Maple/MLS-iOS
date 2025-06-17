@@ -25,7 +25,7 @@ public class LayoutFactory {
             .interGroupSpacing(8)
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
-    
+
     static public func getLevelRangeSection() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1), height: .estimated(100))

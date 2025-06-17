@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
-import RxSwift
 import RxCocoa
+import RxSwift
+import SnapKit
 
 public class FilterSlider: UIControl {
     // MARK: - Constants
@@ -47,7 +47,7 @@ public class FilterSlider: UIControl {
         get { upperValueRelay.value }
         set { upperValueRelay.accept(boundValue(newValue, lower: minimumValue, upper: maximumValue)) }
     }
-    
+
     public let isThumbTracking: BehaviorRelay<Bool> = .init(value: false)
 
     // MARK: - Observables

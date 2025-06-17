@@ -2,8 +2,8 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxSwift
+import SnapKit
 
 public class CheckBoxButtonListSmallCell: UICollectionViewCell {
 
@@ -25,7 +25,7 @@ public class CheckBoxButtonListSmallCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     public override var isSelected: Bool {
         didSet {
             checkBoxButton.isSelected = isSelected

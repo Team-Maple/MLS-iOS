@@ -20,7 +20,7 @@ public final class CompositionalLayoutBuilder {
             return self.sections[index]
         }
     }
-    
+
     public func setSections(_ sections: [NSCollectionLayoutSection]) -> Self {
         self.sections = sections
         return self

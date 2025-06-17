@@ -10,7 +10,7 @@ public final class TapButton: UIButton {
         static let radius: CGFloat = 17
         static let contentInsets: NSDirectionalEdgeInsets = .init(top: 10, leading: 16, bottom: 10, trailing: 16)
     }
-    
+
     public let mainTitleLabel: UILabel = {
         let label = UILabel()
         return label

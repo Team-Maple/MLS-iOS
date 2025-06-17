@@ -14,7 +14,7 @@ public final class CompositionalSectionBuilder {
         self.group = group
         self.section = section
     }
-    
+
     @discardableResult
     public func item(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) -> Self {
         let size = NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
@@ -42,7 +42,7 @@ public final class CompositionalSectionBuilder {
         }
         return self
     }
-    
+
     @discardableResult
     public func customGroup(group: (NSCollectionLayoutItem) -> NSCollectionLayoutGroup) -> Self {
         guard let item = self.item else { return self }

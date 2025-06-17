@@ -119,7 +119,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
                 newState.weaponScrolls = []
                 newState.armorScrolls = newState.originArmorScrolls
                 newState.etcScrolls = []
-                
+
             case 2:
                 newState.weaponScrolls = []
                 newState.armorScrolls = []

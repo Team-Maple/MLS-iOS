@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     }()
 
     lazy var views: [[UIViewController]] = {
-        
+
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터"
         let modalVC = [itemFilterBottomSheetVC]

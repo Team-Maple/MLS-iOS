@@ -1,6 +1,6 @@
 import BaseFeature
-import DomainInterface
 import DictionaryFeatureInterface
+import DomainInterface
 
 public struct ItemFilterBottomSheetFactoryImpl: ItemFilterBottomSheetFactory {
 

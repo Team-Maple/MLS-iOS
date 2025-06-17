@@ -74,14 +74,14 @@ final class ItemFilterBottomSheetView: UIView {
         view.allowsMultipleSelection = true
         return view
     }()
-    
+
     public let selectedItemCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
         view.alwaysBounceVertical = false
         view.isHidden = true
         return view
     }()
-    
+
     private let selectedItemDividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral200
