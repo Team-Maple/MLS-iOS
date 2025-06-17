@@ -4,11 +4,23 @@ import DomainInterface
 
 public final class DictionarySearchReactor: Reactor {
     // MARK: - Reactor
-    public enum Action {}
+    public enum Route {
+        case none
+        case dismiss
+        case search
+    }
+    
+    public enum Action {
+        case backButtonTapped
+        case searchButtonTapped
+    }
         
-    public enum Mutation {}
+    public enum Mutation {
+        case navigateTo(Route)
+    }
         
     public struct State {
+        @Pulse var route: Route
         let recentResult: [String]
         var hasRecent: Bool {
             !recentResult.isEmpty
@@ -24,6 +36,7 @@ public final class DictionarySearchReactor: Reactor {
     // MARK: - init
     public init() {
         self.initialState = State(
+            route: .none,
             recentResult: ["망치", "도끼", "창", "드라이버", "몽키스패너"],
 //            recentResult: [],
             popularResult: [
@@ -44,13 +57,21 @@ public final class DictionarySearchReactor: Reactor {
         
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
-        switch action {}
+        switch action {
+        case .backButtonTapped:
+            return Observable.just(.navigateTo(.dismiss))
+        case .searchButtonTapped:
+            return Observable.just(.navigateTo(.search))
+        }
     }
         
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
             
-        switch mutation {}
+        switch mutation {
+        case .navigateTo(let route):
+            newState.route = route
+        }
             
         return newState
     }

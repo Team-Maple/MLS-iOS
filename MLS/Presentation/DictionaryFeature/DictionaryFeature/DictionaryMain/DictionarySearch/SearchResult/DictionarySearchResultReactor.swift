@@ -2,30 +2,22 @@ import ReactorKit
 
 import DomainInterface
 
-public final class DictionaryMainReactor: Reactor {
+public final class DictionarySearchResultReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
-        case none
-        case search
+    
     }
     
     public enum Action {
-        case searchButtonTapped
+ 
     }
         
     public enum Mutation {
-        case navigateTo(Route)
-    }
-    
-    public enum DictionaryListType {
-        case main
-        case searchResult
+  
     }
         
     public struct State {
-        @Pulse var route: Route = .none
-        var type: DictionaryListType
-        var sections = DictionaryType.allCases.map { $0.title }
+ 
     }
         
     // MARK: - properties
@@ -33,15 +25,14 @@ public final class DictionaryMainReactor: Reactor {
     var disposeBag = DisposeBag()
         
     // MARK: - init
-    public init(type: DictionaryListType) {
-        self.initialState = State(type: type)
+    public init() {
+        self.initialState = State()
     }
         
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .searchButtonTapped:
-            return Observable.just(.navigateTo(.search))
+
         }
     }
         
@@ -49,8 +40,7 @@ public final class DictionaryMainReactor: Reactor {
         var newState = state
             
         switch mutation {
-        case .navigateTo(let route):
-            newState.route = route
+      
         }
             
         return newState
