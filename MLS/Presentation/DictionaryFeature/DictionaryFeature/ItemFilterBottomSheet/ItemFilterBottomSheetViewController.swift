@@ -257,6 +257,22 @@ private extension ItemFilterBottomSheetViewController {
     }
 }
 
+// MARK: - Methods
+private extension ItemFilterBottomSheetViewController {
+    
+    func getSelectedScrollCategoryIndexPath() -> IndexPath? {
+        let selectedScrollCategoryIndexPaths = getSelectedScrollCategoryIndexPaths()
+        guard let selectedScrollCategoryIndexPath = selectedScrollCategoryIndexPaths.first else { return nil }
+        return selectedScrollCategoryIndexPath
+    }
+    
+    func getSelectedScrollCategoryIndexPaths() -> [IndexPath] {
+        let indexPathsForSelectedItems = mainView.contentCollectionView.indexPathsForSelectedItems ?? []
+        let selectedScrollCategoryIndexPaths = indexPathsForSelectedItems.filter({ $0.section == FilterSection.scrollCategories.rawValue })
+        return selectedScrollCategoryIndexPaths
+    }
+}
+
 extension ItemFilterBottomSheetViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
@@ -276,17 +292,13 @@ extension ItemFilterBottomSheetViewController {
                 owner.mainView.contentCollectionView.isScrollEnabled = true
                 switch section {
                 case .scrollCategories:
-                    let selectedItems = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
-                        .filter { $0.section == FilterSection.scrollCategories.rawValue }
+                    let selectedItems = owner.getSelectedScrollCategoryIndexPaths()
                     for selectedIndexPath in selectedItems {
-                        if indexPath != selectedIndexPath {
-                            owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true)
-                        }
+                        if indexPath != selectedIndexPath { owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true) }
                     }
                     owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
                 case .weaponScrolls, .armorsScrolls, .etcScrolls:
-                    let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
-                        .filter { $0.section == FilterSection.scrollCategories.rawValue }.first
+                    let selectedItem = owner.getSelectedScrollCategoryIndexPath()
                     owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
                     owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
                 case .level:
@@ -304,8 +316,7 @@ extension ItemFilterBottomSheetViewController {
                 guard let section = FilterSection(rawValue: indexPath.section) else { return }
                 switch section {
                 case .weaponScrolls, .armorsScrolls, .etcScrolls:
-                    let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
-                        .filter { $0.section == FilterSection.scrollCategories.rawValue }.first
+                    let selectedItem = owner.getSelectedScrollCategoryIndexPath()
                     owner.reactor?.action.onNext(.filterDeselected(indexPath: indexPath))
                     owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
                 default:
@@ -382,8 +393,7 @@ extension ItemFilterBottomSheetViewController {
                 snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .etcScrolls))
                 snapshot.appendItems(scrolls.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
                 owner.dataSource.apply(snapshot, animatingDifferences: false) {
-                    guard let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
-                        .filter({ $0.section == FilterSection.scrollCategories.rawValue }).first else { return }
+                    guard let selectedItem = owner.getSelectedScrollCategoryIndexPath() else { return }
                     var targetIndexPath: [IndexPath] = []
                     switch selectedItem.row {
                     case 0:
@@ -448,7 +458,8 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
             let titles = reactor.currentState.selectedItemIndexes.map {
                 guard let item = dataSource.itemIdentifier(for: $0) else { return "" }
                 switch item {
-                case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title), .accessories(let title), .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
+                case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title), .accessories(let title),
+                        .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
                     return title
                 case .level:
                     let range = reactor.currentState.levelRange
@@ -470,8 +481,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                         }
                         owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                     case .weaponScrolls, .armorsScrolls, .etcScrolls:
-                        let selectedItem = (owner.mainView.contentCollectionView.indexPathsForSelectedItems ?? [])
-                            .filter { $0.section == FilterSection.scrollCategories.rawValue }.first
+                        let selectedItem = owner.getSelectedScrollCategoryIndexPath()
                         owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                         owner.mainView.contentCollectionView.deselectItem(at: deselectedIndex, animated: false)
                         owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)

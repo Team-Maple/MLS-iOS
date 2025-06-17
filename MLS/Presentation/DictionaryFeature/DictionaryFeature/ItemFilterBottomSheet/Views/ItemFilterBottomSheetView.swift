@@ -13,6 +13,9 @@ final class ItemFilterBottomSheetView: UIView {
         static let buttonStackViewTopMargin: CGFloat = 12
         static let buttonStackViewBottomMargin: CGFloat = 16
         static let collectionViewTopOffset = 8
+        static let categoryCollectionViewHeight = 40
+        static let dividerHeight = 1
+        static let selectedItemCollectionViewHeight = 56
     }
 
     // MARK: - Properties
@@ -128,7 +131,7 @@ private extension ItemFilterBottomSheetView {
         categoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.collectionViewTopOffset)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(Constant.categoryCollectionViewHeight)
         }
         contentCollectionView.snp.makeConstraints { make in
             make.top.equalTo(categoryCollectionView.snp.bottom)
@@ -137,14 +140,14 @@ private extension ItemFilterBottomSheetView {
         }
         buttonStackViewDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(Constant.dividerHeight)
         }
         selectedItemCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(56)
+            make.height.equalTo(Constant.selectedItemCollectionViewHeight)
         }
         selectedItemDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(1)
+            make.height.equalTo(Constant.dividerHeight)
         }
     }
 
