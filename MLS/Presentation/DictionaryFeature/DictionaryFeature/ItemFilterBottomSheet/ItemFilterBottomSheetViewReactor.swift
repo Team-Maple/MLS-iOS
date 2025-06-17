@@ -32,7 +32,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         var projectiles: [String] = ["화살", "불릿", "표창"]
         var armors: [String] = ["모자", "전신", "상의", "하의", "장갑", "신발", "방패", "전신 갑옷" ]
         var accessories: [String] = ["귀고리", "망토", "훈장", "눈장식", "얼굴장식", "팬던트", "벨트", "반지", "어깨장식", "귀장식"]
-        @Pulse var scrollTypes: [String] = ["무기 주문서", "방어구 주문서", "기타 주문서"]
+        @Pulse var scrollCategories: [String] = ["무기 주문서", "방어구 주문서", "기타 주문서"]
         var originWeaponScrolls: [String] = ["한손검1", "한손검2", "한손검3", "한손검4", "한손검5", "한손검6", "한손검7", "한손검8", "한손검9", "한손검10"]
         var originArmorScrolls: [String] = ["갑옷1", "갑옷2", "갑옷3", "갑옷4", "갑옷5", "갑옷6", "갑옷7", "갑옷8", "갑옷9", "갑옷10"]
         var originEtcScrolls: [String] = ["기타1", "기타2", "기타3", "기타4", "기타5", "기타6", "기타7", "기타8", "기타9", "기타10"]
@@ -41,7 +41,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         @Pulse var etcScrolls: [String] = []
         var etcItems: [String] = ["마스터리북", "스킬북", "소비", "설치", "이동수단"]
 
-        var selectedIndexs: [IndexPath] = []
+        var selectedItemIndexes: [IndexPath] = []
         var levelRange: (low: Int, high: Int) = (0, 200)
         @Pulse var route: Route = .none
     }
@@ -63,7 +63,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         case .filterSelected(let indexPath):
             let section = ItemFilterBottomSheetViewController.FilterSection(rawValue: indexPath.section)
             switch section {
-            case .scrollTypes:
+            case .scrollCategories:
                 return Observable.just(.setScrolls(selectedIndex: indexPath.row))
             default:
                 return Observable.just(.appendSelectedItem(indexPath: indexPath))
@@ -71,7 +71,7 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         case .filterDeselected(let indexPath):
             let section = ItemFilterBottomSheetViewController.FilterSection(rawValue: indexPath.section)
             switch section {
-            case .scrollTypes:
+            case .scrollCategories:
                 return Observable.just(.setScrolls(selectedIndex: nil))
             default:
                 return Observable.just(.removeSelectedItem(indexPath: indexPath))
@@ -88,23 +88,23 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         case .navigateTo(let route):
             newState.route = route
         case .appendSelectedItem(let indexPath):
-            newState.selectedIndexs.insert(indexPath, at: 0)
-            let selectedWeaponScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .weaponScrolls }.count
-            let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
-            let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
-            newState.scrollTypes = [
+            newState.selectedItemIndexes.insert(indexPath, at: 0)
+            let selectedWeaponScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .weaponScrolls }.count
+            let selectedArmorScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
+            let selectedEtcScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
+            newState.scrollCategories = [
                 "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
                 "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
                 "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
             ]
         case .removeSelectedItem(let indexPath):
-            if let removeIndex = newState.selectedIndexs.firstIndex(of: indexPath) {
-                newState.selectedIndexs.remove(at: removeIndex)
+            if let removeIndex = newState.selectedItemIndexes.firstIndex(of: indexPath) {
+                newState.selectedItemIndexes.remove(at: removeIndex)
             }
-            let selectedWeaponScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .weaponScrolls }.count
-            let selectedArmorScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
-            let selectedEtcScrollCount = newState.selectedIndexs.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
-            newState.scrollTypes = [
+            let selectedWeaponScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .weaponScrolls }.count
+            let selectedArmorScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .armorsScrolls }.count
+            let selectedEtcScrollCount = newState.selectedItemIndexes.filter { ItemFilterBottomSheetViewController.FilterSection(rawValue: $0.section) == .etcScrolls }.count
+            newState.scrollCategories = [
                 "무기 주문서\(selectedWeaponScrollCount == 0 ? "" : " \(selectedWeaponScrollCount)")",
                 "방어구 주문서\(selectedArmorScrollCount == 0 ? "" : " \(selectedArmorScrollCount)")",
                 "기타 주문서\(selectedEtcScrollCount == 0 ? "" : " \(selectedEtcScrollCount)")"
@@ -132,9 +132,9 @@ final public class ItemFilterBottomSheetViewReactor: Reactor {
         case .setLevelRange(low: let low, high: let high):
             let levelSection: IndexPath = .init(row: 0, section: ItemFilterBottomSheetViewController.FilterSection.level.rawValue)
             if low == 0 && high == 200 {
-                if let removeIndex = newState.selectedIndexs.firstIndex(of: levelSection) { newState.selectedIndexs.remove(at: removeIndex) }
+                if let removeIndex = newState.selectedItemIndexes.firstIndex(of: levelSection) { newState.selectedItemIndexes.remove(at: removeIndex) }
             } else {
-                if !newState.selectedIndexs.contains(levelSection) { newState.selectedIndexs.insert(levelSection, at: 0) }
+                if !newState.selectedItemIndexes.contains(levelSection) { newState.selectedItemIndexes.insert(levelSection, at: 0) }
             }
             newState.levelRange = (low, high)
         }
