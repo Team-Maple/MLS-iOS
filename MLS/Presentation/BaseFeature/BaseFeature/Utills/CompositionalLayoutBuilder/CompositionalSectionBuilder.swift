@@ -9,6 +9,12 @@ public final class CompositionalSectionBuilder {
         case horizontal, vertical
     }
 
+    public init(item: NSCollectionLayoutItem? = nil, group: NSCollectionLayoutGroup? = nil, section: NSCollectionLayoutSection? = nil) {
+        self.item = item
+        self.group = group
+        self.section = section
+    }
+
     @discardableResult
     public func item(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) -> Self {
         let size = NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
@@ -34,6 +40,13 @@ public final class CompositionalSectionBuilder {
                 group = NSCollectionLayoutGroup.vertical(layoutSize: size, subitems: [item])
             }
         }
+        return self
+    }
+
+    @discardableResult
+    public func customGroup(group: (NSCollectionLayoutItem) -> NSCollectionLayoutGroup) -> Self {
+        guard let item = self.item else { return self }
+        self.group = group(item)
         return self
     }
 

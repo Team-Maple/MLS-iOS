@@ -1,47 +1,64 @@
-//
-//  ViewController.swift
-//  DictionaryFeatureDemo
-//
-//  Created by SeoJunYoung on 6/10/25.
-//
-
 import UIKit
 
-import BaseFeature
-import DictionaryFeature
+import Core
+import DictionaryFeatureInterface
+import Domain
+import DomainInterface
 
 import RxCocoa
 import RxSwift
 import SnapKit
 
-class ViewController: BaseViewController {
-
-    let button = {
-        let button = UIButton(type: .system)
-        button.setTitle("present", for: .normal)
-        return button
+class ViewController: UIViewController {
+    let tableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .plain)
+        return view
     }()
 
-    let disposeBag = DisposeBag()
+    lazy var views: [[UIViewController]] = {
+
+        let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
+        itemFilterBottomSheetVC.title = "아이템 필터"
+        let modalVC = [itemFilterBottomSheetVC]
+        return [
+            modalVC
+        ]
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        tableView.dataSource = self
+        tableView.delegate = self
+        navigationItem.title = "MLS Feature System"
 
-        view.addSubview(button)
-        button.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        view.addSubview(tableView)
+
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        button.rx.tap
-            .withUnretained(self)
-            .subscribe { (owner, _) in
-                owner.presentVC()
-            }
-            .disposed(by: disposeBag)
+    }
+}
+
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return views.count
     }
 
-    func presentVC() {
-        let viewController = ItemFilterBottomSheetViewController()
-        viewController.reactor = ItemFilterBottomSheetViewReactor()
-        present(viewController, animated: true)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell()
+        cell.textLabel?.text = views[indexPath.section][indexPath.row].title
+        cell.selectionStyle = .none
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextController = views[indexPath.section][indexPath.row]
+        if indexPath.section == 0 {
+            navigationController?.present(nextController, animated: true)
+        } else {
+            navigationController?.pushViewController(nextController, animated: true)
+        }
+
     }
 }

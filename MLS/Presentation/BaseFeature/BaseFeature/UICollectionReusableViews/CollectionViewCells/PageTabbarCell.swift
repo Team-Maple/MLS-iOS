@@ -8,9 +8,11 @@ public class PageTabbarCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .caption
+        label.font = .body
         label.textColor = .neutral600
         label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
         return label
     }()
 
@@ -34,7 +36,7 @@ public class PageTabbarCell: UICollectionViewCell {
 
     public override var isSelected: Bool {
         didSet {
-            let font: UIFont? = isSelected ? .subTitleBold : .caption
+            let font: UIFont? = isSelected ? .subTitleBold : .body
             let textColor: UIColor? = isSelected ? .textColor : .neutral600
             titleLabel.font = font
             titleLabel.textColor = textColor
@@ -67,7 +69,7 @@ private extension PageTabbarCell {
 }
 
 public extension PageTabbarCell {
-    func configure(title: String?) {
+    func inject(title: String?) {
         titleLabel.text = title
     }
 }

@@ -190,7 +190,11 @@ private extension CheckBoxButton {
         }
 
         contentStackView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            if style == .listSmall {
+                make.horizontalEdges.equalToSuperview()
+            } else {
+                make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            }
             make.verticalEdges.equalToSuperview().inset(style.verticalInset)
         }
 

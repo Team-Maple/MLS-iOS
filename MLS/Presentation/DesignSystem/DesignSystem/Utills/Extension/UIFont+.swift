@@ -16,7 +16,7 @@ public extension UIFont {
     static let body = korFont(style: .regular, size: 16)
     static let body2 = korFont(style: .regular, size: 18)
     static let caption = korFont(style: .regular, size: 14)
-    static let captionBold = korFont(style: .regular, size: 14)
+    static let captionSemiBold = korFont(style: .semiBold, size: 14)
     static let tabBar = korFont(style: .regular, size: 10)
 
     static func korFont(style: FontStyle, size: CGFloat) -> UIFont? {

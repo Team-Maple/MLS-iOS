@@ -2,12 +2,13 @@ import UIKit
 
 import DesignSystem
 
+import RxSwift
 import SnapKit
 
-public class TapButtonCell: UICollectionViewCell {
+public class TagChipCell: UICollectionViewCell {
 
-    public let button: TapButton = {
-        let button = TapButton()
+    public let button: TagChip = {
+        let button = TagChip(style: .normal, text: "")
         return button
     }()
 
@@ -18,19 +19,20 @@ public class TapButtonCell: UICollectionViewCell {
         configureUI()
     }
 
+    public var disposeBag = DisposeBag()
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override var isSelected: Bool {
-        didSet {
-            button.isSelected = isSelected
-        }
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        self.disposeBag = DisposeBag()
     }
 }
 
 // MARK: - SetUp
-private extension TapButtonCell {
+private extension TagChipCell {
     func addViews() {
         contentView.addSubview(button)
     }
@@ -44,9 +46,9 @@ private extension TapButtonCell {
     func configureUI() { }
 }
 
-public extension TapButtonCell {
+public extension TagChipCell {
     func inject(title: String?) {
-        button.text = title
-        button.isUserInteractionEnabled = false
+        button.text = title ?? ""
+        button.titleLabel?.numberOfLines = 1
     }
 }

@@ -12,7 +12,7 @@ final class OneButtonGuideAlert: UIViewController, ModalPresentable {
     var disposeBag = DisposeBag()
 
     var modalHeight: CGFloat?
-    var modalStyle: ModalStyle = .alert
+//    var modalStyle: ModalStyle = .alert
 
     private var mainView = GuideAlert(mainText: "북마크를 하려면 로그인이 필요해요.", ctaText: "로그인 하러 가기", cancelText: nil)
 }
