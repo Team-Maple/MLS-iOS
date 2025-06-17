@@ -403,7 +403,6 @@ extension ItemFilterBottomSheetViewController {
         reactor.state
             .map { $0.selectedItemIndexes }
             .distinctUntilChanged()
-            .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { (owner, indexPaths) in
                 owner.mainView.selectedItemCollectionView.isHidden = indexPaths.isEmpty
@@ -446,38 +445,17 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
             return cell
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as! TagChipCell
-//            let title = dataSource.itemIdentifier(for: reactor.currentState.selectedIndexs)
-            let selectedTitles = reactor.currentState.selectedItemIndexes.map {
-                if let section = FilterSection(rawValue: $0.section) {
-                    switch section {
-                    case .job:
-                        return reactor.currentState.jobs[$0.row]
-                    case .weaponScrolls:
-                        return reactor.currentState.originWeaponScrolls[$0.row]
-                    case .armorsScrolls:
-                        return reactor.currentState.originArmorScrolls[$0.row]
-                    case .etcScrolls:
-                        return reactor.currentState.originEtcScrolls[$0.row]
-                    case .weapons:
-                        return reactor.currentState.weapons[$0.row]
-                    case .projectiles:
-                        return reactor.currentState.projectiles[$0.row]
-                    case .armors:
-                        return reactor.currentState.armors[$0.row]
-                    case .accessories:
-                        return reactor.currentState.accessories[$0.row]
-                    case .scrollCategories:
-                        return reactor.currentState.scrollCategories[$0.row]
-                    case .etcItems:
-                        return reactor.currentState.etcItems[$0.row]
-                    case .level:
-                        let range = reactor.currentState.levelRange
-                        return "\(range.low) ~ \(range.high)"
-                    }
+            let titles = reactor.currentState.selectedItemIndexes.map {
+                guard let item = dataSource.itemIdentifier(for: $0) else { return "" }
+                switch item {
+                case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title), .accessories(let title), .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
+                    return title
+                case .level:
+                    let range = reactor.currentState.levelRange
+                    return "\(range.low) ~ \(range.high)"
                 }
-                return ""
             }
-            cell.inject(title: selectedTitles[indexPath.row])
+            cell.inject(title: titles[indexPath.row])
             cell.button.cancelButton.rx.tap
                 .withUnretained(self)
                 .subscribe { (owner, _) in
