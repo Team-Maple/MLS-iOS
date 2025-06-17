@@ -39,8 +39,8 @@ public final class Header: UIStackView {
     // MARK: - Components
     public let titleLabel = UILabel()
     private let spacer = UIView()
-    public let firstIconView = UIButton()
-    public let secondIconView = UIButton()
+    public let firstIconButton = UIButton()
+    public let secondIconButton = UIButton()
 
     // MARK: - init
     public init(style: HeaderStyle, title: String) {
@@ -63,9 +63,9 @@ private extension Header {
     func addViews() {
         addArrangedSubview(titleLabel)
         addArrangedSubview(spacer)
-        addArrangedSubview(firstIconView)
+        addArrangedSubview(firstIconButton)
         if style == .main {
-            addArrangedSubview(secondIconView)
+            addArrangedSubview(secondIconButton)
         }
     }
 
@@ -76,11 +76,11 @@ private extension Header {
             }
         }
 
-        firstIconView.snp.makeConstraints { make in
+        firstIconButton.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }
 
-        secondIconView.snp.makeConstraints { make in
+        secondIconButton.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }
     }
@@ -93,9 +93,9 @@ private extension Header {
         spacing = Constant.spacing
         titleLabel.font = style.titleFont
         titleLabel.textColor = .textColor
-        firstIconView.setImage(style.icons[0], for: .normal)
+        firstIconButton.setImage(style.icons[0], for: .normal)
         if style == .main {
-            secondIconView.setImage(style.icons[1], for: .normal)
+            secondIconButton.setImage(style.icons[1], for: .normal)
         }
     }
 }
