@@ -13,7 +13,7 @@ public final class BottomTabBar: UIStackView {
     struct Constant {
         static let height: CGFloat = 64
     }
-    
+
     // MARK: - Properties
     public var onTabSelected: ((Int) -> Void)?
 
@@ -52,7 +52,7 @@ public final class BottomTabBar: UIStackView {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
-        
+
         divider.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }

@@ -10,10 +10,10 @@ final public class SearchDividerView: UICollectionReusableView {
         view.backgroundColor = .neutral100
         return view
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         addViews()
         setupConstraints()
     }
@@ -22,14 +22,10 @@ final public class SearchDividerView: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
-        super.apply(layoutAttributes)
-    }
-    
     func addViews() {
         addSubview(view)
     }
-    
+
     func setupConstraints() {
         view.snp.makeConstraints { make in
             make.centerY.horizontalEdges.equalToSuperview()

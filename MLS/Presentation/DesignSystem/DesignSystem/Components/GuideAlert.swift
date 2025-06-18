@@ -57,7 +57,7 @@ private extension GuideAlert {
         addSubview(warningIconView)
         addSubview(textLabel)
         addSubview(buttonStackView)
-        
+
         if let cancelButton = cancelButton {
             buttonStackView.addArrangedSubview(cancelButton)
         }
@@ -68,7 +68,7 @@ private extension GuideAlert {
         snp.makeConstraints { make in
             make.width.equalTo(Constant.alertWidth)
         }
-        
+
         warningIconView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(Constant.verticalInset)
             make.centerX.equalToSuperview()
@@ -102,7 +102,7 @@ private extension GuideAlert {
             }
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.radius

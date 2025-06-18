@@ -34,7 +34,7 @@ public class LayoutFactory {
             .header(height: 22)
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
-    
+
     public func getPageListLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
@@ -43,7 +43,7 @@ public class LayoutFactory {
             .interGroupSpacing(10)
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
-    
+
     public func getTagChipLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .estimated(70), height: .estimated(32))
@@ -54,7 +54,7 @@ public class LayoutFactory {
             .interGroupSpacing(8)
             .contentInsets(.init(top: 24, leading: 16, bottom: 24, trailing: 16))
     }
-    
+
     public func getDecorationSection() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(1))
@@ -63,7 +63,7 @@ public class LayoutFactory {
             .decorationItem(kind: SearchDividerView.identifier)
             .contentInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
     }
-    
+
     public func getPopularResultLayout(hasRecent: Bool) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .estimated(40))

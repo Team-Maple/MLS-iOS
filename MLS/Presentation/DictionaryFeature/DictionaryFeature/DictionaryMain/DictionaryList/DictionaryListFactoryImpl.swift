@@ -2,7 +2,6 @@ import BaseFeature
 import DictionaryFeatureInterface
 import DomainInterface
 
-
 public final class DictionaryListFactoryImpl: DictionaryListFactory {
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
