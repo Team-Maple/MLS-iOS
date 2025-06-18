@@ -1,10 +1,5 @@
 import UIKit
 
-import DomainInterface
-import DesignSystem
-
-import UIKit
-
 import DesignSystem
 
 import SnapKit
