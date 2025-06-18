@@ -123,8 +123,7 @@ private extension ImageLoader {
 
             if let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [String: Any],
                let gifProps = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any],
-               let delay = gifProps[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double
-            {
+               let delay = gifProps[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double {
                 duration += delay
             }
         }
