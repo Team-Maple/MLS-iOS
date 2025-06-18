@@ -139,5 +139,6 @@ private extension TagChip {
         layer.borderColor = style.borderColor
         layer.borderWidth = style.borderWidth
         layer.cornerRadius = style.radius
+        cancelButton.tintColor = style.fontColor
     }
 }

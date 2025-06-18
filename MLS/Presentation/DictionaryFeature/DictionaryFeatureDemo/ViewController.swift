@@ -1,6 +1,7 @@
 import UIKit
 
 import Core
+import DesignSystem
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
@@ -16,12 +17,21 @@ class ViewController: UIViewController {
     }()
 
     lazy var views: [[UIViewController]] = {
-
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터"
+
+        let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
+        dictionaryMainVC.title = "도감 메인"
+
         let modalVC = [itemFilterBottomSheetVC]
         return [
-            modalVC
+            modalVC,
+            [BottomTabBarController(viewControllers: [
+                UIViewController(),
+                dictionaryMainVC,
+                UIViewController(),
+                UIViewController()
+            ])]
         ]
     }()
 
@@ -41,8 +51,12 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return views.count
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return views[section].count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -56,9 +70,11 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         let nextController = views[indexPath.section][indexPath.row]
         if indexPath.section == 0 {
             navigationController?.present(nextController, animated: true)
+        } else if indexPath.section == 1 {
+            nextController.modalPresentationStyle = .fullScreen
+            navigationController?.present(nextController, animated: true)
         } else {
             navigationController?.pushViewController(nextController, animated: true)
         }
-
     }
 }

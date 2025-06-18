@@ -55,76 +55,89 @@ private extension ImageLoader {
     ///   - stringURL: 이미지 URL 문자열
     ///   - completion: 로드 완료 후 호출되는 클로저
     func loadImage(url: URL?, completion: @escaping (Result<UIImage?, Error>) -> Void) {
-            guard let url else {
-                completion(.failure(ImageLoaderError.invalidURL))
-                return
-            }
+        guard let url else {
+            completion(.failure(ImageLoaderError.invalidURL))
+            return
+        }
 
-            // 메모리 캐시에서 이미지 조회
-            if let cachedImage = MemoryStorage.shared.fetchImage(stringURL: url.absoluteString) {
-                completion(.success(cachedImage))
-                return
-            }
+        // 1. 메모리 캐시 확인
+        if let cachedImage = MemoryStorage.shared.fetchImage(stringURL: url.absoluteString) {
+            completion(.success(cachedImage))
+            return
+        }
 
-            // 디스크 캐시에서 이미지 조회
-            DiskStorage.shared.fetchImage(url: url) { image in
-                if let image {
-                    // 디스크에서 가져온 이미지를 메모리캐시에 저장
-                    MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
-                    completion(.success(image))
-                } else {
-                    // 메모리와 디스크 둘다 없다면 네트워크 요청
-                    self.fetchDataFrom(url: url) { result in
-                        switch result {
-                        case .success(let data):
-                            if let data {
-                                // GIF인지 확인하고 처리
-                                if let source = CGImageSourceCreateWithData(data as CFData, nil) {
-                                    let frameCount = CGImageSourceGetCount(source)
-                                    if frameCount > 1 {
-                                        // GIF로 간주
-                                        var images: [UIImage] = []
-                                        var duration: TimeInterval = 0
-                                        for index in 0..<frameCount {
-                                            if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
-                                                let uiImage = UIImage(cgImage: cgImage)
-                                                images.append(uiImage)
-                                                // 프레임별 지연 시간 계산 (선택적)
-                                                if let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [String: Any],
-                                                   let gifProperties = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any],
-                                                   let delayTime = gifProperties[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double {
-                                                    duration += delayTime
-                                                }
-                                            }
-                                        }
-                                        if let animatedImage = UIImage.animatedImage(with: images, duration: duration > 0 ? duration : Double(frameCount) * 0.1) {
-                                            MemoryStorage.shared.saveImage(image: animatedImage, stringURL: url.absoluteString)
-                                            DiskStorage.shared.saveImage(image: animatedImage, url: url)
-                                            completion(.success(animatedImage))
-                                        }
-                                    } else {
-                                        // 정적 이미지
-                                        if let image = UIImage(data: data) {
-                                            MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
-                                            DiskStorage.shared.saveImage(image: image, url: url)
-                                            completion(.success(image))
-                                        } else {
-                                            completion(.failure(ImageLoaderError.convertError(description: "Failed to convert data to UIImage")))
-                                        }
-                                    }
-                                } else {
-                                    completion(.failure(ImageLoaderError.convertError(description: "Failed to create image source")))
-                                }
-                            } else {
-                                completion(.failure(ImageLoaderError.convertError(description: "No data received")))
-                            }
-                        case .failure(let error):
-                            completion(.failure(error))
+        // 2. 디스크 캐시 확인
+        DiskStorage.shared.fetchImage(url: url) { image in
+            if let image {
+                MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
+                completion(.success(image))
+            } else {
+                // 3. 네트워크 요청
+                self.fetchDataFrom(url: url) { result in
+                    switch result {
+                    case .success(let data):
+                        guard let data else {
+                            completion(.failure(ImageLoaderError.convertError(description: "No data received")))
+                            return
                         }
+
+                        self.decodeImageData(data, url: url, completion: completion)
+
+                    case .failure(let error):
+                        completion(.failure(error))
                     }
                 }
             }
         }
+    }
+
+    private func decodeImageData(_ data: Data, url: URL, completion: @escaping (Result<UIImage?, Error>) -> Void) {
+        if let gifImage = decodeGIF(data: data, url: url) {
+            completion(.success(gifImage))
+            return
+        }
+
+        // 정적 이미지 처리
+        if let image = UIImage(data: data) {
+            MemoryStorage.shared.saveImage(image: image, stringURL: url.absoluteString)
+            DiskStorage.shared.saveImage(image: image, url: url)
+            completion(.success(image))
+        } else {
+            completion(.failure(ImageLoaderError.convertError(description: "Failed to convert data to UIImage")))
+        }
+    }
+
+    private func decodeGIF(data: Data, url: URL) -> UIImage? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
+
+        let frameCount = CGImageSourceGetCount(source)
+        guard frameCount > 1 else { return nil } // GIF가 아님
+
+        var images: [UIImage] = []
+        var duration: TimeInterval = 0
+
+        for index in 0 ..< frameCount {
+            guard let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) else { continue }
+            let uiImage = UIImage(cgImage: cgImage)
+            images.append(uiImage)
+
+            if let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [String: Any],
+               let gifProps = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any],
+               let delay = gifProps[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double {
+                duration += delay
+            }
+        }
+
+        let finalDuration = duration > 0 ? duration : Double(frameCount) * 0.1
+        let animatedImage = UIImage.animatedImage(with: images, duration: finalDuration)
+
+        if let animatedImage {
+            MemoryStorage.shared.saveImage(image: animatedImage, stringURL: url.absoluteString)
+            DiskStorage.shared.saveImage(image: animatedImage, url: url)
+        }
+
+        return animatedImage
+    }
 
     /// URL을 통해 데이터를 요청하는 메서드
     /// - Parameters:

@@ -30,7 +30,6 @@ public final class BottomTabBarController: UITabBarController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        self.title = "BottomTabBar"
     }
 }
 
@@ -48,7 +47,13 @@ private extension BottomTabBarController {
     }
 
     func configureUI(controllers: [UIViewController]) {
-        viewControllers = controllers
+        viewControllers = controllers.map {
+            if $0 is UINavigationController {
+                return $0
+            } else {
+                return UINavigationController(rootViewController: $0)
+            }
+        }
         tabBar.isHidden = true
 
         customTabBar.onTabSelected = { [weak self] index in
