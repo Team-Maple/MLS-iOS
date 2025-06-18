@@ -1,5 +1,5 @@
-import RxSwift
 import DomainInterface
+import RxSwift
 
 public final class FetchDictionaryItemsUseCaseImpl: FetchDictionaryItemsUseCase {
 

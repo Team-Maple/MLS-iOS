@@ -5,9 +5,9 @@ import DomainInterface
 public final class DictionarySearchReactor: Reactor {
     // MARK: - Reactor
     public enum Action {}
-        
+
     public enum Mutation {}
-        
+
     public struct State {
         let recentResult: [String]
         var hasRecent: Bool {
@@ -16,11 +16,11 @@ public final class DictionarySearchReactor: Reactor {
 
         let popularResult: [String]
     }
-        
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-        
+
     // MARK: - init
     public init() {
         self.initialState = State(
@@ -41,17 +41,17 @@ public final class DictionarySearchReactor: Reactor {
             ]
         )
     }
-        
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {}
     }
-        
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-            
+
         switch mutation {}
-            
+
         return newState
     }
 }

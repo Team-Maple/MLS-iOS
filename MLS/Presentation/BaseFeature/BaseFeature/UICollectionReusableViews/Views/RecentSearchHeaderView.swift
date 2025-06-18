@@ -1,6 +1,6 @@
-import UIKit
 import DesignSystem
 import SnapKit
+import UIKit
 
 public final class RecentSearchHeaderView: UICollectionReusableView {
     // MARK: - Components

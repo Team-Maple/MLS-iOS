@@ -2,23 +2,23 @@ import Foundation
 
 import DomainInterface
 
-import RxSwift
 import RxRelay
+import RxSwift
 
 public final class DictionaryListRepositoryImpl: DictionaryListRepository {
-    
+
     // MARK: - Properties
-    
+
     private let itemsRelay: BehaviorRelay<[DictionaryItem]> = .init(value: [])
-    
+
     public var items: Observable<[DictionaryItem]> {
         return itemsRelay.asObservable()
     }
-    
+
     private let disposeBag = DisposeBag()
-    
+
     private var allItems: [DictionaryItem]
-    
+
     public init(allItems: [DictionaryItem]) {
         self.allItems = allItems
         self.itemsRelay.accept(allItems)

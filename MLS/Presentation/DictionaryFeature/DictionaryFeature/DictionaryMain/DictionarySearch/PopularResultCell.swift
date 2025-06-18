@@ -1,7 +1,7 @@
 import UIKit
 
-import DomainInterface
 import DesignSystem
+import DomainInterface
 
 final class PopularResultCell: UICollectionViewCell {
     // MARK: - Type
@@ -40,7 +40,7 @@ private extension PopularResultCell {
             make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
             make.leading.equalToSuperview()
         }
-        
+
         textLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
             make.leading.equalTo(indexLabel.snp.trailing).offset(Constant.spacing).priority(.high)

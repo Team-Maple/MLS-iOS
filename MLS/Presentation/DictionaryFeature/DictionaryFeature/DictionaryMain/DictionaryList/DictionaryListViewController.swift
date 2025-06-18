@@ -8,20 +8,20 @@ import RxSwift
 
 public final class DictionaryListViewController: BaseViewController, View {
     public typealias Reactor = DictionaryListReactor
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     var type: DictionaryType
-    
+
     // MARK: - Components
     private let mainView: DictionaryListView
-    
+
     public init(type: DictionaryType) {
         self.type = type
         self.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
         super.init()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -29,7 +29,7 @@ public final class DictionaryListViewController: BaseViewController, View {
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
         configureUI()
@@ -41,21 +41,21 @@ private extension DictionaryListViewController {
     func addViews() {
         view.addSubview(mainView)
     }
-    
+
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         mainView.listCollectionView.collectionViewLayout = createListLayout()
         mainView.listCollectionView.delegate = self
         mainView.listCollectionView.dataSource = self
         mainView.listCollectionView.register(DictionaryListCell.self, forCellWithReuseIdentifier: DictionaryListCell.identifier)
     }
-    
+
     func createListLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
@@ -71,7 +71,7 @@ extension DictionaryListViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
-        
+
         reactor.action.onNext(.load)
     }
 

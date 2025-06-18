@@ -39,7 +39,7 @@ public final class DictionaryListReactor: Reactor {
         case .load:
             return fetchDictionaryItemsUseCase.execute(type: dictionaryType)
                 .map(Mutation.setItems)
-            
+
         case let .toggleBookmark(id):
             return toggleBookmarkUseCase.execute(id: id)
                 .map { newItems in

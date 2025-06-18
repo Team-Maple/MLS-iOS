@@ -62,14 +62,14 @@ private extension GuideAlertTestViewController {
     func bind() {
         oneButton.rx.tap
             .withUnretained(self)
-            .subscribe { owner, _ in
+            .subscribe { _, _ in
                 GuideAlertFactory.show(mainText: "버튼 하나", ctaText: "확인", ctaAction: {})
             }
             .disposed(by: disposeBag)
 
         twoButton.rx.tap
             .withUnretained(self)
-            .subscribe { owner, _ in
+            .subscribe { _, _ in
                 GuideAlertFactory.show(mainText: "버튼 두개", ctaText: "확인", cancelText: "취소", ctaAction: {})
             }
             .disposed(by: disposeBag)

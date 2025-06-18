@@ -16,7 +16,7 @@ public struct DictionaryItem: Equatable {
             lhs.image == rhs.image &&
             lhs.isBookmarked == rhs.isBookmarked
     }
-    
+
     public init(id: String, type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isBookmarked: Bool) {
         self.id = id
         self.type = type

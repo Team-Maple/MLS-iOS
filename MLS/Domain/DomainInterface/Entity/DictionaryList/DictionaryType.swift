@@ -5,24 +5,24 @@ public enum DictionaryType: CaseIterable {
     case map
     case npc
     case quest
-    
+
     public var title: String {
         switch self {
-        case .total: 
+        case .total:
             return "전체"
-        case .monster: 
+        case .monster:
             return "몬스터"
-        case .item: 
+        case .item:
             return "아이템"
-        case .map: 
+        case .map:
             return "맵"
-        case .npc: 
+        case .npc:
             return "NPC"
-        case .quest: 
+        case .quest:
             return "퀘스트"
         }
     }
-    
+
     public var isFilterHidden: Bool {
         switch self {
         case .item, .monster:
@@ -31,7 +31,7 @@ public enum DictionaryType: CaseIterable {
             true
         }
     }
-    
+
     public var toItemType: DictionaryItemType? {
         switch self {
         case .total:

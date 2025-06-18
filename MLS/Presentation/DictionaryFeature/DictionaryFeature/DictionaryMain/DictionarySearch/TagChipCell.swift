@@ -1,14 +1,10 @@
 import UIKit
 
+import DesignSystem
 import DomainInterface
-import DesignSystem
 
-import UIKit
-
-import DesignSystem
-
-import SnapKit
 import RxSwift
+import SnapKit
 
 public final class TagChipCell: UICollectionViewCell {
 

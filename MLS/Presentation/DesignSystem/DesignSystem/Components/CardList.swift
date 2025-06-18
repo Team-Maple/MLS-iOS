@@ -33,7 +33,7 @@ public final class CardList: UIView {
             updateSubText()
         }
     }
-    
+
     public var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
@@ -125,14 +125,14 @@ private extension CardList {
         backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.cardRadius
     }
-    
+
     func bindButton() {
         bookmarkButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
             self.onBookmarkTapped?(self.isBookmarkSelected)
         }), for: .touchUpInside)
     }
-    
+
     func updateMainText() {
         mainTextLabel.attributedText = .makeStyledString(font: .subTitle, text: mainText, alignment: .left)
     }
@@ -150,7 +150,7 @@ public extension CardList {
     func setMainText(text: String) {
         mainText = text
     }
-    
+
     func setSubText(text: String) {
         subText = text
     }
@@ -158,11 +158,11 @@ public extension CardList {
     func loadImage(image: UIImage) {
         imageView.image = image
     }
-    
+
     func setBookmark(isBookmarked: Bool) {
         isBookmarkSelected = isBookmarked
     }
-    
+
     func setBackgroundColor(color: UIColor) {
         imageContentView.backgroundColor = color
     }

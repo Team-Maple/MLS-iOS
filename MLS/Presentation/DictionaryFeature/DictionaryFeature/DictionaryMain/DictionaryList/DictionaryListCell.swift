@@ -1,7 +1,7 @@
 import UIKit
 
-import DomainInterface
 import DesignSystem
+import DomainInterface
 
 final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
@@ -53,7 +53,7 @@ extension DictionaryListCell {
         cellView.setBookmark(isBookmarked: input.isBookmarked)
         cellView.setBackgroundColor(color: input.type.backgroundColor)
         self.onBookmarkTapped = onBookmarkTapped
-        cellView.onBookmarkTapped = { [weak self] isSelected in
+        cellView.onBookmarkTapped = { [weak self] _ in
             self?.onBookmarkTapped?()
         }
     }
