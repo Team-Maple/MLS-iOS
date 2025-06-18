@@ -1,0 +1,62 @@
+import UIKit
+
+import DomainInterface
+import DesignSystem
+
+final class PopularResultCell: UICollectionViewCell {
+    // MARK: - Type
+    struct Constant {
+        static let verticalInset: CGFloat = 8
+        static let spacing: CGFloat = 8
+    }
+
+    // MARK: - Components
+    public let indexLabel = UILabel()
+    public let textLabel = UILabel()
+
+    // MARK: - init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        addViews()
+        setupContstraints()
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("\(#file), \(#function) Error")
+    }
+}
+
+// MARK: - SetUp
+private extension PopularResultCell {
+    func addViews() {
+        contentView.addSubview(indexLabel)
+        contentView.addSubview(textLabel)
+    }
+
+    func setupContstraints() {
+        indexLabel.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
+            make.leading.equalToSuperview()
+        }
+        
+        textLabel.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
+            make.leading.equalTo(indexLabel.snp.trailing).offset(Constant.spacing).priority(.high)
+            make.trailing.equalToSuperview().priority(.low)
+        }
+    }
+}
+
+extension PopularResultCell {
+    struct Input {
+        let text: String
+        let index: Int
+    }
+
+    func inject(input: Input) {
+        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+        textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+    }
+}

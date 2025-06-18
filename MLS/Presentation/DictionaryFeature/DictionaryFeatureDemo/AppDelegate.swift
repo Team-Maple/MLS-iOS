@@ -167,8 +167,11 @@ private extension AppDelegate {
         DIContainer.register(type: DictionaryListFactory.self) {
             return DictionaryListFactoryImpl(fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self))
         }
+        DIContainer.register(type: DictionarySearchFactory.self) {
+            return DictionarySearchFactoryImpl()
+        }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
-            return DictionaryMainViewFactoryImpl(dictionaryListFactory: DIContainer.resolve(type: DictionaryListFactory.self))
+            return DictionaryMainViewFactoryImpl(dictionaryListFactory: DIContainer.resolve(type: DictionaryListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self))
         }
     }
 }

@@ -17,6 +17,8 @@ public final class DictionaryMainViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
     private let initialIndex: Int
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
+    
+    private let searchFactory: DictionarySearchFactory
         
     private var viewControllers: [UIViewController]
         
@@ -25,10 +27,12 @@ public final class DictionaryMainViewController: BaseViewController, View {
     public init(
         reactor: DictionaryMainReactor,
         initialIndex: Int = 0,
-        dictionaryListFactory: DictionaryListFactory
+        dictionaryListFactory: DictionaryListFactory,
+        searchFactory: DictionarySearchFactory
     ) {
         let types: [DictionaryType] = DictionaryType.allCases
         self.viewControllers = types.map { dictionaryListFactory.make(type: $0) }
+        self.searchFactory = searchFactory
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -108,9 +112,28 @@ public extension DictionaryMainViewController {
     }
     
     func bindUserActions(reactor: Reactor) {
+        mainView.headerView.firstIconButton.rx.tap
+            .map { Reactor.Action.searchButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
-    func bindViewState(reactor: Reactor) {}
+    func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .search:
+                    let controller = owner.searchFactory.make()
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - UIPageViewController DataSource & Delegate
