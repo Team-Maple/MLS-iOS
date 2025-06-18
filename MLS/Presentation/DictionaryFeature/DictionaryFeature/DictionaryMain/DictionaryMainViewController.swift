@@ -25,10 +25,10 @@ public final class DictionaryMainViewController: BaseViewController, View {
     public init(
         reactor: DictionaryMainReactor,
         initialIndex: Int = 0,
-        dictionaryListViewControllerFactory: DictionaryListFactory
+        dictionaryListFactory: DictionaryListFactory
     ) {
         let types: [DictionaryType] = DictionaryType.allCases
-        self.viewControllers = types.map { dictionaryListViewControllerFactory.make(type: $0) }
+        self.viewControllers = types.map { dictionaryListFactory.make(type: $0) }
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -79,11 +79,10 @@ private extension DictionaryMainViewController {
     }
     
     func createTabLayout() -> UICollectionViewLayout {
-        let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getPageTabbarLayout() }
+            .section { _ in LayoutFactory.getPageTabbarLayout() }
             .build()
-        layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
+        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
     
@@ -154,7 +153,7 @@ extension DictionaryMainViewController: UICollectionViewDataSource, UICollection
             return UICollectionViewCell()
         }
         let title = reactor.currentState.sections[indexPath.row]
-        cell.configure(title: title)
+        cell.inject(title: title)
         cell.isSelected = indexPath.row == currentPageIndex.value
         return cell
     }

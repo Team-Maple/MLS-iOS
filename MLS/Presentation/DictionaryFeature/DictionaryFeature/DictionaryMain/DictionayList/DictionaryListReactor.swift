@@ -15,7 +15,6 @@ public final class DictionaryListReactor: Reactor {
 
     public struct State {
         var items: [DictionaryItem] = []
-        var toastMessage: String? = nil
     }
 
     public var initialState = State()
@@ -56,7 +55,6 @@ public final class DictionaryListReactor: Reactor {
         switch mutation {
         case let .setItems(items):
             newState.items = items
-            newState.toastMessage = nil
 
             return newState
         }

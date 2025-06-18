@@ -17,7 +17,7 @@ public final class DictionaryListRepositoryImpl: DictionaryListRepository {
     
     private let disposeBag = DisposeBag()
     
-    private var allItems: [DictionaryItem] = []
+    private var allItems: [DictionaryItem]
     
     public init(allItems: [DictionaryItem]) {
         self.allItems = allItems

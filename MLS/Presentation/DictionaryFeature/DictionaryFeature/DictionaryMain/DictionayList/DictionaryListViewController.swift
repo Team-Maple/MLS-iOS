@@ -60,7 +60,7 @@ private extension DictionaryListViewController {
         let layout = CompositionalLayoutBuilder()
             .section { _ in layoutFactory.getPageListLayout() }
             .build()
-        layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
+        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 }
