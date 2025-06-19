@@ -10,11 +10,11 @@ public final class PopularSearchHeaderView: UICollectionReusableView {
         static let spacing: CGFloat = 4
         static let topInset: CGFloat = 24
     }
-    
+
     // MARK: - Components
     private let titleLabel = UILabel()
     private let subtitleLabel = UILabel()
-    
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,7 +22,7 @@ public final class PopularSearchHeaderView: UICollectionReusableView {
         setupConstraints()
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,7 +34,7 @@ private extension PopularSearchHeaderView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
     }
-    
+
     func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(Constant.topInset)
@@ -47,11 +47,11 @@ private extension PopularSearchHeaderView {
             make.bottom.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         titleLabel.font = .subTitleBold
         titleLabel.textAlignment = .left
-        
+
         subtitleLabel.font = .korFont(style: .regular, size: 12)
         subtitleLabel.textColor = .neutral500
         subtitleLabel.textAlignment = .left

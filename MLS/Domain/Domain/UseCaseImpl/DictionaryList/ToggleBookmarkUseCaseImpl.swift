@@ -1,5 +1,5 @@
-import RxSwift
 import DomainInterface
+import RxSwift
 
 public final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
     private let repository: DictionaryListRepository
@@ -8,7 +8,9 @@ public final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
         self.repository = repository
     }
 
-    public func execute(id: String) -> Observable<[DictionaryItem]> {
+    public func execute(id: String, type: DictionaryType) -> Observable<[DictionaryItem]> {
         return repository.toggleBookmark(id: id)
+            .withLatestFrom(repository.observeItems(type: type))
+            .take(1)
     }
 }

@@ -11,6 +11,8 @@ public class PageTabbarCell: UICollectionViewCell {
         label.font = .body
         label.textColor = .neutral600
         label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
         return label
     }()
 
@@ -67,7 +69,7 @@ private extension PageTabbarCell {
 }
 
 public extension PageTabbarCell {
-    func configure(title: String?) {
+    func inject(title: String?) {
         titleLabel.text = title
     }
 }

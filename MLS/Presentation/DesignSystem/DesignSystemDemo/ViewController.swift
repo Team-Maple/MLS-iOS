@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         CommonButtonTestViewController(),
         InputBoxTextViewController()
     ], initialIndex: 1)
-    
+
     lazy var componentViews: [UIViewController] = [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),

@@ -18,7 +18,7 @@ public final class DictionarySearchReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
     }
-        
+
     public struct State {
         @Pulse var route: Route
         let recentResult: [String]
@@ -28,11 +28,11 @@ public final class DictionarySearchReactor: Reactor {
 
         let popularResult: [String]
     }
-        
+
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-        
+
     // MARK: - init
     public init() {
         self.initialState = State(
@@ -54,7 +54,7 @@ public final class DictionarySearchReactor: Reactor {
             ]
         )
     }
-        
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -64,7 +64,7 @@ public final class DictionarySearchReactor: Reactor {
             return Observable.just(.navigateTo(.search))
         }
     }
-        
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
             
@@ -72,7 +72,7 @@ public final class DictionarySearchReactor: Reactor {
         case .navigateTo(let route):
             newState.route = route
         }
-            
+        
         return newState
     }
 }

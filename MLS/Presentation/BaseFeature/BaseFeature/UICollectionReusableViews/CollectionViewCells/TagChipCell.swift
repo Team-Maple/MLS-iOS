@@ -5,7 +5,7 @@ import DesignSystem
 import RxSwift
 import SnapKit
 
-public final class TagChipCell: UICollectionViewCell {
+public class TagChipCell: UICollectionViewCell {
 
     public let button: TagChip = {
         let button = TagChip(style: .normal, text: "")

@@ -13,6 +13,9 @@ final class ItemFilterBottomSheetView: UIView {
         static let buttonStackViewTopMargin: CGFloat = 12
         static let buttonStackViewBottomMargin: CGFloat = 16
         static let collectionViewTopOffset = 8
+        static let categoryCollectionViewHeight = 40
+        static let dividerHeight = 1
+        static let selectedItemCollectionViewHeight = 56
     }
 
     // MARK: - Properties
@@ -63,8 +66,21 @@ final class ItemFilterBottomSheetView: UIView {
 
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
-        view.contentInset = .init(top: 40, left: 0, bottom: 0, right: 0)
+        view.contentInset = .init(top: 32, left: 0, bottom: 40, right: 0)
         view.allowsMultipleSelection = true
+        return view
+    }()
+
+    public let selectedItemCollectionView: UICollectionView = {
+        let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.alwaysBounceVertical = false
+        view.isHidden = true
+        return view
+    }()
+
+    private let selectedItemDividerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral200
         return view
     }()
 
@@ -89,10 +105,12 @@ private extension ItemFilterBottomSheetView {
         addSubview(toolBarStackView)
         addSubview(categoryCollectionView)
         addSubview(contentCollectionView)
+        toolBarStackView.addArrangedSubview(selectedItemCollectionView)
         toolBarStackView.addArrangedSubview(buttonStackView)
         buttonStackView.addArrangedSubview(clearButton)
         buttonStackView.addArrangedSubview(applyButton)
         buttonStackView.addSubview(buttonStackViewDividerView)
+        toolBarStackView.addSubview(selectedItemDividerView)
     }
 
     func setupConstraints() {
@@ -109,7 +127,7 @@ private extension ItemFilterBottomSheetView {
         categoryCollectionView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.collectionViewTopOffset)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(40)
+            make.height.equalTo(Constant.categoryCollectionViewHeight)
         }
         contentCollectionView.snp.makeConstraints { make in
             make.top.equalTo(categoryCollectionView.snp.bottom)
@@ -118,7 +136,14 @@ private extension ItemFilterBottomSheetView {
         }
         buttonStackViewDividerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.height.equalTo(2)
+            make.height.equalTo(Constant.dividerHeight)
+        }
+        selectedItemCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(Constant.selectedItemCollectionViewHeight)
+        }
+        selectedItemDividerView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.height.equalTo(Constant.dividerHeight)
         }
     }
 

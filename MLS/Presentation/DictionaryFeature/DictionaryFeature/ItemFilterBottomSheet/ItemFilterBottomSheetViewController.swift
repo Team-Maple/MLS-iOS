@@ -11,41 +11,72 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
 
     public typealias Reactor = ItemFilterBottomSheetViewReactor
 
-    enum Section: Int, CaseIterable {
+    enum FilterSection: Int, CaseIterable {
         case job
+        case level
         case weapons
         case projectiles
         case armors
         case accessories
-        case scrolls
+        case scrollCategories
+        case weaponScrolls
+        case armorsScrolls
+        case etcScrolls
         case etcItems
 
-        var headerTitle: String {
+        var headerTitle: String? {
             switch self {
-            case .job:
-                "직업"
-            case .weapons:
-                "무기"
-            case .projectiles:
-                "발사체"
-            case .armors:
-                "방어구"
-            case .accessories:
-                "장신구"
-            case .scrolls:
-                "주문서"
-            case .etcItems:
-                "기타"
+            case .job: return "직업"
+            case .level: return "레벨"
+            case .weapons: return "무기"
+            case .projectiles: return "발사체"
+            case .armors: return "방어구"
+            case .accessories: return "장신구"
+            case .scrollCategories: return "주문서"
+            case .etcItems: return "기타"
+            default: return nil
+            }
+        }
+
+        var layout: CompositionalSectionBuilder {
+            switch self {
+            case .level: return LayoutFactory.getLevelRangeSection()
+            case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                return CompositionalSectionBuilder()
+                    .item(width: .fractionalWidth(0.5), height: .absolute(32))
+                    .group(.horizontal, width: .fractionalWidth(1), height: .estimated(300))
+                    .interItemSpacing(.fixed(3))
+                    .buildSection()
+                    .interGroupSpacing(16)
+                    .contentInsets(.init(top: 0, leading: 16, bottom: 32, trailing: 16))
+            default:
+                return LayoutFactory.getItemTagListSection()
             }
         }
     }
 
-    private var isScroll: Bool = false
+    enum FilterItem: Hashable {
+        case job(String)
+        case level
+        case weapons(String)
+        case projectiles(String)
+        case armors(String)
+        case accessories(String)
+        case scrollCategories(String)
+        case weaponScrolls(String)
+        case armorScrolls(String)
+        case etcScrolls(String)
+        case etcItems(String)
+    }
 
-    private var lastSelectedSection: Section = .job
+    // Diffable Data Source 타입 정의
+    typealias DataSource = UICollectionViewDiffableDataSource<FilterSection, FilterItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<FilterSection, FilterItem>
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-
+    private var isUserScrollDragging: Bool = false
+    private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
 
     public override init() {
@@ -65,6 +96,15 @@ extension ItemFilterBottomSheetViewController {
         addViews()
         setupConstraints()
         configureUI()
+
+    }
+
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        // Modal Gesture 제거
+        navigationController?.presentationController?.presentedView?.gestureRecognizers?.forEach { $0.isEnabled = false }
+        presentationController?.presentedView?.gestureRecognizers?.forEach { $0.isEnabled = false }
     }
 }
 
@@ -83,21 +123,22 @@ private extension ItemFilterBottomSheetViewController {
     func configureUI() {
         configureCategoryCollectionView()
         configureContentCollectionView()
+        configureSelectedItemCollectionView()
+        configureDataSource()
+        applyInitialSnapshot()
     }
 
     func configureCategoryCollectionView() {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
-        mainView.categoryCollectionView.delegate = self
         mainView.categoryCollectionView.dataSource = self
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
-        mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .bottom)
     }
 
     func configureContentCollectionView() {
         mainView.contentCollectionView.collectionViewLayout = createContentLayout()
-        mainView.contentCollectionView.delegate = self
-        mainView.contentCollectionView.dataSource = self
         mainView.contentCollectionView.register(TapButtonCell.self, forCellWithReuseIdentifier: TapButtonCell.identifier)
+        mainView.contentCollectionView.register(FilterLevelSectionCell.self, forCellWithReuseIdentifier: FilterLevelSectionCell.identifier)
+        mainView.contentCollectionView.register(CheckBoxButtonListSmallCell.self, forCellWithReuseIdentifier: CheckBoxButtonListSmallCell.identifier)
         mainView.contentCollectionView.register(
             SubTitleBoldHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -105,27 +146,130 @@ private extension ItemFilterBottomSheetViewController {
         )
     }
 
+    func configureSelectedItemCollectionView() {
+        mainView.selectedItemCollectionView.collectionViewLayout = createSelectedItemLayout()
+        mainView.selectedItemCollectionView.dataSource = self
+        mainView.selectedItemCollectionView.register(TagChipCell.self, forCellWithReuseIdentifier: TagChipCell.identifier)
+    }
+
     func createCategoryLayout() -> UICollectionViewLayout {
-        let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return layoutFactory.getPageTabbarLayout() }
+            .section { _ in return LayoutFactory.getPageTabbarLayout() }
             .build()
-        layout.register(PageTabbarDividerView.self, forDecorationViewOfKind: PageTabbarDividerView.identifier)
+        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 
     func createContentLayout() -> UICollectionViewLayout {
-        let layoutFactory = LayoutFactory()
+        let layoutAry = FilterSection.allCases.compactMap { $0.layout.build() }
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
-            .section { _ in return layoutFactory.getItemTagListSection() }
+            .setSections(layoutAry)
+            .build()
+        layout.register(Neutral200DividerView.self, forDecorationViewOfKind: Neutral200DividerView.identifier)
+        return layout
+    }
+
+    func createSelectedItemLayout() -> UICollectionViewLayout {
+        let layout = CompositionalLayoutBuilder()
+            .section({ builder in
+                return builder
+                    .item(width: .estimated(100), height: .absolute(32))
+                    .group(.horizontal, width: .estimated(100), height: .absolute(32))
+                    .buildSection()
+                    .interGroupSpacing(8)
+                    .contentInsets(.init(top: 12, leading: 16, bottom: 12, trailing: 16))
+                    .orthogonalScrolling(.continuous)
+            })
             .build()
         return layout
+    }
+
+    func configureDataSource() {
+        dataSource = DataSource(collectionView: mainView.contentCollectionView) { collectionView, indexPath, item in
+            switch item {
+            case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title),
+                    .accessories(let title), .scrollCategories(let title), .etcItems(let title):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as! TapButtonCell
+                cell.inject(title: title)
+                return cell
+            case .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title):
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as! CheckBoxButtonListSmallCell
+                cell.inject(title: title)
+                return cell
+            case .level:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as! FilterLevelSectionCell
+                guard let reactor = self.reactor else { return UICollectionViewCell() }
+                let rowValue = cell.slider.lowerValueObservable.map { Int($0) }
+                let highValue = cell.slider.upperValueObservable.map { Int($0) }
+                Observable.combineLatest(rowValue, highValue)
+                    .map { low, high in Reactor.Action.changeLevelRange(low: low, high: high) }
+                    .bind(to: reactor.action)
+                    .disposed(by: cell.disposeBag)
+
+                // Slider Thumb 동작 시 Scroll 비활성화
+                cell.slider.isThumbTracking
+                    .distinctUntilChanged()
+                    .withUnretained(self)
+                    .subscribe { (owner, isTracking) in
+                        owner.mainView.contentCollectionView.isScrollEnabled = !isTracking
+                    }
+                    .disposed(by: cell.disposeBag)
+                return cell
+            }
+        }
+
+        dataSource.supplementaryViewProvider = { collectionView, _, indexPath in
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SubTitleBoldHeaderView.identifier,
+                for: indexPath
+            ) as? SubTitleBoldHeaderView
+
+            let section = FilterSection.allCases[indexPath.section]
+            header?.inject(title: section.headerTitle)
+            return header
+        }
+    }
+
+    private func applyInitialSnapshot() {
+        var snapshot = Snapshot()
+
+        guard let reactor = reactor else { return }
+        // 모든 섹션 추가
+        snapshot.appendSections(FilterSection.allCases)
+
+        // 섹션별 아이템 추가
+        snapshot.appendItems(reactor.currentState.jobs.map { .job($0) }, toSection: .job)
+        snapshot.appendItems([.level], toSection: .level)
+        snapshot.appendItems(reactor.currentState.weapons.map { .weapons($0) }, toSection: .weapons)
+        snapshot.appendItems(reactor.currentState.projectiles.map { .projectiles($0) }, toSection: .projectiles)
+        snapshot.appendItems(reactor.currentState.armors.map { .armors($0) }, toSection: .armors)
+        snapshot.appendItems(reactor.currentState.accessories.map { .accessories($0) }, toSection: .accessories)
+        snapshot.appendItems(reactor.currentState.scrollCategories.map { .scrollCategories($0) }, toSection: .scrollCategories)
+        snapshot.appendItems(reactor.currentState.weaponScrolls.map { .weaponScrolls($0) }, toSection: .weaponScrolls)
+        snapshot.appendItems(reactor.currentState.armorScrolls.map { .armorScrolls($0) }, toSection: .armorsScrolls)
+        snapshot.appendItems(reactor.currentState.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
+        snapshot.appendItems(reactor.currentState.etcItems.map { .etcItems($0) }, toSection: .etcItems)
+
+        dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
+            self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+        }
+    }
+}
+
+// MARK: - Methods
+private extension ItemFilterBottomSheetViewController {
+
+    func getSelectedScrollCategoryIndexPath() -> IndexPath? {
+        let selectedScrollCategoryIndexPaths = getSelectedScrollCategoryIndexPaths()
+        guard let selectedScrollCategoryIndexPath = selectedScrollCategoryIndexPaths.first else { return nil }
+        return selectedScrollCategoryIndexPath
+    }
+
+    func getSelectedScrollCategoryIndexPaths() -> [IndexPath] {
+        let indexPathsForSelectedItems = mainView.contentCollectionView.indexPathsForSelectedItems ?? []
+        let selectedScrollCategoryIndexPaths = indexPathsForSelectedItems.filter({ $0.section == FilterSection.scrollCategories.rawValue })
+        return selectedScrollCategoryIndexPaths
     }
 }
 
@@ -140,9 +284,142 @@ extension ItemFilterBottomSheetViewController {
             .map { Reactor.Action.closeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.contentCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                guard let section = FilterSection(rawValue: indexPath.section) else { return }
+                owner.mainView.contentCollectionView.isScrollEnabled = true
+                switch section {
+                case .scrollCategories:
+                    let selectedItems = owner.getSelectedScrollCategoryIndexPaths()
+                    for selectedIndexPath in selectedItems {
+                        if indexPath != selectedIndexPath { owner.mainView.contentCollectionView.deselectItem(at: selectedIndexPath, animated: true) }
+                    }
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
+                case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                    let selectedItem = owner.getSelectedScrollCategoryIndexPath()
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
+                    owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
+                case .level:
+                    owner.mainView.contentCollectionView.deselectItem(at: indexPath, animated: true)
+                default:
+                    owner.reactor?.action.onNext(.filterSelected(indexPath: indexPath))
+                }
+                owner.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
+
+        mainView.contentCollectionView.rx.itemDeselected
+            .withUnretained(self)
+            .subscribe(onNext: { (owner, indexPath) in
+                guard let section = FilterSection(rawValue: indexPath.section) else { return }
+                switch section {
+                case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                    let selectedItem = owner.getSelectedScrollCategoryIndexPath()
+                    owner.reactor?.action.onNext(.filterDeselected(indexPath: indexPath))
+                    owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
+                default:
+                    reactor.action.onNext(.filterDeselected(indexPath: indexPath))
+                }
+            })
+            .disposed(by: disposeBag)
+
+        mainView.contentCollectionView.rx.didScroll
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                guard owner.isUserScrollDragging else { return }
+                let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
+                guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section }).first,
+                      let sectionMaxCount = owner.reactor?.currentState.sections.count else { return }
+                var currentSection: Int = sectionMaxCount - 1
+                if topIndexPath.section < sectionMaxCount { currentSection = topIndexPath.section == 0 ? 0 : topIndexPath.section - 1 }
+                owner.mainView.categoryCollectionView.selectItem(
+                    at: .init(row: currentSection, section: 0),
+                    animated: true,
+                    scrollPosition: .centeredHorizontally
+                )
+            }
+            .disposed(by: disposeBag)
+
+        mainView.contentCollectionView.rx.willBeginDragging
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.isUserScrollDragging = true
+            }
+            .disposed(by: disposeBag)
+
+        mainView.contentCollectionView.rx.didEndDecelerating
+            .withUnretained(self)
+            .subscribe { (owner, _) in
+                owner.isUserScrollDragging = false
+            }
+            .disposed(by: disposeBag)
+
+        mainView.categoryCollectionView.rx.itemSelected
+            .withUnretained(self)
+            .subscribe { (owner, indexPath) in
+                owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+                let section = indexPath.row == 6 ? 10 : indexPath.row == 0 ? 0 : indexPath.row + 1
+                owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: section), at: .top, animated: true)
+            }
+            .disposed(by: disposeBag)
+
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        mainView.contentCollectionView.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .bind { [weak self] _ in
+                self?.view.endEditing(true)
+            }
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
+        reactor.state
+            .map { (scrollTypes: $0.scrollCategories, weaponScrolls: $0.weaponScrolls, armorScrolls: $0.armorScrolls, etcScrolls: $0.etcScrolls)}
+            .distinctUntilChanged { $0 == $1 }
+            .skip(1)
+            .withUnretained(self)
+            .subscribe { (owner, scrolls) in
+                var snapshot = owner.dataSource.snapshot()
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .scrollCategories))
+                snapshot.appendItems(scrolls.scrollTypes.map { .scrollCategories($0) }, toSection: .scrollCategories)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .weaponScrolls))
+                snapshot.appendItems(scrolls.weaponScrolls.map { .weaponScrolls($0) }, toSection: .weaponScrolls)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .armorsScrolls))
+                snapshot.appendItems(scrolls.armorScrolls.map { .armorScrolls($0) }, toSection: .armorsScrolls)
+                snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .etcScrolls))
+                snapshot.appendItems(scrolls.etcScrolls.map { .etcScrolls($0) }, toSection: .etcScrolls)
+                owner.dataSource.apply(snapshot, animatingDifferences: false) {
+                    guard let selectedItem = owner.getSelectedScrollCategoryIndexPath() else { return }
+                    var targetIndexPath: [IndexPath] = []
+                    switch selectedItem.row {
+                    case 0:
+                        targetIndexPath = owner.reactor?.currentState.selectedItemIndexes.filter { FilterSection(rawValue: $0.section) == .weaponScrolls } ?? []
+                    case 1:
+                        targetIndexPath = owner.reactor?.currentState.selectedItemIndexes.filter { FilterSection(rawValue: $0.section) == .armorsScrolls } ?? []
+                    case 2:
+                        targetIndexPath = owner.reactor?.currentState.selectedItemIndexes.filter { FilterSection(rawValue: $0.section) == .etcScrolls } ?? []
+                    default:
+                        break
+                    }
+                    for target in targetIndexPath { owner.mainView.contentCollectionView.selectItem(at: target, animated: true, scrollPosition: .left) }
+                }
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.selectedItemIndexes }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { (owner, indexPaths) in
+                owner.mainView.selectedItemCollectionView.isHidden = indexPaths.isEmpty
+                owner.mainView.selectedItemCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) }
@@ -156,149 +433,65 @@ extension ItemFilterBottomSheetViewController {
                 }
             }
             .disposed(by: disposeBag)
-
     }
 }
 
-extension ItemFilterBottomSheetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        if collectionView == mainView.categoryCollectionView {
-            return 1
-        } else {
-            return Section.allCases.count
-        }
-    }
-
+extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let reactor = reactor else { return 0 }
         if collectionView == mainView.categoryCollectionView {
             return reactor.currentState.sections.count
         } else {
-            switch Section(rawValue: section)! {
-            case .job:
-                return reactor.currentState.jobs.count
-            case .weapons:
-                return reactor.currentState.weapons.count
-            case .projectiles:
-                return reactor.currentState.projectiles.count
-            case .armors:
-                return reactor.currentState.armors.count
-            case .accessories:
-                return reactor.currentState.accessories.count
-            case .scrolls:
-                return reactor.currentState.scrolls.count
-            case .etcItems:
-                return reactor.currentState.etcItems.count
-            }
+            return reactor.currentState.selectedItemIndexes.count
         }
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let reactor = reactor else { return UICollectionViewCell() }
         if collectionView == mainView.categoryCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PageTabbarCell.identifier, for: indexPath) as? PageTabbarCell else {
-                return UICollectionViewCell()
-            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PageTabbarCell.identifier, for: indexPath) as! PageTabbarCell
             let title = reactor.currentState.sections[indexPath.row]
-            cell.configure(title: title)
+            cell.inject(title: title)
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as? TapButtonCell else {
-                return UICollectionViewCell()
-            }
-            switch Section(rawValue: indexPath.section)! {
-            case .job:
-                let job = reactor.currentState.jobs[indexPath.row]
-                cell.configure(title: job)
-            case .weapons:
-                let weapons = reactor.currentState.weapons[indexPath.row]
-                cell.configure(title: weapons)
-            case .projectiles:
-                let projectiles = reactor.currentState.projectiles[indexPath.row]
-                cell.configure(title: projectiles)
-            case .armors:
-                let armors = reactor.currentState.armors[indexPath.row]
-                cell.configure(title: armors)
-            case .accessories:
-                let accessories = reactor.currentState.accessories[indexPath.row]
-                cell.configure(title: accessories)
-            case .scrolls:
-                let scrolls = reactor.currentState.scrolls[indexPath.row]
-                cell.configure(title: scrolls)
-            case .etcItems:
-                let etcItems = reactor.currentState.etcItems[indexPath.row]
-                cell.configure(title: etcItems)
-            }
-            return cell
-        }
-    }
-
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == mainView.categoryCollectionView {
-            guard let selectedSection = Section(rawValue: indexPath.row) else { return }
-            isScroll = true
-            switch lastSelectedSection {
-            case .armors, .accessories, .scrolls, .etcItems:
-                switch selectedSection {
-                case .armors, .accessories, .scrolls, .etcItems:
-                    isScroll = false
-                default:
-                    mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as! TagChipCell
+            let titles = reactor.currentState.selectedItemIndexes.map {
+                guard let item = dataSource.itemIdentifier(for: $0) else { return "" }
+                switch item {
+                case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title), .accessories(let title),
+                        .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
+                    return title
+                case .level:
+                    let range = reactor.currentState.levelRange
+                    return "\(range.low) ~ \(range.high)"
                 }
-            default:
-                mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: indexPath.row), at: .top, animated: true)
             }
-            lastSelectedSection = selectedSection
-            collectionView.collectionViewLayout.invalidateLayout()
-        }
-    }
-
-    public func collectionView(
-        _ collectionView: UICollectionView,
-        viewForSupplementaryElementOfKind kind: String,
-        at indexPath: IndexPath
-    ) -> UICollectionReusableView {
-
-        guard kind == UICollectionView.elementKindSectionHeader else {
-            return UICollectionReusableView()
-        }
-
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: SubTitleBoldHeaderView.identifier,
-            for: indexPath
-        ) as? SubTitleBoldHeaderView else {
-            return UICollectionReusableView()
-        }
-
-        // ✅ 섹션별로 제목 설정
-        let headerTitle = Section(rawValue: indexPath.section)?.headerTitle
-        headerView.configure(title: headerTitle)
-        return headerView
-    }
-
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isScroll else { return }
-        let visibleIndexPaths = mainView.contentCollectionView.indexPathsForVisibleItems
-        guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section || ($0.section == $1.section && $0.row < $1.row) }).first else {
-            return
-        }
-        let currentSection = topIndexPath.section
-        if let selectedSection = Section(rawValue: currentSection) {
-            lastSelectedSection = selectedSection
-        }
-        mainView.categoryCollectionView.selectItem(
-            at: IndexPath(row: currentSection, section: 0),
-            animated: false,
-            scrollPosition: .centeredHorizontally
-        )
-        mainView.categoryCollectionView.collectionViewLayout.invalidateLayout()
-    }
-
-    // ✅ 스크롤 애니메이션이 끝나면 다시 플래그 해제
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        if scrollView == mainView.contentCollectionView {
-            isScroll = false
+            cell.inject(title: titles[indexPath.row])
+            cell.button.cancelButton.rx.tap
+                .withUnretained(self)
+                .subscribe { (owner, _) in
+                    let deselectedIndex = reactor.currentState.selectedItemIndexes[indexPath.row]
+                    let section = FilterSection(rawValue: deselectedIndex.section)
+                    switch section {
+                    case .level:
+                        if let cell = owner.mainView.contentCollectionView.cellForItem(at: deselectedIndex) as? FilterLevelSectionCell {
+                            cell.slider.lowerValue = 0
+                            cell.slider.upperValue = 200
+                            owner.reactor?.action.onNext(.changeLevelRange(low: 0, high: 200))
+                        }
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
+                    case .weaponScrolls, .armorsScrolls, .etcScrolls:
+                        let selectedItem = owner.getSelectedScrollCategoryIndexPath()
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
+                        owner.mainView.contentCollectionView.deselectItem(at: deselectedIndex, animated: false)
+                        owner.mainView.contentCollectionView.selectItem(at: selectedItem, animated: false, scrollPosition: .left)
+                    default:
+                        owner.mainView.contentCollectionView.deselectItem(at: deselectedIndex, animated: true)
+                        owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
+                    }
+                }
+                .disposed(by: cell.disposeBag)
+            return cell
         }
     }
 }

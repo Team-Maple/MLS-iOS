@@ -1,7 +1,7 @@
 import UIKit
 
-import DomainInterface
 import DesignSystem
+import DomainInterface
 
 final class PopularResultCell: UICollectionViewCell {
     // MARK: - Type
@@ -40,7 +40,7 @@ private extension PopularResultCell {
             make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
             make.leading.equalToSuperview()
         }
-        
+
         textLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
             make.leading.equalTo(indexLabel.snp.trailing).offset(Constant.spacing).priority(.high)
@@ -56,7 +56,7 @@ extension PopularResultCell {
     }
 
     func inject(input: Input) {
-        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionBold : .caption, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
-        textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionBold : .caption, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+        textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
     }
 }
