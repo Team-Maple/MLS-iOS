@@ -8,7 +8,7 @@ public final class DictionaryMainReactor: Reactor {
         case main
         case searchResult
     }
-    
+
     public enum Route {
         case none
         case search
@@ -21,7 +21,7 @@ public final class DictionaryMainReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
         var type: DictionaryListType

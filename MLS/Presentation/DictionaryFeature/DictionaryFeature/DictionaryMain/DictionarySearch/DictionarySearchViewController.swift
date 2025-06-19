@@ -19,7 +19,7 @@ public final class DictionarySearchViewController: BaseViewController, View {
     override public init() {
         super.init()
     }
-    
+
     override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
