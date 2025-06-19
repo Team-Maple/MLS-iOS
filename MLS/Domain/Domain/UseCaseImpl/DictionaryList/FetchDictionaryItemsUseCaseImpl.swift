@@ -10,6 +10,6 @@ public final class FetchDictionaryItemsUseCaseImpl: FetchDictionaryItemsUseCase 
     }
 
     public func execute(type: DictionaryType) -> Observable<[DictionaryItem]> {
-        return repository.fetchItems(type: type)
+        return repository.observeItems(type: type)
     }
 }

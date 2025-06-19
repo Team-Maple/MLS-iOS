@@ -2,11 +2,12 @@ import Foundation
 
 /// 의존성 주입을 위한 컨테이너
 public final class DIContainer {
-    internal static let shared = DIContainer()
+    static let shared = DIContainer()
     // 저장 타입식별자 : [이름 식별자 : 객체 클로저] 형태
-    internal var services: [ObjectIdentifier: [String: () -> Any]] = [:]
+    private var services: [ObjectIdentifier: [String: () -> Any]] = [:]
+    private var instances: [ObjectIdentifier: [String: Any]] = [:]
     // 동시성 문제를 해결하기 위한 큐 생성
-    internal let serviceQueue = DispatchQueue(label: "com.dicontainer.serviceQueue")
+    private let serviceQueue = DispatchQueue(label: "com.dicontainer.serviceQueue")
 
     /// 구현체 등록을 위한 함수
     /// - Parameters:
@@ -44,11 +45,22 @@ private extension DIContainer {
 
     private func resolve<T>(type: T.Type, name: String?) -> T {
 //        serviceQueue.sync {
-            let key = ObjectIdentifier(type)
-            guard let namedServices = services[key], let result = namedServices[name ?? "default"], let instance = result() as? T else {
-                fatalError("\(type) does not registered")
-            }
+        let key = ObjectIdentifier(type)
+        let nameKey = name ?? "default"
+
+        if let instance = instances[key]?[nameKey] as? T {
             return instance
+        }
+
+        guard let services = services[key]?[nameKey] else {
+            fatalError("\(type) 타입과 \(nameKey) 이름이 등록되어 있지 않습니다.")
+        }
+
+        let newInstance = services()
+        var namedInstances = instances[key] ?? [:]
+        namedInstances[nameKey] = newInstance
+        instances[key] = namedInstances
+        return newInstance as! T
 //        }
     }
 }

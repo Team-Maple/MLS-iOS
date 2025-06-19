@@ -61,3 +61,20 @@ private extension BottomTabBarController {
         }
     }
 }
+
+public extension BottomTabBarController {
+    func setHidden(hidden: Bool, animated: Bool = true) {
+        guard customTabBar.isHidden != hidden else { return }
+
+        if animated {
+            UIView.animate(withDuration: 0.3) {
+                self.customTabBar.alpha = hidden ? 0 : 1
+            } completion: { _ in
+                self.customTabBar.isHidden = hidden
+            }
+        } else {
+            customTabBar.isHidden = hidden
+            customTabBar.alpha = hidden ? 0 : 1
+        }
+    }
+}
