@@ -27,12 +27,17 @@ public final class DictionaryListViewController: BaseViewController, View {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override public func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
 
         addViews()
         setupConstraints()
         configureUI()
+    }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reactor?.action.onNext(.refresh)
     }
 }
 
@@ -79,16 +84,11 @@ extension DictionaryListViewController {
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .scan(([], [])) { ($0.1, $1.items) }
-            .compactMap { oldItems, newItems in
-                newItems.enumerated().compactMap { index, item in
-                    guard index < oldItems.count else { return nil }
-                    return oldItems[index].isBookmarked != item.isBookmarked ? IndexPath(row: index, section: 0) : nil
-                }
-            }
-            .filter { !$0.isEmpty }
-            .subscribe(onNext: { [weak self] indexPaths in
-                self?.mainView.listCollectionView.reloadItems(at: indexPaths)
+            .map(\.items)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { [weak self] _ in
+                self?.mainView.listCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
     }

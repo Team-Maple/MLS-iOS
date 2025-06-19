@@ -6,46 +6,32 @@ import RxRelay
 import RxSwift
 
 public final class DictionaryListRepositoryImpl: DictionaryListRepository {
-
-    // MARK: - Properties
-
-    private let itemsRelay: BehaviorRelay<[DictionaryItem]> = .init(value: [])
-
-    public var items: Observable<[DictionaryItem]> {
-        return itemsRelay.asObservable()
-    }
-
-    private let disposeBag = DisposeBag()
-
-    private var allItems: [DictionaryItem]
+    public let itemsRelay: BehaviorRelay<[DictionaryItem]>
 
     public init(allItems: [DictionaryItem]) {
-        self.allItems = allItems
-        self.itemsRelay.accept(allItems)
+        self.itemsRelay = BehaviorRelay(value: allItems)
+        print("Repository instance: \(ObjectIdentifier(self))")
     }
-}
 
-// MARK: - Methods
-extension DictionaryListRepositoryImpl {
-    public func fetchItems(type: DictionaryType) -> Observable<[DictionaryItem]> {
+    public func observeItems(type: DictionaryType) -> Observable<[DictionaryItem]> {
         return itemsRelay
             .map { items in
-                guard let itemType = type.toItemType else {
+                guard let targetType = type.toItemType else {
                     return items
                 }
-                return items.filter { $0.type == itemType }
+                return items.filter { $0.type == targetType }
             }
-            .distinctUntilChanged()
     }
 
     public func toggleBookmark(id: String) -> Observable<[DictionaryItem]> {
-        if let index = allItems.firstIndex(where: { $0.id == id }) {
-            var item = allItems[index]
-            item.isBookmarked.toggle()
-            allItems[index] = item
-            itemsRelay.accept(allItems)
+        var items = itemsRelay.value
+        guard let index = items.firstIndex(where: { $0.id == id }) else {
+            return .just(items)
         }
 
-        return Observable.just(allItems)
+        items[index].isBookmarked.toggle()
+        itemsRelay.accept(items)
+
+        return itemsRelay.asObservable()
     }
 }

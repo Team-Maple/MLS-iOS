@@ -1,9 +1,10 @@
+import RxRelay
 import RxSwift
 
 public protocol DictionaryListRepository {
-    var items: Observable<[DictionaryItem]> { get }
+    var itemsRelay: BehaviorRelay<[DictionaryItem]> { get }
 
-    func fetchItems(type: DictionaryType) -> Observable<[DictionaryItem]>
+    func observeItems(type: DictionaryType) -> Observable<[DictionaryItem]>
 
     func toggleBookmark(id: String) -> Observable<[DictionaryItem]>
 }

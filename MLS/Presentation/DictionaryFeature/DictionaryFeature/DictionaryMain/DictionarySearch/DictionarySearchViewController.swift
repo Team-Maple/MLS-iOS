@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import DesignSystem
 import DomainInterface
 
 import ReactorKit
@@ -17,6 +18,14 @@ public final class DictionarySearchViewController: BaseViewController, View {
 
     override public init() {
         super.init()
+    }
+
+    override public func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let tabBarController = self.tabBarController as? BottomTabBarController {
+            tabBarController.setHidden(hidden: true, animated: true)
+        }
     }
 
     @available(*, unavailable)
@@ -110,9 +119,28 @@ extension DictionarySearchViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindUserActions(reactor: Reactor) {}
+    func bindUserActions(reactor: Reactor) {
+        mainView.searchBar.backButton.rx.tap
+            .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
-    func bindViewState(reactor: Reactor) {}
+    func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .dismiss:
+                    owner.navigationController?.popViewController(animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Delegate

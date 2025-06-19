@@ -1,5 +1,5 @@
 import RxSwift
 
 public protocol ToggleBookmarkUseCase {
-    func execute(id: String) -> Observable<[DictionaryItem]>
+    func execute(id: String, type: DictionaryType) -> Observable<[DictionaryItem]>
 }
