@@ -52,8 +52,26 @@ extension MonserFilterBottomSheetViewController {
     }
     
     func bindUserActions(reactor: Reactor) {
+        mainView.header.firstIconButton.rx.tap
+            .map { Reactor.Action.cancelButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                print(route)
+                switch route {
+                case .dismiss:
+                    owner.dismissCurrentModal()
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

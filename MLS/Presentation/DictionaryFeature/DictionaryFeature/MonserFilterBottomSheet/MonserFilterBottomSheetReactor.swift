@@ -3,13 +3,22 @@ import RxSwift
 import RxCocoa
 
 final public class MonserFilterBottomSheetReactor: Reactor {
-    
+    public enum Route {
+        case none
+        case dismiss
+    }
     // MARK: - Reactor
-    public enum Action { }
+    public enum Action {
+        case cancelButtonTapped
+    }
     
-    public enum Mutation { }
+    public enum Mutation {
+        case navigateTo(route: Route)
+    }
     
-    public struct State { }
+    public struct State {
+        @Pulse var route: Route = .none
+    }
     
     // MARK: - properties
     public var initialState: State
@@ -22,13 +31,19 @@ final public class MonserFilterBottomSheetReactor: Reactor {
     
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action {
+        case .cancelButtonTapped:
+            return Observable.just(.navigateTo(route: .dismiss))
+        }
     }
     
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         
-        switch mutation { }
+        switch mutation {
+        case .navigateTo(let route):
+            newState.route = route
+        }
         
         return newState
     }

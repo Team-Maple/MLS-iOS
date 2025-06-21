@@ -9,7 +9,7 @@ import SnapKit
 
 final public class ItemFilterBottomSheetViewController: BaseViewController, View {
 
-    public typealias Reactor = ItemFilterBottomSheetViewReactor
+    public typealias Reactor = ItemFilterBottomSheetReactor
 
     enum FilterSection: Int, CaseIterable {
         case job
