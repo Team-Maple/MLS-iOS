@@ -10,7 +10,6 @@ import ReactorKit
 final public class MonserFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
     
-    
     public typealias Reactor = MonserFilterBottomSheetReactor
     
     // MARK: - Properties
@@ -64,7 +63,6 @@ extension MonserFilterBottomSheetViewController {
             .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { (owner, route) in
-                print(route)
                 switch route {
                 case .dismiss:
                     owner.dismissCurrentModal()
