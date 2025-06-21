@@ -8,7 +8,7 @@ public struct ItemFilterBottomSheetFactoryImpl: ItemFilterBottomSheetFactory {
 
     public func make() -> BaseViewController {
         let viewController = ItemFilterBottomSheetViewController()
-        viewController.reactor = ItemFilterBottomSheetViewReactor()
+        viewController.reactor = ItemFilterBottomSheetReactor()
         return viewController
     }
 }

@@ -1,7 +1,9 @@
 import UIKit
 
+import BaseFeature
 import Core
 import DesignSystem
+import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
@@ -18,12 +20,21 @@ class ViewController: UIViewController {
 
     lazy var views: [[UIViewController]] = {
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
-        itemFilterBottomSheetVC.title = "아이템 필터"
+        itemFilterBottomSheetVC.title = "아이템 필터 바텀시트"
+
+        let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make()
+        monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
+
+        let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [
+            "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+        ], selectedIndex: 0)
+        sortedBottomSheetVC.title = "정렬 바텀시트"
+
+        let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
 
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
         dictionaryMainVC.title = "도감 메인"
 
-        let modalVC = [itemFilterBottomSheetVC]
         return [
             modalVC,
             [BottomTabBarController(viewControllers: [
@@ -69,7 +80,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nextController = views[indexPath.section][indexPath.row]
         if indexPath.section == 0 {
-            navigationController?.present(nextController, animated: true)
+            if nextController.title == "몬스터 필터 바텀시트" || nextController.title == "정렬 바텀시트" {
+                if let nextVC = nextController as? (UIViewController & ModalPresentable) {
+                    presentModal(nextVC)
+                }
+            } else {
+                navigationController?.present(nextController, animated: true)
+            }
         } else if indexPath.section == 1 {
             nextController.modalPresentationStyle = .fullScreen
             navigationController?.present(nextController, animated: true)
