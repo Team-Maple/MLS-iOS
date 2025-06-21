@@ -1,7 +1,9 @@
 import UIKit
 
+import BaseFeature
 import Core
 import DesignSystem
+import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
@@ -20,10 +22,16 @@ class ViewController: UIViewController {
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터"
 
+        let monsterBottomSheetVC = MonserFilterBottomSheetViewController()
+        monsterBottomSheetVC.reactor = MonserFilterBottomSheetReactor()
+        monsterBottomSheetVC.title = "몬스터 필터"
+
+        let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC]
+        
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
         dictionaryMainVC.title = "도감 메인"
 
-        let modalVC = [itemFilterBottomSheetVC]
+        
         return [
             modalVC,
             [BottomTabBarController(viewControllers: [
@@ -69,7 +77,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let nextController = views[indexPath.section][indexPath.row]
         if indexPath.section == 0 {
-            navigationController?.present(nextController, animated: true)
+            if nextController.title == "몬스터 필터" {
+                if let nextVC = nextController as? (UIViewController & ModalPresentable) {
+                    presentModal(nextVC)
+                }
+            } else {
+                navigationController?.present(nextController, animated: true)
+            }
         } else if indexPath.section == 1 {
             nextController.modalPresentationStyle = .fullScreen
             navigationController?.present(nextController, animated: true)

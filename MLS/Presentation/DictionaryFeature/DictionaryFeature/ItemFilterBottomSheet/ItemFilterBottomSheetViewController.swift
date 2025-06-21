@@ -199,15 +199,15 @@ private extension ItemFilterBottomSheetViewController {
             case .level:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as! FilterLevelSectionCell
                 guard let reactor = self.reactor else { return UICollectionViewCell() }
-                let rowValue = cell.slider.lowerValueObservable.map { Int($0) }
-                let highValue = cell.slider.upperValueObservable.map { Int($0) }
+                let rowValue = cell.levelSectionView.slider.lowerValueObservable.map { Int($0) }
+                let highValue = cell.levelSectionView.slider.upperValueObservable.map { Int($0) }
                 Observable.combineLatest(rowValue, highValue)
                     .map { low, high in Reactor.Action.changeLevelRange(low: low, high: high) }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
 
                 // Slider Thumb 동작 시 Scroll 비활성화
-                cell.slider.isThumbTracking
+                cell.levelSectionView.slider.isThumbTracking
                     .distinctUntilChanged()
                     .withUnretained(self)
                     .subscribe { (owner, isTracking) in
@@ -475,8 +475,8 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                     switch section {
                     case .level:
                         if let cell = owner.mainView.contentCollectionView.cellForItem(at: deselectedIndex) as? FilterLevelSectionCell {
-                            cell.slider.lowerValue = 0
-                            cell.slider.upperValue = 200
+                            cell.levelSectionView.slider.lowerValue = 0
+                            cell.levelSectionView.slider.upperValue = 200
                             owner.reactor?.action.onNext(.changeLevelRange(low: 0, high: 200))
                         }
                         owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
