@@ -9,3 +9,6 @@ line_length:
 function_body_length:
     warning: 150
     error: 200
+
+disabled_rules:
+  - force_cast
