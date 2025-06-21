@@ -2,19 +2,14 @@ import UIKit
 
 import DesignSystem
 
-import RxCocoa
 import SnapKit
+import RxCocoa
 
 final class SortedBottomSheetView: UIView {
 
     private enum Constant {
         static let defaultInset: CGFloat = 16
-        static let buttonSpacing: CGFloat = 8
-        static let buttonSuperViewSize = UIScreen.main.bounds.width - (Constant.defaultInset * 2) - buttonSpacing
-        static let buttonStackViewTopMargin: CGFloat = 12
-        static let buttonStackViewBottomMargin: CGFloat = 16
-        static let dividerHeight = 1
-        static let itemBottomSpacing = 31
+        static let stackViewTopInset = 14
     }
 
     // MARK: - Properties
@@ -57,15 +52,15 @@ private extension SortedBottomSheetView {
 
     func setupConstraints() {
         header.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
+            make.top.equalToSuperview().inset(Constant.defaultInset)
             make.horizontalEdges.equalToSuperview()
         }
         sortedStackView.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom).offset(14)
+            make.top.equalTo(header.snp.bottom).offset(Constant.stackViewTopInset)
             make.horizontalEdges.equalToSuperview()
         }
         applyButton.snp.makeConstraints { make in
-            make.top.equalTo(sortedStackView.snp.bottom).offset(16)
+            make.top.equalTo(sortedStackView.snp.bottom).offset(Constant.defaultInset)
             make.horizontalEdges.bottom.equalToSuperview().inset(Constant.defaultInset)
         }
     }
