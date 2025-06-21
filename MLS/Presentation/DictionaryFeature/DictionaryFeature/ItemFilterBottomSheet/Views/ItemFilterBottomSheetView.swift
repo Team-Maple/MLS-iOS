@@ -115,7 +115,8 @@ private extension ItemFilterBottomSheetView {
 
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.top.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview()
         }
         toolBarStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
