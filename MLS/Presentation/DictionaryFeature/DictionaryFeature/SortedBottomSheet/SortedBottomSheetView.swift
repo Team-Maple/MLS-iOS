@@ -2,8 +2,8 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
+import SnapKit
 
 final class SortedBottomSheetView: UIView {
 
