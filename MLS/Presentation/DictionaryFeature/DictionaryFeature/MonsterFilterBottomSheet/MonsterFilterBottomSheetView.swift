@@ -32,7 +32,7 @@ final class MonsterFilterBottomSheetView: UIView {
         let cell = FilterLevelSectionView()
         return cell
     }()
-    
+
     private let dividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral200
@@ -59,11 +59,11 @@ final class MonsterFilterBottomSheetView: UIView {
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

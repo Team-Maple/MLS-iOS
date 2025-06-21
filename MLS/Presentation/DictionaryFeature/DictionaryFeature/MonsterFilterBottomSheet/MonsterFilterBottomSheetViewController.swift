@@ -2,19 +2,19 @@ import UIKit
 
 import BaseFeature
 
-import SnapKit
+import ReactorKit
 import RxCocoa
 import RxSwift
-import ReactorKit
+import SnapKit
 
 final public class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
-    
+
     public typealias Reactor = MonsterFilterBottomSheetReactor
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var mainView = MonsterFilterBottomSheetView()
 }
 
@@ -22,7 +22,7 @@ final public class MonsterFilterBottomSheetViewController: BaseViewController, M
 extension MonsterFilterBottomSheetViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
         configureUI()
@@ -49,14 +49,14 @@ extension MonsterFilterBottomSheetViewController {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     func bindUserActions(reactor: Reactor) {
         mainView.header.firstIconButton.rx.tap
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
+
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)

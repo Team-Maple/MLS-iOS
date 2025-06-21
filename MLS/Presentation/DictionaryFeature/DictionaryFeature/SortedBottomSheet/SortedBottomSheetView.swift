@@ -2,8 +2,8 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
+import SnapKit
 
 final class SortedBottomSheetView: UIView {
 
@@ -22,13 +22,13 @@ final class SortedBottomSheetView: UIView {
         let header = Header(style: .filter, title: "정렬")
         return header
     }()
-    
+
     let sortedStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         return view
     }()
-    
+
     let applyButton: CommonButton = {
         let button = CommonButton(style: .normal, title: "적용", disabledTitle: nil)
         return button
@@ -37,11 +37,11 @@ final class SortedBottomSheetView: UIView {
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

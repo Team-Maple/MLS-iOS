@@ -3,21 +3,21 @@ import UIKit
 import BaseFeature
 import DesignSystem
 
-import SnapKit
+import ReactorKit
 import RxCocoa
 import RxSwift
-import ReactorKit
+import SnapKit
 
 final public class SortedBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
-    
+
     public typealias Reactor = SortedBottomSheetReactor
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var mainView = SortedBottomSheetView()
-    
+
     var sortedButtons: [CheckBoxButton] = []
 }
 
@@ -25,7 +25,7 @@ final public class SortedBottomSheetViewController: BaseViewController, ModalPre
 extension SortedBottomSheetViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
     }
@@ -69,15 +69,15 @@ extension SortedBottomSheetViewController {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     func bindUserActions(reactor: Reactor) {
         mainView.header.firstIconButton.rx.tap
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
     }
-    
+
     func bindViewState(reactor: Reactor) {
         reactor.state
             .map { $0.sortedOptions }
@@ -93,7 +93,7 @@ extension SortedBottomSheetViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { (owner, selectedIndex) in
-                owner.sortedButtons.enumerated().forEach { (index, button) in   
+                owner.sortedButtons.enumerated().forEach { (index, button) in
                     button.isSelected = selectedIndex == index ? true : false
                 }
             }
