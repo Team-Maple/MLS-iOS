@@ -24,18 +24,17 @@ class ViewController: UIViewController {
 
         let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make()
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
-        
+
         let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [
-            "가나다 순","레벨 높은 순", "레벨 낮은 순"
+            "가나다 순", "레벨 높은 순", "레벨 낮은 순"
         ], selectedIndex: 0)
         sortedBottomSheetVC.title = "정렬 바텀시트"
 
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
-        
+
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
         dictionaryMainVC.title = "도감 메인"
 
-        
         return [
             modalVC,
             [BottomTabBarController(viewControllers: [
