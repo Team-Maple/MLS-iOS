@@ -22,14 +22,13 @@ class ViewController: UIViewController {
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터 바텀시트"
 
-        let monsterBottomSheetVC = MonsterFilterBottomSheetViewController()
-        monsterBottomSheetVC.reactor = MonsterFilterBottomSheetReactor()
+        let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make()
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
         
-        let sortedBottomSheetVC = SortedBottomSheetViewController()
-        sortedBottomSheetVC.reactor = SortedBottomSheetReactor(sortedOptions: ["가나다 순","레벨 높은 순", "레벨 낮은 순"], selectedIndex: 0)
+        let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [
+            "가나다 순","레벨 높은 순", "레벨 낮은 순"
+        ], selectedIndex: 0)
         sortedBottomSheetVC.title = "정렬 바텀시트"
-
 
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
         

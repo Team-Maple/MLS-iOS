@@ -173,5 +173,11 @@ private extension AppDelegate {
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             return DictionaryMainViewFactoryImpl(dictionaryListFactory: DIContainer.resolve(type: DictionaryListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self))
         }
+        DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
+            return MonsterFilterBottomSheetFactoryImpl()
+        }
+        DIContainer.register(type: SortedBottomSheetFactory.self) {
+            return SortedBottomSheetFactoryImpl()
+        }
     }
 }

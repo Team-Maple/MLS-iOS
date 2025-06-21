@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol SortedBottomSheetFactory {
-    func make() -> BaseViewController
+    func make(sortedOptions: [String], selectedIndex: Int) -> BaseViewController & ModalPresentable
 }
