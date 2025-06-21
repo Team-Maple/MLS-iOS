@@ -17,8 +17,6 @@ final public class SortedBottomSheetViewController: BaseViewController, ModalPre
     public var disposeBag = DisposeBag()
 
     private var mainView = SortedBottomSheetView()
-
-    var sortedButtons: [CheckBoxButton] = []
 }
 
 // MARK: - Life Cycle
@@ -50,7 +48,7 @@ private extension SortedBottomSheetViewController {
         }
 
         guard let reactor = reactor else { return }
-        sortedButtons = options.enumerated().map { (index, title) in
+        mainView.sortedButtons = options.enumerated().map { (index, title) in
             let button = CheckBoxButton(style: .listLarge, mainTitle: title, subTitle: nil)
 
             button.rx.tap
@@ -93,7 +91,7 @@ extension SortedBottomSheetViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { (owner, selectedIndex) in
-                owner.sortedButtons.enumerated().forEach { (index, button) in
+                owner.mainView.sortedButtons.enumerated().forEach { (index, button) in
                     button.isSelected = selectedIndex == index ? true : false
                 }
             }

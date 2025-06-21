@@ -29,6 +29,8 @@ final class SortedBottomSheetView: UIView {
         return button
     }()
 
+    var sortedButtons: [CheckBoxButton] = []
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
