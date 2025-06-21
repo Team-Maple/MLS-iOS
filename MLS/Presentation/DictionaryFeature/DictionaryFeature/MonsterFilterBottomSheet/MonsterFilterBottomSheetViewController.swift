@@ -7,19 +7,19 @@ import RxCocoa
 import RxSwift
 import ReactorKit
 
-final public class MonserFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
+final public class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
     
-    public typealias Reactor = MonserFilterBottomSheetReactor
+    public typealias Reactor = MonsterFilterBottomSheetReactor
     
     // MARK: - Properties
     public var disposeBag = DisposeBag()
     
-    private var mainView = MonserFilterBottomSheetView()
+    private var mainView = MonsterFilterBottomSheetView()
 }
 
 // MARK: - Life Cycle
-extension MonserFilterBottomSheetViewController {
+extension MonsterFilterBottomSheetViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,7 +30,7 @@ extension MonserFilterBottomSheetViewController {
 }
 
 // MARK: - SetUp
-private extension MonserFilterBottomSheetViewController {
+private extension MonsterFilterBottomSheetViewController {
     func addViews() {
         view.addSubview(mainView)
     }
@@ -44,7 +44,7 @@ private extension MonserFilterBottomSheetViewController {
     func configureUI() { }
 }
 
-extension MonserFilterBottomSheetViewController {
+extension MonsterFilterBottomSheetViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)

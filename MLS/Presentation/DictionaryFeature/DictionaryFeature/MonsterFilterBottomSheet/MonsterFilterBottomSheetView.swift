@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-final class MonserFilterBottomSheetView: UIView {
+final class MonsterFilterBottomSheetView: UIView {
 
     private enum Constant {
         static let horizontalInset: CGFloat = 16
@@ -70,7 +70,7 @@ final class MonserFilterBottomSheetView: UIView {
 }
 
 // MARK: - SetUp
-private extension MonserFilterBottomSheetView {
+private extension MonsterFilterBottomSheetView {
     func addViews() {
         addSubview(header)
         addSubview(sectionTitleLabel)

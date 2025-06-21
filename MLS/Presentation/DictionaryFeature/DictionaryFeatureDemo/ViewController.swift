@@ -22,8 +22,8 @@ class ViewController: UIViewController {
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터 바텀시트"
 
-        let monsterBottomSheetVC = MonserFilterBottomSheetViewController()
-        monsterBottomSheetVC.reactor = MonserFilterBottomSheetReactor()
+        let monsterBottomSheetVC = MonsterFilterBottomSheetViewController()
+        monsterBottomSheetVC.reactor = MonsterFilterBottomSheetReactor()
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
         
         let sortedBottomSheetVC = SortedBottomSheetViewController()

@@ -2,7 +2,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final public class MonserFilterBottomSheetReactor: Reactor {
+final public class MonsterFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
