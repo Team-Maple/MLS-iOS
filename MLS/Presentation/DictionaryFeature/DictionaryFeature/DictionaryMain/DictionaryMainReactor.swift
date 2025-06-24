@@ -16,7 +16,7 @@ public final class DictionaryMainReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
     }
-    
+
     public struct State {
         @Pulse var route: Route = .none
         var sections = DictionaryType.allCases.map { $0.title }

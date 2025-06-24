@@ -5,13 +5,6 @@ import DomainInterface
 import RxRelay
 import RxSwift
 
-import Foundation
-
-import DomainInterface
-
-import RxRelay
-import RxSwift
-
 public final class DictionaryListRepositoryImpl: DictionaryListRepository {
     public let itemsRelay: BehaviorRelay<[DictionaryItem]>
 

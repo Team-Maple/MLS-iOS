@@ -52,6 +52,7 @@ public final class DictionarySearchResultReactor: Reactor {
             newState.route = route
         case .setKeyword(let keyword):
             newState.keyword = keyword
+
         }
 
         return newState

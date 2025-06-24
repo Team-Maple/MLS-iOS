@@ -34,7 +34,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         setupConstraints()
         configureUI()
     }
-    
+
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         reactor?.action.onNext(.refresh)

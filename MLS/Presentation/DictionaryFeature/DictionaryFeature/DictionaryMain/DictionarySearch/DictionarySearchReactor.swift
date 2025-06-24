@@ -9,12 +9,12 @@ public final class DictionarySearchReactor: Reactor {
         case dismiss
         case search
     }
-    
+
     public enum Action {
         case backButtonTapped
         case searchButtonTapped
     }
-        
+
     public enum Mutation {
         case navigateTo(Route)
     }
@@ -66,12 +66,12 @@ public final class DictionarySearchReactor: Reactor {
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-            
+
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
         }
-        
+
         return newState
     }
 }
