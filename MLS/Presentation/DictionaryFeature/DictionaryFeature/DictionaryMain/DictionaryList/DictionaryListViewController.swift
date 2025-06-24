@@ -27,17 +27,12 @@ public final class DictionaryListViewController: BaseViewController, View {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         addViews()
         setupConstraints()
         configureUI()
-    }
-
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        reactor?.action.onNext(.refresh)
     }
 }
 
@@ -76,8 +71,6 @@ extension DictionaryListViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
-
-        reactor.action.onNext(.load)
     }
 
     func bindUserActions(reactor: Reactor) {}
@@ -90,6 +83,12 @@ extension DictionaryListViewController {
             .bind(onNext: { [weak self] _ in
                 self?.mainView.listCollectionView.reloadData()
             })
+            .disposed(by: disposeBag)
+
+        rx.viewWillAppear
+            .take(1)
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 }

@@ -157,6 +157,9 @@ private extension AppDelegate {
         DIContainer.register(type: ToggleBookmarkUseCase.self) {
             return ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
         }
+        DIContainer.register(type: FetchNotificationUseCase.self) {
+            return FetchNotificationUseCaseImpl()
+        }
     }
 
     func registerFactory() {
@@ -173,8 +176,14 @@ private extension AppDelegate {
         DIContainer.register(type: DictionarySearchFactory.self) {
             return DictionarySearchFactoryImpl(searchResultFactory: DIContainer.resolve(type: DictionarySearchResultFactory.self))
         }
+        DIContainer.register(type: NotificationSettingFactory.self) {
+            return NotificationSettingFactoryImpl()
+        }
+        DIContainer.register(type: DictionaryNotificationFactory.self) {
+            return DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
+        }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
-            return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self))
+            return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self))
         }
         DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
             return MonsterFilterBottomSheetFactoryImpl()

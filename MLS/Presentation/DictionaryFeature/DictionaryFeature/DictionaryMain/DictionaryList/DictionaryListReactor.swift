@@ -5,9 +5,8 @@ import ReactorKit
 
 public final class DictionaryListReactor: Reactor {
     public enum Action {
-        case load
         case toggleBookmark(String)
-        case refresh
+        case viewWillAppear
     }
 
     public enum Mutation {
@@ -18,7 +17,7 @@ public final class DictionaryListReactor: Reactor {
         var items: [DictionaryItem] = []
     }
 
-    public var initialState = State()
+    public var initialState: State
 
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
@@ -31,6 +30,7 @@ public final class DictionaryListReactor: Reactor {
         fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
         toggleBookmarkUseCase: ToggleBookmarkUseCase
     ) {
+        self.initialState = State()
         self.dictionaryType = type
         self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
@@ -38,7 +38,7 @@ public final class DictionaryListReactor: Reactor {
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .load, .refresh:
+        case .viewWillAppear:
             return fetchDictionaryItemsUseCase.execute(type: dictionaryType)
                 .map { Mutation.setItems($0) }
 

@@ -2,17 +2,15 @@ import ReactorKit
 
 import DomainInterface
 
-public final class DictionaryMainReactor: Reactor {
+public final class NotificationSettingReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
-        case search
-        case notification
+        case dismiss
     }
 
     public enum Action {
-        case searchButtonTapped
-        case notificationButtonTapped
+        case backbuttonTapped
     }
 
     public enum Mutation {
@@ -21,7 +19,6 @@ public final class DictionaryMainReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
-        var sections = DictionaryType.allCases.map { $0.title }
     }
 
     // MARK: - properties
@@ -36,10 +33,8 @@ public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .searchButtonTapped:
-            return Observable.just(.navigateTo(.search))
-        case .notificationButtonTapped:
-            return Observable.just(.navigateTo(.notification))
+        case .backbuttonTapped:
+            return Observable.just(.navigateTo(.dismiss))
         }
     }
 
