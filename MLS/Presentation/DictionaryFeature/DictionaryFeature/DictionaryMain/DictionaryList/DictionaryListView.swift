@@ -124,7 +124,7 @@ private extension DictionaryListView {
         if isFilterHidden {
             listCollectionView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
-                make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+                make.horizontalEdges.bottom.equalToSuperview()
             }
         } else {
             filterStackView.snp.makeConstraints { make in
@@ -134,7 +134,7 @@ private extension DictionaryListView {
 
             listCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
-                make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
+                make.horizontalEdges.bottom.equalToSuperview()
             }
         }
     }

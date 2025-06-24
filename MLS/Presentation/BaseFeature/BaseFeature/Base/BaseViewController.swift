@@ -1,7 +1,10 @@
 import os
 import UIKit
 
+import DesignSystem
+
 open class BaseViewController: UIViewController {
+    open var isBottomTabbarHidden: Bool = false
 
     public init() {
         super.init(nibName: nil, bundle: nil)
@@ -22,6 +25,14 @@ extension BaseViewController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let tabBarController = self.tabBarController as? BottomTabBarController {
+            tabBarController.setHidden(hidden: isBottomTabbarHidden, animated: animated)
+        }
     }
 }
 

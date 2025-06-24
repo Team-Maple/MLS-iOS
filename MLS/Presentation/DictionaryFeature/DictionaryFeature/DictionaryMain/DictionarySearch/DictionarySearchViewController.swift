@@ -1,4 +1,5 @@
 import UIKit
+import DictionaryFeatureInterface
 
 import BaseFeature
 import DesignSystem
@@ -11,21 +12,16 @@ public final class DictionarySearchViewController: BaseViewController, View {
     public typealias Reactor = DictionarySearchReactor
 
     // MARK: - Properties
+    private var searchResultFactory: DictionarySearchResultFactory
+    
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
     private let mainView = DictionarySearchView()
 
-    override public init() {
+    public init(searchResultFactory: DictionarySearchResultFactory) {
+        self.searchResultFactory = searchResultFactory
         super.init()
-    }
-
-    override public func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        if let tabBarController = self.tabBarController as? BottomTabBarController {
-            tabBarController.setHidden(hidden: true, animated: true)
-        }
     }
 
     @available(*, unavailable)
@@ -55,6 +51,8 @@ private extension DictionarySearchViewController {
     }
 
     func configureUI() {
+        isBottomTabbarHidden = true
+        
         mainView.searchCollectionView.collectionViewLayout = createLayout()
         mainView.searchCollectionView.delegate = self
         mainView.searchCollectionView.dataSource = self
@@ -124,6 +122,11 @@ extension DictionarySearchViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.searchBar.searchButton.rx.tap
+            .map { Reactor.Action.searchButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -135,6 +138,11 @@ extension DictionarySearchViewController {
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
+                case .search:
+                    let keyword = owner.mainView.searchBar.textField.text
+                    owner.mainView.searchBar.textField.text = ""
+                    let viewController = owner.searchResultFactory.make(keyword: keyword)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
