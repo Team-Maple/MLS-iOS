@@ -15,7 +15,7 @@ final class DictionaryMainView: UIView {
 
     // MARK: - Components
     public let headerView = Header(style: .main, title: "도감")
-    
+
     public let searchBar = SearchBar()
 
     public let tabCollectionView: UICollectionView = {
@@ -59,13 +59,13 @@ final class DictionaryMainView: UIView {
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalToSuperview()
             }
-            
+
             tabCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.equalToSuperview()
                 make.height.equalTo(Constant.pageTabHeight)
             }
-            
+
             pageViewController.view.snp.makeConstraints { make in
                 make.top.equalTo(tabCollectionView.snp.bottom)
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide)
@@ -76,13 +76,13 @@ final class DictionaryMainView: UIView {
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalToSuperview()
             }
-            
+
             tabCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(searchBar.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.equalToSuperview()
                 make.height.equalTo(Constant.pageTabHeight)
             }
-            
+
             pageViewController.view.snp.makeConstraints { make in
                 make.top.equalTo(tabCollectionView.snp.bottom)
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide)

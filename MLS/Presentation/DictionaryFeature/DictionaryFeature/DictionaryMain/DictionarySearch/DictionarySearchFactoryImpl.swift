@@ -3,7 +3,7 @@ import DictionaryFeatureInterface
 
 public final class DictionarySearchFactoryImpl: DictionarySearchFactory {
     private let searchResultFactory: DictionarySearchResultFactory
-    
+
     public init(searchResultFactory: DictionarySearchResultFactory) {
         self.searchResultFactory = searchResultFactory
     }

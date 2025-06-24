@@ -85,7 +85,7 @@ private extension DictionarySearchResultViewController {
         layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
-    
+
     func setInitialIndex() {
         let indexPath = IndexPath(item: initialIndex, section: 0)
 
@@ -112,7 +112,7 @@ public extension DictionarySearchResultViewController {
             .map { Reactor.Action.backbuttonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.searchBar.textField.rx.text
             .orEmpty
             .distinctUntilChanged()
@@ -139,7 +139,7 @@ public extension DictionarySearchResultViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.keyword)
             .compactMap { $0 }

@@ -1,5 +1,5 @@
-import UIKit
 import DictionaryFeatureInterface
+import UIKit
 
 import BaseFeature
 import DesignSystem
@@ -13,7 +13,7 @@ public final class DictionarySearchViewController: BaseViewController, View {
 
     // MARK: - Properties
     private var searchResultFactory: DictionarySearchResultFactory
-    
+
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
@@ -52,7 +52,7 @@ private extension DictionarySearchViewController {
 
     func configureUI() {
         isBottomTabbarHidden = true
-        
+
         mainView.searchCollectionView.collectionViewLayout = createLayout()
         mainView.searchCollectionView.delegate = self
         mainView.searchCollectionView.dataSource = self
@@ -122,7 +122,7 @@ extension DictionarySearchViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.searchBar.searchButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)
