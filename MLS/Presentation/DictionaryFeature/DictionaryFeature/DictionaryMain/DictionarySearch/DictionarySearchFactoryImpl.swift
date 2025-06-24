@@ -2,11 +2,15 @@ import BaseFeature
 import DictionaryFeatureInterface
 
 public final class DictionarySearchFactoryImpl: DictionarySearchFactory {
-    public init() {}
+    private let searchResultFactory: DictionarySearchResultFactory
+
+    public init(searchResultFactory: DictionarySearchResultFactory) {
+        self.searchResultFactory = searchResultFactory
+    }
 
     public func make() -> BaseViewController {
         let reactor = DictionarySearchReactor()
-        let viewController = DictionarySearchViewController()
+        let viewController = DictionarySearchViewController(searchResultFactory: searchResultFactory)
         viewController.reactor = reactor
         return viewController
     }

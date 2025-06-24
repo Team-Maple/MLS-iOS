@@ -38,7 +38,6 @@ public final class DictionarySearchReactor: Reactor {
         self.initialState = State(
             route: .none,
             recentResult: ["망치", "도끼", "창", "드라이버", "몽키스패너"],
-//            recentResult: [],
             popularResult: [
                 "주니어 예티",
                 "주니어 페페",

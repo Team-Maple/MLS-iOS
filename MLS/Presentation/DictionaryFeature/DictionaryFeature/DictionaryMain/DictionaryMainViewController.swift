@@ -22,16 +22,16 @@ public final class DictionaryMainViewController: BaseViewController, View {
 
     private var viewControllers: [UIViewController]
 
-    private let mainView = DictionaryMainView()
+    private let mainView = DictionaryMainView(type: .main)
 
     public init(
         reactor: DictionaryMainReactor,
         initialIndex: Int = 0,
-        dictionaryListFactory: DictionaryListFactory,
+        dictionaryMainListFactory: DictionaryMainListFactory,
         searchFactory: DictionarySearchFactory
     ) {
         let types: [DictionaryType] = DictionaryType.allCases
-        self.viewControllers = types.map { dictionaryListFactory.make(type: $0) }
+        self.viewControllers = types.map { dictionaryMainListFactory.make(type: $0, listType: .main) }
         self.searchFactory = searchFactory
         self.initialIndex = initialIndex
         super.init()
