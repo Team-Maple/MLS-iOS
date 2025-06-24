@@ -4,11 +4,6 @@ import DomainInterface
 
 public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor
-    public enum DictionaryListType {
-        case main
-        case searchResult
-    }
-    
     public enum Route {
         case none
         case search
@@ -24,7 +19,6 @@ public final class DictionaryMainReactor: Reactor {
     
     public struct State {
         @Pulse var route: Route = .none
-        var type: DictionaryListType
         var sections = DictionaryType.allCases.map { $0.title }
     }
 
@@ -33,8 +27,8 @@ public final class DictionaryMainReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init(type: DictionaryListType) {
-        self.initialState = State(type: type)
+    public init() {
+        self.initialState = State()
     }
 
     // MARK: - Reactor Methods

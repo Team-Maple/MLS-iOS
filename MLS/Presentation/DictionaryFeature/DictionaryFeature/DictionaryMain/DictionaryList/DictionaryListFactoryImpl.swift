@@ -2,7 +2,7 @@ import BaseFeature
 import DictionaryFeatureInterface
 import DomainInterface
 
-public final class DictionaryListFactoryImpl: DictionaryListFactory {
+public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
 
@@ -14,7 +14,7 @@ public final class DictionaryListFactoryImpl: DictionaryListFactory {
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
     }
 
-    public func make(type: DictionaryType) -> BaseViewController {
+    public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
         let reactor = DictionaryListReactor(
             type: type,
             fetchDictionaryItemsUseCase: fetchDictionaryItemsUseCase,
@@ -22,6 +22,9 @@ public final class DictionaryListFactoryImpl: DictionaryListFactory {
         )
         let viewController = DictionaryListViewController(type: type)
         viewController.reactor = reactor
+        if listType == .search {
+            viewController.isBottomTabbarHidden = true
+        }
         return viewController
     }
 }

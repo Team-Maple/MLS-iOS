@@ -1,17 +1,15 @@
 import BaseFeature
 import DictionaryFeatureInterface
 
-public final class DictionarySearchResultFactoryImpl: DictionarySearchFactory {
-    private let dictionaryListFactory: DictionaryListFactory
-    private let searchFactory: DictionarySearchFactory
-    public init(dictionaryListFactory: DictionaryListFactory, searchFactory: DictionarySearchFactory) {
-        self.dictionaryListFactory = dictionaryListFactory
-        self.searchFactory = searchFactory
+public final class DictionarySearchResultFactoryImpl: DictionarySearchResultFactory {
+    private let dictionaryMainListFactory: DictionaryMainListFactory
+    public init(dictionaryMainListFactory: DictionaryMainListFactory) {
+        self.dictionaryMainListFactory = dictionaryMainListFactory
     }
 
-    public func make() -> BaseViewController {
-        let reactor = DictionaryMainReactor(type: .searchResult)
-        let viewController = DictionaryMainViewController(reactor: reactor, dictionaryListFactory: dictionaryListFactory, searchFactory: searchFactory)
+    public func make(keyword: String?) -> BaseViewController {
+        let reactor = DictionarySearchResultReactor(keyword: keyword)
+        let viewController = DictionarySearchResultViewController(dictionaryListFactory: dictionaryMainListFactory)
         viewController.reactor = reactor
         return viewController
     }
