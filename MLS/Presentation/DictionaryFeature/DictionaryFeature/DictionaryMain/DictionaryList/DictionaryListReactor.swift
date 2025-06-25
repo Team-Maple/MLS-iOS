@@ -9,7 +9,7 @@ public final class DictionaryListReactor: Reactor {
         case sort(DictionaryType)
         case filter(DictionaryType)
     }
-    
+
     public enum Action {
         case toggleBookmark(String)
         case viewWillAppear

@@ -5,7 +5,7 @@ import DomainInterface
 public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
-    
+
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
     private let sortedFactory: SortedBottomSheetFactory

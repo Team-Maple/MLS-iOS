@@ -18,13 +18,13 @@ final class NotificationEmptyView: UIView {
         view.tintColor = .primary100
         return view
     }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .heading5, text: "알림이 꺼져있어요", alignment: .center)
         return label
     }()
-    
+
     private let subLabel: UILabel = {
         let label = UILabel()
 
@@ -87,12 +87,12 @@ private extension NotificationEmptyView {
             make.top.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageViewSize)
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(Constant.spacing)
             make.centerX.equalToSuperview()
         }
-        
+
         subLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.spacing)
             make.centerX.equalToSuperview()

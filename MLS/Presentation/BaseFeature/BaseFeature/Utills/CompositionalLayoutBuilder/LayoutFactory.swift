@@ -72,7 +72,7 @@ public class LayoutFactory {
             .header(height: hasRecent ? 70 : 46)
             .contentInsets(.init(top: 16, leading: 16, bottom: 16, trailing: 16))
     }
-    
+
     static public func getNotificationLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .estimated(86))

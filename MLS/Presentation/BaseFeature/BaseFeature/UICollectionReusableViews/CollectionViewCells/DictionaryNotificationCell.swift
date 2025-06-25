@@ -15,7 +15,7 @@ public class DictionaryNotificationCell: UICollectionViewCell {
 
     private let titleLabel = UILabel()
     private let subTitleLabel = UILabel()
-    
+
     private let underLine = DividerView()
 
     override init(frame: CGRect) {
@@ -45,13 +45,13 @@ private extension DictionaryNotificationCell {
             make.top.equalToSuperview().inset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         subTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.spacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview().inset(Constant.verticalInset)
         }
-        
+
         underLine.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
         }
@@ -67,14 +67,14 @@ public extension DictionaryNotificationCell {
         let title: String
         let subTitle: String
         let isChecked: Bool
-        
+
         public init(title: String, subTitle: String, isChecked: Bool) {
             self.title = title
             self.subTitle = subTitle
             self.isChecked = isChecked
         }
     }
-    
+
     func inject(input: Input) {
         titleLabel.attributedText = .makeStyledString(font: .subTitle, text: input.title, color: input.isChecked ? .neutral500 : .textColor, alignment: .left)
         subTitleLabel.attributedText = .makeStyledString(font: .caption, text: input.subTitle, color: input.isChecked ? .neutral500 : .neutral700, alignment: .left)

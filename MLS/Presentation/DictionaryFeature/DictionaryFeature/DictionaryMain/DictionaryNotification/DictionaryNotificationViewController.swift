@@ -15,7 +15,7 @@ public final class DictionaryNotificationViewController: BaseViewController, Vie
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var notificationSettingFactory: NotificationSettingFactory
 
     // MARK: - Components
@@ -58,7 +58,7 @@ private extension DictionaryNotificationViewController {
     func configureUI() {
         isBottomTabbarHidden = true
         mainView.setEmpty(isEmpty: true)
-        
+
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self
         mainView.notificationCollectionView.register(DictionaryNotificationCell.self, forCellWithReuseIdentifier: DictionaryNotificationCell.identifier)
@@ -85,7 +85,7 @@ public extension DictionaryNotificationViewController {
             .map { Reactor.Action.backbuttonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.header.boldTextButton.rx.tap
             .map { Reactor.Action.settingButtonTapped }
             .bind(to: reactor.action)
@@ -109,7 +109,7 @@ public extension DictionaryNotificationViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
@@ -124,7 +124,7 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         guard let reactor = reactor else { return 0 }
         return reactor.currentState.notifications.count
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let reactor = reactor else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryNotificationCell.identifier, for: indexPath) as? DictionaryNotificationCell else { return UICollectionViewCell() }

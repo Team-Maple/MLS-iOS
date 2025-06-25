@@ -14,20 +14,20 @@ public final class NotificationSettingView: UIView {
 
     // MARK: - Components
     public let header = NavigationBar()
-    
+
     public let titleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .subTitleBold, text: "실시간 알림", alignment: .left)
         return label
     }()
-    
+
     public let subTitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .body, text: "신규 이벤트가 있으때 실시간으로 알림을 보내드려요.", color: .neutral700, alignment: .left)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
-    
+
     private let toggleBox = ToggleBox(text: "알림 설정")
 
     public let notificationCollectionView: UICollectionView = {
@@ -64,7 +64,7 @@ private extension NotificationSettingView {
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(Constant.topMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
@@ -74,7 +74,7 @@ private extension NotificationSettingView {
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.spacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
         }
-        
+
         toggleBox.snp.makeConstraints { make in
             make.top.equalTo(subTitleLabel.snp.bottom).offset(Constant.topMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)

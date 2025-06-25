@@ -13,7 +13,7 @@ public class FetchNotificationUseCaseImpl: FetchNotificationUseCase {
             Notification(title: "신규 업데이트 알림", date: "2025년 4월 1일"),
             Notification(title: "신규 업데이트 알림", date: "2025년 5월 1일", isChecked: true),
             Notification(title: "신규 업데이트 알림", date: "2025년 6월 1일"),
-            Notification(title: "신규 업데이트 알림", date: "2025년 7월 1일"),
+            Notification(title: "신규 업데이트 알림", date: "2025년 7월 1일")
         ])
     }
 }

@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
 
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
-        
+
         let dictView = BottomTabBarController(viewControllers: [
             UIViewController(),
             dictionaryMainVC,

@@ -31,11 +31,11 @@ public enum DictionaryType: CaseIterable {
         switch self {
         case .item:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순",
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
             ]
         case .monster:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순",
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
             ]
         default:
             return []

@@ -5,7 +5,7 @@ import DomainInterface
 public final class DictionaryNotificationFactoryImpl: DictionaryNotificationFactory {
     private let fetchNotificationUseCase: FetchNotificationUseCase
     private let notificationSettingFactory: NotificationSettingFactory
-    
+
     public init(fetchNotificationUseCase: FetchNotificationUseCase, notificationSettingFactory: NotificationSettingFactory) {
         self.fetchNotificationUseCase = fetchNotificationUseCase
         self.notificationSettingFactory = notificationSettingFactory

@@ -8,7 +8,7 @@ public final class DictionaryNotificationView: UIView {
     // MARK: - Type
     enum Constant {
         static let emptyViewTopMargin: CGFloat = 120
-        
+
         static let titleTopMargin: CGFloat = 20
         static let titleBottomMargin: CGFloat = 18
         static let titleHorizontalInset: CGFloat = 16
@@ -49,7 +49,7 @@ public final class DictionaryNotificationView: UIView {
 private extension DictionaryNotificationView {
     func addViews() {
         addSubview(emptyView)
-        
+
         addSubview(header)
         addSubview(titleLabel)
         addSubview(notificationCollectionView)
@@ -60,12 +60,12 @@ private extension DictionaryNotificationView {
             make.top.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         emptyView.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(Constant.emptyViewTopMargin)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom).offset(Constant.titleTopMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.titleHorizontalInset)

@@ -119,7 +119,7 @@ public extension DictionaryMainViewController {
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.secondIconButton.rx.tap
             .map { Reactor.Action.notificationButtonTapped }
             .bind(to: reactor.action)
