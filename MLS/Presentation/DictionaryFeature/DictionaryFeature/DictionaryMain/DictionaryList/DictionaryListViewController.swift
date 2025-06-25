@@ -117,7 +117,7 @@ extension DictionaryListViewController {
                 switch route {
                 case .sort(let type):
                     let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0)
-                    owner.presentModal(viewController)
+                    owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
                     case .item:
@@ -125,7 +125,7 @@ extension DictionaryListViewController {
                         owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make()
-                        owner.presentModal(viewController)
+                        owner.tabBarController?.presentModal(viewController)
                     default:
                         break
                     }

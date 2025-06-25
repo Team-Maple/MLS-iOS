@@ -25,6 +25,10 @@ public extension UIViewController {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0.8, options: [.curveEaseOut]) {
             wrapper.dimView.alpha = 1
             wrapper.containerView.transform = .identity
+            DispatchQueue.main.async {
+                viewController.beginAppearanceTransition(true, animated: true)
+                viewController.endAppearanceTransition()
+            }
         }
     }
 

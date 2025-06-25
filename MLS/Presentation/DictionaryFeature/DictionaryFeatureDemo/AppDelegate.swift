@@ -174,7 +174,13 @@ private extension AppDelegate {
             return SortedBottomSheetFactoryImpl()
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
-            return DictionaryListFactoryImpl(fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self))
+            return DictionaryListFactoryImpl(
+                fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self),
+                toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self),
+                itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
+                monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
+                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self)
+            )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             return DictionarySearchResultFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self))
@@ -189,7 +195,11 @@ private extension AppDelegate {
             return DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
-            return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self))
+            return DictionaryMainViewFactoryImpl(
+                dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self),
+                searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
+                notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self)
+            )
         }
     }
 }
