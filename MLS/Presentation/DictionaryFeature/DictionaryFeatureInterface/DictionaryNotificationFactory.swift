@@ -1,5 +1,5 @@
 import BaseFeature
 
-public protocol DictionaryMainViewFactory {
+public protocol DictionaryNotificationFactory {
     func make() -> BaseViewController
 }

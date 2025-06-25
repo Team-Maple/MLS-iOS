@@ -47,8 +47,7 @@ final class ModalWrapperView: UIView {
         containerView.addSubview(contentViewController.view)
         contentViewController.view.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(ModalConfig.bottomSheetStyleBottomInset)
-            make.top.equalToSuperview().inset(ModalConfig.containerVerticalContentInset)
-            make.horizontalEdges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
             if let height = contentViewController.modalHeight { make.height.equalTo(height) }
         }
         contentViewController.didMove(toParent: parent)

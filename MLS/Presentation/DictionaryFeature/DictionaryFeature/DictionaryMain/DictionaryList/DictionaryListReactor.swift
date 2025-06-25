@@ -4,26 +4,36 @@ import DomainInterface
 import ReactorKit
 
 public final class DictionaryListReactor: Reactor {
+    public enum Route {
+        case none
+        case sort(DictionaryType)
+        case filter(DictionaryType)
+    }
+    
     public enum Action {
-        case load
         case toggleBookmark(String)
-        case refresh
+        case viewWillAppear
+        case sortButtonTapped
+        case filterbButtonTapped
     }
 
     public enum Mutation {
         case setItems([DictionaryItem])
+        case showSortFilter
+        case showFilter
     }
 
     public struct State {
+        @Pulse var route: Route
         var items: [DictionaryItem] = []
+        var type: DictionaryType
     }
 
-    public var initialState = State()
+    public var initialState: State
 
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
 
-    private let dictionaryType: DictionaryType
     private let disposeBag = DisposeBag()
 
     public init(
@@ -31,20 +41,24 @@ public final class DictionaryListReactor: Reactor {
         fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
         toggleBookmarkUseCase: ToggleBookmarkUseCase
     ) {
-        self.dictionaryType = type
+        self.initialState = State(route: .none, type: type)
         self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .load, .refresh:
-            return fetchDictionaryItemsUseCase.execute(type: dictionaryType)
+        case .viewWillAppear:
+            return fetchDictionaryItemsUseCase.execute(type: currentState.type)
                 .map { Mutation.setItems($0) }
 
         case let .toggleBookmark(id):
-            return toggleBookmarkUseCase.execute(id: id, type: dictionaryType)
+            return toggleBookmarkUseCase.execute(id: id, type: currentState.type)
                 .map { Mutation.setItems($0) }
+        case .sortButtonTapped:
+            return Observable.just(.showSortFilter)
+        case .filterbButtonTapped:
+            return Observable.just(.showFilter)
         }
     }
 
@@ -53,6 +67,10 @@ public final class DictionaryListReactor: Reactor {
         switch mutation {
         case let .setItems(items):
             newState.items = items
+        case .showSortFilter:
+            newState.route = .sort(newState.type)
+        case .showFilter:
+            newState.route = .filter(newState.type)
         }
         return newState
     }

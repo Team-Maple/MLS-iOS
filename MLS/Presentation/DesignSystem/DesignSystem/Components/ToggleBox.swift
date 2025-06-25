@@ -62,6 +62,7 @@ private extension ToggleBox {
 
     func configureUI(text: String?) {
         textLabel.attributedText = .makeStyledString(font: .subTitleBold, text: text, alignment: .left)
+        backgroundColor = .neutral100
         layer.cornerRadius = Constant.radius
     }
 }

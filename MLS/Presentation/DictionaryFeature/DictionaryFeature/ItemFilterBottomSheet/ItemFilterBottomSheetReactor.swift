@@ -4,7 +4,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-final public class ItemFilterBottomSheetViewReactor: Reactor {
+final public class ItemFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss

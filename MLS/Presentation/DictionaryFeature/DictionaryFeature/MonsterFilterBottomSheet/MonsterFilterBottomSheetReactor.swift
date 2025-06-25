@@ -1,27 +1,23 @@
 import ReactorKit
+import RxCocoa
+import RxSwift
 
-import DomainInterface
-
-public final class DictionaryMainReactor: Reactor {
-    // MARK: - Reactor
+final public class MonsterFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
-        case search
-        case notification
+        case dismiss
     }
-
+    // MARK: - Reactor
     public enum Action {
-        case searchButtonTapped
-        case notificationButtonTapped
+        case cancelButtonTapped
     }
 
     public enum Mutation {
-        case navigateTo(Route)
+        case navigateTo(route: Route)
     }
 
     public struct State {
         @Pulse var route: Route = .none
-        var sections = DictionaryType.allCases.map { $0.title }
     }
 
     // MARK: - properties
@@ -36,10 +32,8 @@ public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .searchButtonTapped:
-            return Observable.just(.navigateTo(.search))
-        case .notificationButtonTapped:
-            return Observable.just(.navigateTo(.notification))
+        case .cancelButtonTapped:
+            return Observable.just(.navigateTo(route: .dismiss))
         }
     }
 
