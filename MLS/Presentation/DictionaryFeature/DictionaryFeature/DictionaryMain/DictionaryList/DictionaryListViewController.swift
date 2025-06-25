@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import DictionaryFeatureInterface
 import DomainInterface
 
 import ReactorKit
@@ -13,10 +14,17 @@ public final class DictionaryListViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
     var type: DictionaryType
 
+    private let itemFilterFactory: ItemFilterBottomSheetFactory
+    private let monsterFilterFactory: MonsterFilterBottomSheetFactory
+    private let sortedFactory: SortedBottomSheetFactory
+
     // MARK: - Components
     private let mainView: DictionaryListView
 
-    public init(type: DictionaryType) {
+    public init(type: DictionaryType, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory) {
+        self.itemFilterFactory = itemFilterFactory
+        self.monsterFilterFactory = monsterFilterFactory
+        self.sortedFactory = sortedFactory
         self.type = type
         self.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
         super.init()
@@ -73,7 +81,17 @@ extension DictionaryListViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindUserActions(reactor: Reactor) {}
+    func bindUserActions(reactor: Reactor) {
+        mainView.sortButton.rx.tap
+            .map { Reactor.Action.sortButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.filterButton.rx.tap
+            .map { Reactor.Action.filterbButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
     func bindViewState(reactor: Reactor) {
         reactor.state
@@ -89,6 +107,32 @@ extension DictionaryListViewController {
             .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .sort(let type):
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0)
+                    owner.presentModal(viewController)
+                case .filter(let type):
+                    switch type {
+                    case .item:
+                        let viewController = owner.itemFilterFactory.make()
+                        owner.present(viewController, animated: true)
+                    case .monster:
+                        let viewController = owner.monsterFilterFactory.make()
+                        owner.presentModal(viewController)
+                    default:
+                        break
+                    }
+                default:
+                    break
+                }
+            }
             .disposed(by: disposeBag)
     }
 }

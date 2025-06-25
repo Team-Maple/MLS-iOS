@@ -167,8 +167,14 @@ private extension AppDelegate {
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
             return ItemFilterBottomSheetFactoryImpl()
         }
+        DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
+            return MonsterFilterBottomSheetFactoryImpl()
+        }
+        DIContainer.register(type: SortedBottomSheetFactory.self) {
+            return SortedBottomSheetFactoryImpl()
+        }
         DIContainer.register(type: DictionaryMainListFactory.self) {
-            return DictionaryListFactoryImpl(fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self))
+            return DictionaryListFactoryImpl(fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self))
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             return DictionarySearchResultFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self))
@@ -184,12 +190,6 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self))
-        }
-        DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
-            return MonsterFilterBottomSheetFactoryImpl()
-        }
-        DIContainer.register(type: SortedBottomSheetFactory.self) {
-            return SortedBottomSheetFactoryImpl()
         }
     }
 }
