@@ -19,6 +19,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
 
     private let searchFactory: DictionarySearchFactory
+    private let notificationFactory: DictionaryNotificationFactory
 
     private var viewControllers: [UIViewController]
 
@@ -28,11 +29,13 @@ public final class DictionaryMainViewController: BaseViewController, View {
         reactor: DictionaryMainReactor,
         initialIndex: Int = 0,
         dictionaryMainListFactory: DictionaryMainListFactory,
-        searchFactory: DictionarySearchFactory
+        searchFactory: DictionarySearchFactory,
+        notificationFactory: DictionaryNotificationFactory
     ) {
         let types: [DictionaryType] = DictionaryType.allCases
         self.viewControllers = types.map { dictionaryMainListFactory.make(type: $0, listType: .main) }
         self.searchFactory = searchFactory
+        self.notificationFactory = notificationFactory
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -116,6 +119,11 @@ public extension DictionaryMainViewController {
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.headerView.secondIconButton.rx.tap
+            .map { Reactor.Action.notificationButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -127,6 +135,9 @@ public extension DictionaryMainViewController {
                 switch route {
                 case .search:
                     let controller = owner.searchFactory.make()
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .notification:
+                    let controller = owner.notificationFactory.make()
                     owner.navigationController?.pushViewController(controller, animated: true)
                 default:
                     break

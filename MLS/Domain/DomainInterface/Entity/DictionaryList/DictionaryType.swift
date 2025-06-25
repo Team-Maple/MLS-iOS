@@ -24,11 +24,21 @@ public enum DictionaryType: CaseIterable {
     }
 
     public var isFilterHidden: Bool {
+        return sortedFilter.count == 0
+    }
+
+    public var sortedFilter: [String] {
         switch self {
-        case .item, .monster:
-            false
+        case .item:
+            return [
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+            ]
+        case .monster:
+            return [
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
+            ]
         default:
-            true
+            return []
         }
     }
 

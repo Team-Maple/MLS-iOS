@@ -33,16 +33,18 @@ class ViewController: UIViewController {
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
 
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
-        dictionaryMainVC.title = "도감 메인"
+
+        let dictView = BottomTabBarController(viewControllers: [
+            UIViewController(),
+            dictionaryMainVC,
+            UIViewController(),
+            UIViewController()
+        ])
+        dictView.title = "도감 메인"
 
         return [
             modalVC,
-            [BottomTabBarController(viewControllers: [
-                UIViewController(),
-                dictionaryMainVC,
-                UIViewController(),
-                UIViewController()
-            ])]
+            [dictView]
         ]
     }()
 
