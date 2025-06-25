@@ -49,7 +49,7 @@ public final class DictionarySearchReactor: Reactor {
                 "주니어 진훈",
                 "주니어 준영",
                 "주니어 명범",
-                "주니어 진혁"
+                "주니어 재혁"
             ]
         )
     }
