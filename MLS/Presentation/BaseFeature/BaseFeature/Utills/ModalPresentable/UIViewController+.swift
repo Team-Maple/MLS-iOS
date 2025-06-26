@@ -55,3 +55,26 @@ extension ModalPresentable where Self: UIViewController {
         parent?.dismissCurrentModal()
     }
 }
+
+private var fabKey: UInt8 = 0
+
+public extension UIViewController {
+    func addFloatingButton(action: @escaping () -> Void) {
+        let fab = FloatingActionButton(action: action)
+        objc_setAssociatedObject(self, &fabKey, fab, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+
+        view.addSubview(fab)
+        fab.snp.makeConstraints { make in
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.size.equalTo(CGSize(width: 48, height: 48))
+        }
+    }
+
+    func removeFloatingButton() {
+        if let fab = objc_getAssociatedObject(self, &fabKey) as? UIView {
+            fab.removeFromSuperview()
+            objc_setAssociatedObject(self, &fabKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
+    }
+}
