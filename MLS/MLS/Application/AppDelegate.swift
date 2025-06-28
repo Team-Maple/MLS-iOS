@@ -43,16 +43,16 @@ private extension AppDelegate {
             return NetworkProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
-            return KakaoLoginProviderMock()
+            return KakaoLoginProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            return AppleLoginProviderMock()
+            return AppleLoginProviderImpl()
         }
     }
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryMock()
+            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
         }
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()

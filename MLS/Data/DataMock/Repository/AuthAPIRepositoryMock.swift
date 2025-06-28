@@ -1,23 +1,49 @@
 import Foundation
 
+import Data
 import DomainInterface
 
 import RxSwift
 
 public class AuthAPIRepositoryMock: AuthAPIRepository {
-
     private var tryCount: Int = 0
 
-    public init() {}
+    private let provider: NetworkProvider
 
-    public func loginWithKakao(credential: Encodable) -> Observable<LoginResponse> {
-        return Observable.just(.init(isRegister: false, accessToken: "testToken", refreshToken: "testToken"))
+    public init(provider: NetworkProvider) {
+        self.provider = provider
     }
 
-    public func loginWithApple(credential: Encodable) -> Observable<LoginResponse> {
-//        let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
-//        return Observable.error(error)
-        return Observable.just(.init(isRegister: false, accessToken: "testToken", refreshToken: "testToken"))
+    public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
+        let endpoint: ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> = AuthEndPoint.loginWithKakao(credential: credential)
+
+        return provider.requestData(endPoint: endpoint, interceptor: nil)
+            .flatMap { resp in
+                print("Success: \(resp.success), Message: \(resp.message ?? ""), Data: \(String(describing: resp.data))")
+
+                if resp.success, let data = resp.data {
+                    return Observable.just(data.toDomain())
+                } else {
+                    let msg = resp.message ?? "로그인 실패"
+                    return .error(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: msg]))
+                }
+            }
+    }
+
+    public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
+        let endpoint: ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> = AuthEndPoint.loginWithApple(credential: credential)
+
+        return provider.requestData(endPoint: endpoint, interceptor: nil)
+            .flatMap { resp in
+                print("Success: \(resp.success), Message: \(resp.message ?? ""), Data: \(String(describing: resp.data))")
+
+                if resp.success, let data = resp.data {
+                    return Observable.just(data.toDomain())
+                } else {
+                    let msg = resp.message ?? "로그인 실패"
+                    return .error(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: msg]))
+                }
+            }
     }
 
     public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {

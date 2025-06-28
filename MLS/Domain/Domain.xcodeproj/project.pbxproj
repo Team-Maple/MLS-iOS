@@ -12,6 +12,7 @@
 		08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; };
 		08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49312DCFDEF6002C21A2 /* RxSwift */; };
 		08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49352DCFDF8F002C21A2 /* RxSwift */; };
+		77219E572E0EB36700A7B58C /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 77219E562E0EB36700A7B58C /* RxRelay */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77219E572E0EB36700A7B58C /* RxRelay in Frameworks */,
 				08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */,
 				08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */,
 			);
@@ -140,6 +142,7 @@
 			name = DomainInterface;
 			packageProductDependencies = (
 				08ED49312DCFDEF6002C21A2 /* RxSwift */,
+				77219E562E0EB36700A7B58C /* RxRelay */,
 			);
 			productName = DomainInterface;
 			productReference = 0801752E2DCD26B300D0919F /* DomainInterface.framework */;
@@ -262,7 +265,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -301,7 +304,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -341,7 +344,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -382,7 +385,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -591,6 +594,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		77219E562E0EB36700A7B58C /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -12,9 +12,35 @@
 		08E425522DF17B5C00D6ACD3 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E425512DF17B5C00D6ACD3 /* DomainInterface.framework */; };
 		08E425562DF17B6300D6ACD3 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08E425552DF17B6300D6ACD3 /* RxSwift */; };
 		08ED49342DCFDF78002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49332DCFDF78002C21A2 /* RxSwift */; };
+		775D78522E0DA93400DDAD2F /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0879294D2DB90F3A009C301F /* Data.framework */; };
+		775D78532E0DA93400DDAD2F /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0879294D2DB90F3A009C301F /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77660F932DD259AA007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F922DD259AA007A4EF3 /* KakaoSDKAuth */; };
 		77660F952DD259AA007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F942DD259AA007A4EF3 /* KakaoSDKUser */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		775D78542E0DA93400DDAD2F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 087929442DB90F3A009C301F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0879294C2DB90F3A009C301F;
+			remoteInfo = Data;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		775D78562E0DA93400DDAD2F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				775D78532E0DA93400DDAD2F /* Data.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		080175482DCD274B00D0919F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				775D78522E0DA93400DDAD2F /* Data.framework in Frameworks */,
 				08E425562DF17B6300D6ACD3 /* RxSwift in Frameworks */,
 				08E425522DF17B5C00D6ACD3 /* DomainInterface.framework in Frameworks */,
 			);
@@ -149,10 +176,12 @@
 				08E425372DF17B3700D6ACD3 /* Sources */,
 				08E425382DF17B3700D6ACD3 /* Frameworks */,
 				08E425392DF17B3700D6ACD3 /* Resources */,
+				775D78562E0DA93400DDAD2F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				775D78552E0DA93400DDAD2F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				08E4253C2DF17B3700D6ACD3 /* DataMock */,
@@ -242,6 +271,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		775D78552E0DA93400DDAD2F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0879294C2DB90F3A009C301F /* Data */;
+			targetProxy = 775D78542E0DA93400DDAD2F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		087929542DB90F3A009C301F /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -251,7 +288,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -290,7 +327,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -456,7 +493,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -502,7 +539,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
-				DEVELOPMENT_TEAM = W5QTRMS954;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

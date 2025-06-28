@@ -6,19 +6,15 @@ import DomainInterface
 import RxSwift
 
 public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvider {
+    override public init() {}
 
-    public struct Credential: Encodable {
-        var idToken: String?
-        var authorizationCode: String?
-    }
+    private var authServiceResponse = PublishSubject<Credential>()
 
-    public override init() {}
-
-    private let authServiceResponse = PublishSubject<Encodable>()
-
-    public func getCredential() -> Observable<Encodable> {
+    public func getCredential() -> Observable<Credential> {
+        let subject = PublishSubject<Credential>()
+        authServiceResponse = subject
         performRequest()
-        return authServiceResponse
+        return subject
     }
 
     private func performRequest() {
@@ -33,7 +29,6 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
 
 // MARK: - Delegate
 extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
-
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene
@@ -55,7 +50,7 @@ extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextPr
             return
         }
 
-        let credential = Credential(idToken: idToken, authorizationCode: authCode)
+        let credential = AppleCredential(token: idToken, authorizationCode: authCode)
         authServiceResponse.onNext(credential)
         authServiceResponse.onCompleted()
     }

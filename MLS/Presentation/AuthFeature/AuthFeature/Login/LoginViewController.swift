@@ -125,8 +125,10 @@ public extension LoginViewController {
                     controller.view.backgroundColor = .green
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .error:
-                    let controller = BaseErrorViewController()
-                    owner.present(controller, animated: true)
+                    DispatchQueue.main.async {
+                        let controller = BaseErrorViewController()
+                        owner.present(controller, animated: true)
+                    }
                 default:
                     break
                 }

@@ -11,7 +11,7 @@ public class SocialLoginUseCaseImpl: FetchSocialCredentialUseCase {
         self.provider = provider
     }
 
-    public func execute() -> Observable<any Encodable> {
+    public func execute() -> Observable<Credential> {
         return provider.getCredential()
     }
 }

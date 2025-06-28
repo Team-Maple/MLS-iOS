@@ -9,13 +9,13 @@ public protocol AuthAPIRepository {
     ///
     /// - Parameter credential: 카카오 로그인에 필요한 자격 증명 (예: access token 등)
     /// - Returns: 로그인 응답을 담은 Observable
-    func loginWithKakao(credential: Encodable) -> Observable<LoginResponse>
+    func loginWithKakao(credential: Credential) -> Observable<LoginResponse>
 
     /// 애플 로그인 API 호출
     ///
     /// - Parameter credential: 애플 로그인에 필요한 자격 증명 (예: identity token 등)
     /// - Returns: 로그인 응답을 담은 Observable
-    func loginWithApple(credential: Encodable) -> Observable<LoginResponse>
+    func loginWithApple(credential: Credential) -> Observable<LoginResponse>
 
     /// 카카오 회원가입 API 호출
     ///

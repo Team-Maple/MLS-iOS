@@ -62,9 +62,10 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithKakaoUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister
-                    ? .navigateTo(route: .home)
-                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
+//                    return result.response.isRegister
+//                    ? .navigateTo(route: .home)
+//                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
+                    return .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
                 }
                 .catchAndReturn(.navigateTo(route: .error))
         case .appleLoginButtonTapped:
@@ -74,9 +75,10 @@ public final class LoginReactor: Reactor {
                     return owner.loginWithAppleUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
                 }
                 .map { result in
-                    return result.response.isRegister
-                    ? .navigateTo(route: .home)
-                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
+//                    return result.response.isRegister
+//                    ? .navigateTo(route: .home)
+//                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
+                    return .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
                 }
                 .catchAndReturn(.navigateTo(route: .error))
         case .guestLoginButtonTapped:
