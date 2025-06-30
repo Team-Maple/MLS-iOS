@@ -1,6 +1,6 @@
-import DomainInterface
+import Foundation
 
-public struct APIResponseDTO<T: Decodable>: Decodable {
+public struct APIDefaultResponseDTO<T: Decodable>: Decodable {
     public let success: Bool
     public let code: String?
     public let message: String?

@@ -29,9 +29,9 @@ public final class NetworkProviderImpl: NetworkProvider {
                     if let data = data {
                         print("📦 requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
                         do {
-                            let decoded = try JSONDecoder().decode(T.Response.self, from: data)
+                            let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
                             print("🎯 requestData: 디코딩 성공 - \(decoded)")
-                            observer.onNext(decoded)
+                            observer.onNext(decoded.data!)
                             observer.onCompleted()
                         } catch {
                             print("❌ requestData: 디코딩 실패 - \(error)")
@@ -102,7 +102,7 @@ private extension NetworkProviderImpl {
     func sendRequest<T: Requestable>(endPoint: T, interceptor: Interceptor?, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
             var request = try endPoint.getUrlRequest()
-            
+
             if let interceptor = interceptor { request = interceptor.adapt(request) }
             let task = session.dataTask(with: request) { [weak self] data, response, error in
                 guard let self else {

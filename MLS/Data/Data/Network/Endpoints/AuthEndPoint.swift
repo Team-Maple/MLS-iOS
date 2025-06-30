@@ -3,7 +3,7 @@ import DomainInterface
 public enum AuthEndPoint {
     static let base = "https://api.mapleland.kro.kr"
 
-    public static func loginWithKakao(credential: Credential) -> ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> {
+    public static func loginWithKakao(credential: Credential) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/login/kakao",
@@ -12,16 +12,16 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func loginWithApple(credential: Credential) -> ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> {
+    public static func loginWithApple(credential: Credential) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/login/apple",
             method: .POST,
-            query: ["id_token": credential.token]
+            headers: ["id_token": credential.token ?? ""]
         )
     }
 
-    public static func signupWithKakao(id: String, nickname: String) -> ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> {
+    public static func signupWithKakao(id: String, nickname: String) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/signup/kakao",
@@ -30,7 +30,7 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func signupWithApple(id: String, nickname: String) -> ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> {
+    public static func signupWithApple(id: String, nickname: String) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/signup/apple",

@@ -15,35 +15,11 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     }
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
-        let endpoint: ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> = AuthEndPoint.loginWithKakao(credential: credential)
-
-        return provider.requestData(endPoint: endpoint, interceptor: nil)
-            .flatMap { resp in
-                print("Success: \(resp.success), Message: \(resp.message ?? ""), Data: \(String(describing: resp.data))")
-
-                if resp.success, let data = resp.data {
-                    return Observable.just(data.toDomain())
-                } else {
-                    let msg = resp.message ?? "로그인 실패"
-                    return .error(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: msg]))
-                }
-            }
+        return Observable.just(.init(isRegister: true, accessToken: "", refreshToken: ""))
     }
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
-        let endpoint: ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> = AuthEndPoint.loginWithApple(credential: credential)
-
-        return provider.requestData(endPoint: endpoint, interceptor: nil)
-            .flatMap { resp in
-                print("Success: \(resp.success), Message: \(resp.message ?? ""), Data: \(String(describing: resp.data))")
-
-                if resp.success, let data = resp.data {
-                    return Observable.just(data.toDomain())
-                } else {
-                    let msg = resp.message ?? "로그인 실패"
-                    return .error(NSError(domain: "", code: 401, userInfo: [NSLocalizedDescriptionKey: msg]))
-                }
-            }
+        return Observable.just(.init(isRegister: false, accessToken: "", refreshToken: ""))
     }
 
     public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
