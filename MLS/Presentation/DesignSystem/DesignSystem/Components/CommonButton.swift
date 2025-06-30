@@ -6,7 +6,7 @@ public final class CommonButton: UIButton {
     // MARK: - Type
     public enum CommonButtonStyle {
         case normal
-        case text(UIColor?)
+        case text
         case border
 
         public var height: CGFloat {
@@ -40,9 +40,7 @@ public final class CommonButton: UIButton {
             switch self {
             case .normal:
                 .whiteMLS
-            case .text(let color):
-                color ?? .textColor
-            case .border:
+            case .text, .border:
                 .textColor
             }
         }
