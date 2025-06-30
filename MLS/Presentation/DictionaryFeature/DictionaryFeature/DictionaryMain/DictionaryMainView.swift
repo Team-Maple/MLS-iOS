@@ -6,42 +6,44 @@ import DictionaryFeatureInterface
 import SnapKit
 
 final class DictionaryMainView: UIView {
-
+    
     enum Constant {
         static let topMargin: CGFloat = 20
         static let pageTabHeight: CGFloat = 40
         static let bottomTabHeight: CGFloat = 64
     }
-
+    
     // MARK: - Components
     public let headerView = Header(style: .main, title: "도감")
-
+    
     public let searchBar = SearchBar()
-
+    
     public let tabCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
-
+    
     public let pageViewController = UIPageViewController(
         transitionStyle: .scroll,
         navigationOrientation: .horizontal
     )
-
+    
     // MARK: - Init
     public init(type: DictionaryMainViewType) {
         super.init(frame: .zero)
         addViews(type: type)
         setupConstraints(type: type)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
 
-    // MARK: - Layout
-    private func addViews(type: DictionaryMainViewType) {
+// MARK: - SetUp
+private extension DictionaryMainView {
+    func addViews(type: DictionaryMainViewType) {
         switch type {
         case .main:
             addSubview(headerView)
@@ -52,7 +54,7 @@ final class DictionaryMainView: UIView {
         addSubview(pageViewController.view)
     }
 
-    private func setupConstraints(type: DictionaryMainViewType) {
+    func setupConstraints(type: DictionaryMainViewType) {
         switch type {
         case .main:
             headerView.snp.makeConstraints { make in
