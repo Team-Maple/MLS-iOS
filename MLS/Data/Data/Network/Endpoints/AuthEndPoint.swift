@@ -8,8 +8,7 @@ public enum AuthEndPoint {
             baseURL: base,
             path: "/api/v1/auth/login/kakao",
             method: .POST,
-            query: ["access_token": credential.token]
-            
+            headers: ["access_token": credential.token ?? ""]
         )
     }
 
