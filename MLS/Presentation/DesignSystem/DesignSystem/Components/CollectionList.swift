@@ -15,19 +15,14 @@ public final class CollectionList: UIView {
     }
 
     // MARK: - Components
-    private lazy var imageViews: [UIView] = (0 ..< 4).map { _ in
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-
-        let container = UIView()
-        container.layer.cornerRadius = Constant.imageRadius
-        container.backgroundColor = .red
-        container.addSubview(imageView)
-
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(Constant.imageInset)
-        }
-        return container
+    private lazy var imageViews: [ItemImageView] = (0 ..< 4).map { _ in
+        let view = ItemImageView(
+            image: nil,
+            cornerRadius: Constant.imageRadius,
+            inset: Constant.imageInset,
+            backgroundColor: .red
+        )
+        return view
     }
 
     private lazy var imageGridView: UIStackView = {

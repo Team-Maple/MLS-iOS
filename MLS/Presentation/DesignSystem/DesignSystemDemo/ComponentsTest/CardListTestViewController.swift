@@ -113,7 +113,7 @@ private extension CardListTestViewController {
         ImageLoader.shared.loadImage(url: URL(string: "https://maplestory.io/api/gms/62/mob/2100101/render/stand"), defaultImage: nil) { [weak self] image in
             if let image {
                 DispatchQueue.main.async {
-                    self?.cardList.loadImage(image: image)
+                    self?.cardList.setImage(image: image, backgroundColor: .listMap)
                 }
             } else {
                 print("fail to load image")
