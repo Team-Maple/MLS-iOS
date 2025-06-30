@@ -6,7 +6,7 @@ public final class CommonButton: UIButton {
     // MARK: - Type
     public enum CommonButtonStyle {
         case normal
-        case text
+        case text(UIColor?)
         case border
 
         public var height: CGFloat {
@@ -40,8 +40,8 @@ public final class CommonButton: UIButton {
             switch self {
             case .normal:
                 .whiteMLS
-            case .text:
-                .neutral700
+            case .text(let color):
+                color ?? .textColor
             case .border:
                 .textColor
             }
@@ -105,9 +105,12 @@ private extension CommonButton {
             let currentTitle = isEnabled ? title : disabledTitle
             config.attributedTitle = AttributedString(.makeStyledString(font: style.font, text: currentTitle, color: isEnabled ? style.textColor : .whiteMLS) ?? .init())
             config.baseForegroundColor = isEnabled ? style.textColor : .whiteMLS
-            if style == .border {
+            switch style {
+            case .border:
                 config.background.strokeColor = isEnabled ? style.borderColor : .neutral300
                 config.background.strokeWidth = 1
+            default:
+                break
             }
             configuration = config
             snp.makeConstraints { make in
@@ -143,10 +146,13 @@ private extension CommonButton {
             var updatedConfig = button.configuration
             switch button.state {
             case .highlighted:
-                if self.style == .normal {
+                switch style {
+                case .normal:
                     updatedConfig?.background.backgroundColor = self.style.backgroundColor.withAlphaComponent(0.9)
-                } else if self.style == .border {
+                case .border:
                     updatedConfig?.background.backgroundColor = UIColor.neutral100
+                default:
+                    break
                 }
             default:
                 updatedConfig?.background.backgroundColor = self.isEnabled ? self.style.backgroundColor : .neutral300

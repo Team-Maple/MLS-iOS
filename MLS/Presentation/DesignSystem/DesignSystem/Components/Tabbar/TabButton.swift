@@ -5,7 +5,7 @@ public final class TabButton: UIButton {
     // MARK: - Type
     private enum Constant {
         static let buttonSize: CGFloat = 64
-        static let iconSize: CGFloat = 24
+        static let iconSize: CGFloat = 60
         static let spacing: CGFloat = 4
         static let padding: CGFloat = 11
     }

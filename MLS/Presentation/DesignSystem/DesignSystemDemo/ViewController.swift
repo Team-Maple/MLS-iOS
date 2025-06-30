@@ -36,7 +36,8 @@ class ViewController: UIViewController {
         CardListTestViewController(),
         bottomTabBarViewController,
         SearchBarTestViewController(),
-        CollectionListTestViewController()
+        CollectionListTestViewController(),
+        SnackBarTestViewController(),
     ]
 
     override func viewDidLoad() {
