@@ -96,6 +96,8 @@ final class DictionaryListView: UIView {
         view.image = DesignSystemAsset.image(named: "filter")
         return view
     }()
+    
+    public let emptyView = DictionaryListEmptyView()
 
     // MARK: - Init
     init(isFilterHidden: Bool) {
@@ -118,6 +120,7 @@ private extension DictionaryListView {
             addSubview(filterStackView)
         }
         addSubview(listCollectionView)
+        addSubview(emptyView)
     }
 
     func setupConstraints(isFilterHidden: Bool) {
@@ -137,6 +140,10 @@ private extension DictionaryListView {
                 make.horizontalEdges.bottom.equalToSuperview()
             }
         }
+        
+        emptyView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
     }
 
     func configureUI() {
