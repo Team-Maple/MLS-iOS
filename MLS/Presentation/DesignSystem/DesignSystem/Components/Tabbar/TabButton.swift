@@ -68,5 +68,6 @@ private extension TabButton {
     func updateUI() {
         iconView.tintColor = isSelected ? .primary700 : .neutral300
         textLabel.textColor = isSelected ? .primary700 : .neutral700
+        textLabel.font = .systemFont(ofSize: 10, weight: isSelected ? .semibold : .regular)
     }
 }

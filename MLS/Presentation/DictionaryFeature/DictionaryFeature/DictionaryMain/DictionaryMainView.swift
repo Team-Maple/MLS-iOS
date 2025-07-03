@@ -21,6 +21,7 @@ final class DictionaryMainView: UIView {
     public let tabCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
