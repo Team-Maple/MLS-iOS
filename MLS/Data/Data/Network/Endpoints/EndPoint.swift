@@ -7,17 +7,17 @@ public struct EndPoint: Requestable {
     public var baseURL: String
     public var path: String
     public var method: HTTPMethod
-    public var query: (any Encodable)?
+    public var query: Encodable?
     public var headers: [String: String]?
-    public var body: (any Encodable)?
+    public var body: Encodable?
 
     public init(
         baseURL: String,
         path: String,
         method: HTTPMethod,
-        query: (any Encodable)? = nil,
+        query: Encodable? = nil,
         headers: [String: String]? = nil,
-        body: (any Encodable)? = nil
+        body: Encodable? = nil
     ) {
         self.baseURL = baseURL
         self.path = path

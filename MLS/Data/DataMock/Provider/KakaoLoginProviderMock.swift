@@ -1,18 +1,14 @@
 import Foundation
 
+import Data
 import DomainInterface
 
 import RxSwift
 
 public final class KakaoLoginProviderMock: SocialAuthenticatableProvider {
-    public struct Credential: Encodable {
-        var accessToken: String?
-        var email: String?
-    }
-
     public init() {}
 
-    public func getCredential() -> Observable<Encodable> {
-        return Observable.just(Credential(accessToken: "Token", email: "email"))
+    public func getCredential() -> Observable<Credential> {
+        return Observable.just(KakaoCredential(token: "Token", providerID: "email"))
     }
 }

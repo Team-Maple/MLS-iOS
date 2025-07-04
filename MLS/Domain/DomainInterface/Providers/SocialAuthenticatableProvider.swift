@@ -3,5 +3,5 @@ import Foundation
 import RxSwift
 
 public protocol SocialAuthenticatableProvider {
-    func getCredential() -> Observable<Encodable>
+    func getCredential() -> Observable<Credential>
 }

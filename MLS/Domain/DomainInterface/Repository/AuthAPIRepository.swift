@@ -9,13 +9,13 @@ public protocol AuthAPIRepository {
     ///
     /// - Parameter credential: 카카오 로그인에 필요한 자격 증명 (예: access token 등)
     /// - Returns: 로그인 응답을 담은 Observable
-    func loginWithKakao(credential: Encodable) -> Observable<LoginResponse>
+    func loginWithKakao(credential: Credential) -> Observable<LoginResponse>
 
     /// 애플 로그인 API 호출
     ///
     /// - Parameter credential: 애플 로그인에 필요한 자격 증명 (예: identity token 등)
     /// - Returns: 로그인 응답을 담은 Observable
-    func loginWithApple(credential: Encodable) -> Observable<LoginResponse>
+    func loginWithApple(credential: Credential) -> Observable<LoginResponse>
 
     /// 카카오 회원가입 API 호출
     ///
@@ -23,7 +23,7 @@ public protocol AuthAPIRepository {
     ///   - credential: 회원가입에 필요한 사용자 정보
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
-    func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
+    func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse>
 
     /// 애플 회원가입 API 호출
     ///
@@ -31,7 +31,7 @@ public protocol AuthAPIRepository {
     ///   - credential: 회원가입에 필요한 사용자 정보
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
-    func signUpWithApple(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
+    func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse>
 
     /// 직업 목록 조회 API 호출
     ///
@@ -43,4 +43,10 @@ public protocol AuthAPIRepository {
     /// - Note: 별도의 파라미터 없이 사용자 정보를 수정
     /// - Returns: 작업 완료 여부를 나타내는 Completable
     func updateUserInfo(level: Int, selectedJob: String) -> Completable
+
+    /// 토큰 재발행 API 호출
+    ///
+    /// - Parameter credential: refreshToken
+    /// - Returns: 토큰 갱신 응답을 담은 Observable
+    func reissueToken(refreshToken: String) -> Observable<LoginResponse>
 }

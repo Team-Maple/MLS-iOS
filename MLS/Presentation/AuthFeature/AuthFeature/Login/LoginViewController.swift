@@ -114,6 +114,7 @@ public extension LoginViewController {
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
@@ -125,8 +126,10 @@ public extension LoginViewController {
                     controller.view.backgroundColor = .green
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .error:
-                    let controller = BaseErrorViewController()
-                    owner.present(controller, animated: true)
+                    DispatchQueue.main.async {
+                        let controller = BaseErrorViewController()
+                        owner.present(controller, animated: true)
+                    }
                 default:
                     break
                 }

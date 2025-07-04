@@ -7,10 +7,9 @@ import ReactorKit
 import RxSwift
 
 public final class LoginReactor: Reactor {
-
     public enum Route {
         case none
-        case termsAgreements(credential: Encodable, platform: LoginPlatform)
+        case termsAgreements(credential: Credential, platform: LoginPlatform)
         case home
         case error
     }
@@ -58,27 +57,41 @@ public final class LoginReactor: Reactor {
         case .kakaoLoginButtonTapped:
             return fetchKakaoCredentialUseCase.execute()
                 .withUnretained(self)
-                .flatMap { (owner, credential) in
-                    return owner.loginWithKakaoUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
+                .flatMap { owner, credential in
+                    owner.loginWithKakaoUseCase.execute(credential: credential)
+                        .map { (response: $0, credential: credential) }
+                        .map { result in
+                            result.response.isRegister
+                                ? .navigateTo(route: .home)
+                                : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
+                        }
+                        .catch { error in
+                            if case AuthError.userNotFound = error {
+                                return Observable.just(.navigateTo(route: .termsAgreements(credential: credential, platform: .kakao)))
+                            } else {
+                                return Observable.just(.navigateTo(route: .error))
+                            }
+                        }
                 }
-                .map { result in
-                    return result.response.isRegister
-                    ? .navigateTo(route: .home)
-                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .kakao))
-                }
-                .catchAndReturn(.navigateTo(route: .error))
         case .appleLoginButtonTapped:
             return fetchAppleCredentialUseCase.execute()
                 .withUnretained(self)
-                .flatMap { (owner, credential) in
-                    return owner.loginWithAppleUseCase.execute(credential: credential).map { (response: $0, credential: credential) }
+                .flatMap { owner, credential in
+                    owner.loginWithAppleUseCase.execute(credential: credential)
+                        .map { (response: $0, credential: credential) }
+                        .map { result in
+                            result.response.isRegister
+                                ? .navigateTo(route: .home)
+                                : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
+                        }
+                        .catch { error in
+                            if case AuthError.userNotFound = error {
+                                return Observable.just(.navigateTo(route: .termsAgreements(credential: credential, platform: .apple)))
+                            } else {
+                                return Observable.just(.navigateTo(route: .error))
+                            }
+                        }
                 }
-                .map { result in
-                    return result.response.isRegister
-                    ? .navigateTo(route: .home)
-                    : .navigateTo(route: .termsAgreements(credential: result.credential, platform: .apple))
-                }
-                .catchAndReturn(.navigateTo(route: .error))
         case .guestLoginButtonTapped:
             return Observable.just(.navigateTo(route: .home))
         }

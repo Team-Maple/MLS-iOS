@@ -19,30 +19,42 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
         return Observable.create { [weak self] observer in
+            print("🚀 requestData: 요청 시작 - \(endPoint)")
+
             self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
                 switch result {
                 case .success(let data):
+                    print("✅ requestData: 응답 수신")
+
                     if let data = data {
+                        print("📦 requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
                         do {
-                            let decoded = try JSONDecoder().decode(T.Response.self, from: data)
-                            observer.onNext(decoded)
+                            let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
+                            print("🎯 requestData: 디코딩 성공 - \(decoded)")
+                            observer.onNext(decoded.data!)
                             observer.onCompleted()
                         } catch {
+                            print("❌ requestData: 디코딩 실패 - \(error)")
                             observer.onError(NetworkError.decodeError(error))
                         }
                     } else {
+                        print("⚠️ requestData: 응답 데이터 없음")
                         observer.onError(NetworkError.noData)
                     }
+
                 case .failure(let error):
+                    print("🔥 requestData: 네트워크 실패 - \(error)")
                     observer.onError(error)
                 }
             })
+
             return Disposables.create()
         }
         .retry(when: { (errors: Observable<Error>) in
             errors
                 .enumerated()
                 .flatMap { attempt, error -> Observable<Void> in
+                    print("🔁 requestData: 재시도 \(attempt + 1)회 - 에러: \(error)")
                     if attempt < self.retryAttempt, let networkError = error as? NetworkError, networkError == .retry {
                         return Observable.just(())
                     } else {
@@ -90,6 +102,7 @@ private extension NetworkProviderImpl {
     func sendRequest<T: Requestable>(endPoint: T, interceptor: Interceptor?, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
             var request = try endPoint.getUrlRequest()
+
             if let interceptor = interceptor { request = interceptor.adapt(request) }
             let task = session.dataTask(with: request) { [weak self] data, response, error in
                 guard let self else {
