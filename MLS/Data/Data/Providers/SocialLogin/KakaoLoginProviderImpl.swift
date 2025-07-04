@@ -52,7 +52,7 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
             if let error = error {
                 observer.onError(error)
             } else {
-                let credential = KakaoCredential(token: accessToken, email: user?.kakaoAccount?.email)
+                let credential = KakaoCredential(token: accessToken, providerID: user?.kakaoAccount?.email ?? "")
                 observer.onNext(credential)
                 observer.onCompleted()
             }

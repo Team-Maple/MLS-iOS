@@ -8,7 +8,7 @@ public enum AuthEndPoint {
             baseURL: base,
             path: "/api/v1/auth/login/kakao",
             method: .POST,
-            headers: ["access_token": credential.token ?? ""]
+            headers: ["access-token": credential.token]
         )
     }
 
@@ -17,56 +17,38 @@ public enum AuthEndPoint {
             baseURL: base,
             path: "/api/v1/auth/login/apple",
             method: .POST,
-            headers: ["id_token": credential.token ?? ""]
+            headers: ["id-token": credential.token]
         )
     }
 
-    public static func signupWithKakao(id: String, nickname: String) -> ResponsableEndPoint<AuthResponseDTO> {
+    public static func signupWithKakao(credential: String, body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/signup/kakao",
             method: .POST,
-            body: SignupBody(providerId: id, provider: "KAKAO", nickname: nickname)
+            headers: ["access-token": credential],
+            body: body
         )
     }
 
-    public static func signupWithApple(id: String, nickname: String) -> ResponsableEndPoint<AuthResponseDTO> {
+    public static func signupWithApple(credential: String, body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/signup/apple",
             method: .POST,
-            body: SignupBody(providerId: id, provider: "APPLE", nickname: nickname)
+            headers: ["id-token": credential],
+            body: body
         )
     }
-    
-//    public static func reIssueToken(
-//        accessToken: String,
-//        refreshToken: String
-//    ) -> ResponsableEndPoint<APIResponseDTO<AuthResponseDTO>> {
-//        .init(
-//            baseURL: base,
-//            path: "/api/v1/auth/reissue",
-//            method: .POST,
-//            headers: [
-//                "accept": "*/*",
-//                "refresh_token": refreshToken,
-//                "Authorization": "Bearer \(accessToken)"
-//            ]
-//        )
-//    }
-}
 
-// MARK: - Query/Body Models
-private struct LoginQuery: Encodable {
-    let accessToken: String
-}
-
-private struct AppleLoginQuery: Encodable {
-    let idToken: String
-}
-
-private struct SignupBody: Encodable {
-    let providerId: String
-    let provider: String
-    let nickname: String
+    public static func reIssueToken(refreshToken: String) -> ResponsableEndPoint<AuthResponseDTO> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/reissue",
+            method: .POST,
+            headers: [
+                "accept": "*/*",
+                "refresh-token": refreshToken,            ]
+        )
+    }
 }

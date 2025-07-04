@@ -13,9 +13,16 @@ public struct AuthResponseDTO: Decodable {
 }
 
 extension AuthResponseDTO {
-    public func toDomain() -> LoginResponse {
+    public func toLoginDomain() -> LoginResponse {
         return .init(
             isRegister: member != nil,
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        )
+    }
+    
+    public func toSignUpDomain() -> SignUpResponse {
+        return .init(
             accessToken: accessToken,
             refreshToken: refreshToken
         )

@@ -114,6 +114,7 @@ public extension LoginViewController {
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {

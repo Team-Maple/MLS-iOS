@@ -22,11 +22,11 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         return Observable.just(.init(isRegister: false, accessToken: "", refreshToken: ""))
     }
 
-    public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
+    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
         return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
     }
 
-    public func signUpWithApple(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
+    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
         if tryCount == 0 {
             tryCount += 1
             let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
@@ -34,6 +34,10 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         } else {
             return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
         }
+    }
+
+    public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
+        return Observable.just(.init(isRegister: true, accessToken: "testToken", refreshToken: "testToken"))
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {

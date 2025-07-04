@@ -50,7 +50,7 @@ private extension AppDelegate {
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryMock()
+            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
         }
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()

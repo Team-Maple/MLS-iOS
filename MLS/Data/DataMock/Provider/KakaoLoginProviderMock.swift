@@ -9,6 +9,6 @@ public final class KakaoLoginProviderMock: SocialAuthenticatableProvider {
     public init() {}
 
     public func getCredential() -> Observable<Credential> {
-        return Observable.just(KakaoCredential(token: "Token", email: "email"))
+        return Observable.just(KakaoCredential(token: "Token", providerID: "email"))
     }
 }

@@ -13,20 +13,43 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithKakao(credential: credential)
-        return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toDomain() }
+        return provider.requestData(endPoint: endpoint, interceptor: nil)
+                .map { $0.toLoginDomain() }
+                .catch { error in
+                    if case NetworkError.statusError(let code, _) = error, code == 404 {
+                        return Observable.error(AuthError.userNotFound(credential: credential))
+                    } else {
+                        return Observable.error(error)
+                    }
+                }
     }
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithApple(credential: credential)
-        return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toDomain() }
+        return provider.requestData(endPoint: endpoint, interceptor: nil)
+                .map { $0.toLoginDomain() }
+                .catch { error in
+                    if case NetworkError.statusError(let code, _) = error, code == 404 {
+                        return Observable.error(AuthError.userNotFound(credential: credential))
+                    } else {
+                        return Observable.error(error)
+                    }
+                }
     }
 
-    public func signUpWithKakao(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
-        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithKakao(credential: credential.token, body: KakaoBody(providerId: credential.providerID))
+        return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
-    public func signUpWithApple(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
-        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithApple(credential: credential.token, body: AppleBody(providerId: credential.providerID))
+        return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
+    }
+    
+    public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
+        let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {
@@ -35,5 +58,19 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
         return .never()
+    }
+}
+
+private extension AuthAPIRepositoryImpl {
+    struct KakaoBody: Encodable {
+        let provider = "KAKAO"
+        let providerId: String
+        let nickname: String? = nil
+    }
+    
+    struct AppleBody: Encodable {
+        let provider = "APPLE"
+        let providerId: String
+        let nickname: String? = nil
     }
 }

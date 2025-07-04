@@ -9,6 +9,6 @@ public final class AppleLoginProviderMock: SocialAuthenticatableProvider {
     public init() {}
 
     public func getCredential() -> Observable<Credential> {
-        return Observable.just(AppleCredential(token: "token", authorizationCode: "token"))
+        return Observable.just(AppleCredential(token: "token", providerID: "token"))
     }
 }

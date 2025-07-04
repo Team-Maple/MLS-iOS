@@ -50,7 +50,7 @@ extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextPr
             return
         }
 
-        let credential = AppleCredential(token: idToken, authorizationCode: authCode)
+        let credential = AppleCredential(token: idToken, providerID: authCode)
         authServiceResponse.onNext(credential)
         authServiceResponse.onCompleted()
     }

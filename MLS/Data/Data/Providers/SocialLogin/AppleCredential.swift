@@ -1,11 +1,11 @@
 import DomainInterface
 
 public struct AppleCredential: Credential {
-    public var token: String?
-    public var authorizationCode: String?
+    public let token: String
+    public let providerID: String
     
-    public init(token: String? = nil, authorizationCode: String? = nil) {
+    public init(token: String, providerID: String) {
         self.token = token
-        self.authorizationCode = authorizationCode
+        self.providerID = providerID
     }
 }
