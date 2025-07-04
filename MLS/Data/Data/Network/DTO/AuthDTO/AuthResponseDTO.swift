@@ -20,7 +20,7 @@ extension AuthResponseDTO {
             refreshToken: refreshToken
         )
     }
-    
+
     public func toSignUpDomain() -> SignUpResponse {
         return .init(
             accessToken: accessToken,

@@ -43,7 +43,7 @@ public protocol AuthAPIRepository {
     /// - Note: 별도의 파라미터 없이 사용자 정보를 수정
     /// - Returns: 작업 완료 여부를 나타내는 Completable
     func updateUserInfo(level: Int, selectedJob: String) -> Completable
-    
+
     /// 토큰 재발행 API 호출
     ///
     /// - Parameter credential: refreshToken

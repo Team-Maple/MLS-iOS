@@ -46,7 +46,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endpoint = AuthEndPoint.signupWithApple(credential: credential.token, body: AppleBody(providerId: credential.providerID))
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
-    
+
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
@@ -67,7 +67,7 @@ private extension AuthAPIRepositoryImpl {
         let providerId: String
         let nickname: String? = nil
     }
-    
+
     struct AppleBody: Encodable {
         let provider = "APPLE"
         let providerId: String
