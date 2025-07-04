@@ -11,7 +11,7 @@ public class SignUpWithAppleUseCaseImpl: SignUpWithAppleUseCase {
         self.repository = repository
     }
 
-    public func execute(credential: Encodable, isMarketingAgreement: Bool) -> Observable<SignUpResponse> {
+    public func execute(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
         return repository.signUpWithApple(credential: credential, isMarketingAgreement: isMarketingAgreement)
     }
 }

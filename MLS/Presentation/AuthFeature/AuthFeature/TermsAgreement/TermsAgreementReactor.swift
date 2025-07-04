@@ -45,7 +45,7 @@ public final class TermsAgreementReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    private let credential: Encodable
+    private let credential: Credential
     private let socialPlatform: LoginPlatform
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
@@ -53,7 +53,7 @@ public final class TermsAgreementReactor: Reactor {
 
     // MARK: - init
     public init(
-        credential: Encodable,
+        credential: Credential,
         socialPlatform: LoginPlatform,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,

@@ -11,7 +11,10 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         self.repository = repository
     }
 
-    public func execute(credential: Encodable) -> Observable<LoginResponse> {
+    public func execute(credential: Credential) -> Observable<LoginResponse> {
         return repository.loginWithKakao(credential: credential)
+            .catch { error in
+                return Observable.error(error)
+            }
     }
 }

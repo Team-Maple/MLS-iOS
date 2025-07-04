@@ -11,7 +11,7 @@ public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
         self.repository = repository
     }
 
-    public func execute(credential: Encodable) -> Observable<LoginResponse> {
+    public func execute(credential: Credential) -> Observable<LoginResponse> {
         return repository.loginWithApple(credential: credential)
     }
 }

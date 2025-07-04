@@ -22,7 +22,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
         self.saveTokenUseCase = saveTokenUseCase
     }
 
-    public func make(credential: any Encodable, platform: LoginPlatform) -> BaseViewController {
+    public func make(credential: Credential, platform: LoginPlatform) -> BaseViewController {
         let viewController = TermsAgreementViewController(onBoardingQuestionFactory: onBoardingQuestionFactory)
         viewController.reactor = TermsAgreementReactor(
             credential: credential,
