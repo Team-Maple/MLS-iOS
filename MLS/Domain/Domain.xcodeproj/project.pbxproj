@@ -12,7 +12,7 @@
 		08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08ED490C2DCFDD63002C21A2 /* Core.framework */; };
 		08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49312DCFDEF6002C21A2 /* RxSwift */; };
 		08ED49362DCFDF8F002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49352DCFDF8F002C21A2 /* RxSwift */; };
-		77219E572E0EB36700A7B58C /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 77219E562E0EB36700A7B58C /* RxRelay */; };
+		779FC89A2E1411D100FD1551 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 779FC8992E1411D100FD1551 /* RxRelay */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77219E572E0EB36700A7B58C /* RxRelay in Frameworks */,
+				779FC89A2E1411D100FD1551 /* RxRelay in Frameworks */,
 				08ED49322DCFDEF6002C21A2 /* RxSwift in Frameworks */,
 				08ED490D2DCFDD63002C21A2 /* Core.framework in Frameworks */,
 			);
@@ -142,7 +142,7 @@
 			name = DomainInterface;
 			packageProductDependencies = (
 				08ED49312DCFDEF6002C21A2 /* RxSwift */,
-				77219E562E0EB36700A7B58C /* RxRelay */,
+				779FC8992E1411D100FD1551 /* RxRelay */,
 			);
 			productName = DomainInterface;
 			productReference = 0801752E2DCD26B300D0919F /* DomainInterface.framework */;
@@ -595,8 +595,8 @@
 			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
-		77219E562E0EB36700A7B58C /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
+		779FC8992E1411D100FD1551 /* RxRelay */ = {
+    isa = XCSwiftPackageProductDependency;
 			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
 		};

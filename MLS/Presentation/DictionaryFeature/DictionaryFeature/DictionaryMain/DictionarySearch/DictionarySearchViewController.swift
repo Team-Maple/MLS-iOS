@@ -139,10 +139,14 @@ extension DictionarySearchViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .search:
-                    let keyword = owner.mainView.searchBar.textField.text
-                    owner.mainView.searchBar.textField.text = ""
-                    let viewController = owner.searchResultFactory.make(keyword: keyword)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
+                    guard let keyword = owner.mainView.searchBar.textField.text else { return }
+                    if keyword.isOnlyKorean() && keyword != "" {
+                        GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
+                    } else {
+                        owner.mainView.searchBar.textField.text = ""
+                        let viewController = owner.searchResultFactory.make(keyword: keyword)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    }
                 default:
                     break
                 }

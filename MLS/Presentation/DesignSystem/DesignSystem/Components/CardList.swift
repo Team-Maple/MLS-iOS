@@ -37,23 +37,7 @@ public final class CardList: UIView {
     public var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
-    private lazy var imageContentView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = Constant.imageRadius
-        view.backgroundColor = .listMap
-
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(Constant.imageInset)
-        }
-        return view
-    }()
-
-    private let imageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        return view
-    }()
+    private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
 
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
@@ -97,20 +81,20 @@ public final class CardList: UIView {
 // MARK: - SetUp
 private extension CardList {
     func addViews() {
-        addSubview(imageContentView)
+        addSubview(imageView)
         addSubview(textLabelStackView)
         addSubview(bookmarkButton)
     }
 
     func setupConstraints() {
-        imageContentView.snp.makeConstraints { make in
+        imageView.snp.makeConstraints { make in
             make.top.leading.bottom.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.imageContentViewSize)
         }
 
         textLabelStackView.snp.makeConstraints { make in
-            make.leading.equalTo(imageContentView.snp.trailing).offset(Constant.cardInset)
-            make.top.bottom.equalTo(imageContentView).inset(Constant.stackViewInset)
+            make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
+            make.top.bottom.equalTo(imageView).inset(Constant.stackViewInset)
         }
 
         bookmarkButton.snp.makeConstraints { make in
@@ -142,7 +126,7 @@ private extension CardList {
     }
 
     func updateBookmark() {
-        bookmarkButton.setImage(isBookmarkSelected ? .bookmarkFill : .bookmarkBorder, for: .normal)
+        bookmarkButton.setImage(isBookmarkSelected ? .bookmark : .bookmarkBorder, for: .normal)
     }
 }
 
@@ -155,15 +139,11 @@ public extension CardList {
         subText = text
     }
 
-    func loadImage(image: UIImage) {
-        imageView.image = image
+    func setImage(image: UIImage, backgroundColor: UIColor) {
+        imageView.setImage(image: image, backgroundColor: backgroundColor)
     }
 
     func setBookmark(isBookmarked: Bool) {
         isBookmarkSelected = isBookmarked
-    }
-
-    func setBackgroundColor(color: UIColor) {
-        imageContentView.backgroundColor = color
     }
 }

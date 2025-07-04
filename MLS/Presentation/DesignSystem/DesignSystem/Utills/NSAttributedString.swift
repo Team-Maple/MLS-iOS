@@ -11,6 +11,7 @@ extension NSAttributedString {
         guard let text, let color, let font else { return nil }
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = 0
+        paragraphStyle.lineBreakMode = .byTruncatingTail
         paragraphStyle.maximumLineHeight = font.lineHeight * lineHeight
         paragraphStyle.alignment = alignment
 

@@ -8,6 +8,7 @@ final class PopularResultCell: UICollectionViewCell {
     struct Constant {
         static let verticalInset: CGFloat = 8
         static let spacing: CGFloat = 8
+        static let indexLabelWidth: CGFloat = 18
     }
 
     // MARK: - Components
@@ -39,6 +40,7 @@ private extension PopularResultCell {
         indexLabel.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalInset)
             make.leading.equalToSuperview()
+            make.width.equalTo(Constant.indexLabelWidth)
         }
 
         textLabel.snp.makeConstraints { make in
@@ -56,7 +58,7 @@ extension PopularResultCell {
     }
 
     func inject(input: Input) {
-        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .center)
         textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .captionSemiBold : .caption, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
     }
 }

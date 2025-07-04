@@ -98,8 +98,11 @@ extension DictionaryListViewController {
             .map(\.items)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] _ in
+            .bind(onNext: { [weak self] item in
                 self?.mainView.listCollectionView.reloadData()
+                self?.mainView.emptyView.isHidden = !item.isEmpty
+                self?.mainView.listCollectionView.isHidden = item.isEmpty
+                self?.mainView.isUserInteractionEnabled = !item.isEmpty
             })
             .disposed(by: disposeBag)
 
