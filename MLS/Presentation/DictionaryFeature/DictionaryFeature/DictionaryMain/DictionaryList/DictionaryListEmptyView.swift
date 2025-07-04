@@ -51,7 +51,7 @@ private extension DictionaryListEmptyView {
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
-        
+
         textLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(Constant.spacing)
             make.centerX.equalToSuperview()

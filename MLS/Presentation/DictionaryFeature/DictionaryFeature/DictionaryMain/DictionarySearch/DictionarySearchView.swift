@@ -2,8 +2,8 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxSwift
+import SnapKit
 
 final class DictionarySearchView: UIView {
     // MARK: - Type
@@ -13,7 +13,7 @@ final class DictionarySearchView: UIView {
         static let horizontalMargin: CGFloat = 16
         static let collectionViewSpacing: CGFloat = 10
     }
-    
+
     // MARK: - Properties
     private let disposeBag = DisposeBag()
 
@@ -63,7 +63,7 @@ private extension DictionarySearchView {
     func configureUI() {
         backgroundColor = .clearMLS
     }
-    
+
     func setupKeyboard() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.cancelsTouchesInView = false

@@ -11,7 +11,7 @@ final class SnackBarTestViewController: UIViewController {
     var disposeBag = DisposeBag()
 
     let normalSnackBar = SnackBar(type: .normal, image: .appleLogo, imageBackgroundColor: .listNPC, text: "제목제목", buttonText: "되돌리기", buttonAction: nil)
-    
+
     let deleteSnackBar = SnackBar(type: .delete, image: DesignSystemAsset.image(named: "testImage"), imageBackgroundColor: .listNPC, text: "제목제목", buttonText: "되돌리기", buttonAction: nil)
 
     init() {
@@ -47,7 +47,7 @@ private extension SnackBarTestViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         deleteSnackBar.snp.makeConstraints { make in
             make.top.equalTo(normalSnackBar.snp.bottom).offset(16)
             make.centerX.equalToSuperview()

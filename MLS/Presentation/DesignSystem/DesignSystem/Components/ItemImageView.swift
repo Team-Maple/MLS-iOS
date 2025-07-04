@@ -21,13 +21,13 @@ private extension ItemImageView {
     func addViews() {
         addSubview(imageView)
     }
-    
+
     func setUpConstraints(inset: CGFloat) {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(inset)
         }
     }
-    
+
     func configureUI(radius: CGFloat) {
         self.layer.cornerRadius = radius
 //        self.clipsToBounds = true

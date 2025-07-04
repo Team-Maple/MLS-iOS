@@ -115,7 +115,7 @@ private extension CollectionList {
             }
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.radius

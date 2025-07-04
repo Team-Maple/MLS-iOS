@@ -41,7 +41,7 @@ public final class SnackBarFactory {
 extension SnackBarFactory {
 
     // MARK: - Method
-    
+
     /// SnackBar를 생성하는 메소드
     /// - Parameters:
     ///   - type: normal / delete
