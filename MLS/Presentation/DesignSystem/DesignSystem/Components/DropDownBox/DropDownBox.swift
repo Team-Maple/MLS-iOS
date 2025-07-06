@@ -23,7 +23,7 @@ public final class DropDownBox: UIStackView {
 
     private let iconButton: UIButton = {
         let view = UIButton()
-        view.setImage(.arrowDown, for: .normal)
+        view.setImage(.arrowDropdown, for: .normal)
         return view
     }()
 
@@ -113,7 +113,7 @@ private extension DropDownBox {
     func toggleDropdown() {
         isExpanded.toggle()
         tableView.isHidden = !isExpanded
-        iconButton.setImage(isExpanded ? .arrowUp : .arrowDown, for: .normal)
+        iconButton.setImage(isExpanded ? .arrowDropUp : .arrowDropdown, for: .normal)
         let height = CGFloat(menus.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
     }
