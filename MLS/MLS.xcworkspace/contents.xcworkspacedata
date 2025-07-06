@@ -8,6 +8,9 @@
       location = "group:Presentation"
       name = "Presentation">
       <FileRef
+         location = "group:BookmarkFeature/BookmarkFeature.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:AuthFeature/AuthFeature.xcodeproj">
       </FileRef>
       <FileRef
