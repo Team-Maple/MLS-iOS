@@ -66,7 +66,7 @@ public final class CommonButton: UIButton {
 
     // MARK: - Properties
     private let style: CommonButtonStyle
-    private let title: String?
+    private var title: String?
     private let disabledTitle: String?
 
     override public var isEnabled: Bool {
@@ -157,5 +157,12 @@ private extension CommonButton {
             }
             button.configuration = updatedConfig
         }
+    }
+}
+
+public extension CommonButton {
+    func updateTitle(title: String) {
+        self.title = title
+        configureUI()
     }
 }
