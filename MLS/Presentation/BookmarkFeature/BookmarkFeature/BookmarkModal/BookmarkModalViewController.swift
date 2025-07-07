@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeatureInterface
 import DomainInterface
 
 import ReactorKit
@@ -10,13 +11,16 @@ public final class BookmarkModalViewController: BaseViewController, View {
     public typealias Reactor = BookmarkModalReactor
 
     // MARK: - Properties
+    private let addCollectionFactory: AddCollectionFactory
+    
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
     private let mainView: BookmarkModalView
 
-    public override init() {
+    public init(addCollectionFactory: AddCollectionFactory) {
         self.mainView = BookmarkModalView()
+        self.addCollectionFactory = addCollectionFactory
         super.init()
     }
 
@@ -137,10 +141,15 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if indexPath.row == 0 { return }
-        guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else {
-            return
+        switch indexPath.row {
+        case 0:
+            let viewController = addCollectionFactory.make()
+            presentModal(viewController)
+        default:
+            guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else {
+                return
+            }
+            cell.toggleSelected()
         }
-        cell.toggleSelected()
     }
 }
