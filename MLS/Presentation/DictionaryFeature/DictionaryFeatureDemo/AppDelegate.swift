@@ -175,8 +175,11 @@ private extension AppDelegate {
         DIContainer.register(type: SortedBottomSheetFactory.self) {
             return SortedBottomSheetFactoryImpl()
         }
+        DIContainer.register(type: AddCollectionFactory.self) {
+            return AddCollectionFactoryImpl()
+        }
         DIContainer.register(type: BookmarkModalFactory.self) {
-            return BookmarkModalFactoryImpl()
+            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(

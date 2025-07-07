@@ -19,7 +19,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
 
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    internal var nextButtonBottomConstraint: Constraint?
+    public var nextButtonBottomConstraint: Constraint?
 
     // MARK: - Components
     private let descriptionLabel: UILabel = {
