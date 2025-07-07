@@ -1,6 +1,8 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeature
+import BookmarkFeatureInterface
 import Core
 import Data
 import DataMock
@@ -173,13 +175,17 @@ private extension AppDelegate {
         DIContainer.register(type: SortedBottomSheetFactory.self) {
             return SortedBottomSheetFactoryImpl()
         }
+        DIContainer.register(type: BookmarkModalFactory.self) {
+            return BookmarkModalFactoryImpl()
+        }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
                 fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self),
                 toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
-                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self)
+                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
+                bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self)
             )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {

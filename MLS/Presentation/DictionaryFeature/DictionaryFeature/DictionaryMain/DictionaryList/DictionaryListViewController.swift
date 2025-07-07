@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeatureInterface
 import DictionaryFeatureInterface
 import DomainInterface
 
@@ -16,15 +17,17 @@ public final class DictionaryListViewController: BaseViewController, View {
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
+    private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
 
     // MARK: - Components
     private let mainView: DictionaryListView
 
-    public init(type: DictionaryType, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory) {
+    public init(type: DictionaryType, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
+        self.bookmarkModalFactory = bookmarkModalFactory
         self.type = type
         self.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
         super.init()
@@ -170,17 +173,36 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 if item.isBookmarked {
                     self.reactor?.action.onNext(.toggleBookmark(item.id))
                 } else {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            print("로그인 화면으로 이동")
-                        },
-                        cancelAction: {
-                            print("취소됨")
-                        }
-                    )
+                    // 로그인 여부 확인
+                    if false {
+                        GuideAlertFactory.show(
+                            mainText: "북마크를 하려면 로그인이 필요해요.",
+                            ctaText: "로그인 하기",
+                            cancelText: "취소",
+                            ctaAction: {
+                                print("로그인 화면으로 이동")
+                            },
+                            cancelAction: {
+                                print("취소됨")
+                            }
+                        )
+                    } else {
+                        self.reactor?.action.onNext(.toggleBookmark(item.id))
+                        SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
+                            DispatchQueue.main.async {
+                                let viewController = self.bookmarkModalFactory.make()
+                                viewController.modalPresentationStyle = .pageSheet
+
+                                if let sheet = viewController.sheetPresentationController {
+                                    sheet.detents = [.medium(), .large()]
+                                    sheet.prefersGrabberVisible = true
+                                    sheet.preferredCornerRadius = 16
+                                }
+
+                                self.present(viewController, animated: true)
+                            }
+                        })
+                    }
                 }
             }
         )

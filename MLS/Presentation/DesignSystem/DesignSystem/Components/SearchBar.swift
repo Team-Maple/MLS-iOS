@@ -6,7 +6,7 @@ public final class SearchBar: UIView {
     // MARK: - Properties
     public let backButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = DesignSystemAsset.image(named: "arrowLeft")?.withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button

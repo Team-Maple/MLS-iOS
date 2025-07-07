@@ -127,7 +127,7 @@ private extension FilterLevelSectionView {
         }
     }
 
-    public func bind() {
+    func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
             .subscribe { (owner, value) in

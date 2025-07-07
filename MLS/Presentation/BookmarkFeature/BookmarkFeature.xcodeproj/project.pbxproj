@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		77DBC7A62E182AFF00529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
-		77DBC7A72E182AFF00529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B52E182BD900529428 /* ReactorKit */; };
 		77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B82E182BE200529428 /* RxKeyboard */; };
 		77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BB2E182BF500529428 /* RxCocoa */; };
@@ -27,13 +25,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		77DBC7A82E182AFF00529428 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 77DBC76B2E1829AB00529428 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 77DBC78B2E182A9200529428;
-			remoteInfo = BookmarkFeatureInterface;
-		};
 		77DBC7EC2E18362500529428 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77DBC76B2E1829AB00529428 /* Project object */;
@@ -51,17 +42,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		77DBC7AA2E182AFF00529428 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				77DBC7A72E182AFF00529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		77DBC7F22E18362500529428 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,7 +112,6 @@
 				77DBC7C32E182BFE00529428 /* SnapKit in Frameworks */,
 				77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */,
 				77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */,
-				77DBC7A62E182AFF00529428 /* BookmarkFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,12 +197,10 @@
 				77DBC7702E1829AB00529428 /* Sources */,
 				77DBC7712E1829AB00529428 /* Frameworks */,
 				77DBC7722E1829AB00529428 /* Resources */,
-				77DBC7AA2E182AFF00529428 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				77DBC7A92E182AFF00529428 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				77DBC7762E1829AB00529428 /* BookmarkFeature */,
@@ -388,11 +365,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		77DBC7A92E182AFF00529428 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 77DBC78B2E182A9200529428 /* BookmarkFeatureInterface */;
-			targetProxy = 77DBC7A82E182AFF00529428 /* PBXContainerItemProxy */;
-		};
 		77DBC7ED2E18362500529428 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 77DBC7732E1829AB00529428 /* BookmarkFeature */;
@@ -409,11 +381,11 @@
 		77DBC77D2E1829AB00529428 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -448,11 +420,11 @@
 		77DBC77E2E1829AB00529428 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -609,11 +581,11 @@
 		77DBC7942E182A9200529428 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -648,11 +620,11 @@
 		77DBC7952E182A9200529428 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
+				DEFINES_MODULE = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

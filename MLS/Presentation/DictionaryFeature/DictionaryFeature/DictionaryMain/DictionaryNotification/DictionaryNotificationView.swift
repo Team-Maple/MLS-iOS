@@ -18,7 +18,7 @@ public final class DictionaryNotificationView: UIView {
 
     // MARK: - Components
     private let emptyView = NotificationEmptyView()
-    public let header = NavigationBar(boldTextButtonTitle: "설정")
+    public let header = NavigationBar(type: .withString("설정"))
     public let titleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .heading3SemiBold, text: "알림", alignment: .left)
