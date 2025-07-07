@@ -1,4 +1,5 @@
 import UIKit
+import UserNotifications
 
 import AuthFeature
 import AuthFeatureInterface
@@ -10,16 +11,34 @@ import DesignSystem
 import Domain
 import DomainInterface
 
+import Firebase
 import KakaoSDKCommon
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        ImageLoader.shared.configure.diskCacheCountLimit = 10
-        FontManager.registerFonts()
-        registerDependencies()
+        // MARK: - UserNotification Set
+        FirebaseApp.configure() // Firebase Set
+        Messaging.messaging().delegate = self // 파이어베이스 Meesaging 설정
+
+        UNUserNotificationCenter.current().delegate = self // NotificationCenter Delegate
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
+        application.registerForRemoteNotifications() // UNUserNotificationCenterDelegate를 구현한 메서드를 실행시킴
+
+        // MARK: - Modules Set
+        ImageLoader.shared.configure.diskCacheCountLimit = 10 // ImageLoader
+        FontManager.registerFonts() // FontManager
+
+        // MARK: - KakaoSDK Set
         let kakaoNativeAppKey: String = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? ""
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
+        
+        registerDependencies()
         return true
     }
 
@@ -30,6 +49,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
+// MARK: - Notification Delegate, MessagingDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.list, .banner])
+    }
+
+    // 파이어베이스 MessagingDelegate 설정
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+      print("Firebase registration token: \(String(describing: fcmToken))")
+
+      let dataDict: [String: String] = ["token": fcmToken ?? ""]
+      NotificationCenter.default.post(
+        name: Notification.Name("FCMToken"),
+        object: nil,
+        userInfo: dataDict
+      )
+        print("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥FCMToken🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
+        print(fcmToken)
+    }
+}
+
+// MARK: - registerDependencies
 private extension AppDelegate {
     func registerDependencies() {
         registerProvider()

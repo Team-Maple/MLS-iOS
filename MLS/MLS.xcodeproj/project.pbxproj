@@ -20,6 +20,8 @@
 		085A7F752DAF99570046663F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 085A7F742DAF99570046663F /* .swiftlint.yml */; };
 		085BDF5E2DF6B6B3009CFB90 /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF5D2DF6B6B3009CFB90 /* DataMock.framework */; };
 		085BDF5F2DF6B6B3009CFB90 /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF5D2DF6B6B3009CFB90 /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B32E1B9827009097A6 /* FirebaseFirestore */; };
+		08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B52E1B9827009097A6 /* FirebaseMessaging */; };
 		08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49272DCFDED4002C21A2 /* RxCocoa */; };
 		08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49292DCFDED4002C21A2 /* RxRelay */; };
 		08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED492B2DCFDED4002C21A2 /* RxSwift */; };
@@ -125,10 +127,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */,
 				08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */,
 				7721A5042E0EE7AE00A7B58C /* BaseFeature.framework in Frameworks */,
 				7721A5082E0EE7F100A7B58C /* ReactorKit in Frameworks */,
 				0801759F2DCD27E600D0919F /* DomainInterface.framework in Frameworks */,
+				08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */,
 				084A25552DB93BC800C395C0 /* Data.framework in Frameworks */,
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
 				08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */,
@@ -266,6 +270,8 @@
 				77660AD42DD0D3DD007A4EF3 /* KakaoSDKAuth */,
 				77660AD62DD0D3DD007A4EF3 /* KakaoSDKUser */,
 				7721A5072E0EE7F100A7B58C /* ReactorKit */,
+				08DA51B32E1B9827009097A6 /* FirebaseFirestore */,
+				08DA51B52E1B9827009097A6 /* FirebaseMessaging */,
 			);
 			productName = MLS;
 			productReference = 087D3EE82DA7972C002F924D /* MLS.app */;
@@ -327,6 +333,7 @@
 				08ED4DAF2DCFE098002C21A2 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				77660AD32DD0D3DD007A4EF3 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				7721A5062E0EE7F100A7B58C /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 087D3EE92DA7972C002F924D /* Products */;
@@ -699,6 +706,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.15.0;
+			};
+		};
 		08ED49202DCFDE9C002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -734,6 +749,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		08DA51B32E1B9827009097A6 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		08DA51B52E1B9827009097A6 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		08ED49272DCFDED4002C21A2 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08ED49202DCFDE9C002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
