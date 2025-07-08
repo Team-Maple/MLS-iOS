@@ -3,6 +3,7 @@ import UIKit
 import AuthFeature
 import AuthFeatureInterface
 import Core
+import Data
 import Domain
 import DomainInterface
 
@@ -20,10 +21,7 @@ class ViewController: UIViewController {
         let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
         loginVC.title = "로그인"
 
-        struct Credential: Encodable {
-            var some: String
-        }
-        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: Credential(some: "some"), platform: .apple)
+        let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: KakaoCredential(token: "", providerID: ""), platform: .apple)
         termVC.title = "약관 동의"
 
         let questionVC = DIContainer.resolve(type: OnBoardingQuestionFactory.self).make()

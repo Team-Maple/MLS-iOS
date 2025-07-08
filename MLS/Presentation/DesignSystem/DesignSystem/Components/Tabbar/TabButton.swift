@@ -5,7 +5,7 @@ public final class TabButton: UIButton {
     // MARK: - Type
     private enum Constant {
         static let buttonSize: CGFloat = 64
-        static let iconSize: CGFloat = 24
+        static let iconSize: CGFloat = 60
         static let spacing: CGFloat = 4
         static let padding: CGFloat = 11
     }
@@ -68,5 +68,6 @@ private extension TabButton {
     func updateUI() {
         iconView.tintColor = isSelected ? .primary700 : .neutral300
         textLabel.textColor = isSelected ? .primary700 : .neutral700
+        textLabel.font = .systemFont(ofSize: 10, weight: isSelected ? .semibold : .regular)
     }
 }

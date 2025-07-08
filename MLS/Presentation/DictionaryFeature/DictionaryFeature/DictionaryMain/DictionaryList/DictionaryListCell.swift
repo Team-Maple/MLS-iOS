@@ -47,11 +47,10 @@ extension DictionaryListCell {
     }
 
     func inject(input: Input, onBookmarkTapped: @escaping () -> Void) {
-        cellView.loadImage(image: input.image)
+        cellView.setImage(image: input.image, backgroundColor: input.type.backgroundColor)
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
         cellView.setBookmark(isBookmarked: input.isBookmarked)
-        cellView.setBackgroundColor(color: input.type.backgroundColor)
         self.onBookmarkTapped = onBookmarkTapped
         cellView.onBookmarkTapped = { [weak self] _ in
             self?.onBookmarkTapped?()
