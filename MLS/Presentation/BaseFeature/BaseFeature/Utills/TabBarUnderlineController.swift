@@ -109,4 +109,21 @@ public extension TabBarUnderlineController {
             self?.selectionIndicatorView.frame = targetFrame
         })
     }
+    
+    /// 선택된 셀 위치로 인디케이터를 애니메이션으로 이동
+    func setInitialIndicator() {
+        guard let collectionView,
+              let indexPath = collectionView.indexPathsForSelectedItems?.first,
+              let selectedFrame = collectionView.cellForItem(at: indexPath)?.frame
+        else { return }
+
+        let x = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
+        let targetFrame = CGRect(
+            x: x,
+            y: collectionView.frame.maxY - 2,
+            width: selectedFrame.width,
+            height: 2
+        )
+        selectionIndicatorView.frame = targetFrame
+    }
 }
