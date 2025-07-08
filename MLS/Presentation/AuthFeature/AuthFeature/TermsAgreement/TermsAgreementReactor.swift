@@ -1,4 +1,5 @@
 import DomainInterface
+import os
 
 import ReactorKit
 import RxSwift
@@ -86,9 +87,18 @@ public final class TermsAgreementReactor: Reactor {
         case .marketingAgreeButtonTapped:
             return Observable.just(.changeIsMarketingAgreeState)
         case .bottomButtonTapped:
+            let fetchResult = fetchTokenUseCase.execute(type: .fcmToken)
+            var fcmToken: String
+            switch fetchResult {
+            case .success(let token):
+                fcmToken = token
+            case .failure(let failure):
+                os_log("⚠️ fcmToken Fetch Failure")
+                return Observable.error(failure)
+            }
             switch socialPlatform {
             case .kakao:
-                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
@@ -98,7 +108,7 @@ public final class TermsAgreementReactor: Reactor {
                     }
                     .catchAndReturn(.navigateTo(route: .error))
             case .apple:
-                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)

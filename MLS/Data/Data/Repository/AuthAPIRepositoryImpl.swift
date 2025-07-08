@@ -37,13 +37,27 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
                 }
     }
 
-    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        let endpoint = AuthEndPoint.signupWithKakao(credential: credential.token, body: KakaoBody(providerId: credential.providerID))
+    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithKakao(
+            credential: credential.token,
+            body: KakaoBody(
+                providerId: credential.providerID,
+                fcmToken: fcmToken,
+                marketingAgreement: isMarketingAgreement
+            )
+        )
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
-    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        let endpoint = AuthEndPoint.signupWithApple(credential: credential.token, body: AppleBody(providerId: credential.providerID))
+    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithApple(
+            credential: credential.token,
+            body: AppleBody(
+                providerId: credential.providerID,
+                fcmToken: fcmToken,
+                marketingAgreement: isMarketingAgreement
+            )
+        )
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
@@ -66,11 +80,15 @@ private extension AuthAPIRepositoryImpl {
         let provider = "KAKAO"
         let providerId: String
         let nickname: String? = nil
+        let fcmToken: String
+        let marketingAgreement: Bool
     }
 
     struct AppleBody: Encodable {
         let provider = "APPLE"
         let providerId: String
         let nickname: String? = nil
+        let fcmToken: String
+        let marketingAgreement: Bool
     }
 }

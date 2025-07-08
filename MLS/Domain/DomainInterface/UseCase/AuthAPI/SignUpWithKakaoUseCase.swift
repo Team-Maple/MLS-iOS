@@ -3,5 +3,5 @@ import Foundation
 import RxSwift
 
 public protocol SignUpWithKakaoUseCase {
-    func execute(credential: Credential, isMarketingAgreement: Bool) -> Observable<SignUpResponse>
+    func execute(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse>
 }
