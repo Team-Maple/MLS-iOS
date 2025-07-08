@@ -1,5 +1,6 @@
 import UIKit
 import UserNotifications
+import os
 
 import AuthFeature
 import AuthFeatureInterface
@@ -13,7 +14,6 @@ import DomainInterface
 
 import Firebase
 import KakaoSDKCommon
-
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -61,16 +61,21 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
 
     // 파이어베이스 MessagingDelegate 설정
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-      print("Firebase registration token: \(String(describing: fcmToken))")
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
+        let tokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
+        let result = tokenUseCase.execute(type: .fcmToken, value: fcmToken ?? "")
 
-      let dataDict: [String: String] = ["token": fcmToken ?? ""]
-      NotificationCenter.default.post(
-        name: Notification.Name("FCMToken"),
-        object: nil,
-        userInfo: dataDict
-      )
-        print("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥FCMToken🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥")
-        print(fcmToken)
+        switch result {
+        case .success:
+            os_log("✅ fcmToken Save Success Token: \(fcmToken ?? "")")
+        case .failure:
+            os_log("⚠️ fcmToken Save Failure")
+        }
     }
 }
 
