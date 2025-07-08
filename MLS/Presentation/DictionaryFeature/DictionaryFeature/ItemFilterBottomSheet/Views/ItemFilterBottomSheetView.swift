@@ -16,6 +16,7 @@ final class ItemFilterBottomSheetView: UIView {
         static let categoryCollectionViewHeight = 40
         static let dividerHeight = 1
         static let selectedItemCollectionViewHeight = 56
+        static let contentCollectionViewTopMargin = 32
     }
 
     // MARK: - Properties
@@ -61,12 +62,13 @@ final class ItemFilterBottomSheetView: UIView {
 
     public let categoryCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.isScrollEnabled = false
         return view
     }()
 
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
-        view.contentInset = .init(top: 32, left: 0, bottom: 40, right: 0)
+        view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
         view.allowsMultipleSelection = true
         return view
     }()
@@ -131,7 +133,7 @@ private extension ItemFilterBottomSheetView {
             make.height.equalTo(Constant.categoryCollectionViewHeight)
         }
         contentCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(categoryCollectionView.snp.bottom)
+            make.top.equalTo(categoryCollectionView.snp.bottom).offset(Constant.contentCollectionViewTopMargin)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(toolBarStackView.snp.top)
         }
