@@ -86,8 +86,8 @@ public extension TabBarUnderlineController {
               let selectedFrame = collectionView.cellForItem(at: indexPath)?.frame
         else { return }
 
-        let x = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
-        selectionIndicatorView.frame.origin.x = x
+        let xOffset = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
+        selectionIndicatorView.frame.origin.x = xOffset
     }
 
     /// 선택된 셀 위치로 인디케이터를 애니메이션으로 이동
@@ -97,9 +97,9 @@ public extension TabBarUnderlineController {
               let selectedFrame = collectionView.cellForItem(at: indexPath)?.frame
         else { return }
 
-        let x = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
+        let xOffset = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
         let targetFrame = CGRect(
-            x: x,
+            x: xOffset,
             y: collectionView.frame.maxY - 2,
             width: selectedFrame.width,
             height: 2
@@ -117,9 +117,9 @@ public extension TabBarUnderlineController {
               let selectedFrame = collectionView.cellForItem(at: indexPath)?.frame
         else { return }
 
-        let x = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
+        let xOffset = selectedFrame.minX - (currentScrollOffset?.x ?? 0)
         let targetFrame = CGRect(
-            x: x,
+            x: xOffset,
             y: collectionView.frame.maxY - 2,
             width: selectedFrame.width,
             height: 2
