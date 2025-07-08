@@ -254,7 +254,7 @@ private extension ItemFilterBottomSheetViewController {
 
         dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
-            self?.underLineController.animateIndicatorToSelectedItem()
+            self?.underLineController.setInitialIndicator()
         }
     }
 }
