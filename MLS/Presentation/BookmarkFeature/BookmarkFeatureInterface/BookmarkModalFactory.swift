@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol BookmarkModalFactory {
-    func make() -> BaseViewController
+    func make(onDismissWithMessage: @escaping (String) -> Void) -> BaseViewController
 }

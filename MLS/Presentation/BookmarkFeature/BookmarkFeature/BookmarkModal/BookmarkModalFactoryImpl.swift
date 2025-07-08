@@ -2,16 +2,13 @@ import BaseFeature
 import BookmarkFeatureInterface
 
 public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
-    private let addCollectionFactory: AddCollectionFactory
-    
-    public init(addCollectionFactory: AddCollectionFactory) {
-        self.addCollectionFactory = addCollectionFactory
-    }
+    public init() {}
 
-    public func make() -> BaseViewController {
+    public func make(onDismissWithMessage: @escaping (String) -> Void) -> BaseViewController {
         let reactor = BookmarkModalReactor()
-        let viewController = BookmarkModalViewController(addCollectionFactory: addCollectionFactory)
+        let viewController = BookmarkModalViewController()
         viewController.reactor = reactor
+        viewController.onDismissWithMessage = onDismissWithMessage
         return viewController
     }
 }
