@@ -62,6 +62,7 @@ final class ItemFilterBottomSheetView: UIView {
 
     public let categoryCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.isScrollEnabled = false
         return view
     }()
 

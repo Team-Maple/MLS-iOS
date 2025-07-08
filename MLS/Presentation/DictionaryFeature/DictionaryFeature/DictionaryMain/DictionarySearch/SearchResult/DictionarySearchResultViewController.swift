@@ -21,6 +21,7 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     private var viewControllers: [UIViewController]
 
     private let mainView = DictionaryMainView(type: .search)
+    private let underLineController = TabBarUnderlineController()
 
     public init(
         dictionaryListFactory: DictionaryMainListFactory,
@@ -76,13 +77,13 @@ private extension DictionarySearchResultViewController {
         mainView.tabCollectionView.delegate = self
         mainView.tabCollectionView.dataSource = self
         mainView.tabCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
+        underLineController.configure(with: mainView.tabCollectionView)
     }
 
     func createTabLayout() -> UICollectionViewLayout {
         let layout = CompositionalLayoutBuilder()
-            .section { _ in LayoutFactory.getPageTabbarLayout() }
+            .section { _ in LayoutFactory.getPageTabbarLayout(underLineController: underLineController) }
             .build()
-        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 
@@ -97,6 +98,9 @@ private extension DictionarySearchResultViewController {
         )
 
         mainView.tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+        DispatchQueue.main.async { [weak self] in
+            self?.underLineController.setInitialIndicator()
+        }
     }
 }
 
@@ -168,9 +172,7 @@ extension DictionarySearchResultViewController: UIPageViewControllerDataSource, 
            let newIndex = viewControllers.firstIndex(of: visibleViewController) {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-            UIView.performWithoutAnimation {
-                mainView.tabCollectionView.performBatchUpdates(nil, completion: nil)
-            }
+            underLineController.animateIndicatorToSelectedItem()
         }
     }
 }
@@ -209,8 +211,6 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
         )
 
         currentPageIndex.accept(newIndex)
-        UIView.performWithoutAnimation {
-            mainView.tabCollectionView.performBatchUpdates(nil, completion: nil)
-        }
+        underLineController.animateIndicatorToSelectedItem()
     }
 }

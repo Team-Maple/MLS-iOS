@@ -16,13 +16,6 @@ public class PageTabbarCell: UICollectionViewCell {
         return label
     }()
 
-    private let indicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .textColor
-        view.isHidden = true
-        return view
-    }()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
@@ -40,7 +33,6 @@ public class PageTabbarCell: UICollectionViewCell {
             let textColor: UIColor? = isSelected ? .textColor : .neutral600
             titleLabel.font = font
             titleLabel.textColor = textColor
-            indicatorView.isHidden = !isSelected
         }
     }
 }
@@ -49,19 +41,12 @@ public class PageTabbarCell: UICollectionViewCell {
 private extension PageTabbarCell {
     func addViews() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(indicatorView)
     }
 
     func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.centerY.equalToSuperview()
-        }
-
-        indicatorView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(2)
         }
     }
 
