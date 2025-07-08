@@ -29,6 +29,7 @@ public class FilterLevelSectionCell: UICollectionViewCell {
         super.prepareForReuse()
         disposeBag = DisposeBag()
         levelSectionView.disposeBag = DisposeBag()
+        levelSectionView.bind()
     }
 }
 
