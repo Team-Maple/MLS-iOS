@@ -36,18 +36,21 @@ public final class LoginReactor: Reactor {
     private let fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
+    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
 
     // MARK: - init
     public init(
         fetchAppleCredentialUseCase: FetchSocialCredentialUseCase,
         fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase,
         loginWithAppleUseCase: LoginWithAppleUseCase,
-        loginWithKakaoUseCase: LoginWithKakaoUseCase
+        loginWithKakaoUseCase: LoginWithKakaoUseCase,
+        fetchTokenUseCase: FetchTokenFromLocalUseCase
     ) {
         self.fetchAppleCredentialUseCase = fetchAppleCredentialUseCase
         self.fetchKakaoCredentialUseCase = fetchKakaoCredentialUseCase
         self.loginWithAppleUseCase = loginWithAppleUseCase
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
+        self.fetchTokenUseCase = fetchTokenUseCase
         self.initialState = State()
     }
 

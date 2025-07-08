@@ -50,6 +50,7 @@ public final class TermsAgreementReactor: Reactor {
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
     private let saveTokenUseCase: SaveTokenToLocalUseCase
+    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
 
     // MARK: - init
     public init(
@@ -57,13 +58,15 @@ public final class TermsAgreementReactor: Reactor {
         socialPlatform: LoginPlatform,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        saveTokenUseCase: SaveTokenToLocalUseCase
+        saveTokenUseCase: SaveTokenToLocalUseCase,
+        fetchTokenUseCase: FetchTokenFromLocalUseCase
     ) {
         self.credential = credential
         self.socialPlatform = socialPlatform
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
         self.saveTokenUseCase = saveTokenUseCase
+        self.fetchTokenUseCase = fetchTokenUseCase
         self.initialState = State()
     }
 
