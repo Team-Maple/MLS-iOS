@@ -78,6 +78,7 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
     private var isUserScrollDragging: Bool = false
     private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
+    private let underLineController = TabBarUnderlineController()
 
     public override init() {
         super.init()
@@ -132,6 +133,7 @@ private extension ItemFilterBottomSheetViewController {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
         mainView.categoryCollectionView.dataSource = self
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
+        underLineController.configure(with: mainView.categoryCollectionView)
     }
 
     func configureContentCollectionView() {
@@ -154,9 +156,8 @@ private extension ItemFilterBottomSheetViewController {
 
     func createCategoryLayout() -> UICollectionViewLayout {
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return LayoutFactory.getPageTabbarLayout() }
+            .section { _ in return LayoutFactory.getPageTabbarLayout(underLineController: underLineController) }
             .build()
-        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 
@@ -253,6 +254,7 @@ private extension ItemFilterBottomSheetViewController {
 
         dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+            self?.underLineController.animateIndicatorToSelectedItem()
         }
     }
 }
@@ -339,6 +341,7 @@ extension ItemFilterBottomSheetViewController {
                     animated: true,
                     scrollPosition: .centeredHorizontally
                 )
+                owner.underLineController.animateIndicatorToSelectedItem()
             }
             .disposed(by: disposeBag)
 
@@ -361,6 +364,7 @@ extension ItemFilterBottomSheetViewController {
             .subscribe { (owner, indexPath) in
                 owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 let section = indexPath.row == 6 ? 10 : indexPath.row == 0 ? 0 : indexPath.row + 1
+                owner.underLineController.animateIndicatorToSelectedItem()
                 owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: section), at: .top, animated: true)
             }
             .disposed(by: disposeBag)

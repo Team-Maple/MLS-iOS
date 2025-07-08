@@ -56,6 +56,16 @@ public final class CompositionalSectionBuilder {
         self.section = NSCollectionLayoutSection(group: group)
         return self
     }
+    
+    @discardableResult
+    public func visibleItemsInvalidationHandler(
+        handler: @escaping ([any NSCollectionLayoutVisibleItem], CGPoint, any NSCollectionLayoutEnvironment) -> Void
+    ) -> Self {
+        self.section?.visibleItemsInvalidationHandler = { (visibleItems, scrollOffset, environment) in
+            handler(visibleItems, scrollOffset, environment)
+        }
+        return self
+    }
 
     @discardableResult
     public func orthogonalScrolling(_ behavior: UICollectionLayoutSectionOrthogonalScrollingBehavior) -> Self {
