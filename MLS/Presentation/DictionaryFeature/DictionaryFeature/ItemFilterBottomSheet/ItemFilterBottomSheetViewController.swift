@@ -416,7 +416,6 @@ extension ItemFilterBottomSheetViewController {
 
         reactor.state
             .map { $0.selectedItemIndexes }
-            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { (owner, indexPaths) in
                 owner.mainView.selectedItemCollectionView.isHidden = indexPaths.isEmpty
