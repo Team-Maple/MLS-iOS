@@ -2,9 +2,9 @@ import UIKit
 
 import DesignSystem
 
-import SnapKit
 import RxCocoa
 import RxSwift
+import SnapKit
 
 public final class TabBarUnderlineController {
     // MARK: - UI Components
@@ -27,7 +27,7 @@ public final class TabBarUnderlineController {
 
     private var collectionView: UICollectionView?
     private let disposeBag = DisposeBag()
-    
+
     /// 현재 컬렉션 뷰의 스크롤 오프셋 (인디케이터 위치 계산용)
     private var currentScrollOffset: CGPoint?
 
@@ -66,7 +66,7 @@ private extension TabBarUnderlineController {
 // MARK: - Public Interface
 
 public extension TabBarUnderlineController {
-    
+
     /// 컬렉션 뷰에 인디케이터 컨트롤러 연결
     func configure(with collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -109,7 +109,7 @@ public extension TabBarUnderlineController {
             self?.selectionIndicatorView.frame = targetFrame
         })
     }
-    
+
     /// 선택된 셀 위치로 인디케이터를 애니메이션으로 이동
     func setInitialIndicator() {
         guard let collectionView,

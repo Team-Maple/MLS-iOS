@@ -56,7 +56,7 @@ public final class CompositionalSectionBuilder {
         self.section = NSCollectionLayoutSection(group: group)
         return self
     }
-    
+
     @discardableResult
     public func visibleItemsInvalidationHandler(
         handler: @escaping ([any NSCollectionLayoutVisibleItem], CGPoint, any NSCollectionLayoutEnvironment) -> Void
