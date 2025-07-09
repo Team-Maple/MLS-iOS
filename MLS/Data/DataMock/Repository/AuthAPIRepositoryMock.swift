@@ -6,6 +6,24 @@ import DomainInterface
 import RxSwift
 
 public class AuthAPIRepositoryMock: AuthAPIRepository {
+    public func signUpWithKakao(credential: any DomainInterface.Credential, isMarketingAgreement: Bool, fcmToken: String?) -> RxSwift.Observable<DomainInterface.SignUpResponse> {
+        if tryCount == 0 {
+            tryCount += 1
+            let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
+            return Observable.error(error)
+        } else {
+            return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+        }
+    }
+
+    public func signUpWithApple(credential: any DomainInterface.Credential, isMarketingAgreement: Bool, fcmToken: String?) -> RxSwift.Observable<DomainInterface.SignUpResponse> {
+        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
+    }
+
+    public func fcmToken(fcmToken: String?) -> RxSwift.Completable {
+        return .empty()
+    }
+
     private var tryCount: Int = 0
 
     private let provider: NetworkProvider
@@ -20,20 +38,6 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
         return Observable.just(.init(isRegister: false, accessToken: "", refreshToken: ""))
-    }
-
-    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
-    }
-
-    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        if tryCount == 0 {
-            tryCount += 1
-            let error = NSError(domain: "Auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "애플 로그인 실패"])
-            return Observable.error(error)
-        } else {
-            return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
-        }
     }
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {

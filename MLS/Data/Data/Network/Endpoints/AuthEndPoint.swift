@@ -48,7 +48,17 @@ public enum AuthEndPoint {
             method: .POST,
             headers: [
                 "accept": "*/*",
-                "refresh-token": refreshToken ]
+                "refresh-token": refreshToken
+            ]
+        )
+    }
+
+    public static func fcmToken(body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/fcm-token",
+            method: .PUT,
+            body: body
         )
     }
 }

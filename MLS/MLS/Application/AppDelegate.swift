@@ -1,4 +1,6 @@
+import os
 import UIKit
+import UserNotifications
 
 import AuthFeature
 import AuthFeatureInterface
@@ -7,19 +9,38 @@ import Core
 import Data
 import DataMock
 import DesignSystem
+import DictionaryFeature
+import DictionaryFeatureInterface
 import Domain
 import DomainInterface
 
+import Firebase
 import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        ImageLoader.shared.configure.diskCacheCountLimit = 10
-        FontManager.registerFonts()
-        registerDependencies()
+        // MARK: - UserNotification Set
+        FirebaseApp.configure() // Firebase Set
+        Messaging.messaging().delegate = self // 파이어베이스 Meesaging 설정
+
+        UNUserNotificationCenter.current().delegate = self // NotificationCenter Delegate
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: { _, _ in }
+        )
+        application.registerForRemoteNotifications() // UNUserNotificationCenterDelegate를 구현한 메서드를 실행시킴
+
+        // MARK: - Modules Set
+        ImageLoader.shared.configure.diskCacheCountLimit = 10 // ImageLoader
+        FontManager.registerFonts() // FontManager
+
+        // MARK: - KakaoSDK Set
         let kakaoNativeAppKey: String = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? ""
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
+
+        registerDependencies()
         return true
     }
 
@@ -30,6 +51,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
+// MARK: - Notification Delegate, MessagingDelegate
+extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        completionHandler([.list, .banner])
+    }
+
+    // 파이어베이스 MessagingDelegate 설정
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
+        let tokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
+        let result = tokenUseCase.execute(type: .fcmToken, value: fcmToken ?? "")
+
+        switch result {
+        case .success:
+            os_log("✅ fcmToken Save Success Token: \(fcmToken ?? "")")
+        case .failure:
+            os_log("⚠️ fcmToken Save Failure")
+        }
+    }
+}
+
+// MARK: - registerDependencies
 private extension AppDelegate {
     func registerDependencies() {
         registerProvider()
@@ -52,7 +104,10 @@ private extension AppDelegate {
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self))
+            return AuthAPIRepositoryImpl(
+                provider: DIContainer.resolve(type: NetworkProvider.self),
+                interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+            )
         }
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()
@@ -92,6 +147,12 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: ReissueUseCase.self) {
+            return ReissueUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: PutFCMTokenUseCase.self) {
+            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
             return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
@@ -122,7 +183,8 @@ private extension AppDelegate {
                 onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self),
                 signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
                 signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
-                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
+                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
             )
         }
         DIContainer.register(type: LoginFactory.self) {
@@ -131,7 +193,9 @@ private extension AppDelegate {
                 appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
                 kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
                 loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
-                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
             )
         }
         DIContainer.register(type: NotificationFactory.self) {
