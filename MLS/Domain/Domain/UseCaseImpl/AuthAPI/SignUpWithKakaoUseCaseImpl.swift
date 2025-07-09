@@ -11,7 +11,7 @@ public class SignUpWithKakaoUseCaseImpl: SignUpWithKakaoUseCase {
         self.repository = repository
     }
 
-    public func execute(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse> {
+    public func execute(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
         return repository.signUpWithKakao(credential: credential, isMarketingAgreement: isMarketingAgreement, fcmToken: fcmToken)
     }
 }

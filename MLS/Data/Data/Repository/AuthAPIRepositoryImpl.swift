@@ -39,7 +39,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
                 }
     }
 
-    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse> {
+    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
         let endpoint = AuthEndPoint.signupWithKakao(
             credential: credential.token,
             body: KakaoBody(
@@ -51,7 +51,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
-    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String) -> Observable<SignUpResponse> {
+    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
         let endpoint = AuthEndPoint.signupWithApple(
             credential: credential.token,
             body: AppleBody(
@@ -82,7 +82,7 @@ private extension AuthAPIRepositoryImpl {
         let provider = "KAKAO"
         let providerId: String
         let nickname: String? = nil
-        let fcmToken: String
+        let fcmToken: String?
         let marketingAgreement: Bool
     }
 
@@ -90,7 +90,7 @@ private extension AuthAPIRepositoryImpl {
         let provider = "APPLE"
         let providerId: String
         let nickname: String? = nil
-        let fcmToken: String
+        let fcmToken: String?
         let marketingAgreement: Bool
     }
 }
