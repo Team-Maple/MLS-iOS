@@ -104,7 +104,10 @@ private extension AppDelegate {
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self))
+            return AuthAPIRepositoryImpl(
+                provider: DIContainer.resolve(type: NetworkProvider.self),
+                interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+            )
         }
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()

@@ -6,9 +6,11 @@ import RxSwift
 
 public class AuthAPIRepositoryImpl: AuthAPIRepository {
     private let provider: NetworkProvider
+    private let tokenInterceptor: Interceptor
 
-    public init(provider: NetworkProvider) {
+    public init(provider: NetworkProvider, interceptor: Interceptor) {
         self.provider = provider
+        self.tokenInterceptor = interceptor
     }
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
@@ -63,7 +65,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
-        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {

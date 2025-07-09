@@ -5,9 +5,20 @@ import DomainInterface
 import RxSwift
 
 public class TokenInterceptor: Interceptor {
-    public init() {}
+    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
+    public init(fetchTokenUseCase: FetchTokenFromLocalUseCase) {
+        self.fetchTokenUseCase = fetchTokenUseCase
+    }
     public func adapt(_ request: URLRequest) -> URLRequest {
-        return request
+        let accessFetchResult = fetchTokenUseCase.execute(type: .accessToken)
+        switch accessFetchResult {
+        case .success(let token):
+            var adaptedRequest = request
+            adaptedRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            return adaptedRequest
+        case .failure:
+            return request
+        }
     }
 
     public func retry(data: Data?, response: URLResponse?, error: Error?) -> Bool {
