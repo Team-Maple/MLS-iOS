@@ -1,6 +1,6 @@
 import DomainInterface
-import os
 import NotificationCenter
+import os
 
 import ReactorKit
 import RxSwift

@@ -72,7 +72,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endPoint = AuthEndPoint.fcmToken(body: FCMTokenBody(fcmToken: fcmToken))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
-    
+
     public func fetchJobList() -> Observable<JobListResponse> {
         return Observable.just(.init(jobList: []))
     }
@@ -98,7 +98,7 @@ private extension AuthAPIRepositoryImpl {
         let fcmToken: String?
         let marketingAgreement: Bool
     }
-    
+
     struct FCMTokenBody: Encodable {
         let fcmToken: String?
     }

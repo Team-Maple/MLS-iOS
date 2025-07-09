@@ -49,7 +49,6 @@ public protocol AuthAPIRepository {
     /// - Parameter credential: refreshToken
     /// - Returns: 토큰 갱신 응답을 담은 Observable
     func reissueToken(refreshToken: String) -> Observable<LoginResponse>
-    
-    
+
     func fcmToken(fcmToken: String?) -> Completable
 }

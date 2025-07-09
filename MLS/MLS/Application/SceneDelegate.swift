@@ -5,9 +5,9 @@ import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
 import Core
+import Data
 import DictionaryFeature
 import DictionaryFeatureInterface
-import Data
 import Domain
 import DomainInterface
 

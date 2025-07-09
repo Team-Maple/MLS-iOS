@@ -15,15 +15,15 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
             return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
         }
     }
-    
+
     public func signUpWithApple(credential: any DomainInterface.Credential, isMarketingAgreement: Bool, fcmToken: String?) -> RxSwift.Observable<DomainInterface.SignUpResponse> {
         return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
     }
-    
+
     public func fcmToken(fcmToken: String?) -> RxSwift.Completable {
         return .empty()
     }
-    
+
     private var tryCount: Int = 0
 
     private let provider: NetworkProvider

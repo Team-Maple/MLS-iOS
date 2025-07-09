@@ -1,6 +1,6 @@
+import os
 import UIKit
 import UserNotifications
-import os
 
 import AuthFeature
 import AuthFeatureInterface
@@ -9,10 +9,10 @@ import Core
 import Data
 import DataMock
 import DesignSystem
-import Domain
-import DomainInterface
 import DictionaryFeature
 import DictionaryFeatureInterface
+import Domain
+import DomainInterface
 
 import Firebase
 import KakaoSDKCommon
@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: - KakaoSDK Set
         let kakaoNativeAppKey: String = Bundle.main.infoDictionary?["KAKAO_NATIVE_APP_KEY"] as? String ?? ""
         KakaoSDK.initSDK(appKey: kakaoNativeAppKey)
-        
+
         registerDependencies()
         return true
     }

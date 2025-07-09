@@ -70,7 +70,6 @@ public final class LoginReactor: Reactor {
         }
     }
 
-
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
@@ -119,7 +118,7 @@ private extension LoginReactor {
                     }
             }
     }
-    
+
     func handleAppleLogin() -> Observable<Mutation> {
         return checkNotificationPermissionAndFetchFCMToken()
             .withUnretained(self)
@@ -156,7 +155,7 @@ private extension LoginReactor {
                     }
             }
     }
-    
+
     func checkNotificationPermissionAndFetchFCMToken() -> Observable<String?> {
         return Observable.create { [weak self] observer in
             guard let self else {
