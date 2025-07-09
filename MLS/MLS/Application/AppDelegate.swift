@@ -11,6 +11,8 @@ import DataMock
 import DesignSystem
 import Domain
 import DomainInterface
+import DictionaryFeature
+import DictionaryFeatureInterface
 
 import Firebase
 import KakaoSDKCommon
@@ -141,6 +143,9 @@ private extension AppDelegate {
         }
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: ReissueUseCase.self) {
+            return ReissueUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
             return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))

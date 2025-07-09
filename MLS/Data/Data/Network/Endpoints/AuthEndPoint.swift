@@ -48,7 +48,8 @@ public enum AuthEndPoint {
             method: .POST,
             headers: [
                 "accept": "*/*",
-                "refresh-token": refreshToken ]
+                "refresh-token": refreshToken
+            ]
         )
     }
 }
