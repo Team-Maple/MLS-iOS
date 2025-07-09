@@ -10,7 +10,6 @@ public final class BottomTabBarController: UITabBarController {
     // MARK: - Init
     public init(viewControllers: [UIViewController], initialIndex: Int = 0) {
         tabItems = [
-            TabItem(title: "추천", icon: .favorite),
             TabItem(title: "도감", icon: .dictionary),
             TabItem(title: "북마크", icon: .bookmark),
             TabItem(title: "MY", icon: .mypage)

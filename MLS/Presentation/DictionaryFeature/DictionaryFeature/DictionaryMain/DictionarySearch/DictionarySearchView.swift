@@ -8,7 +8,7 @@ import SnapKit
 final class DictionarySearchView: UIView {
     // MARK: - Type
     enum Constant {
-        static let searchBarTopMargin: CGFloat = 18
+        static let searchBarTopMargin: CGFloat = 12
         static let collectionViewTopMargin: CGFloat = 20
         static let horizontalMargin: CGFloat = 16
         static let collectionViewSpacing: CGFloat = 10

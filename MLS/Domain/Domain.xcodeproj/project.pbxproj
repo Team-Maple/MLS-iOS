@@ -596,7 +596,7 @@
 			productName = RxSwift;
 		};
 		779FC8992E1411D100FD1551 /* RxRelay */ = {
-    isa = XCSwiftPackageProductDependency;
+			isa = XCSwiftPackageProductDependency;
 			package = 0858AC052DCFDC640060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
 		};

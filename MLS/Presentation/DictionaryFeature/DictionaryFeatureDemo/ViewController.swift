@@ -1,9 +1,9 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeatureInterface
 import Core
 import DesignSystem
-import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
@@ -33,11 +33,12 @@ class ViewController: UIViewController {
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
 
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
+        
+        let bookmarkMainVC = DIContainer.resolve(type: BookmarkMainFactory.self).make()
 
         let dictView = BottomTabBarController(viewControllers: [
-            UIViewController(),
             dictionaryMainVC,
-            UIViewController(),
+            bookmarkMainVC,
             UIViewController()
         ])
         dictView.title = "도감 메인"

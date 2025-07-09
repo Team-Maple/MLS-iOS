@@ -22,7 +22,7 @@ public final class TermsAgreementView: UIView {
 
     // MARK: - Properties
     let headerView: NavigationBar = {
-        let view = NavigationBar()
+        let view = NavigationBar(type: .arrowLeft)
         view.rightButton.isHidden = true
         return view
     }()
