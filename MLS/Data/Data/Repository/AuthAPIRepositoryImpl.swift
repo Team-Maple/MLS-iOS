@@ -68,6 +68,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
     }
 
+    public func fcmToken(fcmToken: String?) -> Completable {
+        let endPoint = AuthEndPoint.fcmToken(body: FCMTokenBody(fcmToken: fcmToken))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
     public func fetchJobList() -> Observable<JobListResponse> {
         return Observable.just(.init(jobList: []))
     }
@@ -92,5 +97,9 @@ private extension AuthAPIRepositoryImpl {
         let nickname: String? = nil
         let fcmToken: String?
         let marketingAgreement: Bool
+    }
+    
+    struct FCMTokenBody: Encodable {
+        let fcmToken: String?
     }
 }

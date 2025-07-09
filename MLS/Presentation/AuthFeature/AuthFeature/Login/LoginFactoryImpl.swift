@@ -10,6 +10,7 @@ public struct LoginFactoryImpl: LoginFactory {
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
+    private let putFCMTokenUseCase: PutFCMTokenUseCase
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
@@ -17,7 +18,8 @@ public struct LoginFactoryImpl: LoginFactory {
         kakaoLoginUseCase: FetchSocialCredentialUseCase,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase
+        fetchTokenUseCase: FetchTokenFromLocalUseCase,
+        putFCMTokenUseCase: PutFCMTokenUseCase
     ) {
         self.termsAgreementsFactory = termsAgreementsFactory
         self.appleLoginUseCase = appleLoginUseCase
@@ -25,6 +27,7 @@ public struct LoginFactoryImpl: LoginFactory {
         self.loginWithAppleUseCase = loginWithAppleUseCase
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
+        self.putFCMTokenUseCase = putFCMTokenUseCase
     }
 
     public func make(
@@ -36,7 +39,8 @@ public struct LoginFactoryImpl: LoginFactory {
             fetchKakaoCredentialUseCase: kakaoLoginUseCase,
             loginWithAppleUseCase: loginWithAppleUseCase,
             loginWithKakaoUseCase: loginWithKakaoUseCase,
-            fetchTokenUseCase: fetchTokenUseCase
+            fetchTokenUseCase: fetchTokenUseCase,
+            putFCMTokenUseCase: putFCMTokenUseCase
         )
         return viewController
     }

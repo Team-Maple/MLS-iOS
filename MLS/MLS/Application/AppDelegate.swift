@@ -150,6 +150,9 @@ private extension AppDelegate {
         DIContainer.register(type: ReissueUseCase.self) {
             return ReissueUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: PutFCMTokenUseCase.self) {
+            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
             return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
@@ -191,7 +194,8 @@ private extension AppDelegate {
                 kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
                 loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
                 loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
-                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
             )
         }
         DIContainer.register(type: NotificationFactory.self) {

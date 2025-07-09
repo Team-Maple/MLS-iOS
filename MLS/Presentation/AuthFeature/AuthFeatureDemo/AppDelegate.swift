@@ -121,7 +121,8 @@ private extension AppDelegate {
                 onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self),
                 signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
                 signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
-                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
+                saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
             )
         }
         DIContainer.register(type: LoginFactory.self) {
@@ -130,7 +131,9 @@ private extension AppDelegate {
                 appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
                 kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
                 loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
-                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self)
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
             )
         }
         DIContainer.register(type: NotificationFactory.self) {

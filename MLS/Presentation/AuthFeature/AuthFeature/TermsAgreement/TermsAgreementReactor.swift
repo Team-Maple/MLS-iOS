@@ -89,7 +89,7 @@ public final class TermsAgreementReactor: Reactor {
             return Observable.just(.changeIsMarketingAgreeState)
         case .bottomButtonTapped:
             var fcmToken: String?
-            
+
             UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
                 guard let self else { return }
                 switch settings.authorizationStatus {
