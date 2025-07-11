@@ -2,6 +2,7 @@ import UIKit
 
 public protocol ModalPresentable {
     var modalHeight: CGFloat? { get }
+    var allowsTapToDismiss: Bool { get }
 }
 
 // 모달 구성 관련 상수 정의

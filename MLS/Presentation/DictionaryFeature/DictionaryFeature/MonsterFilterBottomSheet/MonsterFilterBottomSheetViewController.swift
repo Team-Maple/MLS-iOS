@@ -9,6 +9,8 @@ import SnapKit
 
 final public class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
+    
+    public var allowsTapToDismiss: Bool = true
 
     public typealias Reactor = MonsterFilterBottomSheetReactor
 

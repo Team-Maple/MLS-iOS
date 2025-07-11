@@ -10,6 +10,8 @@ import SnapKit
 
 final public class SortedBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
+    
+    public var allowsTapToDismiss: Bool = false
 
     public typealias Reactor = SortedBottomSheetReactor
 
