@@ -5,6 +5,10 @@ public protocol ModalPresentable {
     var allowsTapToDismiss: Bool { get }
 }
 
+public extension ModalPresentable {
+    var allowsTapToDismiss: Bool { return false }
+}
+
 // 모달 구성 관련 상수 정의
 internal enum ModalConfig {
     static let containerTransformY: CGFloat = 400
