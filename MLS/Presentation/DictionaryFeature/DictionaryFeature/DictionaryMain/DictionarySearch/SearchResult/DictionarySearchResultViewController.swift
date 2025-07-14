@@ -20,17 +20,20 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
 
     private var viewControllers: [UIViewController]
 
-    private let mainView = DictionaryMainView(type: .search)
+    private let mainView: DictionaryMainView
     private let underLineController = TabBarUnderlineController()
 
     public init(
         dictionaryListFactory: DictionaryMainListFactory,
-        initialIndex: Int = 0
+        initialIndex: Int = 0,
+        reactor: DictionarySearchResultReactor
     ) {
-        let types: [DictionaryType] = DictionaryType.allCases
-        self.viewControllers = types.map { dictionaryListFactory.make(type: $0, listType: .search) }
+        let type = reactor.currentState.type
+        self.mainView = DictionaryMainView(type: type)
+        self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type) }
         self.initialIndex = initialIndex
         super.init()
+        self.reactor = reactor
     }
 
     @available(*, unavailable)

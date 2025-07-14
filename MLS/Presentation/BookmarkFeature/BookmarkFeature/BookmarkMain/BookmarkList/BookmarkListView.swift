@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-final class DictionaryListView: UIView {
+final class BookmarkListView: UIView {
     // MARK: - Type
     enum Constant {
         static let filterInset: CGFloat = 6
@@ -97,7 +97,7 @@ final class DictionaryListView: UIView {
         return view
     }()
 
-    public let emptyView = DictionaryListEmptyView()
+    public let emptyView = UIView()
 
     // MARK: - Init
     init(isFilterHidden: Bool) {
@@ -118,7 +118,7 @@ final class DictionaryListView: UIView {
 }
 
 // MARK: - SetUp
-private extension DictionaryListView {
+private extension BookmarkListView {
     func addViews(isFilterHidden: Bool) {
         if !isFilterHidden {
             addSubview(filterStackView)

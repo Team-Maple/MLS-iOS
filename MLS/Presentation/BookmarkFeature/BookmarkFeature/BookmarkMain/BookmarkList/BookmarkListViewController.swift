@@ -8,8 +8,8 @@ import DomainInterface
 import ReactorKit
 import RxSwift
 
-public final class DictionaryListViewController: BaseViewController, View {
-    public typealias Reactor = DictionaryListReactor
+public final class BookmarkListViewController: BaseViewController, View {
+    public typealias Reactor = BookmarkListReactor
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
@@ -20,7 +20,7 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let sortedFactory: SortedBottomSheetFactory
 
     // MARK: - Components
-    private var mainView = DictionaryListView()
+    private var mainView = BookmarkListView()
 
     public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
         self.itemFilterFactory = itemFilterFactory
@@ -45,7 +45,7 @@ public final class DictionaryListViewController: BaseViewController, View {
 }
 
 // MARK: - SetUp
-private extension DictionaryListViewController {
+private extension BookmarkListViewController {
     func addViews() {
         view.addSubview(mainView)
     }
@@ -75,7 +75,7 @@ private extension DictionaryListViewController {
 }
 
 // MARK: - Bind
-extension DictionaryListViewController {
+extension BookmarkListViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
@@ -143,14 +143,14 @@ extension DictionaryListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
-                owner.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
+                owner.mainView = BookmarkListView(isFilterHidden: type.isFilterHidden)
             })
             .disposed(by: disposeBag)
     }
 }
 
 // MARK: - Delegate
-extension DictionaryListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension BookmarkListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         reactor?.currentState.items.count ?? 0
     }

@@ -1,5 +1,6 @@
 public enum DictionaryType: CaseIterable {
     case total
+    case collection
     case item
     case monster
     case map
@@ -10,6 +11,8 @@ public enum DictionaryType: CaseIterable {
         switch self {
         case .total:
             return "전체"
+        case .collection:
+            return "컬렉션"
         case .monster:
             return "몬스터"
         case .item:
@@ -41,10 +44,32 @@ public enum DictionaryType: CaseIterable {
             return []
         }
     }
+    
+    public var bookmarkSortedFilter: [String] {
+        switch self {
+        case .collection:
+            return [
+                "최신순", "가나다 순"
+            ]
+        case .item:
+            return [
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+            ]
+        case .monster:
+            return [
+                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
+            ]
+        default:
+            return []
+        }
+    }
+
 
     public var toItemType: DictionaryItemType? {
         switch self {
         case .total:
+            return nil
+        case .collection:
             return nil
         case .item:
             return .item

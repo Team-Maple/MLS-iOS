@@ -1,9 +1,9 @@
 import BaseFeature
-import BookmarkFeatureInterface
 import DictionaryFeatureInterface
+import BookmarkFeatureInterface
 import DomainInterface
 
-public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
+public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
 
@@ -29,12 +29,12 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
-        let reactor = DictionaryListReactor(
+        let reactor = BookmarkListReactor(
             type: type,
             fetchDictionaryItemsUseCase: fetchDictionaryItemsUseCase,
             toggleBookmarkUseCase: toggleBookmarkUseCase
         )
-        let viewController = DictionaryListViewController(itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory)
+        let viewController = BookmarkListViewController(itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory)
         viewController.reactor = reactor
         if listType == .search {
             viewController.isBottomTabbarHidden = true

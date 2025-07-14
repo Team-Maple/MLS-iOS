@@ -231,14 +231,11 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             return BookmarkOnBoardingFactoryImpl()
         }
+        DIContainer.register(type: BookmarkListFactory.self) {
+            return BookmarkListFactoryImpl(fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
+        }
         DIContainer.register(type: BookmarkMainFactory.self) {
-            return BookmarkMainFactoryImpl(
-                getOnBoardingUseCase: DIContainer
-                    .resolve(type: GetBookmarkOnboardingUseCase.self),
-                setOnBoardingUseCase: DIContainer
-                    .resolve(type: SetBookmarkOnBoardingUseCase.self),
-                onBoardingFactory: DIContainer
-                    .resolve(type: BookmarkOnBoardingFactory.self)
+            return BookmarkMainFactoryImpl(getOnBoardingUseCase: DIContainer.resolve(type: GetBookmarkOnboardingUseCase.self), setOnBoardingUseCase: DIContainer.resolve(type: SetBookmarkOnBoardingUseCase.self), onBoardingFactory: DIContainer.resolve(type: BookmarkOnBoardingFactory.self), bookmarkListFactory: DIContainer.resolve(type: BookmarkListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self)
             )
         }
     }

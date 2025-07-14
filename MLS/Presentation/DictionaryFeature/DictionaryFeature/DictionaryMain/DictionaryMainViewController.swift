@@ -8,7 +8,6 @@ import DomainInterface
 import ReactorKit
 import RxCocoa
 import RxSwift
-import SnapKit
 
 public final class DictionaryMainViewController: BaseViewController, View {
     public typealias Reactor = DictionaryMainReactor
@@ -23,18 +22,19 @@ public final class DictionaryMainViewController: BaseViewController, View {
 
     private var viewControllers: [UIViewController]
 
-    private let mainView = DictionaryMainView(type: .main)
-    private let underLineController = TabBarUnderlineController()
+    private var mainView: DictionaryMainView
+    let underLineController = TabBarUnderlineController()
 
     public init(
-        reactor: DictionaryMainReactor,
         initialIndex: Int = 0,
         dictionaryMainListFactory: DictionaryMainListFactory,
         searchFactory: DictionarySearchFactory,
-        notificationFactory: DictionaryNotificationFactory
+        notificationFactory: DictionaryNotificationFactory,
+        reactor: DictionaryMainReactor
     ) {
-        let types: [DictionaryType] = DictionaryType.allCases
-        self.viewControllers = types.map { dictionaryMainListFactory.make(type: $0, listType: .main) }
+        let type = reactor.currentState.type
+        self.mainView = DictionaryMainView(type: type)
+        self.viewControllers = type.pageTabList.map { dictionaryMainListFactory.make(type: $0, listType: type) }
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
         self.initialIndex = initialIndex

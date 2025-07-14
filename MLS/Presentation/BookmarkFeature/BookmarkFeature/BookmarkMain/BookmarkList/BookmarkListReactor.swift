@@ -3,7 +3,7 @@ import DomainInterface
 
 import ReactorKit
 
-open class DictionaryListReactor: Reactor {
+public final class BookmarkListReactor: Reactor {
     public enum Route {
         case none
         case sort(DictionaryType)
@@ -25,8 +25,8 @@ open class DictionaryListReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route
-        public var items: [DictionaryItem] = []
-        public var type: DictionaryType
+        var items: [DictionaryItem] = []
+        var type: DictionaryType
     }
 
     public var initialState: State

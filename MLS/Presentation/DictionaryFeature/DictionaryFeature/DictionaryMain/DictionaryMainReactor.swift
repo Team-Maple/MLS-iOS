@@ -21,7 +21,10 @@ public final class DictionaryMainReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
-        var sections = DictionaryType.allCases.map { $0.title }
+        let type = DictionaryMainViewType.main
+        var sections: [String] {
+            return type.pageTabList.map { $0.title }
+        }
     }
 
     // MARK: - properties

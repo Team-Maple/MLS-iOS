@@ -6,20 +6,28 @@ import ReactorKit
 public final class BookmarkMainReactor: Reactor {
     public enum Route {
         case none
+        case search
         case onBoarding
+        case notification
     }
 
     public enum Action {
         case viewDidAppear
         case dismissOnboarding
+        case searchButtonTapped
+        case notificationButtonTapped
     }
 
     public enum Mutation {
-        case presentOnboarding
+        case navigateTo(Route)
     }
 
     public struct State {
         @Pulse var route: Route
+        let type = DictionaryMainViewType.bookmark
+        var sections: [String] {
+            return type.pageTabList.map { $0.title }
+        }
     }
 
     // MARK: - Properties
@@ -42,20 +50,25 @@ public final class BookmarkMainReactor: Reactor {
             if getOnBoardingUseCase.execute() {
                 return .empty()
             } else {
-                return .just(.presentOnboarding)
+                return .just(.navigateTo(.onBoarding))
             }
 
         case .dismissOnboarding:
             setOnBoardingUseCase.execute()
             return .empty()
+        case .searchButtonTapped:
+            return Observable.just(.navigateTo(.search))
+        case .notificationButtonTapped:
+            return Observable.just(.navigateTo(.notification))
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .presentOnboarding:
-            newState.route = .onBoarding
+
+        case .navigateTo(let route):
+            newState.route = route
         }
         return newState
     }
