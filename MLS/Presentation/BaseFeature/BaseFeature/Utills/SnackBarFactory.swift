@@ -80,12 +80,12 @@ extension SnackBarFactory {
              make.centerX.equalToSuperview()
          }
 
-         UIView.animate(withDuration: 0.3) {
+         UIView.animate(withDuration: 0.25) {
              snackBar.alpha = 1
          }
 
-         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-             UIView.animate(withDuration: 0.3, animations: {
+         DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+             UIView.animate(withDuration: 0.6, animations: {
                  snackBar.alpha = 0
              }, completion: { _ in
                  snackBar.removeFromSuperview()

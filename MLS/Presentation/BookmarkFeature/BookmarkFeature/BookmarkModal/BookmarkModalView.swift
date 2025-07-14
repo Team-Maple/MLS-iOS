@@ -34,6 +34,8 @@ final class BookmarkModalView: UIView {
         return collectionView
     }()
     
+    private let divider = DividerView()
+    
     private let addButtton = CommonButton(style: .normal, title: "", disabledTitle: "추가하기")
 
     // MARK: - Init
@@ -56,6 +58,7 @@ private extension BookmarkModalView {
         addSubview(backButton)
         addSubview(folderCollectionView)
         addSubview(addButtton)
+        addSubview(divider)
     }
 
     func setupConstraints() {
@@ -75,8 +78,13 @@ private extension BookmarkModalView {
             make.horizontalEdges.equalToSuperview()
         }
         
-        addButtton.snp.makeConstraints { make in
+        divider.snp.makeConstraints { make in
             make.top.equalTo(folderCollectionView.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+        }
+        
+        addButtton.snp.makeConstraints { make in
+            make.top.equalTo(folderCollectionView.snp.bottom).offset(Constant.buttonTopMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
             make.bottom.equalToSuperview().inset(Constant.buttonBottomMargin)
         }
