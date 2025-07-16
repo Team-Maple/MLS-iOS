@@ -97,7 +97,7 @@ final class BookmarkListView: UIView {
         return view
     }()
 
-    public let emptyView = UIView()
+    public let emptyView = BookmarkEmptyView()
 
     // MARK: - Init
     init(isFilterHidden: Bool) {
@@ -106,15 +106,15 @@ final class BookmarkListView: UIView {
         setupConstraints(isFilterHidden: isFilterHidden)
         configureUI()
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 // MARK: - SetUp
@@ -146,8 +146,8 @@ private extension BookmarkListView {
         }
 
         emptyView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
+            make.center.equalToSuperview()
+        }
     }
 
     func configureUI() {

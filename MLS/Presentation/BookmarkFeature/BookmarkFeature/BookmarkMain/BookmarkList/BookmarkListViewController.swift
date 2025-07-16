@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
@@ -18,15 +19,17 @@ public final class BookmarkListViewController: BaseViewController, View {
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
+    private let loginFactory: LoginFactory
 
     // MARK: - Components
     private var mainView = BookmarkListView()
 
-    public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
+    public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.loginFactory = loginFactory
         super.init()
     }
 
@@ -137,13 +140,29 @@ extension BookmarkListViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.type)
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
                 owner.mainView = BookmarkListView(isFilterHidden: type.isFilterHidden)
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.isLogin)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .bind(onNext: { owner, isLogin in
+                owner.mainView.emptyView.setLabel(isLogin: isLogin, buttonAction: {
+                    if isLogin {
+                        owner.tabBarController?.selectedIndex = 0
+                    } else {
+                        let viewController = owner.loginFactory.make(isReLogin: false)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    }
+                })
             })
             .disposed(by: disposeBag)
     }
@@ -196,10 +215,10 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
                         self.reactor?.action.onNext(.toggleBookmark(item.id))
                         SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
                             DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make { name in
+                                let viewController = self.bookmarkModalFactory.make { _ in
                                     ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
                                 }
-                                
+
                                 viewController.modalPresentationStyle = .pageSheet
 
                                 if let sheet = viewController.sheetPresentationController {

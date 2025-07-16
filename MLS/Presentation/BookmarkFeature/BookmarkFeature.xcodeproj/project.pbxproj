@@ -9,6 +9,25 @@
 /* Begin PBXBuildFile section */
 		779A4BB92E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
 		779A4BBA2E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; };
+		779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DDB2E27F62800ABDE4F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD32E27F62800ABDE4F /* AuthFeature.framework */; };
+		779A4DDC2E27F62800ABDE4F /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD32E27F62800ABDE4F /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DDD2E27F62800ABDE4F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */; };
+		779A4DDE2E27F62800ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DDF2E27F62800ABDE4F /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD52E27F62800ABDE4F /* BaseFeature.framework */; };
+		779A4DE02E27F62800ABDE4F /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD52E27F62800ABDE4F /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DE12E27F62800ABDE4F /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD62E27F62800ABDE4F /* Data.framework */; };
+		779A4DE22E27F62800ABDE4F /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD62E27F62800ABDE4F /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DE32E27F62800ABDE4F /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD72E27F62800ABDE4F /* DataMock.framework */; };
+		779A4DE42E27F62800ABDE4F /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD72E27F62800ABDE4F /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DE52E27F62800ABDE4F /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */; };
+		779A4DE62E27F62800ABDE4F /* DictionaryFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DE72E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */; };
+		779A4DE82E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DE92E27F62800ABDE4F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; };
+		779A4DEA2E27F62800ABDE4F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A4DEC2E27F63300ABDE4F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 779A4DEB2E27F63300ABDE4F /* SnapKit */; };
 		77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B52E182BD900529428 /* ReactorKit */; };
 		77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B82E182BE200529428 /* RxKeyboard */; };
 		77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BB2E182BF500529428 /* RxCocoa */; };
@@ -58,6 +77,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				779A4BBA2E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
+				779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,8 +88,16 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				779A4DEA2E27F62800ABDE4F /* DomainInterface.framework in Embed Frameworks */,
+				779A4DE22E27F62800ABDE4F /* Data.framework in Embed Frameworks */,
+				779A4DE62E27F62800ABDE4F /* DictionaryFeature.framework in Embed Frameworks */,
 				77DBC7EB2E18362500529428 /* BookmarkFeature.framework in Embed Frameworks */,
+				779A4DE02E27F62800ABDE4F /* BaseFeature.framework in Embed Frameworks */,
+				779A4DDE2E27F62800ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */,
 				77DBC7EF2E18362500529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
+				779A4DE82E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+				779A4DE42E27F62800ABDE4F /* DataMock.framework in Embed Frameworks */,
+				779A4DDC2E27F62800ABDE4F /* AuthFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,6 +106,15 @@
 
 /* Begin PBXFileReference section */
 		779A4D972E253CF800ABDE4F /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD32E27F62800ABDE4F /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD52E27F62800ABDE4F /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD62E27F62800ABDE4F /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD72E27F62800ABDE4F /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7742E1829AB00529428 /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7C42E182C2400529428 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +169,7 @@
 				779A4BB92E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */,
 				77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */,
 				77DBC7C32E182BFE00529428 /* SnapKit in Frameworks */,
+				779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */,
 				77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */,
 				77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */,
 			);
@@ -150,8 +188,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779A4DE92E27F62800ABDE4F /* DomainInterface.framework in Frameworks */,
+				779A4DE12E27F62800ABDE4F /* Data.framework in Frameworks */,
+				779A4DE52E27F62800ABDE4F /* DictionaryFeature.framework in Frameworks */,
 				77DBC7EA2E18362500529428 /* BookmarkFeature.framework in Frameworks */,
+				779A4DDF2E27F62800ABDE4F /* BaseFeature.framework in Frameworks */,
+				779A4DDD2E27F62800ABDE4F /* AuthFeatureInterface.framework in Frameworks */,
 				77DBC7EE2E18362500529428 /* BookmarkFeatureInterface.framework in Frameworks */,
+				779A4DE72E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Frameworks */,
+				779A4DE32E27F62800ABDE4F /* DataMock.framework in Frameworks */,
+				779A4DDB2E27F62800ABDE4F /* AuthFeature.framework in Frameworks */,
+				779A4DEC2E27F63300ABDE4F /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,6 +229,15 @@
 		77DBC7A52E182AFF00529428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				779A4DD32E27F62800ABDE4F /* AuthFeature.framework */,
+				779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */,
+				779A4DD52E27F62800ABDE4F /* BaseFeature.framework */,
+				779A4DD62E27F62800ABDE4F /* Data.framework */,
+				779A4DD72E27F62800ABDE4F /* DataMock.framework */,
+				779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */,
+				779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */,
+				779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */,
+				779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */,
 				779A4D972E253CF800ABDE4F /* DictionaryFeature.framework */,
 				77DBC7CC2E182C4300529428 /* BaseFeature.framework */,
 				77DBC7CA2E182C4000529428 /* DomainInterface.framework */,
@@ -286,6 +342,7 @@
 			);
 			name = BookmarkFeatureDemo;
 			packageProductDependencies = (
+				779A4DEB2E27F63300ABDE4F /* SnapKit */,
 			);
 			productName = BookmarkFeatureDemo;
 			productReference = 77DBC7D52E1833FC00529428 /* BookmarkFeatureDemo.app */;
@@ -824,6 +881,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		779A4DEB2E27F63300ABDE4F /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DBC7C12E182BFE00529428 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
 		77DBC7B52E182BD900529428 /* ReactorKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 77DBC7B42E182BD900529428 /* XCRemoteSwiftPackageReference "ReactorKit" */;

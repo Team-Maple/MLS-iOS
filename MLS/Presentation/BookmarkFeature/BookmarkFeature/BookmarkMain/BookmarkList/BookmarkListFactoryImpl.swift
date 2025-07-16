@@ -1,6 +1,7 @@
+import AuthFeatureInterface
 import BaseFeature
-import DictionaryFeatureInterface
 import BookmarkFeatureInterface
+import DictionaryFeatureInterface
 import DomainInterface
 
 public final class BookmarkListFactoryImpl: BookmarkListFactory {
@@ -11,6 +12,8 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
+    private let checkLoginUseCase: CheckLoginUseCase
+    private let loginFactory: LoginFactory
 
     public init(
         fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
@@ -18,7 +21,9 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         itemFilterFactory: ItemFilterBottomSheetFactory,
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
-        bookmarkModalFactory: BookmarkModalFactory
+        bookmarkModalFactory: BookmarkModalFactory,
+        checkLoginUseCase: CheckLoginUseCase,
+        loginFactory: LoginFactory
     ) {
         self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
@@ -26,15 +31,18 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.checkLoginUseCase = checkLoginUseCase
+        self.loginFactory = loginFactory
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
         let reactor = BookmarkListReactor(
             type: type,
             fetchDictionaryItemsUseCase: fetchDictionaryItemsUseCase,
-            toggleBookmarkUseCase: toggleBookmarkUseCase
+            toggleBookmarkUseCase: toggleBookmarkUseCase,
+            checkLoginUseCase: checkLoginUseCase
         )
-        let viewController = BookmarkListViewController(itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory)
+        let viewController = BookmarkListViewController(itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory)
         viewController.reactor = reactor
         if listType == .search {
             viewController.isBottomTabbarHidden = true

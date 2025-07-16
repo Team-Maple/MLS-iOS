@@ -10,7 +10,7 @@ public enum DictionaryMainViewType {
         case .search:
             return [.total, .monster, .item, .map, .npc, .quest]
         case .bookmark:
-            return [.total, .collection, .monster, .item, .map, .map, .npc, .quest]
+            return [.total, .collection, .monster, .item, .map, .npc, .quest]
         }
     }
 }
