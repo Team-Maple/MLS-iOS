@@ -65,7 +65,7 @@ private extension AppDelegate {
         DIContainer.register(type: DictionaryListRepository.self) {
             return DictionaryListRepositoryImpl(allItems: [
                 DictionaryItem(id: "1", type: .item, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
-                DictionaryItem(id: "2", type: .monster, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true),
+//                DictionaryItem(id: "2", type: .monster, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true),
 //                DictionaryItem(id: "3", type: .map, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
 //                DictionaryItem(id: "4", type: .quest, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
 //                DictionaryItem(id: "5", type: .quest, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
@@ -188,8 +188,11 @@ private extension AppDelegate {
         DIContainer.register(type: SortedBottomSheetFactory.self) {
             return SortedBottomSheetFactoryImpl()
         }
+        DIContainer.register(type: AddCollectionFactory.self) {
+            return AddCollectionFactoryImpl()
+        }
         DIContainer.register(type: BookmarkModalFactory.self) {
-            return BookmarkModalFactoryImpl()
+            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
@@ -278,6 +281,9 @@ private extension AppDelegate {
                 loginFactory: DIContainer.resolve(type: LoginFactory.self)
             )
         }
+        DIContainer.register(type: CollectionListFactory.self) {
+            return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
+        }
         DIContainer.register(type: BookmarkMainFactory.self) {
             return BookmarkMainFactoryImpl(
                 getOnBoardingUseCase: DIContainer
@@ -288,6 +294,8 @@ private extension AppDelegate {
                     .resolve(type: BookmarkOnBoardingFactory.self),
                 bookmarkListFactory: DIContainer
                     .resolve(type: BookmarkListFactory.self),
+                collectionListFactory: DIContainer
+                    .resolve(type: CollectionListFactory.self),
                 searchFactory: DIContainer
                     .resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer.resolve(

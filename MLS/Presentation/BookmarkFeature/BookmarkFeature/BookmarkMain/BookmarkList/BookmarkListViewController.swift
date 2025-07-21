@@ -20,9 +20,11 @@ public final class BookmarkListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let loginFactory: LoginFactory
+    
+    private var selectedSortIndex = 0
 
     // MARK: - Components
-    private var mainView = BookmarkListView()
+    private var mainView = BookmarkListView(isFilterHidden: true)
 
     public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.itemFilterFactory = itemFilterFactory
@@ -122,7 +124,11 @@ extension BookmarkListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0)
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.bookmarkSortedFilter, selectedIndex: owner.selectedSortIndex) { index in
+                        owner.selectedSortIndex = index
+                        let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
+                        owner.mainView.selectFilter(selectedType: selectedFilter)
+                    }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
@@ -142,11 +148,13 @@ extension BookmarkListViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.type)
+            .map(\.items)
             .distinctUntilChanged()
             .withUnretained(self)
-            .bind(onNext: { owner, type in
-                owner.mainView = BookmarkListView(isFilterHidden: type.isFilterHidden)
+            .bind(onNext: { owner, items in
+                let type = reactor.currentState.type
+                let isFilterHidden = items.isEmpty ? true : type.isBookmarkSortHidden
+                owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first, isHidden: isFilterHidden)
             })
             .disposed(by: disposeBag)
 

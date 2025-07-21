@@ -3,12 +3,12 @@ import DictionaryFeatureInterface
 import DomainInterface
 
 public struct SortedBottomSheetFactoryImpl: SortedBottomSheetFactory {
-
     public init() {}
 
-    public func make(sortedOptions: [String], selectedIndex: Int) -> BaseViewController & ModalPresentable {
+    public func make(sortedOptions: [SortType], selectedIndex: Int, onSelectedIndex: @escaping (Int) -> Void) -> BaseViewController & ModalPresentable {
         let viewController = SortedBottomSheetViewController()
-        viewController.reactor = SortedBottomSheetReactor(sortedOptions: sortedOptions, selectedIndex: selectedIndex)
+        viewController.reactor = SortedBottomSheetReactor(sortTypes: sortedOptions, selectedIndex: selectedIndex)
+        viewController.onSelectedIndex = onSelectedIndex 
         return viewController
     }
 }

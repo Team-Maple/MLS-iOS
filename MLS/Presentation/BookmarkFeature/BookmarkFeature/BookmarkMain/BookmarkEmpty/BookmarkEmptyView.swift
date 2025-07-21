@@ -7,8 +7,7 @@ import SnapKit
 final class BookmarkEmptyView: UIView {
     // MARK: - Type
     enum Constant {
-        static let imageWidth: CGFloat = 165
-        static let imageHeight: CGFloat = 171
+        static let imageSize: CGFloat = 220
         static let imageSpacing: CGFloat = 24
         static let textSpacing: CGFloat = 10
         static let buttonSpacing: CGFloat = 40
@@ -48,8 +47,7 @@ private extension BookmarkEmptyView {
         imageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.centerX.equalToSuperview()
-            make.width.equalTo(Constant.imageWidth)
-            make.height.equalTo(Constant.imageHeight)
+            make.size.equalTo(Constant.imageSize)
         }
 
         mainLabel.snp.makeConstraints { make in

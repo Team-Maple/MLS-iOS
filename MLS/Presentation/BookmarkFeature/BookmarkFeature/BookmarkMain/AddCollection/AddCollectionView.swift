@@ -1,10 +1,8 @@
-// MARK: - AddCollectionView.swift
-
 import UIKit
 import DesignSystem
 import SnapKit
 
-final class AddCollectionView: UIView {
+public final class AddCollectionView: UIView {
     enum Constant {
         static let radius: CGFloat = 8
         static let titleTopMargin: CGFloat = 20
@@ -92,7 +90,7 @@ final class AddCollectionView: UIView {
 
     public let completeButton = CommonButton(style: .normal, title: "완료", disabledTitle: "완료")
 
-    init() {
+    public init() {
         super.init(frame: .zero)
         addViews()
         setupConstraints()

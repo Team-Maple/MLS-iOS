@@ -20,7 +20,7 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let sortedFactory: SortedBottomSheetFactory
 
     // MARK: - Components
-    private var mainView = DictionaryListView()
+    private var mainView = DictionaryListView(isFilterHidden: true)
 
     public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
         self.itemFilterFactory = itemFilterFactory
@@ -119,7 +119,10 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0)
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0) { index in
+                        let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
+                        owner.mainView.selectFilter(selectedType: selectedFilter)                        
+                    }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
@@ -143,7 +146,7 @@ extension DictionaryListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
-                owner.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
+                owner.mainView = DictionaryListView(isFilterHidden: type.isSortHidden)
             })
             .disposed(by: disposeBag)
     }

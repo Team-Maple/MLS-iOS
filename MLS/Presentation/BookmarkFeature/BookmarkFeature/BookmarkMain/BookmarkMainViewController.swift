@@ -31,13 +31,20 @@ public final class BookmarkMainViewController: BaseViewController, View {
         initialIndex: Int = 0,
         onBoardingFactory: BookmarkOnBoardingFactory,
         bookmarkListFactory: BookmarkListFactory,
+        collectionListFactory: CollectionListFactory,
         searchFactory: DictionarySearchFactory,
         notificationFactory: DictionaryNotificationFactory,
         reactor: BookmarkMainReactor
     ) {
         let type = reactor.currentState.type
         self.mainView = BookmarkMainView(type: type)
-        self.viewControllers = type.pageTabList.map { bookmarkListFactory.make(type: $0, listType: type) }
+        self.viewControllers = type.pageTabList.enumerated().map { index, tabType in
+            if index == 1 {
+                return collectionListFactory.make()
+            } else {
+                return bookmarkListFactory.make(type: tabType, listType: type)
+            }
+        }
         self.onBoardingFactory = onBoardingFactory
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
@@ -61,7 +68,7 @@ public extension BookmarkMainViewController {
         configureUI()
         setInitialIndex()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         reactor?.action.onNext(.viewDidAppear)
@@ -142,9 +149,9 @@ public extension BookmarkMainViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .search:
                     let controller = owner.searchFactory.make()
@@ -188,7 +195,8 @@ extension BookmarkMainViewController: UIPageViewControllerDataSource, UIPageView
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
-           let newIndex = viewControllers.firstIndex(of: visibleViewController) {
+           let newIndex = viewControllers.firstIndex(of: visibleViewController)
+        {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             underLineController.animateIndicatorToSelectedItem()

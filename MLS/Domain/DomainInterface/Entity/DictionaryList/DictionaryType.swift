@@ -26,51 +26,50 @@ public enum DictionaryType: CaseIterable {
         }
     }
 
-    public var isFilterHidden: Bool {
-        return sortedFilter.count == 0
-    }
-
-    public var sortedFilter: [String] {
+    public var sortedFilter: [SortType] {
         switch self {
         case .item:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+                .korean, .levelDESC, .levelASC
             ]
         case .monster:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
+                .korean, .levelDESC, .levelASC, .expDESC, .expASC
             ]
         default:
             return []
         }
     }
     
-    public var bookmarkSortedFilter: [String] {
+    public var isSortHidden: Bool {
+        return sortedFilter.count == 0
+    }
+    
+    public var bookmarkSortedFilter: [SortType] {
         switch self {
-        case .collection:
+        case .total:
             return [
-                "최신순", "가나다 순"
+                .latest, .korean
             ]
         case .item:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+                .korean, .levelDESC, .levelASC
             ]
         case .monster:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
+                .korean, .levelDESC, .levelASC, .expDESC, .expASC
             ]
         default:
             return []
         }
     }
 
+    public var isBookmarkSortHidden: Bool {
+        return bookmarkSortedFilter.count == 0
+    }
 
     public var toItemType: DictionaryItemType? {
         switch self {
-        case .total:
-            return nil
-        case .collection:
-            return nil
         case .item:
             return .item
         case .monster:
@@ -81,6 +80,8 @@ public enum DictionaryType: CaseIterable {
             return .npc
         case .quest:
             return .quest
+        default:
+            return nil
         }
     }
 }

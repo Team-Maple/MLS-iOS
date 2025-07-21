@@ -8,6 +8,7 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
     private let setOnBoardingUseCase: SetBookmarkOnBoardingUseCase
     private let onBoardingFactory: BookmarkOnBoardingFactory
     private let bookmarkListFactory: BookmarkListFactory
+    private let collectionListFactory: CollectionListFactory
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory
 
@@ -15,19 +16,33 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
         getOnBoardingUseCase: GetBookmarkOnboardingUseCase,
         setOnBoardingUseCase: SetBookmarkOnBoardingUseCase,
         onBoardingFactory: BookmarkOnBoardingFactory,
-        bookmarkListFactory: BookmarkListFactory, searchFactory: DictionarySearchFactory, notificationFactory: DictionaryNotificationFactory
+        bookmarkListFactory: BookmarkListFactory,
+        collectionListFactory: CollectionListFactory,
+        searchFactory: DictionarySearchFactory,
+        notificationFactory: DictionaryNotificationFactory
     ) {
         self.getOnBoardingUseCase = getOnBoardingUseCase
         self.setOnBoardingUseCase = setOnBoardingUseCase
         self.onBoardingFactory = onBoardingFactory
         self.bookmarkListFactory = bookmarkListFactory
+        self.collectionListFactory = collectionListFactory
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
     }
 
     public func make() -> BaseViewController {
-        let reactor = BookmarkMainReactor(getOnBoardingUseCase: getOnBoardingUseCase, setOnBoardingUseCase: setOnBoardingUseCase)
-        let viewController = BookmarkMainViewController(onBoardingFactory: onBoardingFactory, bookmarkListFactory: bookmarkListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory, reactor: reactor)
+        let reactor = BookmarkMainReactor(
+            getOnBoardingUseCase: getOnBoardingUseCase,
+            setOnBoardingUseCase: setOnBoardingUseCase
+        )
+        let viewController = BookmarkMainViewController(
+            onBoardingFactory: onBoardingFactory,
+            bookmarkListFactory: bookmarkListFactory,
+            collectionListFactory: collectionListFactory,
+            searchFactory: searchFactory,
+            notificationFactory: notificationFactory,
+            reactor: reactor
+        )
         return viewController
     }
 }

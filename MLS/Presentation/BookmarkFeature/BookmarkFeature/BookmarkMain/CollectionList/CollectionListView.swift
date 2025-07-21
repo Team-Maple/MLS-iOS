@@ -5,21 +5,14 @@ import DomainInterface
 
 import SnapKit
 
-final class BookmarkListView: UIView {
+final class CollectionListView: UIView {
     // MARK: - Type
     enum Constant {
-        static let filterInset: CGFloat = 6
-        static let sortButtonHeight: CGFloat = 32
-        static let iconSize: CGFloat = 24
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
-        static let nonFilterTopMargin: CGFloat = 20
         static let filterTopMargin: CGFloat = 6
-        static let cellSpacing: CGFloat = 10
-        static let cellWidth: CGFloat = 343
-        static let cellHeight: CGFloat = 104
         static let horizontalMargin: CGFloat = 16
-        static let bottomInset: CGFloat = 64
+        static let nonFilterTopMargin: CGFloat = 20
     }
 
     // MARK: - Components
@@ -30,7 +23,7 @@ final class BookmarkListView: UIView {
     }()
 
     private lazy var filterStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [sortButton, filterButton])
+        let view = UIStackView(arrangedSubviews: [sortButton])
         view.axis = .horizontal
         view.spacing = Constant.stackViewSpacing
         view.distribution = .fillProportionally
@@ -39,32 +32,27 @@ final class BookmarkListView: UIView {
 
     public lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .caption, text: "가나다 순"), for: .normal)
+        button.setAttributedTitle(.makeStyledString(font: .caption, text: "최신 순", color: .textColor), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "arrowDropdown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
 
-    public lazy var filterButton: UIButton = {
-        let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .caption, text: "필터"), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "filter")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        button.tintColor = .textColor
-        button.semanticContentAttribute = .forceRightToLeft
-        return button
+    public let emptyView: CollectionListEmptyView = {
+        let view = CollectionListEmptyView()
+        view.isHidden = true
+        return view
     }()
-    
-    public let emptyView = BookmarkEmptyView()
 
     // MARK: - Init
-    init(isFilterHidden: Bool) {
+    init() {
         super.init(frame: .zero)
         addViews()
-        setupConstraints(isFilterHidden: isFilterHidden)
+        setupConstraints()
         configureUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,33 +60,26 @@ final class BookmarkListView: UIView {
 }
 
 // MARK: - SetUp
-private extension BookmarkListView {
+private extension CollectionListView {
     func addViews() {
         addSubview(filterStackView)
         addSubview(listCollectionView)
         addSubview(emptyView)
     }
 
-    func setupConstraints(isFilterHidden: Bool) {
-        if isFilterHidden {
-            listCollectionView.snp.makeConstraints { make in
-                make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
-                make.horizontalEdges.bottom.equalToSuperview()
-            }
-        } else {
-            filterStackView.snp.makeConstraints { make in
-                make.top.equalToSuperview().inset(Constant.topMargin)
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
-            }
+    func setupConstraints() {
+        filterStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(Constant.topMargin)
+            make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
+        }
 
-            listCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
-                make.horizontalEdges.bottom.equalToSuperview()
-            }
+        listCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+            make.horizontalEdges.bottom.equalToSuperview().inset(Constant.horizontalMargin)
         }
 
         emptyView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 
@@ -108,14 +89,13 @@ private extension BookmarkListView {
     }
 }
 
-extension BookmarkListView {
-    func updateFilter(sortType: SortType?, isHidden: Bool) {
-        filterStackView.isHidden = isHidden
-        if let sortType = sortType {
-            sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: sortType.rawValue, color: .textColor), for: .normal)
-        }
-        
-        if isHidden {
+extension CollectionListView {
+    func updateView(isEmptyData: Bool) {
+        emptyView.isHidden = !isEmptyData
+        filterStackView.isHidden = isEmptyData
+        listCollectionView.isHidden = isEmptyData
+
+        if isEmptyData {
             listCollectionView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
@@ -132,7 +112,7 @@ extension BookmarkListView {
             }
         }
     }
-    
+
     func selectFilter(selectedType: SortType) {
         sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700

@@ -90,4 +90,12 @@ public class LayoutFactory {
             .buildSection()
             .interGroupSpacing(1)
     }
+    
+    public func getCollectionListLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .absolute(96))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(96))
+            .buildSection()
+            .interGroupSpacing(10)
+    }
 }

@@ -6,7 +6,6 @@ import DesignSystem
 import DomainInterface
 
 import ReactorKit
-import RxKeyboard
 import RxSwift
 import SnapKit
 
@@ -14,25 +13,17 @@ public final class BookmarkModalViewController: BaseViewController, View {
     public typealias Reactor = BookmarkModalReactor
 
     // MARK: - Properties
-    public var disposeBag = DisposeBag()
-    private var isPresentingAddCollection = false
+    private let addCollectionFactory: AddCollectionFactory
+    
     public var onDismissWithMessage: ((String) -> Void)?
+    public var disposeBag = DisposeBag()
 
     // MARK: - Components
     private let mainView = BookmarkModalView()
-    private let addCollectionView = AddCollectionView()
-    private let addCollectionContainer = UIView()
-    private let dimmedBackgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        view.alpha = 0
-        view.isHidden = true
-        view.isUserInteractionEnabled = true
-        return view
-    }()
 
     // MARK: - Init
-    override public init() {
+    public init(addCollectionFactory: AddCollectionFactory) {
+        self.addCollectionFactory = addCollectionFactory
         super.init()
     }
 
@@ -48,45 +39,17 @@ public final class BookmarkModalViewController: BaseViewController, View {
         setupConstraints()
         configureUI()
     }
-
-    override public func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setupKeyboard()
-    }
 }
 
 // MARK: - Setup
 private extension BookmarkModalViewController {
     func addViews() {
         view.addSubview(mainView)
-        view.addSubview(dimmedBackgroundView)
-        view.addSubview(addCollectionContainer)
-
-        addCollectionContainer.addSubview(addCollectionView)
-
-        addCollectionContainer.clipsToBounds = true
-        addCollectionContainer.layer.cornerRadius = 16
-        addCollectionContainer.backgroundColor = .white
-
-        addCollectionContainer.isHidden = true
-        addCollectionView.isHidden = false
     }
 
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-
-        dimmedBackgroundView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-
-        addCollectionContainer.snp.makeConstraints { make in
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
-        }
-
-        addCollectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
         }
     }
 
@@ -97,17 +60,6 @@ private extension BookmarkModalViewController {
 
         mainView.folderCollectionView.register(AddFolderCell.self, forCellWithReuseIdentifier: AddFolderCell.identifier)
         mainView.folderCollectionView.register(FolderCell.self, forCellWithReuseIdentifier: FolderCell.identifier)
-    }
-
-    func setupKeyboard() {
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] height in
-                guard let self = self else { return }
-                let safeBottom = self.view.safeAreaInsets.bottom
-                let inset = height > 0 ? height - safeBottom + AddCollectionView.Constant.buttonBottomMargin : AddCollectionView.Constant.buttonBottomMargin
-                self.addCollectionView.addButtonBottomConstraint?.update(inset: inset)
-            })
-            .disposed(by: disposeBag)
     }
 
     func createListLayout() -> UICollectionViewLayout {
@@ -123,7 +75,6 @@ extension BookmarkModalViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
-        bindAddCollectionView(reactor: reactor)
     }
 
     private func bindUserActions(reactor: Reactor) {
@@ -153,44 +104,14 @@ extension BookmarkModalViewController {
                 switch route {
                 case .dismiss:
                     owner.dismiss(animated: true)
-                case .dismissModal:
-                    owner.hideAddCollectionView()
+                case .addCollection:
+                    let viewController = owner.addCollectionFactory.make { [weak self] collectionName in
+                        self?.onDismissWithMessage?(collectionName)
+                    }
+                    owner.present(viewController, animated: true)
                 default:
                     break
                 }
-            })
-            .disposed(by: disposeBag)
-    }
-
-    private func bindAddCollectionView(reactor: Reactor) {
-        addCollectionView.inputTextField.rx.text
-            .map { Reactor.Action.inputTextChanged($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        addCollectionView.backButton.rx.tap
-            .map { Reactor.Action.modalBackButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        addCollectionView.completeButton.rx.tap
-            .map { Reactor.Action.completeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map(\.isError)
-            .distinctUntilChanged()
-            .bind(onNext: { [weak self] isError in
-                self?.addCollectionView.setError(isError: isError)
-            })
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map(\.isButtonEnabled)
-            .distinctUntilChanged()
-            .bind(onNext: { [weak self] isEnabled in
-                self?.addCollectionView.setButtonEnabled(isEnabled: isEnabled)
             })
             .disposed(by: disposeBag)
     }
@@ -218,50 +139,10 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            showAddCollectionView()
+            reactor?.action.onNext(.addCollectionTapped)
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else { return }
             cell.toggleSelected()
-        }
-    }
-}
-
-// MARK: - Bottom Sheet Presentation
-private extension BookmarkModalViewController {
-    func showAddCollectionView() {
-        isPresentingAddCollection = true
-        dimmedBackgroundView.alpha = 0
-        dimmedBackgroundView.isHidden = false
-        addCollectionContainer.isHidden = false
-        addCollectionContainer.transform = CGAffineTransform(translationX: 0, y: 400)
-
-        UIView.animate(withDuration: 0.25) {
-            self.dimmedBackgroundView.alpha = 1
-            self.addCollectionContainer.transform = .identity
-        }
-
-        addCollectionView.inputTextField.text = nil
-        addCollectionView.setError(isError: false)
-        addCollectionView.setButtonEnabled(isEnabled: false)
-        addCollectionView.inputTextField.becomeFirstResponder()
-    }
-
-    func hideAddCollectionView() {
-        isPresentingAddCollection = false
-        addCollectionView.endEditing(true)
-
-        UIView.animate(withDuration: 0.25, animations: {
-            self.dimmedBackgroundView.alpha = 0
-            self.addCollectionContainer.transform = CGAffineTransform(translationX: 0, y: 400)
-        }, completion: { _ in
-            self.addCollectionContainer.isHidden = true
-            self.dimmedBackgroundView.isHidden = true
-        })
-
-        dismiss(animated: true) { [weak self] in
-            if let name = self?.reactor?.currentState.currentInput, !name.isEmpty {
-                self?.onDismissWithMessage?(name)
-            }
         }
     }
 }

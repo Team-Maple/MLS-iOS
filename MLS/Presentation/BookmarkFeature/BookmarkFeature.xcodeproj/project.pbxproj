@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		779A4BB92E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
-		779A4BBA2E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; };
 		779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A4DDB2E27F62800ABDE4F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD32E27F62800ABDE4F /* AuthFeature.framework */; };
@@ -28,6 +26,10 @@
 		779A4DE92E27F62800ABDE4F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; };
 		779A4DEA2E27F62800ABDE4F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A4DEC2E27F63300ABDE4F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 779A4DEB2E27F63300ABDE4F /* SnapKit */; };
+		779A509A2E290A8A00ABDE4F /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A50992E290A8A00ABDE4F /* Domain.framework */; };
+		779A509B2E290A8A00ABDE4F /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A50992E290A8A00ABDE4F /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A50BA2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
+		779A50BB2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B52E182BD900529428 /* ReactorKit */; };
 		77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B82E182BE200529428 /* RxKeyboard */; };
 		77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BB2E182BF500529428 /* RxCocoa */; };
@@ -46,7 +48,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		779A4BBB2E1BEEFE00ABDE4F /* PBXContainerItemProxy */ = {
+		779A50BC2E2E1DC100ABDE4F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77DBC76B2E1829AB00529428 /* Project object */;
 			proxyType = 1;
@@ -76,8 +78,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				779A4BBA2E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
+				779A509B2E290A8A00ABDE4F /* Domain.framework in Embed Frameworks */,
 				779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */,
+				779A50BB2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -115,6 +118,7 @@
 		779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A50992E290A8A00ABDE4F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7742E1829AB00529428 /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7C42E182C2400529428 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,12 +165,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779A509A2E290A8A00ABDE4F /* Domain.framework in Frameworks */,
 				77DBC7C92E182C3200529428 /* DomainInterface.framework in Frameworks */,
 				77DBC7C72E182C2900529428 /* DesignSystem.framework in Frameworks */,
 				77DBC7C52E182C2400529428 /* BaseFeature.framework in Frameworks */,
 				77DBC7C02E182BF500529428 /* RxSwift in Frameworks */,
+				779A50BA2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */,
 				77DBC7BE2E182BF500529428 /* RxRelay in Frameworks */,
-				779A4BB92E1BEEFE00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */,
 				77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */,
 				77DBC7C32E182BFE00529428 /* SnapKit in Frameworks */,
 				779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */,
@@ -229,6 +234,7 @@
 		77DBC7A52E182AFF00529428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				779A50992E290A8A00ABDE4F /* Domain.framework */,
 				779A4DD32E27F62800ABDE4F /* AuthFeature.framework */,
 				779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */,
 				779A4DD52E27F62800ABDE4F /* BaseFeature.framework */,
@@ -281,7 +287,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				779A4BBC2E1BEEFE00ABDE4F /* PBXTargetDependency */,
+				779A50BD2E2E1DC100ABDE4F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				77DBC7762E1829AB00529428 /* BookmarkFeature */,
@@ -447,10 +453,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		779A4BBC2E1BEEFE00ABDE4F /* PBXTargetDependency */ = {
+		779A50BD2E2E1DC100ABDE4F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 77DBC78B2E182A9200529428 /* BookmarkFeatureInterface */;
-			targetProxy = 779A4BBB2E1BEEFE00ABDE4F /* PBXContainerItemProxy */;
+			targetProxy = 779A50BC2E2E1DC100ABDE4F /* PBXContainerItemProxy */;
 		};
 		77DBC7ED2E18362500529428 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
