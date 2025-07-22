@@ -14,6 +14,7 @@ public final class CollectionListViewController: BaseViewController, View {
 
     // MARK: - Properties
     private let addCollectionFactory: AddCollectionFactory
+    private let detailFactory: BookmarkDetailFactory
     
     public var disposeBag = DisposeBag()
     public var onDismissWithMessage: ((String) -> Void)?
@@ -21,8 +22,9 @@ public final class CollectionListViewController: BaseViewController, View {
     // MARK: - Components
     private var mainView = CollectionListView()
 
-    public init(addCollectionFactory: AddCollectionFactory) {
+    public init(addCollectionFactory: AddCollectionFactory, detailFactory: BookmarkDetailFactory) {
         self.addCollectionFactory = addCollectionFactory
+        self.detailFactory = detailFactory
         super.init()
     }
 
@@ -90,8 +92,11 @@ extension CollectionListViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { _, route in
+            .subscribe { owner, route in
                 switch route {
+                case .detail(let collection):
+                    let viewController = owner.detailFactory.make(collection: collection)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
@@ -143,5 +148,9 @@ extension CollectionListViewController: UICollectionViewDelegate, UICollectionVi
         }
         cell.inject(input: CollectionListCell.Input(title: item.title, count: item.count, images: item.thumbnails))
         return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        reactor?.action.onNext(.itemTapped(indexPath.row))
     }
 }

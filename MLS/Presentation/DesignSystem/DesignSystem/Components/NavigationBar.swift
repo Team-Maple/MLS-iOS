@@ -49,13 +49,13 @@ public final class NavigationBar: UIView {
     }()
 
     private let collectionTitleLabel = UILabel()
-    private let editButton: UIButton = {
+    public let editButton: UIButton = {
         let button = UIButton()
         button.setImage(.edit, for: .normal)
         return button
     }()
 
-    private let addButton: UIButton = {
+    public let addButton: UIButton = {
         let button = UIButton()
         button.setImage(.addIcon, for: .normal)
         return button
