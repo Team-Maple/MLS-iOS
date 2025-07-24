@@ -17,7 +17,7 @@ public final class CollectionListViewController: BaseViewController, View {
     private let detailFactory: BookmarkDetailFactory
     
     public var disposeBag = DisposeBag()
-    public var onDismissWithMessage: ((String) -> Void)?
+    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
 
     // MARK: - Components
     private var mainView = CollectionListView()
@@ -50,7 +50,7 @@ private extension CollectionListViewController {
 
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
-            make.edges.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 
@@ -62,9 +62,9 @@ private extension CollectionListViewController {
         
         addFloatingButton { [weak self] in
             guard let self = self else { return }
-            let viewController = self.addCollectionFactory.make { [weak self] collectionName in
-                self?.onDismissWithMessage?(collectionName)
-            }
+            let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
+                self?.onDismissWithMessage?(collection)
+            })
             self.present(viewController, animated: true)
         }
     }
@@ -96,7 +96,7 @@ extension CollectionListViewController {
                 switch route {
                 case .detail(let collection):
                     let viewController = owner.detailFactory.make(collection: collection)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
+                    owner.tabBarController?.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }

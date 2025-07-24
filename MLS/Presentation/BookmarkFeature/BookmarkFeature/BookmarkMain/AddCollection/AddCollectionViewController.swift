@@ -1,6 +1,9 @@
 import UIKit
+
 import BaseFeature
+import BookmarkFeatureInterface
 import DesignSystem
+
 import ReactorKit
 import RxKeyboard
 import RxSwift
@@ -11,10 +14,10 @@ public final class AddCollectionViewController: BaseViewController, View {
     
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    public var onDismissWithMessage: ((String) -> Void)?
+    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
     
     // MARK: - Components
-    private let addCollectionView = AddCollectionView()
+    private let mainView = AddCollectionView()
     private let addCollectionContainer = UIView()
     private let dimmedBackgroundView: UIView = {
         let view = UIView()
@@ -59,14 +62,14 @@ private extension AddCollectionViewController {
         
         view.addSubview(dimmedBackgroundView)
         view.addSubview(addCollectionContainer)
-        addCollectionContainer.addSubview(addCollectionView)
+        addCollectionContainer.addSubview(mainView)
         
         addCollectionContainer.clipsToBounds = true
         addCollectionContainer.layer.cornerRadius = 16
         addCollectionContainer.backgroundColor = .white
         
         addCollectionContainer.isHidden = true
-        addCollectionView.isHidden = false
+        mainView.isHidden = false
     }
     
     func setupConstraints() {
@@ -78,7 +81,7 @@ private extension AddCollectionViewController {
             make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        addCollectionView.snp.makeConstraints { make in
+        mainView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
     }
@@ -101,7 +104,7 @@ private extension AddCollectionViewController {
                 guard let self = self else { return }
                 let safeBottom = self.view.safeAreaInsets.bottom
                 let inset = height > 0 ? height - safeBottom + AddCollectionView.Constant.buttonBottomMargin : AddCollectionView.Constant.buttonBottomMargin
-                self.addCollectionView.addButtonBottomConstraint?.update(inset: inset)
+                self.mainView.addButtonBottomConstraint?.update(inset: inset)
             })
             .disposed(by: disposeBag)
     }
@@ -115,17 +118,17 @@ extension AddCollectionViewController {
     }
     
     private func bindUserActions(reactor: Reactor) {
-        addCollectionView.inputTextField.rx.text
+        mainView.inputTextField.rx.text
             .map { Reactor.Action.inputTextChanged($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        addCollectionView.backButton.rx.tap
+        mainView.backButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        addCollectionView.completeButton.rx.tap
+        mainView.completeButton.rx.tap
             .map { Reactor.Action.completeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -135,17 +138,27 @@ extension AddCollectionViewController {
         reactor.state
             .map(\.isError)
             .distinctUntilChanged()
-            .bind(onNext: { [weak self] isError in
-                self?.addCollectionView.setError(isError: isError)
-            })
+            .withUnretained(self)
+            .bind{ owner, isError in
+                owner.mainView.setError(isError: isError)
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map(\.collection)
+            .withUnretained(self)
+            .bind{ owner, collection in
+                owner.mainView.checkIsEmptyCollection(collection: collection)
+            }
             .disposed(by: disposeBag)
         
         reactor.state
             .map(\.isButtonEnabled)
             .distinctUntilChanged()
-            .bind(onNext: { [weak self] isEnabled in
-                self?.addCollectionView.setButtonEnabled(isEnabled: isEnabled)
-            })
+            .withUnretained(self)
+            .bind { owner, isEnabled in
+                owner.mainView.setButtonEnabled(isEnabled: isEnabled)
+            }
             .disposed(by: disposeBag)
         
         rx.viewDidAppear
@@ -186,14 +199,14 @@ private extension AddCollectionViewController {
             self.addCollectionContainer.transform = .identity
         }
 
-        addCollectionView.inputTextField.text = nil
-        addCollectionView.setError(isError: false)
-        addCollectionView.setButtonEnabled(isEnabled: false)
-        addCollectionView.inputTextField.becomeFirstResponder()
+        mainView.inputTextField.text = nil
+        mainView.setError(isError: false)
+        mainView.setButtonEnabled(isEnabled: false)
+        mainView.inputTextField.becomeFirstResponder()
     }
     
     func dismissWithAnimation(shouldDismissVC: Bool = true, completion: (() -> Void)? = nil) {
-        addCollectionView.endEditing(true)
+        mainView.endEditing(true)
         
         UIView.animate(withDuration: 0.25, animations: {
             self.dimmedBackgroundView.alpha = 0

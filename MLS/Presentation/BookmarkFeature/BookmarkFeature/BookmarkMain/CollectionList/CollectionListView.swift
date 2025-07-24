@@ -75,7 +75,8 @@ private extension CollectionListView {
 
         listCollectionView.snp.makeConstraints { make in
             make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
-            make.horizontalEdges.bottom.equalToSuperview().inset(Constant.horizontalMargin)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
 
         emptyView.snp.makeConstraints { make in

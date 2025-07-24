@@ -1,3 +1,5 @@
+import BookmarkFeatureInterface
+
 import ReactorKit
 import RxSwift
 
@@ -5,7 +7,7 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - Route
     public enum Route {
         case dismiss
-        case dismissWithSuccess(String)
+        case dismissWithSuccess(BookmarkCollection?)
     }
     
     // MARK: - Action
@@ -27,17 +29,19 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - State
     public struct State {
         @Pulse var route: Route?
-        var collections = ["1", "2", "3"]
+        var collection: BookmarkCollection?
         var inputText: String = ""
         var isError: Bool = false
         var isButtonEnabled: Bool = false
     }
     
     // MARK: - Properties
-    public let initialState = State()
+    public let initialState: State
     
     // MARK: - Init
-    public init() {}
+    public init(collection: BookmarkCollection?) {
+        self.initialState = State(collection: collection)
+    }
     
     // MARK: - Mutate
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -76,7 +80,9 @@ public final class AddCollectionModalReactor: Reactor {
         case .toNavigate(let route):
             newState.route = route
         case .addCollection(let title):
-            newState.route = .dismissWithSuccess(title)
+            var collection = newState.collection
+            collection?.title = title
+            newState.route = .dismissWithSuccess(collection)
         }
         
         return newState

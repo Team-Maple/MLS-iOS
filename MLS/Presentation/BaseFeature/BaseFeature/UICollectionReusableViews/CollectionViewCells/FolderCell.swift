@@ -110,7 +110,7 @@ private extension FolderCell {
 
 public extension FolderCell {
     func inject(title: String?) {
-        titleLabel.attributedText = .makeStyledString(font: .captionMedium, text: title, alignment: .left)
+        titleLabel.attributedText = .makeStyledString(font: .body, text: title, alignment: .left)
     }
     
     func toggleSelected() {

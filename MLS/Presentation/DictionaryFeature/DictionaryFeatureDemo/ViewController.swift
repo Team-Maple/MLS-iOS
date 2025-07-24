@@ -26,8 +26,8 @@ class ViewController: UIViewController {
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
 
         let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [
-            "가나다 순", "레벨 높은 순", "레벨 낮은 순"
-        ], selectedIndex: 0)
+            .korean
+        ], selectedIndex: 0, onSelectedIndex: {_ in })
         sortedBottomSheetVC.title = "정렬 바텀시트"
 
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]

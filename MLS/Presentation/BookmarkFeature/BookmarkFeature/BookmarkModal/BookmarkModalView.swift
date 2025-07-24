@@ -63,7 +63,7 @@ private extension BookmarkModalView {
 
     func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Constant.titleTopMargin)
+            make.top.equalToSuperview().inset(40)
             make.leading.equalToSuperview().inset(Constant.horizontalMargin)
         }
         

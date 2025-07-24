@@ -9,26 +9,33 @@ import DomainInterface
 import ReactorKit
 import RxSwift
 
-public final class BookmarkDetailViewController: BaseViewController, View {
-    public typealias Reactor = BookmarkDetailReactor
+public final class CollectionDetailViewController: BaseViewController, View {
+    public var modalHeight: CGFloat?
+    
+    public typealias Reactor = CollectionDetailReactor
 
     // MARK: - Properties
     private let bookmarkModalFactory: BookmarkModalFactory
+    private let collectionSettingFactory: CollectionSettingFactory
+    private let addCollectionFactory: AddCollectionFactory
+    private let collectionEditFactory: CollectionEditFactory
     
     public var disposeBag = DisposeBag()
     
     private var selectedSortIndex = 0
 
     // MARK: - Components
-    private var mainView: BookmarkDetailView
+    private var mainView: CollectionDetailView
 
-    public init(reactor: BookmarkDetailReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
-        self.mainView = BookmarkDetailView(navTitle: reactor.currentState.collection.title)
+    public init(reactor: CollectionDetailReactor, bookmarkModalFactory: BookmarkModalFactory, collectionSettingFactory: CollectionSettingFactory, addCollectionFactory: AddCollectionFactory, collectionEditFactory: CollectionEditFactory) {
+        self.mainView = CollectionDetailView(navTitle: reactor.currentState.collection.title)
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.collectionSettingFactory = collectionSettingFactory
+        self.addCollectionFactory = addCollectionFactory
+        self.collectionEditFactory = collectionEditFactory
         super.init()
         self.reactor = reactor
         navigationController?.navigationBar.isHidden = true
-        isBottomTabbarHidden = true
     }
 
     @available(*, unavailable)
@@ -46,7 +53,7 @@ public final class BookmarkDetailViewController: BaseViewController, View {
 }
 
 // MARK: - SetUp
-private extension BookmarkDetailViewController {
+private extension CollectionDetailViewController {
     func addViews() {
         view.addSubview(mainView)
     }
@@ -76,7 +83,7 @@ private extension BookmarkDetailViewController {
 }
 
 // MARK: - Bind
-extension BookmarkDetailViewController {
+extension CollectionDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
@@ -115,6 +122,36 @@ extension BookmarkDetailViewController {
             })
             .disposed(by: disposeBag)
 
+        reactor.pulse(\.$collectionMenu)
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, menu in
+                switch menu {
+                case .editBookmark:
+                    let viewController = owner.collectionEditFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .editName:
+                    let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection, onDismissWithMessage: { collection in
+                        guard let collection = collection else { return }
+                        reactor.action.onNext(.changeName(collection.title))
+                    })
+                    owner.present(viewController, animated: true)
+                case .delete:
+                    GuideAlertFactory.show(
+                        mainText: "컬렉션을 삭제하시겠어요?",
+                        ctaText: "삭제하기",
+                        cancelText: "취소",
+                        ctaAction: {
+                            // 삭제 처리
+                        },
+                        cancelAction: {}
+                    )
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -123,6 +160,13 @@ extension BookmarkDetailViewController {
                 switch route {
                 case .toMain:
                     owner.tabBarController?.selectedIndex = 0
+                case .dismiss:
+                    owner.navigationController?.popViewController(animated: true)
+                case .edit:
+                    let viewController = owner.collectionSettingFactory.make(setEditMenu: { menu in
+                        owner.reactor?.action.onNext(.selectSetting(menu))
+                    })
+                    owner.presentModal(viewController)
                 default:
                     break
                 }
@@ -132,7 +176,7 @@ extension BookmarkDetailViewController {
 }
 
 // MARK: - Delegate
-extension BookmarkDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension CollectionDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         reactor?.currentState.collection.items.count ?? 0
     }

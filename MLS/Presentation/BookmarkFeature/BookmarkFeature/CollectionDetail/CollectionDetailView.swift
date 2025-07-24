@@ -5,7 +5,7 @@ import DomainInterface
 
 import SnapKit
 
-final class BookmarkDetailView: UIView {
+final class CollectionDetailView: UIView {
     // MARK: - Type
     enum Constant {
         static let TopMargin: CGFloat = 12
@@ -14,6 +14,12 @@ final class BookmarkDetailView: UIView {
     // MARK: - Components
     public let navigation: NavigationBar
     
+    public let spacer: UIView = {
+        let view = UIView()
+        view.backgroundColor = .whiteMLS
+        return view
+    }()
+    
     public let listCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -21,7 +27,7 @@ final class BookmarkDetailView: UIView {
     }()
     
     public let emptyContainerView = UIView()
-    public let emptyView = BookmarkDetailEmptyView()
+    public let emptyView = CollectionDetailEmptyView()
 
     // MARK: - Init
     init(navTitle: String) {
@@ -39,9 +45,10 @@ final class BookmarkDetailView: UIView {
 }
 
 // MARK: - SetUp
-private extension BookmarkDetailView {
+private extension CollectionDetailView {
     func addViews() {
         addSubview(navigation)
+        addSubview(spacer)
         addSubview(listCollectionView)
         addSubview(emptyContainerView)
         emptyContainerView.addSubview(emptyView)
@@ -52,14 +59,20 @@ private extension BookmarkDetailView {
             make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
         
+        spacer.snp.makeConstraints { make in
+            make.top.equalTo(navigation.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(Constant.TopMargin)
+        }
+        
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(navigation.snp.bottom).offset(Constant.TopMargin)
+            make.top.equalTo(spacer.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }
         
         emptyContainerView.snp.makeConstraints { make in
             make.top.equalTo(navigation.snp.bottom).offset(Constant.TopMargin)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
         
         emptyView.snp.makeConstraints { make in
@@ -68,14 +81,15 @@ private extension BookmarkDetailView {
     }
 
     func configureUI() {
-        backgroundColor = .whiteMLS
+        navigation.backgroundColor = .whiteMLS
+        backgroundColor = .neutral100
         emptyContainerView.backgroundColor = .neutral100
         listCollectionView.backgroundColor = .neutral100
     }
 }
 
 // MARK: - Methods
-extension BookmarkDetailView {
+extension CollectionDetailView {
     func isEmptyData(isEmpty: Bool) {
         listCollectionView.isHidden = !isEmpty
         emptyContainerView.isHidden = isEmpty

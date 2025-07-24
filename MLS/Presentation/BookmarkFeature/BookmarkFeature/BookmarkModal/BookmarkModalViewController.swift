@@ -15,7 +15,7 @@ public final class BookmarkModalViewController: BaseViewController, View {
     // MARK: - Properties
     private let addCollectionFactory: AddCollectionFactory
     
-    public var onDismissWithMessage: ((String) -> Void)?
+    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
@@ -105,9 +105,9 @@ extension BookmarkModalViewController {
                 case .dismiss:
                     owner.dismiss(animated: true)
                 case .addCollection:
-                    let viewController = owner.addCollectionFactory.make { [weak self] collectionName in
-                        self?.onDismissWithMessage?(collectionName)
-                    }
+                    let viewController = owner.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
+                        self?.onDismissWithMessage?(collection)
+                    })
                     owner.present(viewController, animated: true)
                 default:
                     break

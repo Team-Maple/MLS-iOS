@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol AddCollectionFactory {
-    func make(onDismissWithMessage: @escaping (String) -> Void) -> BaseViewController
+    func make(collection: BookmarkCollection?, onDismissWithMessage: @escaping (BookmarkCollection?) -> Void) -> BaseViewController
 }

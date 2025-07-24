@@ -16,7 +16,7 @@ public final class NotificationView: UIView {
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "img_onBoarding_notification")
+        view.image = DesignSystemAsset.image(named: "getNotify")
         return view
     }()
 

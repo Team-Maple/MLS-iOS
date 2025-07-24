@@ -15,7 +15,7 @@ public final class BookmarkOnBoardingView: UIView {
             switch self {
             case .first:
                 return .init(
-                    imageName: "bookmarkImage1",
+                    imageName: "bookmarkList",
                     title: "내가 찜한 정보, 한곳에!",
                     description: "아이템, 몬스터, 맵, NPC, 퀘스트를\n북마크하면 자동으로 여기에 모여요.",
                     isBackButtonHidden: true,
@@ -23,7 +23,7 @@ public final class BookmarkOnBoardingView: UIView {
                 )
             case .second:
                 return .init(
-                    imageName: "bookmarkImage2",
+                    imageName: "addToCollection",
                     title: "나만의 컬렉션 만들기",
                     description: "북마크한 정보들을 폴더로 정리해보세요.",
                     isBackButtonHidden: false,

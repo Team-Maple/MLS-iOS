@@ -70,7 +70,7 @@ private extension BookmarkEmptyView {
 
 extension BookmarkEmptyView {
     func setLabel(isLogin: Bool, buttonAction: @escaping () -> Void) {
-        imageView.image = DesignSystemAsset.image(named: isLogin ? "emptyImage" : "emptyImage")
+        imageView.image = DesignSystemAsset.image(named: "nosShowList")
         mainLabel.attributedText = .makeStyledString(
             font: .heading5,
             text: isLogin ? "아직 아무것도 없어요!" : "북마크는 로그인 후 이용 가능해요!"

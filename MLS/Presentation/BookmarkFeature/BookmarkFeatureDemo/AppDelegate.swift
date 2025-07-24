@@ -281,8 +281,14 @@ private extension AppDelegate {
                 loginFactory: DIContainer.resolve(type: LoginFactory.self)
             )
         }
+        DIContainer.register(type: CollectionSettingFactory.self) {
+            return CollectionSettingFactoryImpl()
+        }
+        DIContainer.register(type: CollectionEditFactory.self) {
+            return CollectionEditFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
+        }
         DIContainer.register(type: BookmarkDetailFactory.self) {
-            return BookmarkDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterBottomSheetFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterBottomSheetFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedBottomSheetFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), loginFactory: DIContainer.resolve(type: LoginFactory.self))
+            return CollectionDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), collectionSettingFactory: DIContainer.resolve(type: CollectionSettingFactory.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
         }
         DIContainer.register(type: CollectionListFactory.self) {
             return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: BookmarkDetailFactory.self))

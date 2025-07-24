@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-final class BookmarkDetailEmptyView: UIView {
+final class CollectionDetailEmptyView: UIView {
     // MARK: - Type
     enum Constant {
         static let imageSize: CGFloat = 220
@@ -16,7 +16,7 @@ final class BookmarkDetailEmptyView: UIView {
     // MARK: - Components
     public let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "fabHint")
+        view.image = DesignSystemAsset.image(named: "connectionError")
         return view
     }()
     
@@ -28,7 +28,7 @@ final class BookmarkDetailEmptyView: UIView {
     
     private let subLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "북마르해서 추가해보세요.", color: .neutral600)
+        label.attributedText = .makeStyledString(font: .caption, text: "북마크해서 추가해보세요.", color: .neutral600)
         label.numberOfLines = 2
         return label
     }()
@@ -50,7 +50,7 @@ final class BookmarkDetailEmptyView: UIView {
 }
 
 // MARK: - SetUp
-private extension BookmarkDetailEmptyView {
+private extension CollectionDetailEmptyView {
     func addViews() {
         addSubview(imageView)
         addSubview(mainLabel)
@@ -60,14 +60,14 @@ private extension BookmarkDetailEmptyView {
 
     func setupConstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+//            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
 
         mainLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom)
-            make.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
 
         subLabel.snp.makeConstraints { make in
@@ -78,7 +78,8 @@ private extension BookmarkDetailEmptyView {
         bookmarkButton.snp.makeConstraints { make in
             make.top.equalTo(subLabel.snp.bottom).offset(Constant.buttonSpacing)
             make.width.equalTo(Constant.buttonWidth)
-            make.centerX.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
+//            make.centerX.bottom.equalToSuperview()
         }
     }
     
