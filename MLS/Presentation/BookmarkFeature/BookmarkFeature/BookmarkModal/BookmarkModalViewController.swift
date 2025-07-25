@@ -16,6 +16,8 @@ public final class BookmarkModalViewController: BaseViewController, View {
     private let addCollectionFactory: AddCollectionFactory
     
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
+    public var onDismissWithCollections: (([BookmarkCollection?]) -> Void)?
+    
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
@@ -87,7 +89,6 @@ extension BookmarkModalViewController {
     private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.collections)
-            .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind(onNext: { owner, items in
@@ -131,7 +132,7 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FolderCell.identifier, for: indexPath) as? FolderCell else {
                 return UICollectionViewCell()
             }
-            let title = reactor.currentState.collections[indexPath.row - 1]
+            let title = reactor.currentState.collections[indexPath.row - 1].title
             cell.inject(title: title)
             return cell
         }
@@ -141,8 +142,9 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == 0 {
             reactor?.action.onNext(.addCollectionTapped)
         } else {
+            reactor?.action.onNext(.selectItem(indexPath.row))
             guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else { return }
-            cell.toggleSelected()
+            cell.checkBoxButton.isSelected.toggle()
         }
     }
 }

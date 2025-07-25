@@ -1,3 +1,4 @@
+import BookmarkFeatureInterface
 import DesignSystem
 import DomainInterface
 
@@ -13,15 +14,27 @@ public final class BookmarkModalReactor: Reactor {
     public enum Action {
         case backButtonTapped
         case addCollectionTapped
+        case selectItem(Int)
     }
 
     public enum Mutation {
         case toNavigate(Route)
+        case checkCollection([BookmarkCollection])
     }
 
     public struct State {
         @Pulse var route: Route
-        var collections = ["1", "2", "3"]
+        var collections = [
+            BookmarkCollection(id: "1", title: "1번", items: [
+                DictionaryItem(id: "1번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "2번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+            ]),
+            BookmarkCollection(id: "2", title: "3번", items: [
+                DictionaryItem(id: "3번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "4번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+            ]),
+        ]
+        var selectedItems = [BookmarkCollection]()
     }
 
     public var initialState: State
@@ -38,6 +51,15 @@ public final class BookmarkModalReactor: Reactor {
             return .just(.toNavigate(.dismiss))
         case .addCollectionTapped:
             return .just(.toNavigate(.addCollection))
+        case .selectItem(let index):
+            let item = currentState.collections[index - 1]
+            var newItems = currentState.selectedItems
+            if let index = newItems.firstIndex(where: { $0.id == item.id }) {
+                newItems.remove(at: index)
+            } else {
+                newItems.append(item)
+            }
+            return .just(.checkCollection(newItems))
         }
     }
 
@@ -46,6 +68,8 @@ public final class BookmarkModalReactor: Reactor {
         switch mutation {
         case .toNavigate(let route):
             newState.route = route
+        case .checkCollection(let collections):
+            newState.selectedItems = collections
         }
         return newState
     }

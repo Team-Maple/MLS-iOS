@@ -169,7 +169,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             return UICollectionViewCell()
         }
 
-        cell.inject(
+        cell.inject(type: .bookmark,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.mainText,
@@ -199,9 +199,9 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         self.reactor?.action.onNext(.toggleBookmark(item.id))
                         SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
                             DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make { _ in
+                                let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
                                     ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-                                }
+                                })
                                 
                                 viewController.modalPresentationStyle = .pageSheet
 

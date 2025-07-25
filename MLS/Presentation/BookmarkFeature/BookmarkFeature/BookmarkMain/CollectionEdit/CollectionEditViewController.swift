@@ -11,7 +11,7 @@ public final class CollectionEditViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let bookmarkModalFactory: BookmarkModalFactory
 
     // MARK: - Components
@@ -76,6 +76,11 @@ extension CollectionEditViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.addButtton.rx.tap
+            .map { Reactor.Action.addCollectionButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -83,7 +88,7 @@ extension CollectionEditViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { owner, route in
+            .subscribe { _, route in
                 switch route {
                 default:
                     break
@@ -93,8 +98,18 @@ extension CollectionEditViewController {
 
         reactor.state
             .map(\.collection.items)
+            .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { owner, collections in
+            .subscribe { owner, _ in
+                owner.mainView.listCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map(\.selectedItems)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { owner, _ in
                 owner.mainView.listCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
@@ -105,10 +120,15 @@ extension CollectionEditViewController {
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
-                case .detail(let collection):
-                    break
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
+                case .collcectionList:
+                    let viewController = owner.bookmarkModalFactory.make(onDismissWithColletions: { collections in
+                        
+                    }, onDismissWithMessage: { message in
+                        
+                    })
+                    owner.present(viewController, animated: true)
                 default:
                     break
                 }
@@ -133,50 +153,23 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
         else {
             return UICollectionViewCell()
         }
-        cell.inject(input: DictionaryListCell.Input(type: item.type, mainText: item.mainText, subText: item.subText, image: item.image, isBookmarked: item.isBookmarked),  onBookmarkTapped: { [weak self] in
-            guard let self = self else { return }
-            if item.isBookmarked {
-                self.reactor?.action.onNext(.toggleBookmark(item.id))
-            } else {
-                // 로그인 여부 확인
-                if false {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            print("로그인 화면으로 이동")
-                        },
-                        cancelAction: {
-                            print("취소됨")
-                        }
-                    )
-                } else {
-                    self.reactor?.action.onNext(.toggleBookmark(item.id))
-                    SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
-                        DispatchQueue.main.async {
-                            let viewController = self.bookmarkModalFactory.make { _ in
-                                ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-                            }
+        let isSelected = reactor?.currentState.selectedItems.contains(where: { $0.id == item.id }) ?? false
 
-                            viewController.modalPresentationStyle = .pageSheet
-
-                            if let sheet = viewController.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                                sheet.prefersGrabberVisible = true
-                                sheet.preferredCornerRadius = 16
-                            }
-
-                            self.present(viewController, animated: true)
-                        }
-                    })
-                }
-            }
-        })
+        cell.inject(
+            type: .checkbox,
+            input: DictionaryListCell.Input(
+                type: item.type,
+                mainText: item.mainText,
+                subText: item.subText,
+                image: item.image,
+                isSelected: isSelected
+            ),
+            onIconTapped: {}
+        )
         return cell
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        reactor?.action.onNext(.itemTapped(indexPath.row))
+        reactor?.action.onNext(.itemTapped(indexPath.row))
     }
 }

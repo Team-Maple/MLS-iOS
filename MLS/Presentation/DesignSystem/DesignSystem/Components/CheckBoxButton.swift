@@ -130,7 +130,7 @@ public final class CheckBoxButton: UIButton {
     private let labelTrailingView: UIView = UIView()
 
     private let checkIconImageView: UIImageView = {
-        let image = DesignSystemAsset.image(named: "checkCircle")?.withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "checkCircleFill")?.withRenderingMode(.alwaysTemplate)
         let view = UIImageView(image: image)
         return view
     }()

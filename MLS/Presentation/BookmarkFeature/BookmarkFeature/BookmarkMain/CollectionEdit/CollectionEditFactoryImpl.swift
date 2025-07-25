@@ -12,7 +12,7 @@ public final class CollectionEditFactoryImpl: CollectionEditFactory {
     }
 
     public func make() -> BaseViewController {
-        let reactor = CollectionEditReactor(toggleBookmarkUseCase: toggleBookmarkUseCase)
+        let reactor = CollectionEditReactor()
         let viewController = CollectionEditViewController(bookmarkModalFactory: bookmarkModalFactory)
         viewController.reactor = reactor
         return viewController

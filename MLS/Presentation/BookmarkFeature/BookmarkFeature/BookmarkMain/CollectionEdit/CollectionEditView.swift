@@ -49,7 +49,7 @@ final class CollectionEditView: UIView {
     
     private let divider = DividerView()
     
-    private let addButtton = CommonButton(style: .normal, title: "컬렉션에 추가하기", disabledTitle: nil)
+    public let addButtton = CommonButton(style: .normal, title: "컬렉션에 추가하기", disabledTitle: nil)
 
     // MARK: - Init
     init() {

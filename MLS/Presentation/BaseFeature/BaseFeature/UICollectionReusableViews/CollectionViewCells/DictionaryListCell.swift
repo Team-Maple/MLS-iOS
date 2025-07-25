@@ -5,10 +5,10 @@ import DomainInterface
 
 public final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
-    private var onBookmarkTapped: (() -> Void)?
+//    private var onIconTapped: (() -> Void)?
 
     // MARK: - Components
-    public let cellView = CardList()
+    public var cellView = CardList()
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -43,25 +43,26 @@ extension DictionaryListCell {
         let mainText: String
         let subText: String
         let image: UIImage
-        let isBookmarked: Bool
+        let isSelected: Bool
         
-        public init(type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isBookmarked: Bool) {
+        public init(type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isSelected: Bool) {
             self.type = type
             self.mainText = mainText
             self.subText = subText
             self.image = image
-            self.isBookmarked = isBookmarked
+            self.isSelected = isSelected
         }
     }
 
-    public func inject(input: Input, onBookmarkTapped: @escaping () -> Void) {
+    public func inject(type: CardList.CardListType, input: Input, onIconTapped: @escaping () -> Void) {
+        cellView.setType(type: type)
         cellView.setImage(image: input.image, backgroundColor: input.type.backgroundColor)
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
-        cellView.setBookmark(isBookmarked: input.isBookmarked)
-        self.onBookmarkTapped = onBookmarkTapped
-        cellView.onBookmarkTapped = { [weak self] _ in
-            self?.onBookmarkTapped?()
+        cellView.setSelected(isSelected: input.isSelected)
+//        self.onIconTapped = onIconTapped
+        cellView.onIconTapped = { _ in
+            onIconTapped()
         }
     }
 }

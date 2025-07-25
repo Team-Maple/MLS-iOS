@@ -32,11 +32,11 @@ public final class CollectionListReactor: Reactor {
 
     public init() {
         self.initialState = State(route: .none, collections: [
-            BookmarkCollection(title: "1번", items: [
+            BookmarkCollection(id: "1", title: "1번", items: [
                 DictionaryItem(id: "1", type: .item, mainText: "1번 아이템", subText: "1번 설명", image: .add, isBookmarked: false),
                 DictionaryItem(id: "2", type: .item, mainText: "2번 아이템", subText: "2번 설명", image: .add, isBookmarked: false),
             ]),
-            BookmarkCollection(title: "2번", items: [
+            BookmarkCollection(id: "2", title: "2번", items: [
                 DictionaryItem(id: "3", type: .item, mainText: "3번 아이템", subText: "3번 설명", image: .add, isBookmarked: false),
                 DictionaryItem(id: "4", type: .item, mainText: "4번 아이템", subText: "4번 설명", image: .add, isBookmarked: false),
             ])

@@ -40,9 +40,9 @@ public class FolderCell: UICollectionViewCell {
         return label
     }()
     
-    private let checkBoxButton: UIButton = {
+    public let checkBoxButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "checkSqure")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "checkSquareFill")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .neutral300
         return button
     }()

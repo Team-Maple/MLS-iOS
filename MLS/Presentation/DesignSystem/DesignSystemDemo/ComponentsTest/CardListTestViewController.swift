@@ -139,7 +139,7 @@ private extension CardListTestViewController {
         cardListToggle.toggle.rx.isOn
             .withUnretained(self)
             .subscribe { (owner, isOn) in
-                owner.cardList.isBookmarkSelected = isOn
+                owner.cardList.isIconSelected = isOn
             }
             .disposed(by: disposeBag)
     }
