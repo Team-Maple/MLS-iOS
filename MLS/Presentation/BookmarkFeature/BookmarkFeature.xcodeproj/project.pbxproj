@@ -7,44 +7,47 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; };
-		779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DDB2E27F62800ABDE4F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD32E27F62800ABDE4F /* AuthFeature.framework */; };
-		779A4DDC2E27F62800ABDE4F /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD32E27F62800ABDE4F /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DDD2E27F62800ABDE4F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */; };
-		779A4DDE2E27F62800ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DDF2E27F62800ABDE4F /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD52E27F62800ABDE4F /* BaseFeature.framework */; };
-		779A4DE02E27F62800ABDE4F /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD52E27F62800ABDE4F /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DE12E27F62800ABDE4F /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD62E27F62800ABDE4F /* Data.framework */; };
-		779A4DE22E27F62800ABDE4F /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD62E27F62800ABDE4F /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DE32E27F62800ABDE4F /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD72E27F62800ABDE4F /* DataMock.framework */; };
-		779A4DE42E27F62800ABDE4F /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD72E27F62800ABDE4F /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DE52E27F62800ABDE4F /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */; };
-		779A4DE62E27F62800ABDE4F /* DictionaryFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DE72E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */; };
-		779A4DE82E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DE92E27F62800ABDE4F /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; };
-		779A4DEA2E27F62800ABDE4F /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		779A4DEC2E27F63300ABDE4F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 779A4DEB2E27F63300ABDE4F /* SnapKit */; };
-		779A509A2E290A8A00ABDE4F /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A50992E290A8A00ABDE4F /* Domain.framework */; };
-		779A509B2E290A8A00ABDE4F /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A50992E290A8A00ABDE4F /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A50BA2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
-		779A50BB2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A752E37AF83007198DA /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; };
+		77C97A762E37AF83007198DA /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A792E37AF83007198DA /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
+		77C97A7A2E37AF83007198DA /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A802E37AF8D007198DA /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A7E2E37AF8D007198DA /* AuthFeature.framework */; };
+		77C97A812E37AF8D007198DA /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A7E2E37AF8D007198DA /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A822E37AF8D007198DA /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A7F2E37AF8D007198DA /* AuthFeatureInterface.framework */; };
+		77C97A832E37AF8D007198DA /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A7F2E37AF8D007198DA /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A8F2E37AF97007198DA /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A852E37AF97007198DA /* Core.framework */; };
+		77C97A902E37AF97007198DA /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A852E37AF97007198DA /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A912E37AF97007198DA /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A862E37AF97007198DA /* Data.framework */; };
+		77C97A922E37AF97007198DA /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A862E37AF97007198DA /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A932E37AF97007198DA /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A872E37AF97007198DA /* DataMock.framework */; };
+		77C97A942E37AF97007198DA /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A872E37AF97007198DA /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A952E37AF97007198DA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A882E37AF97007198DA /* DesignSystem.framework */; };
+		77C97A962E37AF97007198DA /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A882E37AF97007198DA /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A972E37AF97007198DA /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A892E37AF97007198DA /* DictionaryFeature.framework */; };
+		77C97A982E37AF97007198DA /* DictionaryFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A892E37AF97007198DA /* DictionaryFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A992E37AF97007198DA /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8A2E37AF97007198DA /* DictionaryFeatureInterface.framework */; };
+		77C97A9A2E37AF97007198DA /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8A2E37AF97007198DA /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A9B2E37AF97007198DA /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8B2E37AF97007198DA /* Domain.framework */; };
+		77C97A9C2E37AF97007198DA /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8B2E37AF97007198DA /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97A9D2E37AF97007198DA /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8C2E37AF97007198DA /* DomainInterface.framework */; };
+		77C97A9E2E37AF97007198DA /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A8C2E37AF97007198DA /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97AA02E37AFAA007198DA /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77C97A9F2E37AFAA007198DA /* SnapKit */; };
+		77C97AA22E37AFC9007198DA /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97AA12E37AFC9007198DA /* BaseFeature.framework */; };
+		77C97AA72E37B1B7007198DA /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97AA52E37B1B7007198DA /* BaseFeature.framework */; };
+		77C97AA92E37B1B7007198DA /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97AA62E37B1B7007198DA /* DesignSystem.framework */; };
+		77C97AAD2E37B1D5007198DA /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97AAC2E37B1D5007198DA /* DomainInterface.framework */; };
+		77C97AB02E37B27A007198DA /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97AAF2E37B27A007198DA /* DomainInterface.framework */; };
+		77C97DA22E37B493007198DA /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A842E37AF97007198DA /* BaseFeature.framework */; };
+		77C97DA32E37B493007198DA /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97A842E37AF97007198DA /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C97DA52E37CF26007198DA /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 77C97DA42E37CF26007198DA /* RxRelay */; };
+		77C97DA72E37D46E007198DA /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DA62E37D46E007198DA /* AuthFeatureInterface.framework */; };
+		77C97DAF2E37D4B6007198DA /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DAE2E37D4B6007198DA /* AuthFeatureInterface.framework */; };
 		77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B52E182BD900529428 /* ReactorKit */; };
 		77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7B82E182BE200529428 /* RxKeyboard */; };
 		77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BB2E182BF500529428 /* RxCocoa */; };
-		77DBC7BE2E182BF500529428 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BD2E182BF500529428 /* RxRelay */; };
 		77DBC7C02E182BF500529428 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7BF2E182BF500529428 /* RxSwift */; };
 		77DBC7C32E182BFE00529428 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77DBC7C22E182BFE00529428 /* SnapKit */; };
-		77DBC7C52E182C2400529428 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7C42E182C2400529428 /* BaseFeature.framework */; };
-		77DBC7C72E182C2900529428 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7C62E182C2900529428 /* DesignSystem.framework */; };
-		77DBC7C92E182C3200529428 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7C82E182C3200529428 /* DomainInterface.framework */; };
-		77DBC7CB2E182C4000529428 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7CA2E182C4000529428 /* DomainInterface.framework */; };
-		77DBC7CD2E182C4300529428 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7CC2E182C4300529428 /* BaseFeature.framework */; };
-		77DBC7EA2E18362500529428 /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; };
-		77DBC7EB2E18362500529428 /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77DBC7EE2E18362500529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
-		77DBC7EF2E18362500529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,14 +58,14 @@
 			remoteGlobalIDString = 77DBC78B2E182A9200529428;
 			remoteInfo = BookmarkFeatureInterface;
 		};
-		77DBC7EC2E18362500529428 /* PBXContainerItemProxy */ = {
+		77C97A772E37AF83007198DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77DBC76B2E1829AB00529428 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 77DBC7732E1829AB00529428;
 			remoteInfo = BookmarkFeature;
 		};
-		77DBC7F02E18362500529428 /* PBXContainerItemProxy */ = {
+		77C97A7B2E37AF83007198DA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 77DBC76B2E1829AB00529428 /* Project object */;
 			proxyType = 1;
@@ -72,35 +75,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		779A4BBD2E1BEEFE00ABDE4F /* Embed Frameworks */ = {
+		77C97A7D2E37AF83007198DA /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				779A509B2E290A8A00ABDE4F /* Domain.framework in Embed Frameworks */,
-				779A4DD22E27F00600ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */,
-				779A50BB2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		77DBC7F22E18362500529428 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				779A4DEA2E27F62800ABDE4F /* DomainInterface.framework in Embed Frameworks */,
-				779A4DE22E27F62800ABDE4F /* Data.framework in Embed Frameworks */,
-				779A4DE62E27F62800ABDE4F /* DictionaryFeature.framework in Embed Frameworks */,
-				77DBC7EB2E18362500529428 /* BookmarkFeature.framework in Embed Frameworks */,
-				779A4DE02E27F62800ABDE4F /* BaseFeature.framework in Embed Frameworks */,
-				779A4DDE2E27F62800ABDE4F /* AuthFeatureInterface.framework in Embed Frameworks */,
-				77DBC7EF2E18362500529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
-				779A4DE82E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Embed Frameworks */,
-				779A4DE42E27F62800ABDE4F /* DataMock.framework in Embed Frameworks */,
-				779A4DDC2E27F62800ABDE4F /* AuthFeature.framework in Embed Frameworks */,
+				77C97DA32E37B493007198DA /* BaseFeature.framework in Embed Frameworks */,
+				77C97A9C2E37AF97007198DA /* Domain.framework in Embed Frameworks */,
+				77C97A762E37AF83007198DA /* BookmarkFeature.framework in Embed Frameworks */,
+				77C97A902E37AF97007198DA /* Core.framework in Embed Frameworks */,
+				77C97A942E37AF97007198DA /* DataMock.framework in Embed Frameworks */,
+				77C97A982E37AF97007198DA /* DictionaryFeature.framework in Embed Frameworks */,
+				77C97A9A2E37AF97007198DA /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+				77C97A962E37AF97007198DA /* DesignSystem.framework in Embed Frameworks */,
+				77C97A9E2E37AF97007198DA /* DomainInterface.framework in Embed Frameworks */,
+				77C97A832E37AF8D007198DA /* AuthFeatureInterface.framework in Embed Frameworks */,
+				77C97A922E37AF97007198DA /* Data.framework in Embed Frameworks */,
+				77C97A7A2E37AF83007198DA /* BookmarkFeatureInterface.framework in Embed Frameworks */,
+				77C97A812E37AF8D007198DA /* AuthFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,24 +101,26 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		779A4D972E253CF800ABDE4F /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD32E27F62800ABDE4F /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD52E27F62800ABDE4F /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD62E27F62800ABDE4F /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD72E27F62800ABDE4F /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		779A50992E290A8A00ABDE4F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A7E2E37AF8D007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A7F2E37AF8D007198DA /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A842E37AF97007198DA /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A852E37AF97007198DA /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A862E37AF97007198DA /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A872E37AF97007198DA /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A882E37AF97007198DA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A892E37AF97007198DA /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A8A2E37AF97007198DA /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A8B2E37AF97007198DA /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97A8C2E37AF97007198DA /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97AA12E37AFC9007198DA /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97AA52E37B1B7007198DA /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97AA62E37B1B7007198DA /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97AAC2E37B1D5007198DA /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97AAF2E37B27A007198DA /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97DA62E37D46E007198DA /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97DAE2E37D4B6007198DA /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7742E1829AB00529428 /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DBC7C42E182C2400529428 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DBC7C62E182C2900529428 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DBC7C82E182C3200529428 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DBC7CA2E182C4000529428 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77DBC7CC2E182C4300529428 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBC7D52E1833FC00529428 /* BookmarkFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BookmarkFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -165,16 +160,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				779A509A2E290A8A00ABDE4F /* Domain.framework in Frameworks */,
-				77DBC7C92E182C3200529428 /* DomainInterface.framework in Frameworks */,
-				77DBC7C72E182C2900529428 /* DesignSystem.framework in Frameworks */,
-				77DBC7C52E182C2400529428 /* BaseFeature.framework in Frameworks */,
+				77C97DA52E37CF26007198DA /* RxRelay in Frameworks */,
+				77C97AAD2E37B1D5007198DA /* DomainInterface.framework in Frameworks */,
+				77C97AA72E37B1B7007198DA /* BaseFeature.framework in Frameworks */,
 				77DBC7C02E182BF500529428 /* RxSwift in Frameworks */,
 				779A50BA2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */,
-				77DBC7BE2E182BF500529428 /* RxRelay in Frameworks */,
+				77C97AA92E37B1B7007198DA /* DesignSystem.framework in Frameworks */,
 				77DBC7B62E182BD900529428 /* ReactorKit in Frameworks */,
 				77DBC7C32E182BFE00529428 /* SnapKit in Frameworks */,
-				779A4DD12E27F00600ABDE4F /* AuthFeatureInterface.framework in Frameworks */,
+				77C97DA72E37D46E007198DA /* AuthFeatureInterface.framework in Frameworks */,
+				77C97DAF2E37D4B6007198DA /* AuthFeatureInterface.framework in Frameworks */,
 				77DBC7B92E182BE200529428 /* RxKeyboard in Frameworks */,
 				77DBC7BC2E182BF500529428 /* RxCocoa in Frameworks */,
 			);
@@ -184,8 +179,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77DBC7CD2E182C4300529428 /* BaseFeature.framework in Frameworks */,
-				77DBC7CB2E182C4000529428 /* DomainInterface.framework in Frameworks */,
+				77C97AB02E37B27A007198DA /* DomainInterface.framework in Frameworks */,
+				77C97AA22E37AFC9007198DA /* BaseFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,17 +188,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				779A4DE92E27F62800ABDE4F /* DomainInterface.framework in Frameworks */,
-				779A4DE12E27F62800ABDE4F /* Data.framework in Frameworks */,
-				779A4DE52E27F62800ABDE4F /* DictionaryFeature.framework in Frameworks */,
-				77DBC7EA2E18362500529428 /* BookmarkFeature.framework in Frameworks */,
-				779A4DDF2E27F62800ABDE4F /* BaseFeature.framework in Frameworks */,
-				779A4DDD2E27F62800ABDE4F /* AuthFeatureInterface.framework in Frameworks */,
-				77DBC7EE2E18362500529428 /* BookmarkFeatureInterface.framework in Frameworks */,
-				779A4DE72E27F62800ABDE4F /* DictionaryFeatureInterface.framework in Frameworks */,
-				779A4DE32E27F62800ABDE4F /* DataMock.framework in Frameworks */,
-				779A4DDB2E27F62800ABDE4F /* AuthFeature.framework in Frameworks */,
-				779A4DEC2E27F63300ABDE4F /* SnapKit in Frameworks */,
+				77C97A9B2E37AF97007198DA /* Domain.framework in Frameworks */,
+				77C97A752E37AF83007198DA /* BookmarkFeature.framework in Frameworks */,
+				77C97A8F2E37AF97007198DA /* Core.framework in Frameworks */,
+				77C97AA02E37AFAA007198DA /* SnapKit in Frameworks */,
+				77C97A932E37AF97007198DA /* DataMock.framework in Frameworks */,
+				77C97A972E37AF97007198DA /* DictionaryFeature.framework in Frameworks */,
+				77C97DA22E37B493007198DA /* BaseFeature.framework in Frameworks */,
+				77C97A992E37AF97007198DA /* DictionaryFeatureInterface.framework in Frameworks */,
+				77C97A952E37AF97007198DA /* DesignSystem.framework in Frameworks */,
+				77C97A9D2E37AF97007198DA /* DomainInterface.framework in Frameworks */,
+				77C97A822E37AF8D007198DA /* AuthFeatureInterface.framework in Frameworks */,
+				77C97A912E37AF97007198DA /* Data.framework in Frameworks */,
+				77C97A792E37AF83007198DA /* BookmarkFeatureInterface.framework in Frameworks */,
+				77C97A802E37AF8D007198DA /* AuthFeature.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,22 +232,24 @@
 		77DBC7A52E182AFF00529428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				779A50992E290A8A00ABDE4F /* Domain.framework */,
-				779A4DD32E27F62800ABDE4F /* AuthFeature.framework */,
-				779A4DD42E27F62800ABDE4F /* AuthFeatureInterface.framework */,
-				779A4DD52E27F62800ABDE4F /* BaseFeature.framework */,
-				779A4DD62E27F62800ABDE4F /* Data.framework */,
-				779A4DD72E27F62800ABDE4F /* DataMock.framework */,
-				779A4DD82E27F62800ABDE4F /* DictionaryFeature.framework */,
-				779A4DD92E27F62800ABDE4F /* DictionaryFeatureInterface.framework */,
-				779A4DDA2E27F62800ABDE4F /* DomainInterface.framework */,
-				779A4DD02E27F00600ABDE4F /* AuthFeatureInterface.framework */,
-				779A4D972E253CF800ABDE4F /* DictionaryFeature.framework */,
-				77DBC7CC2E182C4300529428 /* BaseFeature.framework */,
-				77DBC7CA2E182C4000529428 /* DomainInterface.framework */,
-				77DBC7C82E182C3200529428 /* DomainInterface.framework */,
-				77DBC7C62E182C2900529428 /* DesignSystem.framework */,
-				77DBC7C42E182C2400529428 /* BaseFeature.framework */,
+				77C97DAE2E37D4B6007198DA /* AuthFeatureInterface.framework */,
+				77C97DA62E37D46E007198DA /* AuthFeatureInterface.framework */,
+				77C97AAF2E37B27A007198DA /* DomainInterface.framework */,
+				77C97AAC2E37B1D5007198DA /* DomainInterface.framework */,
+				77C97AA52E37B1B7007198DA /* BaseFeature.framework */,
+				77C97AA62E37B1B7007198DA /* DesignSystem.framework */,
+				77C97AA12E37AFC9007198DA /* BaseFeature.framework */,
+				77C97A842E37AF97007198DA /* BaseFeature.framework */,
+				77C97A852E37AF97007198DA /* Core.framework */,
+				77C97A862E37AF97007198DA /* Data.framework */,
+				77C97A872E37AF97007198DA /* DataMock.framework */,
+				77C97A882E37AF97007198DA /* DesignSystem.framework */,
+				77C97A892E37AF97007198DA /* DictionaryFeature.framework */,
+				77C97A8A2E37AF97007198DA /* DictionaryFeatureInterface.framework */,
+				77C97A8B2E37AF97007198DA /* Domain.framework */,
+				77C97A8C2E37AF97007198DA /* DomainInterface.framework */,
+				77C97A7E2E37AF8D007198DA /* AuthFeature.framework */,
+				77C97A7F2E37AF8D007198DA /* AuthFeatureInterface.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -282,7 +282,6 @@
 				77DBC7702E1829AB00529428 /* Sources */,
 				77DBC7712E1829AB00529428 /* Frameworks */,
 				77DBC7722E1829AB00529428 /* Resources */,
-				779A4BBD2E1BEEFE00ABDE4F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -297,9 +296,9 @@
 				77DBC7B52E182BD900529428 /* ReactorKit */,
 				77DBC7B82E182BE200529428 /* RxKeyboard */,
 				77DBC7BB2E182BF500529428 /* RxCocoa */,
-				77DBC7BD2E182BF500529428 /* RxRelay */,
 				77DBC7BF2E182BF500529428 /* RxSwift */,
 				77DBC7C22E182BFE00529428 /* SnapKit */,
+				77C97DA42E37CF26007198DA /* RxRelay */,
 			);
 			productName = BookmarkFeature;
 			productReference = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */;
@@ -335,20 +334,20 @@
 				77DBC7D12E1833FC00529428 /* Sources */,
 				77DBC7D22E1833FC00529428 /* Frameworks */,
 				77DBC7D32E1833FC00529428 /* Resources */,
-				77DBC7F22E18362500529428 /* Embed Frameworks */,
+				77C97A7D2E37AF83007198DA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				77DBC7ED2E18362500529428 /* PBXTargetDependency */,
-				77DBC7F12E18362500529428 /* PBXTargetDependency */,
+				77C97A782E37AF83007198DA /* PBXTargetDependency */,
+				77C97A7C2E37AF83007198DA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				77DBC7D62E1833FC00529428 /* BookmarkFeatureDemo */,
 			);
 			name = BookmarkFeatureDemo;
 			packageProductDependencies = (
-				779A4DEB2E27F63300ABDE4F /* SnapKit */,
+				77C97A9F2E37AFAA007198DA /* SnapKit */,
 			);
 			productName = BookmarkFeatureDemo;
 			productReference = 77DBC7D52E1833FC00529428 /* BookmarkFeatureDemo.app */;
@@ -458,15 +457,15 @@
 			target = 77DBC78B2E182A9200529428 /* BookmarkFeatureInterface */;
 			targetProxy = 779A50BC2E2E1DC100ABDE4F /* PBXContainerItemProxy */;
 		};
-		77DBC7ED2E18362500529428 /* PBXTargetDependency */ = {
+		77C97A782E37AF83007198DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 77DBC7732E1829AB00529428 /* BookmarkFeature */;
-			targetProxy = 77DBC7EC2E18362500529428 /* PBXContainerItemProxy */;
+			targetProxy = 77C97A772E37AF83007198DA /* PBXContainerItemProxy */;
 		};
-		77DBC7F12E18362500529428 /* PBXTargetDependency */ = {
+		77C97A7C2E37AF83007198DA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 77DBC78B2E182A9200529428 /* BookmarkFeatureInterface */;
-			targetProxy = 77DBC7F02E18362500529428 /* PBXContainerItemProxy */;
+			targetProxy = 77C97A7B2E37AF83007198DA /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -476,9 +475,12 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -497,6 +499,7 @@
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.BookmarkFeature;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -515,9 +518,11 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -536,6 +541,7 @@
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.BookmarkFeature;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -753,15 +759,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookmarkFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -769,6 +779,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.BookmarkFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSBookMarkFeatureProvisioningProfileDev;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -784,15 +796,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BookmarkFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -800,6 +816,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.BookmarkFeatureDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSBookMarkFeatureProvisioningProfile;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -887,10 +905,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		779A4DEB2E27F63300ABDE4F /* SnapKit */ = {
+		77C97A9F2E37AFAA007198DA /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 77DBC7C12E182BFE00529428 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		77C97DA42E37CF26007198DA /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DBC7BA2E182BF500529428 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
 		};
 		77DBC7B52E182BD900529428 /* ReactorKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -906,11 +929,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77DBC7BA2E182BF500529428 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;
-		};
-		77DBC7BD2E182BF500529428 /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 77DBC7BA2E182BF500529428 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
 		};
 		77DBC7BF2E182BF500529428 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -5,11 +5,7 @@ import BookmarkFeatureInterface
 import Core
 import DesignSystem
 import DictionaryFeatureInterface
-import Domain
-import DomainInterface
 
-import RxCocoa
-import RxSwift
 import SnapKit
 
 class ViewController: UIViewController {

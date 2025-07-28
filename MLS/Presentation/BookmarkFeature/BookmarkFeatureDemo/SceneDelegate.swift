@@ -1,8 +1,5 @@
 import UIKit
 
-import DesignSystem
-import DictionaryFeature
-
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 

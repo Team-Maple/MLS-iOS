@@ -4,7 +4,7 @@ import BookmarkFeatureInterface
 import DictionaryFeatureInterface
 import DomainInterface
 
-public final class CollectionDetailFactoryImpl: BookmarkDetailFactory {
+public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let bookmarkModalFactory: BookmarkModalFactory
     private let collectionSettingFactory: CollectionSettingFactory

@@ -1,6 +1,6 @@
 import UIKit
-import AuthFeature
 
+import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeature
@@ -189,7 +189,7 @@ private extension AppDelegate {
             return SortedBottomSheetFactoryImpl()
         }
         DIContainer.register(type: BookmarkModalFactory.self) {
-            return BookmarkModalFactoryImpl()
+            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
@@ -236,6 +236,12 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             return BookmarkOnBoardingFactoryImpl()
         }
+        DIContainer.register(type: OnBoardingInputFactory.self) {
+            return OnBoardingInputFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+        }
+        DIContainer.register(type: OnBoardingQuestionFactory.self) {
+            return OnBoardingQuestionFactoryImpl(onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self))
+        }
         DIContainer.register(type: TermsAgreementFactory.self) {
             return TermsAgreementFactoryImpl(onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self), signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self), signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self), saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self))
         }
@@ -244,14 +250,17 @@ private extension AppDelegate {
                 termsAgreementsFactory: DIContainer
                     .resolve(type: TermsAgreementFactory.self),
                 appleLoginUseCase: DIContainer
-                    .resolve(type: FetchSocialCredentialUseCase.self),
+                    .resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
                 kakaoLoginUseCase: DIContainer
-                    .resolve(type: FetchSocialCredentialUseCase.self),
+                    .resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
                 loginWithAppleUseCase: DIContainer
                     .resolve(type: LoginWithAppleUseCase.self),
                 loginWithKakaoUseCase: DIContainer
                     .resolve(type: LoginWithKakaoUseCase.self)
             )
+        }
+        DIContainer.register(type: AddCollectionFactory.self) {
+            return AddCollectionFactoryImpl()
         }
         DIContainer.register(type: BookmarkListFactory.self) {
             return BookmarkListFactoryImpl(
@@ -272,6 +281,18 @@ private extension AppDelegate {
                 loginFactory: DIContainer.resolve(type: LoginFactory.self)
             )
         }
+        DIContainer.register(type: CollectionSettingFactory.self) {
+            return CollectionSettingFactoryImpl()
+        }
+        DIContainer.register(type: CollectionEditFactory.self) {
+            return CollectionEditFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
+        }
+        DIContainer.register(type: CollectionDetailFactory.self) {
+            return CollectionDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), collectionSettingFactory: DIContainer.resolve(type: CollectionSettingFactory.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
+        }
+        DIContainer.register(type: CollectionListFactory.self) {
+            return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
+        }
         DIContainer.register(type: BookmarkMainFactory.self) {
             return BookmarkMainFactoryImpl(
                 getOnBoardingUseCase: DIContainer
@@ -282,6 +303,8 @@ private extension AppDelegate {
                     .resolve(type: BookmarkOnBoardingFactory.self),
                 bookmarkListFactory: DIContainer
                     .resolve(type: BookmarkListFactory.self),
+                collectionListFactory: DIContainer
+                    .resolve(type: CollectionListFactory.self),
                 searchFactory: DIContainer
                     .resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer.resolve(

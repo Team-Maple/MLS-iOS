@@ -3,9 +3,9 @@ import BookmarkFeatureInterface
 
 public final class CollectionListFactoryImpl: CollectionListFactory {
     private let addCollectionFactory: AddCollectionFactory
-    private let bookmarkDetailFactory: BookmarkDetailFactory
+    private let bookmarkDetailFactory: CollectionDetailFactory
     
-    public init(addCollectionFactory: AddCollectionFactory, bookmarkDetailFactory: BookmarkDetailFactory) {
+    public init(addCollectionFactory: AddCollectionFactory, bookmarkDetailFactory: CollectionDetailFactory) {
         self.addCollectionFactory = addCollectionFactory
         self.bookmarkDetailFactory = bookmarkDetailFactory
     }

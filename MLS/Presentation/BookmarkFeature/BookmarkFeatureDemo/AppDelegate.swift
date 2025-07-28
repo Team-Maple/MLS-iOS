@@ -14,8 +14,6 @@ import DictionaryFeatureInterface
 import Domain
 import DomainInterface
 
-import KakaoSDKCommon
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -287,11 +285,11 @@ private extension AppDelegate {
         DIContainer.register(type: CollectionEditFactory.self) {
             return CollectionEditFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
         }
-        DIContainer.register(type: BookmarkDetailFactory.self) {
+        DIContainer.register(type: CollectionDetailFactory.self) {
             return CollectionDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), collectionSettingFactory: DIContainer.resolve(type: CollectionSettingFactory.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
         }
         DIContainer.register(type: CollectionListFactory.self) {
-            return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: BookmarkDetailFactory.self))
+            return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
         }
         DIContainer.register(type: BookmarkMainFactory.self) {
             return BookmarkMainFactoryImpl(

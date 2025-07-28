@@ -43,6 +43,8 @@
 		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; };
 		779A49142E1AD4BC00ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C974722E376124007198DA /* BookmarkFeatureInterface.framework */; };
+		77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DAA2E37D4AC007198DA /* AuthFeature.framework */; };
 		77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; };
 		77DBD8C02E1AD0C600529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -114,6 +116,8 @@
 		775D68052DFD638900DDAD2F /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		775D68092DFD641E00DDAD2F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C974722E376124007198DA /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C97DAA2E37D4AC007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -158,7 +162,9 @@
 				081D9DC82DF80E1A004F850D /* DesignSystem.framework in Frameworks */,
 				081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */,
 				081D9DDA2DF80E7E004F850D /* ReactorKit in Frameworks */,
+				77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */,
 				081D9DD02DF80E5C004F850D /* RxCocoa in Frameworks */,
+				77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */,
 				081D9DC12DF80DF6004F850D /* BaseFeature.framework in Frameworks */,
 				081D9DCA2DF80E27004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
 				081D9DD42DF80E5C004F850D /* RxSwift in Frameworks */,
@@ -224,6 +230,8 @@
 		081D9DBF2DF80DF6004F850D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77C97DAA2E37D4AC007198DA /* AuthFeature.framework */,
+				77C974722E376124007198DA /* BookmarkFeatureInterface.framework */,
 				779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */,
 				77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */,
 				775D68092DFD641E00DDAD2F /* Domain.framework */,

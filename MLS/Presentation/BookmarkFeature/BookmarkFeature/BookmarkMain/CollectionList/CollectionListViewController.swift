@@ -14,7 +14,7 @@ public final class CollectionListViewController: BaseViewController, View {
 
     // MARK: - Properties
     private let addCollectionFactory: AddCollectionFactory
-    private let detailFactory: BookmarkDetailFactory
+    private let detailFactory: CollectionDetailFactory
     
     public var disposeBag = DisposeBag()
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
@@ -22,7 +22,7 @@ public final class CollectionListViewController: BaseViewController, View {
     // MARK: - Components
     private var mainView = CollectionListView()
 
-    public init(addCollectionFactory: AddCollectionFactory, detailFactory: BookmarkDetailFactory) {
+    public init(addCollectionFactory: AddCollectionFactory, detailFactory: CollectionDetailFactory) {
         self.addCollectionFactory = addCollectionFactory
         self.detailFactory = detailFactory
         super.init()

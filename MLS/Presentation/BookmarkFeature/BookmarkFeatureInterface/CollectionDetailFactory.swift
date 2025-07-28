@@ -1,5 +1,5 @@
 import BaseFeature
 
-public protocol BookmarkDetailFactory {
+public protocol CollectionDetailFactory {
     func make(collection: BookmarkCollection) -> BaseViewController
 }
