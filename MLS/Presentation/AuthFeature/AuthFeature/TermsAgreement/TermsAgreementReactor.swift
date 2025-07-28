@@ -1,4 +1,6 @@
 import DomainInterface
+import NotificationCenter
+import os
 
 import ReactorKit
 import RxSwift
@@ -50,6 +52,7 @@ public final class TermsAgreementReactor: Reactor {
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
     private let saveTokenUseCase: SaveTokenToLocalUseCase
+    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
 
     // MARK: - init
     public init(
@@ -57,13 +60,15 @@ public final class TermsAgreementReactor: Reactor {
         socialPlatform: LoginPlatform,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        saveTokenUseCase: SaveTokenToLocalUseCase
+        saveTokenUseCase: SaveTokenToLocalUseCase,
+        fetchTokenUseCase: FetchTokenFromLocalUseCase
     ) {
         self.credential = credential
         self.socialPlatform = socialPlatform
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
         self.saveTokenUseCase = saveTokenUseCase
+        self.fetchTokenUseCase = fetchTokenUseCase
         self.initialState = State()
     }
 
@@ -83,9 +88,25 @@ public final class TermsAgreementReactor: Reactor {
         case .marketingAgreeButtonTapped:
             return Observable.just(.changeIsMarketingAgreeState)
         case .bottomButtonTapped:
+            var fcmToken: String?
+
+            UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+                guard let self else { return }
+                switch settings.authorizationStatus {
+                case .authorized, .provisional, .ephemeral:
+                    let fetchResult = fetchTokenUseCase.execute(type: .fcmToken)
+                    switch fetchResult {
+                    case .success(let token): fcmToken = token
+                    case .failure(let failure): fcmToken = nil
+                    }
+                default:
+                    fcmToken = nil
+                }
+            }
+
             switch socialPlatform {
             case .kakao:
-                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
@@ -95,7 +116,7 @@ public final class TermsAgreementReactor: Reactor {
                     }
                     .catchAndReturn(.navigateTo(route: .error))
             case .apple:
-                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree)
+                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
                     .map { (owner, response) in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)

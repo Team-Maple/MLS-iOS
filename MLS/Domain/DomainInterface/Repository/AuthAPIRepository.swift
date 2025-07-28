@@ -23,7 +23,7 @@ public protocol AuthAPIRepository {
     ///   - credential: 회원가입에 필요한 사용자 정보
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
-    func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse>
+    func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse>
 
     /// 애플 회원가입 API 호출
     ///
@@ -31,7 +31,7 @@ public protocol AuthAPIRepository {
     ///   - credential: 회원가입에 필요한 사용자 정보
     ///   - isMarketingAgreement: 마케팅 수신 동의 여부
     /// - Returns: 회원가입 응답을 담은 Observable
-    func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse>
+    func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse>
 
     /// 직업 목록 조회 API 호출
     ///
@@ -49,4 +49,6 @@ public protocol AuthAPIRepository {
     /// - Parameter credential: refreshToken
     /// - Returns: 토큰 갱신 응답을 담은 Observable
     func reissueToken(refreshToken: String) -> Observable<LoginResponse>
+
+    func fcmToken(fcmToken: String?) -> Completable
 }

@@ -6,9 +6,11 @@ import RxSwift
 
 public class AuthAPIRepositoryImpl: AuthAPIRepository {
     private let provider: NetworkProvider
+    private let tokenInterceptor: Interceptor
 
-    public init(provider: NetworkProvider) {
+    public init(provider: NetworkProvider, interceptor: Interceptor) {
         self.provider = provider
+        self.tokenInterceptor = interceptor
     }
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
@@ -37,19 +39,38 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
                 }
     }
 
-    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        let endpoint = AuthEndPoint.signupWithKakao(credential: credential.token, body: KakaoBody(providerId: credential.providerID))
+    public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithKakao(
+            credential: credential.token,
+            body: KakaoBody(
+                providerId: credential.providerID,
+                fcmToken: fcmToken,
+                marketingAgreement: isMarketingAgreement
+            )
+        )
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
-    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool?) -> Observable<SignUpResponse> {
-        let endpoint = AuthEndPoint.signupWithApple(credential: credential.token, body: AppleBody(providerId: credential.providerID))
+    public func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
+        let endpoint = AuthEndPoint.signupWithApple(
+            credential: credential.token,
+            body: AppleBody(
+                providerId: credential.providerID,
+                fcmToken: fcmToken,
+                marketingAgreement: isMarketingAgreement
+            )
+        )
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
-        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
+    }
+
+    public func fcmToken(fcmToken: String?) -> Completable {
+        let endPoint = AuthEndPoint.fcmToken(body: FCMTokenBody(fcmToken: fcmToken))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {
@@ -66,11 +87,19 @@ private extension AuthAPIRepositoryImpl {
         let provider = "KAKAO"
         let providerId: String
         let nickname: String? = nil
+        let fcmToken: String?
+        let marketingAgreement: Bool
     }
 
     struct AppleBody: Encodable {
         let provider = "APPLE"
         let providerId: String
         let nickname: String? = nil
+        let fcmToken: String?
+        let marketingAgreement: Bool
+    }
+
+    struct FCMTokenBody: Encodable {
+        let fcmToken: String?
     }
 }
