@@ -20,7 +20,7 @@ public final class BookmarkListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let loginFactory: LoginFactory
-    
+
     private var selectedSortIndex = 0
 
     // MARK: - Components
@@ -225,7 +225,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
                         SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
                             DispatchQueue.main.async {
                                 let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in
-                                } , onDismissWithMessage: { _ in
+                                }, onDismissWithMessage: { _ in
                                     ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
                                 })
 

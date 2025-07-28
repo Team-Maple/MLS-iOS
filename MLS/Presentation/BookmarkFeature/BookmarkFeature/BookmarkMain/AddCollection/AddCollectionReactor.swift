@@ -9,14 +9,14 @@ public final class AddCollectionModalReactor: Reactor {
         case dismiss
         case dismissWithSuccess(BookmarkCollection?)
     }
-    
+
     // MARK: - Action
     public enum Action {
         case inputTextChanged(String?)
         case backButtonTapped
         case completeButtonTapped
     }
-    
+
     // MARK: - Mutation
     public enum Mutation {
         case saveInput(String)
@@ -25,7 +25,7 @@ public final class AddCollectionModalReactor: Reactor {
         case setButtonEnabled(Bool)
         case toNavigate(Route)
     }
-    
+
     // MARK: - State
     public struct State {
         @Pulse var route: Route?
@@ -34,15 +34,15 @@ public final class AddCollectionModalReactor: Reactor {
         var isError: Bool = false
         var isButtonEnabled: Bool = false
     }
-    
+
     // MARK: - Properties
     public let initialState: State
-    
+
     // MARK: - Init
     public init(collection: BookmarkCollection?) {
         self.initialState = State(collection: collection)
     }
-    
+
     // MARK: - Mutate
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
@@ -52,10 +52,10 @@ public final class AddCollectionModalReactor: Reactor {
                 .setButtonEnabled(!trimmed.isEmpty),
                 .saveInput(trimmed)
             ])
-            
+
         case .backButtonTapped:
             return .just(.toNavigate(.dismiss))
-            
+
         case .completeButtonTapped:
             let trimmed = currentState.inputText.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.count > 18 {
@@ -65,11 +65,11 @@ public final class AddCollectionModalReactor: Reactor {
             }
         }
     }
-    
+
     // MARK: - Reduce
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .saveInput(let text):
             newState.inputText = text
@@ -84,7 +84,7 @@ public final class AddCollectionModalReactor: Reactor {
             collection?.title = title
             newState.route = .dismissWithSuccess(collection)
         }
-        
+
         return newState
     }
 }

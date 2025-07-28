@@ -14,10 +14,10 @@ public final class BookmarkModalViewController: BaseViewController, View {
 
     // MARK: - Properties
     private let addCollectionFactory: AddCollectionFactory
-    
+
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
     public var onDismissWithCollections: (([BookmarkCollection?]) -> Void)?
-    
+
     public var disposeBag = DisposeBag()
 
     // MARK: - Components

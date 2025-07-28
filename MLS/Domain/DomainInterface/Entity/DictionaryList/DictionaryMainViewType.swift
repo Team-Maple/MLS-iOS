@@ -2,7 +2,7 @@ public enum DictionaryMainViewType {
     case main
     case search
     case bookmark
-    
+
     public var pageTabList: [DictionaryType] {
         switch self {
         case .main:

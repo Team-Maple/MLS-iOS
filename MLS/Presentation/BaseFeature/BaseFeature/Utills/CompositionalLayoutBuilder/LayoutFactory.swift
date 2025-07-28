@@ -82,7 +82,7 @@ public class LayoutFactory {
             .buildSection()
             .interGroupSpacing(0)
     }
-    
+
     public func getCollectionModalLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(72))
@@ -90,7 +90,7 @@ public class LayoutFactory {
             .buildSection()
             .interGroupSpacing(1)
     }
-    
+
     public func getCollectionListLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(96))
@@ -99,7 +99,7 @@ public class LayoutFactory {
             .interGroupSpacing(10)
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
-    
+
     public func getCollectionListEditLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(96))

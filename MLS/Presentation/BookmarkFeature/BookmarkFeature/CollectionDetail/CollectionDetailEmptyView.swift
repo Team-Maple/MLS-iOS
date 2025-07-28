@@ -19,20 +19,20 @@ final class CollectionDetailEmptyView: UIView {
         view.image = DesignSystemAsset.image(named: "connectionError")
         return view
     }()
-    
+
     private let mainLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .heading5, text: "아직 아무것도 없어요!", color: .textColor)
         return label
     }()
-    
+
     private let subLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .caption, text: "북마크해서 추가해보세요.", color: .neutral600)
         label.numberOfLines = 2
         return label
     }()
-    
+
     public let bookmarkButton = CommonButton(style: .normal, title: "북마크하러 가기", disabledTitle: nil)
 
     // MARK: - Init
@@ -74,7 +74,7 @@ private extension CollectionDetailEmptyView {
             make.top.equalTo(mainLabel.snp.bottom).offset(Constant.textSpacing)
             make.centerX.equalToSuperview()
         }
-        
+
         bookmarkButton.snp.makeConstraints { make in
             make.top.equalTo(subLabel.snp.bottom).offset(Constant.buttonSpacing)
             make.width.equalTo(Constant.buttonWidth)
@@ -82,7 +82,7 @@ private extension CollectionDetailEmptyView {
 //            make.centerX.bottom.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .clearMLS
     }

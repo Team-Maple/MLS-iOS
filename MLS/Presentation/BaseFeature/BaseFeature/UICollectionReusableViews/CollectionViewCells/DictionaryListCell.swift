@@ -44,7 +44,7 @@ extension DictionaryListCell {
         let subText: String
         let image: UIImage
         let isSelected: Bool
-        
+
         public init(type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isSelected: Bool) {
             self.type = type
             self.mainText = mainText

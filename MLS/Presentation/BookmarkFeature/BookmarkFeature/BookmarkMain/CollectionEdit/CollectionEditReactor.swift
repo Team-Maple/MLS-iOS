@@ -43,7 +43,7 @@ public final class CollectionEditReactor: Reactor {
         self.initialState = State(route: .none, collection:
             BookmarkCollection(id: "3", title: "2번", items: [
                 DictionaryItem(id: "3", type: .item, mainText: "3번 아이템", subText: "3번 설명", image: .add, isBookmarked: false),
-                DictionaryItem(id: "4", type: .item, mainText: "4번 아이템", subText: "4번 설명", image: .add, isBookmarked: false),
+                DictionaryItem(id: "4", type: .item, mainText: "4번 아이템", subText: "4번 설명", image: .add, isBookmarked: false)
             ]))
     }
 

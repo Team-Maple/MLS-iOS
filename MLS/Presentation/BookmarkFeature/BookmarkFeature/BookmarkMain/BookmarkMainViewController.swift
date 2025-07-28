@@ -195,8 +195,7 @@ extension BookmarkMainViewController: UIPageViewControllerDataSource, UIPageView
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
-           let newIndex = viewControllers.firstIndex(of: visibleViewController)
-        {
+           let newIndex = viewControllers.firstIndex(of: visibleViewController) {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             underLineController.animateIndicatorToSelectedItem()

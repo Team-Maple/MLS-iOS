@@ -5,7 +5,7 @@ import DomainInterface
 public final class CollectionEditFactoryImpl: CollectionEditFactory {
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
     private let bookmarkModalFactory: BookmarkModalFactory
-    
+
     public init(toggleBookmarkUseCase: ToggleBookmarkUseCase, bookmarkModalFactory: BookmarkModalFactory) {
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
         self.bookmarkModalFactory = bookmarkModalFactory

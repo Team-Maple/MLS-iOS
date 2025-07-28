@@ -21,21 +21,21 @@ final class BookmarkModalView: UIView {
         label.attributedText = .makeStyledString(font: .heading5, text: "컬렉션", alignment: .left)
         return label
     }()
-    
+
     public let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "largeX"), for: .normal)
         return button
     }()
-    
+
     public let folderCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
-    
+
     private let divider = DividerView()
-    
+
     private let addButtton = CommonButton(style: .normal, title: "", disabledTitle: "추가하기")
 
     // MARK: - Init
@@ -66,23 +66,23 @@ private extension BookmarkModalView {
             make.top.equalToSuperview().inset(40)
             make.leading.equalToSuperview().inset(Constant.horizontalMargin)
         }
-        
+
         backButton.snp.makeConstraints { make in
             make.top.equalTo(titleLabel)
             make.leading.equalTo(titleLabel.snp.trailing)
             make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
         }
-        
+
         folderCollectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.titleBottomMargin)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         divider.snp.makeConstraints { make in
             make.top.equalTo(folderCollectionView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         addButtton.snp.makeConstraints { make in
             make.top.equalTo(folderCollectionView.snp.bottom).offset(Constant.buttonTopMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)

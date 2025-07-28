@@ -41,7 +41,7 @@ public extension CollectionListCell {
         let title: String
         let count: Int
         let images: [UIImage?]
-        
+
         public init(title: String, count: Int, images: [UIImage?]) {
             self.title = title
             self.count = count

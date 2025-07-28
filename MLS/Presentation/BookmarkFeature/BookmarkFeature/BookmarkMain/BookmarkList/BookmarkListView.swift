@@ -54,7 +54,7 @@ final class BookmarkListView: UIView {
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
-    
+
     public let emptyView = BookmarkEmptyView()
 
     // MARK: - Init
@@ -64,7 +64,7 @@ final class BookmarkListView: UIView {
         setupConstraints(isFilterHidden: isFilterHidden)
         configureUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -114,7 +114,7 @@ extension BookmarkListView {
         if let sortType = sortType {
             sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: sortType.rawValue, color: .textColor), for: .normal)
         }
-        
+
         if isHidden {
             listCollectionView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
@@ -132,7 +132,7 @@ extension BookmarkListView {
             }
         }
     }
-    
+
     func selectFilter(selectedType: SortType) {
         sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700

@@ -18,7 +18,7 @@ public final class Toast: UIView {
 //        view.layer.cornerRadius = Constant.cornerRadius
 //        return view
 //    }()
-    
+
     private let toastContentView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral700.withAlphaComponent(0.8)
@@ -54,7 +54,7 @@ private extension Toast {
 //        blurView.snp.makeConstraints { make in
 //            make.edges.equalToSuperview()
 //        }
-        
+
         toastContentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

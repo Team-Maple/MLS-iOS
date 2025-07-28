@@ -40,11 +40,11 @@ public enum DictionaryType: CaseIterable {
             return []
         }
     }
-    
+
     public var isSortHidden: Bool {
         return sortedFilter.count == 0
     }
-    
+
     public var bookmarkSortedFilter: [SortType] {
         switch self {
         case .total:

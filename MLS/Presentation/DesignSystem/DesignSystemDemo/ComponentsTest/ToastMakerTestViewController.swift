@@ -9,11 +9,11 @@ final class ToastMakerTestViewController: UIViewController {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     let imageView = UIImageView(image: .blur)
 
     let toast = Toast(message: "토스트 테스트")
-    
+
     let button: UIButton = {
         let btn = UIButton()
         btn.setTitle("블러", for: .normal)
@@ -53,11 +53,11 @@ private extension ToastMakerTestViewController {
         imageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         toast.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
+
         button.snp.makeConstraints { make in
             make.top.equalTo(toast.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
@@ -66,7 +66,7 @@ private extension ToastMakerTestViewController {
 
     func configureUI() {
         self.view.backgroundColor = .blue
-        
+
         button.addAction(UIAction(handler: { [weak self] _ in
 //            self?.toast.blurView.isHidden.toggle()
         }), for: .touchUpInside)

@@ -13,19 +13,19 @@ final class CollectionDetailView: UIView {
 
     // MARK: - Components
     public let navigation: NavigationBar
-    
+
     public let spacer: UIView = {
         let view = UIView()
         view.backgroundColor = .whiteMLS
         return view
     }()
-    
+
     public let listCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
-    
+
     public let emptyContainerView = UIView()
     public let emptyView = CollectionDetailEmptyView()
 
@@ -58,23 +58,23 @@ private extension CollectionDetailView {
         navigation.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
-        
+
         spacer.snp.makeConstraints { make in
             make.top.equalTo(navigation.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.TopMargin)
         }
-        
+
         listCollectionView.snp.makeConstraints { make in
             make.top.equalTo(spacer.snp.bottom)
             make.horizontalEdges.bottom.equalToSuperview()
         }
-        
+
         emptyContainerView.snp.makeConstraints { make in
             make.top.equalTo(navigation.snp.bottom).offset(Constant.TopMargin)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
-        
+
         emptyView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }

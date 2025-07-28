@@ -15,7 +15,7 @@ public final class CollectionListViewController: BaseViewController, View {
     // MARK: - Properties
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
-    
+
     public var disposeBag = DisposeBag()
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
 
@@ -59,7 +59,7 @@ private extension CollectionListViewController {
         mainView.listCollectionView.delegate = self
         mainView.listCollectionView.dataSource = self
         mainView.listCollectionView.register(CollectionListCell.self, forCellWithReuseIdentifier: CollectionListCell.identifier)
-        
+
         addFloatingButton { [weak self] in
             guard let self = self else { return }
             let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
@@ -149,7 +149,7 @@ extension CollectionListViewController: UICollectionViewDelegate, UICollectionVi
         cell.inject(input: CollectionListCell.Input(title: item.title, count: item.count, images: item.thumbnails))
         return cell
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         reactor?.action.onNext(.itemTapped(indexPath.row))
     }

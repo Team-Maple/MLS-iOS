@@ -13,7 +13,7 @@ public struct BookmarkCollection {
     public var thumbnails: [UIImage] {
         Array(items.prefix(4).map { $0.image })
     }
-    
+
     public init(id: String, title: String, items: [DictionaryItem]) {
         self.id = id
         self.title = title

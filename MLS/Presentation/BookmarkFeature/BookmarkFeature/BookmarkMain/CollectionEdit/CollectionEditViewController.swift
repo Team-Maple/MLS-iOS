@@ -76,7 +76,7 @@ extension CollectionEditViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.addButtton.rx.tap
             .map { Reactor.Action.addCollectionButtonTapped }
             .bind(to: reactor.action)
@@ -104,7 +104,7 @@ extension CollectionEditViewController {
                 owner.mainView.listCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.selectedItems)
             .distinctUntilChanged()
@@ -123,10 +123,10 @@ extension CollectionEditViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .collcectionList:
-                    let viewController = owner.bookmarkModalFactory.make(onDismissWithColletions: { collections in
-                        
-                    }, onDismissWithMessage: { message in
-                        
+                    let viewController = owner.bookmarkModalFactory.make(onDismissWithColletions: { _ in
+
+                    }, onDismissWithMessage: { _ in
+
                     })
                     owner.present(viewController, animated: true)
                 default:

@@ -7,7 +7,7 @@ public final class CardList: UIView {
     public enum CardListType {
         case bookmark
         case checkbox
-        
+
         var icon: UIImage {
             switch self {
             case .bookmark:
@@ -16,7 +16,7 @@ public final class CardList: UIView {
                 return .checkSquare
             }
         }
-        
+
         var selectedIcon: UIImage {
             switch self {
             case .bookmark:
@@ -26,7 +26,7 @@ public final class CardList: UIView {
             }
         }
     }
-    
+
     enum Constant {
         static let cardRadius: CGFloat = 16
         static let cardInset: CGFloat = 12
@@ -42,7 +42,7 @@ public final class CardList: UIView {
     private var type = CardListType.bookmark
     private var icon = UIImage()
     private var selectedIcon = UIImage()
-    
+
     public var isIconSelected: Bool = false {
         didSet {
             updateIcon()
@@ -173,7 +173,7 @@ public extension CardList {
     func setSelected(isSelected: Bool) {
         isIconSelected = isSelected
     }
-    
+
     func setType(type: CardListType) {
         icon = type.icon
         selectedIcon = type.selectedIcon

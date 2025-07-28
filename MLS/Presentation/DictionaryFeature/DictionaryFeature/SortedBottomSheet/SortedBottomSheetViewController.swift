@@ -77,7 +77,7 @@ extension SortedBottomSheetViewController {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.applyButton.rx.tap
             .map { Reactor.Action.applyButtonTapped }
             .bind(to: reactor.action)

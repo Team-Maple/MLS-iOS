@@ -32,7 +32,7 @@ public final class BookmarkModalReactor: Reactor {
             BookmarkCollection(id: "2", title: "3번", items: [
                 DictionaryItem(id: "3번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
                 DictionaryItem(id: "4번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
-            ]),
+            ])
         ]
         var selectedItems = [BookmarkCollection]()
     }

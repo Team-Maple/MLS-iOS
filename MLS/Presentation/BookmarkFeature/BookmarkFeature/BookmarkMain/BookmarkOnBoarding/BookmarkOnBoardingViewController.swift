@@ -87,7 +87,7 @@ extension BookmarkOnBoardingViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.step)
             .distinctUntilChanged()

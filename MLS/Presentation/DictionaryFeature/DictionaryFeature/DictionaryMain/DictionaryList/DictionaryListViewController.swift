@@ -121,7 +121,7 @@ extension DictionaryListViewController {
                 case .sort(let type):
                     let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0) { index in
                         let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
-                        owner.mainView.selectFilter(selectedType: selectedFilter)                        
+                        owner.mainView.selectFilter(selectedType: selectedFilter)
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
@@ -140,7 +140,7 @@ extension DictionaryListViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.type)
             .distinctUntilChanged()
@@ -202,7 +202,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                                 let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
                                     ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
                                 })
-                                
+
                                 viewController.modalPresentationStyle = .pageSheet
 
                                 if let sheet = viewController.sheetPresentationController {

@@ -87,7 +87,7 @@ private extension DictionaryListView {
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-            
+
             emptyView.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
@@ -101,7 +101,7 @@ private extension DictionaryListView {
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-            
+
             emptyView.snp.makeConstraints { make in
                 make.top.equalTo(filterStackView.snp.bottom)
                 make.trailing.leading.bottom.equalToSuperview()
@@ -121,13 +121,13 @@ extension DictionaryListView {
         if let sortType = sortType {
             sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: sortType.rawValue), for: .normal)
         }
-        
+
         if isHidden {
             listCollectionView.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-            
+
             emptyView.snp.remakeConstraints { make in
                 make.edges.equalToSuperview()
             }
@@ -141,14 +141,14 @@ extension DictionaryListView {
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-            
+
             emptyView.snp.remakeConstraints { make in
                 make.top.equalTo(filterStackView.snp.bottom)
                 make.trailing.leading.bottom.equalToSuperview()
             }
         }
     }
-    
+
     func selectFilter(selectedType: SortType) {
         sortButton.setTitleColor(.primary700, for: .normal)
         sortButton.tintColor = .primary700

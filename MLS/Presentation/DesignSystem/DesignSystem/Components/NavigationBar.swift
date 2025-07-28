@@ -114,7 +114,7 @@ private extension NavigationBar {
             make.size.equalTo(Constant.imageSize)
         }
         switch type {
-        case .withUnderLine(_), .arrowRightLeft:
+        case .withUnderLine, .arrowRightLeft:
             rightButton.snp.makeConstraints { make in
                 make.size.equalTo(Constant.imageSize)
             }

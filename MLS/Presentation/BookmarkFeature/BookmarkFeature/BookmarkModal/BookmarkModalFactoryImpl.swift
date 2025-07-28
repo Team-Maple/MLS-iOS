@@ -3,7 +3,7 @@ import BookmarkFeatureInterface
 
 public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
     private let addCollectionFactory: AddCollectionFactory
-    
+
     public init(addCollectionFactory: AddCollectionFactory) {
         self.addCollectionFactory = addCollectionFactory
     }

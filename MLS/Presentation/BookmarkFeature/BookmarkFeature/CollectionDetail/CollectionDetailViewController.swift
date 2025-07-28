@@ -11,7 +11,7 @@ import RxSwift
 
 public final class CollectionDetailViewController: BaseViewController, View {
     public var modalHeight: CGFloat?
-    
+
     public typealias Reactor = CollectionDetailReactor
 
     // MARK: - Properties
@@ -19,9 +19,9 @@ public final class CollectionDetailViewController: BaseViewController, View {
     private let collectionSettingFactory: CollectionSettingFactory
     private let addCollectionFactory: AddCollectionFactory
     private let collectionEditFactory: CollectionEditFactory
-    
+
     public var disposeBag = DisposeBag()
-    
+
     private var selectedSortIndex = 0
 
     // MARK: - Components
@@ -99,12 +99,12 @@ extension CollectionDetailViewController {
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.navigation.editButton.rx.tap
             .map { Reactor.Action.editButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.navigation.addButton.rx.tap
             .map { Reactor.Action.addButtonTapped }
             .bind(to: reactor.action)
@@ -151,7 +151,7 @@ extension CollectionDetailViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -225,7 +225,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
                             DispatchQueue.main.async {
                                 let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in}, onDismissWithMessage: { _ in
                                     ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-                                }) 
+                                })
 
                                 viewController.modalPresentationStyle = .pageSheet
 

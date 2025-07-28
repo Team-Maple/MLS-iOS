@@ -107,7 +107,7 @@ extension CollectionSettingViewController: UITableViewDelegate, UITableViewDataS
         cell.selectionStyle = .none
         return cell
     }
-    
+
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         let item = reactor.currentState.menu[indexPath.row]
