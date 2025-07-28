@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeatureInterface
 import DictionaryFeatureInterface
 import DomainInterface
 
@@ -12,21 +13,20 @@ public final class DictionaryListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    var type: DictionaryType
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
+    private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
 
     // MARK: - Components
-    private let mainView: DictionaryListView
+    private var mainView = DictionaryListView(isFilterHidden: true)
 
-    public init(type: DictionaryType, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory) {
+    public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
-        self.type = type
-        self.mainView = DictionaryListView(isFilterHidden: type.isFilterHidden)
+        self.bookmarkModalFactory = bookmarkModalFactory
         super.init()
     }
 
@@ -119,7 +119,10 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0)
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0) { index in
+                        let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
+                        owner.mainView.selectFilter(selectedType: selectedFilter)
+                    }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
@@ -136,6 +139,15 @@ extension DictionaryListViewController {
                     break
                 }
             }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.type)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .bind(onNext: { owner, type in
+                owner.mainView = DictionaryListView(isFilterHidden: type.isSortHidden)
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -157,7 +169,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             return UICollectionViewCell()
         }
 
-        cell.inject(
+        cell.inject(type: .bookmark,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.mainText,
@@ -170,17 +182,39 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 if item.isBookmarked {
                     self.reactor?.action.onNext(.toggleBookmark(item.id))
                 } else {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            print("로그인 화면으로 이동")
-                        },
-                        cancelAction: {
-                            print("취소됨")
-                        }
-                    )
+                    // 로그인 여부 확인
+                    if false {
+                        GuideAlertFactory.show(
+                            mainText: "북마크를 하려면 로그인이 필요해요.",
+                            ctaText: "로그인 하기",
+                            cancelText: "취소",
+                            ctaAction: {
+                                print("로그인 화면으로 이동")
+                            },
+                            cancelAction: {
+                                print("취소됨")
+                            }
+                        )
+                    } else {
+                        self.reactor?.action.onNext(.toggleBookmark(item.id))
+                        SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
+                            DispatchQueue.main.async {
+                                let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
+                                    ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
+                                })
+
+                                viewController.modalPresentationStyle = .pageSheet
+
+                                if let sheet = viewController.sheetPresentationController {
+                                    sheet.detents = [.medium(), .large()]
+                                    sheet.prefersGrabberVisible = true
+                                    sheet.preferredCornerRadius = 16
+                                }
+
+                                self.present(viewController, animated: true)
+                            }
+                        })
+                    }
                 }
             }
         )

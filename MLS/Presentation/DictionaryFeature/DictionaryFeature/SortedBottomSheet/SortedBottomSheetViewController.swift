@@ -2,26 +2,30 @@ import UIKit
 
 import BaseFeature
 import DesignSystem
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
 import RxSwift
 import SnapKit
 
-final public class SortedBottomSheetViewController: BaseViewController, ModalPresentable, View {
+public final class SortedBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat?
 
     public typealias Reactor = SortedBottomSheetReactor
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    public var onSelectedIndex: ((Int) -> Void)?
+
+    // MARK: - Components
 
     private var mainView = SortedBottomSheetView()
 }
 
 // MARK: - Life Cycle
-extension SortedBottomSheetViewController {
-    public override func viewDidLoad() {
+public extension SortedBottomSheetViewController {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         addViews()
@@ -41,15 +45,15 @@ private extension SortedBottomSheetViewController {
         }
     }
 
-    private func updateSortedButtons(_ options: [String]) {
+    private func updateSortedButtons(types: [SortType]) {
         mainView.sortedStackView.arrangedSubviews.forEach {
             mainView.sortedStackView.removeArrangedSubview($0)
             $0.removeFromSuperview()
         }
 
         guard let reactor = reactor else { return }
-        mainView.sortedButtons = options.enumerated().map { (index, title) in
-            let button = CheckBoxButton(style: .listLarge, mainTitle: title, subTitle: nil)
+        mainView.sortedButtons = types.enumerated().map { index, type in
+            let button = CheckBoxButton(style: .listLarge, mainTitle: type.rawValue, subTitle: nil)
 
             button.rx.tap
                 .map { Reactor.Action.sortedButtonTapped(index: index) }
@@ -74,15 +78,19 @@ extension SortedBottomSheetViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
+        mainView.applyButton.rx.tap
+            .map { Reactor.Action.applyButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map { $0.sortedOptions }
+            .map { $0.sortTypes }
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { (owner, options) in
-                owner.updateSortedButtons(options)
+            .subscribe { owner, type in
+                owner.updateSortedButtons(types: type)
             }
             .disposed(by: disposeBag)
 
@@ -90,8 +98,8 @@ extension SortedBottomSheetViewController {
             .map { $0.selectedIndex }
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { (owner, selectedIndex) in
-                owner.mainView.sortedButtons.enumerated().forEach { (index, button) in
+            .subscribe { owner, selectedIndex in
+                owner.mainView.sortedButtons.enumerated().forEach { index, button in
                     button.isSelected = selectedIndex == index ? true : false
                 }
             }
@@ -99,11 +107,14 @@ extension SortedBottomSheetViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
+                    owner.dismissCurrentModal()
+                case .dismissWithSave:
+                    owner.onSelectedIndex?(reactor.currentState.selectedIndex)
                     owner.dismissCurrentModal()
                 default:
                     break

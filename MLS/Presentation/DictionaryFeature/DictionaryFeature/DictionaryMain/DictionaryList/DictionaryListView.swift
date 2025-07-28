@@ -1,6 +1,7 @@
 import UIKit
 
 import DesignSystem
+import DomainInterface
 
 import SnapKit
 
@@ -17,6 +18,7 @@ final class DictionaryListView: UIView {
         static let cellWidth: CGFloat = 343
         static let cellHeight: CGFloat = 104
         static let horizontalMargin: CGFloat = 16
+        static let bottomInset: CGFloat = 64
     }
 
     // MARK: - Components
@@ -35,66 +37,22 @@ final class DictionaryListView: UIView {
 
     public lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.addSubview(sortLabel)
-        button.addSubview(sortIcon)
-
-        sortLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.verticalEdges.equalToSuperview().inset(Constant.filterInset)
-        }
-
-        sortIcon.snp.makeConstraints { make in
-            make.leading.equalTo(sortLabel.snp.trailing)
-            make.trailing.equalToSuperview()
-            make.centerY.equalTo(sortLabel)
-            make.size.equalTo(Constant.iconSize)
-        }
-
+        button.setAttributedTitle(.makeStyledString(font: .caption, text: "가나다 순"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "arrowDropdown"), for: .normal)
+        button.tintColor = .neutral900
+        button.setTitleColor(.neutral900, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         return button
-    }()
-
-    private let sortLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "가나다 순")
-        return label
-    }()
-
-    private let sortIcon: UIImageView = {
-        let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "arrowDown")
-        return view
     }()
 
     public lazy var filterButton: UIButton = {
         let button = UIButton()
-        button.addSubview(filterLabel)
-        button.addSubview(filterIcon)
-
-        filterLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.verticalEdges.equalToSuperview().inset(Constant.filterInset)
-        }
-
-        filterIcon.snp.makeConstraints { make in
-            make.leading.equalTo(filterLabel.snp.trailing)
-            make.trailing.equalToSuperview()
-            make.centerY.equalTo(filterLabel)
-            make.size.equalTo(Constant.iconSize)
-        }
-
+        button.setAttributedTitle(.makeStyledString(font: .caption, text: "필터"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "filter"), for: .normal)
+        button.tintColor = .neutral900
+        button.setTitleColor(.neutral900, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         return button
-    }()
-
-    private let filterLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "필터")
-        return label
-    }()
-
-    private let filterIcon: UIImageView = {
-        let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "filter")
-        return view
     }()
 
     public let emptyView = DictionaryListEmptyView()
@@ -107,10 +65,10 @@ final class DictionaryListView: UIView {
         configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 // MARK: - SetUp
@@ -129,6 +87,10 @@ private extension DictionaryListView {
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
+
+            emptyView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         } else {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
@@ -139,15 +101,57 @@ private extension DictionaryListView {
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-        }
 
-        emptyView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
+            emptyView.snp.makeConstraints { make in
+                make.top.equalTo(filterStackView.snp.bottom)
+                make.trailing.leading.bottom.equalToSuperview()
             }
+        }
     }
 
     func configureUI() {
         backgroundColor = .neutral100
         listCollectionView.backgroundColor = .neutral100
+    }
+}
+
+extension DictionaryListView {
+    func updateFilter(sortType: SortType?, isHidden: Bool) {
+        filterStackView.isHidden = isHidden
+        if let sortType = sortType {
+            sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: sortType.rawValue), for: .normal)
+        }
+
+        if isHidden {
+            listCollectionView.snp.remakeConstraints { make in
+                make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
+                make.horizontalEdges.bottom.equalToSuperview()
+            }
+
+            emptyView.snp.remakeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+        } else {
+            filterStackView.snp.remakeConstraints { make in
+                make.top.equalToSuperview().inset(Constant.topMargin)
+                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
+            }
+
+            listCollectionView.snp.remakeConstraints { make in
+                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+                make.horizontalEdges.bottom.equalToSuperview()
+            }
+
+            emptyView.snp.remakeConstraints { make in
+                make.top.equalTo(filterStackView.snp.bottom)
+                make.trailing.leading.bottom.equalToSuperview()
+            }
+        }
+    }
+
+    func selectFilter(selectedType: SortType) {
+        sortButton.setTitleColor(.primary700, for: .normal)
+        sortButton.tintColor = .primary700
+        sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: selectedType.rawValue), for: .normal)
     }
 }

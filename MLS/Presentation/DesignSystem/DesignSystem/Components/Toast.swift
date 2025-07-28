@@ -3,14 +3,29 @@ import UIKit
 import SnapKit
 
 public final class Toast: UIView {
-    private struct Constant {
+    private enum Constant {
         static let verticalEdgesInset: CGFloat = 16
         static let horizontalEdges: CGFloat = 24
         static let cornerRadius: CGFloat = 8
     }
 
     // MARK: - Properties
-    private let label: UILabel = UILabel()
+//    public let blurView: UIVisualEffectView = {
+//        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
+//        let view = UIVisualEffectView(effect: blurEffect)
+//        view.backgroundColor = .clearMLS
+//        view.clipsToBounds = true
+//        view.layer.cornerRadius = Constant.cornerRadius
+//        return view
+//    }()
+
+    private let toastContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral700.withAlphaComponent(0.8)
+        return view
+    }()
+
+    private let label: UILabel = .init()
 
     // MARK: - init
     public init(message: String?) {
@@ -21,6 +36,7 @@ public final class Toast: UIView {
         self.configureUI(message: message)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -29,10 +45,20 @@ public final class Toast: UIView {
 // MARK: - SetUp
 private extension Toast {
     func addViews() {
-        self.addSubview(label)
+//        addSubview(blurView)
+        addSubview(toastContentView)
+        toastContentView.addSubview(label)
     }
 
     func setupConstraints() {
+//        blurView.snp.makeConstraints { make in
+//            make.edges.equalToSuperview()
+//        }
+
+        toastContentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalEdges)
@@ -40,7 +66,6 @@ private extension Toast {
     }
 
     func configureUI(message: String?) {
-        self.backgroundColor = .neutral700
         self.layer.cornerRadius = Constant.cornerRadius
         self.clipsToBounds = true
         self.label.attributedText = .makeStyledString(font: .caption, text: message, color: .white)

@@ -9,8 +9,7 @@ public final class DictionarySearchResultFactoryImpl: DictionarySearchResultFact
 
     public func make(keyword: String?) -> BaseViewController {
         let reactor = DictionarySearchResultReactor(keyword: keyword)
-        let viewController = DictionarySearchResultViewController(dictionaryListFactory: dictionaryMainListFactory)
-        viewController.reactor = reactor
+        let viewController = DictionarySearchResultViewController(dictionaryListFactory: dictionaryMainListFactory, reactor: reactor)
         return viewController
     }
 }

@@ -2,6 +2,7 @@ import UIKit
 
 import DesignSystem
 import DictionaryFeatureInterface
+import DomainInterface
 
 import SnapKit
 
@@ -46,10 +47,10 @@ final class DictionaryMainView: UIView {
 private extension DictionaryMainView {
     func addViews(type: DictionaryMainViewType) {
         switch type {
-        case .main:
-            addSubview(headerView)
         case .search:
             addSubview(searchBar)
+        default:
+            addSubview(headerView)
         }
         addSubview(tabCollectionView)
         addSubview(pageViewController.view)
@@ -57,23 +58,6 @@ private extension DictionaryMainView {
 
     func setupConstraints(type: DictionaryMainViewType) {
         switch type {
-        case .main:
-            headerView.snp.makeConstraints { make in
-                make.top.equalTo(safeAreaLayoutGuide)
-                make.horizontalEdges.equalToSuperview()
-            }
-
-            tabCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
-                make.horizontalEdges.equalToSuperview()
-                make.height.equalTo(Constant.pageTabHeight)
-            }
-
-            pageViewController.view.snp.makeConstraints { make in
-                make.top.equalTo(tabCollectionView.snp.bottom)
-                make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-                make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
-            }
         case .search:
             searchBar.snp.makeConstraints { make in
                 make.top.equalTo(safeAreaLayoutGuide)
@@ -90,6 +74,23 @@ private extension DictionaryMainView {
                 make.top.equalTo(tabCollectionView.snp.bottom)
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide)
                 make.bottom.equalToSuperview()
+            }
+        default:
+            headerView.snp.makeConstraints { make in
+                make.top.equalTo(safeAreaLayoutGuide)
+                make.horizontalEdges.equalToSuperview()
+            }
+
+            tabCollectionView.snp.makeConstraints { make in
+                make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
+                make.horizontalEdges.equalToSuperview()
+                make.height.equalTo(Constant.pageTabHeight)
+            }
+
+            pageViewController.view.snp.makeConstraints { make in
+                make.top.equalTo(tabCollectionView.snp.bottom)
+                make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+                make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
             }
         }
     }

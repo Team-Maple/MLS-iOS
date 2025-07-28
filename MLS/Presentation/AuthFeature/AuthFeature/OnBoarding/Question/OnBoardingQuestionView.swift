@@ -16,7 +16,7 @@ public final class OnBoardingQuestionView: OnBoardingBaseView {
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "img_onBoarding_question")
+        view.image = DesignSystemAsset.image(named: "questionNotify")
         return view
     }()
 

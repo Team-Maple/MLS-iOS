@@ -15,7 +15,7 @@ final class DictionaryListEmptyView: UIView {
     // MARK: - Components
     public let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "emptyImage")
+        view.image = DesignSystemAsset.image(named: "noResult")
         return view
     }()
 

@@ -1,6 +1,10 @@
 import UIKit
 
+import AuthFeature
+import AuthFeatureInterface
 import BaseFeature
+import BookmarkFeature
+import BookmarkFeatureInterface
 import Core
 import Data
 import DataMock
@@ -49,6 +53,9 @@ private extension AppDelegate {
     }
 
     func registerRepository() {
+        DIContainer.register(type: UserDefaultsRespository.self) {
+            return BookmarkOnBoardingRepositoryImpl()
+        }
         DIContainer.register(type: AuthAPIRepository.self) {
             return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
         }
@@ -58,8 +65,8 @@ private extension AppDelegate {
         DIContainer.register(type: DictionaryListRepository.self) {
             return DictionaryListRepositoryImpl(allItems: [
                 DictionaryItem(id: "1", type: .item, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
-                DictionaryItem(id: "2", type: .monster, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true),
-                DictionaryItem(id: "3", type: .map, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false)
+                DictionaryItem(id: "2", type: .monster, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true)
+//                DictionaryItem(id: "3", type: .map, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
 //                DictionaryItem(id: "4", type: .quest, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
 //                DictionaryItem(id: "5", type: .quest, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
 //                DictionaryItem(id: "6", type: .item, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true),
@@ -160,10 +167,18 @@ private extension AppDelegate {
         DIContainer.register(type: FetchNotificationUseCase.self) {
             return FetchNotificationUseCaseImpl()
         }
+        DIContainer.register(type: GetBookmarkOnboardingUseCase.self) {
+            return GetBookmarkOnboardingUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRespository.self))
+        }
+        DIContainer.register(type: SetBookmarkOnBoardingUseCase.self) {
+            return SetBookmarkOnBoardingUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRespository.self))
+        }
+        DIContainer.register(type: CheckLoginUseCase.self) {
+            return CheckLoginUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
     }
 
     func registerFactory() {
-
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
             return ItemFilterBottomSheetFactoryImpl()
         }
@@ -173,32 +188,128 @@ private extension AppDelegate {
         DIContainer.register(type: SortedBottomSheetFactory.self) {
             return SortedBottomSheetFactoryImpl()
         }
+        DIContainer.register(type: BookmarkModalFactory.self) {
+            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
+        }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
                 fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self),
                 toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
-                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self)
+                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
+                bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self)
             )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
-            return DictionarySearchResultFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self))
+            return DictionarySearchResultFactoryImpl(
+                dictionaryMainListFactory: DIContainer
+                    .resolve(type: DictionaryMainListFactory.self)
+            )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
-            return DictionarySearchFactoryImpl(searchResultFactory: DIContainer.resolve(type: DictionarySearchResultFactory.self))
+            return DictionarySearchFactoryImpl(
+                searchResultFactory: DIContainer
+                    .resolve(type: DictionarySearchResultFactory.self)
+            )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
             return NotificationSettingFactoryImpl()
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
-            return DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
+            return DictionaryNotificationFactoryImpl(
+                fetchNotificationUseCase: DIContainer
+                    .resolve(type: FetchNotificationUseCase.self),
+                notificationSettingFactory: DIContainer
+                    .resolve(type: NotificationSettingFactory.self)
+            )
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             return DictionaryMainViewFactoryImpl(
-                dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self),
+                dictionaryMainListFactory: DIContainer
+                    .resolve(type: DictionaryMainListFactory.self),
                 searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
-                notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self)
+                notificationFactory: DIContainer
+                    .resolve(type: DictionaryNotificationFactory.self)
+            )
+        }
+        DIContainer.register(type: BookmarkOnBoardingFactory.self) {
+            return BookmarkOnBoardingFactoryImpl()
+        }
+        DIContainer.register(type: OnBoardingInputFactory.self) {
+            return OnBoardingInputFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+        }
+        DIContainer.register(type: OnBoardingQuestionFactory.self) {
+            return OnBoardingQuestionFactoryImpl(onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self))
+        }
+        DIContainer.register(type: TermsAgreementFactory.self) {
+            return TermsAgreementFactoryImpl(onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self), signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self), signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self), saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self))
+        }
+        DIContainer.register(type: LoginFactory.self) {
+            return LoginFactoryImpl(
+                termsAgreementsFactory: DIContainer
+                    .resolve(type: TermsAgreementFactory.self),
+                appleLoginUseCase: DIContainer
+                    .resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer
+                    .resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer
+                    .resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer
+                    .resolve(type: LoginWithKakaoUseCase.self)
+            )
+        }
+        DIContainer.register(type: AddCollectionFactory.self) {
+            return AddCollectionFactoryImpl()
+        }
+        DIContainer.register(type: BookmarkListFactory.self) {
+            return BookmarkListFactoryImpl(
+                fetchDictionaryItemsUseCase: DIContainer
+                    .resolve(type: FetchDictionaryItemsUseCase.self),
+                toggleBookmarkUseCase: DIContainer
+                    .resolve(type: ToggleBookmarkUseCase.self),
+                itemFilterFactory: DIContainer
+                    .resolve(type: ItemFilterBottomSheetFactory.self),
+                monsterFilterFactory: DIContainer
+                    .resolve(type: MonsterFilterBottomSheetFactory.self),
+                sortedFactory: DIContainer
+                    .resolve(type: SortedBottomSheetFactory.self),
+                bookmarkModalFactory: DIContainer
+                    .resolve(type: BookmarkModalFactory.self),
+                checkLoginUseCase: DIContainer
+                    .resolve(type: CheckLoginUseCase.self),
+                loginFactory: DIContainer.resolve(type: LoginFactory.self)
+            )
+        }
+        DIContainer.register(type: CollectionSettingFactory.self) {
+            return CollectionSettingFactoryImpl()
+        }
+        DIContainer.register(type: CollectionEditFactory.self) {
+            return CollectionEditFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
+        }
+        DIContainer.register(type: CollectionDetailFactory.self) {
+            return CollectionDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), collectionSettingFactory: DIContainer.resolve(type: CollectionSettingFactory.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
+        }
+        DIContainer.register(type: CollectionListFactory.self) {
+            return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
+        }
+        DIContainer.register(type: BookmarkMainFactory.self) {
+            return BookmarkMainFactoryImpl(
+                getOnBoardingUseCase: DIContainer
+                    .resolve(type: GetBookmarkOnboardingUseCase.self),
+                setOnBoardingUseCase: DIContainer
+                    .resolve(type: SetBookmarkOnBoardingUseCase.self),
+                onBoardingFactory: DIContainer
+                    .resolve(type: BookmarkOnBoardingFactory.self),
+                bookmarkListFactory: DIContainer
+                    .resolve(type: BookmarkListFactory.self),
+                collectionListFactory: DIContainer
+                    .resolve(type: CollectionListFactory.self),
+                searchFactory: DIContainer
+                    .resolve(type: DictionarySearchFactory.self),
+                notificationFactory: DIContainer.resolve(
+                    type: DictionaryNotificationFactory.self
+                )
             )
         }
     }

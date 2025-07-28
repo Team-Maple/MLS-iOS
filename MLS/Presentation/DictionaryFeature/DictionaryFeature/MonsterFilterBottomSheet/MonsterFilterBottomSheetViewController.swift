@@ -8,7 +8,7 @@ import RxSwift
 import SnapKit
 
 final public class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
-    public var modalHeight: CGFloat?
+    public var modalHeight: CGFloat? = 306
 
     public typealias Reactor = MonsterFilterBottomSheetReactor
 

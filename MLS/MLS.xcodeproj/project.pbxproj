@@ -38,6 +38,10 @@
 		77660AD22DD0D361007A4EF3 /* KakaoConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */; };
 		77660AD52DD0D3DD007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660AD42DD0D3DD007A4EF3 /* KakaoSDKAuth */; };
 		77660AD72DD0D3DD007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660AD62DD0D3DD007A4EF3 /* KakaoSDKUser */; };
+		779A490D2E1AD26700ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */; };
+		779A490E2E1AD26700ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		779A49102E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; };
+		779A49112E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77EB18D62DED9256004FB380 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; };
 		77EB18D72DED9256004FB380 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -60,12 +64,14 @@
 			dstSubfolderSpec = 10;
 			files = (
 				080175A02DCD27E600D0919F /* DomainInterface.framework in Embed Frameworks */,
+				779A49112E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
 				772199F32E0E7EC800A7B58C /* AuthFeatureInterface.framework in Embed Frameworks */,
 				084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */,
 				08DA58A82E1E5BE3009097A6 /* DictionaryFeature.framework in Embed Frameworks */,
 				08DA58AB2E1E5BEB009097A6 /* DictionaryFeatureInterface.framework in Embed Frameworks */,
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
 				0858ABFD2DCFDBF20060EBCA /* DesignSystem.framework in Embed Frameworks */,
+				779A490E2E1AD26700ABDE4F /* BookmarkFeature.framework in Embed Frameworks */,
 				084A25532DB93BC500C395C0 /* Domain.framework in Embed Frameworks */,
 				085BDF5F2DF6B6B3009CFB90 /* DataMock.framework in Embed Frameworks */,
 				7721A5052E0EE7AE00A7B58C /* BaseFeature.framework in Embed Frameworks */,
@@ -100,6 +106,8 @@
 		772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = KakaoConfig.xcconfig; sourceTree = "<group>"; };
+		779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB18D52DED9256004FB380 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -147,8 +155,10 @@
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
 				08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */,
 				0858ABFC2DCFDBF20060EBCA /* DesignSystem.framework in Frameworks */,
+				779A490D2E1AD26700ABDE4F /* BookmarkFeature.framework in Frameworks */,
 				77660AD52DD0D3DD007A4EF3 /* KakaoSDKAuth in Frameworks */,
 				772199F22E0E7EC800A7B58C /* AuthFeatureInterface.framework in Frameworks */,
+				779A49102E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */,
 				084A25522DB93BC500C395C0 /* Domain.framework in Frameworks */,
 				77660AD72DD0D3DD007A4EF3 /* KakaoSDKUser in Frameworks */,
 				085BDF5E2DF6B6B3009CFB90 /* DataMock.framework in Frameworks */,
@@ -213,7 +223,9 @@
 		084A25312DB93A5400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
+				779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */,
+				779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */,
+        08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
 				08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */,
 				7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */,
 				772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */,

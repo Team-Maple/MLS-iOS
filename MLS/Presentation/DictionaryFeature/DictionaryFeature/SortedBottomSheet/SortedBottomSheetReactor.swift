@@ -1,3 +1,5 @@
+import DomainInterface
+
 import ReactorKit
 import RxCocoa
 import RxSwift
@@ -6,11 +8,13 @@ final public class SortedBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case dismissWithSave
     }
     // MARK: - Reactor
     public enum Action {
         case cancelButtonTapped
         case sortedButtonTapped(index: Int)
+        case applyButtonTapped
     }
 
     public enum Mutation {
@@ -19,7 +23,7 @@ final public class SortedBottomSheetReactor: Reactor {
     }
 
     public struct State {
-        var sortedOptions: [String]
+        var sortTypes: [SortType]
         var selectedIndex: Int
         @Pulse var route: Route = .none
     }
@@ -29,8 +33,8 @@ final public class SortedBottomSheetReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init(sortedOptions: [String], selectedIndex: Int) {
-        self.initialState = State(sortedOptions: sortedOptions, selectedIndex: selectedIndex)
+    public init(sortTypes: [SortType], selectedIndex: Int) {
+        self.initialState = State(sortTypes: sortTypes, selectedIndex: selectedIndex)
     }
 
     // MARK: - Reactor Methods
@@ -40,6 +44,8 @@ final public class SortedBottomSheetReactor: Reactor {
             return Observable.just(.navigateTo(route: .dismiss))
         case .sortedButtonTapped(let index):
             return Observable.just(.setSelectedIndex(index: index))
+        case .applyButtonTapped:
+            return Observable.just(.navigateTo(route: .dismissWithSave))
         }
     }
 

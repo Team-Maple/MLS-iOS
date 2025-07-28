@@ -15,7 +15,7 @@ public final class DictionaryMainViewFactoryImpl: DictionaryMainViewFactory {
 
     public func make() -> BaseViewController {
         let reactor = DictionaryMainReactor()
-        let viewController = DictionaryMainViewController(reactor: reactor, dictionaryMainListFactory: dictionaryMainListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory)
+        let viewController = DictionaryMainViewController(dictionaryMainListFactory: dictionaryMainListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory, reactor: reactor)
         viewController.reactor = reactor
         return viewController
     }

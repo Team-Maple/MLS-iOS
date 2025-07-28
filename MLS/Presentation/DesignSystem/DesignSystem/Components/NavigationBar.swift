@@ -4,7 +4,16 @@ import SnapKit
 
 public final class NavigationBar: UIView {
     // MARK: - Types
-    private struct Constant {
+    public enum NavigationType {
+        case withUnderLine(String)
+        case arrowRightLeft
+        case arrowLeft
+        case withString(String)
+        case collection(String)
+    }
+
+    private enum Constant {
+        static let spacing: CGFloat = 8
         static let imageSize: CGFloat = 44
         static let rightInset: CGFloat = 16
         static let lineHeight: CGFloat = 1.17
@@ -14,39 +23,53 @@ public final class NavigationBar: UIView {
     private let contentStackView: UIStackView = {
         let view = UIStackView()
         view.alignment = .center
+        view.spacing = Constant.spacing
         return view
     }()
 
     public let leftButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = DesignSystemAsset.image(named: "arrowLeft")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
+        button.setImage(.arrowBack.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         return button
     }()
 
     public let rightButton: UIButton = {
         let button = UIButton(type: .system)
-        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
-        button.setImage(image, for: .normal)
+        button.setImage(.arrowForward.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         return button
     }()
 
-    public let underlineTextButton: UIButton = UIButton(type: .system)
-    public let boldTextButton: UIButton = UIButton()
+    public let underlineTextButton = UIButton()
+    public let boldTextButton: UIButton = {
+        let button = UIButton()
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        return button
+    }()
 
-    private let leftSpacingView: UIView = UIView()
-    private let rightSpacingView: UIView = UIView()
+    private let collectionTitleLabel = UILabel()
+    public let editButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.edit, for: .normal)
+        return button
+    }()
+
+    public let addButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.addIcon, for: .normal)
+        return button
+    }()
 
     // MARK: - init
-    public init(underlineTextButtonTitle: String? = nil, boldTextButtonTitle: String? = nil) {
+    public init(type: NavigationType) {
         super.init(frame: .zero)
-        self.addViews(underlineTextButtonTitle: underlineTextButtonTitle, boldTextButtonTitle: boldTextButtonTitle)
-        self.setupConstraints()
-        self.configureUI(underlineTextButtonTitle: underlineTextButtonTitle, boldTextButtonTitle: boldTextButtonTitle)
+        addViews(type: type)
+        setupConstraints(type: type)
+        configureUI(type: type)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -54,40 +77,76 @@ public final class NavigationBar: UIView {
 
 // MARK: - SetUp
 private extension NavigationBar {
-    func addViews(underlineTextButtonTitle: String? = nil, boldTextButtonTitle: String? = nil) {
-        self.addSubview(contentStackView)
-        contentStackView.addArrangedSubview(leftButton)
-        contentStackView.addArrangedSubview(leftSpacingView)
-        if underlineTextButtonTitle != nil { contentStackView.addArrangedSubview(underlineTextButton) }
-        if boldTextButtonTitle != nil { contentStackView.addArrangedSubview(boldTextButton) }
-        contentStackView.addArrangedSubview(rightSpacingView)
-        contentStackView.addArrangedSubview(rightButton)
+    func addViews(type: NavigationType) {
+        addSubview(contentStackView)
+
+        switch type {
+        case .withUnderLine:
+            contentStackView.addArrangedSubview(leftButton)
+            contentStackView.addArrangedSubview(UIView())
+            contentStackView.addArrangedSubview(underlineTextButton)
+            contentStackView.addArrangedSubview(rightButton)
+        case .arrowRightLeft:
+            contentStackView.addArrangedSubview(leftButton)
+            contentStackView.addArrangedSubview(UIView())
+            contentStackView.addArrangedSubview(rightButton)
+        case .arrowLeft:
+            contentStackView.addArrangedSubview(leftButton)
+            contentStackView.addArrangedSubview(UIView())
+        case .withString:
+            contentStackView.addArrangedSubview(leftButton)
+            contentStackView.addArrangedSubview(UIView())
+            contentStackView.addArrangedSubview(boldTextButton)
+        case .collection:
+            contentStackView.addArrangedSubview(leftButton)
+            contentStackView.addArrangedSubview(collectionTitleLabel)
+            contentStackView.addArrangedSubview(UIView())
+            contentStackView.addArrangedSubview(editButton)
+            contentStackView.addArrangedSubview(addButton)
+        }
     }
 
-    func setupConstraints() {
+    func setupConstraints(type: NavigationType) {
         contentStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         leftButton.snp.makeConstraints { make in
             make.size.equalTo(Constant.imageSize)
         }
-        rightButton.snp.makeConstraints { make in
-            make.size.equalTo(Constant.imageSize)
-        }
-        rightSpacingView.snp.makeConstraints { make in
-            make.width.equalTo(Constant.rightInset)
+        switch type {
+        case .withUnderLine, .arrowRightLeft:
+            rightButton.snp.makeConstraints { make in
+                make.size.equalTo(Constant.imageSize)
+            }
+        case .withString:
+            boldTextButton.snp.makeConstraints { make in
+                make.trailing.equalToSuperview().inset(10)
+            }
+        case .collection:
+            editButton.snp.makeConstraints { make in
+                make.size.equalTo(Constant.imageSize)
+            }
+            addButton.snp.makeConstraints { make in
+                make.size.equalTo(Constant.imageSize)
+            }
+        default:
+            break
         }
     }
 
-    func configureUI(underlineTextButtonTitle: String?, boldTextButtonTitle: String?) {
-        if let underlineTextButtonTitle, let lineHeight = UIFont.caption?.lineHeight, let font = UIFont.body {
+    func configureUI(type: NavigationType) {
+        switch type {
+        case .withUnderLine(let title):
+            guard let lineHeight = UIFont.caption?.lineHeight,
+                  let font = UIFont.body else { return }
+
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.minimumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.maximumLineHeight = lineHeight * Constant.lineHeight
             paragraphStyle.alignment = .center
 
             let attributedString = NSAttributedString(
-                string: underlineTextButtonTitle,
+                string: title,
                 attributes: [
                     .font: font,
                     .foregroundColor: UIColor.neutral700,
@@ -96,11 +155,18 @@ private extension NavigationBar {
                     .paragraphStyle: paragraphStyle
                 ]
             )
-            self.underlineTextButton.setAttributedTitle(attributedString, for: .normal)
-        }
-
-        if let boldTextButtonTitle {
-            boldTextButton.setAttributedTitle(.makeStyledString(font: .subTitleBold, text: boldTextButtonTitle), for: .normal)
+            underlineTextButton.setAttributedTitle(attributedString, for: .normal)
+        case .withString(let title):
+            boldTextButton.setAttributedTitle(
+                .makeStyledString(font: .subTitleBold, text: title),
+                for: .normal
+            )
+        case .collection(let title):
+            collectionTitleLabel.text = title
+            collectionTitleLabel.font = .body
+            collectionTitleLabel.textColor = .textColor
+        case .arrowRightLeft, .arrowLeft:
+            break
         }
     }
 }
