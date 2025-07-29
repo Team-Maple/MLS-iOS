@@ -244,7 +244,10 @@ private extension AppDelegate {
             return OnBoardingQuestionFactoryImpl(onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self))
         }
         DIContainer.register(type: TermsAgreementFactory.self) {
-            return TermsAgreementFactoryImpl(onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self), signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self), signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self), saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self))
+            return TermsAgreementFactoryImpl(onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self), signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self), signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self), saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self), fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+        }
+        DIContainer.register(type: PutFCMTokenUseCase.self) {
+            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
@@ -257,7 +260,9 @@ private extension AppDelegate {
                 loginWithAppleUseCase: DIContainer
                     .resolve(type: LoginWithAppleUseCase.self),
                 loginWithKakaoUseCase: DIContainer
-                    .resolve(type: LoginWithKakaoUseCase.self)
+                    .resolve(type: LoginWithKakaoUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
             )
         }
         DIContainer.register(type: BookmarkListFactory.self) {

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		779360FC2E38C2D20099B107 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FB2E38C2D20099B107 /* RxRelay */; };
+		779360FE2E38C4BF0099B107 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FD2E38C4BF0099B107 /* ReactorKit */; };
+		779361002E38C7240099B107 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FF2E38C7240099B107 /* RxKeyboard */; };
 		779A50BA2E2E1DC100ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC78C2E182A9200529428 /* BookmarkFeatureInterface.framework */; };
 		77C97A752E37AF83007198DA /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; };
 		77C97A762E37AF83007198DA /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBC7742E1829AB00529428 /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -188,7 +191,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				779360FC2E38C2D20099B107 /* RxRelay in Frameworks */,
 				77C97A9B2E37AF97007198DA /* Domain.framework in Frameworks */,
+				779360FE2E38C4BF0099B107 /* ReactorKit in Frameworks */,
+				779361002E38C7240099B107 /* RxKeyboard in Frameworks */,
 				77C97A752E37AF83007198DA /* BookmarkFeature.framework in Frameworks */,
 				77C97A8F2E37AF97007198DA /* Core.framework in Frameworks */,
 				77C97AA02E37AFAA007198DA /* SnapKit in Frameworks */,
@@ -348,6 +354,9 @@
 			name = BookmarkFeatureDemo;
 			packageProductDependencies = (
 				77C97A9F2E37AFAA007198DA /* SnapKit */,
+				779360FB2E38C2D20099B107 /* RxRelay */,
+				779360FD2E38C4BF0099B107 /* ReactorKit */,
+				779360FF2E38C7240099B107 /* RxKeyboard */,
 			);
 			productName = BookmarkFeatureDemo;
 			productReference = 77DBC7D52E1833FC00529428 /* BookmarkFeatureDemo.app */;
@@ -476,11 +485,10 @@
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -518,11 +526,11 @@
 			buildSettings = {
 				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = NO;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -768,7 +776,6 @@
 				INFOPLIST_FILE = BookmarkFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -805,7 +812,6 @@
 				INFOPLIST_FILE = BookmarkFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
@@ -905,6 +911,21 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		779360FB2E38C2D20099B107 /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DBC7BA2E182BF500529428 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		779360FD2E38C4BF0099B107 /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DBC7B42E182BD900529428 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
+		};
+		779360FF2E38C7240099B107 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77DBC7B72E182BE200529428 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
+		};
 		77C97A9F2E37AFAA007198DA /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 77DBC7C12E182BFE00529428 /* XCRemoteSwiftPackageReference "SnapKit" */;

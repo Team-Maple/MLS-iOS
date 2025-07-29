@@ -126,7 +126,9 @@ private extension FilterLevelSectionView {
             make.bottom.trailing.equalToSuperview()
         }
     }
+}
 
+public extension FilterLevelSectionView {
     func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
