@@ -3,7 +3,6 @@ import BaseFeature
 import DomainInterface
 
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
-
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
 
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase

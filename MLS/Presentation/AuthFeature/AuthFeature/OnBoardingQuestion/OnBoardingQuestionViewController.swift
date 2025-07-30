@@ -1,4 +1,3 @@
-import os
 import UIKit
 
 import AuthFeatureInterface
@@ -96,7 +95,7 @@ public extension OnBoardingQuestionViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {

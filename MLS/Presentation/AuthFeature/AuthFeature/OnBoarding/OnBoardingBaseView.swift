@@ -20,6 +20,7 @@ public class OnBoardingBaseView: UIView {
         if leftButtonIsHidden { headerView.leftButton.isHidden = true }
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

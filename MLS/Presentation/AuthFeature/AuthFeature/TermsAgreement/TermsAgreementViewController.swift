@@ -9,7 +9,6 @@ import RxSwift
 import SnapKit
 
 public class TermsAgreementViewController: BaseViewController, View {
-
     public typealias Reactor = TermsAgreementReactor
 
     // MARK: - Properties
@@ -24,14 +23,15 @@ public class TermsAgreementViewController: BaseViewController, View {
         super.init()
     }
 
+    @available(*, unavailable)
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Life Cycle
-extension TermsAgreementViewController {
-    public override func viewDidLoad() {
+public extension TermsAgreementViewController {
+    override func viewDidLoad() {
         super.viewDidLoad()
         addViews()
         setupConstraints()
@@ -157,10 +157,10 @@ public extension TermsAgreementViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)

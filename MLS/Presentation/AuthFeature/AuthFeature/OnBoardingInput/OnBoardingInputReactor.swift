@@ -1,7 +1,6 @@
 import DomainInterface
 
 import ReactorKit
-import RxCocoa
 import RxSwift
 
 public final class OnBoardingInputReactor: Reactor {
@@ -69,7 +68,7 @@ public final class OnBoardingInputReactor: Reactor {
         case .viewWillAppear:
             return fetchJobListUseCase.execute()
                 .map { response in
-                    return .setJobList(jobList: response.jobList)
+                    .setJobList(jobList: response.jobList)
                 }
                 .catchAndReturn(.navigateTo(route: .error))
         case .backButtonTapped:

@@ -1,5 +1,4 @@
 import ReactorKit
-import RxCocoa
 import RxSwift
 
 public final class OnBoardingQuestionReactor: Reactor {

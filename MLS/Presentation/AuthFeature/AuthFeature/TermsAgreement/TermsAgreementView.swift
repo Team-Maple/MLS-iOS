@@ -6,7 +6,7 @@ import SnapKit
 
 public final class TermsAgreementView: UIView {
     // MARK: - Type
-    private struct Constant {
+    private enum Constant {
         static let imageTopSpacing: CGFloat = 20
         static let imageSize: CGFloat = 60
         static let horizontalInset: CGFloat = 16
@@ -87,10 +87,11 @@ public final class TermsAgreementView: UIView {
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        self.addViews()
-        self.setupConstraints()
+        addViews()
+        setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -99,13 +100,13 @@ public final class TermsAgreementView: UIView {
 // MARK: - SetUp
 private extension TermsAgreementView {
     func addViews() {
-        self.addSubview(headerView)
-        self.addSubview(logoImageView)
-        self.addSubview(titleLabel)
-        self.addSubview(subTitleLabel)
-        self.addSubview(totalAgreeButton)
-        self.addSubview(bottomButton)
-        self.addSubview(termsStackView)
+        addSubview(headerView)
+        addSubview(logoImageView)
+        addSubview(titleLabel)
+        addSubview(subTitleLabel)
+        addSubview(totalAgreeButton)
+        addSubview(bottomButton)
+        addSubview(termsStackView)
         termsStackView.addArrangedSubview(oldAgreeButton)
         termsStackView.addArrangedSubview(serviceTermsAgreeButton)
         termsStackView.addArrangedSubview(personalInformationAgreeButton)

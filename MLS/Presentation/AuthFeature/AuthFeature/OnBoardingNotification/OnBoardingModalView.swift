@@ -38,6 +38,7 @@ public final class OnBoardingModalView: UIView {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

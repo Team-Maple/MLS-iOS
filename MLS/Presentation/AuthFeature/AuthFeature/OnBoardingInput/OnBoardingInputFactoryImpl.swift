@@ -3,7 +3,6 @@ import BaseFeature
 import DomainInterface
 
 public struct OnBoardingInputFactoryImpl: OnBoardingInputFactory {
-
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
     private let fetchJobListUseCase: FetchJobListUseCase

@@ -1,7 +1,5 @@
-import os
 import UIKit
 
-import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
 
@@ -106,7 +104,7 @@ public extension OnBoardingInputViewController {
             .map { $0.jobList }
             .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { (owner, list) in
+            .subscribe { owner, list in
                 owner.mainView.dropDownBox.menus = list
             }
             .disposed(by: disposeBag)
@@ -129,7 +127,7 @@ public extension OnBoardingInputViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
                 switch route {

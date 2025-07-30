@@ -6,7 +6,7 @@ import SnapKit
 
 final class LoginView: UIView {
     // MARK: - Type
-    private struct Constant {
+    private enum Constant {
         static let buttonLogoImageSize: CGFloat = 18
         static let buttonLogoImageLeadingInset: CGFloat = 14
         static let buttonHeight: CGFloat = 44
@@ -91,6 +91,7 @@ final class LoginView: UIView {
         label.attributedText = .makeStyledString(font: .heading5Regular, text: "다시 오신 걸 환영해요!")
         return label
     }()
+
     // MARK: - init
     init(isRelogin: Bool) {
         self.isRelogin = isRelogin
@@ -101,6 +102,7 @@ final class LoginView: UIView {
         configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -187,5 +189,5 @@ private extension LoginView {
         }
     }
 
-    func configureUI() { }
+    func configureUI() {}
 }
