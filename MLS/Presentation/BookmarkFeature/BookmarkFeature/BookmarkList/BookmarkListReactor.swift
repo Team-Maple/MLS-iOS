@@ -85,7 +85,7 @@ public final class BookmarkListReactor: Reactor {
             newState.route = .sort(newState.type)
         case .showFilter:
             newState.route = .filter(newState.type)
-        case .setLoginState(let isLogin):
+        case let .setLoginState(isLogin):
             newState.isLogin = isLogin
         }
         return newState

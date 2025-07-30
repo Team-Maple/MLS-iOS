@@ -1,7 +1,5 @@
 import ReactorKit
 
-import DomainInterface
-
 public final class DictionarySearchReactor: Reactor {
     // MARK: - Reactor
     public enum Route {

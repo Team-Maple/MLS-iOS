@@ -1,9 +1,7 @@
 import UIKit
 
 import BaseFeature
-import DesignSystem
 import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -95,9 +93,9 @@ public extension DictionaryNotificationViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)

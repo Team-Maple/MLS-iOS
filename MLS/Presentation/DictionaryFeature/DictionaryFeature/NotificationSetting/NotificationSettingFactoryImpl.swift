@@ -1,6 +1,5 @@
 import BaseFeature
 import DictionaryFeatureInterface
-import DomainInterface
 
 public final class NotificationSettingFactoryImpl: NotificationSettingFactory {
     public init() {}

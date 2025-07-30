@@ -7,7 +7,6 @@ import RxSwift
 import SnapKit
 
 public class FilterLevelSectionView: UIView {
-
     private enum Constant {
         static let inputBoxWidth: CGFloat = (UIScreen.main.bounds.width - (16 * 2) - dashWidth - (stackViewSpacing * 2)) / 2
         static let dashWidth: CGFloat = 7
@@ -75,6 +74,7 @@ public class FilterLevelSectionView: UIView {
         bind()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -132,7 +132,7 @@ public extension FilterLevelSectionView {
     func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
-            .subscribe { (owner, value) in
+            .subscribe { owner, value in
                 let lowValue = Int(value)
                 owner.leftInputBox.textField.text = lowValue == 0 ? nil : "\(lowValue)"
             }
@@ -140,7 +140,7 @@ public extension FilterLevelSectionView {
 
         slider.upperValueObservable
             .withUnretained(self)
-            .subscribe { (owner, value) in
+            .subscribe { owner, value in
                 let upperValue = Int(value)
                 owner.rightInputBox.textField.text = upperValue == 200 ? nil : "\(upperValue)"
             }
@@ -149,7 +149,7 @@ public extension FilterLevelSectionView {
         leftInputBox.textField.rx.text.orEmpty
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
-            .subscribe { (owner, text) in
+            .subscribe { owner, text in
                 if let value = Double(text) {
                     owner.slider.lowerValue = value
                 } else {
@@ -161,7 +161,7 @@ public extension FilterLevelSectionView {
         rightInputBox.textField.rx.text.orEmpty
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
-            .subscribe { (owner, text) in
+            .subscribe { owner, text in
                 if let value = Double(text) {
                     owner.slider.upperValue = value
                 } else {
@@ -176,7 +176,7 @@ public extension FilterLevelSectionView {
         Observable.merge([leftBoxDidEnd, rightBoxDidEnd])
             .withUnretained(self)
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
-            .subscribe { (owner, _) in
+            .subscribe { owner, _ in
                 if let leftValue = Double(owner.leftInputBox.textField.text ?? "0"), let rightValue = Double(owner.rightInputBox.textField.text ?? "200") {
                     if leftValue > rightValue {
                         owner.leftInputBox.textField.text = "\(Int(rightValue))"

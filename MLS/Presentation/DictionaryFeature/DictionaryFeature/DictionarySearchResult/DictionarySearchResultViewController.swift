@@ -1,9 +1,7 @@
 import UIKit
 
 import BaseFeature
-import DesignSystem
 import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -123,7 +121,7 @@ public extension DictionarySearchResultViewController {
         mainView.searchBar.textField.rx.text
             .orEmpty
             .distinctUntilChanged()
-            .withLatestFrom(reactor.state.map(\.keyword)) { (newText, currentKeyword) in
+            .withLatestFrom(reactor.state.map(\.keyword)) { newText, currentKeyword in
                 (newText, currentKeyword)
             }
             .filter { newText, currentKeyword in newText != currentKeyword }
@@ -135,9 +133,9 @@ public extension DictionarySearchResultViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
@@ -172,7 +170,8 @@ extension DictionarySearchResultViewController: UIPageViewControllerDataSource, 
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
-           let newIndex = viewControllers.firstIndex(of: visibleViewController) {
+           let newIndex = viewControllers.firstIndex(of: visibleViewController)
+        {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             underLineController.animateIndicatorToSelectedItem()

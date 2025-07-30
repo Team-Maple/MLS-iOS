@@ -1,7 +1,5 @@
 import ReactorKit
 
-import DomainInterface
-
 public final class NotificationSettingReactor: Reactor {
     // MARK: - Reactor
     public enum Route {

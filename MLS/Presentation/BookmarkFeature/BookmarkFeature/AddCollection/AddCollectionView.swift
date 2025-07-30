@@ -103,10 +103,10 @@ public final class AddCollectionView: UIView {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 // MARK: - SetUp
@@ -169,7 +169,6 @@ extension AddCollectionView {
         if let collection = collection {
             nameLabel.attributedText = .makeStyledString(font: .subTitle, text: "컬렉션 이름 수정", alignment: .left)
             inputTextField.attributedText = .makeStyledString(font: .captionSemiBold, text: collection.title, color: .textColor)
-
         }
     }
 }

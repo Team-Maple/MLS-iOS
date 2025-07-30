@@ -59,19 +59,19 @@ extension DictionaryListCell {
     }
 }
 
-extension DictionaryItemType {
-    public var backgroundColor: UIColor {
+public extension DictionaryItemType {
+    var backgroundColor: UIColor {
         switch self {
         case .item:
-                .listItem
+            .listItem
         case .monster:
-                .listMonster
+            .listMonster
         case .map:
-                .listMap
+            .listMap
         case .npc:
-                .listNPC
+            .listNPC
         case .quest:
-                .listQuest
+            .listQuest
         }
     }
 }

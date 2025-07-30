@@ -7,7 +7,6 @@ import RxSwift
 import SnapKit
 
 public class FilterLevelSectionCell: UICollectionViewCell {
-
     public let levelSectionView: FilterLevelSectionView = {
         let view = FilterLevelSectionView()
         return view
@@ -21,11 +20,12 @@ public class FilterLevelSectionCell: UICollectionViewCell {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
         levelSectionView.disposeBag = DisposeBag()

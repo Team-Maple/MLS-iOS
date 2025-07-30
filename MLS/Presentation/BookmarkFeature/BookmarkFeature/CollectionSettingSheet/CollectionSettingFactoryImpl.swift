@@ -2,7 +2,6 @@ import BaseFeature
 import BookmarkFeatureInterface
 
 public struct CollectionSettingFactoryImpl: CollectionSettingFactory {
-
     public init() {}
 
     public func make(setEditMenu: ((CollectionSettingMenu) -> Void)?) -> BaseViewController & ModalPresentable {

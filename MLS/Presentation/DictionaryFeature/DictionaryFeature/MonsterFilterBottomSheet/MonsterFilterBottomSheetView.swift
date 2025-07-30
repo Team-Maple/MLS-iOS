@@ -5,7 +5,6 @@ import DesignSystem
 import SnapKit
 
 final class MonsterFilterBottomSheetView: UIView {
-
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let buttonSpacing: CGFloat = 8
@@ -64,6 +63,7 @@ final class MonsterFilterBottomSheetView: UIView {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

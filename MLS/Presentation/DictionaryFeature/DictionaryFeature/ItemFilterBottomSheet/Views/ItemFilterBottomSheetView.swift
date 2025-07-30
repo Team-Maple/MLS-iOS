@@ -5,7 +5,6 @@ import DesignSystem
 import SnapKit
 
 final class ItemFilterBottomSheetView: UIView {
-
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let buttonSpacing: CGFloat = 8
@@ -20,7 +19,7 @@ final class ItemFilterBottomSheetView: UIView {
     }
 
     // MARK: - Properties
-    let headerView: Header = Header(style: .filter, title: "필터")
+    let headerView: Header = .init(style: .filter, title: "필터")
 
     private let toolBarStackView: UIStackView = {
         let view = UIStackView()
@@ -95,6 +94,7 @@ final class ItemFilterBottomSheetView: UIView {
         configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -150,5 +150,5 @@ private extension ItemFilterBottomSheetView {
         }
     }
 
-    func configureUI() { }
+    func configureUI() {}
 }

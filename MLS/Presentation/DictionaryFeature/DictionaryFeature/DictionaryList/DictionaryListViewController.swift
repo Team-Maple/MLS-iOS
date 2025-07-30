@@ -3,9 +3,9 @@ import UIKit
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 
 public final class DictionaryListViewController: BaseViewController, View {
@@ -170,54 +170,53 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
 
         cell.inject(type: .bookmark,
-            input: DictionaryListCell.Input(
-                type: item.type,
-                mainText: item.mainText,
-                subText: item.subText,
-                image: item.image,
-                isBookmarked: item.isBookmarked
-            ),
-            onBookmarkTapped: { [weak self] in
-                guard let self = self else { return }
-                if item.isBookmarked {
-                    self.reactor?.action.onNext(.toggleBookmark(item.id))
-                } else {
-                    // 로그인 여부 확인
-                    if false {
-                        GuideAlertFactory.show(
-                            mainText: "북마크를 하려면 로그인이 필요해요.",
-                            ctaText: "로그인 하기",
-                            cancelText: "취소",
-                            ctaAction: {
-                                print("로그인 화면으로 이동")
-                            },
-                            cancelAction: {
-                                print("취소됨")
-                            }
-                        )
-                    } else {
-                        self.reactor?.action.onNext(.toggleBookmark(item.id))
-                        SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
-                            DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
-                                    ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
+                    input: DictionaryListCell.Input(
+                        type: item.type,
+                        mainText: item.mainText,
+                        subText: item.subText,
+                        image: item.image,
+                        isBookmarked: item.isBookmarked
+                    ),
+                    onBookmarkTapped: { [weak self] in
+                        guard let self = self else { return }
+                        if item.isBookmarked {
+                            self.reactor?.action.onNext(.toggleBookmark(item.id))
+                        } else {
+                            // 로그인 여부 확인
+                            if false {
+                                GuideAlertFactory.show(
+                                    mainText: "북마크를 하려면 로그인이 필요해요.",
+                                    ctaText: "로그인 하기",
+                                    cancelText: "취소",
+                                    ctaAction: {
+                                        print("로그인 화면으로 이동")
+                                    },
+                                    cancelAction: {
+                                        print("취소됨")
+                                    }
+                                )
+                            } else {
+                                self.reactor?.action.onNext(.toggleBookmark(item.id))
+                                SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
+                                    DispatchQueue.main.async {
+                                        let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
+                                            ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
+                                        })
+
+                                        viewController.modalPresentationStyle = .pageSheet
+
+                                        if let sheet = viewController.sheetPresentationController {
+                                            sheet.detents = [.medium(), .large()]
+                                            sheet.prefersGrabberVisible = true
+                                            sheet.preferredCornerRadius = 16
+                                        }
+
+                                        self.present(viewController, animated: true)
+                                    }
                                 })
-
-                                viewController.modalPresentationStyle = .pageSheet
-
-                                if let sheet = viewController.sheetPresentationController {
-                                    sheet.detents = [.medium(), .large()]
-                                    sheet.prefersGrabberVisible = true
-                                    sheet.preferredCornerRadius = 16
-                                }
-
-                                self.present(viewController, animated: true)
                             }
-                        })
-                    }
-                }
-            }
-        )
+                        }
+                    })
 
         return cell
     }

@@ -3,11 +3,10 @@ import UIKit
 import BaseFeature
 
 import ReactorKit
-import RxCocoa
 import RxSwift
 import SnapKit
 
-final public class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
+public final class MonsterFilterBottomSheetViewController: BaseViewController, ModalPresentable, View {
     public var modalHeight: CGFloat? = 306
 
     public typealias Reactor = MonsterFilterBottomSheetReactor
@@ -19,8 +18,8 @@ final public class MonsterFilterBottomSheetViewController: BaseViewController, M
 }
 
 // MARK: - Life Cycle
-extension MonsterFilterBottomSheetViewController {
-    public override func viewDidLoad() {
+public extension MonsterFilterBottomSheetViewController {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         addViews()
@@ -41,7 +40,7 @@ private extension MonsterFilterBottomSheetViewController {
         }
     }
 
-    func configureUI() { }
+    func configureUI() {}
 }
 
 extension MonsterFilterBottomSheetViewController {
@@ -60,9 +59,9 @@ extension MonsterFilterBottomSheetViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.dismissCurrentModal()

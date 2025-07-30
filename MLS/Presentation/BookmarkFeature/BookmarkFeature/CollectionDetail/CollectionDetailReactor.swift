@@ -36,6 +36,7 @@ public final class CollectionDetailReactor: Reactor {
         var sections: [String] {
             return type.pageTabList.map { $0.title }
         }
+
         @Pulse var collectionMenu: CollectionSettingMenu?
     }
 
@@ -49,7 +50,6 @@ public final class CollectionDetailReactor: Reactor {
     public init(toggleBookmarkUseCase: ToggleBookmarkUseCase, collection: BookmarkCollection) {
         self.initialState = State(route: .none, collection: collection)
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
-
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
