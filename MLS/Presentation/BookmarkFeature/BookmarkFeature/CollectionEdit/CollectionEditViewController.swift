@@ -4,6 +4,7 @@ import BaseFeature
 import BookmarkFeatureInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 
 public final class CollectionEditViewController: BaseViewController, View {

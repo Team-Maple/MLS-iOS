@@ -1,7 +1,6 @@
 import UIKit
 
 import DesignSystem
-import DomainInterface
 
 public final class CollectionListCell: UICollectionViewCell {
     // MARK: - Properties

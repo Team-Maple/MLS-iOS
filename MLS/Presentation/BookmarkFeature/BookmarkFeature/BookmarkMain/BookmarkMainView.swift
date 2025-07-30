@@ -1,7 +1,6 @@
 import UIKit
 
 import DesignSystem
-import DictionaryFeatureInterface
 import DomainInterface
 
 import SnapKit

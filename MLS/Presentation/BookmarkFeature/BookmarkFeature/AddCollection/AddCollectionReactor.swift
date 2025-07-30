@@ -1,7 +1,6 @@
 import BookmarkFeatureInterface
 
 import ReactorKit
-import RxSwift
 
 public final class AddCollectionModalReactor: Reactor {
     // MARK: - Route

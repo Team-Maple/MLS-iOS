@@ -1,4 +1,3 @@
-import DesignSystem
 import DomainInterface
 
 import ReactorKit

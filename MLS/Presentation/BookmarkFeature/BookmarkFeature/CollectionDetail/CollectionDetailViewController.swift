@@ -1,12 +1,10 @@
 import UIKit
 
-import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
-import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 
 public final class CollectionDetailViewController: BaseViewController, View {

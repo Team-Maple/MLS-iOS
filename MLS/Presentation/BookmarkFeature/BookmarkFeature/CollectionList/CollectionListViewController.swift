@@ -1,10 +1,7 @@
 import UIKit
 
-import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
-import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
 import RxSwift
@@ -111,22 +108,6 @@ extension CollectionListViewController {
                 owner.mainView.listCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
-
-//        reactor.state
-//            .map(\.isLogin)
-//            .distinctUntilChanged()
-//            .withUnretained(self)
-//            .bind(onNext: { owner, isLogin in
-//                owner.mainView.emptyView.setLabel(isLogin: isLogin, buttonAction: {
-//                    if isLogin {
-//                        owner.tabBarController?.selectedIndex = 0
-//                    } else {
-//                        let viewController = owner.loginFactory.make(isReLogin: false)
-//                        owner.navigationController?.pushViewController(viewController, animated: true)
-//                    }
-//                })
-//            })
-//            .disposed(by: disposeBag)
     }
 }
 

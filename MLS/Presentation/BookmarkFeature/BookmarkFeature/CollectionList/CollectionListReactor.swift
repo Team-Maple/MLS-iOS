@@ -1,7 +1,6 @@
 import UIKit
 
 import BookmarkFeatureInterface
-import DesignSystem
 import DomainInterface
 
 import ReactorKit

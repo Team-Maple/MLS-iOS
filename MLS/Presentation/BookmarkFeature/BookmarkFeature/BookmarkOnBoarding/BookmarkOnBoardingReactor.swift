@@ -1,6 +1,3 @@
-import DesignSystem
-import DomainInterface
-
 import ReactorKit
 
 public final class BookmarkOnBoardingReactor: Reactor {
