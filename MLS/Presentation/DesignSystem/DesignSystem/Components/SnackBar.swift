@@ -81,12 +81,12 @@ private extension SnackBar {
         clipsToBounds = true
 
         label.adjustsFontSizeToFitWidth = true
-        label.attributedText = .makeStyledString(font: .caption, text: text, color: .whiteMLS, alignment: .left)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: text, color: .whiteMLS, alignment: .left)
 
         let attributedTitle = NSAttributedString(
             string: buttonText,
             attributes: [
-                .font: UIFont.caption ?? UIFont.systemFont(ofSize: 12),
+                .font: UIFont.btn_xs_r ?? UIFont.systemFont(ofSize: 12),
                 .foregroundColor: UIColor.whiteMLS,
                 .underlineStyle: NSUnderlineStyle.single.rawValue,
                 .underlineColor: UIColor.whiteMLS

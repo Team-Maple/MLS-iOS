@@ -17,13 +17,13 @@ public final class NotificationSettingView: UIView {
 
     public let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitleBold, text: "실시간 알림", alignment: .left)
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "실시간 알림", alignment: .left)
         return label
     }()
 
     public let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "신규 이벤트가 있으때 실시간으로 알림을 보내드려요.", color: .neutral700, alignment: .left)
+        label.attributedText = .makeStyledString(font: .b_m_r, text: "신규 이벤트가 있으때 실시간으로 알림을 보내드려요.", color: .neutral700, alignment: .left)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()

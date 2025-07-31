@@ -150,8 +150,8 @@ public extension BookmarkOnBoardingView {
     func configureUI(type: OnBoardingIndexType) {
         guard let content = type.content else { return }
         imageView.image = DesignSystemAsset.image(named: content.imageName)
-        titleLabel.attributedText = .makeStyledString(font: .heading4, text: content.title)
-        descLabel.attributedText = .makeStyledString(font: .body, text: content.description)
+        titleLabel.attributedText = .makeStyledString(font: .h_xxxl_b, text: content.title)
+        descLabel.attributedText = .makeStyledString(font: .b_m_r, text: content.description)
         nextButton.updateTitle(title: content.buttonTitle)
         backButton.isHidden = content.isBackButtonHidden
         stepIndicator.selectIndicator(index: type.rawValue)

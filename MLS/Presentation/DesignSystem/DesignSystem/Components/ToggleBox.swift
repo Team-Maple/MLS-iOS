@@ -4,7 +4,7 @@ import SnapKit
 
 public final class ToggleBox: UIView {
     // MARK: - Type
-    struct Constant {
+    enum Constant {
         static let margin: CGFloat = 20
         static let toggleWidth: CGFloat = 51
         static let toggleHeight: CGFloat = 31
@@ -30,6 +30,7 @@ public final class ToggleBox: UIView {
         configureUI(text: text)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -61,7 +62,7 @@ private extension ToggleBox {
     }
 
     func configureUI(text: String?) {
-        textLabel.attributedText = .makeStyledString(font: .subTitleBold, text: text, alignment: .left)
+        textLabel.attributedText = .makeStyledString(font: .sub_m_b, text: text, alignment: .left)
         backgroundColor = .neutral100
         layer.cornerRadius = Constant.radius
     }

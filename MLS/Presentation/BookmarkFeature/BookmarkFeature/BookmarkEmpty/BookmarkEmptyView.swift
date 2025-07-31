@@ -72,12 +72,12 @@ extension BookmarkEmptyView {
     func setLabel(isLogin: Bool, buttonAction: @escaping () -> Void) {
         imageView.image = DesignSystemAsset.image(named: "noShowList")
         mainLabel.attributedText = .makeStyledString(
-            font: .heading5,
+            font: .h_xl_b,
             text: isLogin ? "아직 아무것도 없어요!" : "북마크는 로그인 후 이용 가능해요!"
         )
 
         subLabel.attributedText = .makeStyledString(
-            font: .caption,
+            font: .b_s_r,
             text: isLogin ? "북마크해서 추가해보세요." : "자주 보는 정보, 검색 없이 바로 확인 할 수 있어요."
         )
 

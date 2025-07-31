@@ -21,13 +21,13 @@ final class CollectionListEmptyView: UIView {
 
     private let mainLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "첫 컬렉션을 만들어보세요", color: .textColor)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "첫 컬렉션을 만들어보세요", color: .textColor)
         return label
     }()
 
     private let subLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "컬렉션을 만들면 북마크한 리스트틀\n내 취향대로 정리할 수 있어요.", color: .neutral600)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "컬렉션을 만들면 북마크한 리스트틀\n내 취향대로 정리할 수 있어요.", color: .neutral600)
         label.numberOfLines = 2
         return label
     }()

@@ -76,6 +76,8 @@ public final class CardList: UIView {
     private let mainTextLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakStrategy = .pushOut
         return label
     }()
 
@@ -145,11 +147,11 @@ private extension CardList {
     }
 
     func updateMainText() {
-        mainTextLabel.attributedText = .makeStyledString(font: .subTitle, text: mainText, alignment: .left)
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_m, text: mainText, alignment: .left)
     }
 
     func updateSubText() {
-        subTextLabel.attributedText = .makeStyledString(font: .caption, text: subText, color: .neutral500, alignment: .left)
+        subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: subText, color: .neutral500, alignment: .left)
     }
 
     func updateIcon() {

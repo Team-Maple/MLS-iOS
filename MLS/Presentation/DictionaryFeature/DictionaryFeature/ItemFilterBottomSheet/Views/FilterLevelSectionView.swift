@@ -24,7 +24,7 @@ public class FilterLevelSectionView: UIView {
 
     private let dashLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "-")
+        label.attributedText = .makeStyledString(font: .b_m_r, text: "-")
         return label
     }()
 
@@ -49,19 +49,19 @@ public class FilterLevelSectionView: UIView {
 
     private let lowerLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "0", color: .neutral500)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "0", color: .neutral500)
         return label
     }()
 
     private let middleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "100", color: .neutral500)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "100", color: .neutral500)
         return label
     }()
 
     private let upperLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "200", color: .neutral500)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "200", color: .neutral500)
         return label
     }()
 

@@ -32,7 +32,7 @@ final class CollectionListView: UIView {
 
     public lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .caption, text: "최신 순", color: .textColor), for: .normal)
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "최신 순", color: .textColor), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "arrowDropdown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
@@ -115,7 +115,7 @@ extension CollectionListView {
     }
 
     func selectFilter(selectedType: SortType) {
-        sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: selectedType.rawValue, color: .primary700), for: .normal)
+        sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700
     }
 }

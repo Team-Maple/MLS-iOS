@@ -18,7 +18,7 @@ final class BookmarkModalView: UIView {
     // MARK: - Components
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "컬렉션", alignment: .left)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "컬렉션", alignment: .left)
         return label
     }()
 

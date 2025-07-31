@@ -36,13 +36,13 @@ public final class TermsAgreementView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading3, text: "필수약관에 동의해주세요")
+        label.attributedText = .makeStyledString(font: .h_xxxl_b, text: "필수약관에 동의해주세요")
         return label
     }()
 
     private let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitle, text: "메랜사를 더 편하게 즐기기 위해 필요한 항목이에요", color: .neutral700)
+        label.attributedText = .makeStyledString(font: .sub_m_m, text: "메랜사를 더 편하게 즐기기 위해 필요한 항목이에요", color: .neutral700)
         return label
     }()
 

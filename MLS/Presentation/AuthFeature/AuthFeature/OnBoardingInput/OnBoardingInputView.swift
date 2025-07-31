@@ -24,7 +24,7 @@ public final class OnBoardingInputView: OnBoardingBaseView {
     // MARK: - Components
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading4, text: "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
+        label.attributedText = .makeStyledString(font: .h_xxl_b, text: "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
         label.numberOfLines = 2
         return label
     }()

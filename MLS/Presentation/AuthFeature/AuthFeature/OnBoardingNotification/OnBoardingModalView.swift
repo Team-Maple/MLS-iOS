@@ -14,14 +14,14 @@ public final class OnBoardingModalView: UIView {
     // MARK: - Components
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "메이플랜드 이벤트 알림을 위해\n알림 허용이 필요해요", alignment: .left)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "메이플랜드 이벤트 알림을 위해\n알림 허용이 필요해요", alignment: .left)
         label.numberOfLines = 2
         return label
     }()
 
     private let regularTeextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "놓치지 않도록 푸시 알림으로\n가장 먼저 알려들리게요.", color: .neutral700, alignment: .left)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "놓치지 않도록 푸시 알림으로\n가장 먼저 알려들리게요.", color: .neutral700, alignment: .left)
         label.numberOfLines = 2
         return label
     }()

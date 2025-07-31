@@ -37,7 +37,7 @@ final class DictionaryListView: UIView {
 
     public lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .caption, text: "가나다 순"), for: .normal)
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "가나다 순"), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "arrowDropdown"), for: .normal)
         button.tintColor = .neutral900
         button.setTitleColor(.neutral900, for: .normal)
@@ -47,7 +47,7 @@ final class DictionaryListView: UIView {
 
     public lazy var filterButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .caption, text: "필터"), for: .normal)
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "필터"), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "filter"), for: .normal)
         button.tintColor = .neutral900
         button.setTitleColor(.neutral900, for: .normal)
@@ -119,7 +119,7 @@ extension DictionaryListView {
     func updateFilter(sortType: SortType?, isHidden: Bool) {
         filterStackView.isHidden = isHidden
         if let sortType = sortType {
-            sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: sortType.rawValue), for: .normal)
+            sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue), for: .normal)
         }
 
         if isHidden {
@@ -152,6 +152,6 @@ extension DictionaryListView {
     func selectFilter(selectedType: SortType) {
         sortButton.setTitleColor(.primary700, for: .normal)
         sortButton.tintColor = .primary700
-        sortButton.setAttributedTitle(.makeStyledString(font: .caption, text: selectedType.rawValue), for: .normal)
+        sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue), for: .normal)
     }
 }

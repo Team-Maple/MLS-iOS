@@ -23,7 +23,7 @@ final class MonsterFilterBottomSheetView: UIView {
 
     private let sectionTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitleBold, text: "레벨", alignment: .left)
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "레벨", alignment: .left)
         return label
     }()
 

@@ -1,7 +1,7 @@
 import UIKit
 
-extension NSAttributedString {
-    public static func makeStyledString(
+public extension NSAttributedString {
+    static func makeStyledString(
         font: UIFont?,
         text: String?,
         color: UIColor? = .textColor,

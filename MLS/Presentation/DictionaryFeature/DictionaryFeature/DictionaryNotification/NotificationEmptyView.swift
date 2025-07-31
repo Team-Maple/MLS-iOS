@@ -21,7 +21,7 @@ final class NotificationEmptyView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "알림이 꺼져있어요", alignment: .center)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "알림이 꺼져있어요", alignment: .center)
         return label
     }()
 
@@ -31,8 +31,8 @@ final class NotificationEmptyView: UIView {
         let fullText = "오른쪽 상단 설정을 눌러 알림을 켜면\n업데이트, 이벤트 소식을 바로 받아볼 수 있어요!"
         let keyword = "설정"
 
-        guard let baseFont = UIFont.subTitle,
-              let specialFont = UIFont.subTitleBold else { return UILabel() }
+        guard let baseFont = UIFont.sub_m_m,
+              let specialFont = UIFont.sub_m_b else { return UILabel() }
         let specialColor = UIColor.textColor
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center

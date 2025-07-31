@@ -1,5 +1,6 @@
-import SnapKit
 import UIKit
+
+import SnapKit
 
 public final class CollectionList: UIView {
     private enum Constant {
@@ -45,7 +46,7 @@ public final class CollectionList: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -125,11 +126,11 @@ private extension CollectionList {
 
 public extension CollectionList {
     func setTitle(text: String) {
-        titleLabel.attributedText = .makeStyledString(font: .captionSemiBold, text: text, alignment: .left)
+        titleLabel.attributedText = .makeStyledString(font: .b_s_m, text: text, alignment: .left)
     }
 
     func setSubtitle(text: String) {
-        subtitleLabel.attributedText = .makeStyledString(font: .caption, text: text, color: .neutral500, alignment: .left)
+        subtitleLabel.attributedText = .makeStyledString(font: .cp_xs_r, text: text, color: .neutral500, alignment: .left)
     }
 
     func setImages(images: [UIImage?]) {

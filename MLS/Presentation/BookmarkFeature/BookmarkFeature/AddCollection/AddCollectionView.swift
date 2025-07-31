@@ -28,7 +28,7 @@ public final class AddCollectionView: UIView {
     // MARK: - Components
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "컬렉션", alignment: .left)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "컬렉션", alignment: .left)
         return label
     }()
 
@@ -59,7 +59,7 @@ public final class AddCollectionView: UIView {
 
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitle, text: "컬렉션 이름 입력", alignment: .left)
+        label.attributedText = .makeStyledString(font: .sub_m_sb, text: "컬렉션 이름 입력", alignment: .left)
         return label
     }()
 
@@ -167,8 +167,8 @@ extension AddCollectionView {
 
     func checkIsEmptyCollection(collection: BookmarkCollection?) {
         if let collection = collection {
-            nameLabel.attributedText = .makeStyledString(font: .subTitle, text: "컬렉션 이름 수정", alignment: .left)
-            inputTextField.attributedText = .makeStyledString(font: .captionSemiBold, text: collection.title, color: .textColor)
+            nameLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: "컬렉션 이름 수정", alignment: .left)
+            inputTextField.attributedText = .makeStyledString(font: .b_s_sb, text: collection.title, color: .textColor)
         }
     }
 }

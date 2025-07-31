@@ -21,7 +21,7 @@ final class DictionaryListEmptyView: UIView {
 
     private let textLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "검색 결과가 없습니다.")
+        label.attributedText = .makeStyledString(font: .b_m_r, text: "검색 결과가 없습니다.")
         return label
     }()
 

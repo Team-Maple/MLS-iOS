@@ -21,7 +21,7 @@ public final class DictionaryNotificationView: UIView {
     public let header = NavigationBar(type: .withString("설정"))
     public let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading3SemiBold, text: "알림", alignment: .left)
+        label.attributedText = .makeStyledString(font: .h_xxxl_sb, text: "알림", alignment: .left)
         return label
     }()
 
