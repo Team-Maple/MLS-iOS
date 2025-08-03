@@ -118,8 +118,7 @@ private extension CommonButton {
             config.background.backgroundColor = .clear
             let currentTitle = isEnabled ? title : disabledTitle
             if let textButtonTitle = currentTitle,
-               let lineHeight = style.font?.lineHeight
-            {
+               let lineHeight = style.font?.lineHeight {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight

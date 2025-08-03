@@ -25,7 +25,7 @@ public final class BookmarkListViewController: BaseViewController, View {
     // MARK: - Components
     private var mainView: BookmarkListView
 
-    public init(reactor: BookmarkListReactor,itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
+    public init(reactor: BookmarkListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
@@ -152,7 +152,7 @@ extension BookmarkListViewController {
             .map(\.items)
             .distinctUntilChanged()
             .withUnretained(self)
-            .bind(onNext: { owner, items in
+            .bind(onNext: { owner, _ in
                 let type = reactor.currentState.type
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })

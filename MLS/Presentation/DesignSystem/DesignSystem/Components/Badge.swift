@@ -9,10 +9,10 @@ public final class Badge: UIView {
         case preQuest
         case currentQuest
         case nextQuest
-        
+
         var font: UIFont? {
             switch self {
-            case .element(_):
+            case .element:
                 return .cp_s_sb
             case .currentQuest:
                 return .cp_xs_sb
@@ -23,7 +23,7 @@ public final class Badge: UIView {
 
         var fontColor: UIColor {
             switch self {
-            case .element(_), .currentQuest:
+            case .element, .currentQuest:
                 return .primary700
             default:
                 return .neutral600
@@ -32,13 +32,13 @@ public final class Badge: UIView {
 
         var backgroundColor: UIColor {
             switch self {
-            case .element(_), .currentQuest:
+            case .element, .currentQuest:
                 return .primary25
             default:
                 return .neutral100
             }
         }
-        
+
         var text: String {
             switch self {
             case .element(let text):
@@ -57,7 +57,7 @@ public final class Badge: UIView {
         static let radius: CGFloat = 4
         static let contentInsets: CGFloat = 6
     }
-    
+
     // MARK: - Components
     private let textLabel = UILabel()
 
@@ -81,7 +81,7 @@ private extension Badge {
     func addViews() {
         addSubview(textLabel)
     }
-    
+
     func setupConstraints() {
         textLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Constant.contentInsets)

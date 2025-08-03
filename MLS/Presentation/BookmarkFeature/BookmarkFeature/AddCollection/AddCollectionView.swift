@@ -171,9 +171,9 @@ extension AddCollectionView {
             nameLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: "컬렉션 이름 수정", alignment: .left)
         }
     }
-    
+
     func updateTextField(text: String?) {
-        if let text = text  {
+        if let text = text {
             inputTextField.attributedText = .makeStyledString(font: .b_s_sb, text: text, color: .textColor, alignment: .left)
         }
     }

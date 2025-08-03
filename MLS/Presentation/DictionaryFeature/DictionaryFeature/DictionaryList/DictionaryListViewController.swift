@@ -31,7 +31,6 @@ public final class DictionaryListViewController: BaseViewController, View {
         super.init()
         self.reactor = reactor
     }
-    
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {

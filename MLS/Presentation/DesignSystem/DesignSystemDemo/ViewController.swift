@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         CollectionListTestViewController(),
         SnackBarTestViewController(),
         BadgeTestController(),
-        DictionaryDetailViewTestController(),
+        DictionaryDetailViewTestController()
     ]
 
     override func viewDidLoad() {
