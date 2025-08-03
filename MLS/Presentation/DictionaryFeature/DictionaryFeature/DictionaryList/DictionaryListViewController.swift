@@ -31,6 +31,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         super.init()
         self.reactor = reactor
     }
+    
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -149,7 +150,6 @@ extension DictionaryListViewController {
             .withUnretained(self)
             .bind(onNext: { owner, type in
                 owner.mainView.updateFilter(sortType: type.sortedFilter.first)
-//                owner.mainView = DictionaryListView(isFilterHidden: type.isSortHidden)
             })
             .disposed(by: disposeBag)
     }

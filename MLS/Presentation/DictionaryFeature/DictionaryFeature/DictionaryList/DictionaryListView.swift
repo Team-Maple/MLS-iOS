@@ -74,14 +74,14 @@ final class DictionaryListView: UIView {
 // MARK: - SetUp
 private extension DictionaryListView {
     func addViews(isFilterHidden: Bool) {
-        if !isFilterHidden {
-            addSubview(filterStackView)
-        }
+        addSubview(filterStackView)
         addSubview(listCollectionView)
         addSubview(emptyView)
     }
 
     func setupConstraints(isFilterHidden: Bool) {
+        filterStackView.isHidden = isFilterHidden
+        
         if isFilterHidden {
             listCollectionView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
@@ -117,7 +117,6 @@ private extension DictionaryListView {
 
 extension DictionaryListView {
     func updateFilter(sortType: SortType?) {
-        filterStackView.isHidden = isHidden
         if let sortType = sortType {
             sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue), for: .normal)
         }
