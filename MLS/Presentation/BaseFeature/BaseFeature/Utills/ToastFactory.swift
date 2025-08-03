@@ -57,10 +57,15 @@ extension ToastFactory {
             make.bottom.equalTo(window.snp.bottom).inset(120)
             make.centerX.equalTo(window.snp.centerX)
         }
+        
+        toastMSG.alpha = 0
+        UIView.animate(withDuration: 0.25) {
+            toastMSG.alpha = 1
+        }
 
         UIView.animate(
-            withDuration: 0.3,
-            delay: 1,
+            withDuration: 0.6,
+            delay: 2.3,
             options: .curveEaseOut
         ) {
             toastMSG.alpha = 0
