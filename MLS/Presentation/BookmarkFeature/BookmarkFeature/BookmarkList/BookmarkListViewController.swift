@@ -23,15 +23,17 @@ public final class BookmarkListViewController: BaseViewController, View {
     private var selectedSortIndex = 0
 
     // MARK: - Components
-    private var mainView = BookmarkListView(isFilterHidden: true)
+    private var mainView: BookmarkListView
 
-    public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
+    public init(reactor: BookmarkListReactor,itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
+        self.mainView = BookmarkListView(isFilterHidden: reactor.currentState.type.isBookmarkSortHidden)
         super.init()
+        self.reactor = reactor
     }
 
     @available(*, unavailable)
@@ -152,8 +154,7 @@ extension BookmarkListViewController {
             .withUnretained(self)
             .bind(onNext: { owner, items in
                 let type = reactor.currentState.type
-                let isFilterHidden = items.isEmpty ? true : type.isBookmarkSortHidden
-                owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first, isHidden: isFilterHidden)
+                owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })
             .disposed(by: disposeBag)
 

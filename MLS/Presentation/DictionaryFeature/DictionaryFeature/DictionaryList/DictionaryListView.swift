@@ -116,36 +116,10 @@ private extension DictionaryListView {
 }
 
 extension DictionaryListView {
-    func updateFilter(sortType: SortType?, isHidden: Bool) {
+    func updateFilter(sortType: SortType?) {
         filterStackView.isHidden = isHidden
         if let sortType = sortType {
             sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue), for: .normal)
-        }
-
-        if isHidden {
-            listCollectionView.snp.remakeConstraints { make in
-                make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
-                make.horizontalEdges.bottom.equalToSuperview()
-            }
-
-            emptyView.snp.remakeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-        } else {
-            filterStackView.snp.remakeConstraints { make in
-                make.top.equalToSuperview().inset(Constant.topMargin)
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
-            }
-
-            listCollectionView.snp.remakeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
-                make.horizontalEdges.bottom.equalToSuperview()
-            }
-
-            emptyView.snp.remakeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom)
-                make.trailing.leading.bottom.equalToSuperview()
-            }
         }
     }
 

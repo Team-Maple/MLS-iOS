@@ -85,6 +85,7 @@ public final class AddCollectionView: UIView {
         let textField = UITextField()
         textField.backgroundColor = .clearMLS
         textField.tintColor = .primary300
+        textField.textAlignment = .left
         textField.attributedPlaceholder = NSAttributedString(
             string: "컬렉션 이름을 입력해주세요 (최대 18자)",
             attributes: [.foregroundColor: UIColor.neutral500]
@@ -166,9 +167,14 @@ extension AddCollectionView {
     }
 
     func checkIsEmptyCollection(collection: BookmarkCollection?) {
-        if let collection = collection {
+        if collection != nil {
             nameLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: "컬렉션 이름 수정", alignment: .left)
-            inputTextField.attributedText = .makeStyledString(font: .b_s_sb, text: collection.title, color: .textColor)
+        }
+    }
+    
+    func updateTextField(text: String?) {
+        if let text = text  {
+            inputTextField.attributedText = .makeStyledString(font: .b_s_sb, text: text, color: .textColor, alignment: .left)
         }
     }
 }

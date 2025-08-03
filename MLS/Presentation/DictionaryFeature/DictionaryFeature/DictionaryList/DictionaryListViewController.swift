@@ -20,14 +20,16 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let sortedFactory: SortedBottomSheetFactory
 
     // MARK: - Components
-    private var mainView = DictionaryListView(isFilterHidden: true)
+    private var mainView: DictionaryListView
 
-    public init(itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
+    public init(reactor: DictionaryListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.mainView = DictionaryListView(isFilterHidden: reactor.currentState.type.isSortHidden)
         super.init()
+        self.reactor = reactor
     }
 
     @available(*, unavailable)
@@ -146,7 +148,8 @@ extension DictionaryListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
-                owner.mainView = DictionaryListView(isFilterHidden: type.isSortHidden)
+                owner.mainView.updateFilter(sortType: type.sortedFilter.first)
+//                owner.mainView = DictionaryListView(isFilterHidden: type.isSortHidden)
             })
             .disposed(by: disposeBag)
     }

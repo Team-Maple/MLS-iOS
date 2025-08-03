@@ -42,8 +42,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
             toggleBookmarkUseCase: toggleBookmarkUseCase,
             checkLoginUseCase: checkLoginUseCase
         )
-        let viewController = BookmarkListViewController(itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory)
-        viewController.reactor = reactor
+        let viewController = BookmarkListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory)
         if listType == .search {
             viewController.isBottomTabbarHidden = true
         }

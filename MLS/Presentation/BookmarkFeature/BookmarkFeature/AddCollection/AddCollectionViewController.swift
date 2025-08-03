@@ -105,6 +105,7 @@ private extension AddCollectionViewController {
                 let safeBottom = self.view.safeAreaInsets.bottom
                 let inset = height > 0 ? height - safeBottom + AddCollectionView.Constant.buttonBottomMargin : AddCollectionView.Constant.buttonBottomMargin
                 self.mainView.addButtonBottomConstraint?.update(inset: inset)
+                self.mainView.updateTextField(text: reactor?.initialState.inputText)
             })
             .disposed(by: disposeBag)
     }
@@ -146,6 +147,7 @@ extension AddCollectionViewController {
 
         reactor.state
             .map(\.collection)
+            .distinctUntilChanged()
             .withUnretained(self)
             .bind { owner, collection in
                 owner.mainView.checkIsEmptyCollection(collection: collection)

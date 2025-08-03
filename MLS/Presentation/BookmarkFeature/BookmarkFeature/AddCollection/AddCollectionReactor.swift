@@ -29,17 +29,18 @@ public final class AddCollectionModalReactor: Reactor {
     public struct State {
         @Pulse var route: Route?
         var collection: BookmarkCollection?
-        var inputText: String = ""
+        var inputText: String? = nil
         var isError: Bool = false
         var isButtonEnabled: Bool = false
     }
 
     // MARK: - Properties
-    public let initialState: State
+    public var initialState = State(collection: nil)
 
     // MARK: - Init
     public init(collection: BookmarkCollection?) {
-        self.initialState = State(collection: collection)
+        self.initialState.collection = collection
+        self.initialState.inputText = collection?.title
     }
 
     // MARK: - Mutate
@@ -56,7 +57,8 @@ public final class AddCollectionModalReactor: Reactor {
             return .just(.toNavigate(.dismiss))
 
         case .completeButtonTapped:
-            let trimmed = currentState.inputText.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let text = currentState.inputText else { return .empty() }
+            let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmed.count > 18 {
                 return .just(.setError(true))
             } else {
