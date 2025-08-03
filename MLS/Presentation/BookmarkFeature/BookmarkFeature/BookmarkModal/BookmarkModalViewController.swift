@@ -2,10 +2,9 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
-import DesignSystem
-import DomainInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 import SnapKit
 

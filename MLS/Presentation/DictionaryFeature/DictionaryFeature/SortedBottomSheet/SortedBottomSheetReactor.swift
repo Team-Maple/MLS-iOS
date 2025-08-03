@@ -4,12 +4,13 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-final public class SortedBottomSheetReactor: Reactor {
+public final class SortedBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
         case dismissWithSave
     }
+
     // MARK: - Reactor
     public enum Action {
         case cancelButtonTapped

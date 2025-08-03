@@ -1,7 +1,5 @@
 import UIKit
 
-import DesignSystem
-
 import RxCocoa
 import RxSwift
 import SnapKit
@@ -72,6 +70,7 @@ public class FilterSlider: UIControl {
     private enum Thumb {
         case lower, upper, none
     }
+
     private var activeThumb: Thumb = .none
 
     private let disposeBag = DisposeBag()
@@ -95,7 +94,7 @@ public class FilterSlider: UIControl {
         bindValues()
     }
 
-    required public init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
         bindValues()
@@ -173,7 +172,7 @@ public class FilterSlider: UIControl {
     }
 
     // MARK: - Layout
-    public override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         updateTrackAndThumb(animated: false)
         lowerThumb.frame = lowerThumb.frame.integral
@@ -217,7 +216,7 @@ public class FilterSlider: UIControl {
     }
 
     // MARK: - Touch Handling
-    public override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override public func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         isThumbTracking.accept(true)
         previousLocation = touch.location(in: self)
 
@@ -232,7 +231,7 @@ public class FilterSlider: UIControl {
         return activeThumb != .none
     }
 
-    public override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override public func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         isThumbTracking.accept(true)
         let location = touch.location(in: self)
         let deltaLocation = location.x - previousLocation.x
@@ -266,13 +265,13 @@ public class FilterSlider: UIControl {
         return true
     }
 
-    public override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+    override public func endTracking(_ touch: UITouch?, with event: UIEvent?) {
         isThumbTracking.accept(false)
         activeThumb = .none
     }
 
     // MARK: - Touch Hit Test
-    public override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         if lowerThumb.frame.insetBy(dx: Constant.expandedTouchInset, dy: Constant.expandedTouchInset).contains(point) {
             return self
         }

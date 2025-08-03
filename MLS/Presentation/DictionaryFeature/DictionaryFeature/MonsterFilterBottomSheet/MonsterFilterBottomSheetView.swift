@@ -5,7 +5,6 @@ import DesignSystem
 import SnapKit
 
 final class MonsterFilterBottomSheetView: UIView {
-
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let buttonSpacing: CGFloat = 8
@@ -24,7 +23,7 @@ final class MonsterFilterBottomSheetView: UIView {
 
     private let sectionTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitleBold, text: "레벨", alignment: .left)
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "레벨", alignment: .left)
         return label
     }()
 
@@ -64,6 +63,7 @@ final class MonsterFilterBottomSheetView: UIView {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

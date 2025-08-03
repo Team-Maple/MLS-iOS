@@ -94,7 +94,7 @@ extension CollectionSettingViewController: UITableViewDelegate, UITableViewDataS
         let item = reactor.currentState.menu[indexPath.row]
         cell.textLabel?.textAlignment = .center
         cell.textLabel?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        cell.textLabel?.attributedText = .makeStyledString(font: .body, text: item.title, color: item.titleColor)
+        cell.textLabel?.attributedText = .makeStyledString(font: .b_m_r, text: item.title, color: item.titleColor)
         if indexPath.row < reactor.currentState.menu.count - 1 {
             let divider = UIView()
             divider.backgroundColor = .lightGray.withAlphaComponent(0.3)

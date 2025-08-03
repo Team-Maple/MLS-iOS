@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 public final class ErrorMessage: UIView {
-    private struct Constant {
+    private enum Constant {
         static let verticalEdgesInset: CGFloat = 8
         static let horizontalEdges: CGFloat = 20
         static let cornerRadius: CGFloat = 18
@@ -24,12 +24,12 @@ public final class ErrorMessage: UIView {
     // MARK: - init
     public init(message: String?) {
         super.init(frame: .zero)
-
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI(message: message)
+        addViews()
+        setupConstraints()
+        configureUI(message: message)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -38,8 +38,8 @@ public final class ErrorMessage: UIView {
 // MARK: - SetUp
 private extension ErrorMessage {
     func addViews() {
-        self.addSubview(iconView)
-        self.addSubview(label)
+        addSubview(iconView)
+        addSubview(label)
     }
 
     func setupConstraints() {
@@ -55,7 +55,7 @@ private extension ErrorMessage {
 
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
-            make.leading.equalTo(iconView.snp.trailing).offset(Constant.spacing)
+            make.leading.equalTo(self.iconView.snp.trailing).offset(Constant.spacing)
             make.trailing.equalToSuperview().inset(Constant.horizontalEdges)
         }
     }
@@ -64,6 +64,6 @@ private extension ErrorMessage {
         self.backgroundColor = .error100
         self.layer.cornerRadius = Constant.cornerRadius
         self.clipsToBounds = true
-        self.label.attributedText = .makeStyledString(font: .caption, text: message, color: .error900)
+        self.label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .error900)
     }
 }

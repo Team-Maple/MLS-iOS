@@ -45,8 +45,8 @@ public final class DropDownBox: UIStackView {
         self.menus = menus
         super.init(frame: .zero)
 
-        inputBox.label.attributedText = .makeStyledString(font: .caption, text: label, color: .neutral700, alignment: .left)
-        inputBox.textField.attributedPlaceholder = .makeStyledString(font: .body, text: placeHodler, color: .neutral500, alignment: .left)
+        inputBox.label.attributedText = .makeStyledString(font: .b_s_r, text: label, color: .neutral700, alignment: .left)
+        inputBox.textField.attributedPlaceholder = .makeStyledString(font: .b_m_r, text: placeHodler, color: .neutral500, alignment: .left)
 
         setupStackView()
         setupInputBox()
@@ -99,7 +99,7 @@ private extension DropDownBox {
 
         tableView.snp.makeConstraints { make in
             make.leading.trailing.equalTo(inputBox)
-            self.tableViewHeightConstraint = make.height.equalTo(0).constraint
+            tableViewHeightConstraint = make.height.equalTo(0).constraint
         }
     }
 
@@ -146,7 +146,7 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        inputBox.textField.attributedText = .makeStyledString(font: .body, text: menus[indexPath.row], alignment: .left)
+        inputBox.textField.attributedText = .makeStyledString(font: .b_m_r, text: menus[indexPath.row], alignment: .left)
         inputBox.textField.sendActions(for: .editingChanged)
         toggleDropdown()
     }

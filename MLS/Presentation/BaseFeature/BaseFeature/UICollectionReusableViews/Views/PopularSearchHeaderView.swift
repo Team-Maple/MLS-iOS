@@ -49,10 +49,10 @@ private extension PopularSearchHeaderView {
     }
 
     func configureUI() {
-        titleLabel.font = .subTitleBold
+        titleLabel.font = .sub_l_b
         titleLabel.textAlignment = .left
 
-        subtitleLabel.font = .korFont(style: .regular, size: 12)
+        subtitleLabel.font = .cp_s_r
         subtitleLabel.textColor = .neutral500
         subtitleLabel.textAlignment = .left
     }

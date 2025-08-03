@@ -3,7 +3,6 @@ import UIKit
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
-import DomainInterface
 
 import ReactorKit
 import RxCocoa

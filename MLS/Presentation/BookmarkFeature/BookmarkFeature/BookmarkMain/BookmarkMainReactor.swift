@@ -1,4 +1,3 @@
-import DesignSystem
 import DomainInterface
 
 import ReactorKit
@@ -66,7 +65,6 @@ public final class BookmarkMainReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-
         case .navigateTo(let route):
             newState.route = route
         }

@@ -31,7 +31,7 @@ public final class BaseErrorViewController: BaseViewController {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.attributedText = .makeStyledString(font: .body, text: "알 수 없는 오류가 발생했어요.\n이전 화면으로 돌아가 다시 시도해 주세요.")
+        label.attributedText = .makeStyledString(font: .b_m_r, text: "알 수 없는 오류가 발생했어요.\n이전 화면으로 돌아가 다시 시도해 주세요.")
         return label
     }()
 

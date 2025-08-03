@@ -137,8 +137,8 @@ private extension NavigationBar {
     func configureUI(type: NavigationType) {
         switch type {
         case .withUnderLine(let title):
-            guard let lineHeight = UIFont.caption?.lineHeight,
-                  let font = UIFont.body else { return }
+            guard let lineHeight = UIFont.b_s_r?.lineHeight,
+                  let font = UIFont.b_m_r else { return }
 
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.minimumLineHeight = lineHeight * Constant.lineHeight
@@ -158,12 +158,12 @@ private extension NavigationBar {
             underlineTextButton.setAttributedTitle(attributedString, for: .normal)
         case .withString(let title):
             boldTextButton.setAttributedTitle(
-                .makeStyledString(font: .subTitleBold, text: title),
+                .makeStyledString(font: .sub_m_b, text: title),
                 for: .normal
             )
         case .collection(let title):
             collectionTitleLabel.text = title
-            collectionTitleLabel.font = .body
+            collectionTitleLabel.font = .b_m_r
             collectionTitleLabel.textColor = .textColor
         case .arrowRightLeft, .arrowLeft:
             break

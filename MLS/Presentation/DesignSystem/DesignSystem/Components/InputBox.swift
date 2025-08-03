@@ -53,11 +53,11 @@ private extension InputBox {
     }
 
     func setupLabel(label: String?) {
-        self.label.attributedText = .makeStyledString(font: .caption, text: label, color: .neutral700, alignment: .left)
+        self.label.attributedText = .makeStyledString(font: .b_s_r, text: label, color: .neutral700, alignment: .left)
     }
 
     func setupTextField(placeHolder: String?) {
-        textField.attributedPlaceholder = .makeStyledString(font: .body, text: placeHolder, color: .neutral500, alignment: .left)
+        textField.attributedPlaceholder = .makeStyledString(font: .b_m_r, text: placeHolder, color: .neutral500, alignment: .left)
     }
 
     func setupConstaraints() {

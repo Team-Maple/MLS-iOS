@@ -1,12 +1,12 @@
 import ReactorKit
-import RxCocoa
 import RxSwift
 
-final public class MonsterFilterBottomSheetReactor: Reactor {
+public final class MonsterFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
     }
+
     // MARK: - Reactor
     public enum Action {
         case cancelButtonTapped

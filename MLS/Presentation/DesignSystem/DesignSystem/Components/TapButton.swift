@@ -66,7 +66,7 @@ private extension TapButton {
 
     func updateUI() {
         mainTitleLabel.attributedText = .makeStyledString(
-            font: isSelected ? .captionSemiBold : .caption,
+            font: isSelected ? .cp_s_sb : .cp_s_r,
             text: text,
             color: isSelected ? .primary700 : .neutral700
         )

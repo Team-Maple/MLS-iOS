@@ -35,7 +35,7 @@ public final class GuideAlert: UIView {
 
     // MARK: - init
     public init(mainText: String, ctaText: String, cancelText: String?, ctaRatio: Double = 0.7) {
-        textLabel.attributedText = .makeStyledString(font: .subTitle, text: mainText)
+        textLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
         self.ctaButton = CommonButton(style: .normal, title: ctaText, disabledTitle: nil)
         self.cancelButton = cancelText.map { CommonButton(style: .border, title: $0, disabledTitle: nil) }
         super.init(frame: .zero)

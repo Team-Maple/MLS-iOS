@@ -1,0 +1,122 @@
+import DomainInterface
+
+import ReactorKit
+import RxSwift
+
+public final class OnBoardingInputReactor: Reactor {
+    // MARK: - Reactor
+    public enum Route {
+        case none
+        case dismiss
+        case home
+        case error
+    }
+
+    public enum Action {
+        case viewWillAppear
+        case backButtonTapped
+        case skipButtonTapped
+        case nextButtonTapped
+        case inputLevel(Int?)
+        case inputRole(String?)
+    }
+
+    public enum Mutation {
+        case setJobList(jobList: [String])
+        case setButtonEnabled(Bool)
+        case setLevelValid(Bool?)
+        case setLevel(Int?)
+        case setRole(String?)
+        case navigateTo(route: Route)
+    }
+
+    public struct State {
+        @Pulse var route: Route = .none
+
+        var level: Int?
+        var role: String?
+        var isButtonEnabled: Bool = false
+        var isLevelValid: Bool?
+        var jobList: [String] = []
+    }
+
+    // MARK: - properties
+    public var initialState: State
+    private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
+    private let checkValidLevelUseCase: CheckValidLevelUseCase
+    private let fetchJobListUseCase: FetchJobListUseCase
+    private let updateUserInfoUseCase: UpdateUserInfoUseCase
+    var disposeBag = DisposeBag()
+
+    // MARK: - init
+    public init(
+        checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
+        checkValidLevelUseCase: CheckValidLevelUseCase,
+        fetchJobListUseCase: FetchJobListUseCase,
+        updateUserInfoUseCase: UpdateUserInfoUseCase
+    ) {
+        self.checkEmptyUseCase = checkEmptyUseCase
+        self.checkValidLevelUseCase = checkValidLevelUseCase
+        self.fetchJobListUseCase = fetchJobListUseCase
+        self.updateUserInfoUseCase = updateUserInfoUseCase
+        self.initialState = State()
+    }
+
+    // MARK: - Reactor Methods
+    public func mutate(action: Action) -> Observable<Mutation> {
+        switch action {
+        case .viewWillAppear:
+            return fetchJobListUseCase.execute()
+                .map { response in
+                    .setJobList(jobList: response.jobList)
+                }
+                .catchAndReturn(.navigateTo(route: .error))
+        case .backButtonTapped:
+            return Observable.just(.navigateTo(route: .dismiss))
+        case .skipButtonTapped:
+            return Observable.just(.navigateTo(route: .home))
+        case .nextButtonTapped:
+            if let level = currentState.level, let role = currentState.role {
+                return updateUserInfoUseCase.execute(level: level, selectedJob: role)
+                    .andThen(Observable.just(.navigateTo(route: .home)))
+                    .catchAndReturn(.navigateTo(route: .error))
+            } else {
+                return Observable.just(.navigateTo(route: .error))
+            }
+        case .inputLevel(let level):
+            let changeLevel = Observable.just(Mutation.setLevel(level))
+            let validateButton = checkEmptyUseCase.excute(level: level, role: currentState.role)
+                .map(Mutation.setButtonEnabled)
+            let validateLevel = checkValidLevelUseCase.excute(level: level)
+                .map(Mutation.setLevelValid)
+            return .merge(changeLevel, validateButton, validateLevel)
+        case .inputRole(let role):
+            return checkEmptyUseCase.excute(level: currentState.level, role: role)
+                .map { isValid in
+                    [.setRole(role), .setButtonEnabled(isValid)]
+                }
+                .flatMap { Observable.from($0) }
+        }
+    }
+
+    public func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+
+        switch mutation {
+        case .setJobList(let jobList):
+            newState.jobList = jobList
+        case .setButtonEnabled(let isEnabled):
+            newState.isButtonEnabled = isEnabled
+        case .setLevelValid(let isValid):
+            newState.isLevelValid = isValid
+        case .setLevel(let level):
+            newState.level = level
+        case .setRole(let role):
+            newState.role = role
+        case .navigateTo(let route):
+            newState.route = route
+        }
+
+        return newState
+    }
+}

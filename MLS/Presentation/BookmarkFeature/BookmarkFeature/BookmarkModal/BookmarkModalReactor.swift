@@ -1,5 +1,4 @@
 import BookmarkFeatureInterface
-import DesignSystem
 import DomainInterface
 
 import ReactorKit

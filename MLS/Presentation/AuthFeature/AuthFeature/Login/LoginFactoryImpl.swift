@@ -3,7 +3,6 @@ import BaseFeature
 import DomainInterface
 
 public struct LoginFactoryImpl: LoginFactory {
-
     private let termsAgreementsFactory: TermsAgreementFactory
     private let appleLoginUseCase: FetchSocialCredentialUseCase
     private let kakaoLoginUseCase: FetchSocialCredentialUseCase

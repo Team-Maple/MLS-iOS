@@ -2,7 +2,7 @@ import UIKit
 
 import DomainInterface
 
-public struct BookmarkCollection {
+public struct BookmarkCollection: Equatable {
     public var id: String
     public var title: String
     public var count: Int {

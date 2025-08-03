@@ -37,6 +37,6 @@ private extension SubTitleBoldHeaderView {
 
 public extension SubTitleBoldHeaderView {
     func inject(title: String?) {
-        headerLabel.attributedText = .makeStyledString(font: .subTitleBold, text: title, alignment: .left)
+        headerLabel.attributedText = .makeStyledString(font: .sub_m_b, text: title, alignment: .left)
     }
 }

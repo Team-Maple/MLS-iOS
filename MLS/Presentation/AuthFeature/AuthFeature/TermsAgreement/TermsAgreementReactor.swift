@@ -1,6 +1,5 @@
 import DomainInterface
 import NotificationCenter
-import os
 
 import ReactorKit
 import RxSwift
@@ -108,7 +107,7 @@ public final class TermsAgreementReactor: Reactor {
             case .kakao:
                 return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
-                    .map { (owner, response) in
+                    .map { owner, response in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
                         let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
                         let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
@@ -118,7 +117,7 @@ public final class TermsAgreementReactor: Reactor {
             case .apple:
                 return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
                     .withUnretained(self)
-                    .map { (owner, response) in
+                    .map { owner, response in
                         let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
                         let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
                         let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)

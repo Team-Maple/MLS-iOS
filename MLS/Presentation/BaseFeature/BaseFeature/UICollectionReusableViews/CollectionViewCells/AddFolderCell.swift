@@ -34,7 +34,7 @@ public class AddFolderCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .body, text: "새로운 컬렉션 추가하기", alignment: .left)
+        label.attributedText = .makeStyledString(font: .b_m_r, text: "새로운 컬렉션 추가하기", alignment: .left)
         return label
     }()
 

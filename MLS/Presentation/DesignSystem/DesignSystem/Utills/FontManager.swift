@@ -2,7 +2,6 @@ import os
 import UIKit
 
 public class FontManager {
-
     /// 폰트를 등록하는 메서드
     public static func registerFonts() {
         let fontNames = [

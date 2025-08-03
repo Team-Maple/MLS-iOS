@@ -22,13 +22,13 @@ final class CollectionDetailEmptyView: UIView {
 
     private let mainLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading5, text: "아직 아무것도 없어요!", color: .textColor)
+        label.attributedText = .makeStyledString(font: .h_xl_b, text: "아직 아무것도 없어요!", color: .textColor)
         return label
     }()
 
     private let subLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .caption, text: "북마크해서 추가해보세요.", color: .neutral600)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "북마크해서 추가해보세요.", color: .neutral600)
         label.numberOfLines = 2
         return label
     }()

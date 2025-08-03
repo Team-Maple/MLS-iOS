@@ -1,30 +1,36 @@
 import UIKit
 
 public extension UIFont {
-    static let heading1 = korFont(style: .bold, size: 38)
+    static let h_xxxl_b = korFont(style: .bold, size: 24)
+    static let h_xxxl_sb = korFont(style: .semiBold, size: 24)
 
-    static let heading2 = korFont(style: .semiBold, size: 26)
+    static let h_xxl_b = korFont(style: .bold, size: 22)
 
-    static let heading3 = korFont(style: .bold, size: 24)
-    static let heading3SemiBold = korFont(style: .semiBold, size: 24)
+    static let h_xl_b = korFont(style: .bold, size: 20)
+    static let h_xl_sb = korFont(style: .semiBold, size: 20)
+    static let h_xl_r = korFont(style: .regular, size: 20)
 
-    static let heading4 = korFont(style: .bold, size: 22)
+    static let b_l_r = korFont(style: .regular, size: 18)
+    static let b_m_r = korFont(style: .regular, size: 16)
+    static let b_s_sb = korFont(style: .semiBold, size: 14)
+    static let b_s_m = korFont(style: .medium, size: 14)
+    static let b_s_r = korFont(style: .regular, size: 14)
 
-    static let heading5 = korFont(style: .bold, size: 20)
-    static let heading5SemiBold = korFont(style: .semiBold, size: 20)
-    static let heading5Regular = korFont(style: .regular, size: 20)
+    static let sub_l_b = korFont(style: .bold, size: 18)
+    static let sub_m_b = korFont(style: .bold, size: 16)
+    static let sub_m_sb = korFont(style: .semiBold, size: 16)
+    static let sub_m_m = korFont(style: .medium, size: 16)
 
-    static let body2 = korFont(style: .regular, size: 18)
+    static let cp_s_sb = korFont(style: .semiBold, size: 14)
+    static let cp_s_m = korFont(style: .medium, size: 14)
+    static let cp_s_r = korFont(style: .regular, size: 14)
+    static let cp_xs_sb = korFont(style: .semiBold, size: 12)
+    static let cp_xs_r = korFont(style: .regular, size: 12)
 
-    static let subTitleBold = korFont(style: .bold, size: 16)
-    static let subTitle = korFont(style: .medium, size: 16)
-    static let body = korFont(style: .regular, size: 16)
-
-    static let captionSemiBold = korFont(style: .semiBold, size: 14)
-    static let captionMedium = korFont(style: .medium, size: 14)
-    static let caption = korFont(style: .regular, size: 14)
-
-    static let tabBar = korFont(style: .regular, size: 10)
+    static let btn_m_b = korFont(style: .bold, size: 16)
+    static let btn_m_r = korFont(style: .regular, size: 16)
+    static let btn_s_r = korFont(style: .regular, size: 14)
+    static let btn_xs_r = korFont(style: .regular, size: 12)
 
     static func korFont(style: FontStyle, size: CGFloat) -> UIFont? {
         return UIFont(name: "Pretendard\(style.rawValue)", size: size)

@@ -8,7 +8,7 @@ public class PageTabbarCell: UICollectionViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .body
+        label.font = .b_m_r
         label.textColor = .neutral600
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = true
@@ -29,7 +29,7 @@ public class PageTabbarCell: UICollectionViewCell {
 
     public override var isSelected: Bool {
         didSet {
-            let font: UIFont? = isSelected ? .subTitleBold : .body
+            let font: UIFont? = isSelected ? .sub_m_b : .b_m_r
             let textColor: UIColor? = isSelected ? .textColor : .neutral600
             titleLabel.font = font
             titleLabel.textColor = textColor

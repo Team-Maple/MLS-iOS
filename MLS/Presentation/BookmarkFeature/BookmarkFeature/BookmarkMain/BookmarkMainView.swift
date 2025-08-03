@@ -1,13 +1,11 @@
 import UIKit
 
 import DesignSystem
-import DictionaryFeatureInterface
 import DomainInterface
 
 import SnapKit
 
 final class BookmarkMainView: UIView {
-
     enum Constant {
         static let topMargin: CGFloat = 20
         static let pageTabHeight: CGFloat = 40
@@ -38,6 +36,7 @@ final class BookmarkMainView: UIView {
         setupConstraints(type: type)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -125,6 +125,9 @@ private extension AppDelegate {
                 fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
             )
         }
+        DIContainer.register(type: PutFCMTokenUseCase.self) {
+            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
