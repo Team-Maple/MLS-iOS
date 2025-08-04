@@ -1,5 +1,6 @@
-import SnapKit
 import UIKit
+
+import SnapKit
 
 public final class CollectionList: UIView {
     private enum Constant {
@@ -20,7 +21,7 @@ public final class CollectionList: UIView {
             image: nil,
             cornerRadius: Constant.imageRadius,
             inset: Constant.imageInset,
-            backgroundColor: .red
+            backgroundColor: .neutral200
         )
         return view
     }
@@ -45,7 +46,7 @@ public final class CollectionList: UIView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
@@ -63,7 +64,7 @@ public final class CollectionList: UIView {
     }()
 
     private let clickIcon: UIImageView = {
-        let view = UIImageView(image: .arrowForward)
+        let view = UIImageView(image: .arrowForwordSmall)
         view.tintColor = .black
         return view
     }()
@@ -125,21 +126,14 @@ private extension CollectionList {
 
 public extension CollectionList {
     func setTitle(text: String) {
-//        let text = text.count > 10 ? String(text.prefix(10)) + "…" : text
-        titleLabel.attributedText = .makeStyledString(font: .captionSemiBold, text: text, alignment: .left)
+        titleLabel.attributedText = .makeStyledString(font: .b_s_m, text: text, alignment: .left)
     }
 
     func setSubtitle(text: String) {
-        subtitleLabel.attributedText = .makeStyledString(font: .caption, text: text, color: .neutral500, alignment: .left)
+        subtitleLabel.attributedText = .makeStyledString(font: .cp_xs_r, text: text, color: .neutral500, alignment: .left)
     }
 
-//    func setImage(at index: Int, image: UIImage?) {
-//        guard (0..<imageViews.count).contains(index),
-//              let imageView = imageViews[index].subviews.compactMap({ $0 as? UIImageView }).first else { return }
-//        imageView.image = image
-//    }
-
-    func setImages(_ images: [UIImage]) {
+    func setImages(images: [UIImage?]) {
         for (index, view) in imageViews.enumerated() {
             let imageView = view.subviews.compactMap { $0 as? UIImageView }.first
             imageView?.image = index < images.count ? images[index] : nil

@@ -1,5 +1,6 @@
 public enum DictionaryType: CaseIterable {
     case total
+    case collection
     case item
     case monster
     case map
@@ -10,6 +11,8 @@ public enum DictionaryType: CaseIterable {
         switch self {
         case .total:
             return "전체"
+        case .collection:
+            return "컬렉션"
         case .monster:
             return "몬스터"
         case .item:
@@ -23,29 +26,50 @@ public enum DictionaryType: CaseIterable {
         }
     }
 
-    public var isFilterHidden: Bool {
-        return sortedFilter.count == 0
-    }
-
-    public var sortedFilter: [String] {
+    public var sortedFilter: [SortType] {
         switch self {
         case .item:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순"
+                .korean, .levelDESC, .levelASC
             ]
         case .monster:
             return [
-                "가나다 순", "레벨 높은 순", "레벨 낮은 순", "획득 경험치 높은 순", "획득 경험치 낮은 순"
+                .korean, .levelDESC, .levelASC, .expDESC, .expASC
             ]
         default:
             return []
         }
     }
 
-    public var toItemType: DictionaryItemType? {
+    public var isSortHidden: Bool {
+        return sortedFilter.count == 0
+    }
+
+    public var bookmarkSortedFilter: [SortType] {
         switch self {
         case .total:
-            return nil
+            return [
+                .latest, .korean
+            ]
+        case .item:
+            return [
+                .korean, .levelDESC, .levelASC
+            ]
+        case .monster:
+            return [
+                .korean, .levelDESC, .levelASC, .expDESC, .expASC
+            ]
+        default:
+            return []
+        }
+    }
+
+    public var isBookmarkSortHidden: Bool {
+        return bookmarkSortedFilter.count == 0
+    }
+
+    public var toItemType: DictionaryItemType? {
+        switch self {
         case .item:
             return .item
         case .monster:
@@ -56,6 +80,8 @@ public enum DictionaryType: CaseIterable {
             return .npc
         case .quest:
             return .quest
+        default:
+            return nil
         }
     }
 }

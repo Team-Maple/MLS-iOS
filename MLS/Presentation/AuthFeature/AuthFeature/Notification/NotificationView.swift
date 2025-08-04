@@ -16,13 +16,13 @@ public final class NotificationView: UIView {
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "img_onBoarding_notification")
+        view.image = DesignSystemAsset.image(named: "getNotify")
         return view
     }()
 
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading4, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
+        label.attributedText = .makeStyledString(font: .h_xxxl_b, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
         label.numberOfLines = 2
         return label
     }()

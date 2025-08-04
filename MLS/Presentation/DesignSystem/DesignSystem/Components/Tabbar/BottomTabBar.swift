@@ -10,7 +10,7 @@ public struct TabItem {
 
 public final class BottomTabBar: UIStackView {
     // MARK: - Type
-    struct Constant {
+    enum Constant {
         static let height: CGFloat = 64
     }
 

@@ -10,7 +10,6 @@ public final class DictionaryListRepositoryImpl: DictionaryListRepository {
 
     public init(allItems: [DictionaryItem]) {
         self.itemsRelay = BehaviorRelay(value: allItems)
-        print("Repository instance: \(ObjectIdentifier(self))")
     }
 
     public func observeItems(type: DictionaryType) -> Observable<[DictionaryItem]> {

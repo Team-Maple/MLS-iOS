@@ -48,11 +48,11 @@ public final class CommonButton: UIButton {
         public var font: UIFont? {
             switch self {
             case .normal:
-                .subTitleBold
+                .btn_m_b
             case .text:
-                .caption
+                .btn_s_r
             case .border:
-                .body
+                .btn_m_r
             }
         }
     }
@@ -118,7 +118,8 @@ private extension CommonButton {
             config.background.backgroundColor = .clear
             let currentTitle = isEnabled ? title : disabledTitle
             if let textButtonTitle = currentTitle,
-               let lineHeight = style.font?.lineHeight {
+               let lineHeight = style.font?.lineHeight
+            {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.minimumLineHeight = lineHeight * Constant.textLineHeight
                 paragraphStyle.maximumLineHeight = lineHeight * Constant.textLineHeight
@@ -139,7 +140,7 @@ private extension CommonButton {
             configuration = config
         }
 
-        self.configurationUpdateHandler = { [weak self] button in
+        configurationUpdateHandler = { [weak self] button in
             guard let self = self else { return }
             var updatedConfig = button.configuration
             switch button.state {

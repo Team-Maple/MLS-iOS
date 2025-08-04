@@ -50,13 +50,13 @@ private extension RecentSearchHeaderView {
 
     func configureUI() {
         titleLabel.attributedText = .makeStyledString(
-            font: .subTitleBold,
+            font: .sub_m_b,
             text: "최근 검색어",
             alignment: .left
         )
 
         deleteButton.setTitle("모두 지우기", for: .normal)
-        deleteButton.titleLabel?.font = .caption
+        deleteButton.titleLabel?.font = .b_s_r
         deleteButton.setTitleColor(.neutral600, for: .normal)
     }
 }

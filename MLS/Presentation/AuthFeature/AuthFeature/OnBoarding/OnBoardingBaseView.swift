@@ -6,7 +6,7 @@ import DesignSystem
 public class OnBoardingBaseView: UIView {
     // MARK: - Components
     public let headerView: NavigationBar = {
-        let view = NavigationBar(underlineTextButtonTitle: "다음에 하기")
+        let view = NavigationBar(type: .withUnderLine("다음에 하기"))
         view.rightButton.isHidden = true
         return view
     }()
@@ -20,6 +20,7 @@ public class OnBoardingBaseView: UIView {
         if leftButtonIsHidden { headerView.leftButton.isHidden = true }
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

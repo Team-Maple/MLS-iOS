@@ -2,7 +2,6 @@ import AuthFeatureInterface
 import BaseFeature
 
 public struct NotificationFactoryImpl: NotificationFactory {
-
     private let loginFactory: LoginFactory
 
     public init(loginFactory: LoginFactory) {

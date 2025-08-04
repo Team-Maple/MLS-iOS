@@ -81,7 +81,7 @@ private extension ErrorMessageTextViewController {
         messageTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, message in
-                owner.errorMessage.label.attributedText = .makeStyledString(font: .caption, text: message, color: .error900)
+                owner.errorMessage.label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .error900)
             }
             .disposed(by: disposeBag)
     }

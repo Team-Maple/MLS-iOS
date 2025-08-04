@@ -1,4 +1,4 @@
-import DesignSystem
+import BookmarkFeatureInterface
 import DomainInterface
 
 import ReactorKit
@@ -7,30 +7,33 @@ public final class BookmarkModalReactor: Reactor {
     public enum Route {
         case none
         case dismiss
-        case dismissModal
+        case addCollection
     }
 
     public enum Action {
         case backButtonTapped
-        case modalBackButtonTapped
-        case inputTextChanged(String?)
-        case completeButtonTapped
+        case addCollectionTapped
+        case selectItem(Int)
     }
 
     public enum Mutation {
-        case setError(Bool)
-        case setButtonEnabled(Bool)
-        case addCollection
         case toNavigate(Route)
-        case saveInput(String)
+        case checkCollection([BookmarkCollection])
     }
 
     public struct State {
         @Pulse var route: Route
-        var collections = ["1", "2", "3"]
-        var isError: Bool = false
-        var isButtonEnabled: Bool = false
-        var currentInput: String = ""
+        var collections = [
+            BookmarkCollection(id: "1", title: "1번", items: [
+                DictionaryItem(id: "1번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "2번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+            ]),
+            BookmarkCollection(id: "2", title: "3번", items: [
+                DictionaryItem(id: "3번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "4번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+            ])
+        ]
+        var selectedItems = [BookmarkCollection]()
     }
 
     public var initialState: State
@@ -45,38 +48,27 @@ public final class BookmarkModalReactor: Reactor {
         switch action {
         case .backButtonTapped:
             return .just(.toNavigate(.dismiss))
-        case .inputTextChanged(let text):
-            let trimmed = text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-            return Observable.from([
-                .setButtonEnabled(!trimmed.isEmpty),
-                .saveInput(trimmed)
-            ])
-        case .completeButtonTapped:
-            let trimmed = currentState.currentInput.trimmingCharacters(in: .whitespacesAndNewlines)
-            if trimmed.count > 18 {
-                return .just(.setError(true))
+        case .addCollectionTapped:
+            return .just(.toNavigate(.addCollection))
+        case .selectItem(let index):
+            let item = currentState.collections[index - 1]
+            var newItems = currentState.selectedItems
+            if let index = newItems.firstIndex(where: { $0.id == item.id }) {
+                newItems.remove(at: index)
             } else {
-                // 저장
-                return .just(.addCollection)
+                newItems.append(item)
             }
-        case .modalBackButtonTapped:
-            return .just(.toNavigate(.dismissModal))
+            return .just(.checkCollection(newItems))
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .setError(let value):
-            newState.isError = value
-        case .setButtonEnabled(let value):
-            newState.isButtonEnabled = value
-        case .addCollection:
-            newState.route = .dismissModal
         case .toNavigate(let route):
             newState.route = route
-        case .saveInput(let input):
-            newState.currentInput = input
+        case .checkCollection(let collections):
+            newState.selectedItems = collections
         }
         return newState
     }

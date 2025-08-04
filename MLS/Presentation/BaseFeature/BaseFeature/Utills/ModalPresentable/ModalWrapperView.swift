@@ -26,9 +26,11 @@ final class ModalWrapperView: UIView {
             make.edges.equalToSuperview()
         }
 
-        // 탭 시 모달 닫기
-        let tap = UITapGestureRecognizer(target: parent, action: #selector(parent.dismissCurrentModal))
-        dimView.addGestureRecognizer(tap)
+        if contentViewController.allowsTapToDismiss {
+            // 탭 시 모달 닫기
+            let tap = UITapGestureRecognizer(target: parent, action: #selector(parent.dismissCurrentModal))
+            dimView.addGestureRecognizer(tap)
+        }
 
         // 모달 컨테이너
         containerView.backgroundColor = .systemBackground

@@ -1,14 +1,14 @@
 import Foundation
 
 import ReactorKit
-import RxCocoa
 import RxSwift
 
-final public class ItemFilterBottomSheetReactor: Reactor {
+public final class ItemFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
     }
+
     // MARK: - Reactor
     public enum Action {
         case closeButtonTapped
@@ -30,7 +30,7 @@ final public class ItemFilterBottomSheetReactor: Reactor {
         var jobs: [String] = ["없음", "공용", "마법사", "전사", "궁수", "도적", "해적"]
         var weapons: [String] = ["한손검", "한손도끼", "한손둔기", "창", "단검", "두손검", "두손도끼", "두손둔기", "풀암", "활", "석궁", "완드", "스태프", "아대"]
         var projectiles: [String] = ["화살", "불릿", "표창"]
-        var armors: [String] = ["모자", "전신", "상의", "하의", "장갑", "신발", "방패", "전신 갑옷" ]
+        var armors: [String] = ["모자", "전신", "상의", "하의", "장갑", "신발", "방패", "전신 갑옷"]
         var accessories: [String] = ["귀고리", "망토", "훈장", "눈장식", "얼굴장식", "팬던트", "벨트", "반지", "어깨장식", "귀장식"]
         @Pulse var scrollCategories: [String] = ["무기 주문서", "방어구 주문서", "기타 주문서"]
         var originWeaponScrolls: [String] = ["한손검1", "한손검2", "한손검3", "한손검4", "한손검5", "한손검6", "한손검7", "한손검8", "한손검9", "한손검10"]

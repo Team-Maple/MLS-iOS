@@ -1,4 +1,3 @@
-import os
 import UIKit
 import UserNotifications
 
@@ -26,6 +25,7 @@ public class NotificationViewController: BaseViewController, View {
         super.init()
     }
 
+    @available(*, unavailable)
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -77,7 +77,7 @@ public extension NotificationViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {

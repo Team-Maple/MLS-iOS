@@ -13,11 +13,11 @@ public final class CheckBoxButton: UIButton {
         public var font: UIFont? {
             switch self {
             case .normal:
-                return .subTitleBold
+                return .sub_m_b
             case .listSmall, .listMedium:
-                return .caption
+                return .b_s_r
             case .listLarge:
-                return .body
+                return .b_m_r
             }
         }
 
@@ -91,12 +91,12 @@ public final class CheckBoxButton: UIButton {
         }
     }
 
-    private struct Constant {
+    private enum Constant {
         static let imageSize: CGFloat = 24
         static let horizontalInset: CGFloat = 20
         static let labelSpacing: CGFloat = 4
         static let spacing: CGFloat = 8
-        static let radius: CGFloat = 6
+        static let radius: CGFloat = 8
     }
 
     // MARK: - Properties
@@ -114,7 +114,7 @@ public final class CheckBoxButton: UIButton {
         }
     }
 
-    public override var isSelected: Bool {
+    override public var isSelected: Bool {
         didSet {
             updateTintColor()
         }
@@ -127,17 +127,17 @@ public final class CheckBoxButton: UIButton {
         return view
     }()
 
-    private let labelTrailingView: UIView = UIView()
+    private let labelTrailingView: UIView = .init()
 
     private let checkIconImageView: UIImageView = {
-        let image = DesignSystemAsset.image(named: "checkCircle")?.withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "checkCircleFill")?.withRenderingMode(.alwaysTemplate)
         let view = UIImageView(image: image)
         return view
     }()
 
-    private let buttonTitleLabel: UILabel = UILabel()
+    private let buttonTitleLabel: UILabel = .init()
 
-    private let buttonSubTitleLabel: UILabel = UILabel()
+    private let buttonSubTitleLabel: UILabel = .init()
 
     public let rightButton: UIButton = {
         let button = UIButton()
@@ -153,11 +153,12 @@ public final class CheckBoxButton: UIButton {
         self.mainTitle = mainTitle
         self.subTitle = subTitle
         super.init(frame: .zero)
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI()
+        addViews()
+        setupConstraints()
+        configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -166,7 +167,7 @@ public final class CheckBoxButton: UIButton {
 // MARK: - SetUp
 private extension CheckBoxButton {
     func addViews() {
-        self.addSubview(contentStackView)
+        addSubview(contentStackView)
         labelTrailingView.addSubview(buttonTitleLabel)
         labelTrailingView.addSubview(buttonSubTitleLabel)
 
@@ -236,6 +237,6 @@ private extension CheckBoxButton {
 
     func updateText() {
         buttonTitleLabel.attributedText = .makeStyledString(font: style.font, text: mainTitle, color: style.textColor)
-        buttonSubTitleLabel.attributedText = .makeStyledString(font: .body, text: subTitle)
+        buttonSubTitleLabel.attributedText = .makeStyledString(font: .b_m_r, text: subTitle)
     }
 }

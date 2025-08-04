@@ -6,7 +6,7 @@ import SnapKit
 
 public final class TermsAgreementView: UIView {
     // MARK: - Type
-    private struct Constant {
+    private enum Constant {
         static let imageTopSpacing: CGFloat = 20
         static let imageSize: CGFloat = 60
         static let horizontalInset: CGFloat = 16
@@ -22,7 +22,7 @@ public final class TermsAgreementView: UIView {
 
     // MARK: - Properties
     let headerView: NavigationBar = {
-        let view = NavigationBar()
+        let view = NavigationBar(type: .arrowLeft)
         view.rightButton.isHidden = true
         return view
     }()
@@ -36,13 +36,13 @@ public final class TermsAgreementView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .heading3, text: "필수약관에 동의해주세요")
+        label.attributedText = .makeStyledString(font: .h_xxxl_b, text: "필수약관에 동의해주세요")
         return label
     }()
 
     private let subTitleLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .subTitle, text: "메랜사를 더 편하게 즐기기 위해 필요한 항목이에요", color: .neutral700)
+        label.attributedText = .makeStyledString(font: .sub_m_m, text: "메랜사를 더 편하게 즐기기 위해 필요한 항목이에요", color: .neutral700)
         return label
     }()
 
@@ -87,10 +87,11 @@ public final class TermsAgreementView: UIView {
     // MARK: - init
     init() {
         super.init(frame: .zero)
-        self.addViews()
-        self.setupConstraints()
+        addViews()
+        setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -99,13 +100,13 @@ public final class TermsAgreementView: UIView {
 // MARK: - SetUp
 private extension TermsAgreementView {
     func addViews() {
-        self.addSubview(headerView)
-        self.addSubview(logoImageView)
-        self.addSubview(titleLabel)
-        self.addSubview(subTitleLabel)
-        self.addSubview(totalAgreeButton)
-        self.addSubview(bottomButton)
-        self.addSubview(termsStackView)
+        addSubview(headerView)
+        addSubview(logoImageView)
+        addSubview(titleLabel)
+        addSubview(subTitleLabel)
+        addSubview(totalAgreeButton)
+        addSubview(bottomButton)
+        addSubview(termsStackView)
         termsStackView.addArrangedSubview(oldAgreeButton)
         termsStackView.addArrangedSubview(serviceTermsAgreeButton)
         termsStackView.addArrangedSubview(personalInformationAgreeButton)

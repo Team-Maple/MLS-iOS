@@ -12,6 +12,7 @@ public final class DividerView: UIView {
         }
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

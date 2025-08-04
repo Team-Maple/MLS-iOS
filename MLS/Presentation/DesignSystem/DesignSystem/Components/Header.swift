@@ -11,9 +11,9 @@ public final class Header: UIStackView {
         public var titleFont: UIFont? {
             switch self {
             case .main:
-                return .heading3SemiBold
+                return .h_xxxl_sb
             case .filter:
-                return .heading5SemiBold
+                return .h_xl_sb
             }
         }
 
@@ -44,7 +44,7 @@ public final class Header: UIStackView {
 
     // MARK: - init
     public init(style: HeaderStyle, title: String) {
-        titleLabel.attributedText = .makeStyledString(font: .heading3SemiBold, text: title)
+        titleLabel.attributedText = .makeStyledString(font: .h_xxxl_sb, text: title)
         self.style = style
         super.init(frame: .zero)
 
@@ -53,6 +53,7 @@ public final class Header: UIStackView {
         configureUI()
     }
 
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

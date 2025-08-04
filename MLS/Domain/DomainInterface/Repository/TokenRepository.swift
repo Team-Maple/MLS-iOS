@@ -12,6 +12,7 @@ public enum TokenRepositoryError: Error {
 public enum TokenType: String {
     case accessToken // 액세스 토큰
     case refreshToken // 리프레시 토큰
+    case fcmToken // fcm토큰
 }
 
 public protocol TokenRepository {

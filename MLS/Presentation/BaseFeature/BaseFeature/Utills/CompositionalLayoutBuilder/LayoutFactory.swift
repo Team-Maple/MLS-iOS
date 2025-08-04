@@ -4,7 +4,7 @@ public class LayoutFactory {
 
     public init() {}
 
-    static public func getPageTabbarLayout() -> CompositionalSectionBuilder {
+    static public func getPageTabbarLayout(underLineController: TabBarUnderlineController? = nil) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .estimated(100), height: .absolute(40))
             .group(.horizontal, width: .estimated(100), height: .absolute(40))
@@ -12,7 +12,9 @@ public class LayoutFactory {
             .orthogonalScrolling(.continuous)
             .interGroupSpacing(28)
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
-            .decorationItem(kind: Neutral300DividerView.identifier, insets: .init(top: 39, leading: 0, bottom: 0, trailing: 0))
+            .visibleItemsInvalidationHandler { _, offset, _ in
+                underLineController?.updateScrollOffset(offset)
+            }
     }
 
     static public func getItemTagListSection(width: CGFloat = 50) -> CompositionalSectionBuilder {
@@ -35,7 +37,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
 
-    public func getPageListLayout() -> CompositionalSectionBuilder {
+    public func getDictionaryListLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
             .group(.horizontal, width: .fractionalWidth(1.0), height: .absolute(104))
@@ -80,12 +82,30 @@ public class LayoutFactory {
             .buildSection()
             .interGroupSpacing(0)
     }
-    
+
     public func getCollectionModalLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(72))
             .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(72))
             .buildSection()
             .interGroupSpacing(1)
+    }
+
+    public func getCollectionListLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .absolute(96))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(96))
+            .buildSection()
+            .interGroupSpacing(10)
+            .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
+    }
+
+    public func getCollectionListEditLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .absolute(104))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(104))
+            .buildSection()
+            .interGroupSpacing(10)
+            .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))
     }
 }

@@ -1,9 +1,9 @@
 import UIKit
 
 import BaseFeature
+import BookmarkFeatureInterface
 import Core
 import DesignSystem
-import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
@@ -26,18 +26,19 @@ class ViewController: UIViewController {
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
 
         let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [
-            "가나다 순", "레벨 높은 순", "레벨 낮은 순"
-        ], selectedIndex: 0)
+            .korean
+        ], selectedIndex: 0, onSelectedIndex: {_ in })
         sortedBottomSheetVC.title = "정렬 바텀시트"
 
         let modalVC = [itemFilterBottomSheetVC, monsterBottomSheetVC, sortedBottomSheetVC]
 
         let dictionaryMainVC = DIContainer.resolve(type: DictionaryMainViewFactory.self).make()
 
+        let bookmarkMainVC = DIContainer.resolve(type: BookmarkMainFactory.self).make()
+
         let dictView = BottomTabBarController(viewControllers: [
-            UIViewController(),
             dictionaryMainVC,
-            UIViewController(),
+            bookmarkMainVC,
             UIViewController()
         ])
         dictView.title = "도감 메인"

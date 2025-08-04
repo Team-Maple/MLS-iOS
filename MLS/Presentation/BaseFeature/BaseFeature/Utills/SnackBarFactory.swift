@@ -56,7 +56,8 @@ extension SnackBarFactory {
         imageBackgroundColor: UIColor,
         text: String,
         buttonText: String,
-        buttonAction: (() -> Void)?
+        buttonAction: (() -> Void)?,
+        bottomMargin: CGFloat = 76
     ) {
          currentSnackBar?.removeFromSuperview()
          currentSnackBar = nil
@@ -76,16 +77,16 @@ extension SnackBarFactory {
          currentSnackBar = snackBar
 
          snackBar.snp.makeConstraints { make in
-             make.bottom.equalTo(window.safeAreaLayoutGuide.snp.bottom).inset(24)
+             make.bottom.equalTo(window.safeAreaLayoutGuide.snp.bottom).inset(bottomMargin)
              make.centerX.equalToSuperview()
          }
 
-         UIView.animate(withDuration: 0.3) {
+         UIView.animate(withDuration: 0.25) {
              snackBar.alpha = 1
          }
 
-         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-             UIView.animate(withDuration: 0.3, animations: {
+         DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+             UIView.animate(withDuration: 0.6, animations: {
                  snackBar.alpha = 0
              }, completion: { _ in
                  snackBar.removeFromSuperview()

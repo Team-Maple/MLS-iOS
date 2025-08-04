@@ -5,7 +5,6 @@ import DesignSystem
 import SnapKit
 
 final class ItemFilterBottomSheetView: UIView {
-
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let buttonSpacing: CGFloat = 8
@@ -16,10 +15,11 @@ final class ItemFilterBottomSheetView: UIView {
         static let categoryCollectionViewHeight = 40
         static let dividerHeight = 1
         static let selectedItemCollectionViewHeight = 56
+        static let contentCollectionViewTopMargin = 32
     }
 
     // MARK: - Properties
-    let headerView: Header = Header(style: .filter, title: "필터")
+    let headerView: Header = .init(style: .filter, title: "필터")
 
     private let toolBarStackView: UIStackView = {
         let view = UIStackView()
@@ -61,12 +61,13 @@ final class ItemFilterBottomSheetView: UIView {
 
     public let categoryCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
+        view.isScrollEnabled = false
         return view
     }()
 
     public let contentCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: .init())
-        view.contentInset = .init(top: 32, left: 0, bottom: 40, right: 0)
+        view.contentInset = .init(top: 0, left: 0, bottom: 40, right: 0)
         view.allowsMultipleSelection = true
         return view
     }()
@@ -93,6 +94,7 @@ final class ItemFilterBottomSheetView: UIView {
         configureUI()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -131,7 +133,7 @@ private extension ItemFilterBottomSheetView {
             make.height.equalTo(Constant.categoryCollectionViewHeight)
         }
         contentCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(categoryCollectionView.snp.bottom)
+            make.top.equalTo(categoryCollectionView.snp.bottom).offset(Constant.contentCollectionViewTopMargin)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(toolBarStackView.snp.top)
         }
@@ -148,5 +150,5 @@ private extension ItemFilterBottomSheetView {
         }
     }
 
-    func configureUI() { }
+    func configureUI() {}
 }

@@ -27,26 +27,21 @@ extension ToastMakerTestViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.addViews()
-        self.setupConstraints()
-        self.configureUI()
+        view.backgroundColor = .whiteMLS
+        addViews()
+        setupConstraints()
     }
 }
 
 // MARK: - SetUp
 private extension ToastMakerTestViewController {
     func addViews() {
-        self.view.addSubview(toast)
+        view.addSubview(toast)
     }
 
     func setupConstraints() {
         toast.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.centerX.equalToSuperview()
+            make.center.equalToSuperview()
         }
-    }
-
-    func configureUI() {
-        self.view.backgroundColor = .systemBackground
     }
 }

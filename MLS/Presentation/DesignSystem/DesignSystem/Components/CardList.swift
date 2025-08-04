@@ -4,6 +4,29 @@ import SnapKit
 
 public final class CardList: UIView {
     // MARK: - Type
+    public enum CardListType {
+        case bookmark
+        case checkbox
+
+        var icon: UIImage {
+            switch self {
+            case .bookmark:
+                return .bookmarkBorder
+            case .checkbox:
+                return .checkSquare
+            }
+        }
+
+        var selectedIcon: UIImage {
+            switch self {
+            case .bookmark:
+                return .bookmark
+            case .checkbox:
+                return .checkSquareFill
+            }
+        }
+    }
+
     enum Constant {
         static let cardRadius: CGFloat = 16
         static let cardInset: CGFloat = 12
@@ -11,14 +34,17 @@ public final class CardList: UIView {
         static let imageInset: CGFloat = 10
         static let imageContentViewSize: CGFloat = 80
         static let stackViewSpacing: CGFloat = 4
-        static let stackViewInset: CGFloat = 6
-        static let bookmarkSize: CGFloat = 24
+        static let iconSize: CGFloat = 24
     }
 
     // MARK: - Properties
-    public var isBookmarkSelected: Bool = false {
+    private var type = CardListType.bookmark
+    private var icon = UIImage()
+    private var selectedIcon = UIImage()
+
+    public var isIconSelected: Bool = false {
         didSet {
-            updateBookmark()
+            updateIcon()
         }
     }
 
@@ -34,11 +60,11 @@ public final class CardList: UIView {
         }
     }
 
-    public var onBookmarkTapped: ((Bool) -> Void)?
+    public var onIconTapped: ((Bool) -> Void)?
 
     // MARK: - Components
     private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
-
+    
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
         view.axis = .vertical
@@ -49,6 +75,8 @@ public final class CardList: UIView {
     private let mainTextLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
+        label.lineBreakMode = .byTruncatingTail
+        label.lineBreakStrategy = .pushOut
         return label
     }()
 
@@ -58,7 +86,7 @@ public final class CardList: UIView {
         return label
     }()
 
-    private let bookmarkButton: UIButton = {
+    private let iconButton: UIButton = {
         let button = UIButton()
         button.setImage(.bookmarkBorder, for: .normal)
         return button
@@ -83,7 +111,7 @@ private extension CardList {
     func addViews() {
         addSubview(imageView)
         addSubview(textLabelStackView)
-        addSubview(bookmarkButton)
+        addSubview(iconButton)
     }
 
     func setupConstraints() {
@@ -94,14 +122,14 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
-            make.top.bottom.equalTo(imageView).inset(Constant.stackViewInset)
+            make.centerY.equalToSuperview()
         }
 
-        bookmarkButton.snp.makeConstraints { make in
+        iconButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
             make.trailing.equalToSuperview().inset(Constant.cardInset)
-            make.size.equalTo(Constant.bookmarkSize)
+            make.size.equalTo(Constant.iconSize)
         }
     }
 
@@ -111,22 +139,22 @@ private extension CardList {
     }
 
     func bindButton() {
-        bookmarkButton.addAction(UIAction(handler: { [weak self] _ in
+        iconButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
-            self.onBookmarkTapped?(self.isBookmarkSelected)
+            self.onIconTapped?(self.isIconSelected)
         }), for: .touchUpInside)
     }
 
     func updateMainText() {
-        mainTextLabel.attributedText = .makeStyledString(font: .subTitle, text: mainText, alignment: .left)
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_m, text: mainText, alignment: .left)
     }
 
     func updateSubText() {
-        subTextLabel.attributedText = .makeStyledString(font: .caption, text: subText, color: .neutral500, alignment: .left)
+        subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: subText, color: .neutral500, alignment: .left)
     }
 
-    func updateBookmark() {
-        bookmarkButton.setImage(isBookmarkSelected ? .bookmark : .bookmarkBorder, for: .normal)
+    func updateIcon() {
+        iconButton.setImage(isIconSelected ? selectedIcon : icon, for: .normal)
     }
 }
 
@@ -143,7 +171,12 @@ public extension CardList {
         imageView.setImage(image: image, backgroundColor: backgroundColor)
     }
 
-    func setBookmark(isBookmarked: Bool) {
-        isBookmarkSelected = isBookmarked
+    func setSelected(isSelected: Bool) {
+        isIconSelected = isSelected
+    }
+
+    func setType(type: CardListType) {
+        icon = type.icon
+        selectedIcon = type.selectedIcon
     }
 }

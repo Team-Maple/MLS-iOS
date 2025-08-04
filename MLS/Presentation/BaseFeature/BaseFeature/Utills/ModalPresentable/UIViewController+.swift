@@ -59,7 +59,7 @@ extension ModalPresentable where Self: UIViewController {
 private var fabKey: UInt8 = 0
 
 public extension UIViewController {
-    func addFloatingButton(action: @escaping () -> Void) {
+    func addFloatingButton(_ action: @escaping () -> Void) {
         let fab = FloatingActionButton(action: action)
         objc_setAssociatedObject(self, &fabKey, fab, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
 

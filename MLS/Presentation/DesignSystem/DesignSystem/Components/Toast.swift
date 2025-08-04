@@ -3,14 +3,20 @@ import UIKit
 import SnapKit
 
 public final class Toast: UIView {
-    private struct Constant {
+    private enum Constant {
         static let verticalEdgesInset: CGFloat = 16
-        static let horizontalEdges: CGFloat = 24
+        static let horizontalEdges: CGFloat = 16
         static let cornerRadius: CGFloat = 8
     }
 
     // MARK: - Properties
-    private let label: UILabel = UILabel()
+    private let toastContentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral900
+        return view
+    }()
+
+    private let label: UILabel = .init()
 
     // MARK: - init
     public init(message: String?) {
@@ -21,6 +27,7 @@ public final class Toast: UIView {
         self.configureUI(message: message)
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
@@ -29,10 +36,15 @@ public final class Toast: UIView {
 // MARK: - SetUp
 private extension Toast {
     func addViews() {
-        self.addSubview(label)
+        addSubview(self.toastContentView)
+        toastContentView.addSubview(self.label)
     }
 
     func setupConstraints() {
+        toastContentView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         label.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalEdges)
@@ -40,9 +52,8 @@ private extension Toast {
     }
 
     func configureUI(message: String?) {
-        self.backgroundColor = .neutral700
-        self.layer.cornerRadius = Constant.cornerRadius
-        self.clipsToBounds = true
-        self.label.attributedText = .makeStyledString(font: .caption, text: message, color: .white)
+        layer.cornerRadius = Constant.cornerRadius
+        clipsToBounds = true
+        label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .white)
     }
 }

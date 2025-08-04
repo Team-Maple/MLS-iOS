@@ -7,8 +7,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-final public class ItemFilterBottomSheetViewController: BaseViewController, View {
-
+public final class ItemFilterBottomSheetViewController: BaseViewController, View {
     public typealias Reactor = ItemFilterBottomSheetReactor
 
     enum FilterSection: Int, CaseIterable {
@@ -78,28 +77,29 @@ final public class ItemFilterBottomSheetViewController: BaseViewController, View
     private var isUserScrollDragging: Bool = false
     private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
+    private let underLineController = TabBarUnderlineController()
 
-    public override init() {
+    override public init() {
         super.init()
     }
 
+    @available(*, unavailable)
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Life Cycle
-extension ItemFilterBottomSheetViewController {
-    public override func viewDidLoad() {
+public extension ItemFilterBottomSheetViewController {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         addViews()
         setupConstraints()
         configureUI()
-
     }
 
-    public override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         // Modal Gesture 제거
@@ -132,6 +132,7 @@ private extension ItemFilterBottomSheetViewController {
         mainView.categoryCollectionView.collectionViewLayout = createCategoryLayout()
         mainView.categoryCollectionView.dataSource = self
         mainView.categoryCollectionView.register(PageTabbarCell.self, forCellWithReuseIdentifier: PageTabbarCell.identifier)
+        underLineController.configure(with: mainView.categoryCollectionView)
     }
 
     func configureContentCollectionView() {
@@ -154,9 +155,8 @@ private extension ItemFilterBottomSheetViewController {
 
     func createCategoryLayout() -> UICollectionViewLayout {
         let layout = CompositionalLayoutBuilder()
-            .section { _ in return LayoutFactory.getPageTabbarLayout() }
+            .section { _ in LayoutFactory.getPageTabbarLayout(underLineController: underLineController) }
             .build()
-        layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
     }
 
@@ -171,15 +171,15 @@ private extension ItemFilterBottomSheetViewController {
 
     func createSelectedItemLayout() -> UICollectionViewLayout {
         let layout = CompositionalLayoutBuilder()
-            .section({ builder in
-                return builder
+            .section { builder in
+                builder
                     .item(width: .estimated(100), height: .absolute(32))
                     .group(.horizontal, width: .estimated(100), height: .absolute(32))
                     .buildSection()
                     .interGroupSpacing(8)
                     .contentInsets(.init(top: 12, leading: 16, bottom: 12, trailing: 16))
                     .orthogonalScrolling(.continuous)
-            })
+            }
             .build()
         return layout
     }
@@ -188,7 +188,7 @@ private extension ItemFilterBottomSheetViewController {
         dataSource = DataSource(collectionView: mainView.contentCollectionView) { collectionView, indexPath, item in
             switch item {
             case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title),
-                    .accessories(let title), .scrollCategories(let title), .etcItems(let title):
+                 .accessories(let title), .scrollCategories(let title), .etcItems(let title):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TapButtonCell.identifier, for: indexPath) as! TapButtonCell
                 cell.inject(title: title)
                 return cell
@@ -210,7 +210,7 @@ private extension ItemFilterBottomSheetViewController {
                 cell.levelSectionView.slider.isThumbTracking
                     .distinctUntilChanged()
                     .withUnretained(self)
-                    .subscribe { (owner, isTracking) in
+                    .subscribe { owner, isTracking in
                         owner.mainView.contentCollectionView.isScrollEnabled = !isTracking
                     }
                     .disposed(by: cell.disposeBag)
@@ -253,13 +253,13 @@ private extension ItemFilterBottomSheetViewController {
 
         dataSource.apply(snapshot, animatingDifferences: true) { [weak self] in
             self?.mainView.categoryCollectionView.selectItem(at: .init(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+            self?.underLineController.setInitialIndicator()
         }
     }
 }
 
 // MARK: - Methods
 private extension ItemFilterBottomSheetViewController {
-
     func getSelectedScrollCategoryIndexPath() -> IndexPath? {
         let selectedScrollCategoryIndexPaths = getSelectedScrollCategoryIndexPaths()
         guard let selectedScrollCategoryIndexPath = selectedScrollCategoryIndexPaths.first else { return nil }
@@ -268,7 +268,7 @@ private extension ItemFilterBottomSheetViewController {
 
     func getSelectedScrollCategoryIndexPaths() -> [IndexPath] {
         let indexPathsForSelectedItems = mainView.contentCollectionView.indexPathsForSelectedItems ?? []
-        let selectedScrollCategoryIndexPaths = indexPathsForSelectedItems.filter({ $0.section == FilterSection.scrollCategories.rawValue })
+        let selectedScrollCategoryIndexPaths = indexPathsForSelectedItems.filter { $0.section == FilterSection.scrollCategories.rawValue }
         return selectedScrollCategoryIndexPaths
     }
 }
@@ -287,7 +287,7 @@ extension ItemFilterBottomSheetViewController {
 
         mainView.contentCollectionView.rx.itemSelected
             .withUnretained(self)
-            .subscribe { (owner, indexPath) in
+            .subscribe { owner, indexPath in
                 guard let section = FilterSection(rawValue: indexPath.section) else { return }
                 owner.mainView.contentCollectionView.isScrollEnabled = true
                 switch section {
@@ -312,7 +312,7 @@ extension ItemFilterBottomSheetViewController {
 
         mainView.contentCollectionView.rx.itemDeselected
             .withUnretained(self)
-            .subscribe(onNext: { (owner, indexPath) in
+            .subscribe(onNext: { owner, indexPath in
                 guard let section = FilterSection(rawValue: indexPath.section) else { return }
                 switch section {
                 case .weaponScrolls, .armorsScrolls, .etcScrolls:
@@ -327,7 +327,7 @@ extension ItemFilterBottomSheetViewController {
 
         mainView.contentCollectionView.rx.didScroll
             .withUnretained(self)
-            .subscribe { (owner, _) in
+            .subscribe { owner, _ in
                 guard owner.isUserScrollDragging else { return }
                 let visibleIndexPaths = owner.mainView.contentCollectionView.indexPathsForVisibleItems
                 guard let topIndexPath = visibleIndexPaths.sorted(by: { $0.section < $1.section }).first,
@@ -339,28 +339,30 @@ extension ItemFilterBottomSheetViewController {
                     animated: true,
                     scrollPosition: .centeredHorizontally
                 )
+                owner.underLineController.animateIndicatorToSelectedItem()
             }
             .disposed(by: disposeBag)
 
         mainView.contentCollectionView.rx.willBeginDragging
             .withUnretained(self)
-            .subscribe { (owner, _) in
+            .subscribe { owner, _ in
                 owner.isUserScrollDragging = true
             }
             .disposed(by: disposeBag)
 
         mainView.contentCollectionView.rx.didEndDecelerating
             .withUnretained(self)
-            .subscribe { (owner, _) in
+            .subscribe { owner, _ in
                 owner.isUserScrollDragging = false
             }
             .disposed(by: disposeBag)
 
         mainView.categoryCollectionView.rx.itemSelected
             .withUnretained(self)
-            .subscribe { (owner, indexPath) in
+            .subscribe { owner, indexPath in
                 owner.mainView.categoryCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
                 let section = indexPath.row == 6 ? 10 : indexPath.row == 0 ? 0 : indexPath.row + 1
+                owner.underLineController.animateIndicatorToSelectedItem()
                 owner.mainView.contentCollectionView.scrollToItem(at: .init(row: 0, section: section), at: .top, animated: true)
             }
             .disposed(by: disposeBag)
@@ -378,11 +380,11 @@ extension ItemFilterBottomSheetViewController {
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map { (scrollTypes: $0.scrollCategories, weaponScrolls: $0.weaponScrolls, armorScrolls: $0.armorScrolls, etcScrolls: $0.etcScrolls)}
+            .map { (scrollTypes: $0.scrollCategories, weaponScrolls: $0.weaponScrolls, armorScrolls: $0.armorScrolls, etcScrolls: $0.etcScrolls) }
             .distinctUntilChanged { $0 == $1 }
             .skip(1)
             .withUnretained(self)
-            .subscribe { (owner, scrolls) in
+            .subscribe { owner, scrolls in
                 var snapshot = owner.dataSource.snapshot()
                 snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .scrollCategories))
                 snapshot.appendItems(scrolls.scrollTypes.map { .scrollCategories($0) }, toSection: .scrollCategories)
@@ -412,9 +414,8 @@ extension ItemFilterBottomSheetViewController {
 
         reactor.state
             .map { $0.selectedItemIndexes }
-            .distinctUntilChanged()
             .withUnretained(self)
-            .subscribe { (owner, indexPaths) in
+            .subscribe { owner, indexPaths in
                 owner.mainView.selectedItemCollectionView.isHidden = indexPaths.isEmpty
                 owner.mainView.selectedItemCollectionView.reloadData()
             }
@@ -422,9 +423,9 @@ extension ItemFilterBottomSheetViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.dismiss(animated: true)
@@ -459,7 +460,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                 guard let item = dataSource.itemIdentifier(for: $0) else { return "" }
                 switch item {
                 case .job(let title), .weapons(let title), .projectiles(let title), .armors(let title), .accessories(let title),
-                        .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
+                     .scrollCategories(let title), .weaponScrolls(let title), .armorScrolls(let title), .etcScrolls(let title), .etcItems(let title):
                     return title
                 case .level:
                     let range = reactor.currentState.levelRange
@@ -469,7 +470,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
             cell.inject(title: titles[indexPath.row])
             cell.button.cancelButton.rx.tap
                 .withUnretained(self)
-                .subscribe { (owner, _) in
+                .subscribe { owner, _ in
                     let deselectedIndex = reactor.currentState.selectedItemIndexes[indexPath.row]
                     let section = FilterSection(rawValue: deselectedIndex.section)
                     switch section {

@@ -20,17 +20,17 @@ final class NavigationBarTestViewController: UIViewController {
         let view = NavigationBar(type: .arrowRightLeft)
         return view
     }()
-    
+
     private let headerView3: NavigationBar = {
         let view = NavigationBar(type: .arrowLeft)
         return view
     }()
-    
+
     private let headerView4: NavigationBar = {
         let view = NavigationBar(type: .withString("null"))
         return view
     }()
-    
+
     private let headerView5: NavigationBar = {
         let view = NavigationBar(type: .collection("컬렉션 이름"))
         return view
@@ -71,22 +71,22 @@ private extension NavigationBarTestViewController {
         headerView1.snp.makeConstraints { make in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         headerView2.snp.makeConstraints { make in
             make.top.equalTo(headerView1.snp.bottom).offset(16)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         headerView3.snp.makeConstraints { make in
             make.top.equalTo(headerView2.snp.bottom).offset(16)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         headerView4.snp.makeConstraints { make in
             make.top.equalTo(headerView3.snp.bottom).offset(16)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
         }
-        
+
         headerView5.snp.makeConstraints { make in
             make.top.equalTo(headerView4.snp.bottom).offset(16)
             make.leading.trailing.equalTo(view.safeAreaLayoutGuide)

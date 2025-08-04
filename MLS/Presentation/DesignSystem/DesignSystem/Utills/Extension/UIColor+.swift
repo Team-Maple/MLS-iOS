@@ -1,13 +1,13 @@
 import UIKit
 
 public extension UIColor {
-
     static let primary900 = UIColor(hexCode: "EE500C")
     static let primary700 = UIColor(hexCode: "FF5C00")
     static let primary500 = UIColor(hexCode: "FF7D33")
     static let primary300 = UIColor(hexCode: "FF9D66")
     static let primary100 = UIColor(hexCode: "FFBE9A")
     static let primary50 = UIColor(hexCode: "FFE6D8")
+    static let primary25 = UIColor(hexCode: "FFF1E9")
 
     static let secondary = UIColor(hexCode: "FF9B56")
     static let textColor = UIColor(hexCode: "1D1D1F")

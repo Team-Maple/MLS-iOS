@@ -76,8 +76,8 @@ public extension DictionaryNotificationCell {
     }
 
     func inject(input: Input) {
-        titleLabel.attributedText = .makeStyledString(font: .subTitle, text: input.title, color: input.isChecked ? .neutral500 : .textColor, alignment: .left)
-        subTitleLabel.attributedText = .makeStyledString(font: .caption, text: input.subTitle, color: input.isChecked ? .neutral500 : .neutral700, alignment: .left)
+        titleLabel.attributedText = .makeStyledString(font: .sub_m_m, text: input.title, color: input.isChecked ? .neutral500 : .textColor, alignment: .left)
+        subTitleLabel.attributedText = .makeStyledString(font: .b_s_r, text: input.subTitle, color: input.isChecked ? .neutral500 : .neutral700, alignment: .left)
         backgroundColor = input.isChecked ? .clearMLS : .neutral100
     }
 }

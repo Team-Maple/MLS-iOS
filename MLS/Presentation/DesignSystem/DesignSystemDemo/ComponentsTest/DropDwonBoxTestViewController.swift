@@ -136,14 +136,14 @@ private extension DropDownBoxTextViewController {
         labelTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, text in
-                owner.inputBox.label.attributedText = .makeStyledString(font: .caption, text: text, color: .neutral700, alignment: .left)
+                owner.inputBox.label.attributedText = .makeStyledString(font: .b_s_r, text: text, color: .neutral700, alignment: .left)
             }
             .disposed(by: disposeBag)
 
         placeHolderTextField.rx.text
             .withUnretained(self)
             .subscribe { owner, text in
-                owner.inputBox.textField.attributedPlaceholder = .makeStyledString(font: .body, text: text, color: .neutral500, alignment: .left)
+                owner.inputBox.textField.attributedPlaceholder = .makeStyledString(font: .b_m_r, text: text, color: .neutral500, alignment: .left)
             }
             .disposed(by: disposeBag)
 

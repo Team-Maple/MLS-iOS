@@ -2,11 +2,9 @@ import UIKit
 
 import DesignSystem
 
-import RxCocoa
 import SnapKit
 
 final class SortedBottomSheetView: UIView {
-
     private enum Constant {
         static let defaultInset: CGFloat = 16
         static let stackViewTopInset = 14
@@ -39,6 +37,7 @@ final class SortedBottomSheetView: UIView {
         setupConstraints()
     }
 
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }

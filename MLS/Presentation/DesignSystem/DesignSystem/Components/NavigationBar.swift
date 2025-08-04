@@ -49,13 +49,13 @@ public final class NavigationBar: UIView {
     }()
 
     private let collectionTitleLabel = UILabel()
-    private let editButton: UIButton = {
+    public let editButton: UIButton = {
         let button = UIButton()
         button.setImage(.edit, for: .normal)
         return button
     }()
 
-    private let addButton: UIButton = {
+    public let addButton: UIButton = {
         let button = UIButton()
         button.setImage(.addIcon, for: .normal)
         return button
@@ -114,7 +114,7 @@ private extension NavigationBar {
             make.size.equalTo(Constant.imageSize)
         }
         switch type {
-        case .withUnderLine(_), .arrowRightLeft:
+        case .withUnderLine, .arrowRightLeft:
             rightButton.snp.makeConstraints { make in
                 make.size.equalTo(Constant.imageSize)
             }
@@ -137,8 +137,8 @@ private extension NavigationBar {
     func configureUI(type: NavigationType) {
         switch type {
         case .withUnderLine(let title):
-            guard let lineHeight = UIFont.caption?.lineHeight,
-                  let font = UIFont.body else { return }
+            guard let lineHeight = UIFont.b_s_r?.lineHeight,
+                  let font = UIFont.b_m_r else { return }
 
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.minimumLineHeight = lineHeight * Constant.lineHeight
@@ -158,12 +158,12 @@ private extension NavigationBar {
             underlineTextButton.setAttributedTitle(attributedString, for: .normal)
         case .withString(let title):
             boldTextButton.setAttributedTitle(
-                .makeStyledString(font: .subTitleBold, text: title),
+                .makeStyledString(font: .sub_m_b, text: title),
                 for: .normal
             )
         case .collection(let title):
             collectionTitleLabel.text = title
-            collectionTitleLabel.font = .body
+            collectionTitleLabel.font = .b_m_r
             collectionTitleLabel.textColor = .textColor
         case .arrowRightLeft, .arrowLeft:
             break

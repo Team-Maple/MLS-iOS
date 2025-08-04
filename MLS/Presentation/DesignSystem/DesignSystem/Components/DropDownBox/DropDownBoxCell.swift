@@ -55,7 +55,7 @@ private extension DropDownBoxCell {
 
 extension DropDownBoxCell {
     func injection(with input: String, isSelected: Bool) {
-        titleLabel.attributedText = .makeStyledString(font: .body, text: input, color: isSelected ? .textColor : .neutral500, alignment: .left)
+        titleLabel.attributedText = .makeStyledString(font: .b_m_r, text: input, color: isSelected ? .textColor : .neutral500, alignment: .left)
         backgroundColorView.backgroundColor = isSelected ? .neutral100 : .clearMLS
     }
 }
