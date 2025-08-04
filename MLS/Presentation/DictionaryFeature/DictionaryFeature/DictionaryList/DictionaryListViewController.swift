@@ -69,7 +69,7 @@ private extension DictionaryListViewController {
     func createListLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getPageListLayout() }
+            .section { _ in layoutFactory.getDictionaryListLayout() }
             .build()
         layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout

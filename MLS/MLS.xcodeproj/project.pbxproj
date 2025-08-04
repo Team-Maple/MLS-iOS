@@ -225,7 +225,7 @@
 			children = (
 				779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */,
 				779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */,
-        08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
+				08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
 				08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */,
 				7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */,
 				772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */,
