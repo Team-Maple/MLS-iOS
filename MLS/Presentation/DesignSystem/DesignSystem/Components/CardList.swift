@@ -34,7 +34,6 @@ public final class CardList: UIView {
         static let imageInset: CGFloat = 10
         static let imageContentViewSize: CGFloat = 80
         static let stackViewSpacing: CGFloat = 4
-        static let stackViewInset: CGFloat = 6
         static let iconSize: CGFloat = 24
     }
 
@@ -65,7 +64,7 @@ public final class CardList: UIView {
 
     // MARK: - Components
     private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
-
+    
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
         view.axis = .vertical
@@ -123,7 +122,7 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
-            make.top.bottom.equalTo(imageView).inset(Constant.stackViewInset)
+            make.centerY.equalToSuperview()
         }
 
         iconButton.snp.makeConstraints { make in
