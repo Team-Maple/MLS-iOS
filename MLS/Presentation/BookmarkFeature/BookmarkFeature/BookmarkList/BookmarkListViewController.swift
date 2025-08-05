@@ -107,9 +107,8 @@ extension BookmarkListViewController {
             .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, items in
                 owner.mainView.listCollectionView.reloadData()
-                owner.mainView.emptyView.isHidden = !items.isEmpty
-                owner.mainView.listCollectionView.isHidden = items.isEmpty
                 owner.mainView.isUserInteractionEnabled = !items.isEmpty
+                owner.mainView.checkEmptyData(isEmpty: items.isEmpty)
                 if !items.isEmpty {
                     let type = reactor.currentState.type
                     owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)

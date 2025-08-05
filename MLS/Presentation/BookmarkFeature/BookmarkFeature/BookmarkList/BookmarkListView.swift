@@ -22,7 +22,7 @@ final class BookmarkListView: UIView {
     }
 
     // MARK: - Components
-    private let editButton = TextButton()
+    public let editButton = TextButton()
     
     public let listCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
@@ -120,5 +120,14 @@ extension BookmarkListView {
     func selectFilter(selectedType: SortType) {
         sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700
+    }
+    
+    func checkEmptyData(isEmpty: Bool) {
+        emptyView.isHidden = !isEmpty
+        filterStackView.isHidden = isEmpty
+        sortButton.isHidden = isEmpty
+        filterButton.isHidden = isEmpty
+        editButton.isHidden = isEmpty
+        listCollectionView.isHidden = isEmpty
     }
 }
