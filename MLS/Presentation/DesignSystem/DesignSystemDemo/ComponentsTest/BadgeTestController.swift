@@ -47,7 +47,7 @@ private extension BadgeTestController {
         currentBadge.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
+
         preBadge.snp.makeConstraints { make in
             make.top.equalTo(currentBadge.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
@@ -57,7 +57,7 @@ private extension BadgeTestController {
             make.top.equalTo(preBadge.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
         }
-        
+
         elementBadge.snp.makeConstraints { make in
             make.top.equalTo(nextBadge.snp.bottom).offset(16)
             make.centerX.equalToSuperview()

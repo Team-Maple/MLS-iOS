@@ -26,7 +26,7 @@ public extension NSAttributedString {
 
         return attributedString
     }
-    
+
     static func makeStyledUnderlinedString(
             font: UIFont?,
             text: String?,

@@ -47,7 +47,7 @@ private extension DictionaryDetailViewTestController {
         first.snp.makeConstraints { make in
             make.horizontalEdges.centerY.equalToSuperview()
         }
-        
+
         second.snp.makeConstraints { make in
             make.top.equalTo(first.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
@@ -57,7 +57,7 @@ private extension DictionaryDetailViewTestController {
             make.top.equalTo(second.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         forth.snp.makeConstraints { make in
             make.top.equalTo(third.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview()

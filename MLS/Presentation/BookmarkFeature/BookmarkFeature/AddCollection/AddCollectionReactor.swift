@@ -29,7 +29,7 @@ public final class AddCollectionModalReactor: Reactor {
     public struct State {
         @Pulse var route: Route?
         var collection: BookmarkCollection?
-        var inputText: String? = nil
+        var inputText: String?
         var isError: Bool = false
         var isButtonEnabled: Bool = false
     }

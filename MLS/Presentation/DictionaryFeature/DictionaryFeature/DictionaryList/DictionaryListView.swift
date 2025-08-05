@@ -81,7 +81,7 @@ private extension DictionaryListView {
 
     func setupConstraints(isFilterHidden: Bool) {
         filterStackView.isHidden = isFilterHidden
-        
+
         if isFilterHidden {
             listCollectionView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)

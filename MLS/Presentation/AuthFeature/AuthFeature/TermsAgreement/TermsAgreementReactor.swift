@@ -150,8 +150,7 @@ public final class TermsAgreementReactor: Reactor {
         }
         if newState.isOldAgree == true &&
             newState.isServiceTermsAgree == true &&
-            newState.isPersonalInformationAgree == true
-        {
+            newState.isPersonalInformationAgree == true {
             if newState.isMarketingAgree == true {
                 newState.isTotalAgree = true
             } else {
