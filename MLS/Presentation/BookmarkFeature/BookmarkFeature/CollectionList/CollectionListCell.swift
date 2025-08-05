@@ -51,6 +51,6 @@ public extension CollectionListCell {
     func inject(input: Input) {
         cellView.setImages(images: input.images)
         cellView.setTitle(text: input.title)
-        cellView.setSubtitle(text: String(input.count))
+        cellView.setSubtitle(text: "\(String(input.count))개")
     }
 }

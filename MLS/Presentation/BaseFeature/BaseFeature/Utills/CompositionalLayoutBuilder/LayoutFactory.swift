@@ -37,7 +37,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
 
-    public func getPageListLayout() -> CompositionalSectionBuilder {
+    public func getDictionaryListLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
             .group(.horizontal, width: .fractionalWidth(1.0), height: .absolute(104))
@@ -102,8 +102,8 @@ public class LayoutFactory {
 
     public func getCollectionListEditLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
-            .item(width: .fractionalWidth(1.0), height: .absolute(96))
-            .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(96))
+            .item(width: .fractionalWidth(1.0), height: .absolute(104))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(104))
             .buildSection()
             .interGroupSpacing(10)
             .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))

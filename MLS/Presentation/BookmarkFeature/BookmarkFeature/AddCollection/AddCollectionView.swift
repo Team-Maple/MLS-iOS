@@ -86,6 +86,7 @@ public final class AddCollectionView: UIView {
         textField.backgroundColor = .clearMLS
         textField.tintColor = .primary300
         textField.textAlignment = .left
+        textField.font = .korFont(style: .semiBold, size: 14)
         textField.attributedPlaceholder = NSAttributedString(
             string: "컬렉션 이름을 입력해주세요 (최대 18자)",
             attributes: [.foregroundColor: UIColor.neutral500]

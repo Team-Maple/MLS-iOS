@@ -69,7 +69,7 @@ private extension DictionaryListViewController {
     func createListLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getPageListLayout() }
+            .section { _ in layoutFactory.getDictionaryListLayout() }
             .build()
         layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout
@@ -183,6 +183,9 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         guard let self = self else { return }
                         if item.isBookmarked {
                             self.reactor?.action.onNext(.toggleBookmark(item.id))
+                            SnackBarFactory.createSnackBar(type: .delete, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에서 삭제했어요.", buttonText: "되돌리기", buttonAction: { [weak self] in
+                                self?.reactor?.action.onNext(.toggleBookmark(item.id))
+                            })
                         } else {
                             // 로그인 여부 확인
                             if false {
