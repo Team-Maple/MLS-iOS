@@ -38,13 +38,13 @@ private extension PopularSearchHeaderView {
     func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(Constant.topInset)
-            make.horizontalEdges.equalToSuperview()
+            make.leading.equalToSuperview()
         }
 
         subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(Constant.spacing)
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.equalTo(titleLabel.snp.trailing).priority(.low)
+            make.trailing.equalToSuperview().priority(.high)
+            make.centerY.equalTo(titleLabel)
         }
     }
 

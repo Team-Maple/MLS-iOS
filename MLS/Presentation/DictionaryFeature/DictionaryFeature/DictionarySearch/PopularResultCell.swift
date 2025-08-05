@@ -58,7 +58,7 @@ extension PopularResultCell {
     }
 
     func inject(input: Input) {
-        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .cp_s_m : .cp_s_r, text: "\(input.index + 1)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .center)
+        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .cp_s_m : .cp_s_r, text: "\(input.index)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .center)
         textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .cp_s_m : .cp_s_r, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
     }
 }

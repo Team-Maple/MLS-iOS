@@ -87,18 +87,18 @@ private extension DictionarySearchViewController {
             if reactor.currentState.hasRecent {
                 switch sectionIndex {
                 case 0:
-                    return layoutFactory.getTagChipLayout().build()!
+                    return layoutFactory.getTagChipLayout().build()
                 case 1:
-                    return layoutFactory.getDecorationSection().build()!
+                    return layoutFactory.getDecorationSection().build()
                 case 2:
-                    return layoutFactory.getPopularResultLayout(hasRecent: true).build()!
+                    return layoutFactory.getPopularResultLayout(hasRecent: true).build()
                 default:
                     return nil
                 }
             } else {
                 switch sectionIndex {
                 case 0:
-                    return layoutFactory.getPopularResultLayout(hasRecent: false).build()!
+                    return layoutFactory.getPopularResultLayout(hasRecent: false).build()
                 default:
                     return nil
                 }
@@ -200,7 +200,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             case 2:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
                 let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item, index: indexPath.item))
+                cell.inject(input: .init(text: item.name, index: item.rank))
                 return cell
 
             default:
@@ -211,7 +211,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             case 0:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
                 let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item, index: indexPath.item))
+                cell.inject(input: .init(text: item.name, index: item.rank))
                 return cell
 
             default:

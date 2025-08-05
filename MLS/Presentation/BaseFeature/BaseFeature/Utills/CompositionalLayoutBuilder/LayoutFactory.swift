@@ -69,9 +69,9 @@ public class LayoutFactory {
     public func getPopularResultLayout(hasRecent: Bool) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .estimated(40))
-            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(40))
+            .group(.horizontal, width: .fractionalWidth(1.0), height: .estimated(40), count: 2)
             .buildSection()
-            .header(height: hasRecent ? 70 : 46)
+            .header(height: hasRecent ? 44 : 25)
             .contentInsets(.init(top: 16, leading: 16, bottom: 16, trailing: 16))
     }
 
