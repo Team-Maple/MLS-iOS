@@ -67,6 +67,7 @@ private extension TextButton {
     }
 
     func configureUI() {
+        backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.radius
         layer.borderWidth = 1
         layer.borderColor = UIColor.neutral300.cgColor

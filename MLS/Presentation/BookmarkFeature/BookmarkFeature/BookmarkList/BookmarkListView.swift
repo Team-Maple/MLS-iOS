@@ -14,7 +14,6 @@ final class BookmarkListView: UIView {
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
         static let nonFilterTopMargin: CGFloat = 20
-        static let filterTopMargin: CGFloat = 6
         static let cellSpacing: CGFloat = 10
         static let cellWidth: CGFloat = 343
         static let cellHeight: CGFloat = 104
@@ -23,6 +22,8 @@ final class BookmarkListView: UIView {
     }
 
     // MARK: - Components
+    private let editButton = TextButton()
+    
     public let listCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -30,10 +31,10 @@ final class BookmarkListView: UIView {
     }()
 
     private lazy var filterStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [sortButton, filterButton])
+        let view = UIStackView(arrangedSubviews: [editButton, UIView(), sortButton, filterButton])
         view.axis = .horizontal
-        view.spacing = Constant.stackViewSpacing
-        view.distribution = .fillProportionally
+//        view.spacing = Constant.stackViewSpacing
+        view.alignment = .fill
         return view
     }()
 
@@ -88,11 +89,11 @@ private extension BookmarkListView {
         } else {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
+                make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
             }
 
             listCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
         }
