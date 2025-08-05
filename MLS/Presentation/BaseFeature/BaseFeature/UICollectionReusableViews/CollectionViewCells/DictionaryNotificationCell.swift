@@ -7,12 +7,13 @@ import SnapKit
 
 public class DictionaryNotificationCell: UICollectionViewCell {
     // MARK: - Type
-    struct Constant {
+    private enum Constant {
         static let horizontalInset: CGFloat = 20
         static let verticalInset: CGFloat = 16
         static let spacing: CGFloat = 4
     }
 
+    // MARK: - Components
     private let titleLabel = UILabel()
     private let subTitleLabel = UILabel()
 
