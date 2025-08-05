@@ -103,12 +103,17 @@ extension BookmarkListViewController {
         reactor.state
             .map(\.items)
             .distinctUntilChanged()
+            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] item in
-                self?.mainView.listCollectionView.reloadData()
-                self?.mainView.emptyView.isHidden = !item.isEmpty
-                self?.mainView.listCollectionView.isHidden = item.isEmpty
-                self?.mainView.isUserInteractionEnabled = !item.isEmpty
+            .bind(onNext: { owner, items in
+                owner.mainView.listCollectionView.reloadData()
+                owner.mainView.emptyView.isHidden = !items.isEmpty
+                owner.mainView.listCollectionView.isHidden = items.isEmpty
+                owner.mainView.isUserInteractionEnabled = !items.isEmpty
+                if !items.isEmpty {
+                    let type = reactor.currentState.type
+                    owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
+                }
             })
             .disposed(by: disposeBag)
 
@@ -146,16 +151,6 @@ extension BookmarkListViewController {
                     break
                 }
             }
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map(\.items)
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .bind(onNext: { owner, items in
-                let type = reactor.currentState.type
-                owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
-            })
             .disposed(by: disposeBag)
 
         reactor.state
