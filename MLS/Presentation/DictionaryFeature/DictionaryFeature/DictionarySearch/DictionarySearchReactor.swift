@@ -1,31 +1,34 @@
 import Foundation
 import ReactorKit
 
+struct PopularItem {
+    let rank: Int
+    let name: String
+}
+
 public final class DictionarySearchReactor: Reactor {
-    struct PopularItem {
-        let rank: Int
-        let name: String
-    }
-    
     // MARK: - Reactor
     public enum Route {
         case none
         case dismiss
-        case search
+        case search(String)
     }
 
     public enum Action {
         case backButtonTapped
-        case searchButtonTapped
+        case searchButtonTapped(String)
+        case cancelRecentButtonTapped(String)
+        case recentButtonTapped(String)
     }
 
     public enum Mutation {
         case navigateTo(Route)
+        case deleteItem(String)
     }
 
     public struct State {
         @Pulse var route: Route
-        let recentResult: [String]
+        var recentResult: [String]
         var hasRecent: Bool {
             !recentResult.isEmpty
         }
@@ -62,8 +65,7 @@ public final class DictionarySearchReactor: Reactor {
         }
 
         let newItems = grid.flatMap { $0.compactMap { $0 } }
-        print(newItems)
-        
+
         self.initialState = State(
             route: .none,
             recentResult: ["망치", "도끼", "창", "드라이버", "몽키스패너"],
@@ -76,8 +78,12 @@ public final class DictionarySearchReactor: Reactor {
         switch action {
         case .backButtonTapped:
             return Observable.just(.navigateTo(.dismiss))
-        case .searchButtonTapped:
-            return Observable.just(.navigateTo(.search))
+        case .searchButtonTapped(let keyword):
+            return Observable.just(.navigateTo(.search(keyword)))
+        case .cancelRecentButtonTapped(let name):
+            return Observable.just(.deleteItem(name))
+        case .recentButtonTapped(let keyword):
+            return Observable.just(.navigateTo(.search(keyword)))
         }
     }
 
@@ -87,6 +93,8 @@ public final class DictionarySearchReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case .deleteItem(let name):
+            newState.recentResult = state.recentResult.filter { $0 != name }
         }
 
         return newState

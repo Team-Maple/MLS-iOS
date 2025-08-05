@@ -6,6 +6,7 @@ import DesignSystem
 import DomainInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 
 public final class DictionarySearchViewController: BaseViewController, View {
@@ -14,6 +15,8 @@ public final class DictionarySearchViewController: BaseViewController, View {
     // MARK: - Properties
     private var searchResultFactory: DictionarySearchResultFactory
 
+    private let chipTapRelay = PublishRelay<String>()
+    private let chipCancelRelay = PublishRelay<String>()
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
@@ -75,7 +78,8 @@ private extension DictionarySearchViewController {
 
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
             guard let self = self,
-                  let reactor = self.reactor else {
+                  let reactor = self.reactor
+            else {
                 return NSCollectionLayoutSection(
                     group: NSCollectionLayoutGroup.vertical(
                         layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1)),
@@ -124,23 +128,43 @@ extension DictionarySearchViewController {
             .disposed(by: disposeBag)
 
         mainView.searchBar.searchButton.rx.tap
-            .map { Reactor.Action.searchButtonTapped }
+            .withUnretained(self)
+            .map { $0.0.mainView.searchBar.textField.text ?? "" }
+            .map(Reactor.Action.searchButtonTapped)
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        chipTapRelay
+            .map { Reactor.Action.recentButtonTapped($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        chipCancelRelay
+            .map { Reactor.Action.cancelRecentButtonTapped($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
+        reactor.state.map { $0.recentResult }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { owner, _ in
+                owner.mainView.searchCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
-                case .search:
-                    guard let keyword = owner.mainView.searchBar.textField.text else { return }
-                    if keyword.isOnlyKorean() && keyword != "" {
+                case .search(let keyword):
+                    if keyword.isOnlyKorean(), keyword != "" {
                         GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
                     } else {
                         owner.mainView.searchBar.textField.text = ""
@@ -192,9 +216,19 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             switch section {
             case 0:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as! TagChipCell
-                let item = reactor.currentState.recentResult[indexPath.item]
-                cell.button.style = .search
-                cell.inject(title: item)
+                let item = reactor.currentState.recentResult[indexPath.row]
+                cell.inject(title: item, style: .search)
+
+                cell.buttonTapSubject
+                    .map { item }
+                    .bind(to: chipTapRelay)
+                    .disposed(by: cell.disposeBag)
+
+                cell.cancelButtonTapSubject
+                    .map { item }
+                    .bind(to: chipCancelRelay)
+                    .disposed(by: cell.disposeBag)
+
                 return cell
 
             case 2:

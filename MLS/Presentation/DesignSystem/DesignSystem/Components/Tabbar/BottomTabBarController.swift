@@ -4,6 +4,7 @@ import SnapKit
 
 public final class BottomTabBarController: UITabBarController {
     // MARK: - Components
+    private let divider = DividerView()
     private let tabItems: [TabItem]
     private let customTabBar: BottomTabBar
 
@@ -36,11 +37,17 @@ public final class BottomTabBarController: UITabBarController {
 private extension BottomTabBarController {
     func addViews() {
         view.addSubview(customTabBar)
+        view.addSubview(divider)
     }
 
     func setupConstraints() {
-        customTabBar.snp.makeConstraints { make in
+        divider.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(customTabBar.snp.top)
+        }
+        
+        customTabBar.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }

@@ -6,13 +6,15 @@ import RxSwift
 import SnapKit
 
 public class AddFolderCell: UICollectionViewCell {
-    private struct Constant {
+    // MARK: - Type
+    private enum Constant {
         static let iconInset: CGFloat = 8
         static let radius: CGFloat = 8
         static let margin: CGFloat = 16
         static let buttonSize: CGFloat = 40
     }
 
+    // MARK: - Components
     private lazy var addButton: UIButton = {
         let button = UIButton()
         button.layer.cornerRadius = Constant.radius

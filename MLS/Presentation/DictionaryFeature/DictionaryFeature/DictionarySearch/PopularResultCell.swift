@@ -5,7 +5,7 @@ import DomainInterface
 
 final class PopularResultCell: UICollectionViewCell {
     // MARK: - Type
-    struct Constant {
+    private enum Constant {
         static let verticalInset: CGFloat = 8
         static let spacing: CGFloat = 8
         static let indexLabelWidth: CGFloat = 18

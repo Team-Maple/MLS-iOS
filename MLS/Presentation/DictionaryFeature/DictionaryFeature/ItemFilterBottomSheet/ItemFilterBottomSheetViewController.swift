@@ -467,7 +467,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                     return "\(range.low) ~ \(range.high)"
                 }
             }
-            cell.inject(title: titles[indexPath.row])
+            cell.inject(title: titles[indexPath.row], style: .normal)
             cell.button.cancelButton.rx.tap
                 .withUnretained(self)
                 .subscribe { owner, _ in
