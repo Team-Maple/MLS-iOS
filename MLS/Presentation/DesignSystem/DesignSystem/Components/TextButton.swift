@@ -35,7 +35,7 @@ public final class TextButton: UIButton {
         setupConstraints()
         configureUI()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -47,18 +47,18 @@ private extension TextButton {
         addSubview(iconView)
         addSubview(textLabel)
     }
-    
+
     func setupConstraints() {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
-        
+
         iconView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(Constant.horizontalInset)
             make.centerY.equalToSuperview()
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         textLabel.snp.makeConstraints { make in
             make.leading.equalTo(iconView.snp.trailing).offset(Constant.spacing)
             make.centerY.equalToSuperview()

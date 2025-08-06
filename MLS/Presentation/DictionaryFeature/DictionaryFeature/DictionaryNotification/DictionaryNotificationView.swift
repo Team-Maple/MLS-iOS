@@ -7,8 +7,7 @@ import SnapKit
 public final class DictionaryNotificationView: UIView {
     // MARK: - Type
     enum Constant {
-        static let emptyViewTopMargin: CGFloat = 120
-
+        static let emptyViewTopMargin: CGFloat = 40
         static let titleTopMargin: CGFloat = 20
         static let titleBottomMargin: CGFloat = 18
         static let titleHorizontalInset: CGFloat = 16
@@ -62,7 +61,7 @@ private extension DictionaryNotificationView {
         }
 
         emptyView.snp.makeConstraints { make in
-            make.top.equalTo(header.snp.bottom).offset(Constant.emptyViewTopMargin)
+            make.centerY.equalToSuperview().multipliedBy(0.315)
             make.horizontalEdges.equalToSuperview()
         }
 

@@ -26,6 +26,7 @@ public final class DictionaryNotificationReactor: Reactor {
     public struct State {
         @Pulse var route: Route = .none
         var notifications: [Notification] = []
+        var isAgreeNotification: Bool = true
     }
 
     // MARK: - properties

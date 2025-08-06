@@ -8,8 +8,8 @@ import RxSwift
 import SnapKit
 
 public final class BaseErrorViewController: BaseViewController {
-
-    private struct Constant {
+    // MARK: - Type
+    private enum Constant {
         static let imageHeight: CGFloat = 171
         static let imageWidth: CGFloat = 165
         static let componentsSpacing: CGFloat = 24

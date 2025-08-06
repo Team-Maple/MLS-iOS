@@ -10,8 +10,9 @@ public struct TabItem {
 
 public final class BottomTabBar: UIStackView {
     // MARK: - Type
-    enum Constant {
+    private enum Constant {
         static let height: CGFloat = 64
+        static let buttonSize: CGFloat = 64
     }
 
     // MARK: - Properties
@@ -24,14 +25,10 @@ public final class BottomTabBar: UIStackView {
         }
     }
 
-    // MARK: - Components
-    private let divider = DividerView()
-
     // MARK: - Init
     public init(tabItems: [TabItem], selectedIndex: Int) {
         self.selectedIndex = selectedIndex
         super.init(frame: .zero)
-        addViews()
         setUpConstraints()
         configureUI(tabItems: tabItems)
         setupStackView()
@@ -44,30 +41,35 @@ public final class BottomTabBar: UIStackView {
     }
 
     // MARK: - Setup
-    private func addViews() {
-        addSubview(divider)
-    }
 
     private func setUpConstraints() {
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
-        }
-
-        divider.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
         }
     }
 
     private func configureUI(tabItems: [TabItem]) {
         tabButtons.forEach { $0.removeFromSuperview() }
         tabButtons.removeAll()
+        arrangedSubviews.forEach { removeArrangedSubview($0); $0.removeFromSuperview() }
 
         for (index, item) in tabItems.enumerated() {
+            if index > 0 {
+                let spacer = UIView()
+                spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
+                spacer.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+                addArrangedSubview(spacer)
+            }
+
             let button = TabButton(icon: item.icon, text: item.title)
             button.tag = index
             button.addTarget(self, action: #selector(tabButtonTapped(_:)), for: .touchUpInside)
             addArrangedSubview(button)
             tabButtons.append(button)
+
+            button.snp.makeConstraints { make in
+                make.size.equalTo(Constant.buttonSize)
+            }
         }
 
         selectIndex()
@@ -75,8 +77,9 @@ public final class BottomTabBar: UIStackView {
 
     private func setupStackView() {
         backgroundColor = .systemBackground
+        axis = .horizontal
+        distribution = .equalSpacing
         spacing = 0
-        distribution = .fillEqually
     }
 
     @objc private func tabButtonTapped(_ sender: TabButton) {

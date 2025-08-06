@@ -29,7 +29,7 @@ final class DictionaryListView: UIView {
     }()
 
     private lazy var filterStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [sortButton, filterButton])
+        let view = UIStackView(arrangedSubviews: [UIView(), sortButton, filterButton])
         view.axis = .horizontal
         view.spacing = Constant.stackViewSpacing
         return view
@@ -74,14 +74,17 @@ final class DictionaryListView: UIView {
 // MARK: - SetUp
 private extension DictionaryListView {
     func addViews(isFilterHidden: Bool) {
-        addSubview(filterStackView)
-        addSubview(listCollectionView)
-        addSubview(emptyView)
+        if isFilterHidden {
+            addSubview(listCollectionView)
+            addSubview(emptyView)
+        } else {
+            addSubview(filterStackView)
+            addSubview(listCollectionView)
+            addSubview(emptyView)
+        }
     }
 
     func setupConstraints(isFilterHidden: Bool) {
-        filterStackView.isHidden = isFilterHidden
-
         if isFilterHidden {
             listCollectionView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
@@ -94,7 +97,7 @@ private extension DictionaryListView {
         } else {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
+                make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
             }
 
             listCollectionView.snp.makeConstraints { make in

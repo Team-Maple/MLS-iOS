@@ -4,6 +4,7 @@ import SnapKit
 
 public final class BottomTabBarController: UITabBarController {
     // MARK: - Components
+    private let divider = DividerView()
     private let tabItems: [TabItem]
     private let customTabBar: BottomTabBar
 
@@ -36,11 +37,17 @@ public final class BottomTabBarController: UITabBarController {
 private extension BottomTabBarController {
     func addViews() {
         view.addSubview(customTabBar)
+        view.addSubview(divider)
     }
 
     func setupConstraints() {
-        customTabBar.snp.makeConstraints { make in
+        divider.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(customTabBar.snp.top)
+        }
+
+        customTabBar.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }
@@ -68,12 +75,16 @@ public extension BottomTabBarController {
         if animated {
             UIView.animate(withDuration: 0.3) {
                 self.customTabBar.alpha = hidden ? 0 : 1
+                self.divider.alpha = hidden ? 0 : 1
             } completion: { _ in
                 self.customTabBar.isHidden = hidden
+                self.divider.isHidden = hidden
             }
         } else {
             customTabBar.isHidden = hidden
             customTabBar.alpha = hidden ? 0 : 1
+            divider.isHidden = hidden
+            divider.alpha = hidden ? 0 : 1
         }
     }
 }

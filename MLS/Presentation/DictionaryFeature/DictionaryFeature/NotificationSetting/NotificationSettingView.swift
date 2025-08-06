@@ -13,7 +13,7 @@ public final class NotificationSettingView: UIView {
     }
 
     // MARK: - Components
-    public let header = NavigationBar(type: .withString("설정"))
+    public let header = NavigationBar(type: .arrowLeft)
 
     public let titleLabel: UILabel = {
         let label = UILabel()

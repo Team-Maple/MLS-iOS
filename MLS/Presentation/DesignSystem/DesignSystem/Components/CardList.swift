@@ -64,7 +64,7 @@ public final class CardList: UIView {
 
     // MARK: - Components
     private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
-    
+
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
         view.axis = .vertical
