@@ -30,6 +30,7 @@
 		08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49292DCFDED4002C21A2 /* RxRelay */; };
 		08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED492B2DCFDED4002C21A2 /* RxSwift */; };
 		08ED4DB12DCFE098002C21A2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DB02DCFE098002C21A2 /* SnapKit */; };
+		770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 770ADB1E2E433EDA00270506 /* RxKeyboard */; };
 		772199F22E0E7EC800A7B58C /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; };
 		772199F32E0E7EC800A7B58C /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7721A5042E0EE7AE00A7B58C /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */; };
@@ -144,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */,
+				770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */,
 				08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */,
 				7721A5042E0EE7AE00A7B58C /* BaseFeature.framework in Frameworks */,
 				08DA58AA2E1E5BEB009097A6 /* DictionaryFeatureInterface.framework in Frameworks */,
@@ -296,6 +298,7 @@
 				7721A5072E0EE7F100A7B58C /* ReactorKit */,
 				08DA51B32E1B9827009097A6 /* FirebaseFirestore */,
 				08DA51B52E1B9827009097A6 /* FirebaseMessaging */,
+				770ADB1E2E433EDA00270506 /* RxKeyboard */,
 			);
 			productName = MLS;
 			productReference = 087D3EE82DA7972C002F924D /* MLS.app */;
@@ -358,6 +361,7 @@
 				77660AD32DD0D3DD007A4EF3 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				7721A5062E0EE7F100A7B58C /* XCRemoteSwiftPackageReference "ReactorKit" */,
 				08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				770ADB1D2E433EDA00270506 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 087D3EE92DA7972C002F924D /* Products */;
@@ -487,7 +491,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -498,7 +502,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -527,7 +531,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACH_O_TYPE = mh_execute;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -538,7 +542,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -754,6 +758,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		770ADB1D2E433EDA00270506 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 		7721A5062E0EE7F100A7B58C /* XCRemoteSwiftPackageReference "ReactorKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactorKit/ReactorKit.git";
@@ -802,6 +814,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 08ED4DAF2DCFE098002C21A2 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		770ADB1E2E433EDA00270506 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 770ADB1D2E433EDA00270506 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		7721A5072E0EE7F100A7B58C /* ReactorKit */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -9,22 +9,21 @@ import RxSwift
 public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
     public init() {}
 
-    /// 카카오에 요청을 보내서 access 토큰을 포함한 정보를 가져오는 함수
-    /// - Returns: accessToken + email
     public func getCredential() -> Observable<Credential> {
         return Observable.create { [weak self] observer in
-
             let disposable = Disposables.create()
 
-            if UserApi.isKakaoTalkLoginAvailable() {
-                // 카카오톡이 설치되어있을때 (앱)
-                UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
-                }
-            } else {
-                // 카카오톡이 설치되어있지않을때 (웹)
-                UserApi.shared.loginWithKakaoAccount { oauthToken, error in
-                    self?.fetchEmail(oauthToken: oauthToken, error: error, observer: observer)
+            let handleLogin: (OAuthToken?, Error?) -> Void = { oauthToken, error in
+                self?.fetchEmailAfterDelay(oauthToken: oauthToken, error: error, observer: observer)
+            }
+
+            DispatchQueue.main.async {
+                if UserApi.isKakaoTalkLoginAvailable() {
+                    // 카카오톡 앱 로그인
+                    UserApi.shared.loginWithKakaoTalk(completion: handleLogin)
+                } else {
+                    // 웹 브라우저 로그인
+                    UserApi.shared.loginWithKakaoAccount(completion: handleLogin)
                 }
             }
 
@@ -32,12 +31,8 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
         }
     }
 
-    /// access 토큰을 이용하여 email 정보를 가져오는 함수
-    /// - Parameters:
-    ///   - oauthToken: accessToken을 포함한 OAuthToken
-    ///   - error: 발생한 에러
-    ///   - observer: Credential을 관리하는 스트림
-    private func fetchEmail(oauthToken: OAuthToken?, error: Error?, observer: AnyObserver<Credential>) {
+    /// accessToken 기반으로 사용자 정보를 가져오는 함수 (딜레이 포함)
+    private func fetchEmailAfterDelay(oauthToken: OAuthToken?, error: Error?, observer: AnyObserver<Credential>) {
         if let error = error {
             observer.onError(error)
             return
@@ -48,10 +43,14 @@ public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
             return
         }
 
-        UserApi.shared.me { user, error in
-            if let error = error {
-                observer.onError(error)
-            } else {
+        // ✅ Kakao SDK 내부 토큰 저장 시간 보장
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            UserApi.shared.me { user, error in
+                if let error = error {
+                    observer.onError(error)
+                    return
+                }
+
                 let id = user?.id ?? 0
                 let credential = KakaoCredential(token: accessToken, providerID: String(id))
                 observer.onNext(credential)

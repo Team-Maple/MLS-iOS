@@ -91,7 +91,7 @@ private extension LoginReactor {
                             .flatMap { response -> Observable<Mutation> in
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
-                                    return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
+                                    return owner.putFCMTokenUseCase.execute(credential: credential, fcmToken: fcmToken)
                                         .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
@@ -128,7 +128,7 @@ private extension LoginReactor {
                             .flatMap { response -> Observable<Mutation> in
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
-                                    return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
+                                    return owner.putFCMTokenUseCase.execute(credential: credential, fcmToken: fcmToken)
                                         .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동

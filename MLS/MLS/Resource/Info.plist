@@ -9,7 +9,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao${KAKAO_NATIVE_APP_KEY}</string>
+				<string>kakao0d3fc1c8d0c4287299005162060541ee</string>
 			</array>
 		</dict>
 	</array>
@@ -20,6 +20,7 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>kakaokompassauth</string>
+		<string>kakaotalk</string>
 	</array>
 	<key>NSUserNotificationAlertUsageDescription</key>
 	<string>이벤트 소식을 알려드리기 위해 푸시 알림 권한이 필요합니다.</string>

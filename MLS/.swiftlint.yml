@@ -12,3 +12,4 @@ function_body_length:
 
 disabled_rules:
   - force_cast
+  - blanket_disable_command

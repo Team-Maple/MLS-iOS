@@ -68,8 +68,8 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
     }
 
-    public func fcmToken(fcmToken: String?) -> Completable {
-        let endPoint = AuthEndPoint.fcmToken(body: FCMTokenBody(fcmToken: fcmToken))
+    public func fcmToken(credential: Credential, fcmToken: String?) -> Completable {
+        let endPoint = AuthEndPoint.fcmToken(credential: credential.token, body: FCMTokenBody(fcmToken: fcmToken))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 

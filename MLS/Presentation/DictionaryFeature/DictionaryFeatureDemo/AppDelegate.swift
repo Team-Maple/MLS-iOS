@@ -237,13 +237,33 @@ private extension AppDelegate {
             return BookmarkOnBoardingFactoryImpl()
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
-            return OnBoardingInputFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+            return OnBoardingInputFactoryImpl(
+                checkEmptyUseCase: DIContainer
+                    .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer
+                    .resolve(type: CheckValidLevelUseCase.self),
+                fetchJobListUseCase: DIContainer
+                    .resolve(type: FetchJobListUseCase.self),
+                updateUserInfoUseCase: DIContainer
+                    .resolve(type: UpdateUserInfoUseCase.self)
+            )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
             return OnBoardingQuestionFactoryImpl(onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self))
         }
         DIContainer.register(type: TermsAgreementFactory.self) {
-            return TermsAgreementFactoryImpl(onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self), signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self), signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self), saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self), fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+            return TermsAgreementFactoryImpl(
+                onBoardingQuestionFactory: DIContainer
+                    .resolve(type: OnBoardingQuestionFactory.self),
+                signUpWithKakaoUseCase: DIContainer
+                    .resolve(type: SignUpWithKakaoUseCase.self),
+                signUpWithAppleUseCase: DIContainer
+                    .resolve(type: SignUpWithAppleUseCase.self),
+                saveTokenUseCase: DIContainer
+                    .resolve(type: SaveTokenToLocalUseCase.self),
+                fetchTokenUseCase: DIContainer
+                    .resolve(type: FetchTokenFromLocalUseCase.self)
+            )
         }
         DIContainer.register(type: PutFCMTokenUseCase.self) {
             return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
@@ -293,7 +313,18 @@ private extension AppDelegate {
             return CollectionEditFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
         }
         DIContainer.register(type: CollectionDetailFactory.self) {
-            return CollectionDetailFactoryImpl(toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), collectionSettingFactory: DIContainer.resolve(type: CollectionSettingFactory.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
+            return CollectionDetailFactoryImpl(
+                toggleBookmarkUseCase: DIContainer
+                    .resolve(type: ToggleBookmarkUseCase.self),
+                bookmarkModalFactory: DIContainer
+                    .resolve(type: BookmarkModalFactory.self),
+                collectionSettingFactory: DIContainer
+                    .resolve(type: CollectionSettingFactory.self),
+                addCollectionFactory: DIContainer
+                    .resolve(type: AddCollectionFactory.self),
+                collectionEditFactory: DIContainer
+                    .resolve(type: CollectionEditFactory.self)
+            )
         }
         DIContainer.register(type: CollectionListFactory.self) {
             return CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))

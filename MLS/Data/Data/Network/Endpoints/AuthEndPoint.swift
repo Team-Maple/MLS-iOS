@@ -53,11 +53,12 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func fcmToken(body: Encodable) -> EndPoint {
+    public static func fcmToken(credential: String, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/fcm-token",
             method: .PUT,
+            headers: ["id-token": credential],
             body: body
         )
     }

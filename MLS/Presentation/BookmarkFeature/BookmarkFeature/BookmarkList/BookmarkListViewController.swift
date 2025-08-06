@@ -25,7 +25,14 @@ public final class BookmarkListViewController: BaseViewController, View {
     // MARK: - Components
     private var mainView: BookmarkListView
 
-    public init(reactor: BookmarkListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
+    public init(
+        reactor: BookmarkListReactor,
+        itemFilterFactory: ItemFilterBottomSheetFactory,
+        monsterFilterFactory: MonsterFilterBottomSheetFactory,
+        sortedFactory: SortedBottomSheetFactory,
+        bookmarkModalFactory: BookmarkModalFactory,
+        loginFactory: LoginFactory
+    ) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory

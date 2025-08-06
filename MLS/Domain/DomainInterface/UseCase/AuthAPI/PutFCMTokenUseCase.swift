@@ -3,5 +3,5 @@ import Foundation
 import RxSwift
 
 public protocol PutFCMTokenUseCase {
-    func execute(fcmToken: String?) -> Completable
+    func execute(credential: Credential, fcmToken: String?) -> Completable
 }

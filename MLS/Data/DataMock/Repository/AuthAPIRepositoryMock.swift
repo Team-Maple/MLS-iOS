@@ -20,7 +20,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
     }
 
-    public func fcmToken(fcmToken: String?) -> RxSwift.Completable {
+    public func fcmToken(credential: Credential, fcmToken: String?) -> Completable {
         return .empty()
     }
 
