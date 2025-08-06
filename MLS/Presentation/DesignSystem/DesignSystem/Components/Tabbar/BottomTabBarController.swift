@@ -45,7 +45,7 @@ private extension BottomTabBarController {
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(customTabBar.snp.top)
         }
-        
+
         customTabBar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)

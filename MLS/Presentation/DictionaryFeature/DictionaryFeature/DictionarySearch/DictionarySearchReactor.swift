@@ -53,7 +53,7 @@ public final class DictionarySearchReactor: Reactor {
             PopularItem(rank: 8, name: "주니어 진훈"),
             PopularItem(rank: 9, name: "주니어 여송"),
             PopularItem(rank: 10, name: "주니어 명범"),
-            PopularItem(rank: 11, name: "주니어 재혁"),
+            PopularItem(rank: 11, name: "주니어 재혁")
         ]
         let numberOfRows = Int(ceil(Double(items.count) / Double(2)))
         var grid = [[PopularItem?]](repeating: [PopularItem?](repeating: nil, count: 2), count: numberOfRows)

@@ -23,7 +23,7 @@ final class BookmarkListView: UIView {
 
     // MARK: - Components
     public let editButton = TextButton()
-    
+
     public let listCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -121,7 +121,7 @@ extension BookmarkListView {
         sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700
     }
-    
+
     func checkEmptyData(isEmpty: Bool) {
         emptyView.isHidden = !isEmpty
         filterStackView.isHidden = isEmpty

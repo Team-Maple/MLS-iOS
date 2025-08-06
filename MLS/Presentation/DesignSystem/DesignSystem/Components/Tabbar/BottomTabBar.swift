@@ -52,7 +52,7 @@ public final class BottomTabBar: UIStackView {
         tabButtons.forEach { $0.removeFromSuperview() }
         tabButtons.removeAll()
         arrangedSubviews.forEach { removeArrangedSubview($0); $0.removeFromSuperview() }
-        
+
         for (index, item) in tabItems.enumerated() {
             if index > 0 {
                 let spacer = UIView()
@@ -66,7 +66,7 @@ public final class BottomTabBar: UIStackView {
             button.addTarget(self, action: #selector(tabButtonTapped(_:)), for: .touchUpInside)
             addArrangedSubview(button)
             tabButtons.append(button)
-            
+
             button.snp.makeConstraints { make in
                 make.size.equalTo(Constant.buttonSize)
             }
