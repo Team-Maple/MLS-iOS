@@ -63,7 +63,7 @@ public final class BookmarkOnBoardingView: UIView {
         static let imageSize: CGFloat = 220
         static let imageSpacing: CGFloat = 4
         static let labelSpacing: CGFloat = 16
-        static let indicatorSpacing: CGFloat = 11
+        static let indicatorSpacing: CGFloat = 29
         static let bottomInset: CGFloat = 16
         static let horizontalMargin: CGFloat = 16
         static let backButtonTrailing: CGFloat = -28

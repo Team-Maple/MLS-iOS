@@ -75,12 +75,16 @@ public extension BottomTabBarController {
         if animated {
             UIView.animate(withDuration: 0.3) {
                 self.customTabBar.alpha = hidden ? 0 : 1
+                self.divider.alpha = hidden ? 0 : 1
             } completion: { _ in
                 self.customTabBar.isHidden = hidden
+                self.divider.isHidden = hidden
             }
         } else {
             customTabBar.isHidden = hidden
             customTabBar.alpha = hidden ? 0 : 1
+            divider.isHidden = hidden
+            divider.alpha = hidden ? 0 : 1
         }
     }
 }

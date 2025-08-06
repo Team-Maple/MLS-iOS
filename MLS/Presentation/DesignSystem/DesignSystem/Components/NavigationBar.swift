@@ -158,7 +158,7 @@ private extension NavigationBar {
             underlineTextButton.setAttributedTitle(attributedString, for: .normal)
         case .withString(let title):
             boldTextButton.setAttributedTitle(
-                .makeStyledString(font: .sub_m_b, text: title),
+                .makeStyledString(font: .btn_m_b, text: title),
                 for: .normal
             )
         case .collection(let title):
