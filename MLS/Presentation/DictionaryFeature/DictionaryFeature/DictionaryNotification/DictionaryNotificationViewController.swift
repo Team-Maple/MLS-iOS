@@ -55,7 +55,8 @@ private extension DictionaryNotificationViewController {
 
     func configureUI() {
         isBottomTabbarHidden = true
-        mainView.setEmpty(isEmpty: true)
+        guard let reactor = reactor else { return }
+        mainView.setEmpty(isEmpty: reactor.currentState.isAgreeNotification)
 
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self

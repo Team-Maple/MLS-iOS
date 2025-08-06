@@ -7,15 +7,14 @@ import SnapKit
 final class NotificationEmptyView: UIView {
     // MARK: - Type
     enum Constant {
-        static let imageViewSize: CGFloat = 60
+        static let imageViewSize: CGFloat = 220
         static let spacing: CGFloat = 12
     }
 
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "warning")?.withRenderingMode(.alwaysTemplate)
-        view.tintColor = .primary100
+        view.image = DesignSystemAsset.image(named: "settingsHint")
         return view
     }()
 
@@ -31,8 +30,8 @@ final class NotificationEmptyView: UIView {
         let fullText = "오른쪽 상단 설정을 눌러 알림을 켜면\n업데이트, 이벤트 소식을 바로 받아볼 수 있어요!"
         let keyword = "설정"
 
-        guard let baseFont = UIFont.sub_m_m,
-              let specialFont = UIFont.sub_m_b else { return UILabel() }
+        guard let baseFont = UIFont.cp_s_r,
+              let specialFont = UIFont.cp_s_r else { return UILabel() }
         let specialColor = UIColor.textColor
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
@@ -42,7 +41,7 @@ final class NotificationEmptyView: UIView {
             string: fullText,
             attributes: [
                 .font: baseFont,
-                .foregroundColor: UIColor.neutral700,
+                .foregroundColor: UIColor.neutral600,
                 .paragraphStyle: paragraphStyle
             ]
         )
@@ -50,7 +49,7 @@ final class NotificationEmptyView: UIView {
         if let range = fullText.range(of: keyword) {
             let nsRange = NSRange(range, in: fullText)
             attributedText.addAttributes([
-                .font: specialFont,
+//                .font: specialFont,
                 .foregroundColor: specialColor
             ], range: nsRange)
         }

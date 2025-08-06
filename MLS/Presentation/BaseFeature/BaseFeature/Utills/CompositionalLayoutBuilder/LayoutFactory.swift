@@ -80,7 +80,8 @@ public class LayoutFactory {
             .item(width: .fractionalWidth(1.0), height: .estimated(86))
             .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(86))
             .buildSection()
-            .interGroupSpacing(0)
+            .interGroupSpacing(8)
+            .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 
     public func getCollectionModalLayout() -> CompositionalSectionBuilder {
