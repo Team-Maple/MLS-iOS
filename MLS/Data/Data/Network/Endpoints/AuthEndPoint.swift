@@ -58,7 +58,7 @@ public enum AuthEndPoint {
             baseURL: base,
             path: "/api/v1/auth/member/fcm-token",
             method: .PUT,
-            headers: ["id-token": credential],
+            headers: ["Authorization": "Bearer \(credential)"],
             body: body
         )
     }
