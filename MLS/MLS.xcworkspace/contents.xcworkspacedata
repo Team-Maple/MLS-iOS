@@ -8,6 +8,9 @@
       location = "group:Presentation"
       name = "Presentation">
       <FileRef
+         location = "absolute:/Users/yeosong/Desktop/ysome/MyPageFeature/MyPageFeature.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:BookmarkFeature/BookmarkFeature.xcodeproj">
       </FileRef>
       <FileRef

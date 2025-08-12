@@ -44,6 +44,9 @@
 		779A49112E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77EB18D62DED9256004FB380 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; };
 		77EB18D72DED9256004FB380 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D26A13C82E46D9D00084AFEC /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D26A13C72E46D9D00084AFEC /* MyPageFeature.framework */; };
+		D26A13C92E46D9D00084AFEC /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D26A13C72E46D9D00084AFEC /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D2D7F8E42E44AEA3008368D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D2D7F8E32E44AEA3008368D5 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +72,7 @@
 				084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */,
 				08DA58A82E1E5BE3009097A6 /* DictionaryFeature.framework in Embed Frameworks */,
 				08DA58AB2E1E5BEB009097A6 /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+				D26A13C92E46D9D00084AFEC /* MyPageFeature.framework in Embed Frameworks */,
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
 				0858ABFD2DCFDBF20060EBCA /* DesignSystem.framework in Embed Frameworks */,
 				779A490E2E1AD26700ABDE4F /* BookmarkFeature.framework in Embed Frameworks */,
@@ -110,6 +114,8 @@
 		779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB18D52DED9256004FB380 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D26A13C72E46D9D00084AFEC /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2D7F8E32E44AEA3008368D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -153,6 +159,7 @@
 				08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */,
 				084A25552DB93BC800C395C0 /* Data.framework in Frameworks */,
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
+				D26A13C82E46D9D00084AFEC /* MyPageFeature.framework in Frameworks */,
 				08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */,
 				0858ABFC2DCFDBF20060EBCA /* DesignSystem.framework in Frameworks */,
 				779A490D2E1AD26700ABDE4F /* BookmarkFeature.framework in Frameworks */,
@@ -223,9 +230,10 @@
 		084A25312DB93A5400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D26A13C72E46D9D00084AFEC /* MyPageFeature.framework */,
 				779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */,
 				779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */,
-        08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
+				08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,
 				08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */,
 				7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */,
 				772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */,
@@ -253,6 +261,7 @@
 				77BEB0412DBA84B0002FFCFC /* MLSTests */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
+				D2D7F8E32E44AEA3008368D5 /* GoogleService-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -401,6 +410,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2D7F8E42E44AEA3008368D5 /* GoogleService-Info.plist in Resources */,
 				77660AD22DD0D361007A4EF3 /* KakaoConfig.xcconfig in Resources */,
 				085A7F752DAF99570046663F /* .swiftlint.yml in Resources */,
 			);

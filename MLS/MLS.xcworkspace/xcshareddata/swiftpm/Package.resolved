@@ -1,5 +1,5 @@
 {
-  "originHash" : "442c67b7ae77d68be130c2322d5438a9e4060957d8c12ef0b668b51ead25c47a",
+  "originHash" : "e53d16ff478eae2b8ed9e2dbcd97d3ee8e8e667ac373af1725793477702a9023",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
       "state" : {
-        "revision" : "428d8bb138e00f9a3f4f61cc6cd8863607524f65",
-        "version" : "2.1.0"
+        "revision" : "973bd67929bfbe465f63c05cd5a4b113765fbc7f",
+        "version" : "2.2.1"
       }
     },
     {
@@ -106,7 +106,7 @@
       "location" : "https://github.com/kakao/kakao-ios-sdk",
       "state" : {
         "branch" : "master",
-        "revision" : "787763e335949dfad6b721aa04771e22d04e1493"
+        "revision" : "f17e30773062d9df4c8e0e211da9ac22dfb2e5c1"
       }
     },
     {

@@ -13,6 +13,8 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
+import MyPageFeature
+import MyPageInterface
 
 import Firebase
 import KakaoSDKCommon
@@ -200,6 +202,12 @@ private extension AppDelegate {
         }
         DIContainer.register(type: NotificationFactory.self) {
             return NotificationFactoryImpl(loginFactory: DIContainer.resolve(type: LoginFactory.self))
+        }
+        
+        // MyPageFactory 등록
+        print("myPageFActory register")
+        DIContainer.register(type: MyPageFactory.self) {
+            return MyPageFactoryImpl()
         }
     }
 }
