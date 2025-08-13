@@ -1,10 +1,9 @@
 import UIKit
 
 public class LayoutFactory {
-
     public init() {}
 
-    static public func getPageTabbarLayout(underLineController: TabBarUnderlineController? = nil) -> CompositionalSectionBuilder {
+    public static func getPageTabbarLayout(underLineController: TabBarUnderlineController? = nil) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .estimated(100), height: .absolute(40))
             .group(.horizontal, width: .estimated(100), height: .absolute(40))
@@ -17,7 +16,7 @@ public class LayoutFactory {
             }
     }
 
-    static public func getItemTagListSection(width: CGFloat = 50) -> CompositionalSectionBuilder {
+    public static func getItemTagListSection(width: CGFloat = 50) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .estimated(width), height: .absolute(34))
             .group(.horizontal, width: .fractionalWidth(1), height: .absolute(34))
@@ -28,7 +27,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
 
-    static public func getLevelRangeSection() -> CompositionalSectionBuilder {
+    public static func getLevelRangeSection() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1), height: .estimated(100))
             .group(.horizontal, width: .fractionalWidth(1), height: .estimated(100))
@@ -75,7 +74,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 16, leading: 16, bottom: 16, trailing: 16))
     }
 
-    static public func getNotificationLayout() -> CompositionalSectionBuilder {
+    public static func getNotificationLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .estimated(86))
             .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(86))
@@ -108,5 +107,41 @@ public class LayoutFactory {
             .buildSection()
             .interGroupSpacing(10)
             .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))
+    }
+
+    public func getDictionaryDetailMainLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .estimated(350))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(350))
+            .buildSection()
+    }
+
+    public func getBadgeLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .estimated(40), height: .estimated(24))
+            .nestedGroup(
+                outerDirection: .vertical,
+                outerWidth: .fractionalWidth(1.0),
+                outerHeight: .estimated(70),
+                innerDirection: .horizontal,
+                innerWidth: .fractionalWidth(1.0),
+                innerHeight: .estimated(24),
+                innerCount: nil,
+                innerSpacing: 10
+            )
+            .buildSection()
+            .interGroupSpacing(10)
+            .decorationItem(kind: WhiteBackgroundView.identifier)
+            .contentInsets(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
+    }
+
+    public func getDictionaryDetailDescriptionLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .absolute(50))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(405))
+            .buildSection()
+            .header(height: 40, isSticky: true)
+            .decorationItem(kind: DescriptionBackgroundView.identifier)
+            .contentInsets(.init(top: 30, leading: 0, bottom: 30, trailing: 0))
     }
 }

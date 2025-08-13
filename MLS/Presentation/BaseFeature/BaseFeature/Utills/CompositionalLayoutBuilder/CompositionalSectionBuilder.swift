@@ -18,13 +18,13 @@ public final class CompositionalSectionBuilder {
     @discardableResult
     public func item(width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension) -> Self {
         let size = NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
-        self.item = NSCollectionLayoutItem(layoutSize: size)
+        item = NSCollectionLayoutItem(layoutSize: size)
         return self
     }
 
     @discardableResult
     public func group(_ direction: Direction, width: NSCollectionLayoutDimension, height: NSCollectionLayoutDimension, count: Int? = nil) -> Self {
-        guard let item = self.item else { return self }
+        guard let item = item else { return self }
         let size = NSCollectionLayoutSize(widthDimension: width, heightDimension: height)
         switch direction {
         case .horizontal:
@@ -45,15 +45,15 @@ public final class CompositionalSectionBuilder {
 
     @discardableResult
     public func customGroup(group: (NSCollectionLayoutItem) -> NSCollectionLayoutGroup) -> Self {
-        guard let item = self.item else { return self }
+        guard let item = item else { return self }
         self.group = group(item)
         return self
     }
 
     @discardableResult
     public func buildSection() -> Self {
-        guard let group = self.group else { return self }
-        self.section = NSCollectionLayoutSection(group: group)
+        guard let group = group else { return self }
+        section = NSCollectionLayoutSection(group: group)
         return self
     }
 
@@ -61,7 +61,7 @@ public final class CompositionalSectionBuilder {
     public func visibleItemsInvalidationHandler(
         handler: @escaping ([any NSCollectionLayoutVisibleItem], CGPoint, any NSCollectionLayoutEnvironment) -> Void
     ) -> Self {
-        self.section?.visibleItemsInvalidationHandler = { (visibleItems, scrollOffset, environment) in
+        section?.visibleItemsInvalidationHandler = { visibleItems, scrollOffset, environment in
             handler(visibleItems, scrollOffset, environment)
         }
         return self
@@ -80,7 +80,7 @@ public final class CompositionalSectionBuilder {
     }
 
     @discardableResult
-    public func header(height: CGFloat) -> Self {
+    public func header(height: CGFloat, isSticky: Bool = false) -> Self {
         guard let section = section else { return self }
 
         let size = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .absolute(height))
@@ -90,6 +90,7 @@ public final class CompositionalSectionBuilder {
             alignment: .top
         )
 
+        header.pinToVisibleBounds = isSticky
         section.boundarySupplementaryItems = [header]
         return self
     }
@@ -150,6 +151,51 @@ public final class CompositionalSectionBuilder {
         let decoration = NSCollectionLayoutDecorationItem.background(elementKind: kind)
         decoration.contentInsets = insets
         section?.decorationItems.append(decoration)
+        return self
+    }
+
+    @discardableResult
+    public func nestedGroup(
+        outerDirection: Direction,
+        outerWidth: NSCollectionLayoutDimension,
+        outerHeight: NSCollectionLayoutDimension,
+        innerDirection: Direction,
+        innerWidth: NSCollectionLayoutDimension,
+        innerHeight: NSCollectionLayoutDimension,
+        innerCount: Int? = nil,
+        innerSpacing: CGFloat
+    ) -> Self {
+        guard let item = item else { return self }
+
+        // 내부 그룹
+        let innerSize = NSCollectionLayoutSize(widthDimension: innerWidth, heightDimension: innerHeight)
+        let innerGroup: NSCollectionLayoutGroup
+        switch innerDirection {
+        case .horizontal:
+            if let count = innerCount {
+                innerGroup = NSCollectionLayoutGroup.horizontal(layoutSize: innerSize, subitem: item, count: count)
+            } else {
+                innerGroup = NSCollectionLayoutGroup.horizontal(layoutSize: innerSize, subitems: [item])
+            }
+            innerGroup.interItemSpacing = .fixed(innerSpacing)
+        case .vertical:
+            if let count = innerCount {
+                innerGroup = NSCollectionLayoutGroup.vertical(layoutSize: innerSize, subitem: item, count: count)
+            } else {
+                innerGroup = NSCollectionLayoutGroup.vertical(layoutSize: innerSize, subitems: [item])
+            }
+            innerGroup.interItemSpacing = .fixed(innerSpacing)
+        }
+
+        // 외부 그룹
+        let outerSize = NSCollectionLayoutSize(widthDimension: outerWidth, heightDimension: outerHeight)
+        switch outerDirection {
+        case .horizontal:
+            group = NSCollectionLayoutGroup.horizontal(layoutSize: outerSize, subitems: [innerGroup])
+        case .vertical:
+            group = NSCollectionLayoutGroup.vertical(layoutSize: outerSize, subitems: [innerGroup])
+        }
+
         return self
     }
 }

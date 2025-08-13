@@ -19,6 +19,7 @@ public extension UIFont {
     static let b_s_r = korFont(style: .regular, size: 14)
 
     static let sub_l_b = korFont(style: .bold, size: 18)
+    static let sub_l_m = korFont(style: .medium, size: 18)
     static let sub_m_b = korFont(style: .bold, size: 16)
     static let sub_m_sb = korFont(style: .semiBold, size: 16)
     static let sub_m_m = korFont(style: .medium, size: 16)

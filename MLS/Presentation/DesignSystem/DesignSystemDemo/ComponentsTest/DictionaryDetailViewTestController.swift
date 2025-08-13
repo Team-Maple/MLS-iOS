@@ -8,14 +8,18 @@ final class DictionaryDetailViewTestController: UIViewController {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    private let first = DictionaryDetailView(clickableMainText: "mainText", additionalText: "text", clickableSubText: "text")
-    private let second = DictionaryDetailView(mainText: "mainText", clickableSubText: "text")
-    private let third = DictionaryDetailView(mainText: "mainText", subText: "text")
-    private let forth = DictionaryDetailView(clickableMainText: "mainText", clickableSubText: "text")
+    private let first = DictionaryDetailListView()
+    private let second = DictionaryDetailListView()
+    private let third = DictionaryDetailListView()
+    private let forth = DictionaryDetailListView()
 
     init() {
         super.init(nibName: nil, bundle: nil)
         title = "DictionaryDetailView"
+        first.update(clickableMainText: "mainText", additionalText: "text", clickableSubText: "text")
+        second.update(mainText: "mainText", clickableSubText: "text")
+        third.update(mainText: "mainText", subText: "text")
+        forth.update(clickableMainText: "mainText", clickableSubText: "text")
     }
 
     required init?(coder: NSCoder) {

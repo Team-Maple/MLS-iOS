@@ -1,8 +1,7 @@
 import UIKit
-
 import SnapKit
 
-public final class DictionaryDetailView: UIStackView {
+public final class DictionaryDetailListView: UIStackView {
     // MARK: - Type
     private enum Constant {
         static let height: CGFloat = 50
@@ -20,20 +19,27 @@ public final class DictionaryDetailView: UIStackView {
     private let rightSpacer = UIView()
 
     private let mainAdditionalLabel = UILabel()
-
     private let spacer = UIView()
 
     private let subLabel = UILabel()
     private let subButtonLabel = UILabel()
     private lazy var subButton = makeButton(label: subButtonLabel)
+    
+    private let underLine: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral200
+        return view
+    }()
 
     // MARK: - init
-    public init(mainText: String? = nil, clickableMainText: String? = nil, additionalText: String? = nil, subText: String? = nil, clickableSubText: String? = nil) {
+    public init() {
         super.init(frame: .zero)
-
-        addViews(mainText: mainText, clickableMainText: clickableMainText, additionalText: additionalText, subText: subText, clickableSubText: clickableSubText)
+        axis = .horizontal
+        spacing = Constant.spacing
+        alignment = .center
+        
+        addBaseViews()
         setupConstraints()
-        configureUI(mainText: mainText, clickableMainText: clickableMainText, additionalText: additionalText, subText: subText, clickableSubText: clickableSubText)
     }
 
     required init(coder: NSCoder) {
@@ -41,34 +47,12 @@ public final class DictionaryDetailView: UIStackView {
     }
 }
 
-// MARK: - SetUp
-private extension DictionaryDetailView {
-    func addViews(mainText: String? = nil, clickableMainText: String? = nil, additionalText: String? = nil, subText: String? = nil, clickableSubText: String? = nil) {
+private extension DictionaryDetailListView {
+    func addBaseViews() {
         addArrangedSubview(leftSpacer)
-
-        if mainText != nil {
-            addArrangedSubview(mainLabel)
-        }
-
-        if clickableMainText != nil {
-            addArrangedSubview(mainButton)
-        }
-
-        if additionalText != nil {
-            addArrangedSubview(mainAdditionalLabel)
-        }
-
         addArrangedSubview(spacer)
-
-        if subText != nil {
-            addArrangedSubview(subLabel)
-        }
-
-        if clickableSubText != nil {
-            addArrangedSubview(subButton)
-        }
-
         addArrangedSubview(rightSpacer)
+        addSubview(underLine)
     }
 
     func setupConstraints() {
@@ -83,49 +67,66 @@ private extension DictionaryDetailView {
         rightSpacer.snp.makeConstraints { make in
             make.width.equalTo(Constant.horizontalInset)
         }
-    }
-
-    func configureUI(mainText: String? = nil, clickableMainText: String? = nil, additionalText: String? = nil, subText: String? = nil, clickableSubText: String? = nil) {
-        spacing = Constant.spacing
-
-        if let mainText = mainText {
-            mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
-        }
-
-        if let clickableMainText = clickableMainText {
-            mainButtonLabel.attributedText = .makeStyledUnderlinedString(font: .sub_m_sb, text: clickableMainText)
-        }
-
-        if let additionalText = additionalText {
-            mainAdditionalLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: additionalText)
-        }
-
-        if let subText = subText {
-            subLabel.attributedText = .makeStyledString(font: .btn_s_r, text: subText)
-        }
-
-        if let clickableSubText = clickableSubText {
-            subButtonLabel.attributedText = .makeStyledUnderlinedString(font: .btn_s_r, text: clickableSubText)
+        
+        underLine.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(1)
         }
     }
 
     func makeButton(label: UILabel) -> UIButton {
-            let button = UIButton()
-            let icon = UIImageView(image: .rightArrow)
+        let button = UIButton()
+        let icon = UIImageView(image: .rightArrow)
 
-            button.addSubview(label)
-            button.addSubview(icon)
+        button.addSubview(label)
+        button.addSubview(icon)
 
-            label.snp.makeConstraints { make in
-                make.leading.top.bottom.equalToSuperview()
-            }
-
-            icon.snp.makeConstraints { make in
-                make.leading.equalTo(label.snp.trailing)
-                make.trailing.centerY.equalToSuperview()
-                make.size.equalTo(Constant.iconSize)
-            }
-
-            return button
+        label.snp.makeConstraints { make in
+            make.leading.top.bottom.equalToSuperview()
         }
+
+        icon.snp.makeConstraints { make in
+            make.leading.equalTo(label.snp.trailing)
+            make.trailing.centerY.equalToSuperview()
+            make.size.equalTo(Constant.iconSize)
+        }
+
+        return button
+    }
+}
+
+extension DictionaryDetailListView {
+    public func update(mainText: String? = nil, clickableMainText: String? = nil, additionalText: String? = nil, subText: String? = nil, clickableSubText: String? = nil) {
+        let fixedViews: Set<UIView> = [leftSpacer, spacer, rightSpacer]
+        arrangedSubviews
+            .filter { !fixedViews.contains($0) }
+            .forEach { removeArrangedSubview($0); $0.removeFromSuperview() }
+
+        insertArrangedSubview(leftSpacer, at: 0)
+
+        if let mainText = mainText {
+            mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
+            insertArrangedSubview(mainLabel, at: 1)
+        }
+
+        if let clickableMainText = clickableMainText {
+            mainButtonLabel.attributedText = .makeStyledUnderlinedString(font: .sub_m_sb, text: clickableMainText)
+            insertArrangedSubview(mainButton, at: arrangedSubviews.firstIndex(of: spacer) ?? 0)
+        }
+
+        if let additionalText = additionalText {
+            mainAdditionalLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: additionalText)
+            insertArrangedSubview(mainAdditionalLabel, at: arrangedSubviews.firstIndex(of: spacer) ?? 0)
+        }
+
+        if let subText = subText {
+            subLabel.attributedText = .makeStyledString(font: .btn_s_r, text: subText)
+            insertArrangedSubview(subLabel, at: arrangedSubviews.firstIndex(of: rightSpacer) ?? 0)
+        }
+
+        if let clickableSubText = clickableSubText {
+            subButtonLabel.attributedText = .makeStyledUnderlinedString(font: .btn_s_r, text: clickableSubText)
+            insertArrangedSubview(subButton, at: arrangedSubviews.firstIndex(of: rightSpacer) ?? 0)
+        }
+    }
 }
