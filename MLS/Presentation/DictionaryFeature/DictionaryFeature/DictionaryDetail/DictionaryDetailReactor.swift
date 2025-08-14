@@ -14,6 +14,11 @@ public final class DictionaryDetailReactor: Reactor {
                 lhs.maps == rhs.maps
         }
     }
+    // 몬스터 정보 임시 모델
+    struct DropMonster: Equatable {
+        var name: String
+        var monsterLevel: String
+    }
     
     public enum Route {
         case none
@@ -73,13 +78,15 @@ public final class DictionaryDetailReactor: Reactor {
                 Map(),
             ]
         )
+        
+        var dropMonster = [DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25")]
     }
 
     public var initialState: State
     private let disposeBag = DisposeBag()
 
     public init() {
-        initialState = State(route: .none, type: .monster)
+        initialState = State(route: .none, type: .item)
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {

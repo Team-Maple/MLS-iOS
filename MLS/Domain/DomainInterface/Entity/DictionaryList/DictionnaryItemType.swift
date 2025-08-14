@@ -10,7 +10,7 @@ public enum DictionaryItemType {
     public var detailTypes: [DetailType] {
         switch self {
         case .item:
-            [.normal, .dropItem]
+            [.normal, .dropMonster]
         case .monster:
             [.normal, .appearMap, .dropItem]
         case .map:
@@ -32,6 +32,7 @@ public enum DetailType {
     case dropItem
     case linkedQuest
     case quest
+    case dropMonster
 
     public var description: String {
         switch self {
@@ -51,6 +52,8 @@ public enum DetailType {
             return "연계 퀘스트"
         case .quest:
             return "퀘스트"
+        case .dropMonster:
+            return "드롭 몬스터"
         }
     }
 
