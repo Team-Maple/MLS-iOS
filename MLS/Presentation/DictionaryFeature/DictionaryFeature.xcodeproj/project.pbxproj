@@ -43,6 +43,11 @@
 		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; };
 		779A49142E1AD4BC00ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C755B82E4B70C30081D80F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B62E4B70C30081D80F /* AuthFeature.framework */; };
+		77C755B92E4B70C30081D80F /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B62E4B70C30081D80F /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C755BA2E4B70C30081D80F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */; };
+		77C755BB2E4B70C30081D80F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77C755C12E4B917F0081D80F /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77C755C02E4B917F0081D80F /* RxKeyboard */; };
 		77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C974722E376124007198DA /* BookmarkFeatureInterface.framework */; };
 		77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DAA2E37D4AC007198DA /* AuthFeature.framework */; };
 		77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; };
@@ -89,8 +94,10 @@
 				77DBD8C02E1AD0C600529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
 				081D9DF32DF80F30004F850D /* Data.framework in Embed Frameworks */,
 				081D9DF62DF80F34004F850D /* DataMock.framework in Embed Frameworks */,
+				77C755BB2E4B70C30081D80F /* AuthFeatureInterface.framework in Embed Frameworks */,
 				081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */,
 				081D9DF02DF80F2B004F850D /* Core.framework in Embed Frameworks */,
+				77C755B92E4B70C30081D80F /* AuthFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,6 +123,8 @@
 		775D68052DFD638900DDAD2F /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		775D68092DFD641E00DDAD2F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C755B62E4B70C30081D80F /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C974722E376124007198DA /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97DAA2E37D4AC007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,16 +197,19 @@
 				081D9DFD2DF80F47004F850D /* RxSwift in Frameworks */,
 				081D9DF82DF80F3C004F850D /* DesignSystem.framework in Frameworks */,
 				081D9DE22DF80F1D004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
+				77C755B82E4B70C30081D80F /* AuthFeature.framework in Frameworks */,
 				081D9DEC2DF80F23004F850D /* BaseFeature.framework in Frameworks */,
 				77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */,
 				081D9DE72DF80F20004F850D /* DictionaryFeature.framework in Frameworks */,
 				779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */,
 				081D9E082DF80F68004F850D /* Domain.framework in Frameworks */,
 				081D9DF22DF80F30004F850D /* Data.framework in Frameworks */,
+				77C755C12E4B917F0081D80F /* RxKeyboard in Frameworks */,
 				081D9E052DF80F63004F850D /* DomainInterface.framework in Frameworks */,
 				081D9DF52DF80F34004F850D /* DataMock.framework in Frameworks */,
 				081D9DFB2DF80F44004F850D /* RxCocoa in Frameworks */,
 				081D9DEF2DF80F2B004F850D /* Core.framework in Frameworks */,
+				77C755BA2E4B70C30081D80F /* AuthFeatureInterface.framework in Frameworks */,
 				081D9E032DF80F58004F850D /* ReactorKit in Frameworks */,
 				081D9E012DF80F53004F850D /* SnapKit in Frameworks */,
 			);
@@ -230,6 +242,8 @@
 		081D9DBF2DF80DF6004F850D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77C755B62E4B70C30081D80F /* AuthFeature.framework */,
+				77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */,
 				77C97DAA2E37D4AC007198DA /* AuthFeature.framework */,
 				77C974722E376124007198DA /* BookmarkFeatureInterface.framework */,
 				779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */,
@@ -349,6 +363,7 @@
 				081D9DFE2DF80F4B004F850D /* RxRelay */,
 				081D9E002DF80F53004F850D /* SnapKit */,
 				081D9E022DF80F58004F850D /* ReactorKit */,
+				77C755C02E4B917F0081D80F /* RxKeyboard */,
 			);
 			productName = DictionaryFeatureDemo;
 			productReference = 081D9DAA2DF80DBD004F850D /* DictionaryFeatureDemo.app */;
@@ -390,6 +405,7 @@
 				081D9DCE2DF80E5C004F850D /* XCRemoteSwiftPackageReference "RxSwift" */,
 				081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 081D9C1A2DF80854004F850D /* Products */;
@@ -909,6 +925,14 @@
 				minimumVersion = 3.2.0;
 			};
 		};
+		77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -961,6 +985,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */;
 			productName = ReactorKit;
+		};
+		77C755C02E4B917F0081D80F /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

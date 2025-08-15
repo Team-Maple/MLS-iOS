@@ -7,22 +7,27 @@ public final class CardList: UIView {
     public enum CardListType {
         case bookmark
         case checkbox
+        case dropInfo // 몬스터 카드일 경우 드롭률
 
-        var icon: UIImage {
+        var icon: UIImage? {
             switch self {
             case .bookmark:
                 return .bookmarkBorder
             case .checkbox:
                 return .checkSquare
+            case .dropInfo:
+                return nil
             }
         }
 
-        var selectedIcon: UIImage {
+        var selectedIcon: UIImage? {
             switch self {
             case .bookmark:
                 return .bookmark
             case .checkbox:
                 return .checkSquareFill
+            case .dropInfo:
+                return nil
             }
         }
     }
@@ -30,6 +35,7 @@ public final class CardList: UIView {
     enum Constant {
         static let cardRadius: CGFloat = 16
         static let cardInset: CGFloat = 12
+        static let infoLabelInset: CGFloat = 16
         static let imageRadius: CGFloat = 8
         static let imageInset: CGFloat = 10
         static let imageContentViewSize: CGFloat = 80
@@ -92,6 +98,33 @@ public final class CardList: UIView {
         return button
     }()
 
+    // 드롭률 표시용 라벨 2개
+    private let dropTitleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .cp_s_r
+        label.textColor = .neutral700
+        label.text = "드롭률"
+        return label
+    }()
+
+    private let dropValueLabel: UILabel = {
+        let label = UILabel()
+        label.font = .btn_m_b
+        label.textColor = .primary700
+        label.text = "0%"
+        return label
+    }()
+
+    // 2개 라벨을 세로로 묶는 스택뷰
+    private lazy var dropInfoStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [dropTitleLabel, dropValueLabel])
+        stack.axis = .vertical
+        stack.alignment = .trailing
+        stack.spacing = 2
+        stack.isHidden = true // 기본은 숨김
+        return stack
+    }()
+
     public init() {
         super.init(frame: .zero)
         addViews()
@@ -112,6 +145,7 @@ private extension CardList {
         addSubview(imageView)
         addSubview(textLabelStackView)
         addSubview(iconButton)
+        addSubview(dropInfoStack)
     }
 
     func setupConstraints() {
@@ -131,6 +165,12 @@ private extension CardList {
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
         }
+
+        dropInfoStack.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(16)
+        }
+
     }
 
     func configureUI() {
@@ -176,7 +216,23 @@ public extension CardList {
     }
 
     func setType(type: CardListType) {
-        icon = type.icon
-        selectedIcon = type.selectedIcon
+        self.type = type
+        icon = type.icon ?? UIImage()
+        selectedIcon = type.selectedIcon ?? UIImage()
+
+        switch type {
+        case .dropInfo:
+            iconButton.isHidden = true
+            dropInfoStack.isHidden = false
+        default:
+            iconButton.isHidden = false
+            dropInfoStack.isHidden = true
+        }
     }
+
+    func setDropInfoText(title: String, value: String) {
+        dropTitleLabel.text = title
+        dropValueLabel.text = value
+    }
+
 }

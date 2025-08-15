@@ -84,7 +84,8 @@ private extension Badge {
 
     func setupConstraints() {
         textLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(Constant.contentInsets)
+            make.horizontalEdges.equalToSuperview().inset(Constant.contentInsets)
+            make.centerY.equalToSuperview()
         }
     }
 
@@ -92,5 +93,11 @@ private extension Badge {
         layer.cornerRadius = Constant.radius
         backgroundColor = style.backgroundColor
         textLabel.attributedText = .makeStyledString(font: style.font, text: style.text, color: style.fontColor)
+    }
+}
+
+public extension Badge {
+    func update(style: BadgeStyle) {
+        configureUI(style: style)
     }
 }

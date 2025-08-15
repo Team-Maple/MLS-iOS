@@ -11,6 +11,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
+    private let dictionaryDetailFactory: DictionaryDetailFactory
 
     public init(
         fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
@@ -18,7 +19,8 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         itemFilterFactory: ItemFilterBottomSheetFactory,
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
-        bookmarkModalFactory: BookmarkModalFactory
+        bookmarkModalFactory: BookmarkModalFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory
     ) {
         self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
         self.toggleBookmarkUseCase = toggleBookmarkUseCase
@@ -26,6 +28,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.dictionaryDetailFactory = dictionaryDetailFactory
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
@@ -34,7 +37,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             fetchDictionaryItemsUseCase: fetchDictionaryItemsUseCase,
             toggleBookmarkUseCase: toggleBookmarkUseCase
         )
-        let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory)
+        let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, dictionaryDetailFactory: dictionaryDetailFactory)
         if listType == .search {
             viewController.isBottomTabbarHidden = true
         }
