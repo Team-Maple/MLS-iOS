@@ -8,7 +8,7 @@ public final class DictionaryDetailReactor: Reactor {
     struct TabMenu: Equatable {
         var infos: [Info]
         var maps: [Map]
-        
+
         static func == (lhs: TabMenu, rhs: TabMenu) -> Bool {
             return lhs.infos == rhs.infos &&
                 lhs.maps == rhs.maps
@@ -19,7 +19,7 @@ public final class DictionaryDetailReactor: Reactor {
         var name: String
         var monsterLevel: String
     }
-    
+
     public enum Route {
         case none
         case dismiss
@@ -71,14 +71,14 @@ public final class DictionaryDetailReactor: Reactor {
                 Info(name: "필요명중률", desc: "30"),
                 Info(name: "필요명중률", desc: "30"),
                 Info(name: "필요명중률", desc: "30"),
-                Info(name: "필요명중률", desc: "30"),
+                Info(name: "필요명중률", desc: "30")
             ],
             maps: [
                 Map(),
-                Map(),
+                Map()
             ]
         )
-        
+
         var dropMonster = [DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25"), DropMonster(name: "여신탑의 러스터 픽시", monsterLevel: "25")]
     }
 

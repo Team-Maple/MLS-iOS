@@ -2,9 +2,9 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
-import DesignSystem
 
 import ReactorKit
 import RxCocoa
@@ -85,10 +85,10 @@ private extension DictionaryDetailViewController {
         layout.register(DescriptionBackgroundView.self, forDecorationViewOfKind: DescriptionBackgroundView.identifier)
         // 출현맵, 드롭 몬스터 리스트의 배경뷰
         layout.register(Neutral100BackgroundView.self, forDecorationViewOfKind: Neutral100BackgroundView.identifier)
-        
+
         return layout
     }
-    
+
     // 레이아웃 업데이트
     func updateLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
@@ -99,7 +99,7 @@ private extension DictionaryDetailViewController {
                 return layoutFactory.getDictionaryDetailMainLayout().build()!
             case 1:
                 return layoutFactory.getBadgeLayout().build()!
-            case 2: //3번째 섹션
+            case 2: // 3번째 섹션
                    switch self.reactor?.currentState.type.detailTypes[(self.reactor?.currentState.selectedTabIndex)!] {
                    case .normal:
                        return layoutFactory.getDictionaryDetailDescriptionLayout().build()
@@ -116,7 +116,7 @@ private extension DictionaryDetailViewController {
         layout.register(Neutral100BackgroundView.self, forDecorationViewOfKind: Neutral100BackgroundView.identifier)
         // 데이터 업데이트
         mainView.detailCollectionView.reloadData()
-        
+
         return layout
     }
 }
@@ -168,7 +168,7 @@ extension DictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.type)
             .distinctUntilChanged() // 몬스터 -> 아이템 타입변경 될때만
@@ -270,23 +270,23 @@ extension DictionaryDetailViewController: UICollectionViewDelegate, UICollection
                 }
                 cell.inject(input: DictionaryDetailDescriptionCell.Input(mainText: item.name, clickableMainText: nil, additionalText: nil, subText: item.desc, clickableSubText: nil))
                 return cell
-                
+
             case .appearMap: // 출현맵 탭
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
                         DictionaryDetailListCell,
                       let item = reactor?.currentState.menus.infos[indexPath.row]
                 else { return UICollectionViewCell()
                 }
-                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named:"image")!, mainText: "시간의 지평선", subText: "카테고리(페리온)"))
+                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named: "image")!, mainText: "시간의 지평선", subText: "카테고리(페리온)"))
                 return cell
-                
+
             case .dropItem:// 드롭아이템 탭
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
                         DictionaryDetailListCell,
                       let item = reactor?.currentState.menus.infos[indexPath.row]
                 else { return UICollectionViewCell()
                 }
-                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named:"image")!, mainText: "뇌전수리검", subText: "Lv25"))
+                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named: "image")!, mainText: "뇌전수리검", subText: "Lv25"))
                 return cell
             case .dropMonster: // 드롭몬스터 탭
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
@@ -325,7 +325,7 @@ extension DictionaryDetailViewController: UICollectionViewDelegate, UICollection
         }
         return view
     }
-    
+
     /// 스크롤에 따라 mainView.titleLabel의 text를 바꿔주기 위한 함수
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let collectionView = scrollView as? UICollectionView,

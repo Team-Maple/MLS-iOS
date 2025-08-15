@@ -10,7 +10,7 @@ final class DictionaryDetailDescriptionCell: UICollectionViewCell {
         // 헤더의 좌우 마진을 조정하기위해서 16 + 10으로 설정
         static let horizontalInset: CGFloat = 26
     }
-    
+
     // MARK: - Components
     public var cellView = DictionaryDetailListView()
 

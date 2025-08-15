@@ -1,5 +1,5 @@
-import UIKit
 import SnapKit
+import UIKit
 
 public final class DictionaryDetailListView: UIStackView {
     // MARK: - Type
@@ -24,7 +24,7 @@ public final class DictionaryDetailListView: UIStackView {
     private let subLabel = UILabel()
     private let subButtonLabel = UILabel()
     private lazy var subButton = makeButton(label: subButtonLabel)
-    
+
     private let underLine: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral200
@@ -37,7 +37,7 @@ public final class DictionaryDetailListView: UIStackView {
         axis = .horizontal
         spacing = Constant.spacing
         alignment = .center
-        
+
         addBaseViews()
         setupConstraints()
     }
@@ -67,7 +67,7 @@ private extension DictionaryDetailListView {
         rightSpacer.snp.makeConstraints { make in
             make.width.equalTo(Constant.horizontalInset)
         }
-        
+
         underLine.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(1)

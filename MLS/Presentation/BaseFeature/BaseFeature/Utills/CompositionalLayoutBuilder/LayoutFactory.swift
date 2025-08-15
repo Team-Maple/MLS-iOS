@@ -157,5 +157,3 @@ public class LayoutFactory {
             .interGroupSpacing(10)
     }
 }
-
-

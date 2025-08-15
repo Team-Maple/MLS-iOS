@@ -17,10 +17,10 @@ final class DictionaryDetailHeaderView: UICollectionReusableView, View {
         static let horizontalInset: CGFloat = 16
         static let spacing: CGFloat = 20
     }
-    
+
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     // MARK: - Components
     /// 탭이 늘어나거나 화면이 작아질 수 있으므로 scrollView 적용
     private let scrollView: UIScrollView = {
@@ -29,7 +29,7 @@ final class DictionaryDetailHeaderView: UICollectionReusableView, View {
         scrollView.bounces = true
         return scrollView
     }()
-    
+
     private let tabStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -39,25 +39,25 @@ final class DictionaryDetailHeaderView: UICollectionReusableView, View {
         stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
-    
+
     private let underLine: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral300
         return view
     }()
-    
+
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
         setupConstraints()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }
 
 // MARK: - SetUp
@@ -67,18 +67,18 @@ private extension DictionaryDetailHeaderView {
         addSubview(underLine)
         scrollView.addSubview(tabStackView)
     }
-    
+
     func setupConstraints() {
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constant.tabHeight)
         }
-        
+
         tabStackView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.height.equalToSuperview()
         }
-        
+
         underLine.snp.makeConstraints {
             $0.top.equalTo(scrollView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
@@ -86,11 +86,11 @@ private extension DictionaryDetailHeaderView {
             $0.bottom.equalToSuperview()
         }
     }
-    
+
     func selectTab(index: Int) {
         guard index < tabStackView.arrangedSubviews.count else { return }
 
-        tabStackView.arrangedSubviews.enumerated().forEach { idx, view in
+        tabStackView.arrangedSubviews.enumerated().forEach { _, view in
             guard let button = view as? UIButton else { return }
             // attributedText를 적용하는게 정확하지만 text 속성을 관리해야해서 일반 text에 폰트와 색상만 적용
             button.titleLabel?.font = .korFont(style: .regular, size: 16)
@@ -126,7 +126,7 @@ extension DictionaryDetailHeaderView {
                 .bind(to: reactor.action)
                 .disposed(by: disposeBag)
         }
-        
+
         reactor.state
             .map { $0.selectedTabIndex }
             .distinctUntilChanged()

@@ -7,16 +7,16 @@ final class DictionaryDetailListCell: UICollectionViewCell {
     struct Constant {
         static let horizontalInset: CGFloat = 16
     }
-    
+
     public let cellView = CardList()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         addViews()
         setupConstraints()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
@@ -28,7 +28,7 @@ private extension DictionaryDetailListCell {
     func addViews() {
         contentView.addSubview(cellView)
     }
-    
+
     func setupConstraints() {
         cellView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
@@ -36,14 +36,13 @@ private extension DictionaryDetailListCell {
     }
 }
 
-
 extension DictionaryDetailListCell {
     struct Input {
         let type: DictionaryItemType
         let image: UIImage
         let mainText: String
         let subText: String
-  
+
     }
     // titleLabel이 추가 정보의 제목, valueLabel이 추가 정보의 값 -> ex)드롭률, 0.005%
     func inject(type: CardList.CardListType, input: Input, titleLabel: String? = "", valueLabel: String? = "") {

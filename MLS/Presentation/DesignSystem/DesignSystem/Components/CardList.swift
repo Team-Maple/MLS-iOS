@@ -97,7 +97,7 @@ public final class CardList: UIView {
         button.setImage(.bookmarkBorder, for: .normal)
         return button
     }()
-    
+
     // 드롭률 표시용 라벨 2개
     private let dropTitleLabel: UILabel = {
         let label = UILabel()
@@ -124,7 +124,6 @@ public final class CardList: UIView {
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
-
 
     public init() {
         super.init(frame: .zero)
@@ -166,12 +165,11 @@ private extension CardList {
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         dropInfoStack.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(16)
         }
-
 
     }
 
@@ -231,11 +229,10 @@ public extension CardList {
             dropInfoStack.isHidden = true
         }
     }
-    
+
     func setDropInfoText(title: String, value: String) {
         dropTitleLabel.text = title
         dropValueLabel.text = value
     }
-
 
 }
