@@ -227,7 +227,6 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
 
         return cell
     }
-    
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewController = detailFactory.make()
         navigationController?.pushViewController(viewController, animated: true)

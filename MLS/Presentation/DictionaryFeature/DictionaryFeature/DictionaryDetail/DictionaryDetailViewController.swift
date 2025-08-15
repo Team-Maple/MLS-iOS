@@ -3,6 +3,8 @@ import UIKit
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
+import DomainInterface
+import DesignSystem
 
 import ReactorKit
 import RxCocoa
@@ -47,7 +49,7 @@ private extension DictionaryDetailViewController {
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
-
+    // 재사용 셀 등록
     func configureUI() {
         mainView.detailCollectionView.collectionViewLayout = createLayout()
         mainView.detailCollectionView.delegate = self
@@ -58,10 +60,12 @@ private extension DictionaryDetailViewController {
         mainView.detailCollectionView.register(BadgeCell.self, forCellWithReuseIdentifier: BadgeCell.identifier)
         // 탭부터 하단뷰를 구성하는 셀
         mainView.detailCollectionView.register(DictionaryDetailDescriptionCell.self, forCellWithReuseIdentifier: DictionaryDetailDescriptionCell.identifier)
+        // 출현맵, 드롭 아이템, 드롭 몬스터, 퀘스트, 출연NPC 까지 재활용 가능한 셀(연계 퀘스트는 따로 만들어야하나?)
+        mainView.detailCollectionView.register(DictionaryDetailListCell.self, forCellWithReuseIdentifier: DictionaryDetailListCell.identifier)
         // descriptionCell에서 사용하는 Header
         mainView.detailCollectionView.register(DictionaryDetailHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DictionaryDetailHeaderView.identifier)
     }
-
+    // 레이아웃 생성
     func createLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
 
@@ -79,6 +83,40 @@ private extension DictionaryDetailViewController {
         layout.register(WhiteBackgroundView.self, forDecorationViewOfKind: WhiteBackgroundView.identifier)
         // 상세 정보 리스트의 배경뷰
         layout.register(DescriptionBackgroundView.self, forDecorationViewOfKind: DescriptionBackgroundView.identifier)
+        // 출현맵, 드롭 몬스터 리스트의 배경뷰
+        layout.register(Neutral100BackgroundView.self, forDecorationViewOfKind: Neutral100BackgroundView.identifier)
+        
+        return layout
+    }
+    
+    // 레이아웃 업데이트
+    func updateLayout() -> UICollectionViewLayout {
+        let layoutFactory = LayoutFactory()
+
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+            switch sectionIndex {
+            case 0:
+                return layoutFactory.getDictionaryDetailMainLayout().build()!
+            case 1:
+                return layoutFactory.getBadgeLayout().build()!
+            case 2: //3번째 섹션
+                   switch self.reactor?.currentState.type.detailTypes[(self.reactor?.currentState.selectedTabIndex)!] {
+                   case .normal:
+                       return layoutFactory.getDictionaryDetailDescriptionLayout().build()
+                   case .dropMonster:
+                       return layoutFactory.getDictionaryAppearMapLayout().build()!
+                   default:
+                       return layoutFactory.getDictionaryDetailDescriptionLayout().build()
+                   }
+               default:
+                   return nil
+            }
+        }
+        // 출현맵, 드롭 몬스터 리스트의 배경뷰
+        layout.register(Neutral100BackgroundView.self, forDecorationViewOfKind: Neutral100BackgroundView.identifier)
+        // 데이터 업데이트
+        mainView.detailCollectionView.reloadData()
+        
         return layout
     }
 }
@@ -130,6 +168,46 @@ extension DictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        reactor.state
+            .map(\.type)
+            .distinctUntilChanged() // 몬스터 -> 아이템 타입변경 될때만
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { [weak self] type  in
+                switch type {
+                // 타입마다 다른 상세 정보 뷰
+                case .monster:
+                    // 타이틀 변경
+                    self?.mainView.titleLabel.text = "몬스터 상세정보"
+                case .item:
+                    // 타이틀 변경
+                    self?.mainView.titleLabel.text = "아이템 상세정보"
+                    // 속성들 제거
+                case .quest:
+                    self?.mainView.titleLabel.text = "퀘스트 상세정보"
+                case .npc:
+                    self?.mainView.titleLabel.text = "NPC 상세정보"
+                case .map:
+                    self?.mainView.titleLabel.text = "맵 상세정보"
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        // 메뉴 탭마다 셀 교체
+        reactor.state
+            .map(\.selectedTabIndex)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] _ in
+//                // 메뉴에 맞는 새로운 레이아웃 생성
+                guard let newLayout = self?.updateLayout() else { return }
+                // 레이아웃 교체 - 애니메이션 제거
+                self?.mainView.detailCollectionView.setCollectionViewLayout(newLayout, animated: false)
+                // 메뉴 탭 상태 변경될 때마다 메뉴 하단 뷰 리로드
+                self?.mainView.detailCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -138,14 +216,31 @@ extension DictionaryDetailViewController: UICollectionViewDelegate, UICollection
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 3
     }
-
+    // 섹션속 아이템 개수
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let reactor = reactor else { return 0 }
         switch section {
         case 0:
             return 1
         case 1:
+            switch reactor.currentState.type {
+            case .monster:
+                // 몬스터 상세정보일 경우 tag 숫자만큼
+                return reactor.currentState.tags.count
+            // 몬스터가 아닐경우는 기본적으로 0
+            default:
+                return 0
+            }
             return reactor.currentState.tags.count
+        case 2:
+            switch reactor.currentState.type.detailTypes[(reactor.currentState.selectedTabIndex)] {
+            case .normal: // 상세정보일 경우
+                return reactor.currentState.menus.infos.count // 인포 갯수
+            case .dropMonster: // 드롭 몬스터일 경우
+                return reactor.currentState.dropMonster.count // 몬스터 갯수
+            default:
+                return reactor.currentState.menus.infos.count
+            }
         default:
             return reactor.currentState.menus.infos.count
         }
@@ -165,6 +260,50 @@ extension DictionaryDetailViewController: UICollectionViewDelegate, UICollection
                   let tags = reactor?.currentState.tags else { return UICollectionViewCell() }
             cell.inject(name: tags[indexPath.row])
             return cell
+        case 2:
+            // 상세 정보 섹션에서
+            switch reactor?.currentState.type.detailTypes[(reactor?.currentState.selectedTabIndex)!] {
+            case .normal: // 상세정보 탭
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailDescriptionCell.identifier, for: indexPath) as? DictionaryDetailDescriptionCell,
+                      let item = reactor?.currentState.menus.infos[indexPath.row]
+                else { return UICollectionViewCell()
+                }
+                cell.inject(input: DictionaryDetailDescriptionCell.Input(mainText: item.name, clickableMainText: nil, additionalText: nil, subText: item.desc, clickableSubText: nil))
+                return cell
+                
+            case .appearMap: // 출현맵 탭
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
+                        DictionaryDetailListCell,
+                      let item = reactor?.currentState.menus.infos[indexPath.row]
+                else { return UICollectionViewCell()
+                }
+                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named:"image")!, mainText: "시간의 지평선", subText: "카테고리(페리온)"))
+                return cell
+                
+            case .dropItem:// 드롭아이템 탭
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
+                        DictionaryDetailListCell,
+                      let item = reactor?.currentState.menus.infos[indexPath.row]
+                else { return UICollectionViewCell()
+                }
+                cell.inject(type: .bookmark, input: DictionaryDetailListCell.Input(type: .map, image: UIImage(named:"image")!, mainText: "뇌전수리검", subText: "Lv25"))
+                return cell
+            case .dropMonster: // 드롭몬스터 탭
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailListCell.identifier, for: indexPath) as?
+                        DictionaryDetailListCell,
+                      let item = reactor?.currentState.dropMonster[indexPath.row]
+                else { return UICollectionViewCell()
+                }
+                cell.inject(type: .dropInfo, input: DictionaryDetailListCell.Input(type: .map, image: DesignSystemAsset.image(named: "testImage")!, mainText: "\(item.name)", subText: "\(item.monsterLevel)"), titleLabel: "드롭률", valueLabel: "0.002%")
+                return cell
+            default:
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailDescriptionCell.identifier, for: indexPath) as? DictionaryDetailDescriptionCell,
+                      let item = reactor?.currentState.menus.infos[indexPath.row]
+                else { return UICollectionViewCell()
+                }
+                cell.inject(input: DictionaryDetailDescriptionCell.Input(mainText: item.name, clickableMainText: nil, additionalText: nil, subText: item.desc, clickableSubText: nil))
+                return cell
+            }
         default:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryDetailDescriptionCell.identifier, for: indexPath) as? DictionaryDetailDescriptionCell,
                   let item = reactor?.currentState.menus.infos[indexPath.row]
