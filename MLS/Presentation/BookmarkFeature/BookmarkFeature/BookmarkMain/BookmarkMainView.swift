@@ -13,7 +13,7 @@ final class BookmarkMainView: UIView {
     }
 
     // MARK: - Components
-    public let headerView = Header(style: .main, title: "도감")
+    public let headerView = Header(style: .main, title: "북마크")
 
     public let searchBar = SearchBar()
 

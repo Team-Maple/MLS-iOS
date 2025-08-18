@@ -10,7 +10,7 @@ final class CollectionListView: UIView {
     enum Constant {
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
-        static let filterTopMargin: CGFloat = 6
+        static let filterHeight: CGFloat = 32
         static let horizontalMargin: CGFloat = 16
         static let nonFilterTopMargin: CGFloat = 20
     }
@@ -33,7 +33,7 @@ final class CollectionListView: UIView {
     public lazy var sortButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "최신 순", color: .textColor), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "arrowDropdown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "lineArrowDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
         return button
@@ -72,9 +72,13 @@ private extension CollectionListView {
             make.top.equalToSuperview().inset(Constant.topMargin)
             make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
         }
+        
+        sortButton.snp.makeConstraints { make in
+            make.height.equalTo(Constant.filterHeight)
+        }
 
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+            make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -108,7 +112,7 @@ extension CollectionListView {
             }
 
             listCollectionView.snp.remakeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
         }

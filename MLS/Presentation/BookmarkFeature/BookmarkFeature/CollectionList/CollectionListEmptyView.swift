@@ -27,7 +27,7 @@ final class CollectionListEmptyView: UIView {
 
     private let subLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .b_s_r, text: "컬렉션을 만들면 북마크한 리스트틀\n내 취향대로 정리할 수 있어요.", color: .neutral600)
+        label.attributedText = .makeStyledString(font: .cp_s_r, text: "컬렉션을 만들면 북마크한 리스트틀\n내 취향대로 정리할 수 있어요.", color: .neutral600)
         label.numberOfLines = 2
         return label
     }()
