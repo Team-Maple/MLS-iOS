@@ -41,7 +41,12 @@ public final class NavigationBar: UIView {
         return button
     }()
 
-    public let underlineTextButton = UIButton()
+    public let underlineTextButton: UIButton = {
+        let button = UIButton()
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        return button
+    }()
+
     public let boldTextButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
@@ -85,7 +90,6 @@ private extension NavigationBar {
             contentStackView.addArrangedSubview(leftButton)
             contentStackView.addArrangedSubview(UIView())
             contentStackView.addArrangedSubview(underlineTextButton)
-            contentStackView.addArrangedSubview(rightButton)
         case .arrowRightLeft:
             contentStackView.addArrangedSubview(leftButton)
             contentStackView.addArrangedSubview(UIView())

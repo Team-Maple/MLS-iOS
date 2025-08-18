@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-public final class NotificationView: UIView {
+public final class NotificationView: OnBoardingBaseView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 16
@@ -22,7 +22,7 @@ public final class NotificationView: UIView {
 
     private let boldTextLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .h_xxxl_b, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
+        label.attributedText = .makeStyledString(font: .h_xxl_b, text: "메이플랜드에서 이벤트가 생기면\n알림을 보내드리고 있어요")
         label.numberOfLines = 2
         return label
     }()
@@ -50,7 +50,7 @@ public final class NotificationView: UIView {
 
     // MARK: - init
     init() {
-        super.init(frame: .zero)
+        super.init()
         addViews()
         setupConstraints()
     }

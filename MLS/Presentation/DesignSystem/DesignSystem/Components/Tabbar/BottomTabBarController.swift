@@ -2,7 +2,7 @@ import UIKit
 
 import SnapKit
 
-public final class BottomTabBarController: UITabBarController {
+public final class BottomTabBarController: UITabBarController, UITabBarControllerDelegate {
     // MARK: - Components
     private let divider = DividerView()
     private let tabItems: [TabItem]
@@ -30,6 +30,7 @@ public final class BottomTabBarController: UITabBarController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
+        delegate = self
     }
 }
 
@@ -86,5 +87,11 @@ public extension BottomTabBarController {
             divider.isHidden = hidden
             divider.alpha = hidden ? 0 : 1
         }
+    }
+}
+
+extension BottomTabBarController {
+    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        return false
     }
 }

@@ -8,9 +8,8 @@ final class BookmarkEmptyView: UIView {
     // MARK: - Type
     enum Constant {
         static let imageSize: CGFloat = 220
-        static let imageSpacing: CGFloat = 24
         static let textSpacing: CGFloat = 10
-        static let buttonSpacing: CGFloat = 40
+        static let buttonSpacing: CGFloat = 24
         static let buttonWidth: CGFloat = 186
     }
 
@@ -51,7 +50,7 @@ private extension BookmarkEmptyView {
         }
 
         mainLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(Constant.imageSpacing)
+            make.top.equalTo(imageView.snp.bottom)
             make.centerX.equalToSuperview()
         }
 
@@ -77,7 +76,7 @@ extension BookmarkEmptyView {
         )
 
         subLabel.attributedText = .makeStyledString(
-            font: .b_s_r,
+            font: .cp_s_r,
             text: isLogin ? "북마크해서 추가해보세요." : "자주 보는 정보, 검색 없이 바로 확인 할 수 있어요."
         )
 

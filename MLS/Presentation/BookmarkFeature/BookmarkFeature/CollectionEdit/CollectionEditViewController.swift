@@ -165,7 +165,9 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
                 image: item.image,
                 isSelected: isSelected
             ),
-            onIconTapped: {}
+            onIconTapped: { [weak self] in
+                self?.reactor?.action.onNext(.itemTapped(indexPath.row))
+            }
         )
         return cell
     }

@@ -62,7 +62,7 @@ public final class OnBoardingQuestionView: OnBoardingBaseView {
 
     // MARK: - init
     init() {
-        super.init(leftButtonIsHidden: true)
+        super.init(leftButtonIsHidden: true, underlineTextButtonIsHidden: true)
         addViews()
         setupConstraints()
     }

@@ -9,7 +9,7 @@ final class BookmarkListView: UIView {
     // MARK: - Type
     enum Constant {
         static let filterInset: CGFloat = 6
-        static let sortButtonHeight: CGFloat = 32
+        static let filterHeight: CGFloat = 32
         static let iconSize: CGFloat = 24
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
@@ -33,15 +33,15 @@ final class BookmarkListView: UIView {
     private lazy var filterStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [editButton, UIView(), sortButton, filterButton])
         view.axis = .horizontal
-//        view.spacing = Constant.stackViewSpacing
         view.alignment = .fill
+        view.spacing = Constant.stackViewSpacing
         return view
     }()
 
     public lazy var sortButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "가나다 순"), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "arrowDropdown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "lineArrowDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
         return button
@@ -90,6 +90,15 @@ private extension BookmarkListView {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
                 make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
+                make.height.equalTo(Constant.filterHeight)
+            }
+
+            sortButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.filterHeight)
+            }
+
+            filterButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.filterHeight)
             }
 
             listCollectionView.snp.makeConstraints { make in
@@ -99,7 +108,8 @@ private extension BookmarkListView {
         }
 
         emptyView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(-Constant.bottomInset)
         }
     }
 

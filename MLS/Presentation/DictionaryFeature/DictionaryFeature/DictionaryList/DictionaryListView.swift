@@ -13,12 +13,12 @@ final class DictionaryListView: UIView {
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
         static let nonFilterTopMargin: CGFloat = 20
-        static let filterTopMargin: CGFloat = 6
         static let cellSpacing: CGFloat = 10
         static let cellWidth: CGFloat = 343
         static let cellHeight: CGFloat = 104
         static let horizontalMargin: CGFloat = 16
         static let bottomInset: CGFloat = 64
+        static let filterHeight: CGFloat = 32
     }
 
     // MARK: - Components
@@ -38,7 +38,7 @@ final class DictionaryListView: UIView {
     public lazy var sortButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "가나다 순"), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "arrowDropdown"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "lineArrowDown"), for: .normal)
         button.tintColor = .neutral900
         button.setTitleColor(.neutral900, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
@@ -98,10 +98,19 @@ private extension DictionaryListView {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
                 make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
+                make.height.equalTo(Constant.filterHeight)
+            }
+
+            sortButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.filterHeight)
+            }
+
+            filterButton.snp.makeConstraints { make in
+                make.height.equalTo(Constant.filterHeight)
             }
 
             listCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.filterTopMargin)
+                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
 
