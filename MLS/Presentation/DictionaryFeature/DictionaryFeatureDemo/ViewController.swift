@@ -39,7 +39,7 @@ class ViewController: UIViewController {
         let dictView = BottomTabBarController(viewControllers: [
             dictionaryMainVC,
             bookmarkMainVC,
-            UIViewController()
+            BaseViewController()
         ])
         dictView.title = "도감 메인"
 

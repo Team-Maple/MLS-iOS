@@ -1,24 +1,33 @@
 import UIKit
-
 import SnapKit
 
-public final class BottomTabBarController: UITabBarController {
+public final class BottomTabBarController: UIViewController {
     // MARK: - Components
     private let divider = DividerView()
     private let tabItems: [TabItem]
     private let customTabBar: BottomTabBar
+    private let controllers: [UIViewController]
+
+    private var currentVC: UIViewController?
 
     // MARK: - Init
     public init(viewControllers: [UIViewController], initialIndex: Int = 0) {
-        tabItems = [
+        self.controllers = viewControllers.map {
+            if $0 is UINavigationController {
+                return $0
+            } else {
+                return UINavigationController(rootViewController: $0)
+            }
+        }
+        self.tabItems = [
             TabItem(title: "도감", icon: .dictionary),
             TabItem(title: "북마크", icon: .bookmark),
             TabItem(title: "MY", icon: .mypage)
         ]
-        customTabBar = BottomTabBar(tabItems: tabItems, selectedIndex: initialIndex)
+        self.customTabBar = BottomTabBar(tabItems: tabItems, selectedIndex: initialIndex)
         super.init(nibName: nil, bundle: nil)
-        configureUI(controllers: viewControllers)
-        selectedIndex = initialIndex
+
+        switchTo(index: initialIndex, animated: false)
     }
 
     @available(*, unavailable)
@@ -30,10 +39,15 @@ public final class BottomTabBarController: UITabBarController {
         super.viewDidLoad()
         addViews()
         setupConstraints()
+        view.backgroundColor = .clearMLS
+
+        customTabBar.onTabSelected = { [weak self] index in
+            self?.switchTo(index: index)
+        }
     }
 }
 
-// MARK: - SetUp
+// MARK: - Private
 private extension BottomTabBarController {
     func addViews() {
         view.addSubview(customTabBar)
@@ -52,22 +66,26 @@ private extension BottomTabBarController {
         }
     }
 
-    func configureUI(controllers: [UIViewController]) {
-        viewControllers = controllers.map {
-            if $0 is UINavigationController {
-                return $0
-            } else {
-                return UINavigationController(rootViewController: $0)
-            }
-        }
-        tabBar.isHidden = true
+    func switchTo(index: Int, animated: Bool = true) {
+        let newVC = controllers[index]
 
-        customTabBar.onTabSelected = { [weak self] index in
-            self?.selectedIndex = index
+        if let currentVC = currentVC {
+            currentVC.willMove(toParent: nil)
+            currentVC.view.removeFromSuperview()
+            currentVC.removeFromParent()
         }
+
+        addChild(newVC)
+        view.insertSubview(newVC.view, belowSubview: customTabBar)
+        newVC.view.frame = view.bounds
+        newVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        newVC.didMove(toParent: self)
+
+        currentVC = newVC
     }
 }
 
+// MARK: - Methods
 public extension BottomTabBarController {
     func setHidden(hidden: Bool, animated: Bool = true) {
         guard customTabBar.isHidden != hidden else { return }
