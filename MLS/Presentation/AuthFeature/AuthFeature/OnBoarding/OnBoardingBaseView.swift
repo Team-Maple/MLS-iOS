@@ -7,17 +7,17 @@ public class OnBoardingBaseView: UIView {
     // MARK: - Components
     public let headerView: NavigationBar = {
         let view = NavigationBar(type: .withUnderLine("다음에 하기"))
-        view.rightButton.isHidden = true
         return view
     }()
 
     // MARK: - init
-    init(leftButtonIsHidden: Bool = false) {
+    init(leftButtonIsHidden: Bool = false, underlineTextButtonIsHidden: Bool = false) {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
         configureUI()
         if leftButtonIsHidden { headerView.leftButton.isHidden = true }
+        if underlineTextButtonIsHidden { headerView.underlineTextButton.isHidden = true }
     }
 
     @available(*, unavailable)
