@@ -40,13 +40,13 @@ public final class NavigationBar: UIView {
         button.tintColor = .textColor
         return button
     }()
-    
+
     public let underlineTextButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         return button
     }()
-    
+
     public let boldTextButton: UIButton = {
         let button = UIButton()
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
