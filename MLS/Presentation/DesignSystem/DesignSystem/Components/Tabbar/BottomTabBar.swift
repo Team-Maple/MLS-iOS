@@ -71,8 +71,6 @@ public final class BottomTabBar: UIStackView {
                 make.size.equalTo(Constant.buttonSize)
             }
         }
-
-        selectIndex()
     }
 
     private func setupStackView() {
@@ -93,5 +91,10 @@ public final class BottomTabBar: UIStackView {
         for (index, button) in tabButtons.enumerated() {
             button.isSelected = (index == selectedIndex)
         }
+    }
+
+    public func selectTab(index: Int) {
+        guard index != selectedIndex else { return }
+        selectedIndex = index
     }
 }

@@ -19,6 +19,8 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let detailFactory: DictionaryDetailFactory
+    
+    private var selectedSortIndex = 0
 
     // MARK: - Components
     private var mainView: DictionaryListView
@@ -123,7 +125,8 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.sortedFilter, selectedIndex: 0) { index in
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.bookmarkSortedFilter, selectedIndex: owner.selectedSortIndex) { index in
+                        owner.selectedSortIndex = index
                         let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
                         owner.mainView.selectFilter(selectedType: selectedFilter)
                     }
