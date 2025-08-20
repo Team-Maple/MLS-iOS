@@ -3,6 +3,7 @@ import UIKit
 import BaseFeature
 
 import ReactorKit
+import RxKeyboard
 import RxSwift
 import SnapKit
 
@@ -25,6 +26,7 @@ public extension MonsterFilterBottomSheetViewController {
         addViews()
         setupConstraints()
         configureUI()
+        setupKeyboard()
     }
 }
 
@@ -41,6 +43,17 @@ private extension MonsterFilterBottomSheetViewController {
     }
 
     func configureUI() {}
+    
+    func setupKeyboard() {
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { [weak self] height in
+                self?.mainView.snp.remakeConstraints { make in
+                    make.top.horizontalEdges.equalToSuperview()
+                    make.bottom.equalToSuperview().inset(height)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }
 
 extension MonsterFilterBottomSheetViewController {
@@ -67,6 +80,18 @@ extension MonsterFilterBottomSheetViewController {
                     owner.dismissCurrentModal()
                 default:
                     break
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        mainView.tapGesture.rx.event
+            .withUnretained(self)
+            .bind { owner, gesture in
+                let location = gesture.location(in: owner.mainView)
+                
+                if !owner.mainView.levelRangeView.leftInputBox.frame.contains(location) &&
+                    !owner.mainView.levelRangeView.rightInputBox.frame.contains(location) {
+                    owner.mainView.endEditing(true)
                 }
             }
             .disposed(by: disposeBag)

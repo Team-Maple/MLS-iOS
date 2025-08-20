@@ -41,6 +41,7 @@
 		081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E042DF80F63004F850D /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		081D9E082DF80F68004F850D /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; };
 		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		772DC9972E55CA93005F92E3 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 772DC9962E55CA93005F92E3 /* RxKeyboard */; };
 		779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; };
 		779A49142E1AD4BC00ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77C755B82E4B70C30081D80F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B62E4B70C30081D80F /* AuthFeature.framework */; };
@@ -167,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				081D9DD22DF80E5C004F850D /* RxRelay in Frameworks */,
+				772DC9972E55CA93005F92E3 /* RxKeyboard in Frameworks */,
 				081D9DD72DF80E69004F850D /* SnapKit in Frameworks */,
 				081D9DC82DF80E1A004F850D /* DesignSystem.framework in Frameworks */,
 				081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */,
@@ -310,6 +312,7 @@
 				081D9DD32DF80E5C004F850D /* RxSwift */,
 				081D9DD62DF80E69004F850D /* SnapKit */,
 				081D9DD92DF80E7E004F850D /* ReactorKit */,
+				772DC9962E55CA93005F92E3 /* RxKeyboard */,
 			);
 			productName = DictionaryFeature;
 			productReference = 081D9C192DF80854004F850D /* DictionaryFeature.framework */;
@@ -985,6 +988,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */;
 			productName = ReactorKit;
+		};
+		772DC9962E55CA93005F92E3 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		77C755C02E4B917F0081D80F /* RxKeyboard */ = {
 			isa = XCSwiftPackageProductDependency;
