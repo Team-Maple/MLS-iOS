@@ -92,11 +92,11 @@ private extension BookmarkListView {
                 make.horizontalEdges.equalToSuperview().inset(Constant.horizontalMargin)
                 make.height.equalTo(Constant.filterHeight)
             }
-            
+
             sortButton.snp.makeConstraints { make in
                 make.height.equalTo(Constant.filterHeight)
             }
-            
+
             filterButton.snp.makeConstraints { make in
                 make.height.equalTo(Constant.filterHeight)
             }

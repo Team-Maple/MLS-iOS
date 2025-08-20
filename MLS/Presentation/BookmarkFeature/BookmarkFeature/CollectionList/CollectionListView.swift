@@ -72,7 +72,7 @@ private extension CollectionListView {
             make.top.equalToSuperview().inset(Constant.topMargin)
             make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
         }
-        
+
         sortButton.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterHeight)
         }
