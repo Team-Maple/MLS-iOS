@@ -19,7 +19,7 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let detailFactory: DictionaryDetailFactory
-    
+
     private var selectedSortIndex = 0
 
     // MARK: - Components
