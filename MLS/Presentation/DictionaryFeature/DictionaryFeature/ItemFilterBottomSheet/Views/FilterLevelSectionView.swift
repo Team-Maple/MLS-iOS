@@ -16,7 +16,7 @@ public class FilterLevelSectionView: UIView {
         static let sliderHeight: CGFloat = 26
     }
 
-    private let leftInputBox: InputBox = {
+    let leftInputBox: InputBox = {
         let box = InputBox(label: "범위", placeHodler: "0")
         box.textField.keyboardType = .numberPad
         return box
@@ -28,7 +28,7 @@ public class FilterLevelSectionView: UIView {
         return label
     }()
 
-    private let rightInputBox: InputBox = {
+    let rightInputBox: InputBox = {
         let box = InputBox(placeHodler: "200")
         box.textField.keyboardType = .numberPad
         return box

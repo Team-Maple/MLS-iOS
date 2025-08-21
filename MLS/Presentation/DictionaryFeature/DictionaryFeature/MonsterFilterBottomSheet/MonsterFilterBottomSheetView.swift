@@ -16,6 +16,9 @@ final class MonsterFilterBottomSheetView: UIView {
     }
 
     // MARK: - Properties
+    let tapGesture = UITapGestureRecognizer()
+
+    // MARK: - Components
     let header: Header = {
         let header = Header(style: .filter, title: "필터")
         return header
@@ -61,6 +64,7 @@ final class MonsterFilterBottomSheetView: UIView {
 
         addViews()
         setupConstraints()
+        configureUI()
     }
 
     @available(*, unavailable)
@@ -107,5 +111,10 @@ private extension MonsterFilterBottomSheetView {
         clearButton.snp.makeConstraints { make in
             make.width.equalTo(Constant.buttonSuperViewSize * 0.3)
         }
+    }
+
+    func configureUI() {
+        tapGesture.cancelsTouchesInView = false
+        addGestureRecognizer(tapGesture)
     }
 }

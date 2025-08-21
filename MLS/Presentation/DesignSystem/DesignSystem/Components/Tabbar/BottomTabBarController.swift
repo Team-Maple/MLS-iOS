@@ -2,7 +2,7 @@ import UIKit
 
 import SnapKit
 
-public final class BottomTabBarController: UITabBarController, UITabBarControllerDelegate {
+public final class BottomTabBarController: UITabBarController {
     // MARK: - Components
     private let divider = DividerView()
     private let tabItems: [TabItem]
@@ -30,7 +30,6 @@ public final class BottomTabBarController: UITabBarController, UITabBarControlle
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        delegate = self
     }
 }
 
@@ -64,13 +63,16 @@ private extension BottomTabBarController {
         tabBar.isHidden = true
 
         customTabBar.onTabSelected = { [weak self] index in
-            self?.selectedIndex = index
+            UIView.performWithoutAnimation {
+                self?.selectedIndex = index
+                self?.customTabBar.selectTab(index: index)
+            }
         }
     }
 }
 
 public extension BottomTabBarController {
-    func setHidden(hidden: Bool, animated: Bool = true) {
+    func setHidden(hidden: Bool, animated: Bool = false) {
         guard customTabBar.isHidden != hidden else { return }
 
         if animated {
@@ -87,11 +89,5 @@ public extension BottomTabBarController {
             divider.isHidden = hidden
             divider.alpha = hidden ? 0 : 1
         }
-    }
-}
-
-extension BottomTabBarController {
-    public func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        return false
     }
 }

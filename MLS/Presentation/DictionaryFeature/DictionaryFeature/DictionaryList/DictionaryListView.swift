@@ -38,7 +38,7 @@ final class DictionaryListView: UIView {
     public lazy var sortButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "가나다 순"), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "lineArrowDown"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "lineArrowDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .neutral900
         button.setTitleColor(.neutral900, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
@@ -48,7 +48,7 @@ final class DictionaryListView: UIView {
     public lazy var filterButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "필터"), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "filter"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "filter")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .neutral900
         button.setTitleColor(.neutral900, for: .normal)
         button.semanticContentAttribute = .forceRightToLeft
@@ -129,14 +129,14 @@ private extension DictionaryListView {
 
 extension DictionaryListView {
     func updateFilter(sortType: SortType?) {
+        filterStackView.isHidden = isHidden
         if let sortType = sortType {
-            sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue), for: .normal)
+            sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue, color: .textColor), for: .normal)
         }
     }
 
     func selectFilter(selectedType: SortType) {
-        sortButton.setTitleColor(.primary700, for: .normal)
+        sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700
-        sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue), for: .normal)
     }
 }
