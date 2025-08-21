@@ -9,7 +9,7 @@ final class CollectionDetailEmptyView: UIView {
     enum Constant {
         static let imageSize: CGFloat = 220
         static let textSpacing: CGFloat = 10
-        static let buttonSpacing: CGFloat = 40
+        static let buttonSpacing: CGFloat = 24
         static let buttonWidth: CGFloat = 186
     }
 
