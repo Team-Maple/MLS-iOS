@@ -22,12 +22,12 @@ struct PostBody: Encodable {
 }
 
 class ProviderTests: XCTestCase {
-    var provider: Provider?
+    var provider: NetworkProvider?
     var disposeBag: DisposeBag?
 
     override func setUp() {
         super.setUp()
-        provider = ProviderImpl()
+        provider = NetworkProviderImpl()
         disposeBag = DisposeBag()
     }
 
@@ -196,7 +196,7 @@ class ProviderTests: XCTestCase {
             method: .GET
         )
 
-        var localProvider: ProviderImpl? = ProviderImpl()
+        var localProvider: NetworkProviderImpl? = NetworkProviderImpl()
         localProvider?.requestData(endPoint: request, interceptor: nil)
             .subscribe(onNext: { (_: [Post]) in
                 XCTFail("Expected error, but got success")

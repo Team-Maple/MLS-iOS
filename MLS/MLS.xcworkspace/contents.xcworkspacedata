@@ -4,12 +4,25 @@
    <FileRef
       location = "group:MLS.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "container:Presentation/Presentation.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:DomainInterface/DomainInterface.xcodeproj">
-   </FileRef>
+   <Group
+      location = "group:Presentation"
+      name = "Presentation">
+      <FileRef
+         location = "group:BookmarkFeature/BookmarkFeature.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:AuthFeature/AuthFeature.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "container:Presentation/DictionaryFeature/DictionaryFeature.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:BaseFeature/BaseFeature.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:DesignSystem/DesignSystem.xcodeproj">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:Domain/Domain.xcodeproj">
    </FileRef>
