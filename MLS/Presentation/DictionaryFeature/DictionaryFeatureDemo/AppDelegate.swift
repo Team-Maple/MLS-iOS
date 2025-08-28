@@ -191,8 +191,8 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkModalFactory.self) {
             return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
-        DIContainer.register(type: DictionaryDetailFactory.self) {
-            return DictionaryDetailFactoryImpl()
+        DIContainer.register(type: MonsterDictionaryDetailFactory.self) {
+            return MonsterDictionaryDetailFactoryImpl()
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
@@ -202,7 +202,7 @@ private extension AppDelegate {
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
                 sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
                 bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self),
-                dictionaryDetailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self)
+                monsterDictionaryDetailFactory: DIContainer.resolve(type: MonsterDictionaryDetailFactory.self)
             )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
