@@ -10,13 +10,13 @@ import RxSwift
 class DictionaryDetailBaseViewController: BaseViewController {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     // MARK: - Components
     var mainView = DictionaryDetailBaseView()
-    
+
     // 타입설정
     public var type: DictionaryItemType = .monster
-    
+
     /// 자식이 여기서 설정할 수 있는 title
     public var titleText: String {
         get { mainView.titleLabel.text ?? "" }
@@ -24,19 +24,19 @@ class DictionaryDetailBaseViewController: BaseViewController {
             mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: newValue)
         }
     }
-    
+
     public override init() {
         super.init()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         addViews()
         setupConstraints()
         bindActions() // 액션 바인딩
@@ -49,19 +49,19 @@ private extension DictionaryDetailBaseViewController {
     func addViews() {
         view.addSubview(mainView)
     }
-    
+
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
- 
+
 }
 
 /// 스티키 헤더 만들기 위한 델리게이트
 extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
-    
+
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 탭바의 frame을 self.view 기준으로 변환
         let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: self.view)
@@ -73,10 +73,10 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
             mainView.tabBarStickyStackView.isHidden = true
             mainView.stickyTabBarDividerView.isHidden = true
         }
-        
+
         let nameY = mainView.nameLabel.convert(mainView.nameLabel.bounds, to: self.view)
-        
-        if nameY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset  {
+
+        if nameY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset {
             // 메랜에서 이름이 가장 긴 몬스터의 경우 '다크 주니어 예티와 페페'로 알고 있는데, 따로 텍스트 길이에 대한 제약사항을 안줘도 다크 주니어 예티와 페페가 잘 표시가 됨. 제약사항 필요한가?
             mainView.titleLabel.text = mainView.nameLabel.text
         } else {
@@ -84,7 +84,6 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
         }
     }
 }
-
 
 extension DictionaryDetailBaseViewController {
     /// image: 메인 이미지
@@ -97,14 +96,14 @@ extension DictionaryDetailBaseViewController {
         let name: String
         let subText: String? // 없는 경우도 있는듯
     }
-    
+
     func inject(input: Input) {
         mainView.imageView.image = input.image
         mainView.imageContentView.backgroundColor = input.backgroundColor
         mainView.nameLabel.attributedText = .makeStyledString(font: .sub_l_m, text: input.name, color: .textColor)
         mainView.subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: input.subText, color: .neutral500)
     }
-    
+
     func makeTagsRow(_ tags: [String]) {
         let maxWidth = UIScreen.main.bounds.width - DictionaryDetailBaseView.Constant.horizontalInset // 좌우 여백 고려 (16 * 2)
         let tagSpacing: CGFloat = DictionaryDetailBaseView.Constant.tagVerticalSpacing
@@ -144,23 +143,23 @@ extension DictionaryDetailBaseViewController {
                 self?.menuTabTapped(button)
             }
             .disposed(by: disposeBag)
-            
+
             let stickyButton = mainView.createMenuButton(title: menu.description, tag: index)
             stickyButton.rx.tap.bind { [weak self] _ in
                 self?.menuTabTapped(stickyButton)
             }
             .disposed(by: disposeBag)
-            
+
             mainView.tabBarStackView.addArrangedSubview(button)
             mainView.tabBarStickyStackView.addArrangedSubview(stickyButton) // 스티키 역할을 할 스택뷰에다가도 똑같은 버튼 추가
-            
+
             if index == 0 {
                 firstIndexButton = button
                 firstStickyIndexButton = button
             }
-            
+
             let spacerView = UIView() // 왼쪽 정렬을 위한 Spacer 추가
-            
+
             let stickySpacerView = UIView()
             spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
             stickySpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -175,11 +174,11 @@ extension DictionaryDetailBaseViewController {
     }
     private func menuTabTapped(_ sender: UIButton) {
         let selectedTag = sender.tag
-        
+
         updateButtonStates(in: mainView.tabBarStackView, selectedTag: selectedTag)
         // 스티키 탭 버튼 상태 변경
         updateButtonStates(in: mainView.tabBarStickyStackView, selectedTag: selectedTag)
-        
+
         // 자식 디테일 뷰컨에서 오버라이드 해서 사용하기?
         didSelectMenuTab(index: sender.tag)
     }
@@ -187,7 +186,7 @@ extension DictionaryDetailBaseViewController {
     private func updateButtonStates(in stackView: UIStackView, selectedTag: Int) {
         for case let button as UIButton in stackView.arrangedSubviews {
             guard let title = button.titleLabel?.text else { continue }
-            
+
             if button.tag == selectedTag {
                 button.setAttributedTitle(.makeStyledString(font: .sub_m_b, text: title, color: .black), for: .normal)
             } else {
@@ -195,15 +194,15 @@ extension DictionaryDetailBaseViewController {
             }
         }
     }
-    
+
     // 북마크 버튼 클릭 시
     func updateBookmarkButton(isBookmarked: Bool) {
         // TODO: 북마크 버튼 누르면 이벤트 발생
     }
-    
+
     // 자식 디테일 뷰에서 오버라이딩 하기
     @objc func didSelectMenuTab(index: Int) {
-        
+
     }
 }
 

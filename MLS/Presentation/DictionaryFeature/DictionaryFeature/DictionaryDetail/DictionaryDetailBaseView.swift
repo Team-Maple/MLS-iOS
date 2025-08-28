@@ -35,46 +35,46 @@ final class DictionaryDetailBaseView: UIView {
         static let secondSectionStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         static let menuTabBarButtonInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 9, leading: 4, bottom: 9, trailing: 4)
     }
-    
+
     // MARK: - Components
     /// header에 들어가 컴포넌트들 담을 컨테이너 뷰
     public let headerView: UIView = {
         let view = UIView()
-        
+
         return view
     }()
-    
+
     public let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
-        
+
         return button
     }()
-    
+
     public var titleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .sub_m_b, text: "몬스터 상세 정보")
-        
+
         return label
     }()
-    
+
     public let dictButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "dictionary")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
-        
+
         return button
     }()
-    
+
     public let reportButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "errorBlack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
-        
+
         return button
     }()
-    
+
     public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -88,7 +88,7 @@ final class DictionaryDetailBaseView: UIView {
         stackView.backgroundColor = .white
         // 아이템 기본 중앙배치
         stackView.alignment = .center
-        
+
         return stackView
     }()
     public let imageContentView: UIView = {
@@ -107,7 +107,7 @@ final class DictionaryDetailBaseView: UIView {
         let view = UIView()
         return view
     }()
-    
+
     // 북마크 버튼
     public let bookmarkButton: UIButton = {
         let button = UIButton()
@@ -129,11 +129,11 @@ final class DictionaryDetailBaseView: UIView {
     // SubText - level, 지역 등
     public let subTextLabel: UILabel = {
         let label = UILabel()
-        
+
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
-        
+
         return label
     }()
     // tagView들을 담는 가로 stackView들을 담을 세로 stackView -> 말이 너무 어려운데..
@@ -150,7 +150,7 @@ final class DictionaryDetailBaseView: UIView {
 
         return stackView
     }()
-    
+
     // tabBar StackView
     public let tabBarStackView: UIStackView = {
         let stackView = UIStackView()
@@ -162,10 +162,10 @@ final class DictionaryDetailBaseView: UIView {
         // layoutMargins을 사용하여 inset 설정
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.tabBarStackViewInset
-        
+
         return stackView
     }()
-    
+
     // tabBar Sticky StackView
     public let tabBarStickyStackView: UIStackView = {
         let stackView = UIStackView()
@@ -178,19 +178,18 @@ final class DictionaryDetailBaseView: UIView {
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.tabBarStackViewInset
         stackView.isHidden = true
-        
+
         return stackView
     }()
-    
+
     // tabBar 하단 구분선
     public let tabBarDividerView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral300
-        
+
         return view
     }()
-    
-    
+
     // sticky tab Bar 하단 구분선
     public let stickyTabBarDividerView: UIView = {
         let view = UIView()
@@ -198,7 +197,7 @@ final class DictionaryDetailBaseView: UIView {
         view.isHidden = true
         return view
     }()
-    
+
     // 두번째 섹션 스택 뷰 (배경색 바뀌는 부분)
     public let secondSectionStackView: UIStackView = {
         let stackView = UIStackView()
@@ -207,10 +206,10 @@ final class DictionaryDetailBaseView: UIView {
         stackView.backgroundColor = .neutral100
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.secondSectionStackViewInset
-       
+
         return stackView
     }()
-    
+
     // MARK: - Init
     init() {
         super.init(frame: .zero)
@@ -218,7 +217,7 @@ final class DictionaryDetailBaseView: UIView {
         setupConstraints()
         configureUI()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -236,7 +235,7 @@ private extension DictionaryDetailBaseView {
         }
         // stackView를 scrollView안에 넣어줘야 함
         scrollView.addSubview(stackView)
-        
+
         [imageContentView, nameLabel, subTextLabel, tagsVerticalStackView].forEach {
             // 스택뷰에 subView 추가
             stackView.addArrangedSubview($0)
@@ -247,12 +246,12 @@ private extension DictionaryDetailBaseView {
         scrollView.addSubview(tabBarDividerView)
         scrollView.addSubview(tabBarStickyStackView)
         scrollView.addSubview(stickyTabBarDividerView)
-        
+
         imageContentView.addSubview(imageView)
         imageContentView.addSubview(bookmarkContentView)
         bookmarkContentView.addSubview(bookmarkButton)
     }
-    
+
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
@@ -278,68 +277,68 @@ private extension DictionaryDetailBaseView {
             make.trailing.centerY.equalToSuperview()
             make.size.equalTo(Constant.buttonSize)
         }
-        
+
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom)
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
-        
+
         stackView.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top)
             make.centerX.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
-        
+
         imageContentView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Constant.imageContentTopMargin)
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageContentViewSize)
         }
-        
+
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
-        
+
         bookmarkContentView.snp.makeConstraints { make in
             make.top.trailing.equalToSuperview().inset(Constant.bookmarkViewMargin)
             make.size.equalTo(Constant.bookmarkViewSize)
         }
-        
+
         bookmarkButton.snp.makeConstraints { make in
             make.center.equalToSuperview().inset(Constant.bookmarkViewInset)
         }
-        
+
         // 스택뷰 속 간격 커스텀 -> imageContentView와 다음 스택뷰 셀의 간격 imageBottomMargin 만큼
         stackView.setCustomSpacing(Constant.imageBottomMargin, after: imageContentView)
-        
+
         nameLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         // nameLabel과 그 아래에 들어올 subText간 간격 조정
         stackView.setCustomSpacing(Constant.textMargin, after: nameLabel)
-        
+
         subTextLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
-        
+
         stackView.setCustomSpacing(Constant.textMargin, after: subTextLabel)
-        
+
         tabBarStackView.snp.makeConstraints { make in
             make.height.equalTo(Constant.tabBarHeight)
             make.width.equalToSuperview()
             make.top.equalTo(stackView.snp.bottom).offset(Constant.tagsBottomMargin)
         }
-        
+
         tabBarDividerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.dividerHeight)
             make.top.equalTo(tabBarStackView.snp.bottom)
             make.leading.trailing.equalToSuperview()
         }
-        
+
         secondSectionStackView.snp.makeConstraints { make in
             make.top.equalTo(tabBarStackView.snp.bottom)
             make.centerX.equalToSuperview()
@@ -352,15 +351,15 @@ private extension DictionaryDetailBaseView {
             make.width.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
         }
-        
+
         stickyTabBarDividerView.snp.makeConstraints { make in
             make.top.equalTo(tabBarStickyStackView.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(Constant.dividerHeight)
-            
+
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .whiteMLS
     }
@@ -379,7 +378,7 @@ extension DictionaryDetailBaseView {
     func createMenuButton(title: String, tag: Int) -> UIButton {
         var config = UIButton.Configuration.plain()
         config.contentInsets = Constant.menuTabBarButtonInset
-        
+
         let button = UIButton(configuration: config)
         button.setAttributedTitle(.makeStyledString(font: .b_m_r, text: title), for: .normal)
         button.setTitleColor(.neutral600, for: .normal)
@@ -387,13 +386,13 @@ extension DictionaryDetailBaseView {
         button.tag = tag
         return button
     }
-    
+
     func setupConfig() -> UIButton.Configuration {
         var config = UIButton.Configuration.plain()
         config.contentInsets = Constant.menuTabBarButtonInset
         return config
     }
-    
+
     // 태그 뱃지 제약사항 설정
     func setBadgeConstraints(_ badge: Badge, width: CGFloat) {
         badge.snp.makeConstraints { make in
@@ -402,6 +401,3 @@ extension DictionaryDetailBaseView {
         }
     }
 }
-
-
-

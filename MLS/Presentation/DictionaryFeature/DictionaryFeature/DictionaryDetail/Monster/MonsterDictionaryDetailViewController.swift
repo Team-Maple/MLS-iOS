@@ -1,17 +1,16 @@
-import UIKit
-import DomainInterface
 import DesignSystem
+import DomainInterface
 import ReactorKit
 import RxCocoa
 import RxSwift
-
+import UIKit
 
 class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = MonsterDictionaryDetailReactor
-    
+
     // MARK: - Componenets
     var detailView = MonsterDictionaryDetailView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: - 리액터로 옮겨야 할 것들 많음.
@@ -40,7 +39,7 @@ private extension MonsterDictionaryDetailViewController {
             make.top.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewTopMargin)
             make.width.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewHorizontalInset)
         }
-        
+
         detailView.detailMapStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewTopMargin)
             make.width.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewHorizontalInset)
@@ -53,16 +52,16 @@ private extension MonsterDictionaryDetailViewController {
     func makeDetailDescriptionTextView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
-     
+
         for info in infos {
             let stackView = detailView.detailDescriptionTextViewSetup()
             // 동적 data에 의해 만들어지는 View -> 뷰컨에서 처리?
             let mainLabel = UILabel()
             mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: info.name)
-            
+
             let subLabel = UILabel()
             subLabel.attributedText = .makeStyledString(font: .b_s_r, text: info.desc)
-            
+
             stackView.addArrangedSubview(mainLabel)
             stackView.addArrangedSubview(subLabel)
         }
@@ -74,8 +73,8 @@ extension MonsterDictionaryDetailViewController {
     override func didSelectMenuTab(index: Int) {
         // 각 메뉴 탭에 맞는 뷰 추가
         switch index {
-        case 0: //상세설명
-           //makeDetailDescriptionTextView()
+        case 0: // 상세설명
+           // makeDetailDescriptionTextView()
             detailView.detailDescriptionStackView.isHidden = false
             detailView.detailMapStackView.isHidden = true
         default:
@@ -92,13 +91,13 @@ extension MonsterDictionaryDetailViewController {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     func bindcUserActions(reactor: Reactor) {
-        
+
     }
-    
+
     func bindViewState(reactor: Reactor) {
-        
+
         reactor.state
             .map(\.type)
             // UI 변경은 메인 스레드에서 하도록 (Rx에서 제공하는 문법인듯)
@@ -108,7 +107,7 @@ extension MonsterDictionaryDetailViewController {
                 self?.titleText = "몬스터 상세정보"
             })
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.tags)
             .observe(on: MainScheduler.instance)

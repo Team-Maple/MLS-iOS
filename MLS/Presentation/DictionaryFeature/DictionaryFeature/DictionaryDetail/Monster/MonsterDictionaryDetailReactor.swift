@@ -8,14 +8,14 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var infos: [Info]
         var maps: [Map]
         var Items: [Item]
-        
+
         static func == (lhs: TabMenu, rhs: TabMenu) -> Bool {
             return lhs.infos == rhs.infos &&
             lhs.maps == rhs.maps &&
             lhs.Items == rhs.Items
         }
     }
-    
+
     public struct Info: Equatable {
         var name: String
         var desc: String
@@ -27,15 +27,15 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public struct Item: Equatable {
         var desc: String // 임시 라벨
     }
-    
+
     public enum Action {
-        
+
     }
-    
+
     public enum Mutation {
-        
+
     }
-    
+
     public struct State {
         var type: DictionaryItemType
         var name = "슈미의 의뢰"
@@ -58,29 +58,28 @@ public final class MonsterDictionaryDetailReactor: Reactor {
                 Info(name: "스티키 확인", desc: "확인"),
                 Info(name: "스티키 확인", desc: "확인"),
                 Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인"),
-                
+                Info(name: "스티키 확인", desc: "확인")
+
             ], maps: [
                 Map(desc: "임시 라벨")
             ], Items: [
                 Item(desc: "임시 라벨")
             ])
     }
-    
+
     public var initialState: State
     private let disposBag = DisposeBag()
-    
+
     public init() {
         initialState = State(type: .monster)
     }
-    
+
     public func mutate(action: Action) -> Observable<Mutation> {
-        
+
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         return newState
     }
 }
-
