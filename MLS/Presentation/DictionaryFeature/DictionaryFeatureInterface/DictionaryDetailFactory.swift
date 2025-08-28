@@ -1,6 +1,6 @@
 import BaseFeature
 import DomainInterface
 
-public protocol DictionaryDetailFactory {
+public protocol MonsterDictionaryDetailFactory {
     func make() -> BaseViewController
 }

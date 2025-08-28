@@ -18,17 +18,17 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
-    private let detailFactory: DictionaryDetailFactory
+    private let detailFactory: MonsterDictionaryDetailFactory
 
     // MARK: - Components
     private var mainView: DictionaryListView
 
-    public init(reactor: DictionaryListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, dictionaryDetailFactory: DictionaryDetailFactory) {
+    public init(reactor: DictionaryListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, monsterDictionaryDetailFactory: MonsterDictionaryDetailFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
-        self.detailFactory = dictionaryDetailFactory
+        self.detailFactory = monsterDictionaryDetailFactory
         self.mainView = DictionaryListView(isFilterHidden: reactor.currentState.type.isSortHidden)
         super.init()
         self.reactor = reactor
