@@ -13,7 +13,11 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .collection:
             break
         case .item:
-            break
+            viewController = ItemDictionaryDetailViewController()
+            let reactor = ItemDictionaryDetailReactor()
+            if let viewController = viewController as? ItemDictionaryDetailViewController {
+                viewController.reactor = reactor
+            }
         case .monster:
             viewController = MonsterDictionaryDetailViewController()
             let reactor = MonsterDictionaryDetailReactor()

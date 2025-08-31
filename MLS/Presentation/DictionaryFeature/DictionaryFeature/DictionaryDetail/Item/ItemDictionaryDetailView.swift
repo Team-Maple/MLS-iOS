@@ -10,22 +10,23 @@ final class ItemDictionaryDetailView: UIView {
         static let descriptionStackViewHeight: CGFloat = 50
         static let horizontalInset: CGFloat = 10
         static let dividerHeight: CGFloat = 1
+        static let detailInfoStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        static let detailInfoStackViewSpacing: CGFloat = 20
+        static let detailDropMonsterStackViewSpacing: CGFloat = 12
+        static let filterContainerViewHeight: CGFloat = 28
+        static let filterContainerViewTopMargin: CGFloat = 12
+        static let filterButtonTrailingMargin: CGFloat = 8
+        static let cardViewHorizontalInset: CGFloat = 16
     }
-    // 상세 정보 뷰
-    public let detailInfoView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        return view
-    }()
     // 상세정보 뷰 안에 들어갈 스택뷰
     public let detailInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 20
+        stackView.spacing = Constant.detailInfoStackViewSpacing
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        stackView.layoutMargins = Constant.detailInfoStackViewInset
         return stackView
     }()
     // 상세정보 스택 뷰 속 설명 글
@@ -41,7 +42,7 @@ final class ItemDictionaryDetailView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
@@ -51,7 +52,7 @@ final class ItemDictionaryDetailView: UIView {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 12
+        stackView.spacing = Constant.detailDropMonsterStackViewSpacing
         return stackView
     }()
     // 몬스터 순서 필터 버튼
@@ -63,10 +64,7 @@ final class ItemDictionaryDetailView: UIView {
         return button
     }()
     // 몬스터 순서 필터 담을 뷰 -> 버튼을 스택뷰에 바로 올려놓으면 제약사항 잡기가 힘듬..
-    public let filterContainerView: UIView = {
-        let view = UIView()
-        return view
-    }()
+    public let filterContainerView = UIView()
     
     init() {
         super.init(frame: .zero)
@@ -105,14 +103,14 @@ extension ItemDictionaryDetailView {
         }
         
         filterContainerView.snp.makeConstraints { make in
-            make.height.equalTo(28)
+            make.height.equalTo(Constant.filterContainerViewHeight)
             make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(12)
+            make.top.equalToSuperview().offset(Constant.filterContainerViewTopMargin)
         }
         
         filterButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview().inset(Constant.filterButtonTrailingMargin)
         }
     }
     // 아이템 정보 보여주는 스택뷰 생성
@@ -141,6 +139,17 @@ extension ItemDictionaryDetailView {
         }
         return stackView
     }
+    // 아이템 상세 설명에 들어갈 텍스트 스택뷰 만들기
+    func makeItemDetailDescriptionTextStackView(stackView: UIStackView, mainText: String, subText: String) {
+        let mainLabel = UILabel()
+        mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
+        
+        let subLabel = UILabel()
+        subLabel.attributedText = .makeStyledString(font: .b_s_r, text: subText)
+        stackView.addArrangedSubview(mainLabel)
+        stackView.addArrangedSubview(subLabel)
+    }
+    
     
     // 드롭 몬스터 뷰 생성
     func dropMonsterViewSetup() {
@@ -157,7 +166,7 @@ extension ItemDictionaryDetailView {
         detailDropMonsterStackView.addArrangedSubview(cardView)
         
         cardView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(Constant.cardViewHorizontalInset)
         }
     }
 }

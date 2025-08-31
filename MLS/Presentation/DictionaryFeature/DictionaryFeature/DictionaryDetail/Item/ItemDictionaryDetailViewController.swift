@@ -66,17 +66,11 @@ private extension ItemDictionaryDetailViewController {
     func makeDetailDescriptionStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
-        
+        // 최대한 파라미터로 데이터 전달을 하려했습니다.
+        // 리액터 상태를 직접 전달은 안될 것 같아서
         for info in infos {
             let stackView = detailView.detailDesctiptionItemStackViewSetup()
-            let mainLabel = UILabel()
-            mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: info.name)
-            
-            let subLabel = UILabel()
-            subLabel.attributedText = .makeStyledString(font: .b_s_r, text: info.desc)
-            
-            stackView.addArrangedSubview(mainLabel)
-            stackView.addArrangedSubview(subLabel)
+            detailView.makeItemDetailDescriptionTextStackView(stackView: stackView, mainText: info.name, subText: info.desc)
         }
     }
     // 드롭몬스터 스택 뷰 생성
