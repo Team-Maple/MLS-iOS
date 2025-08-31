@@ -8,7 +8,7 @@ class MapDictionaryDetailView: UIView {
         static let mapCornerRadius: CGFloat = 16
         static let imageSize: CGFloat = UIScreen.main.bounds.width - 32
     }
-    
+
     // 상세설명 메뉴에서 보여줄 상세 설명 스택 뷰
     public let mapImageView: UIImageView = {
         let view = UIImageView()
@@ -24,7 +24,7 @@ class MapDictionaryDetailView: UIView {
         stackView.axis = .vertical
         return stackView
     }()
-    
+
     public let npcStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -51,25 +51,25 @@ extension MapDictionaryDetailView {
     func addViews() {
         addSubview(mapImageView)
     }
-    
+
     func setUpConstraints() {
         mapImageView.snp.makeConstraints { make in
             make.size.equalTo(Constant.imageSize)
         }
     }
-    
+
     func setUpMapView(imageUrl: String) {
         ImageLoader.shared.loadImage(url: URL(string: imageUrl), defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in
             self?.mapImageView.image = image
         }
     }
-    
+
     func setUpMonsterView() {
         let label = UILabel()
         label.text = "출현 몬스터 정보 표시"
         label.textAlignment = .center
     }
-    
+
     func setUpNpcView() {
         let label = UILabel()
         label.text = "출현 NPC 정보 표시"

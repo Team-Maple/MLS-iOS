@@ -28,7 +28,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .quest:
             break
         }
-        
+
         // 하단 탭바 히든
         viewController.isBottomTabbarHidden = true
         return viewController

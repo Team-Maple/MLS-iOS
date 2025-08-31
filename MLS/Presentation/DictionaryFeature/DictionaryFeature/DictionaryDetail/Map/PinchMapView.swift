@@ -21,7 +21,7 @@ final class PinchMapView: UIView {
         scrollView.bouncesZoom = true
         return scrollView
     }()
-    
+
     let imageView: UIImageView = {
         let view = UIImageView()
         view.clipsToBounds = true

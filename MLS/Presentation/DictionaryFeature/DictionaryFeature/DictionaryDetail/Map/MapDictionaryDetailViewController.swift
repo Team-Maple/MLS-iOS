@@ -40,7 +40,7 @@ private extension MapDictionaryDetailViewController {
         let tapGesture = UITapGestureRecognizer()
         detailView.mapImageView.isUserInteractionEnabled = true
         detailView.mapImageView.addGestureRecognizer(tapGesture)
-        
+
         tapGesture.rx.event
                .bind(onNext: { [weak self] _ in
                    guard let self else { return }

@@ -2,13 +2,13 @@ import UIKit
 
 import BaseFeature
 
-import RxSwift
 import RxCocoa
+import RxSwift
 
 class PinchMapViewController: BaseViewController {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     // MARK: - Components
     var mainView = PinchMapView()
 
