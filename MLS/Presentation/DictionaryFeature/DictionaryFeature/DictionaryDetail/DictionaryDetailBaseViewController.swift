@@ -66,7 +66,7 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
         // 탭바의 frame을 self.view 기준으로 변환
         let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: self.view)
 
-        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset { // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
+        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top { // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
             mainView.tabBarStickyStackView.isHidden = false
             mainView.stickyTabBarDividerView.isHidden = false
         } else {
@@ -80,7 +80,18 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
             // 메랜에서 이름이 가장 긴 몬스터의 경우 '다크 주니어 예티와 페페'로 알고 있는데, 따로 텍스트 길이에 대한 제약사항을 안줘도 다크 주니어 예티와 페페가 잘 표시가 됨. 제약사항 필요한가?
             mainView.titleLabel.text = mainView.nameLabel.text
         } else {
-            mainView.titleLabel.text = "몬스터 상세정보"
+            switch type {
+            case .monster:
+                mainView.titleLabel.text = "몬스터 상세정보"
+            case .item:
+                mainView.titleLabel.text = "아이템 상세정보"
+            case .quest:
+                mainView.titleLabel.text = "퀘스트 상세정보"
+            case .npc:
+                mainView.titleLabel.text = "NPC 상세정보"
+            case .map:
+                mainView.titleLabel.text = "맵 상세정보"
+            }
         }
     }
 }

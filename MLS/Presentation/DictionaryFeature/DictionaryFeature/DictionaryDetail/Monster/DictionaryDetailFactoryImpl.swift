@@ -5,8 +5,8 @@ public final class MonsterDictionaryDetailFactoryImpl: MonsterDictionaryDetailFa
     public init() {}
 
     public func make() -> BaseViewController {
-        let viewController = MonsterDictionaryDetailViewController()
-        let reactor = MonsterDictionaryDetailReactor()
+        let viewController = ItemDictionaryDetailViewController()
+        let reactor = ItemDictionaryDetailReactor()
         viewController.reactor = reactor
         // 하단 탭바 히든
         viewController.isBottomTabbarHidden = true
