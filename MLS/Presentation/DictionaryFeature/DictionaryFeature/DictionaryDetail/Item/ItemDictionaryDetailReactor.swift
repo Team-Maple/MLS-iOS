@@ -3,17 +3,17 @@ import DomainInterface
 import ReactorKit
 
 public final class ItemDictionaryDetailReactor: Reactor {
-    
+
     public struct ItemInfo: Equatable {
         var name: String
         var desc: String
     }
-    
+
     public struct MonsterInfo: Equatable {
         var name: String
         var level: String
     }
-        
+
     public struct State {
         var type: DictionaryItemType
         // 아이템 임시 모델
@@ -31,30 +31,30 @@ public final class ItemDictionaryDetailReactor: Reactor {
             MonsterInfo(name: "불독", level: "Lv. 99"),
             MonsterInfo(name: "불독", level: "Lv. 99"),
             MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
+            MonsterInfo(name: "불독", level: "Lv. 99")
         ]
     }
-    
+
     public enum Action {
-        
+
     }
-    
+
     public enum Mutation {
-        
+
     }
-    
+
     public var initialState: State
     private let disposeBag = DisposeBag()
-    
+
     public init() {
         self.initialState = .init(type: .item)
     }
-    
+
     public func mutate(action: Action) -> Observable<Mutation> {
-        
+
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
-        
+
     }
 }

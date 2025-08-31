@@ -5,13 +5,12 @@ import DomainInterface
 // 써드파티
 import ReactorKit
 
-
 class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
-    
+
     public typealias Reactor = ItemDictionaryDetailReactor
     // MARK: - Components
     var detailView = ItemDictionaryDetailView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .item
@@ -48,13 +47,13 @@ private extension ItemDictionaryDetailViewController {
         mainView.secondSectionStackView.addArrangedSubview(detailView.detailInfoStackView)
         mainView.secondSectionStackView.addArrangedSubview(detailView.detailDropMonsterStackView)
     }
-    
+
     func setupConstraints() {
         detailView.detailInfoStackView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
         }
-        
+
         detailView.detailDropMonsterStackView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.width.equalToSuperview()
@@ -77,7 +76,7 @@ private extension ItemDictionaryDetailViewController {
     func makeDropMonsterStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.monsterInfos
-        
+
         for info in infos {
             // 일단 데이터 모델을 만들기는 했는데 뷰에 어떻게 전달하지 고민해보기
             detailView.dropMonsterViewSetup()
@@ -91,11 +90,11 @@ extension ItemDictionaryDetailViewController {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
     }
-    
+
     private func bindUserAction(reactor: Reactor) {
-        
+
     }
-    
+
     private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.type.detailTypes)

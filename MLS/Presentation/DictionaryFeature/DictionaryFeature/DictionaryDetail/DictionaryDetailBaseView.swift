@@ -329,7 +329,7 @@ private extension DictionaryDetailBaseView {
         stackView.setCustomSpacing(Constant.textMargin, after: subTextLabel)
 
         tabBarStackView.snp.makeConstraints { make in
-            //make.height.equalTo(Constant.tabBarHeight)
+            // make.height.equalTo(Constant.tabBarHeight)
             make.width.equalToSuperview()
             make.top.equalTo(stackView.snp.bottom)
         }
@@ -349,7 +349,7 @@ private extension DictionaryDetailBaseView {
         }
 
         tabBarStickyStackView.snp.makeConstraints { make in
-            //make.height.equalTo(Constant.stickyHeight)
+            // make.height.equalTo(Constant.stickyHeight)
             make.width.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
         }
