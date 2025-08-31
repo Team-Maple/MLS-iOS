@@ -19,18 +19,20 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let detailFactory: MonsterDictionaryDetailFactory
+    private let testDetailFactory: DictionaryDetailFactory
 
     private var selectedSortIndex = 0
 
     // MARK: - Components
     private var mainView: DictionaryListView
 
-    public init(reactor: DictionaryListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, monsterDictionaryDetailFactory: MonsterDictionaryDetailFactory) {
+    public init(reactor: DictionaryListReactor, itemFilterFactory: ItemFilterBottomSheetFactory, monsterFilterFactory: MonsterFilterBottomSheetFactory, sortedFactory: SortedBottomSheetFactory, bookmarkModalFactory: BookmarkModalFactory, monsterDictionaryDetailFactory: MonsterDictionaryDetailFactory, testDetailFactory: DictionaryDetailFactory) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.detailFactory = monsterDictionaryDetailFactory
+        self.testDetailFactory = testDetailFactory
         self.mainView = DictionaryListView(isFilterHidden: reactor.currentState.type.isSortHidden)
         super.init()
         self.reactor = reactor
@@ -231,7 +233,10 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         return cell
     }
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewController = detailFactory.make()
+//        let viewController = detailFactory.make()
+//        navigationController?.pushViewController(viewController, animated: true)
+        guard let reactor = reactor else { return }
+        let viewController = testDetailFactory.make(type: reactor.currentState.type)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

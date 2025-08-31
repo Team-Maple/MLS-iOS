@@ -340,6 +340,7 @@ private extension DictionaryDetailBaseView {
             make.leading.trailing.equalToSuperview()
         }
 
+        // centerX와 horizontal을 각각 잡은이유
         secondSectionStackView.snp.makeConstraints { make in
             make.top.equalTo(tabBarStackView.snp.bottom)
             make.centerX.equalToSuperview()
