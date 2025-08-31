@@ -1,12 +1,6 @@
-//
-//  MonsterDictionaryDetailView.swift
-//  DictionaryFeature
-//
-//  Created by yeosong on 8/20/25.
-//
+import UIKit
 
 import DesignSystem
-import UIKit
 
 class MonsterDictionaryDetailView: UIView {
     // MARK: - Type

@@ -5,7 +5,7 @@ import DomainInterface
 
 import SnapKit
 
-final class DictionaryDetailBaseView: UIView {
+class DictionaryDetailBaseView: UIView {
     // MARK: - Type
     public enum Constant {
         static let iconInset: CGFloat = 10
@@ -30,7 +30,7 @@ final class DictionaryDetailBaseView: UIView {
         static let tabBarSpacing: CGFloat = 20
         static let badgeHeight: CGFloat = 24
         static let numberOfLines: Int = 0
-        static let tabBarStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        static let tabBarStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 30, left: 16, bottom: 0, right: 16)
         static let tagStackViewInset: UIEdgeInsets =  UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
         static let secondSectionStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         static let menuTabBarButtonInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 9, leading: 4, bottom: 9, trailing: 4)
@@ -77,6 +77,7 @@ final class DictionaryDetailBaseView: UIView {
 
     public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.backgroundColor = .neutral100
         return scrollView
     }()
     /// 스크롤 뷰에 들어갈 컴포넌트들을 담을 스택 뷰
@@ -328,9 +329,9 @@ private extension DictionaryDetailBaseView {
         stackView.setCustomSpacing(Constant.textMargin, after: subTextLabel)
 
         tabBarStackView.snp.makeConstraints { make in
-            make.height.equalTo(Constant.tabBarHeight)
+            // make.height.equalTo(Constant.tabBarHeight)
             make.width.equalToSuperview()
-            make.top.equalTo(stackView.snp.bottom).offset(Constant.tagsBottomMargin)
+            make.top.equalTo(stackView.snp.bottom)
         }
 
         tabBarDividerView.snp.makeConstraints { make in
@@ -348,7 +349,7 @@ private extension DictionaryDetailBaseView {
         }
 
         tabBarStickyStackView.snp.makeConstraints { make in
-            make.height.equalTo(Constant.stickyHeight)
+            // make.height.equalTo(Constant.stickyHeight)
             make.width.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom)
         }
