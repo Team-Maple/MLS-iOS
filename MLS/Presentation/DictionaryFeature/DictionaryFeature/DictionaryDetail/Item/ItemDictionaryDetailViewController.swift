@@ -1,69 +1,75 @@
-import UIKit // 퍼스트 파티
-// 모듈
+import UIKit
 import DesignSystem
 import DomainInterface
-// 써드파티
 import ReactorKit
 
-class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
+final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
 
     public typealias Reactor = ItemDictionaryDetailReactor
+
     // MARK: - Components
-    var detailView = ItemDictionaryDetailView()
+    private let detailInfoView = DetailStackInfoView()
+    private let monsterCardView = DetailStackCardView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .item
-        titleText = "아이템 상세정보"
-        inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage2"), backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
+
+        inject(input: DictionaryDetailBaseViewController.Input(
+            image: DesignSystemAsset.image(named: "testImage2"),
+            backgroundColor: type.backgroundColor,
+            name: "뇌전수리검",
+            subText: "Lv10"
+        ))
+
         addViews()
-        // 상세 정보 속 아이템 정보 스택뷰 생성
-        makeDetailDescriptionStackView()
-        // 드롭 몬스터 스택 뷰 생성
-        makeDropMonsterStackView()
         setupConstraints()
+        setUpInfoStackView()
+        setUpCardStackView()
     }
 }
 
-// MARK: - Setup
+// MARK: - Setup Views
 private extension ItemDictionaryDetailViewController {
     func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView.detailInfoStackView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.detailDropMonsterStackView)
+        mainView.secondSectionStackView.addArrangedSubview(detailInfoView)
+        mainView.secondSectionStackView.addArrangedSubview(monsterCardView)
     }
 
     func setupConstraints() {
-        detailView.detailInfoStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+        detailInfoView.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
 
-        detailView.detailDropMonsterStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+        monsterCardView.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
     }
 }
 
+// MARK: - Populate Data
 private extension ItemDictionaryDetailViewController {
-    func makeDetailDescriptionStackView() {
+    func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
-        // 최대한 파라미터로 데이터 전달을 하려했습니다.
-        // 리액터 상태를 직접 전달은 안될 것 같아서
+
         for info in infos {
-            let stackView = detailView.detailDesctiptionItemStackViewSetup()
-            detailView.makeItemDetailDescriptionTextStackView(stackView: stackView, mainText: info.name, subText: info.desc)
+            detailInfoView.addInfo(mainText: info.name, subText: info.desc)
         }
     }
-    // 드롭몬스터 스택 뷰 생성
-    func makeDropMonsterStackView() {
+
+    func setUpCardStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.monsterInfos
 
         for info in infos {
-            // 일단 데이터 모델을 만들기는 했는데 뷰에 어떻게 전달하지 고민해보기
-            detailView.dropMonsterViewSetup()
+            monsterCardView.addMonsterCard(
+                name: info.name,
+                level: info.level,
+                dropRate: "0.001%",
+                image: DesignSystemAsset.image(named: "testImage")!,
+                backgroundColor: .listMonster
+            )
         }
     }
 }
@@ -76,14 +82,14 @@ extension ItemDictionaryDetailViewController {
     }
 
     private func bindUserAction(reactor: Reactor) {
-
+        
     }
 
     private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.type.detailTypes)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] types in
+            .bind(onNext: { [weak self] types in
                 self?.setupMenu(types)
             })
             .disposed(by: disposeBag)

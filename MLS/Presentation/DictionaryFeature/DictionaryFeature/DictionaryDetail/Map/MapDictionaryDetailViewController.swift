@@ -8,20 +8,20 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     public typealias Reactor = MapDictionaryDetailReactor
 
     // MARK: - Componenets
-    var detailView: MapDictionaryDetailView
+    var detailView: DetailStackMapView
 
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .map
         // title을 type 안으로 이동
-        titleText = "맵 상세정보"
+
         inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
         addViews()
         bindImageView()
     }
 
     init(reactor: MapDictionaryDetailReactor, imageUrl: String) {
-        self.detailView = MapDictionaryDetailView(imageUrl: imageUrl)
+        self.detailView = DetailStackMapView(imageUrl: imageUrl)
 
         super.init()
         self.reactor = reactor
@@ -31,9 +31,9 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
     func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView.mapImageView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.monsterStackView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.npcStackView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
     }
 
     func bindImageView() {
