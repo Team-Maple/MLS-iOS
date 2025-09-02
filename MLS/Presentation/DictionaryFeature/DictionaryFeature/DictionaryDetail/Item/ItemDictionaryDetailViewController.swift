@@ -25,22 +25,6 @@ class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, Vi
     }
 }
 
-extension ItemDictionaryDetailViewController {
-    override func didSelectMenuTab(index: Int) {
-        switch index {
-        case 0:
-            detailView.detailInfoStackView.isHidden = false
-            detailView.detailDropMonsterStackView.isHidden = true
-        case 1:
-            detailView.detailInfoStackView.isHidden = true
-            detailView.detailDropMonsterStackView.isHidden = false
-        default:
-            detailView.detailInfoStackView.isHidden = false
-            detailView.detailDropMonsterStackView.isHidden = true
-        }
-    }
-}
-
 // MARK: - Setup
 private extension ItemDictionaryDetailViewController {
     func addViews() {

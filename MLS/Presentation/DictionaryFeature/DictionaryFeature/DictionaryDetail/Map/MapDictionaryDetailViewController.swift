@@ -52,28 +52,6 @@ private extension MapDictionaryDetailViewController {
     }
 }
 
-extension MapDictionaryDetailViewController {
-    // Base로 이동
-    override func didSelectMenuTab(index: Int) {
-        switch index {
-        case 0:
-            mainView.secondSectionStackView.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-
-            detailView.mapImageView.isHidden = false
-            detailView.monsterStackView.isHidden = true
-            detailView.npcStackView.isHidden = true
-        case 1:
-            detailView.mapImageView.isHidden = true
-            detailView.monsterStackView.isHidden = false
-            detailView.npcStackView.isHidden = true
-        default:
-            detailView.mapImageView.isHidden = true
-            detailView.monsterStackView.isHidden = true
-            detailView.npcStackView.isHidden = false
-        }
-    }
-}
-
 // MARK: - Bind
 extension MapDictionaryDetailViewController {
     public func bind(reactor: Reactor) {

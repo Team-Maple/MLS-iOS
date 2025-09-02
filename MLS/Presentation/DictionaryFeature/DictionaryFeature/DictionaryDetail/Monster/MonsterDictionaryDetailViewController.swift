@@ -68,23 +68,6 @@ private extension MonsterDictionaryDetailViewController {
     }
 }
 
-extension MonsterDictionaryDetailViewController {
-    // 베이스 뷰컨의 메뉴 탭 클릭시 발생할 이벤트 오버라이딩
-    override func didSelectMenuTab(index: Int) {
-        // 각 메뉴 탭에 맞는 뷰 추가
-        switch index {
-        case 0: // 상세설명
-           // makeDetailDescriptionTextView()
-            detailView.detailDescriptionStackView.isHidden = false
-            detailView.detailMapStackView.isHidden = true
-        default:
-            // 출현 맵 - 임시 라벨로 대체
-            detailView.detailMapStackView.isHidden = false
-            detailView.detailDescriptionStackView.isHidden = true
-        }
-    }
-}
-
 // MARK: - Bind
 extension MonsterDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
