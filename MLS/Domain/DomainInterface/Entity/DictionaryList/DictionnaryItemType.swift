@@ -12,7 +12,7 @@ public enum DictionaryItemType {
         case .item:
             [.normal, .dropMonster]
         case .monster:
-            [.normal, .appearMap, .dropItem]
+            [.normal, .appearMapWithDropRate, .dropItem]
         case .map:
             [.mapInfo, .appearMonster, .appearNPC]
         case .npc:
@@ -27,6 +27,7 @@ public enum DetailType {
     case normal
     case mapInfo
     case appearMap
+    case appearMapWithDropRate
     case appearMonster
     case appearNPC
     case dropItem
@@ -40,7 +41,7 @@ public enum DetailType {
             return "상세 정보"
         case .mapInfo:
             return "맵 정보"
-        case .appearMap:
+        case .appearMap, .appearMapWithDropRate:
             return "출현 맵"
         case .appearMonster:
             return "출현 몬스터"
@@ -59,7 +60,7 @@ public enum DetailType {
 
     public var sortFilter: [SortType] {
         switch self {
-        case .appearMonster:
+        case .appearMonster, .appearMapWithDropRate:
             [.mostAppear]
         case .dropItem:
             [.mostDrop, .levelASC, .levelDESC]

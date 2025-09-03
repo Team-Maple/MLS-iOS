@@ -103,17 +103,13 @@ public final class CardList: UIView {
     // 드롭률 표시용 라벨 2개
     private let dropTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .cp_s_r
-        label.textColor = .neutral700
-        label.text = "드롭률"
+        label.numberOfLines = 1
         return label
     }()
 
     private let dropValueLabel: UILabel = {
         let label = UILabel()
-        label.font = .btn_m_b
-        label.textColor = .primary700
-        label.text = "0%"
+        label.numberOfLines = 1
         return label
     }()
 
@@ -150,6 +146,7 @@ private extension CardList {
         addSubview(textLabelStackView)
         addSubview(iconButton)
         addSubview(dropInfoStack)
+        addSubview(badge)
     }
 
     func setupConstraints() {
@@ -160,27 +157,25 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
+            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(Constant.cardInset)
             make.centerY.equalToSuperview()
         }
 
         iconButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
         }
         
         badge.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
             make.trailing.equalToSuperview().inset(Constant.cardInset)
         }
 
         dropInfoStack.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(Constant.cardInset)
         }
-
     }
 
     func configureUI() {
@@ -251,9 +246,8 @@ public extension CardList {
         }
     }
 
-    func setDropInfoText(title: String, value: String) {
-        dropTitleLabel.text = title
-        dropValueLabel.text = value
+    func setDropInfoText(title: String, value: String?) {
+        dropTitleLabel.attributedText = .makeStyledString(font: .cp_s_r, text: title, color: .neutral700)
+        dropValueLabel.attributedText = .makeStyledString(font: .sub_m_b, text: value, color: .primary700)
     }
-
 }

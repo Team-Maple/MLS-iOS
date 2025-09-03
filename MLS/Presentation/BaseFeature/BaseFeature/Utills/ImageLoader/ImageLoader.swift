@@ -32,6 +32,19 @@ public final class ImageLoader {
 
     private init() {}
 
+    public func loadImage(stringURL: String?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
+        guard let stringURL,
+              let url = URL(string: stringURL),
+              ["http", "https"].contains(url.scheme?.lowercased() ?? "")
+        else {
+            DispatchQueue.main.async {
+                completion(defaultImage)
+            }
+            return
+        }
+        loadImage(url: url, defaultImage: defaultImage, completion: completion)
+    }
+
     /// URL을 통해 이미지를 로드하고, 실패 시 기본 이미지를 반환하는 메서드
     /// - Parameters:
     ///   - stringURL: 이미지 URL 문자열
@@ -39,11 +52,13 @@ public final class ImageLoader {
     ///   - completion: 로드 완료 후 호출되는 클로저
     public func loadImage(url: URL?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
         loadImage(url: url) { result in
-            switch result {
-            case .success(let image):
-                completion(image)
-            case .failure:
-                completion(defaultImage)
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let image):
+                    completion(image)
+                case .failure:
+                    completion(defaultImage)
+                }
             }
         }
     }
@@ -123,7 +138,8 @@ private extension ImageLoader {
 
             if let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [String: Any],
                let gifProps = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any],
-               let delay = gifProps[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double {
+               let delay = gifProps[kCGImagePropertyGIFUnclampedDelayTime as String] as? Double
+            {
                 duration += delay
             }
         }

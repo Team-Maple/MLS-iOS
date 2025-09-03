@@ -86,7 +86,7 @@ private extension PinchMapView {
 // MARK: - Methods
 extension PinchMapView {
     func setImage(imageUrl: String) {
-        ImageLoader.shared.loadImage(url: URL(string: imageUrl), defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in
+        ImageLoader.shared.loadImage(stringURL: imageUrl, defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in
             self?.imageView.image = image
         }
     }

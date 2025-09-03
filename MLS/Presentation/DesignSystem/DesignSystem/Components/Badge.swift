@@ -84,8 +84,7 @@ private extension Badge {
 
     func setupConstraints() {
         textLabel.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(Constant.contentInsets)
-            make.centerY.equalToSuperview()
+            make.edges.equalToSuperview().inset(Constant.contentInsets)
         }
     }
 
