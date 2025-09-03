@@ -1,7 +1,7 @@
-import UIKit
 import DesignSystem
 import DomainInterface
 import ReactorKit
+import UIKit
 
 final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
 
@@ -82,7 +82,7 @@ extension ItemDictionaryDetailViewController {
     }
 
     private func bindUserAction(reactor: Reactor) {
-        
+
     }
 
     private func bindViewState(reactor: Reactor) {

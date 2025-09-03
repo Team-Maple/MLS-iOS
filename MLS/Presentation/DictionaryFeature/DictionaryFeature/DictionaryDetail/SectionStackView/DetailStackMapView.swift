@@ -19,7 +19,7 @@ final class DetailStackMapView: UIStackView {
         view.clipsToBounds = true
         return view
     }()
-    
+
     init(imageUrl: String) {
         super.init(frame: .zero)
         addViews()
@@ -45,7 +45,7 @@ private extension DetailStackMapView {
             make.size.equalTo(Constant.imageSize)
         }
     }
-    
+
     func configureUI() {
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = .init(top: 20, left: 0, bottom: 0, right: 0)

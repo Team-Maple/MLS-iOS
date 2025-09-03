@@ -15,7 +15,7 @@ final class DetailStackInfoView: UIStackView {
         static let horizontalInset: CGFloat = 10
         static let detailInfoStackViewSpacing: CGFloat = 20
     }
-    
+
     // MARK: - Components
     // 상세정보 스택 뷰 속 설명 글
     private let descriptionLabel: UILabel = {
@@ -25,7 +25,7 @@ final class DetailStackInfoView: UIStackView {
         label.textAlignment = .left
         return label
     }()
-    
+
     // 상세정보 스택 뷰 속 아이템 정보 보여주는 스택뷰(물공 - 2, 판매가 - 1메소)
     private let infoStackView: UIStackView = {
         let stackView = UIStackView()
@@ -36,14 +36,14 @@ final class DetailStackInfoView: UIStackView {
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
     }()
-    
+
     // MARK: - Init
     init() {
         super.init(frame: .zero)
         configureUI()
         addViews()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -55,7 +55,7 @@ private extension DetailStackInfoView {
         addArrangedSubview(descriptionLabel)
         addArrangedSubview(infoStackView)
     }
-    
+
     func configureUI() {
         axis = .vertical
         alignment = .fill
@@ -79,7 +79,7 @@ extension DetailStackInfoView {
         // 내부 패딩값 주기
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.descriptionStackViewInset
-        
+
         let mainLabel = UILabel()
         mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
 
