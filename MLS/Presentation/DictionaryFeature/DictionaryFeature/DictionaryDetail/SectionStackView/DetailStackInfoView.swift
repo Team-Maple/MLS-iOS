@@ -6,7 +6,7 @@ import SnapKit
 
 final class DetailStackInfoView: UIStackView {
     // MARK: - Type
-    enum Constant {
+    private enum Constant {
         static let descriptionCornerRadius: CGFloat = 16
         static let descriptionStackViewInset: UIEdgeInsets = .init(top: 14, left: 16, bottom: 14, right: 16)
         static let detailInfoStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)

@@ -2,9 +2,9 @@ import BaseFeature
 import DesignSystem
 import UIKit
 
-class DetailStackMapView: UIStackView {
+final class DetailStackMapView: UIStackView {
     // MARK: - Type
-    enum Constant {
+    private enum Constant {
         static let mapCornerRadius: CGFloat = 16
         static let imageSize: CGFloat = UIScreen.main.bounds.width - 32
         static let mapLayoutMargin: UIEdgeInsets = .init(top: 20, left: 0, bottom: 0, right: 0)
@@ -35,7 +35,7 @@ class DetailStackMapView: UIStackView {
 }
 
 // MARK: - SetUp
-extension DetailStackMapView {
+private extension DetailStackMapView {
     func addViews() {
         addArrangedSubview(mapImageView)
     }

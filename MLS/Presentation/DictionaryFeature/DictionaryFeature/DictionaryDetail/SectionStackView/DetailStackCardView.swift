@@ -6,7 +6,7 @@ import SnapKit
 
 final class DetailStackCardView: UIStackView {
     // MARK: - Type
-    enum Constant {
+    private enum Constant {
         static let spacing: CGFloat = 12
         static let cardHorizontalInset: CGFloat = 16
         static let filterContainerHeight: CGFloat = 28

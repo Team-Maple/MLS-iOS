@@ -9,7 +9,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     public typealias Reactor = MonsterDictionaryDetailReactor
 
     // MARK: - Componenets
-    var detailView = DetailStackInfoView()
+    private var detailView = DetailStackInfoView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,11 +48,11 @@ extension MonsterDictionaryDetailViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindcUserActions(reactor: Reactor) {
+    private func bindcUserActions(reactor: Reactor) {
 
     }
 
-    func bindViewState(reactor: Reactor) {
+    private func bindViewState(reactor: Reactor) {
 
         reactor.state
             .map(\.type)

@@ -5,14 +5,14 @@ import DesignSystem
 
 final class PinchMapView: UIView {
     // MARK: - Type
-    enum Constant {
+    private enum Constant {
         static let iconInset: CGFloat = 10
         static let navHeight: CGFloat = 44
         static let buttonSize: CGFloat = 44
     }
 
     // MARK: - Components
-    let scrollView: UIScrollView = {
+    public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 4.0
@@ -22,7 +22,7 @@ final class PinchMapView: UIView {
         return scrollView
     }()
 
-    let imageView: UIImageView = {
+    public let imageView: UIImageView = {
         let view = UIImageView()
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFit
@@ -83,6 +83,7 @@ private extension PinchMapView {
     }
 }
 
+// MARK: - Methods
 extension PinchMapView {
     func setImage(imageUrl: String) {
         ImageLoader.shared.loadImage(url: URL(string: imageUrl), defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in

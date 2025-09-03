@@ -8,7 +8,7 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     public typealias Reactor = MapDictionaryDetailReactor
 
     // MARK: - Componenets
-    var detailView: DetailStackMapView
+    private var detailView: DetailStackMapView
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,14 +54,14 @@ private extension MapDictionaryDetailViewController {
 
 // MARK: - Bind
 extension MapDictionaryDetailViewController {
-    public func bind(reactor: Reactor) {
+    func bind(reactor: Reactor) {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
 
-    func bindcUserActions(reactor: Reactor) {}
+    private func bindcUserActions(reactor: Reactor) {}
 
-    func bindViewState(reactor: Reactor) {
+    private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.type)
             .observe(on: MainScheduler.instance)
