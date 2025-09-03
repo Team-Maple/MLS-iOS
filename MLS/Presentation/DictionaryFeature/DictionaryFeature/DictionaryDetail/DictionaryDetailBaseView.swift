@@ -86,7 +86,7 @@ class DictionaryDetailBaseView: UIView {
         let stackView = UIStackView()
         // 수직 스택 뷰
         stackView.axis = .vertical
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         // 아이템 기본 중앙배치
         stackView.alignment = .center
 
@@ -156,7 +156,7 @@ class DictionaryDetailBaseView: UIView {
     public let tabBarStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.spacing = Constant.tabBarSpacing
         stackView.alignment = .leading
@@ -171,7 +171,7 @@ class DictionaryDetailBaseView: UIView {
     public let tabBarStickyStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.spacing = Constant.tabBarSpacing
         stackView.alignment = .bottom
