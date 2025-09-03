@@ -7,7 +7,9 @@ public final class CardList: UIView {
     public enum CardListType {
         case bookmark
         case checkbox
-        case dropInfo // 몬스터 카드일 경우 드롭률
+        case detailStack
+        case detailStackText // 몬스터 카드일 경우 드롭률
+        case detailStackBadge(Badge.BadgeStyle)
 
         var icon: UIImage? {
             switch self {
@@ -15,7 +17,7 @@ public final class CardList: UIView {
                 return .bookmarkBorder
             case .checkbox:
                 return .checkSquare
-            case .dropInfo:
+            case .detailStack, .detailStackText, .detailStackBadge(_):
                 return nil
             }
         }
@@ -26,7 +28,7 @@ public final class CardList: UIView {
                 return .bookmark
             case .checkbox:
                 return .checkSquareFill
-            case .dropInfo:
+            case .detailStack, .detailStackText, .detailStackBadge(_):
                 return nil
             }
         }
@@ -124,6 +126,8 @@ public final class CardList: UIView {
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
+    
+    private let badge = Badge(style: .currentQuest)
 
     public init() {
         super.init(frame: .zero)
@@ -164,6 +168,12 @@ private extension CardList {
             make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
+        }
+        
+        badge.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
+            make.trailing.equalToSuperview().inset(Constant.cardInset)
         }
 
         dropInfoStack.snp.makeConstraints { make in
@@ -221,12 +231,23 @@ public extension CardList {
         selectedIcon = type.selectedIcon ?? UIImage()
 
         switch type {
-        case .dropInfo:
+        case .detailStack:
+            iconButton.isHidden = true
+            dropInfoStack.isHidden = true
+            badge.isHidden = true
+        case .detailStackText:
             iconButton.isHidden = true
             dropInfoStack.isHidden = false
+            badge.isHidden = true
+        case .detailStackBadge(let type):
+            iconButton.isHidden = true
+            dropInfoStack.isHidden = false
+            badge.isHidden = false
+            badge.update(style: type)
         default:
             iconButton.isHidden = false
             dropInfoStack.isHidden = true
+            badge.isHidden = true
         }
     }
 

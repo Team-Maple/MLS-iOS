@@ -72,7 +72,7 @@ extension DetailStackCardView {
     // 드롭 몬스터 뷰 생성
     func addMonsterCard(name: String, level: String, dropRate: String, image: UIImage, backgroundColor: UIColor) {
         let cardView = CardList()
-        cardView.setType(type: .dropInfo)
+        cardView.setType(type: .detailStackText)
         cardView.setImage(image: image, backgroundColor: backgroundColor)
         cardView.mainText = name
         cardView.subText = level
