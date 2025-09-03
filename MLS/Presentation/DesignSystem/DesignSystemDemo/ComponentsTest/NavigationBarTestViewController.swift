@@ -69,27 +69,27 @@ private extension NavigationBarTestViewController {
 
     func setupConstraints() {
         headerView1.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
         headerView2.snp.makeConstraints { make in
             make.top.equalTo(headerView1.snp.bottom).offset(16)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
         headerView3.snp.makeConstraints { make in
             make.top.equalTo(headerView2.snp.bottom).offset(16)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
         headerView4.snp.makeConstraints { make in
             make.top.equalTo(headerView3.snp.bottom).offset(16)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
         headerView5.snp.makeConstraints { make in
             make.top.equalTo(headerView4.snp.bottom).offset(16)
-            make.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 

@@ -74,7 +74,7 @@ private extension DropDownBox {
         inputBox.borderView.addSubview(iconButton)
 
         inputBox.textField.snp.remakeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(16)
+            make.verticalEdges.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(20)
         }
 
@@ -98,7 +98,7 @@ private extension DropDownBox {
         tableView.dataSource = self
 
         tableView.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(inputBox)
+            make.horizontalEdges.equalTo(inputBox)
             tableViewHeightConstraint = make.height.equalTo(0).constraint
         }
     }

@@ -11,6 +11,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
+    private var didSelectInitialTab = false
+
     // MARK: - Components
     var mainView = DictionaryDetailBaseView()
 
@@ -25,7 +27,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         }
     }
 
-    public override init() {
+    override public init() {
         super.init()
     }
 
@@ -42,6 +44,16 @@ class DictionaryDetailBaseViewController: BaseViewController {
         bindActions() // 액션 바인딩
         mainView.scrollView.delegate = self
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // 처음 진입 및 뷰가 추가 되었는지 확인
+        if !didSelectInitialTab, !mainView.secondSectionStackView.arrangedSubviews.isEmpty {
+            didSelectMenuTab(index: 0)
+            didSelectInitialTab = true
+        }
+    }
 }
 
 // MARK: - SetUp
@@ -56,15 +68,13 @@ private extension DictionaryDetailBaseViewController {
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
-
 }
 
 /// 스티키 헤더 만들기 위한 델리게이트
 extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
-
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 탭바의 frame을 self.view 기준으로 변환
-        let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: self.view)
+        let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: view)
 
         if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top { // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
             mainView.tabBarStickyStackView.isHidden = false
@@ -74,7 +84,7 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
             mainView.stickyTabBarDividerView.isHidden = true
         }
 
-        let nameY = mainView.nameLabel.convert(mainView.nameLabel.bounds, to: self.view)
+        let nameY = mainView.nameLabel.convert(mainView.nameLabel.bounds, to: view)
 
         if nameY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset {
             // 메랜에서 이름이 가장 긴 몬스터의 경우 '다크 주니어 예티와 페페'로 알고 있는데, 따로 텍스트 길이에 대한 제약사항을 안줘도 다크 주니어 예티와 페페가 잘 표시가 됨. 제약사항 필요한가?
@@ -148,7 +158,6 @@ extension DictionaryDetailBaseViewController {
         var firstStickyIndexButton: UIButton?
         // 버튼 configuration 설정 -> inset 설정
         for (index, menu) in menus.enumerated() {
-
             let button = mainView.createMenuButton(title: menu.description, tag: index)
             button.rx.tap.bind { [weak self] _ in
                 self?.menuTabTapped(button)
@@ -183,6 +192,7 @@ extension DictionaryDetailBaseViewController {
             menuTabTapped(firstStickyIndexButton)
         }
     }
+
     private func menuTabTapped(_ sender: UIButton) {
         let selectedTag = sender.tag
 
@@ -193,6 +203,7 @@ extension DictionaryDetailBaseViewController {
         // 자식 디테일 뷰컨에서 오버라이드 해서 사용하기?
         didSelectMenuTab(index: sender.tag)
     }
+
     // 버튼 상태 변경 함수
     private func updateButtonStates(in stackView: UIStackView, selectedTag: Int) {
         for case let button as UIButton in stackView.arrangedSubviews {
@@ -211,9 +222,10 @@ extension DictionaryDetailBaseViewController {
         // TODO: 북마크 버튼 누르면 이벤트 발생
     }
 
-    // 자식 디테일 뷰에서 오버라이딩 하기
-    @objc func didSelectMenuTab(index: Int) {
-
+    func didSelectMenuTab(index: Int) {
+        for (i, subview) in mainView.secondSectionStackView.arrangedSubviews.enumerated() {
+            subview.isHidden = (i != index)
+        }
     }
 }
 
@@ -231,6 +243,7 @@ private extension DictionaryDetailBaseViewController {
             }
             .disposed(by: disposeBag)
     }
+
     // 이부분은 왜 inject로 넣어야 하나??
     func bindBookmarkButton() {
         mainView.bookmarkButton.rx.tap

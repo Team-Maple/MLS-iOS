@@ -86,7 +86,7 @@ class DictionaryDetailBaseView: UIView {
         let stackView = UIStackView()
         // 수직 스택 뷰
         stackView.axis = .vertical
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         // 아이템 기본 중앙배치
         stackView.alignment = .center
 
@@ -156,7 +156,7 @@ class DictionaryDetailBaseView: UIView {
     public let tabBarStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.spacing = Constant.tabBarSpacing
         stackView.alignment = .leading
@@ -171,7 +171,7 @@ class DictionaryDetailBaseView: UIView {
     public let tabBarStickyStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.backgroundColor = .white
+        stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.spacing = Constant.tabBarSpacing
         stackView.alignment = .bottom
@@ -256,7 +256,7 @@ private extension DictionaryDetailBaseView {
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.buttonSize)
         }
         backButton.snp.makeConstraints { make in
@@ -289,7 +289,7 @@ private extension DictionaryDetailBaseView {
         stackView.snp.makeConstraints { make in
             make.top.equalTo(scrollView.snp.top)
             make.centerX.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
 
         imageContentView.snp.makeConstraints { make in
@@ -337,14 +337,14 @@ private extension DictionaryDetailBaseView {
         tabBarDividerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.dividerHeight)
             make.top.equalTo(tabBarStackView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
 
         // centerX와 horizontal을 각각 잡은이유
         secondSectionStackView.snp.makeConstraints { make in
             make.top.equalTo(tabBarStackView.snp.bottom)
             make.centerX.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(scrollView.snp.bottom)
         }
 
@@ -356,7 +356,7 @@ private extension DictionaryDetailBaseView {
 
         stickyTabBarDividerView.snp.makeConstraints { make in
             make.top.equalTo(tabBarStickyStackView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.dividerHeight)
 
         }

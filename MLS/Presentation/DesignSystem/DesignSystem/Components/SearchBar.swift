@@ -90,7 +90,7 @@ private extension SearchBar {
 
     func setupConstraints() {
         contentStackView.snp.makeConstraints { make in
-            make.top.bottom.leading.equalToSuperview()
+            make.verticalEdges.leading.equalToSuperview()
             make.trailing.equalToSuperview().inset(10)
         }
         lineView.snp.makeConstraints { make in

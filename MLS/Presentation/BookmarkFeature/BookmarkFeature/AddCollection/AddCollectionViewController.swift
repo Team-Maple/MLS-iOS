@@ -66,7 +66,7 @@ private extension AddCollectionViewController {
 
         addCollectionContainer.clipsToBounds = true
         addCollectionContainer.layer.cornerRadius = 16
-        addCollectionContainer.backgroundColor = .white
+        addCollectionContainer.backgroundColor = .whiteMLS
 
         addCollectionContainer.isHidden = true
         mainView.isHidden = false

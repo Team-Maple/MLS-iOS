@@ -106,7 +106,7 @@ public class FilterSlider: UIControl {
         trackView.layer.cornerRadius = Constant.trackCornerRadius
         addSubview(trackView)
         trackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.centerY.equalToSuperview()
             make.height.equalTo(Constant.trackHeight)
         }

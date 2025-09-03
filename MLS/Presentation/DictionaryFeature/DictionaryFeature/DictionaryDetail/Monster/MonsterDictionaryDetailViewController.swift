@@ -9,7 +9,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     public typealias Reactor = MonsterDictionaryDetailReactor
 
     // MARK: - Componenets
-    var detailView = MonsterDictionaryDetailView()
+    private var detailView = DetailStackInfoView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,11 +17,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
         type = .monster
         inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: type.backgroundColor, name: "다크 주니어 예티와 페페", subText: "Lv21"))
         addViews()
-        setupConstraints()
-        // 상세 설명 뷰 만들기
-        makeDetailDescriptionTextView()
-        // 출현 맵 뷰 만들기
-        detailView.makeSpawnMapView()
+        setUpInfoStackView()
     }
 }
 
@@ -29,58 +25,18 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
 private extension MonsterDictionaryDetailViewController {
     // 각 타입별 세그먼트 뷰 추가
     func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView.detailDescriptionStackView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.detailMapStackView)
-    }
-    // 이것도 분리 가능할 듯
-    // 아이템 쪽 작업하면서 생각해보기
-    func setupConstraints() {
-        detailView.detailDescriptionStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewTopMargin)
-            make.width.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewHorizontalInset)
-        }
-
-        detailView.detailMapStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewTopMargin)
-            make.width.equalToSuperview().inset(MonsterDictionaryDetailView.Constant.descriptionStackViewHorizontalInset)
-        }
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
     }
 }
 
+// MARK: - Populate Data
 private extension MonsterDictionaryDetailViewController {
-    // 상세 설명에 맞는 텍스트 스택 뷰 생성 - (이름            설명)
-    func makeDetailDescriptionTextView() {
+    func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
 
         for info in infos {
-            let stackView = detailView.detailDescriptionTextViewSetup()
-            // 동적 data에 의해 만들어지는 View -> 뷰컨에서 처리?
-            let mainLabel = UILabel()
-            mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: info.name)
-
-            let subLabel = UILabel()
-            subLabel.attributedText = .makeStyledString(font: .b_s_r, text: info.desc)
-
-            stackView.addArrangedSubview(mainLabel)
-            stackView.addArrangedSubview(subLabel)
-        }
-    }
-}
-
-extension MonsterDictionaryDetailViewController {
-    // 베이스 뷰컨의 메뉴 탭 클릭시 발생할 이벤트 오버라이딩
-    override func didSelectMenuTab(index: Int) {
-        // 각 메뉴 탭에 맞는 뷰 추가
-        switch index {
-        case 0: // 상세설명
-           // makeDetailDescriptionTextView()
-            detailView.detailDescriptionStackView.isHidden = false
-            detailView.detailMapStackView.isHidden = true
-        default:
-            // 출현 맵 - 임시 라벨로 대체
-            detailView.detailMapStackView.isHidden = false
-            detailView.detailDescriptionStackView.isHidden = true
+            detailView.addInfo(mainText: info.name, subText: info.desc)
         }
     }
 }
@@ -92,11 +48,11 @@ extension MonsterDictionaryDetailViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindcUserActions(reactor: Reactor) {
+    private func bindcUserActions(reactor: Reactor) {
 
     }
 
-    func bindViewState(reactor: Reactor) {
+    private func bindViewState(reactor: Reactor) {
 
         reactor.state
             .map(\.type)

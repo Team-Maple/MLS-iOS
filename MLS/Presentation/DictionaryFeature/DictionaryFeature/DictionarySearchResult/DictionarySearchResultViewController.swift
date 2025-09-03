@@ -61,7 +61,7 @@ private extension DictionarySearchResultViewController {
 
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview()
         }
     }

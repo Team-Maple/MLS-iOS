@@ -10,7 +10,7 @@ class PinchMapViewController: BaseViewController {
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
-    var mainView = PinchMapView()
+    private var mainView = PinchMapView()
 
     public init(imageUrl: String) {
         super.init()

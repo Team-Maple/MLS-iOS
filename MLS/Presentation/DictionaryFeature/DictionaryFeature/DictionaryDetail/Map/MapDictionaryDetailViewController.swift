@@ -8,20 +8,20 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     public typealias Reactor = MapDictionaryDetailReactor
 
     // MARK: - Componenets
-    var detailView: MapDictionaryDetailView
+    private var detailView: DetailStackMapView
 
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .map
         // title을 type 안으로 이동
-        titleText = "맵 상세정보"
+
         inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
         addViews()
         bindImageView()
     }
 
     init(reactor: MapDictionaryDetailReactor, imageUrl: String) {
-        self.detailView = MapDictionaryDetailView(imageUrl: imageUrl)
+        self.detailView = DetailStackMapView(imageUrl: imageUrl)
 
         super.init()
         self.reactor = reactor
@@ -31,9 +31,9 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
     func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView.mapImageView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.monsterStackView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView.npcStackView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
+        mainView.secondSectionStackView.addArrangedSubview(detailView)
     }
 
     func bindImageView() {
@@ -52,38 +52,16 @@ private extension MapDictionaryDetailViewController {
     }
 }
 
-extension MapDictionaryDetailViewController {
-    // Base로 이동
-    override func didSelectMenuTab(index: Int) {
-        switch index {
-        case 0:
-            mainView.secondSectionStackView.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-
-            detailView.mapImageView.isHidden = false
-            detailView.monsterStackView.isHidden = true
-            detailView.npcStackView.isHidden = true
-        case 1:
-            detailView.mapImageView.isHidden = true
-            detailView.monsterStackView.isHidden = false
-            detailView.npcStackView.isHidden = true
-        default:
-            detailView.mapImageView.isHidden = true
-            detailView.monsterStackView.isHidden = true
-            detailView.npcStackView.isHidden = false
-        }
-    }
-}
-
 // MARK: - Bind
 extension MapDictionaryDetailViewController {
-    public func bind(reactor: Reactor) {
+    func bind(reactor: Reactor) {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
 
-    func bindcUserActions(reactor: Reactor) {}
+    private func bindcUserActions(reactor: Reactor) {}
 
-    func bindViewState(reactor: Reactor) {
+    private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.type)
             .observe(on: MainScheduler.instance)

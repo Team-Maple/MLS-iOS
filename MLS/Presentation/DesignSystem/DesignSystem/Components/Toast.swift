@@ -54,6 +54,6 @@ private extension Toast {
     func configureUI(message: String?) {
         layer.cornerRadius = Constant.cornerRadius
         clipsToBounds = true
-        label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .white)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .whiteMLS)
     }
 }
