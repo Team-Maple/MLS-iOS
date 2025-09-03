@@ -95,27 +95,27 @@ private extension TagChipTestViewController {
 
         typeSegmentControl.snp.makeConstraints { make in
             make.top.equalTo(normalTagChip.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
 
         normalTextLabel.snp.makeConstraints { make in
             make.top.equalTo(typeSegmentControl.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
 
         normalTextField.snp.makeConstraints { make in
             make.top.equalTo(normalTextLabel.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
 
         searchTextLabel.snp.makeConstraints { make in
             make.top.equalTo(normalTextField.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
 
         searchTextField.snp.makeConstraints { make in
             make.top.equalTo(searchTextLabel.snp.bottom).offset(30)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.horizontalEdges.equalToSuperview().inset(16)
         }
     }
 

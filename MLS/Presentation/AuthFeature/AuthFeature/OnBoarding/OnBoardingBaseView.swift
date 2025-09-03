@@ -34,7 +34,7 @@ private extension OnBoardingBaseView {
 
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
         }
     }
 

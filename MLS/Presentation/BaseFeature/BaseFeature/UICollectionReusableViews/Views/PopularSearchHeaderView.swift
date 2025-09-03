@@ -66,12 +66,12 @@ public extension PopularSearchHeaderView {
         if hasRecent {
             titleLabel.snp.remakeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topInset)
-                make.leading.trailing.equalToSuperview()
+                make.horizontalEdges.equalToSuperview()
             }
         } else {
             titleLabel.snp.remakeConstraints { make in
                 make.top.equalToSuperview()
-                make.leading.trailing.equalToSuperview()
+                make.horizontalEdges.equalToSuperview()
             }
         }
     }

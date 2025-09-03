@@ -204,7 +204,7 @@ private extension CheckBoxButton {
         }
 
         buttonTitleLabel.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+            make.leading.verticalEdges.equalToSuperview()
             make.centerY.equalToSuperview()
         }
 

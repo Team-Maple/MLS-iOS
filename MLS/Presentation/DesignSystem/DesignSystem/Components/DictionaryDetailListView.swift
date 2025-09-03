@@ -69,7 +69,7 @@ private extension DictionaryDetailListView {
         }
 
         underLine.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
+            make.horizontalEdges.bottom.equalToSuperview()
             make.height.equalTo(1)
         }
     }
@@ -82,7 +82,7 @@ private extension DictionaryDetailListView {
         button.addSubview(icon)
 
         label.snp.makeConstraints { make in
-            make.leading.top.bottom.equalToSuperview()
+            make.leading.verticalEdges.equalToSuperview()
         }
 
         icon.snp.makeConstraints { make in

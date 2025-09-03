@@ -42,12 +42,12 @@ private extension BottomTabBarController {
 
     func setupConstraints() {
         divider.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(customTabBar.snp.top)
         }
 
         customTabBar.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.horizontalEdges.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
     }

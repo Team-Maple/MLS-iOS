@@ -93,12 +93,12 @@ extension DetailStackInfoView {
         infoStackView.addArrangedSubview(dividerView)
 
         stackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.height)
         }
 
         dividerView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(Constant.horizontalInset)
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.dividerHeight)
         }
     }

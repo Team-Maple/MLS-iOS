@@ -94,7 +94,7 @@ private extension CollectionList {
     func setupConstraints() {
         imageGridView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(Constant.contentInset)
-            make.top.bottom.equalToSuperview().inset(Constant.contentInset)
+            make.verticalEdges.equalToSuperview().inset(Constant.contentInset)
             make.width.height.equalTo((Constant.imageSize * 2) + Constant.imageSpacing)
         }
 

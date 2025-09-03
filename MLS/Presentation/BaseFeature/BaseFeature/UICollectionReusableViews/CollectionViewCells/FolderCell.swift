@@ -95,7 +95,7 @@ private extension FolderCell {
 
         divider.snp.makeConstraints { make in
             make.height.equalTo(1)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 

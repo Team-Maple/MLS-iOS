@@ -115,7 +115,7 @@ private extension TermsAgreementView {
 
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
         }
         logoImageView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.imageTopSpacing)
