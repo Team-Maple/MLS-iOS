@@ -17,7 +17,7 @@ public final class CardList: UIView {
                 return .bookmarkBorder
             case .checkbox:
                 return .checkSquare
-            case .detailStack, .detailStackText, .detailStackBadge(_):
+            case .detailStack, .detailStackText, .detailStackBadge:
                 return nil
             }
         }
@@ -28,7 +28,7 @@ public final class CardList: UIView {
                 return .bookmark
             case .checkbox:
                 return .checkSquareFill
-            case .detailStack, .detailStackText, .detailStackBadge(_):
+            case .detailStack, .detailStackText, .detailStackBadge:
                 return nil
             }
         }
@@ -122,7 +122,7 @@ public final class CardList: UIView {
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
-    
+
     private let badge = Badge(style: .currentQuest)
 
     public init() {
@@ -166,7 +166,7 @@ private extension CardList {
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         badge.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(Constant.cardInset)
