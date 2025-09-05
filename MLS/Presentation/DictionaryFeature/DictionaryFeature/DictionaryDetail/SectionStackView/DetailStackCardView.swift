@@ -9,7 +9,8 @@ import SnapKit
 final class DetailStackCardView: UIStackView {
     // MARK: - Type
     private enum Constant {
-        static let spacing: CGFloat = 12
+        static let spacing: CGFloat = 20
+        static let filterSpacing: CGFloat = 12
         static let cardHorizontalInset: CGFloat = 16
         static let filterContainerHeight: CGFloat = 28
         static let filterContainerTopMargin: CGFloat = 12
@@ -26,6 +27,8 @@ final class DetailStackCardView: UIStackView {
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
+    
+    let spacer = UIView()
 
     // MARK: - Init
     init() {
@@ -46,6 +49,7 @@ private extension DetailStackCardView {
     func addViews() {
         addArrangedSubview(filterContainerView)
         filterContainerView.addSubview(filterButton)
+        addArrangedSubview(spacer)
     }
 
     func setUpConstraints() {
@@ -59,13 +63,16 @@ private extension DetailStackCardView {
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(Constant.filterButtonTrailing)
         }
+        
+        spacer.snp.makeConstraints { make in
+            make.height.equalTo(Constant.filterSpacing)
+        }
     }
 
     func configureUI() {
         axis = .vertical
         alignment = .fill
         distribution = .fill
-        spacing = Constant.spacing
     }
 }
 
@@ -100,6 +107,9 @@ extension DetailStackCardView {
     }
 
     func inject(input: Input) {
+        // type별 필터 유무
+        setFilter(isHidden: input.type.sortFilter.isEmpty)
+        
         let cardView = CardList()
 
         addArrangedSubview(cardView)
@@ -138,22 +148,14 @@ extension DetailStackCardView {
             break
         }
     }
-
-//    // 드롭 몬스터 뷰 생성
-//    func addMonsterCard(name: String, level: String, dropRate: String, image: UIImage, backgroundColor: UIColor) {
-//        let cardView = CardList()
-//        cardView.setType(type: .detailStackText)
-//        cardView.setImage(image: image, backgroundColor: backgroundColor)
-//        cardView.mainText = name
-//        cardView.subText = level
-//        cardView.setDropInfoText(title: "드롭률", value: dropRate)
-//
-//        addArrangedSubview(cardView)
-//
-//        cardView.snp.makeConstraints { make in
-//            make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
-//        }
-//    }
+    
+    func setFilter(isHidden: Bool) {
+        filterContainerView.isHidden = isHidden
+        
+        spacer.snp.remakeConstraints { make in
+            make.height.equalTo(isHidden ? Constant.spacing : Constant.filterSpacing)
+        }
+    }
 }
 
 extension DetailType {

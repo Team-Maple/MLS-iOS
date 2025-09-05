@@ -62,7 +62,7 @@ public enum DetailType {
         switch self {
         case .appearMonster, .appearMapWithDropRate:
             [.mostAppear]
-        case .dropItem:
+        case .dropItem, .dropMonster:
             [.mostDrop, .levelASC, .levelDESC]
         case .quest:
             [.levelLowest, .levelHighest]
@@ -70,4 +70,6 @@ public enum DetailType {
             []
         }
     }
+    
+    
 }
