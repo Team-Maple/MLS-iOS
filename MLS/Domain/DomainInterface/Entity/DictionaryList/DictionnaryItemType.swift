@@ -21,7 +21,7 @@ public enum DictionaryItemType {
             [.normal, .linkedQuest]
         }
     }
-    
+
     public var detailTitle: String {
         switch self {
         case .item:
