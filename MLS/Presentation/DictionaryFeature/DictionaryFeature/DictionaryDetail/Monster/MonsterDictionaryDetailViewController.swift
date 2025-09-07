@@ -39,7 +39,7 @@ private extension MonsterDictionaryDetailViewController {
             detailView.addInfo(mainText: info.name, subText: info.desc)
         }
     }
-    
+
     func setupCardStackView() {
         // 드롭아이템
         dropItemView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "뇌전수리검", subText: "Lv.21", additionalText: "0.001%"))

@@ -11,7 +11,6 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     private var detailView: DetailStackMapView
     private var appearMapView = DetailStackMapView(imageUrl: "")
     private var dropItemView = DetailStackCardView()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +40,7 @@ private extension MapDictionaryDetailViewController {
         // 드롭 아이템
         dropItemView.inject(input: DetailStackCardView.Input(type: .dropItemWithText, imageUrl: "testImage", mainText: "일비표창", subText: "Lv.10", additionalText: "0.001%"))
     }
-    
+
     func bindImageView() {
         let tapGesture = UITapGestureRecognizer()
         detailView.mapImageView.isUserInteractionEnabled = true

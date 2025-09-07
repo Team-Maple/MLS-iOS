@@ -401,7 +401,7 @@ extension DictionaryDetailBaseView {
             make.height.equalTo(DictionaryDetailBaseView.Constant.badgeHeight)
         }
     }
-    
+
     func setTabView(index: Int, contentViews: [UIView]) {
         // 기존 뷰 제거
         for view in secondSectionStackView.arrangedSubviews {
@@ -411,13 +411,13 @@ extension DictionaryDetailBaseView {
         // 새 뷰 추가
         let newView = contentViews[index]
         secondSectionStackView.addArrangedSubview(newView)
-        
+
         // constraint 유지
         newView.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
     }
-    
+
     func setupSpacerView() {
         let spacerView = UIView()
         let stickySpacerView = UIView()

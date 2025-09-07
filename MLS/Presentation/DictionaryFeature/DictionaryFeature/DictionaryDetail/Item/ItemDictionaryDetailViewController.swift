@@ -35,7 +35,7 @@ private extension ItemDictionaryDetailViewController {
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
-        
+
         for info in infos {
             detailInfoView.addInfo(mainText: info.name, subText: info.desc)
         }

@@ -12,7 +12,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     public var disposeBag = DisposeBag()
 
     private var didSelectInitialTab = false
-    
+
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
     public var contentViews: [UIView] = []
 
@@ -221,16 +221,16 @@ extension DictionaryDetailBaseViewController {
     func updateBookmarkButton(isBookmarked: Bool) {
         // TODO: 북마크 버튼 누르면 이벤트 발생
     }
-    
+
     func didSelectMenuTab(index: Int) {
         // 인덱스 유효성 검사
         guard index < contentViews.count else { return }
-        
+
         // 현재 뷰가 같다면 변경 안함
         if currentTabIndex == index { return }
         // 각 탭에 맞는 뷰 설정
         mainView.setTabView(index: index, contentViews: contentViews)
-        
+
         currentTabIndex = index
     }
 }
