@@ -378,8 +378,7 @@ extension DictionaryDetailBaseView {
     }
     // 메뉴 탭바 버튼 생성하기
     func createMenuButton(title: String, tag: Int) -> UIButton {
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = Constant.menuTabBarButtonInset
+        var config = setupConfig()
 
         let button = UIButton(configuration: config)
         button.setAttributedTitle(.makeStyledString(font: .b_m_r, text: title), for: .normal)
@@ -417,5 +416,14 @@ extension DictionaryDetailBaseView {
         newView.snp.makeConstraints { make in
             make.width.equalToSuperview()
         }
+    }
+    
+    func setupSpacerView() {
+        let spacerView = UIView()
+        let stickySpacerView = UIView()
+        spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        stickySpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        tabBarStackView.addArrangedSubview(spacerView)
+        tabBarStickyStackView.addArrangedSubview(stickySpacerView)
     }
 }

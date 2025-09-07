@@ -20,7 +20,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     private var currentTabIndex: Int?
 
     // MARK: - Components
-    var mainView = DictionaryDetailBaseView()
+    private var mainView = DictionaryDetailBaseView()
 
     // 타입설정
     public var type: DictionaryItemType = .monster
@@ -184,14 +184,8 @@ extension DictionaryDetailBaseViewController {
                 firstStickyIndexButton = button
             }
 
-            let spacerView = UIView() // 왼쪽 정렬을 위한 Spacer 추가
-
-            let stickySpacerView = UIView()
-            spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-            stickySpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-            mainView.tabBarStackView.addArrangedSubview(spacerView)
-            mainView.tabBarStickyStackView.addArrangedSubview(stickySpacerView)
         }
+        mainView.setupSpacerView()
         // 화면에 버튼 다 생성 한 이후에 첫번째 버튼 클릭 이벤트 유발
         if let firstIndexButton = firstIndexButton, let firstStickyIndexButton = firstStickyIndexButton {
             menuTabTapped(firstIndexButton)

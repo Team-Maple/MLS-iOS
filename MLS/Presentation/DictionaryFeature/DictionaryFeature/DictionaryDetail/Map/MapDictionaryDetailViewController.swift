@@ -9,14 +9,17 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
     // MARK: - Componenets
     private var detailView: DetailStackMapView
+    private var appearMapView = DetailStackMapView(imageUrl: "")
+    private var dropItemView = DetailStackCardView()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .map
-        // title을 type 안으로 이동
-
-        inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
-        addViews()
+        titleText = "맵 상세정보"
+        contentViews = [detailView, appearMapView, dropItemView]
+        setupMainInfo()
+        setupCardStacckView()
         bindImageView()
     }
 
@@ -30,12 +33,15 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
-    func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView)
-        mainView.secondSectionStackView.addArrangedSubview(detailView)
+    func setupMainInfo() {
+        // 상세정보(메인?)
+        self.inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
     }
-
+    func setupCardStacckView() {
+        // 드롭 아이템
+        dropItemView.inject(input: DetailStackCardView.Input(type: .dropItemWithText, imageUrl: "testImage", mainText: "일비표창", subText: "Lv.10", additionalText: "0.001%"))
+    }
+    
     func bindImageView() {
         let tapGesture = UITapGestureRecognizer()
         detailView.mapImageView.isUserInteractionEnabled = true

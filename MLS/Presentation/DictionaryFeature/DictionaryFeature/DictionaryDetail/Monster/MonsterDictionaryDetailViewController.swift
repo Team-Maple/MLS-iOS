@@ -19,6 +19,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
         // 상세정보 설명란
         detailView.descriptionLabel.text = ""
         contentViews = [detailView, appearMapView, dropItemView]
+        setupMainInfo()
         setUpInfoStackView()
         setupCardStackView()
     }
@@ -26,6 +27,10 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
 
 // MARK: - Populate Data
 private extension MonsterDictionaryDetailViewController {
+    func setupMainInfo() {
+        // 상세정보
+        self.inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: type.backgroundColor, name: "다크 주니어 예티와 페페", subText: "Lv21"))
+    }
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
@@ -36,8 +41,6 @@ private extension MonsterDictionaryDetailViewController {
     }
     
     func setupCardStackView() {
-        // 상세정보
-        self.inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: type.backgroundColor, name: "다크 주니어 예티와 페페", subText: "Lv21"))
         // 드롭아이템
         dropItemView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "뇌전수리검", subText: "Lv.21", additionalText: "0.001%"))
     }
