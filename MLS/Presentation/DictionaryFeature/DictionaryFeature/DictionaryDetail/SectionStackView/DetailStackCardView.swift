@@ -127,10 +127,10 @@ extension DetailStackCardView {
         cardView.subText = input.subText
 
         switch input.type {
-        case .dropItem, .dropMonster:
+        case .dropItemWithText, .dropMonsterWithText:
             cardView.setType(type: .detailStackText)
             cardView.setDropInfoText(title: "드롭률", value: input.additionalText)
-        case .appearMonster, .appearMapWithDropRate:
+        case .appearMonsterWithText, .appearMapWithText:
             cardView.setType(type: .detailStackText)
             cardView.setDropInfoText(title: "출현수", value: input.additionalText)
         case .appearMap, .appearNPC, .quest:
@@ -161,13 +161,13 @@ extension DetailStackCardView {
 extension DetailType {
     var backgroundColor: UIColor {
         switch self {
-        case .appearMap, .appearMapWithDropRate:
+        case .appearMap, .appearMapWithText:
             .listMap
-        case .appearMonster, .dropMonster:
+        case .appearMonsterWithText, .dropMonsterWithText:
             .listMonster
         case .appearNPC:
             .listNPC
-        case .dropItem:
+        case .dropItemWithText:
             .listItem
         case .linkedQuest, .quest:
             .listQuest

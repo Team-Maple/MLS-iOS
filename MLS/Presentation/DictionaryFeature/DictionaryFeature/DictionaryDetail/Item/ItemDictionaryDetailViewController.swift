@@ -59,9 +59,9 @@ private extension ItemDictionaryDetailViewController {
 
     func setUpCardStackView() {
         // 드롭 몬스터
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonster, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
         // 출현맵 - 몬스터
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMapWithDropRate, imageUrl: "imageUrl", mainText: "사건의 지평선", subText: "카테고리", additionalText: "9마리"))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMapWithText, imageUrl: "imageUrl", mainText: "사건의 지평선", subText: "카테고리", additionalText: "9마리"))
         // 연계 퀘스트
         monsterCardView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "iamgeUrl", mainText: "퀘스트이름", subText: "수락 Lv. 21", questIndex: 0))
         monsterCardView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "iamgeUrl", mainText: "퀘스트이름", subText: "수락 Lv. 21", questIndex: 1))
@@ -73,9 +73,9 @@ private extension ItemDictionaryDetailViewController {
         // 퀘스트
         monsterCardView.inject(input: DetailStackCardView.Input(type: .quest, imageUrl: "imageUrl", mainText: "퀘스트 이름", subText: "수락 Lv. 21"))
         // 출현 몬스터
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMonster, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "9마리"))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "9마리"))
         // 드롭 아이템
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropItem, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropItemWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
     }
 }
 
