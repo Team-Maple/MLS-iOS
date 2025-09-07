@@ -10,22 +10,17 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
 
     // MARK: - Componenets
     private var detailView = DetailStackInfoView()
+    private var appearMapView = DetailStackMapView(imageUrl: "")
+    private var dropItemView = DetailStackCardView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: - 리액터로 옮겨야 할 것들 많음.
         type = .monster
-        inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: type.backgroundColor, name: "다크 주니어 예티와 페페", subText: "Lv21"))
-        addViews()
+        // 상세정보 설명란
+        detailView.descriptionLabel.text = ""
+        contentViews = [detailView, appearMapView, dropItemView]
         setUpInfoStackView()
-    }
-}
-
-// MARK: - SetUp
-private extension MonsterDictionaryDetailViewController {
-    // 각 타입별 세그먼트 뷰 추가
-    func addViews() {
-        mainView.secondSectionStackView.addArrangedSubview(detailView)
+        setupCardStackView()
     }
 }
 
@@ -38,6 +33,13 @@ private extension MonsterDictionaryDetailViewController {
         for info in infos {
             detailView.addInfo(mainText: info.name, subText: info.desc)
         }
+    }
+    
+    func setupCardStackView() {
+        // 상세정보
+        self.inject(input: DictionaryDetailBaseViewController.Input(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: type.backgroundColor, name: "다크 주니어 예티와 페페", subText: "Lv21"))
+        // 드롭아이템
+        dropItemView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "뇌전수리검", subText: "Lv.21", additionalText: "0.001%"))
     }
 }
 

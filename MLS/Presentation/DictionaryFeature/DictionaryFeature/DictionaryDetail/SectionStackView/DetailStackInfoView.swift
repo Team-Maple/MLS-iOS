@@ -18,7 +18,7 @@ final class DetailStackInfoView: UIStackView {
 
     // MARK: - Components
     // 상세정보 스택 뷰 속 설명 글
-    private let descriptionLabel: UILabel = {
+    var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.attributedText = .makeStyledString(font: .b_s_r, text: "강철로 만든 수리검이다. 여러개가 들어있으며 모두 사용했다면 다시 충전해야 한다.강철로 만든 수리검이다. 여러개가 들어있으며 모두 사용했다면 다시 충전해야 한다.강철로 만든 수리검이다. 여러개가 들어있으며 모두 사용했다면 다시 충전해야 한다.", color: .neutral700)

@@ -12,6 +12,12 @@ class DictionaryDetailBaseViewController: BaseViewController {
     public var disposeBag = DisposeBag()
 
     private var didSelectInitialTab = false
+    
+    /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
+    public var contentViews: [UIView] = []
+
+    /// 현재 보여지고 있는 뷰의 인덱스
+    private var currentTabIndex: Int?
 
     // MARK: - Components
     var mainView = DictionaryDetailBaseView()
@@ -49,7 +55,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         super.viewDidLayoutSubviews()
 
         // 처음 진입 및 뷰가 추가 되었는지 확인
-        if !didSelectInitialTab, !mainView.secondSectionStackView.arrangedSubviews.isEmpty {
+        if !didSelectInitialTab {
             didSelectMenuTab(index: 0)
             didSelectInitialTab = true
         }
@@ -221,11 +227,17 @@ extension DictionaryDetailBaseViewController {
     func updateBookmarkButton(isBookmarked: Bool) {
         // TODO: 북마크 버튼 누르면 이벤트 발생
     }
-
+    
     func didSelectMenuTab(index: Int) {
-        for (i, subview) in mainView.secondSectionStackView.arrangedSubviews.enumerated() {
-            subview.isHidden = (i != index)
-        }
+        // 인덱스 유효성 검사
+        guard index < contentViews.count else { return }
+        
+        // 현재 뷰가 같다면 변경 안함
+        if currentTabIndex == index { return }
+        // 각 탭에 맞는 뷰 설정
+        mainView.setTabView(index: index, contentViews: contentViews)
+        
+        currentTabIndex = index
     }
 }
 
