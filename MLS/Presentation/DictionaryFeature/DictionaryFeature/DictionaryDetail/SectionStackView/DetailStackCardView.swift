@@ -27,7 +27,7 @@ final class DetailStackCardView: UIStackView {
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
-    
+
     let spacer = UIView()
 
     // MARK: - Init
@@ -63,7 +63,7 @@ private extension DetailStackCardView {
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(Constant.filterButtonTrailing)
         }
-        
+
         spacer.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterSpacing)
         }
@@ -83,12 +83,12 @@ extension DetailStackCardView {
         let imageUrl: String
         // 왼쪽 텍스트
         let mainText: String?
-        var subText: String? = nil
+        var subText: String?
         // 오른쪽 텍스트
-        var additionalText: String? = nil
+        var additionalText: String?
         // 퀘스트 판별을 위한 인덱스 0: preQuest, 1: currentQuest, 2: nextQuest
-        var questIndex: Int? = nil
-        
+        var questIndex: Int?
+
         init(
             type: DetailType,
             imageUrl: String,
@@ -109,7 +109,7 @@ extension DetailStackCardView {
     func inject(input: Input) {
         // type별 필터 유무
         setFilter(isHidden: input.type.sortFilter.isEmpty)
-        
+
         let cardView = CardList()
 
         addArrangedSubview(cardView)
@@ -148,10 +148,10 @@ extension DetailStackCardView {
             break
         }
     }
-    
+
     func setFilter(isHidden: Bool) {
         filterContainerView.isHidden = isHidden
-        
+
         spacer.snp.remakeConstraints { make in
             make.height.equalTo(isHidden ? Constant.spacing : Constant.filterSpacing)
         }

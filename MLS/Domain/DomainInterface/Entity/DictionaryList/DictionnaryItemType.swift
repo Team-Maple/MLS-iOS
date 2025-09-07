@@ -70,6 +70,5 @@ public enum DetailType {
             []
         }
     }
-    
-    
+
 }
