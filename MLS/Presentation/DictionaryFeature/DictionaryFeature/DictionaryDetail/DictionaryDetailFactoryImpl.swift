@@ -13,24 +13,27 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .collection:
             break
         case .item:
-            viewController = ItemDictionaryDetailViewController()
+            viewController = ItemDictionaryDetailViewController(type: .item)
             let reactor = ItemDictionaryDetailReactor()
             if let viewController = viewController as? ItemDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .monster:
-            viewController = MonsterDictionaryDetailViewController()
+            viewController = MonsterDictionaryDetailViewController(type: .monster)
             let reactor = MonsterDictionaryDetailReactor()
             if let viewController = viewController as? MonsterDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .map:
             let reactor = MapDictionaryDetailReactor()
-            viewController = MapDictionaryDetailViewController(reactor: reactor, imageUrl: "")
+            viewController = MapDictionaryDetailViewController(/*reactor: reactor,*/ imageUrl: "")
+            if let viewController = viewController as? MapDictionaryDetailViewController {
+                viewController.reactor = reactor
+            }
         case .npc:
             break
         case .quest:
-            viewController = QuestDictionaryDetailViewController()
+            viewController = QuestDictionaryDetailViewController(type: .quest)
             let reactor = QuestDictionaryDetailReactor()
             if let viewController = viewController as? QuestDictionaryDetailViewController {
                 viewController.reactor = reactor

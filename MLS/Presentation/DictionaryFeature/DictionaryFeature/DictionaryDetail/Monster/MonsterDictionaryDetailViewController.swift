@@ -16,8 +16,6 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     override func viewDidLoad() {
         super.viewDidLoad()
         type = .monster
-        // 상세정보 설명란
-        detailView.descriptionLabel.text = ""
         contentViews = [detailView, appearMapView, dropItemView]
         setupMainInfo()
         setUpInfoStackView()
@@ -58,17 +56,6 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-
-        reactor.state
-            .map(\.type)
-            // UI 변경은 메인 스레드에서 하도록 (Rx에서 제공하는 문법인듯)
-            // UI 업데이트 할 때는 쓰는게 안전하다고 함.
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.titleText = "몬스터 상세정보"
-            })
-            .disposed(by: disposeBag)
-
         reactor.state
             .map(\.tags)
             .observe(on: MainScheduler.instance)

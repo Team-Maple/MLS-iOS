@@ -2,6 +2,7 @@ import UIKit
 
 import DesignSystem
 import DomainInterface
+
 import ReactorKit
 
 final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
@@ -12,9 +13,7 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("hello")
         type = .quest
-        titleText = "퀘스트 상세정보"
         contentViews = [detailInfoView, linkedQuestView]
         setupMainInfo()
         setupInfoStackView()

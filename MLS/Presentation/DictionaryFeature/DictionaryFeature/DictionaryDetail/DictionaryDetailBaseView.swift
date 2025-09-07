@@ -52,12 +52,7 @@ class DictionaryDetailBaseView: UIView {
         return button
     }()
 
-    public var titleLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .sub_m_b, text: "몬스터 상세 정보")
-
-        return label
-    }()
+    public var titleLabel = UILabel()
 
     public let dictButton: UIButton = {
         let button = UIButton()

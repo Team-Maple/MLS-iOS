@@ -14,19 +14,16 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        type = .map
-        titleText = "맵 상세정보"
         contentViews = [detailView, appearMapView, dropItemView]
         setupMainInfo()
         setupCardStacckView()
         bindImageView()
     }
 
-    init(reactor: MapDictionaryDetailReactor, imageUrl: String) {
+    init(imageUrl: String) {
         self.detailView = DetailStackMapView(imageUrl: imageUrl)
 
-        super.init()
-        self.reactor = reactor
+        super.init(type: .map)
     }
 }
 
@@ -67,15 +64,6 @@ extension MapDictionaryDetailViewController {
     private func bindcUserActions(reactor: Reactor) {}
 
     private func bindViewState(reactor: Reactor) {
-        reactor.state
-            .map(\.type)
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind(onNext: { owner, _ in
-                owner.titleText = "몬스터 상세정보"
-            })
-            .disposed(by: disposeBag)
-
         reactor.state
             .map(\.type.detailTypes)
             .observe(on: MainScheduler.instance)
