@@ -13,8 +13,14 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     private var didSelectInitialTab = false
 
+    /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
+    public var contentViews: [UIView] = []
+
+    /// 현재 보여지고 있는 뷰의 인덱스
+    private var currentTabIndex: Int?
+
     // MARK: - Components
-    var mainView = DictionaryDetailBaseView()
+    private var mainView = DictionaryDetailBaseView()
 
     // 타입설정
     public var type: DictionaryItemType = .monster
@@ -49,7 +55,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         super.viewDidLayoutSubviews()
 
         // 처음 진입 및 뷰가 추가 되었는지 확인
-        if !didSelectInitialTab, !mainView.secondSectionStackView.arrangedSubviews.isEmpty {
+        if !didSelectInitialTab {
             didSelectMenuTab(index: 0)
             didSelectInitialTab = true
         }
@@ -178,14 +184,8 @@ extension DictionaryDetailBaseViewController {
                 firstStickyIndexButton = button
             }
 
-            let spacerView = UIView() // 왼쪽 정렬을 위한 Spacer 추가
-
-            let stickySpacerView = UIView()
-            spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-            stickySpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-            mainView.tabBarStackView.addArrangedSubview(spacerView)
-            mainView.tabBarStickyStackView.addArrangedSubview(stickySpacerView)
         }
+        mainView.setupSpacerView()
         // 화면에 버튼 다 생성 한 이후에 첫번째 버튼 클릭 이벤트 유발
         if let firstIndexButton = firstIndexButton, let firstStickyIndexButton = firstStickyIndexButton {
             menuTabTapped(firstIndexButton)
@@ -223,9 +223,15 @@ extension DictionaryDetailBaseViewController {
     }
 
     func didSelectMenuTab(index: Int) {
-        for (i, subview) in mainView.secondSectionStackView.arrangedSubviews.enumerated() {
-            subview.isHidden = (i != index)
-        }
+        // 인덱스 유효성 검사
+        guard index < contentViews.count else { return }
+
+        // 현재 뷰가 같다면 변경 안함
+        if currentTabIndex == index { return }
+        // 각 탭에 맞는 뷰 설정
+        mainView.setTabView(index: index, contentViews: contentViews)
+
+        currentTabIndex = index
     }
 }
 
