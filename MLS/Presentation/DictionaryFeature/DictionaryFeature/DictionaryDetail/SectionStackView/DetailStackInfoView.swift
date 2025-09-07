@@ -1,7 +1,7 @@
 import UIKit
 
-import DomainInterface
 import DesignSystem
+import DomainInterface
 
 import SnapKit
 
@@ -58,7 +58,7 @@ final class DetailStackInfoView: UIStackView {
         label.attributedText = .makeStyledString(font: .sub_m_b, text: "상세 정보", color: .textColor)
         return label
     }()
-    
+
     // 퀘스트 완료조건 스택뷰
     private let completeConditionStackView: UIStackView = {
         let stackView = UIStackView()
@@ -91,10 +91,10 @@ final class DetailStackInfoView: UIStackView {
         label.attributedText = .makeStyledString(font: .sub_m_b, text: "보상", color: .textColor)
         return label
     }()
-    
+
     // 어떤뷰 타입의 상세정보인지 구분하기 위한 변수
     private let type: DictionaryItemType
-    
+
     // MARK: - Init
     init(type: DictionaryItemType) {
         self.type = type
@@ -121,21 +121,21 @@ private extension DetailStackInfoView {
             addArrangedSubview(infoStackView)
         } else if type == .monster {
             addArrangedSubview(infoStackView)
-        } else if type == .quest{
+        } else if type == .quest {
             addArrangedSubview(detailInfoStackView)
             detailInfoStackView.addArrangedSubview(detailInfoTitleLabelView)
             detailInfoTitleLabelView.addSubview(detailInfoTitleLabel)
-            
+
             addArrangedSubview(completeConditionStackView)
             completeConditionStackView.addArrangedSubview(completeConditionTitleLabelView)
             completeConditionTitleLabelView.addSubview(completeConditionTitleLabel)
-            
+
             addArrangedSubview(rewardStackView)
             rewardStackView.addArrangedSubview(rewardTitleLabelView)
             rewardTitleLabelView.addSubview(rewardTitleLabel)
         }
     }
-    
+
     func setConstraints() {
         detailInfoTitleLabelView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
@@ -162,7 +162,7 @@ private extension DetailStackInfoView {
             make.centerY.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         axis = .vertical
         alignment = .fill
@@ -191,7 +191,7 @@ extension DetailStackInfoView {
     func addInfo(mainText: String, subText: String) {
         addInfoRow(to: infoStackView, mainText: mainText, subText: subText)
     }
-    
+
     private func addInfoRow(
         to stackView: UIStackView,
         mainText: String,
@@ -248,8 +248,6 @@ extension DetailStackInfoView {
         }
     }
 
-
-    
     @objc private func handleTap() {
         onTap?()
     }

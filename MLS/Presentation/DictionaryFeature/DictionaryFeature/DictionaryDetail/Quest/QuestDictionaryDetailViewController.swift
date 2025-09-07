@@ -9,7 +9,7 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
     // MARK: - Components
     private var detailInfoView = DetailStackInfoView(type: .quest)
     private var linkedQuestView = DetailStackCardView()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         print("hello")
@@ -33,7 +33,7 @@ private extension QuestDictionaryDetailViewController {
             subText: "Lv10"
         ))
     }
-    
+
     func setupInfoStackView() {
         guard let reactor = reactor else { return }
         let completeConditionInfos = reactor.currentState.questConditionInfo
@@ -53,7 +53,7 @@ private extension QuestDictionaryDetailViewController {
             detailInfoView.addReward(mainText: info.name, subText: info.desc)
         }
     }
-    
+
     func setupCardStackView() {
         linkedQuestView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "imageUrl", mainText: "퀘스트이름", subText: "수락 Lv.21", questIndex: 0))
     }
