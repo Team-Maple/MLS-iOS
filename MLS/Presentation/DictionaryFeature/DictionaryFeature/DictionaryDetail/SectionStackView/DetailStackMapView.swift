@@ -52,7 +52,7 @@ private extension DetailStackMapView {
     }
 
     func setUpMapView(imageUrl: String) {
-        ImageLoader.shared.loadImage(url: URL(string: imageUrl), defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in
+        ImageLoader.shared.loadImage(stringURL: imageUrl, defaultImage: DesignSystemAsset.image(named: "testImage")) { [weak self] image in
             self?.mapImageView.image = image
         }
     }

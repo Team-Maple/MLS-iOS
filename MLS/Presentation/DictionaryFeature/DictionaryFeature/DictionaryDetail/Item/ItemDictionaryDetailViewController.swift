@@ -4,7 +4,6 @@ import ReactorKit
 import UIKit
 
 final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
-
     public typealias Reactor = ItemDictionaryDetailReactor
 
     // MARK: - Components
@@ -59,18 +58,24 @@ private extension ItemDictionaryDetailViewController {
     }
 
     func setUpCardStackView() {
-        guard let reactor = reactor else { return }
-        let infos = reactor.currentState.monsterInfos
-
-        for info in infos {
-            monsterCardView.addMonsterCard(
-                name: info.name,
-                level: info.level,
-                dropRate: "0.001%",
-                image: DesignSystemAsset.image(named: "testImage")!,
-                backgroundColor: .listMonster
-            )
-        }
+        // 드롭 몬스터
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
+        // 출현맵 - 몬스터
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMapWithText, imageUrl: "imageUrl", mainText: "사건의 지평선", subText: "카테고리", additionalText: "9마리"))
+        // 연계 퀘스트
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "iamgeUrl", mainText: "퀘스트이름", subText: "수락 Lv. 21", questIndex: 0))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "iamgeUrl", mainText: "퀘스트이름", subText: "수락 Lv. 21", questIndex: 1))
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "iamgeUrl", mainText: "퀘스트이름", subText: "수락 Lv. 21", questIndex: 2))
+        // 출현 NPC
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: "iamgeUrl", mainText: "퀘스트이름"))
+        // 출현맵 - NPC
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMap, imageUrl: "imageUrl", mainText: "사건의 지평선", subText: "카테고리"))
+        // 퀘스트
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .quest, imageUrl: "imageUrl", mainText: "퀘스트 이름", subText: "수락 Lv. 21"))
+        // 출현 몬스터
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "9마리"))
+        // 드롭 아이템
+        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropItemWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
     }
 }
 
@@ -81,9 +86,7 @@ extension ItemDictionaryDetailViewController {
         bindViewState(reactor: reactor)
     }
 
-    private func bindUserAction(reactor: Reactor) {
-
-    }
+    private func bindUserAction(reactor: Reactor) {}
 
     private func bindViewState(reactor: Reactor) {
         reactor.state

@@ -7,7 +7,9 @@ public final class CardList: UIView {
     public enum CardListType {
         case bookmark
         case checkbox
-        case dropInfo // 몬스터 카드일 경우 드롭률
+        case detailStack
+        case detailStackText // 몬스터 카드일 경우 드롭률
+        case detailStackBadge(Badge.BadgeStyle)
 
         var icon: UIImage? {
             switch self {
@@ -15,7 +17,7 @@ public final class CardList: UIView {
                 return .bookmarkBorder
             case .checkbox:
                 return .checkSquare
-            case .dropInfo:
+            case .detailStack, .detailStackText, .detailStackBadge:
                 return nil
             }
         }
@@ -26,7 +28,7 @@ public final class CardList: UIView {
                 return .bookmark
             case .checkbox:
                 return .checkSquareFill
-            case .dropInfo:
+            case .detailStack, .detailStackText, .detailStackBadge:
                 return nil
             }
         }
@@ -101,17 +103,13 @@ public final class CardList: UIView {
     // 드롭률 표시용 라벨 2개
     private let dropTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .cp_s_r
-        label.textColor = .neutral700
-        label.text = "드롭률"
+        label.numberOfLines = 1
         return label
     }()
 
     private let dropValueLabel: UILabel = {
         let label = UILabel()
-        label.font = .btn_m_b
-        label.textColor = .primary700
-        label.text = "0%"
+        label.numberOfLines = 1
         return label
     }()
 
@@ -124,6 +122,8 @@ public final class CardList: UIView {
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
+
+    private let badge = Badge(style: .currentQuest)
 
     public init() {
         super.init(frame: .zero)
@@ -146,6 +146,7 @@ private extension CardList {
         addSubview(textLabelStackView)
         addSubview(iconButton)
         addSubview(dropInfoStack)
+        addSubview(badge)
     }
 
     func setupConstraints() {
@@ -156,21 +157,25 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
+            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(Constant.cardInset)
             make.centerY.equalToSuperview()
         }
 
         iconButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardInset)
             make.trailing.equalToSuperview().inset(Constant.cardInset)
             make.size.equalTo(Constant.iconSize)
         }
 
-        dropInfoStack.snp.makeConstraints { make in
+        badge.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(16)
+            make.trailing.equalToSuperview().inset(Constant.cardInset)
         }
 
+        dropInfoStack.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constant.cardInset)
+        }
     }
 
     func configureUI() {
@@ -221,18 +226,28 @@ public extension CardList {
         selectedIcon = type.selectedIcon ?? UIImage()
 
         switch type {
-        case .dropInfo:
+        case .detailStack:
+            iconButton.isHidden = true
+            dropInfoStack.isHidden = true
+            badge.isHidden = true
+        case .detailStackText:
             iconButton.isHidden = true
             dropInfoStack.isHidden = false
+            badge.isHidden = true
+        case .detailStackBadge(let type):
+            iconButton.isHidden = true
+            dropInfoStack.isHidden = false
+            badge.isHidden = false
+            badge.update(style: type)
         default:
             iconButton.isHidden = false
             dropInfoStack.isHidden = true
+            badge.isHidden = true
         }
     }
 
-    func setDropInfoText(title: String, value: String) {
-        dropTitleLabel.text = title
-        dropValueLabel.text = value
+    func setDropInfoText(title: String, value: String?) {
+        dropTitleLabel.attributedText = .makeStyledString(font: .cp_s_r, text: title, color: .neutral700)
+        dropValueLabel.attributedText = .makeStyledString(font: .sub_m_b, text: value, color: .primary700)
     }
-
 }
