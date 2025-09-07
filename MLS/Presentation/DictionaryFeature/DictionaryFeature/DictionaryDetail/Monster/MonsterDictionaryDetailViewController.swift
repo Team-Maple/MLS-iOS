@@ -9,7 +9,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     public typealias Reactor = MonsterDictionaryDetailReactor
 
     // MARK: - Componenets
-    private var detailView = DetailStackInfoView()
+    private var detailView = DetailStackInfoView(type: .monster)
     private var appearMapView = DetailStackMapView(imageUrl: "")
     private var dropItemView = DetailStackCardView()
 

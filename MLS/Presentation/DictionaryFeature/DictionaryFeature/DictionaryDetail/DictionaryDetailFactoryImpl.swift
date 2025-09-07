@@ -30,7 +30,11 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .npc:
             break
         case .quest:
-            break
+            viewController = QuestDictionaryDetailViewController()
+            let reactor = QuestDictionaryDetailReactor()
+            if let viewController = viewController as? QuestDictionaryDetailViewController {
+                viewController.reactor = reactor
+            }
         }
 
         // 하단 탭바 히든

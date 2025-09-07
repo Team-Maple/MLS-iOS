@@ -7,7 +7,7 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     public typealias Reactor = ItemDictionaryDetailReactor
 
     // MARK: - Components
-    private let detailInfoView = DetailStackInfoView()
+    private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
 
     override func viewDidLoad() {
