@@ -1,10 +1,13 @@
 import UIKit
 
 import DesignSystem
+import DomainInterface
 
 import SnapKit
 
 final class DetailStackInfoView: UIStackView {
+    var onTap: (() -> Void)? // 외부에서 넘겨받을 콜백
+
     // MARK: - Type
     private enum Constant {
         static let descriptionCornerRadius: CGFloat = 16
@@ -14,6 +17,7 @@ final class DetailStackInfoView: UIStackView {
         static let dividerHeight: CGFloat = 1
         static let horizontalInset: CGFloat = 10
         static let detailInfoStackViewSpacing: CGFloat = 20
+        static let titleLeadingInset: CGFloat = 16
     }
 
     // MARK: - Components
@@ -36,14 +40,72 @@ final class DetailStackInfoView: UIStackView {
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
     }()
+    // 퀘스트 상세정보 스택뷰 속 상세정보 스택뷰
+    private let detailInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.backgroundColor = .whiteMLS
+        stackView.distribution = .fill
+        stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        return stackView
+    }()
+    // 타이틀 뷰
+    private let detailInfoTitleLabelView = UIView()
+    // 타이틀 라벨
+    private let detailInfoTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "상세 정보", color: .textColor)
+        return label
+    }()
+
+    // 퀘스트 완료조건 스택뷰
+    private let completeConditionStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.backgroundColor = .whiteMLS
+        stackView.distribution = .fill
+        stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        return stackView
+    }()
+    private let completeConditionTitleLabelView = UIView()
+    private let completeConditionTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "완료 조건", color: .textColor)
+        return label
+    }()
+    // 퀘스트 보상 스택뷰
+    private let rewardStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.backgroundColor = .whiteMLS
+        stackView.distribution = .fill
+        stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        return stackView
+    }()
+    private let rewardTitleLabelView = UIView()
+    private let rewardTitleLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .sub_m_b, text: "보상", color: .textColor)
+        return label
+    }()
+
+    // 어떤뷰 타입의 상세정보인지 구분하기 위한 변수
+    private let type: DictionaryItemType
 
     // MARK: - Init
-    init() {
+    init(type: DictionaryItemType) {
+        self.type = type
         super.init(frame: .zero)
         configureUI()
         addViews()
+        // 퀘스트일때만 제약 잡아줌
+        if type == .quest {
+            setConstraints()
+        }
     }
-
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,8 +114,53 @@ final class DetailStackInfoView: UIStackView {
 // MARK: - SetUp
 private extension DetailStackInfoView {
     func addViews() {
-        addArrangedSubview(descriptionLabel)
-        addArrangedSubview(infoStackView)
+        // DetailStackInfoView는 3가지(item, monster, quest)에서만 사용할 듯?
+        if type == .item {
+            // 아이템 타입일 경우만 설명라벨추가
+            addArrangedSubview(descriptionLabel)
+            addArrangedSubview(infoStackView)
+        } else if type == .monster {
+            addArrangedSubview(infoStackView)
+        } else if type == .quest {
+            addArrangedSubview(detailInfoStackView)
+            detailInfoStackView.addArrangedSubview(detailInfoTitleLabelView)
+            detailInfoTitleLabelView.addSubview(detailInfoTitleLabel)
+
+            addArrangedSubview(completeConditionStackView)
+            completeConditionStackView.addArrangedSubview(completeConditionTitleLabelView)
+            completeConditionTitleLabelView.addSubview(completeConditionTitleLabel)
+
+            addArrangedSubview(rewardStackView)
+            rewardStackView.addArrangedSubview(rewardTitleLabelView)
+            rewardTitleLabelView.addSubview(rewardTitleLabel)
+        }
+    }
+
+    func setConstraints() {
+        detailInfoTitleLabelView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.height.equalTo(Constant.height)
+        }
+        detailInfoTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(Constant.titleLeadingInset)
+            make.centerY.equalToSuperview()
+        }
+        completeConditionTitleLabelView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.height.equalTo(Constant.height)
+        }
+        completeConditionTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(Constant.titleLeadingInset)
+            make.centerY.equalToSuperview()
+        }
+        rewardTitleLabelView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.height.equalTo(Constant.height)
+        }
+        rewardTitleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(Constant.titleLeadingInset)
+            make.centerY.equalToSuperview()
+        }
     }
 
     func configureUI() {
@@ -68,31 +175,69 @@ private extension DetailStackInfoView {
 
 // MARK: - Methods
 extension DetailStackInfoView {
+    /// 퀘스트 상세정보 한 줄 추가
+    func addDetailInfo(mainText: String, subText: String) {
+        addInfoRow(to: detailInfoStackView, mainText: mainText, subText: subText)
+    }
+    /// 완료조건 상세정보 한 줄 추가
+    func addCondition(mainText: String, subText: String, clickable: Bool, onTap: (() -> Void)? = nil) {
+       addInfoRow(to: completeConditionStackView, mainText: mainText, subText: subText, clickable: true, onTap: onTap)
+    }
+    /// 보상 상세정보 한 줄 추가
+    func addReward(mainText: String, subText: String) {
+        addInfoRow(to: rewardStackView, mainText: mainText, subText: subText)
+    }
     /// 아이템 상세정보 한 줄 추가
     func addInfo(mainText: String, subText: String) {
-        let stackView = UIStackView()
+        addInfoRow(to: infoStackView, mainText: mainText, subText: subText)
+    }
+
+    private func addInfoRow(
+        to stackView: UIStackView,
+        mainText: String,
+        subText: String,
+        clickable: Bool = false,
+        onTap: (() -> Void)? = nil
+    ) {
+        let rowStackView = UIStackView()
         let dividerView = DividerView()
 
-        stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing // 좌우 label 사이 간격 고르게
-        stackView.alignment = .center
-        // 내부 패딩값 주기
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = Constant.descriptionStackViewInset
+        rowStackView.axis = .horizontal
+        rowStackView.distribution = .equalSpacing
+        rowStackView.alignment = .center
+        rowStackView.isLayoutMarginsRelativeArrangement = true
+        rowStackView.layoutMargins = Constant.descriptionStackViewInset
 
         let mainLabel = UILabel()
-        mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
-
         let subLabel = UILabel()
         subLabel.attributedText = .makeStyledString(font: .b_s_r, text: subText)
 
-        stackView.addArrangedSubview(mainLabel)
-        stackView.addArrangedSubview(subLabel)
+        if clickable {
+            let imageView = UIImageView(image: DesignSystemAsset.image(named: "rightArrow"))
+            let clickableStack = UIStackView(arrangedSubviews: [mainLabel, imageView])
+            clickableStack.axis = .horizontal
+            clickableStack.spacing = 4
+            clickableStack.alignment = .center
 
-        infoStackView.addArrangedSubview(stackView)
-        infoStackView.addArrangedSubview(dividerView)
+            mainLabel.attributedText = .makeStyledUnderlinedString(font: .sub_m_sb, text: mainText)
+            mainLabel.isUserInteractionEnabled = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+            mainLabel.addGestureRecognizer(tapGesture)
 
-        stackView.snp.makeConstraints { make in
+            self.onTap = onTap // 저장해두기
+
+            rowStackView.addArrangedSubview(clickableStack)
+        } else {
+            mainLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
+            rowStackView.addArrangedSubview(mainLabel)
+        }
+
+        rowStackView.addArrangedSubview(subLabel)
+
+        stackView.addArrangedSubview(rowStackView)
+        stackView.addArrangedSubview(dividerView)
+
+        rowStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.height)
         }
@@ -102,4 +247,9 @@ extension DetailStackInfoView {
             make.height.equalTo(Constant.dividerHeight)
         }
     }
+
+    @objc private func handleTap() {
+        onTap?()
+    }
+
 }

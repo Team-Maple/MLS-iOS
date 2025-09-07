@@ -23,17 +23,11 @@ class DictionaryDetailBaseViewController: BaseViewController {
     private var mainView = DictionaryDetailBaseView()
 
     // 타입설정
-    public var type: DictionaryItemType = .monster
+    public var type: DictionaryItemType
 
-    /// 자식이 여기서 설정할 수 있는 title
-    public var titleText: String {
-        get { mainView.titleLabel.text ?? "" }
-        set {
-            mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: newValue)
-        }
-    }
-
-    override public init() {
+    public init(type: DictionaryItemType) {
+        self.type = type
+        mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
     }
 
@@ -94,20 +88,9 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
 
         if nameY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset {
             // 메랜에서 이름이 가장 긴 몬스터의 경우 '다크 주니어 예티와 페페'로 알고 있는데, 따로 텍스트 길이에 대한 제약사항을 안줘도 다크 주니어 예티와 페페가 잘 표시가 됨. 제약사항 필요한가?
-            mainView.titleLabel.text = mainView.nameLabel.text
+            mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: mainView.nameLabel.text)
         } else {
-            switch type {
-            case .monster:
-                mainView.titleLabel.text = "몬스터 상세정보"
-            case .item:
-                mainView.titleLabel.text = "아이템 상세정보"
-            case .quest:
-                mainView.titleLabel.text = "퀘스트 상세정보"
-            case .npc:
-                mainView.titleLabel.text = "NPC 상세정보"
-            case .map:
-                mainView.titleLabel.text = "맵 상세정보"
-            }
+            mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         }
     }
 }

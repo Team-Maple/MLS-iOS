@@ -21,6 +21,21 @@ public enum DictionaryItemType {
             [.normal, .linkedQuest]
         }
     }
+
+    public var detailTitle: String {
+        switch self {
+        case .item:
+            "아이템 상세 정보"
+        case .monster:
+            "몬스터 상세 정보"
+        case .map:
+            "맵 상세 정보"
+        case .npc:
+            "NPC 상세 정보"
+        case .quest:
+            "퀘스트 상세 정보"
+        }
+    }
 }
 
 public enum DetailType {
