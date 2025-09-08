@@ -29,7 +29,9 @@ final class DetailStackCardView: UIStackView {
         return button
     }()
 
-    let spacer = UIView()
+    private let spacer = UIView()
+    
+    private let emptyLabel = UILabel()
 
     // MARK: - Init
     init() {

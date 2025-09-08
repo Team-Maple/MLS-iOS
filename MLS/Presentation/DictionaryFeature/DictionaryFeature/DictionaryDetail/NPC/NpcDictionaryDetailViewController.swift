@@ -13,9 +13,9 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentViews = [appearMapView, questView]
-        setupMainInfo()
-        setupCardStacckView()
+        setUpMainInfo()
+        setUpMapView()
+        setUpQuestView()
     }
 
     init(imageUrl: String) {
@@ -25,18 +25,59 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
 // MARK: - SetUp
 private extension NpcDictionaryDetailViewController {
-    func setupMainInfo() {
+    func setUpMainInfo() {
         // 상세정보(메인?)
-        self.inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
+        self.inject(
+            input: DictionaryDetailBaseViewController
+                .Input(
+                    image: .add,
+                    backgroundColor: type.backgroundColor,
+                    name: "뇌전수리검",
+                    subText: "Lv10"
+                )
+        )
     }
-    func setupCardStacckView() {
-        // 드롭 아이템
-        for i in 0...5 {
-            appearMapView.inject(input: DetailStackCardView.Input(type: .appearMap, imageUrl: "testImage", mainText: "시간의 지평선", subText: "카테고리(커닝시티 등)"))
+    func setUpMapView() {
+        // 데이터 유효성 검증
+        if true {
+            contentViews.append(appearMapView)
+            // 카드 개수만큼 반복
+            for _ in 0...5 {
+                appearMapView
+                    .inject(
+                        input: DetailStackCardView
+                            .Input(
+                                type: .appearMap,
+                                imageUrl: "testImage",
+                                mainText: "시간의 지평선",
+                                subText: "카테고리(커닝시티 등)"
+                            )
+                    )
+            }
+        } else {
+            contentViews.append(DetailEmptyView(type: .appearMap))
         }
-
-        for i in 0...5 {
-            questView.inject(input: DetailStackCardView.Input(type: .quest, imageUrl: "tesetImage", mainText: "퀘스트 이름", subText: "수락 Lv. 21"))
+    }
+    
+    func setUpQuestView() {
+        // 데이터 유효성 검증
+        if false {
+            contentViews.append(questView)
+            // 카드 개수만큼 반복
+            for _ in 0...5 {
+                questView
+                    .inject(
+                        input: DetailStackCardView
+                            .Input(
+                                type: .quest,
+                                imageUrl: "tesetImage",
+                                mainText: "퀘스트 이름",
+                                subText: "수락 Lv. 21"
+                            )
+                    )
+            }
+        } else {
+            contentViews.append(DetailEmptyView(type: .quest))
         }
     }
 }
@@ -44,11 +85,11 @@ private extension NpcDictionaryDetailViewController {
 // MARK: - Bind
 extension NpcDictionaryDetailViewController {
     func bind(reactor: Reactor) {
-        bindcUserActions(reactor: reactor)
+        bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
     }
 
-    private func bindcUserActions(reactor: Reactor) {}
+    private func bindUserActions(reactor: Reactor) {}
 
     private func bindViewState(reactor: Reactor) {}
 }

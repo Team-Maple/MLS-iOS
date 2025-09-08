@@ -12,10 +12,9 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentViews = [detailInfoView, monsterCardView]
         setupMainInfo()
         setUpInfoStackView()
-        setUpCardStackView()
+        setUpMonsterView()
     }
 }
 
@@ -30,17 +29,38 @@ private extension ItemDictionaryDetailViewController {
             subText: "Lv10"
         ))
     }
+    
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
 
-        for info in infos {
-            detailInfoView.addInfo(mainText: info.name, subText: info.desc)
+        if !infos.isEmpty {
+            contentViews.append(detailInfoView)
+            for info in infos {
+                detailInfoView.addInfo(mainText: info.name, subText: info.desc)
+            }
+        } else {
+            contentViews.append(DetailEmptyView(type: .normal))
         }
     }
 
-    func setUpCardStackView() {
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
+    func setUpMonsterView() {
+        if true {
+            contentViews.append(monsterCardView)
+            monsterCardView
+                .inject(
+                    input: DetailStackCardView
+                        .Input(
+                            type: .dropMonsterWithText,
+                            imageUrl: "imageUrl",
+                            mainText: "여신 탑의 러스터픽시(보스 소환용)",
+                            subText: "Lv. 표시",
+                            additionalText: "0.001%"
+                        )
+                )
+        } else {
+            contentViews.append(DetailEmptyView(type: .dropMonsterWithText))
+        }
     }
 }
 

@@ -14,9 +14,10 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentViews = [mapInfoView, appearMonsterView, appearNpcView]
-        setupMainInfo()
-        setupCardStacckView()
+        setUpMainInfo()
+        setUpMapView()
+        setUpMonsterView()
+        setUpNpcView()
         bindImageView()
     }
 
@@ -29,12 +30,59 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
-    func setupMainInfo() {
-        self.inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
+    func setUpMainInfo() {
+        self.inject(
+            input: DictionaryDetailBaseViewController
+                .Input(
+                    image: .add,
+                    backgroundColor: type.backgroundColor,
+                    name: "뇌전수리검",
+                    subText: "Lv10"
+                )
+        )
     }
-    func setupCardStacckView() {
-        appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: "testImage", mainText: "여신 탑의 러스터 픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "9마리"))
-        appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: "testImage", mainText: "NPC 이름"))
+    
+    func setUpMapView() {
+        if true {
+            contentViews.append(mapInfoView)
+        } else {
+            contentViews.append(DetailEmptyView(type: .mapInfo))
+        }
+    }
+    
+    func setUpMonsterView() {
+        if true {
+            contentViews.append(appearMonsterView)
+            appearMonsterView
+                .inject(
+                    input: DetailStackCardView
+                        .Input(
+                            type: .appearMonsterWithText,
+                            imageUrl: "testImage",
+                            mainText: "여신 탑의 러스터 픽시(보스 소환용)",
+                            subText: "Lv. 표시",
+                            additionalText: "9마리"
+                        )
+                )
+        } else {
+            contentViews.append(DetailEmptyView(type: .appearMonsterWithText))
+        }
+    }
+    
+    func setUpNpcView() {
+        if false {
+            appearNpcView
+                .inject(
+                    input: DetailStackCardView
+                        .Input(
+                            type: .appearNPC,
+                            imageUrl: "testImage",
+                            mainText: "NPC 이름"
+                        )
+                )
+        } else {
+            contentViews.append(DetailEmptyView(type: .appearNPC))
+        }
     }
 
     func bindImageView() {

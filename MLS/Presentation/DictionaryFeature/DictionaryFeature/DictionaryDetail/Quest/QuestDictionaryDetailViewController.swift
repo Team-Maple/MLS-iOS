@@ -13,17 +13,15 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        type = .quest
-        contentViews = [detailInfoView, linkedQuestView]
-        setupMainInfo()
-        setupInfoStackView()
-        setupCardStackView()
+        setUpMainInfo()
+        setUpInfoStackView()
+        setUpQuestView()
     }
 }
 
 // MARK: - Populate Data
 private extension QuestDictionaryDetailViewController {
-    func setupMainInfo() {
+    func setUpMainInfo() {
         // 상세 정보(메인?)
         self.inject(input: DictionaryDetailBaseViewController.Input(
             image: DesignSystemAsset.image(named: "testImage2"),
@@ -33,28 +31,49 @@ private extension QuestDictionaryDetailViewController {
         ))
     }
 
-    func setupInfoStackView() {
+    func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let completeConditionInfos = reactor.currentState.questConditionInfo
         let detailInfos = reactor.currentState.questDetailInfo
         let rewardInfos = reactor.currentState.questRewardInfo
-        // 완료조건 추가
-        for info in completeConditionInfos {
-            detailInfoView.addCondition(mainText: info.name, subText: info.desc, clickable: info.clickable, onTap: { self.presentAlert() })
+        
+        if !completeConditionInfos.isEmpty {
+            contentViews.append(detailInfoView)
+            // 완료조건 추가
+            for info in completeConditionInfos {
+                detailInfoView.addCondition(mainText: info.name, subText: info.desc, clickable: info.clickable, onTap: { self.presentAlert() })
 
-        }
-        // 상세정보 추가
-        for info in detailInfos {
-            detailInfoView.addDetailInfo(mainText: info.name, subText: info.desc)
-        }
-        // 보상 추가
-        for info in rewardInfos {
-            detailInfoView.addReward(mainText: info.name, subText: info.desc)
+            }
+            // 상세정보 추가
+            for info in detailInfos {
+                detailInfoView.addDetailInfo(mainText: info.name, subText: info.desc)
+            }
+            // 보상 추가
+            for info in rewardInfos {
+                detailInfoView.addReward(mainText: info.name, subText: info.desc)
+            }
+        } else {
+            contentViews.append(DetailEmptyView(type: .normal))
         }
     }
 
-    func setupCardStackView() {
-        linkedQuestView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: "imageUrl", mainText: "퀘스트이름", subText: "수락 Lv.21", questIndex: 0))
+    func setUpQuestView() {
+        if true {
+            contentViews.append(linkedQuestView)
+            linkedQuestView
+                .inject(
+                    input: DetailStackCardView
+                        .Input(
+                            type: .linkedQuest,
+                            imageUrl: "imageUrl",
+                            mainText: "퀘스트이름",
+                            subText: "수락 Lv.21",
+                            questIndex: 0
+                        )
+                )
+        } else {
+            contentViews.append(DetailEmptyView(type: .linkedQuest))
+        }
     }
 }
 
