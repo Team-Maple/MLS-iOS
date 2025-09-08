@@ -63,15 +63,5 @@ extension MonsterDictionaryDetailViewController {
                 self?.makeTagsRow(tags)
             })
             .disposed(by: disposeBag)
-        // 자식 타입의 메뉴탭 타입들
-        reactor.state
-            .map(\.type.detailTypes)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] types in
-                /// detailTypes에 들어있는 모든 타입을 넘겨줌
-                ///  [.normal, .appearMap, .dropItem]
-                self?.setupMenu(types)
-            })
-            .disposed(by: disposeBag)
     }
 }

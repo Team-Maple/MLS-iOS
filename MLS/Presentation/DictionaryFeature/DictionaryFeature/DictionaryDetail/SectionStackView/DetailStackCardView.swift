@@ -9,12 +9,13 @@ import SnapKit
 final class DetailStackCardView: UIStackView {
     // MARK: - Type
     private enum Constant {
-        static let spacing: CGFloat = 20
+        static let topSpacing: CGFloat = 20
         static let filterSpacing: CGFloat = 12
         static let cardHorizontalInset: CGFloat = 16
         static let filterContainerHeight: CGFloat = 28
         static let filterContainerTopMargin: CGFloat = 12
         static let filterButtonTrailing: CGFloat = 8
+        static let viewSpacing: CGFloat = 10
     }
 
     // MARK: - Components
@@ -111,10 +112,18 @@ extension DetailStackCardView {
         setFilter(isHidden: input.type.sortFilter.isEmpty)
 
         let cardView = CardList()
+        let spacer = UIView()
 
         addArrangedSubview(cardView)
+        addArrangedSubview(spacer)
+
         cardView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
+        }
+
+        spacer.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(Constant.viewSpacing)
         }
 
         cardView.setType(type: .detailStackText)
@@ -153,7 +162,7 @@ extension DetailStackCardView {
         filterContainerView.isHidden = isHidden
 
         spacer.snp.remakeConstraints { make in
-            make.height.equalTo(isHidden ? Constant.spacing : Constant.filterSpacing)
+            make.height.equalTo(isHidden ? Constant.topSpacing : Constant.filterSpacing)
         }
     }
 }

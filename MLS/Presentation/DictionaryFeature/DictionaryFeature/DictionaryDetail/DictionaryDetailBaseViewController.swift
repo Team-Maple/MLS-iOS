@@ -43,6 +43,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         setupConstraints()
         bindActions() // 액션 바인딩
         mainView.scrollView.delegate = self
+        setupMenu(type.detailTypes)
     }
 
     override func viewDidLayoutSubviews() {

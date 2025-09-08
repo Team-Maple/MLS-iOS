@@ -2,7 +2,7 @@ import DomainInterface
 
 import ReactorKit
 
-public final class MapDictionaryDetailReactor: Reactor {
+public final class NpcDictionaryDetailReactor: Reactor {
     public enum Action {
 
     }

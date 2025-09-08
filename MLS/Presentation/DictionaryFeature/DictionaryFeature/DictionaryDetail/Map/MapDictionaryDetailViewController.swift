@@ -8,20 +8,20 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     public typealias Reactor = MapDictionaryDetailReactor
 
     // MARK: - Componenets
-    private var detailView: DetailStackMapView
-    private var appearMapView = DetailStackMapView(imageUrl: "")
-    private var dropItemView = DetailStackCardView()
+    private var mapInfoView: DetailStackMapView
+    private var appearMonsterView = DetailStackCardView()
+    private var appearNpcView = DetailStackCardView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentViews = [detailView, appearMapView, dropItemView]
+        contentViews = [mapInfoView, appearMonsterView, appearNpcView]
         setupMainInfo()
         setupCardStacckView()
         bindImageView()
     }
 
     init(imageUrl: String) {
-        self.detailView = DetailStackMapView(imageUrl: imageUrl)
+        self.mapInfoView = DetailStackMapView(imageUrl: imageUrl)
 
         super.init(type: .map)
     }
@@ -30,18 +30,17 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
     func setupMainInfo() {
-        // 상세정보(메인?)
         self.inject(input: DictionaryDetailBaseViewController.Input(image: .add, backgroundColor: type.backgroundColor, name: "뇌전수리검", subText: "Lv10"))
     }
     func setupCardStacckView() {
-        // 드롭 아이템
-        dropItemView.inject(input: DetailStackCardView.Input(type: .dropItemWithText, imageUrl: "testImage", mainText: "일비표창", subText: "Lv.10", additionalText: "0.001%"))
+        appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: "testImage", mainText: "여신 탑의 러스터 픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "9마리"))
+        appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: "testImage", mainText: "NPC 이름"))
     }
 
     func bindImageView() {
         let tapGesture = UITapGestureRecognizer()
-        detailView.mapImageView.isUserInteractionEnabled = true
-        detailView.mapImageView.addGestureRecognizer(tapGesture)
+        mapInfoView.mapImageView.isUserInteractionEnabled = true
+        mapInfoView.mapImageView.addGestureRecognizer(tapGesture)
 
         tapGesture.rx.event
                .bind(onNext: { [weak self] _ in
@@ -63,14 +62,5 @@ extension MapDictionaryDetailViewController {
 
     private func bindcUserActions(reactor: Reactor) {}
 
-    private func bindViewState(reactor: Reactor) {
-        reactor.state
-            .map(\.type.detailTypes)
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind(onNext: { owner, types in
-                owner.setupMenu(types)
-            })
-            .disposed(by: disposeBag)
-    }
+    private func bindViewState(reactor: Reactor) {}
 }

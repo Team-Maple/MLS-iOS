@@ -67,15 +67,7 @@ extension QuestDictionaryDetailViewController {
 
     private func bindUserAction(reactor: Reactor) {}
 
-    private func bindViewState(reactor: Reactor) {
-        reactor.state
-            .map(\.type.detailTypes)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] types in
-                self?.setupMenu(types)
-            })
-            .disposed(by: disposeBag)
-    }
+    private func bindViewState(reactor: Reactor) {}
 }
 
 // MARK: - 임시Alert
