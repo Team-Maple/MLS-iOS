@@ -34,7 +34,7 @@ private extension NpcDictionaryDetailViewController {
         for i in 0...5 {
             appearMapView.inject(input: DetailStackCardView.Input(type: .appearMap, imageUrl: "testImage", mainText: "시간의 지평선", subText: "카테고리(커닝시티 등)"))
         }
-        
+
         for i in 0...5 {
             questView.inject(input: DetailStackCardView.Input(type: .quest, imageUrl: "tesetImage", mainText: "퀘스트 이름", subText: "수락 Lv. 21"))
         }
