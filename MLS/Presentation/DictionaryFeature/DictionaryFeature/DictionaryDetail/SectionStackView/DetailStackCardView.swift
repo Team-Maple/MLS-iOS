@@ -115,11 +115,11 @@ extension DetailStackCardView {
 
         addArrangedSubview(cardView)
         addArrangedSubview(spacer)
-        
+
         cardView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
         }
-        
+
         spacer.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(10)
