@@ -36,7 +36,8 @@ public final class CardList: UIView {
 
     enum Constant {
         static let cardRadius: CGFloat = 16
-        static let cardInset: CGFloat = 12
+        static let cardLeadingInset: CGFloat = 12
+        static let cardTrailingInset: CGFloat = 16
         static let infoLabelInset: CGFloat = 16
         static let imageRadius: CGFloat = 8
         static let imageInset: CGFloat = 10
@@ -151,30 +152,30 @@ private extension CardList {
 
     func setupConstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.leading.bottom.equalToSuperview().inset(Constant.cardInset)
+            make.top.leading.bottom.equalToSuperview().inset(Constant.cardLeadingInset)
             make.size.equalTo(Constant.imageContentViewSize)
         }
 
         textLabelStackView.snp.makeConstraints { make in
-            make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
+            make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardLeadingInset)
             make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading)
             make.centerY.equalToSuperview()
         }
 
         iconButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.cardInset)
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
             make.size.equalTo(Constant.iconSize)
         }
 
         badge.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.cardInset)
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
 
         dropInfoStack.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.cardInset)
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
     }
 
