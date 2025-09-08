@@ -110,7 +110,7 @@ private extension CardListTestViewController {
 
     func configureUI() {
         view.backgroundColor = .systemBackground
-        ImageLoader.shared.loadImage(stringURL: "https://maplestory.io/api/gms/62/mob/2100101/render/stand", defaultImage: nil) { [weak self] image in
+        ImageLoader.shared.loadImage(stringURL: "https://maplestory.io/api/gms/62/mob/2100101/render/stand") { [weak self] image in
             if let image {
                 DispatchQueue.main.async {
                     self?.cardList.setImage(image: image, backgroundColor: .listMap)
