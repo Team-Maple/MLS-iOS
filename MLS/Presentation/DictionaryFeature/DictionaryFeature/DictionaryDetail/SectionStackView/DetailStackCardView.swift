@@ -111,10 +111,18 @@ extension DetailStackCardView {
         setFilter(isHidden: input.type.sortFilter.isEmpty)
 
         let cardView = CardList()
+        let spacer = UIView()
 
         addArrangedSubview(cardView)
+        addArrangedSubview(spacer)
+        
         cardView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
+        }
+        
+        spacer.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(10)
         }
 
         cardView.setType(type: .detailStackText)
