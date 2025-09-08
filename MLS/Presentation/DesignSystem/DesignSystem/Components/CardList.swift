@@ -157,7 +157,7 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardInset)
-            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(Constant.cardInset)
+            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading)
             make.centerY.equalToSuperview()
         }
 

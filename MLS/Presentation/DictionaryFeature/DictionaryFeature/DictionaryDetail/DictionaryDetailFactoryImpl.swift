@@ -26,12 +26,16 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
             }
         case .map:
             let reactor = MapDictionaryDetailReactor()
-            viewController = MapDictionaryDetailViewController(/*reactor: reactor,*/ imageUrl: "")
+            viewController = MapDictionaryDetailViewController(imageUrl: "")
             if let viewController = viewController as? MapDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .npc:
-            break
+            let reactor = NpcDictionaryDetailReactor()
+            viewController = NpcDictionaryDetailViewController(imageUrl: "")
+            if let viewController = viewController as? NpcDictionaryDetailViewController {
+                viewController.reactor = reactor
+            }
         case .quest:
             viewController = QuestDictionaryDetailViewController(type: .quest)
             let reactor = QuestDictionaryDetailReactor()

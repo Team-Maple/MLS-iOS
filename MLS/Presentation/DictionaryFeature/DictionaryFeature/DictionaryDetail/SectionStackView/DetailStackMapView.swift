@@ -6,8 +6,7 @@ final class DetailStackMapView: UIStackView {
     // MARK: - Type
     private enum Constant {
         static let mapCornerRadius: CGFloat = 16
-        static let imageSize: CGFloat = UIScreen.main.bounds.width - 32
-        static let mapLayoutMargin: UIEdgeInsets = .init(top: 20, left: 0, bottom: 0, right: 0)
+        static let mapLayoutMargin: UIEdgeInsets = .init(top: 20, left: 16, bottom: 0, right: 16)
     }
 
     /// 상세설명 메뉴에서 보여줄 상세 설명 스택 뷰 3가지
@@ -42,13 +41,13 @@ private extension DetailStackMapView {
 
     func setUpConstraints() {
         mapImageView.snp.makeConstraints { make in
-            make.size.equalTo(Constant.imageSize)
+            make.height.equalTo(mapImageView.snp.width)
         }
     }
 
     func configureUI() {
         isLayoutMarginsRelativeArrangement = true
-        layoutMargins = .init(top: 20, left: 0, bottom: 0, right: 0)
+        layoutMargins = Constant.mapLayoutMargin
     }
 
     func setUpMapView(imageUrl: String) {
