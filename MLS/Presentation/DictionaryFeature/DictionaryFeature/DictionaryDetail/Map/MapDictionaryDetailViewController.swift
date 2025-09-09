@@ -41,7 +41,7 @@ private extension MapDictionaryDetailViewController {
                 )
         )
     }
-    
+
     func setUpMapView() {
         if true {
             contentViews.append(mapInfoView)
@@ -49,7 +49,7 @@ private extension MapDictionaryDetailViewController {
             contentViews.append(DetailEmptyView(type: .mapInfo))
         }
     }
-    
+
     func setUpMonsterView() {
         if true {
             contentViews.append(appearMonsterView)
@@ -68,7 +68,7 @@ private extension MapDictionaryDetailViewController {
             contentViews.append(DetailEmptyView(type: .appearMonsterWithText))
         }
     }
-    
+
     func setUpNpcView() {
         if false {
             appearNpcView

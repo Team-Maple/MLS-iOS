@@ -193,7 +193,7 @@ extension DictionaryDetailBaseViewController {
             guard let button = subview as? UIButton else { continue }
             let title = button.titleLabel?.text ?? ""
 
-            let underline = button.subviews.first{ $0.tag == DictionaryDetailBaseView.Constant.underTag }
+            let underline = button.subviews.first { $0.tag == DictionaryDetailBaseView.Constant.underTag }
 
             if i == selectedTag {
                 button.setAttributedTitle(.makeStyledString(font: .sub_m_b, text: title, color: .black), for: .normal)

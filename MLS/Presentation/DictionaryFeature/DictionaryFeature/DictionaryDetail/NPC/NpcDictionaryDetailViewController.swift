@@ -58,7 +58,7 @@ private extension NpcDictionaryDetailViewController {
             contentViews.append(DetailEmptyView(type: .appearMap))
         }
     }
-    
+
     func setUpQuestView() {
         // 데이터 유효성 검증
         if false {

@@ -50,7 +50,7 @@ private extension MonsterDictionaryDetailViewController {
             contentViews.append(DetailEmptyView(type: .normal))
         }
     }
-    
+
     func setUpMapView() {
         if true {
             // 드롭아이템

@@ -31,7 +31,7 @@ private extension ItemDictionaryDetailViewController {
             subText: "Lv10"
         ))
     }
-    
+
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
@@ -98,13 +98,13 @@ extension ItemDictionaryDetailViewController {
                         self.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "\(bottomSheetReactor.currentState.sortTypes[selectedIndex].rawValue)", color: .textColor), for: .normal)
                         owner.selectedIndex = selectedIndex
                     }
-                    
+
                     if let sheet = bottomSheet.sheetPresentationController {
                         sheet.detents = [.medium()]
                         sheet.prefersGrabberVisible = true
                         sheet.prefersScrollingExpandsWhenScrolledToEdge = false
                     }
-                    
+
                     owner.present(bottomSheet, animated: true)
                 case .none:
                     break
@@ -112,5 +112,5 @@ extension ItemDictionaryDetailViewController {
             }
             .disposed(by: disposeBag)
     }
-    
+
 }

@@ -8,7 +8,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case none
         case filter(FilterType)
     }
-    
+
     public struct ItemInfo: Equatable {
         var name: String
         var desc: String
@@ -18,7 +18,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         var name: String
         var level: String
     }
-    
+
     public enum FilterType {
         case dropRate
         case levelSort
@@ -72,7 +72,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .showFilter:
             newState.route = .filter(newState.filterType)

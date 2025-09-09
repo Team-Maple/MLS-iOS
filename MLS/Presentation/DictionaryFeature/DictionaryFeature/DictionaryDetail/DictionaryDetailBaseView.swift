@@ -392,7 +392,7 @@ extension DictionaryDetailBaseView {
         underline.backgroundColor = .textColor
         underline.isHidden = true
         underline.tag = Constant.underTag
-        
+
         button.addSubview(underline)
         underline.snp.makeConstraints { make in
             make.height.equalTo(Constant.underLineHeight)

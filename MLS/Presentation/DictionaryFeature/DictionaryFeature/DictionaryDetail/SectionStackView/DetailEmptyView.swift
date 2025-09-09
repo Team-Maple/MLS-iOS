@@ -1,5 +1,5 @@
-import UIKit
 import DomainInterface
+import UIKit
 
 import DesignSystem
 
@@ -46,7 +46,7 @@ private extension DetailEmptyView {
             make.horizontalEdges.equalToSuperview().inset(16)
         }
     }
-    
+
     func setTextLabel(type: DetailType) {
         textLabel.attributedText = .makeStyledString(font: .b_s_r, text: "\(type.description) 정보가 존재하지 않습니다.", color: .neutral600)
     }
