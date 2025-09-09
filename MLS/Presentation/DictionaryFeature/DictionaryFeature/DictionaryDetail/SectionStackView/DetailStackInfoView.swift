@@ -246,7 +246,7 @@ extension DetailStackInfoView {
         }
 
         rowStackView.addArrangedSubview(subLabel)
-        
+
         if let lastDivider = stackView.arrangedSubviews.last as? DividerView {
             lastDivider.isHidden = false
         }

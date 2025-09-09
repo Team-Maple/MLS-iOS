@@ -87,7 +87,7 @@ extension ItemDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
-                case .filter(_):
+                case .filter:
                     // 추후 factory로 수정 필요
                     let bottomSheet = SortedBottomSheetViewController()
                     let bottomSheetReactor = SortedBottomSheetReactor(sortTypes: [.mostDrop, .levelLowest, .levelHighest], selectedIndex: owner.selectedIndex, isTabbarHidden: true)
@@ -98,7 +98,7 @@ extension ItemDictionaryDetailViewController {
                         self.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "\(bottomSheetReactor.currentState.sortTypes[selectedIndex].rawValue)", color: .textColor), for: .normal)
                         owner.selectedIndex = selectedIndex
                     }
-                    
+
                     owner.tabBarController?.presentModal(bottomSheet)
                 case .none:
                     break
