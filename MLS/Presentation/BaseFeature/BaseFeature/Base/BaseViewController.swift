@@ -4,7 +4,13 @@ import UIKit
 import DesignSystem
 
 open class BaseViewController: UIViewController {
-    open var isBottomTabbarHidden: Bool = false
+    open var isBottomTabbarHidden: Bool = false {
+        didSet {
+            if let tabBarController = self.tabBarController as? BottomTabBarController {
+                tabBarController.setHidden(hidden: isBottomTabbarHidden, animated: false)
+            }
+        }
+    }
 
     public init() {
         super.init(nibName: nil, bundle: nil)

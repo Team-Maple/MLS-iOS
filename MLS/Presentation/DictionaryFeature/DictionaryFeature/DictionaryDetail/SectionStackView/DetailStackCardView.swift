@@ -31,8 +31,6 @@ final class DetailStackCardView: UIStackView {
 
     private let spacer = UIView()
 
-    private let emptyLabel = UILabel()
-
     // MARK: - Init
     init() {
         super.init(frame: .zero)

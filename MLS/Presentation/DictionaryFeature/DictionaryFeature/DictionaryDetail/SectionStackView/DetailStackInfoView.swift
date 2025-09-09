@@ -246,9 +246,15 @@ extension DetailStackInfoView {
         }
 
         rowStackView.addArrangedSubview(subLabel)
+        
+        if let lastDivider = stackView.arrangedSubviews.last as? DividerView {
+            lastDivider.isHidden = false
+        }
 
         stackView.addArrangedSubview(rowStackView)
         stackView.addArrangedSubview(dividerView)
+
+        dividerView.isHidden = true
 
         rowStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
@@ -258,12 +264,6 @@ extension DetailStackInfoView {
         dividerView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.dividerHeight)
-        }
-
-        for (index, subview) in stackView.arrangedSubviews.enumerated() {
-            if let divider = subview as? DividerView {
-                divider.isHidden = index == stackView.arrangedSubviews.count - 1
-            }
         }
     }
 

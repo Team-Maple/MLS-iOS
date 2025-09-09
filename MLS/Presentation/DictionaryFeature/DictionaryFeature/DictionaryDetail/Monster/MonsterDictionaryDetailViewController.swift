@@ -55,17 +55,6 @@ private extension MonsterDictionaryDetailViewController {
         if true {
             // 드롭아이템
             contentViews.append(appearMapView)
-            dropItemView
-                .inject(
-                    input: DetailStackCardView
-                        .Input(
-                            type: .appearMapWithText,
-                            imageUrl: "imageUrl",
-                            mainText: "뇌전수리검",
-                            subText: "Lv.21",
-                            additionalText: "0.001%"
-                        )
-                )
         } else {
             contentViews.append(DetailEmptyView(type: .appearMapWithText))
         }

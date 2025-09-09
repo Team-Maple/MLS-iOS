@@ -87,10 +87,10 @@ extension ItemDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
-                case .filter(let type):
+                case .filter(_):
                     // 추후 factory로 수정 필요
                     let bottomSheet = SortedBottomSheetViewController()
-                    let bottomSheetReactor = SortedBottomSheetReactor(sortTypes: [.mostDrop, .levelLowest, .levelHighest], selectedIndex: owner.selectedIndex)
+                    let bottomSheetReactor = SortedBottomSheetReactor(sortTypes: [.mostDrop, .levelLowest, .levelHighest], selectedIndex: owner.selectedIndex, isTabbarHidden: true)
                     bottomSheet.reactor = bottomSheetReactor
                     bottomSheet.onSelectedIndex = { selectedIndex in
                         // TODO: reactor에 상태 추가해서 reactor의 상태 받아서 텍스트 변경해야 함
@@ -98,14 +98,8 @@ extension ItemDictionaryDetailViewController {
                         self.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "\(bottomSheetReactor.currentState.sortTypes[selectedIndex].rawValue)", color: .textColor), for: .normal)
                         owner.selectedIndex = selectedIndex
                     }
-
-                    if let sheet = bottomSheet.sheetPresentationController {
-                        sheet.detents = [.medium()]
-                        sheet.prefersGrabberVisible = true
-                        sheet.prefersScrollingExpandsWhenScrolledToEdge = false
-                    }
-
-                    owner.present(bottomSheet, animated: true)
+                    
+                    owner.tabBarController?.presentModal(bottomSheet)
                 case .none:
                     break
                 }

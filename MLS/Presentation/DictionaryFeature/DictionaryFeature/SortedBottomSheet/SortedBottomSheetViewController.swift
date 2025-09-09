@@ -112,14 +112,12 @@ extension SortedBottomSheetViewController {
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
-                    // 임시
-                    self.dismiss(animated: true)
+                    owner.isBottomTabbarHidden = reactor.currentState.isTabbarHidden
                     owner.dismissCurrentModal()
                 case .dismissWithSave:
+                    owner.isBottomTabbarHidden = reactor.currentState.isTabbarHidden
                     owner.onSelectedIndex?(reactor.currentState.selectedIndex)
                     owner.dismissCurrentModal()
-                    // 임시
-                    self.dismiss(animated: true)
                 default:
                     break
                 }
