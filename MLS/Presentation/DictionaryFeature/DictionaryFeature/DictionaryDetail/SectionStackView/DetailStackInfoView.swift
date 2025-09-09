@@ -12,7 +12,8 @@ final class DetailStackInfoView: UIStackView {
     private enum Constant {
         static let descriptionCornerRadius: CGFloat = 16
         static let descriptionStackViewInset: UIEdgeInsets = .init(top: 14, left: 16, bottom: 14, right: 16)
-        static let detailInfoStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
+        static let detailStackViewInset: UIEdgeInsets = .init(top: 20, left: 16, bottom: 20, right: 16)
+        static let detailInfoStackViewInset: UIEdgeInsets = .init(top: 10, left: 0, bottom: 0, right: 0)
         static let height: CGFloat = 50
         static let dividerHeight: CGFloat = 1
         static let horizontalInset: CGFloat = 10
@@ -40,6 +41,7 @@ final class DetailStackInfoView: UIStackView {
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
     }()
+
     // 퀘스트 상세정보 스택뷰 속 상세정보 스택뷰
     private let detailInfoStackView: UIStackView = {
         let stackView = UIStackView()
@@ -48,8 +50,11 @@ final class DetailStackInfoView: UIStackView {
         stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = Constant.detailInfoStackViewInset
         return stackView
     }()
+
     // 타이틀 뷰
     private let detailInfoTitleLabelView = UIView()
     // 타이틀 라벨
@@ -69,12 +74,14 @@ final class DetailStackInfoView: UIStackView {
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
     }()
+
     private let completeConditionTitleLabelView = UIView()
     private let completeConditionTitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .sub_m_b, text: "완료 조건", color: .textColor)
         return label
     }()
+
     // 퀘스트 보상 스택뷰
     private let rewardStackView: UIStackView = {
         let stackView = UIStackView()
@@ -85,6 +92,7 @@ final class DetailStackInfoView: UIStackView {
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
         return stackView
     }()
+
     private let rewardTitleLabelView = UIView()
     private let rewardTitleLabel: UILabel = {
         let label = UILabel()
@@ -106,6 +114,8 @@ final class DetailStackInfoView: UIStackView {
             setConstraints()
         }
     }
+
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -169,7 +179,7 @@ private extension DetailStackInfoView {
         distribution = .fill
         spacing = Constant.detailInfoStackViewSpacing
         isLayoutMarginsRelativeArrangement = true
-        layoutMargins = Constant.detailInfoStackViewInset
+        layoutMargins = Constant.detailStackViewInset
     }
 }
 
@@ -179,14 +189,17 @@ extension DetailStackInfoView {
     func addDetailInfo(mainText: String, subText: String) {
         addInfoRow(to: detailInfoStackView, mainText: mainText, subText: subText)
     }
+
     /// 완료조건 상세정보 한 줄 추가
     func addCondition(mainText: String, subText: String, clickable: Bool, onTap: (() -> Void)? = nil) {
-       addInfoRow(to: completeConditionStackView, mainText: mainText, subText: subText, clickable: true, onTap: onTap)
+        addInfoRow(to: completeConditionStackView, mainText: mainText, subText: subText, clickable: true, onTap: onTap)
     }
+
     /// 보상 상세정보 한 줄 추가
     func addReward(mainText: String, subText: String) {
         addInfoRow(to: rewardStackView, mainText: mainText, subText: subText)
     }
+
     /// 아이템 상세정보 한 줄 추가
     func addInfo(mainText: String, subText: String) {
         addInfoRow(to: infoStackView, mainText: mainText, subText: subText)
@@ -234,8 +247,14 @@ extension DetailStackInfoView {
 
         rowStackView.addArrangedSubview(subLabel)
 
+        if let lastDivider = stackView.arrangedSubviews.last as? DividerView {
+            lastDivider.isHidden = false
+        }
+
         stackView.addArrangedSubview(rowStackView)
         stackView.addArrangedSubview(dividerView)
+
+        dividerView.isHidden = true
 
         rowStackView.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
@@ -251,5 +270,4 @@ extension DetailStackInfoView {
     @objc private func handleTap() {
         onTap?()
     }
-
 }

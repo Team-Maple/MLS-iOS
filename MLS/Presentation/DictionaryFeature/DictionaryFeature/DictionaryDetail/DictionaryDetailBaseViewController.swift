@@ -167,7 +167,6 @@ extension DictionaryDetailBaseViewController {
                 firstIndexButton = button
                 firstStickyIndexButton = button
             }
-
         }
         mainView.setupSpacerView()
         // 화면에 버튼 다 생성 한 이후에 첫번째 버튼 클릭 이벤트 유발
@@ -190,13 +189,18 @@ extension DictionaryDetailBaseViewController {
 
     // 버튼 상태 변경 함수
     private func updateButtonStates(in stackView: UIStackView, selectedTag: Int) {
-        for case let button as UIButton in stackView.arrangedSubviews {
-            guard let title = button.titleLabel?.text else { continue }
+        for (i, subview) in stackView.arrangedSubviews.enumerated() {
+            guard let button = subview as? UIButton else { continue }
+            let title = button.titleLabel?.text ?? ""
 
-            if button.tag == selectedTag {
+            let underline = button.subviews.first { $0.tag == DictionaryDetailBaseView.Constant.underTag }
+
+            if i == selectedTag {
                 button.setAttributedTitle(.makeStyledString(font: .sub_m_b, text: title, color: .black), for: .normal)
+                underline?.isHidden = false
             } else {
                 button.setAttributedTitle(.makeStyledString(font: .b_m_r, text: title, color: .neutral600), for: .normal)
+                underline?.isHidden = true
             }
         }
     }

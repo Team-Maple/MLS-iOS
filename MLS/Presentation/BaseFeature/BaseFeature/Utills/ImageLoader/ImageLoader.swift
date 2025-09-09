@@ -1,5 +1,7 @@
 import UIKit
 
+import DesignSystem
+
 public enum ImageLoaderError: Error {
     case invalidURL
     case networkError(description: String?)
@@ -32,7 +34,7 @@ public final class ImageLoader {
 
     private init() {}
 
-    public func loadImage(stringURL: String?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
+    public func loadImage(stringURL: String?, defaultImage: UIImage? = DesignSystemAsset.image(named: "connectionError"), completion: @escaping (UIImage?) -> Void) {
         guard let stringURL,
               let url = URL(string: stringURL),
               ["http", "https"].contains(url.scheme?.lowercased() ?? "")
@@ -50,7 +52,7 @@ public final class ImageLoader {
     ///   - stringURL: 이미지 URL 문자열
     ///   - defaultImage: 로드 실패 시 반환할 기본 이미지
     ///   - completion: 로드 완료 후 호출되는 클로저
-    public func loadImage(url: URL?, defaultImage: UIImage?, completion: @escaping (UIImage?) -> Void) {
+    public func loadImage(url: URL?, defaultImage: UIImage? = DesignSystemAsset.image(named: "connectionError"), completion: @escaping (UIImage?) -> Void) {
         loadImage(url: url) { result in
             DispatchQueue.main.async {
                 switch result {

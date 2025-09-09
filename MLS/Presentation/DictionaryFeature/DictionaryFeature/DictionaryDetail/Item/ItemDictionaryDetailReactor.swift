@@ -3,6 +3,11 @@ import DomainInterface
 import ReactorKit
 
 public final class ItemDictionaryDetailReactor: Reactor {
+    // MARK: - Reactor
+    public enum Route {
+        case none
+        case filter(FilterType)
+    }
 
     public struct ItemInfo: Equatable {
         var name: String
@@ -14,7 +19,15 @@ public final class ItemDictionaryDetailReactor: Reactor {
         var level: String
     }
 
+    public enum FilterType {
+        case dropRate
+        case levelSort
+        case levelReverseSort
+    }
+
     public struct State {
+        @Pulse var route: Route = .none
+        var filterType: FilterType = .dropRate
         var type: DictionaryItemType
         // 아이템 임시 모델
         var itemInfos: [ItemInfo] = [
@@ -36,11 +49,11 @@ public final class ItemDictionaryDetailReactor: Reactor {
     }
 
     public enum Action {
-
+        case filterButtonTapped
     }
 
     public enum Mutation {
-
+        case showFilter
     }
 
     public var initialState: State
@@ -51,10 +64,19 @@ public final class ItemDictionaryDetailReactor: Reactor {
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
-
+        switch action {
+        case .filterButtonTapped:
+            return Observable.just(.showFilter)
+        }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
 
+        switch mutation {
+        case .showFilter:
+            newState.route = .filter(newState.filterType)
+        }
+        return newState
     }
 }

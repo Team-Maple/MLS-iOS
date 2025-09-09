@@ -29,7 +29,7 @@ final class DetailStackCardView: UIStackView {
         return button
     }()
 
-    let spacer = UIView()
+    private let spacer = UIView()
 
     // MARK: - Init
     init() {
@@ -127,8 +127,7 @@ extension DetailStackCardView {
         }
 
         cardView.setType(type: .detailStackText)
-        // defaultImage 변경 필요
-        ImageLoader.shared.loadImage(stringURL: input.imageUrl, defaultImage: DesignSystemAsset.image(named: "testImage")) { image in
+        ImageLoader.shared.loadImage(stringURL: input.imageUrl) { image in
             guard let image = image else { return }
             cardView.setImage(image: image, backgroundColor: input.type.backgroundColor)
         }

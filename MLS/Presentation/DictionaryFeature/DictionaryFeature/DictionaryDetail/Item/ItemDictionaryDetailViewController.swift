@@ -6,16 +6,17 @@ import UIKit
 final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = ItemDictionaryDetailReactor
 
+    // MARK: - Propereties
+    private var selectedIndex = 0 // 필터 선택 인덱스
     // MARK: - Components
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentViews = [detailInfoView, monsterCardView]
         setupMainInfo()
         setUpInfoStackView()
-        setUpCardStackView()
+        setUpMonsterView()
     }
 }
 
@@ -30,17 +31,38 @@ private extension ItemDictionaryDetailViewController {
             subText: "Lv10"
         ))
     }
+
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemInfos
 
-        for info in infos {
-            detailInfoView.addInfo(mainText: info.name, subText: info.desc)
+        if !infos.isEmpty {
+            contentViews.append(detailInfoView)
+            for info in infos {
+                detailInfoView.addInfo(mainText: info.name, subText: info.desc)
+            }
+        } else {
+            contentViews.append(DetailEmptyView(type: .normal))
         }
     }
 
-    func setUpCardStackView() {
-        monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: "imageUrl", mainText: "여신 탑의 러스터픽시(보스 소환용)", subText: "Lv. 표시", additionalText: "0.001%"))
+    func setUpMonsterView() {
+        if true {
+            contentViews.append(monsterCardView)
+            monsterCardView
+                .inject(
+                    input: DetailStackCardView
+                        .Input(
+                            type: .dropMonsterWithText,
+                            imageUrl: "imageUrl",
+                            mainText: "여신 탑의 러스터픽시(보스 소환용)",
+                            subText: "Lv. 표시",
+                            additionalText: "0.001%"
+                        )
+                )
+        } else {
+            contentViews.append(DetailEmptyView(type: .dropMonsterWithText))
+        }
     }
 }
 
@@ -51,7 +73,38 @@ extension ItemDictionaryDetailViewController {
         bindViewState(reactor: reactor)
     }
 
-    private func bindUserAction(reactor: Reactor) {}
+    private func bindUserAction(reactor: Reactor) {
+        monsterCardView.filterButton.rx.tap
+        .map { Reactor.Action.filterButtonTapped }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
+    }
 
-    private func bindViewState(reactor: Reactor) {}
+    private func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .filter:
+                    // 추후 factory로 수정 필요
+                    let bottomSheet = SortedBottomSheetViewController()
+                    let bottomSheetReactor = SortedBottomSheetReactor(sortTypes: [.mostDrop, .levelLowest, .levelHighest], selectedIndex: owner.selectedIndex, isTabbarHidden: true)
+                    bottomSheet.reactor = bottomSheetReactor
+                    bottomSheet.onSelectedIndex = { selectedIndex in
+                        // TODO: reactor에 상태 추가해서 reactor의 상태 받아서 텍스트 변경해야 함
+                        // TODO: 뷰에 필터버튼 텍스트 변경 함수도 따로 빼야함
+                        self.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "\(bottomSheetReactor.currentState.sortTypes[selectedIndex].rawValue)", color: .textColor), for: .normal)
+                        owner.selectedIndex = selectedIndex
+                    }
+
+                    owner.tabBarController?.presentModal(bottomSheet)
+                case .none:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
+
 }

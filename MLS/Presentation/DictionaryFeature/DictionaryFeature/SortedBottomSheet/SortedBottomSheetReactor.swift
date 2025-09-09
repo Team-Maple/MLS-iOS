@@ -26,6 +26,7 @@ public final class SortedBottomSheetReactor: Reactor {
     public struct State {
         var sortTypes: [SortType]
         var selectedIndex: Int
+        var isTabbarHidden: Bool
         @Pulse var route: Route = .none
     }
 
@@ -34,8 +35,8 @@ public final class SortedBottomSheetReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init(sortTypes: [SortType], selectedIndex: Int) {
-        self.initialState = State(sortTypes: sortTypes, selectedIndex: selectedIndex)
+    public init(sortTypes: [SortType], selectedIndex: Int, isTabbarHidden: Bool = false) {
+        self.initialState = State(sortTypes: sortTypes, selectedIndex: selectedIndex, isTabbarHidden: isTabbarHidden)
     }
 
     // MARK: - Reactor Methods

@@ -30,10 +30,12 @@ class DictionaryDetailBaseView: UIView {
         static let tabBarSpacing: CGFloat = 20
         static let badgeHeight: CGFloat = 24
         static let numberOfLines: Int = 0
-        static let tabBarStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 30, left: 16, bottom: 0, right: 16)
-        static let tagStackViewInset: UIEdgeInsets =  UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-        static let secondSectionStackViewInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
-        static let menuTabBarButtonInset: NSDirectionalEdgeInsets = NSDirectionalEdgeInsets(top: 9, leading: 4, bottom: 9, trailing: 4)
+        static let tabBarStackViewInset: UIEdgeInsets = .init(top: 30, left: 16, bottom: 0, right: 16)
+        static let tagStackViewInset: UIEdgeInsets = .init(top: 10, left: 0, bottom: 10, right: 0)
+        static let secondSectionStackViewInset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 20, right: 0)
+        static let menuTabBarButtonInset: NSDirectionalEdgeInsets = .init(top: 9, leading: 4, bottom: 9, trailing: 4)
+        static let underLineHeight: CGFloat = 2
+        static let underTag: Int = 999999
     }
 
     // MARK: - Components
@@ -46,7 +48,7 @@ class DictionaryDetailBaseView: UIView {
 
     public let backButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
 
         return button
@@ -56,7 +58,7 @@ class DictionaryDetailBaseView: UIView {
 
     public let dictButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "dictionary")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "dictionary")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
 
         return button
@@ -64,7 +66,7 @@ class DictionaryDetailBaseView: UIView {
 
     public let reportButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "errorBlack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets.init(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "errorBlack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
 
         return button
@@ -75,6 +77,7 @@ class DictionaryDetailBaseView: UIView {
         scrollView.backgroundColor = .neutral100
         return scrollView
     }()
+
     /// 스크롤 뷰에 들어갈 컴포넌트들을 담을 스택 뷰
     ///  각 컴포너트들의 간격이 다 다름
     public let stackView: UIStackView = {
@@ -87,11 +90,13 @@ class DictionaryDetailBaseView: UIView {
 
         return stackView
     }()
+
     public let imageContentView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Constant.imageRadius
         return view
     }()
+
     // 이미지 뷰
     public let imageView: UIImageView = {
         let view = UIImageView()
@@ -99,6 +104,7 @@ class DictionaryDetailBaseView: UIView {
         view.contentMode = .scaleAspectFit
         return view
     }()
+
     public let bookmarkContentView: UIView = {
         let view = UIView()
         return view
@@ -122,6 +128,7 @@ class DictionaryDetailBaseView: UIView {
         label.textAlignment = .center
         return label
     }()
+
     // SubText - level, 지역 등
     public let subTextLabel: UILabel = {
         let label = UILabel()
@@ -132,6 +139,7 @@ class DictionaryDetailBaseView: UIView {
 
         return label
     }()
+
     // tagView들을 담는 가로 stackView들을 담을 세로 stackView -> 말이 너무 어려운데..
     // 충분히 이해 하시겠죠...?ㅠㅠ
     public let tagsVerticalStackView: UIStackView = {
@@ -353,7 +361,6 @@ private extension DictionaryDetailBaseView {
             make.top.equalTo(tabBarStickyStackView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.dividerHeight)
-
         }
     }
 
@@ -371,15 +378,27 @@ extension DictionaryDetailBaseView {
         stackView.distribution = .fill
         return stackView
     }
+
     // 메뉴 탭바 버튼 생성하기
     func createMenuButton(title: String, tag: Int) -> UIButton {
-        var config = setupConfig()
-
+        let config = setupConfig()
         let button = UIButton(configuration: config)
         button.setAttributedTitle(.makeStyledString(font: .b_m_r, text: title), for: .normal)
         button.setTitleColor(.neutral600, for: .normal)
         button.titleLabel?.font = UIFont.b_m_r
         button.tag = tag
+
+        let underline = UIView()
+        underline.backgroundColor = .textColor
+        underline.isHidden = true
+        underline.tag = Constant.underTag
+
+        button.addSubview(underline)
+        underline.snp.makeConstraints { make in
+            make.height.equalTo(Constant.underLineHeight)
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+
         return button
     }
 

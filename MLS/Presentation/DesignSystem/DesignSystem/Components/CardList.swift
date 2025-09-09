@@ -192,11 +192,11 @@ private extension CardList {
     }
 
     func updateMainText() {
-        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_m, text: mainText, alignment: .left)
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText, alignment: .left)
     }
 
     func updateSubText() {
-        subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: subText, color: .neutral500, alignment: .left)
+        subTextLabel.attributedText = .makeStyledString(font: .cp_s_r, text: subText, color: .neutral500, alignment: .left)
     }
 
     func updateIcon() {
