@@ -22,6 +22,9 @@
       <FileRef
          location = "group:DesignSystem/DesignSystem.xcodeproj">
       </FileRef>
+      <FileRef
+         location = "container:Presentation/MyPageFeature/MyPageFeature.xcodeproj">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:Domain/Domain.xcodeproj">
