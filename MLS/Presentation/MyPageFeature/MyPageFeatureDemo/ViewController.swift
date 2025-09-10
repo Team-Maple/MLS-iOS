@@ -14,13 +14,13 @@ class ViewController: UIViewController {
 
     lazy var views: [[UIViewController]] = {
         let view = BottomTabBarController(viewControllers: [
-            DIContainer.resolve(type: MyPageMainFactory.self).make(),
+            DIContainer.resolve(type: MyPageMainFactory.self).make()
         ])
 
         view.title = "마이 페이지"
 
         return [
-            [view],
+            [view]
         ]
     }()
 
