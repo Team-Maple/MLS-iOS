@@ -13,11 +13,13 @@
 		085020562DDCD8E20055CBCE /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 085020552DDCD8E20055CBCE /* RxRelay */; };
 		085020592DDCD8EE0055CBCE /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 085020582DDCD8EE0055CBCE /* ReactorKit */; };
 		772022362DF6BE7800BF8B5D /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085020452DDCD6040055CBCE /* DesignSystem.framework */; };
+		773A42D42E717BB800F75B30 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A42D32E717BB800F75B30 /* DomainInterface.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		085020452DDCD6040055CBCE /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EECED12DD908400047AFE2 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773A42D32E717BB800F75B30 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -36,6 +38,7 @@
 				085020562DDCD8E20055CBCE /* RxRelay in Frameworks */,
 				0850204E2DDCD6C20055CBCE /* SnapKit in Frameworks */,
 				0850204B2DDCD6AE0055CBCE /* RxSwift in Frameworks */,
+				773A42D42E717BB800F75B30 /* DomainInterface.framework in Frameworks */,
 				772022362DF6BE7800BF8B5D /* DesignSystem.framework in Frameworks */,
 				085020542DDCD8E20055CBCE /* RxCocoa in Frameworks */,
 				085020592DDCD8EE0055CBCE /* ReactorKit in Frameworks */,
@@ -48,6 +51,7 @@
 		085020442DDCD6040055CBCE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				773A42D32E717BB800F75B30 /* DomainInterface.framework */,
 				085020452DDCD6040055CBCE /* DesignSystem.framework */,
 			);
 			name = Frameworks;
