@@ -5,7 +5,8 @@ public final class MyPageMainFactoryImpl: MyPageMainFactory {
     public init() {}
 
     public func make() -> BaseViewController {
-        let viewController = MyPageViewController()
+        let viewController = MyPageMainViewController()
+        viewController.reactor = MyPageMainReactor()
         return viewController
     }
 }

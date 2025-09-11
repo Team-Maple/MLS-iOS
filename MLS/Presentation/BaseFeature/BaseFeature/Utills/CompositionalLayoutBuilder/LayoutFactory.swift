@@ -109,11 +109,13 @@ public class LayoutFactory {
             .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))
     }
 
-    public func getDictionaryDetailMainLayout() -> CompositionalSectionBuilder {
+    // 이 아래는 정리
+    public func getMyPageMainLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
-            .item(width: .fractionalWidth(1.0), height: .estimated(350))
-            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(350))
+            .item(width: .fractionalWidth(1.0), height: .estimated(200))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(200))
             .buildSection()
+            .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))
     }
 
     public func getBadgeLayout() -> CompositionalSectionBuilder {
