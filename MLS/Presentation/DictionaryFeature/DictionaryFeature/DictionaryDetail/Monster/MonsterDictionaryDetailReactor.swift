@@ -3,6 +3,11 @@ import DomainInterface
 import ReactorKit
 
 public final class MonsterDictionaryDetailReactor: Reactor {
+    // MARK: - Reactor
+    public enum Route {
+        case none
+        case filter(DictionaryType)
+    }
     /// UI 구현을 위한 임시 모델(몬스터 상세정보)
     struct TabMenu: Equatable {
         var infos: [Info]
@@ -29,17 +34,17 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     }
 
     public enum Action {
-
+        case filterButtonTapped
     }
 
     public enum Mutation {
-
+        case showFilter
     }
 
     public struct State {
-        var type: DictionaryItemType
+        @Pulse var route: Route = .none
+        var type: DictionaryType = .monster
         var name = "슈미의 의뢰"
-        lazy var sectionTab: [DetailType] = self.type.detailTypes
         var subTextLabel = "LV.21"
         var tags = ["불약점", "불꽃약점", "불꽃 약점", "불 약점", "불약점", "불약점", "불꽃약점", "불꽃약점", "불꽃약점", "불꽃약점", "불꽃약점", "테스트테스트테스트", "테스트", "테스트", "테스트"]
         var menus = TabMenu(
@@ -75,11 +80,18 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
-
+        switch action {
+        case .filterButtonTapped:
+            return Observable.just(.showFilter)
+        }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
+        switch mutation {
+        case .showFilter:
+            newState.route = .filter(newState.type)
+        }
         return newState
     }
 }

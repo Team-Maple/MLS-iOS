@@ -1,7 +1,10 @@
+import UIKit
+
 import DesignSystem
 import DomainInterface
+import DictionaryFeatureInterface
+
 import ReactorKit
-import UIKit
 
 final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = ItemDictionaryDetailReactor
@@ -11,6 +14,7 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     // MARK: - Components
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
+    private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,19 +91,14 @@ extension ItemDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
-                case .filter:
-                    // 추후 factory로 수정 필요
-                    let bottomSheet = SortedBottomSheetViewController()
-                    let bottomSheetReactor = SortedBottomSheetReactor(sortTypes: [.mostDrop, .levelLowest, .levelHighest], selectedIndex: owner.selectedIndex, isTabbarHidden: true)
-                    bottomSheet.reactor = bottomSheetReactor
-                    bottomSheet.onSelectedIndex = { selectedIndex in
-                        // TODO: reactor에 상태 추가해서 reactor의 상태 받아서 텍스트 변경해야 함
-                        // TODO: 뷰에 필터버튼 텍스트 변경 함수도 따로 빼야함
-                        self.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "\(bottomSheetReactor.currentState.sortTypes[selectedIndex].rawValue)", color: .textColor), for: .normal)
-                        owner.selectedIndex = selectedIndex
+                case .filter(let type):
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                        owner.selectedIndex = index
+                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        owner.monsterCardView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: selectedFilter.rawValue, color: .textColor), for: .normal)
+                        self.isBottomTabbarHidden = true
                     }
-
-                    owner.tabBarController?.presentModal(bottomSheet)
+                    owner.tabBarController?.presentModal(viewController)
                 case .none:
                     break
                 }
