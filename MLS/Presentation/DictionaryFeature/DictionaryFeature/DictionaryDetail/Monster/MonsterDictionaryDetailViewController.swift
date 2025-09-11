@@ -1,17 +1,24 @@
+import UIKit
+
 import DesignSystem
+import DictionaryFeatureInterface
 import DomainInterface
+
 import ReactorKit
 import RxCocoa
 import RxSwift
-import UIKit
 
 class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = MonsterDictionaryDetailReactor
+
+    // MARK: - Properties
+    private var selectedIndex = 0
 
     // MARK: - Componenets
     private var detailView = DetailStackInfoView(type: .monster)
     private var appearMapView = DetailStackMapView(imageUrl: "")
     private var dropItemView = DetailStackCardView()
+    private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,16 +96,40 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindcUserActions(reactor: Reactor) {
-
+        dropItemView.filterButton.rx.tap
+            .map { Reactor.Action.filterButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.tags)
+            .distinctUntilChanged()// tag는 변경될 때만 이벤트 받기
             .observe(on: MainScheduler.instance)
             .bind(onNext: {[weak self] tags in
                 self?.makeTagsRow(tags)
             })
+            .disposed(by: disposeBag)
+
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .filter(let type):
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                        owner.selectedIndex = index
+                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        owner.dropItemView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: selectedFilter.rawValue, color: .textColor), for: .normal)
+                        self.isBottomTabbarHidden = true
+                    }
+                    owner.tabBarController?.presentModal(viewController)
+                case .none:
+                    break
+                }
+            }
             .disposed(by: disposeBag)
     }
 }

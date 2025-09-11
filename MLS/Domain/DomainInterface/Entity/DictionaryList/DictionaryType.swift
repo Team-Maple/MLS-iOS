@@ -41,6 +41,25 @@ public enum DictionaryType: CaseIterable {
         }
     }
 
+    public var detailSortedFilter: [SortType] {
+        switch self {
+        case .item, .monster:
+            return [
+                .mostDrop, .levelDESC, .levelASC
+            ]
+        case .map:
+            return [
+                .mostAppear
+            ]
+        case .npc:
+            return [
+                .levelLowest, .levelHighest
+            ]
+        default:
+            return []
+        }
+    }
+
     public var isSortHidden: Bool {
         return sortedFilter.count == 0
     }

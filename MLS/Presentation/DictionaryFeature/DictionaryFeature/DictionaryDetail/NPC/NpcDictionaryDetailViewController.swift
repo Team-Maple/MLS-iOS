@@ -1,5 +1,9 @@
 import UIKit
 
+import DesignSystem
+import DictionaryFeatureInterface
+import DomainInterface
+
 import ReactorKit
 import RxCocoa
 import RxSwift
@@ -7,9 +11,13 @@ import RxSwift
 final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = NpcDictionaryDetailReactor
 
+    // MARK: - Properties
+    private var selectedIndex = 0
+
     // MARK: - Componenets
     private var appearMapView = DetailStackCardView()
     private var questView = DetailStackCardView()
+    private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +97,32 @@ extension NpcDictionaryDetailViewController {
         bindViewState(reactor: reactor)
     }
 
-    private func bindUserActions(reactor: Reactor) {}
+    private func bindUserActions(reactor: Reactor) {
+        questView.filterButton.rx.tap
+            .map { Reactor.Action.filterButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
-    private func bindViewState(reactor: Reactor) {}
+    private func bindViewState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .withUnretained(self)
+            .subscribe { (owner, route) in
+                switch route {
+                case .filter(let type):
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                        owner.selectedIndex = index
+                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        owner.questView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: selectedFilter.rawValue, color: .textColor), for: .normal)
+                        self.isBottomTabbarHidden = true
+                    }
+                    owner.tabBarController?.presentModal(viewController)
+                case .none:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }

@@ -6,7 +6,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
-        case filter(FilterType)
+        case filter(DictionaryType)
     }
 
     public struct ItemInfo: Equatable {
@@ -19,16 +19,9 @@ public final class ItemDictionaryDetailReactor: Reactor {
         var level: String
     }
 
-    public enum FilterType {
-        case dropRate
-        case levelSort
-        case levelReverseSort
-    }
-
     public struct State {
         @Pulse var route: Route = .none
-        var filterType: FilterType = .dropRate
-        var type: DictionaryItemType
+        var type: DictionaryType = .item
         // 아이템 임시 모델
         var itemInfos: [ItemInfo] = [
             ItemInfo(name: "물리공격력", desc: "22"),
@@ -75,7 +68,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
 
         switch mutation {
         case .showFilter:
-            newState.route = .filter(newState.filterType)
+            newState.route = .filter(newState.type)
         }
         return newState
     }
