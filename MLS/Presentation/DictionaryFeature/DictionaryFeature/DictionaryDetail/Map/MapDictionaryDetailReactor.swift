@@ -37,7 +37,7 @@ public final class MapDictionaryDetailReactor: Reactor {
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .showFilter:
             newState.route = .filter(newState.type)

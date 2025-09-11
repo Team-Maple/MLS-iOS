@@ -1,8 +1,8 @@
 import UIKit
 
 import DesignSystem
-import DomainInterface
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -10,8 +10,8 @@ import RxSwift
 
 final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = NpcDictionaryDetailReactor
-    
-    //MARK: - Properties
+
+    // MARK: - Properties
     private var selectedIndex = 0
 
     // MARK: - Componenets

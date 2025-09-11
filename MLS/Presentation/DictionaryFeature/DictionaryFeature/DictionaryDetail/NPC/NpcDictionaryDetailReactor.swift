@@ -40,7 +40,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
         switch mutation {
         case .showFilter:
             newState.route = .filter(newState.type)
-        
+
         }
         return newState
     }

@@ -1,8 +1,8 @@
 import UIKit
 
 import DesignSystem
-import DomainInterface
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 

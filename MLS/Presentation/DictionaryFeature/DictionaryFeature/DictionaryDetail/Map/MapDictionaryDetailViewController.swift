@@ -1,8 +1,8 @@
 import UIKit
 
 import DesignSystem
-import DomainInterface
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -11,9 +11,9 @@ import RxSwift
 final class MapDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = MapDictionaryDetailReactor
 
-    //MARK: - Properties
+    // MARK: - Properties
     private var selectedIndex = 0
-    
+
     // MARK: - Componenets
     private var mapInfoView: DetailStackMapView
     private var appearMonsterView = DetailStackCardView()
@@ -143,7 +143,6 @@ extension MapDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
-        
+
     }
 }

@@ -1,18 +1,17 @@
 import UIKit
 
 import DesignSystem
-import DomainInterface
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
 import RxSwift
 
-
 class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = MonsterDictionaryDetailReactor
-    
-    //MARK: - Properties
+
+    // MARK: - Properties
     private var selectedIndex = 0
 
     // MARK: - Componenets
@@ -112,7 +111,7 @@ extension MonsterDictionaryDetailViewController {
                 self?.makeTagsRow(tags)
             })
             .disposed(by: disposeBag)
-        
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음

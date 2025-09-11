@@ -40,7 +40,7 @@ public enum DictionaryType: CaseIterable {
             return []
         }
     }
-    
+
     public var detailSortedFilter: [SortType] {
         switch self {
         case .item, .monster:
