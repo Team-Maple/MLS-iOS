@@ -16,7 +16,7 @@ public final class MyPageListCell: UICollectionViewCell {
     private let titleLabel = UILabel()
     private let iconView: UIImageView = {
         let view = UIImageView()
-        view.image = #imageLiteral(resourceName: "arrwoForward.svg")
+        view.image = DesignSystemAsset.image(named: "arrowForward")
         return view
     }()
 
@@ -61,11 +61,12 @@ private extension MyPageListCell {
 
 extension MyPageListCell {
     public struct Input {
-        let image: UIImage
-        let name: String
+        let title: String
+        var isHeader: Bool = false
     }
 
     public func inject(input: Input) {
-        
+        titleLabel.attributedText = .makeStyledString(font: input.isHeader ? .sub_m_b : .b_m_r, text: input.title, alignment: .left)
+        iconView.isHidden = input.isHeader
     }
 }

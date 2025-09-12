@@ -115,7 +115,6 @@ public class LayoutFactory {
             .item(width: .fractionalWidth(1.0), height: .estimated(200))
             .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(200))
             .buildSection()
-            .contentInsets(.init(top: 20, leading: 16, bottom: 20, trailing: 16))
     }
 
     public func getBadgeLayout() -> CompositionalSectionBuilder {
@@ -133,7 +132,7 @@ public class LayoutFactory {
             )
             .buildSection()
             .interGroupSpacing(10)
-            .decorationItem(kind: WhiteBackgroundView.identifier)
+            .decorationItem(kind: SettingBackgroundView.identifier)
             .contentInsets(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
     }
 
@@ -144,18 +143,23 @@ public class LayoutFactory {
             .buildSection()
             .header(height: 40, isSticky: true)
             .decorationItem(kind: DescriptionBackgroundView.identifier)
-            .contentInsets(.init(top: 30, leading: 0, bottom: 30, trailing: 0))
     }
-    // 출현맵, 드롭몬스터 메뉴 레이아웃
-    public func getDictionaryAppearMapLayout() -> CompositionalSectionBuilder {
+    
+    public func getMyPageSettingLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
-            .item(width: .fractionalWidth(1.0), height: .absolute(104))
-            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(605))
+            .item(width: .fractionalWidth(1.0), height: .absolute(50))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(100))
             .buildSection()
-            .header(height: 40, isSticky: true)
-            .decorationItem(kind: Neutral100BackgroundView.identifier)
-            // 필터버튼 있다고 가정해서 top 52
-            .contentInsets(.init(top: 52, leading: 0, bottom: 30, trailing: 0))
-            .interGroupSpacing(10)
+            .decorationItem(kind: SettingBackgroundView.identifier)
+            .contentInsets(.init(top: 20 + 10, leading: 16 + 10, bottom: 10, trailing: 16 + 10))
+    }
+    
+    public func getMyPageSupportLayout() -> CompositionalSectionBuilder {
+        return CompositionalSectionBuilder()
+            .item(width: .fractionalWidth(1.0), height: .absolute(50))
+            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(100))
+            .buildSection()
+            .decorationItem(kind: SupportBackgroundView.identifier)
+            .contentInsets(.init(top: 16 + 10, leading: 16 + 10, bottom: 20 + 10, trailing: 16 + 10))
     }
 }

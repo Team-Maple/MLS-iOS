@@ -9,6 +9,8 @@ public final class MyPageMainCell: UICollectionViewCell {
         static let labelTopMargin: CGFloat = 12
         static let buttonTopMargin: CGFloat = 16
         static let buttonHight: CGFloat = 44
+        static let horizontalInset: CGFloat = 16
+        static let verticalInset: CGFloat = 20
     }
     
     // MARK: - Components
@@ -22,6 +24,7 @@ public final class MyPageMainCell: UICollectionViewCell {
 
         addViews()
         setupContstraints()
+        configureUI()
     }
 
     @available(*, unavailable)
@@ -40,7 +43,8 @@ private extension MyPageMainCell {
 
     func setupContstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.centerX.equalToSuperview()
+            make.top.equalToSuperview().inset(Constant.verticalInset)
+            make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
         
@@ -51,9 +55,14 @@ private extension MyPageMainCell {
         
         setProfileButton.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(Constant.buttonTopMargin)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+            make.bottom.equalToSuperview().inset(Constant.verticalInset)
             make.height.equalTo(Constant.buttonHight)
         }
+    }
+    
+    func configureUI() {
+        backgroundColor = .whiteMLS
     }
 }
 

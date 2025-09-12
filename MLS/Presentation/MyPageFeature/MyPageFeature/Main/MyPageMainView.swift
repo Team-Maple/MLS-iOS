@@ -25,6 +25,7 @@ public final class MyPageMainView: UIView {
     public let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .neutral100
         return collectionView
     }()
 
