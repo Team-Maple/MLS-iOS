@@ -2,9 +2,12 @@ import UIKit
 
 import DesignSystem
 
+import RxCocoa
+import RxSwift
+
 public final class MyPageMainCell: UICollectionViewCell {
     // MARK: - Type
-    struct Constant {
+    enum Constant {
         static let imageSize: CGFloat = 104
         static let labelTopMargin: CGFloat = 12
         static let buttonTopMargin: CGFloat = 16
@@ -12,7 +15,11 @@ public final class MyPageMainCell: UICollectionViewCell {
         static let horizontalInset: CGFloat = 16
         static let verticalInset: CGFloat = 20
     }
-    
+
+    // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    public var onSetProfileTap: (() -> Void)?
+
     // MARK: - Components
     private let imageView = UIImageView()
     private let nameLabel = UILabel()
@@ -25,6 +32,7 @@ public final class MyPageMainCell: UICollectionViewCell {
         addViews()
         setupContstraints()
         configureUI()
+        bindButton()
     }
 
     @available(*, unavailable)
@@ -47,12 +55,12 @@ private extension MyPageMainCell {
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
-        
+
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(Constant.labelTopMargin)
             make.centerX.equalToSuperview()
         }
-        
+
         setProfileButton.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom).offset(Constant.buttonTopMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
@@ -60,19 +68,28 @@ private extension MyPageMainCell {
             make.height.equalTo(Constant.buttonHight)
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .whiteMLS
     }
+
+    func bindButton() {
+        setProfileButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                owner.onSetProfileTap?()
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
-extension MyPageMainCell {
-    public struct Input {
+public extension MyPageMainCell {
+    struct Input {
         let image: UIImage
         let name: String
     }
 
-    public func inject(input: Input) {
+    func inject(input: Input) {
         imageView.image = input.image
         nameLabel.attributedText = .makeStyledString(font: .sub_l_b, text: input.name)
     }

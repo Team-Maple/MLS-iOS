@@ -37,8 +37,12 @@ private extension AppDelegate {
     func registerUseCase() {}
 
     func registerFactory() {
+        DIContainer.register(type: SetProfileFactory.self) {
+            SetProfileFactoryImpl()
+        }
+        
         DIContainer.register(type: MyPageMainFactory.self) {
-            MyPageMainFactoryImpl()
+            MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self))
         }
     }
 }

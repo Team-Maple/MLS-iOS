@@ -1,14 +1,14 @@
 import ReactorKit
 
-public final class MyPageMainReactor: Reactor {
+public final class SetProfileReactor: Reactor {
     // MARK: - Route
     public enum Route {
-        case edit
+        
     }
 
     // MARK: - Action
     public enum Action {
-        case editButtonTapped
+        
     }
 
     // MARK: - Mutation
@@ -19,10 +19,11 @@ public final class MyPageMainReactor: Reactor {
     // MARK: - State
     public struct State {
         @Pulse var route: Route?
+        var setProfileState: SetProfileView.SetProfileState
     }
 
     // MARK: - Properties
-    public var initialState = State()
+    public var initialState = State(setProfileState: .normal)
 
     // MARK: - Init
     public init() {
@@ -31,8 +32,7 @@ public final class MyPageMainReactor: Reactor {
     // MARK: - Mutate
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .editButtonTapped:
-            return .just(.toNavigate(.edit))
+            
         }
     }
 

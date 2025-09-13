@@ -3,7 +3,7 @@ import UIKit
 
 final public class SupportBackgroundView: UICollectionReusableView {
     // MARK: - Type
-    struct Constant {
+    enum Constant {
         static let radius: CGFloat = 16
         static let topInset: CGFloat = 16
         static let bottomInset: CGFloat = 20

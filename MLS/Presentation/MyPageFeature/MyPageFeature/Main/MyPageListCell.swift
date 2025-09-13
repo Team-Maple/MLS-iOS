@@ -6,7 +6,7 @@ import SnapKit
 
 public final class MyPageListCell: UICollectionViewCell {
     // MARK: - Type
-    struct Constant {
+    enum Constant {
         static let inset: CGFloat = 10
         static let iconSize: CGFloat = 24
         static let height: CGFloat = 50

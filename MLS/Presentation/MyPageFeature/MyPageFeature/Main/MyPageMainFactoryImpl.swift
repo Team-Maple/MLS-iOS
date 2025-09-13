@@ -2,10 +2,14 @@ import BaseFeature
 import MyPageFeatureInterface
 
 public final class MyPageMainFactoryImpl: MyPageMainFactory {
-    public init() {}
+    private let setProfileFactory: SetProfileFactory
+    
+    public init(setProfileFactory: SetProfileFactory) {
+        self.setProfileFactory = setProfileFactory
+    }
 
     public func make() -> BaseViewController {
-        let viewController = MyPageMainViewController()
+        let viewController = MyPageMainViewController(setProfileFactory: setProfileFactory)
         viewController.reactor = MyPageMainReactor()
         return viewController
     }

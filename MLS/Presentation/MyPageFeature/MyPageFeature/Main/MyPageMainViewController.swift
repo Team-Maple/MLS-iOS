@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import MyPageFeatureInterface
 
 import ReactorKit
 import RxSwift
@@ -17,11 +18,14 @@ public final class MyPageMainViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
+    private let setProfileFactory: SetProfileFactory
+
     // MARK: - Components
     private let mainView = MyPageMainView()
 
     // MARK: - Init
-    override public init() {
+    public init(setProfileFactory: SetProfileFactory) {
+        self.setProfileFactory = setProfileFactory
         super.init()
     }
 
@@ -89,7 +93,22 @@ extension MyPageMainViewController {
 
     private func bindUserActions(reactor: Reactor) {}
 
-    private func bindState(reactor: Reactor) {}
+    private func bindState(reactor: Reactor) {
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .edit:
+                    let viewController = owner.setProfileFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Delegate
@@ -114,6 +133,9 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageMainCell.identifier, for: indexPath) as? MyPageMainCell else { return UICollectionViewCell() }
             cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱"))
+            cell.onSetProfileTap = { [weak self] in
+                self?.reactor?.action.onNext(.editButtonTapped)
+            }
             return cell
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageListCell.identifier, for: indexPath) as? MyPageListCell else { return UICollectionViewCell() }
@@ -132,31 +154,4 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             scrollView.contentOffset.y = 0
         }
     }
-
-//    public func collectionView(
-//        _ collectionView: UICollectionView,
-//        viewForSupplementaryElementOfKind kind: String,
-//        at indexPath: IndexPath
-//    ) -> UICollectionReusableView {
-//        switch indexPath.section {
-//        case 1:
-//            let view = collectionView.dequeueReusableSupplementaryView(
-//                ofKind: kind,
-//                withReuseIdentifier: MyPageHeaderView.identifier,
-//                for: indexPath
-//            ) as! MyPageHeaderView
-//            view.inject(title: "설정")
-//            return view
-//        case 2:
-//            let view = collectionView.dequeueReusableSupplementaryView(
-//                ofKind: kind,
-//                withReuseIdentifier: MyPageHeaderView.identifier,
-//                for: indexPath
-//            ) as! MyPageHeaderView
-//            view.inject(title: "고객 지원")
-//            return view
-//        default:
-//            return UICollectionReusableView()
-//        }
-//    }
 }
