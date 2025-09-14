@@ -13,7 +13,7 @@ final class DetailStackInfoView: UIStackView {
         static let descriptionCornerRadius: CGFloat = 16
         static let descriptionStackViewInset: UIEdgeInsets = .init(top: 14, left: 16, bottom: 14, right: 16)
         static let detailStackViewInset: UIEdgeInsets = .init(top: 20, left: 16, bottom: 20, right: 16)
-        static let detailInfoStackViewInset: UIEdgeInsets = .init(top: 10, left: 0, bottom: 0, right: 0)
+        static let detailInfoStackViewInset: UIEdgeInsets = .init(top: 10, left: 0, bottom: 10, right: 0)
         static let height: CGFloat = 50
         static let dividerHeight: CGFloat = 1
         static let horizontalInset: CGFloat = 10
@@ -72,6 +72,8 @@ final class DetailStackInfoView: UIStackView {
         stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = Constant.detailInfoStackViewInset
         return stackView
     }()
 
@@ -90,6 +92,8 @@ final class DetailStackInfoView: UIStackView {
         stackView.backgroundColor = .whiteMLS
         stackView.distribution = .fill
         stackView.layer.cornerRadius = Constant.descriptionCornerRadius
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = Constant.detailInfoStackViewInset
         return stackView
     }()
 

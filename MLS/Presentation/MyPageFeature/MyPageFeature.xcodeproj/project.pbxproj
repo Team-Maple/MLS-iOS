@@ -78,6 +78,8 @@
 		773A3F6D2E71736300F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A3F702E71736A00F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A42CF2E717B8900F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2227A762E76A7E70095343A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2227A792E76A8430095343A /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -176,6 +178,8 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D2227A792E76A8430095343A /* DomainInterface.framework */,
+				D2227A762E76A7E70095343A /* Core.framework */,
 				773A42CF2E717B8900F75B30 /* BaseFeature.framework */,
 				773A3F702E71736A00F75B30 /* BaseFeature.framework */,
 				773A3F6D2E71736300F75B30 /* BaseFeature.framework */,
@@ -671,6 +675,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KNU45PG8G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -701,6 +706,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KNU45PG8G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
