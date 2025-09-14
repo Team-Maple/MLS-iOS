@@ -27,6 +27,11 @@
 		773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F6D2E71736300F75B30 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F702E71736A00F75B30 /* BaseFeature.framework */; };
 		773A42D02E717B8900F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A42CF2E717B8900F75B30 /* BaseFeature.framework */; };
+		D2227A772E76A7E70095343A /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A762E76A7E70095343A /* Core.framework */; };
+		D2227A782E76A7E70095343A /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A762E76A7E70095343A /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D2227A7A2E76A8430095343A /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A792E76A8430095343A /* DomainInterface.framework */; };
+		D2227A7B2E76A8430095343A /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A792E76A8430095343A /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D2227A7D2E76A84A0095343A /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2227A7C2E76A84A0095343A /* ReactorKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,9 +65,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				D2227A7B2E76A8430095343A /* DomainInterface.framework in Embed Frameworks */,
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
 				773A3F672E71731700F75B30 /* MyPageFeature.framework in Embed Frameworks */,
+				D2227A782E76A7E70095343A /* Core.framework in Embed Frameworks */,
 				773A3C002E7170A700F75B30 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -78,6 +85,8 @@
 		773A3F6D2E71736300F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A3F702E71736A00F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A42CF2E717B8900F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2227A762E76A7E70095343A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2227A792E76A8430095343A /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -138,13 +147,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2227A7A2E76A8430095343A /* DomainInterface.framework in Frameworks */,
 				773A3F6E2E71736300F75B30 /* BaseFeature.framework in Frameworks */,
+				D2227A7D2E76A84A0095343A /* ReactorKit in Frameworks */,
 				773A3F6B2E71734600F75B30 /* DesignSystem.framework in Frameworks */,
 				773A3F662E71731700F75B30 /* MyPageFeature.framework in Frameworks */,
 				773A3BFC2E71701D00F75B30 /* RxSwift in Frameworks */,
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
 				773A3BF82E71701D00F75B30 /* RxCocoa in Frameworks */,
+				D2227A772E76A7E70095343A /* Core.framework in Frameworks */,
 				773A3BFF2E7170A700F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -176,6 +188,8 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D2227A792E76A8430095343A /* DomainInterface.framework */,
+				D2227A762E76A7E70095343A /* Core.framework */,
 				773A42CF2E717B8900F75B30 /* BaseFeature.framework */,
 				773A3F702E71736A00F75B30 /* BaseFeature.framework */,
 				773A3F6D2E71736300F75B30 /* BaseFeature.framework */,
@@ -280,6 +294,7 @@
 				773A3BF92E71701D00F75B30 /* RxRelay */,
 				773A3BFB2E71701D00F75B30 /* RxSwift */,
 				773A3BFD2E71702300F75B30 /* SnapKit */,
+				D2227A7C2E76A84A0095343A /* ReactorKit */,
 			);
 			productName = MyPageFeatureDemo;
 			productReference = 773A38772E7159CA00F75B30 /* MyPageFeatureDemo.app */;
@@ -671,6 +686,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KNU45PG8G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -701,6 +717,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = KNU45PG8G9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -837,6 +854,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		D2227A7C2E76A84A0095343A /* ReactorKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 773A3BF32E716FFD00F75B30 /* XCRemoteSwiftPackageReference "ReactorKit" */;
+			productName = ReactorKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
