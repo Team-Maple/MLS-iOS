@@ -16,30 +16,28 @@ class ViewController: UIViewController {
         let announceView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .announcement)
         ])
-        
+
         let eventView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .event)
         ])
-        
+
         let patchView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .patchNote)
         ])
-        
+
         let termsView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .terms)
         ])
-        
+
         let notiView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: NotificationSettingFactory.self).make()
         ])
-        
 
         announceView.title = "공지사항"
         eventView.title = "이벤트"
         patchView.title = "패치 노트"
         termsView.title = "약관"
         notiView.title = "알림설정"
-     
 
         return [
             [announceView, eventView, patchView, termsView, notiView]

@@ -4,11 +4,11 @@ import BaseFeature
 import DomainInterface
 
 final class NotificationSettingViewController: BaseViewController, UNUserNotificationCenterDelegate {
-    
+
     private var authorized: Bool?
     // MARK: - Components
     public var mainView = NotificationSettingView()
-    
+
     public override init() {
         super.init()
     }
@@ -17,15 +17,15 @@ final class NotificationSettingViewController: BaseViewController, UNUserNotific
         super.viewDidLoad()
         UNUserNotificationCenter.current().delegate = self // NotificationCenter Delegate
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
-        UNUserNotificationCenter.current().requestAuthorization(options:    authOptions) { [weak self] granted, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { [weak self] granted, _ in
             guard let self = self else { return }
-            
+
             DispatchQueue.main.async {
                 self.authorized = granted // 이거 반드시 필요
                 self.makeNotificationView()
             }
         }
-        
+
         isBottomTabbarHidden = true
         addViews()
         setupConstraints()
@@ -39,17 +39,17 @@ final class NotificationSettingViewController: BaseViewController, UNUserNotific
 //        }
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         print("hello")
         self.makeNotificationView()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     @objc private func appWillEnterForeground() {
         isNotificationOn { isOn in
             self.authorized = isOn
@@ -65,7 +65,7 @@ extension NotificationSettingViewController {
     func addViews() {
         view.addSubview(mainView)
     }
-    
+
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -87,13 +87,13 @@ extension NotificationSettingViewController {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
             mainView.createNotificationView(titleText: "푸시 알림 설정", subText: "기기 설정을 변경해야 알림을 받을 수 있어요.", authorized: authorized)
-        
+
         } else { // 알림 권한 허용되었을 경우
             print("허용")
             mainView.createNotificationView(titleText: "신규 이벤트 알림 설정", subText: "메이플랜드 이벤트 소식을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
             mainView.createNotificationView(titleText: "공지사항 알림 설정", subText: "메이플랜드 공지사항을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
         }
-       
+
     }
 }
 

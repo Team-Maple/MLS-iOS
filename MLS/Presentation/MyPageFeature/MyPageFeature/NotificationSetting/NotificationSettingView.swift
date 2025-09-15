@@ -39,17 +39,17 @@ class NotificationSettingView: UIView {
         stackView.spacing = 36
         return stackView
     }()
-    
+
     // 콜백 클로저
     var onChangeButtonTapped: (() -> Void)?
-    
+
      // MARK: - Init
     init() {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -60,10 +60,10 @@ class NotificationSettingView: UIView {
 private extension NotificationSettingView {
     func addViews() {
         [headerView, stackView].forEach { addSubview($0) }
-        
+
         [backButton, titleLabel].forEach { headerView.addSubview($0) }
     }
-    
+
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
@@ -80,7 +80,7 @@ private extension NotificationSettingView {
             make.leading.equalTo(backButton.snp.trailing)
             make.verticalEdges.equalToSuperview()
         }
-        
+
         stackView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()
@@ -89,7 +89,7 @@ private extension NotificationSettingView {
 }
 
 extension NotificationSettingView {
-    
+
     func createNotificationView(titleText: String, subText: String, authorized: Bool) {
         let view = UIView()
         let titleLabel = UILabel()
@@ -102,14 +102,14 @@ extension NotificationSettingView {
             button.setImage(DesignSystemAsset.image(named: "arrowRight"), for: .normal)
             return button
         }()
-        
+
         titleLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: titleText, color: .textColor)
         titleLabel.textAlignment = .left
-        
+
         subTextLabel.attributedText = .makeStyledString(font: .cp_s_r, text: subText, color: .neutral500)
         subTextLabel.numberOfLines = 0
         subTextLabel.textAlignment = .left
-        
+
         view.addSubview(titleLabel)
         view.addSubview(subTextLabel)
         view.addSubview(spacer)
@@ -119,20 +119,20 @@ extension NotificationSettingView {
         } else {
             view.addSubview(changeButton)
         }
-        
+
         switchButton.onTintColor = .primary700
-                
+
         spacer.backgroundColor = .neutral100
-        
+
         view.snp.makeConstraints { make in
             make.height.equalTo(Constant.viewHeight)
         }
-        
+
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview().inset(Constant.horizontalMargin)
         }
-        
+
         subTextLabel.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.subTextTopMargin)
             make.leading.equalToSuperview().inset(Constant.horizontalMargin)
@@ -156,18 +156,18 @@ extension NotificationSettingView {
             make.width.equalToSuperview()
         }
         stackView.addArrangedSubview(view)
-        
+
         bindAction(button: changeButton)
     }
-    
+
     private func bindAction(button: UIButton) {
         button.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
     }
-    
+
     @objc private func changeButtonTapped() {
         onChangeButtonTapped?()
     }
-    
+
     func clearNotificationViews() {
         stackView.arrangedSubviews.forEach { view in
             stackView.removeArrangedSubview(view)

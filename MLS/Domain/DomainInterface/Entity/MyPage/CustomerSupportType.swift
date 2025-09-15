@@ -1,10 +1,9 @@
-
 public enum CustomerSupportType {
     case event
     case announcement
     case patchNote
     case terms
-    
+
     public var detailTitle: String {
         switch self {
         case .event:

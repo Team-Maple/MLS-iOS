@@ -1,4 +1,3 @@
-
 import UIKit
 
 import DesignSystem
@@ -27,7 +26,7 @@ final class CustomerSupportBaseView: UIView {
     // MARK: - Components
     // 헤더 뷰
     public let headerView = UIView()
-    
+
     private let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
@@ -35,9 +34,9 @@ final class CustomerSupportBaseView: UIView {
 
         return button
     }()
-    
+
     public let titleLabel = UILabel()
-    
+
     // 이벤트 메뉴(진행중, 종료) 스택 뷰
     let menuStackView: UIStackView = {
         let stackView = UIStackView()
@@ -51,7 +50,7 @@ final class CustomerSupportBaseView: UIView {
     }()
     // 메뉴 스택뷰 왼쪽 정렬을 위해서
     let emptyView = UIView()
-    
+
     /// 아이템 스 택뷰 담을 스크롤 뷰
     public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -67,15 +66,14 @@ final class CustomerSupportBaseView: UIView {
         stackView.layoutMargins = Constant.menuTabBarHorizontalInset
         return stackView
     }()
-    
-    
+
     // MARK: - Init
     init() {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
     }
-    
+
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -84,20 +82,20 @@ final class CustomerSupportBaseView: UIView {
 
 // MARK: - SetUp
 private extension CustomerSupportBaseView {
-    
+
     func addViews() {
         [backButton, titleLabel].forEach { headerView.addSubview($0) }
         [headerView, menuStackView, scrollView].forEach { addSubview($0) }
         scrollView.addSubview(detailItemStackView)
     }
-    
+
     func setupConstraints() {
         headerView.snp.makeConstraints { make in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.buttonSize)
         }
-        
+
         backButton.snp.makeConstraints { make in
             make.leading.centerY.equalToSuperview()
             make.size.equalTo(Constant.buttonSize)
@@ -108,20 +106,20 @@ private extension CustomerSupportBaseView {
             make.leading.equalTo(backButton.snp.trailing)
             make.verticalEdges.equalToSuperview()
         }
-        
+
         menuStackView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()
             make.height.equalTo(Constant.menuStackViewHeight)
         }
-        
+
         scrollView.snp.makeConstraints { make in
             make.top.equalTo(menuStackView.snp.bottom)
             make.width.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
-        
+
         detailItemStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Constant.topMargin)
             make.width.equalToSuperview()
@@ -151,13 +149,13 @@ extension CustomerSupportBaseView {
 
         return button
     }
-    
+
     func setupConfig() -> UIButton.Configuration {
         var config = UIButton.Configuration.plain()
         config.contentInsets = Constant.menuTabBarButtonInset
         return config
     }
-    
+
     func createDetailItem(titleText: String, dateText: String?) -> UIView { // 제목, 날짜 데이터 필요
         let view = UIView()
         let title = UILabel()
@@ -165,18 +163,18 @@ extension CustomerSupportBaseView {
         let spacer = UIView()
         let imageView = UIImageView()
         imageView.image = DesignSystemAsset.image(named: "arrowForward")
-        
+
         title.attributedText = .makeStyledString(font: .sub_m_sb, text: titleText)
         title.textAlignment = .left
-        
+
         date.attributedText = .makeStyledString(font: .b_s_r, text: dateText)
-        
+
         view.addSubview(title)
         view.addSubview(date)
         view.addSubview(imageView)
-                
+
         spacer.backgroundColor = UIColor.neutral200
-        
+
         view.snp.makeConstraints { make in
             make.height.equalTo(Constant.viewHeight)
         }
@@ -203,13 +201,13 @@ extension CustomerSupportBaseView {
         spacer.snp.makeConstraints { make in
             make.height.equalTo(Constant.spacerHeight)
         }
-        
+
         detailItemStackView.addArrangedSubview(view)
         detailItemStackView.addArrangedSubview(spacer)
-        
+
         return view
     }
-    
+
     func setupSpacerView() {
         let spacerView = UIView()
         spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)

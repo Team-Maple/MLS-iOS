@@ -40,11 +40,11 @@ private extension AppDelegate {
         DIContainer.register(type: MyPageMainFactory.self) {
             MyPageMainFactoryImpl()
         }
-        
+
         DIContainer.register(type: CustomerSupportFactory.self) {
             CustomerSupportBaseViewFactoryImpl()
         }
-        
+
         DIContainer.register(type: NotificationSettingFactory.self) {
             NotificationSettingViewFactoryImpl()
         }
