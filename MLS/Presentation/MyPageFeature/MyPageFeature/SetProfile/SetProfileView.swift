@@ -3,6 +3,8 @@ import UIKit
 import DesignSystem
 import DomainInterface
 
+import RxCocoa
+import RxSwift
 import SnapKit
 
 public final class SetProfileView: UIView {
@@ -29,7 +31,10 @@ public final class SetProfileView: UIView {
     }
 
     // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    
     var onCancelTap: (() -> Void)?
+    public let imageTap = PublishRelay<Void>()
     
     // MARK: - Components
     // shared
@@ -113,7 +118,7 @@ public final class SetProfileView: UIView {
         let text = "메이플랜드사전을 탈퇴하려면 여기를 눌러주세요"
         let attributed = NSMutableAttributedString(string: text)
         
-        let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
+        let fullRange = NSRange(text.startIndex ..< text.endIndex, in: text)
         attributed.addAttribute(.font, value: UIFont.korFont(style: .regular, size: 12)!, range: fullRange)
         attributed.addAttribute(.foregroundColor, value: UIColor.neutral500, range: fullRange)
         
@@ -198,11 +203,12 @@ public final class SetProfileView: UIView {
     private let platformLabel = UILabel()
     
     // setEdit
-    private let nickNameInputBox: InputBox = {
+    public let nickNameInputBox: InputBox = {
         let box = InputBox(label: "닉네임", placeHodler: "한글 2~15자 입력해주세요.")
         box.label.attributedText = .makeStyledString(font: .cp_s_r, text: "닉네임", color: .textColor)
         return box
     }()
+
     private let countLabel = UILabel()
 
     // MARK: - init
@@ -211,6 +217,7 @@ public final class SetProfileView: UIView {
         addViews()
         setupConstraints()
         configureUI()
+        bindGesture()
     }
 
     @available(*, unavailable)
@@ -273,6 +280,22 @@ private extension SetProfileView {
         backgroundColor = .whiteMLS
         cancelTextView.delegate = self
     }
+    
+    private func bindGesture() {
+        imageView.isUserInteractionEnabled = true
+
+        let tapGesture = UITapGestureRecognizer()
+        imageView.addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .map { _ in }
+            .bind(to: imageTap)
+            .disposed(by: disposeBag)
+
+        setImageButton.rx.tap
+            .bind(to: imageTap)
+            .disposed(by: disposeBag)
+    }
 }
 
 extension SetProfileView: UITextViewDelegate {
@@ -299,12 +322,14 @@ public extension SetProfileView {
             backgroudView.isHidden = false
             nickNameInputBox.isHidden = true
             setImageButton.isHidden = true
+            imageView.isUserInteractionEnabled = false
         case .edit:
             editButton.setAttributedTitle(.makeStyledString(font: .btn_m_r, text: "완료"), for: .normal)
             nameLabel.isHidden = true
             backgroudView.isHidden = true
             nickNameInputBox.isHidden = false
             setImageButton.isHidden = false
+            imageView.isUserInteractionEnabled = true
         }
     }
     
@@ -325,5 +350,22 @@ public extension SetProfileView {
             platformLabel.attributedText = .makeStyledString(font: .b_m_r, text: "애플")
             platformIconView.image = DesignSystemAsset.image(named: "kakaoImage")
         }
+    }
+    
+    func setCount(count: Int) {
+        countLabel.isHidden = count < 0
+        let text = "\(count)/15"
+           
+        let attributed = NSMutableAttributedString(string: text)
+           
+        let countRange = (text as NSString).range(of: "\(count)")
+        attributed.addAttribute(.font, value: UIFont.korFont(style: .semiBold, size: 12)!, range: countRange)
+        attributed.addAttribute(.foregroundColor, value: UIColor.textColor, range: countRange)
+           
+        let suffixRange = (text as NSString).range(of: "/15")
+        attributed.addAttribute(.font, value: UIFont.korFont(style: .regular, size: 12)!, range: suffixRange)
+        attributed.addAttribute(.foregroundColor, value: UIColor.neutral600, range: suffixRange)
+
+        countLabel.attributedText = attributed
     }
 }

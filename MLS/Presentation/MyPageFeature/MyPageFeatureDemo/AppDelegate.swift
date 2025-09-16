@@ -3,6 +3,8 @@ import UIKit
 import BaseFeature
 import Core
 import DesignSystem
+import Domain
+import DomainInterface
 import MyPageFeature
 import MyPageFeatureInterface
 
@@ -34,11 +36,19 @@ private extension AppDelegate {
 
     func registerRepository() {}
 
-    func registerUseCase() {}
+    func registerUseCase() {
+        DIContainer.register(type: CheckNickNameUseCase.self) {
+            CheckNickNameUseCaseImpl()
+        }
+    }
 
     func registerFactory() {
+        DIContainer.register(type: SelectImageFactory.self) {
+            SelectImageFactoryImpl()
+        }
+        
         DIContainer.register(type: SetProfileFactory.self) {
-            SetProfileFactoryImpl()
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
         }
         
         DIContainer.register(type: MyPageMainFactory.self) {

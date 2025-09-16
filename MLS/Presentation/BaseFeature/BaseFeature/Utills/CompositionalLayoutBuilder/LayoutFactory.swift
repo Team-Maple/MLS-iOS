@@ -116,34 +116,6 @@ public class LayoutFactory {
             .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(200))
             .buildSection()
     }
-
-    public func getBadgeLayout() -> CompositionalSectionBuilder {
-        return CompositionalSectionBuilder()
-            .item(width: .estimated(40), height: .estimated(24))
-            .nestedGroup(
-                outerDirection: .vertical,
-                outerWidth: .fractionalWidth(1.0),
-                outerHeight: .estimated(70),
-                innerDirection: .horizontal,
-                innerWidth: .fractionalWidth(1.0),
-                innerHeight: .estimated(24),
-                innerCount: nil,
-                innerSpacing: 10
-            )
-            .buildSection()
-            .interGroupSpacing(10)
-            .decorationItem(kind: SettingBackgroundView.identifier)
-            .contentInsets(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
-    }
-
-    public func getDictionaryDetailDescriptionLayout() -> CompositionalSectionBuilder {
-        return CompositionalSectionBuilder()
-            .item(width: .fractionalWidth(1.0), height: .absolute(50))
-            .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(405))
-            .buildSection()
-            .header(height: 40, isSticky: true)
-            .decorationItem(kind: DescriptionBackgroundView.identifier)
-    }
     
     public func getMyPageSettingLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
@@ -161,5 +133,25 @@ public class LayoutFactory {
             .buildSection()
             .decorationItem(kind: SupportBackgroundView.identifier)
             .contentInsets(.init(top: 16 + 10, leading: 16 + 10, bottom: 20 + 10, trailing: 16 + 10))
+    }
+    
+    public func getSelectImageLayout() -> CompositionalSectionBuilder {
+        let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0/3.0),
+                heightDimension: .fractionalWidth(1.0/3.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalWidth(1.0/3.0)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item, item, item])
+            group.interItemSpacing = .fixed(16)
+
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 16, bottom: 16, trailing: 16)
+
+            return CompositionalSectionBuilder(section: section)
     }
 }
