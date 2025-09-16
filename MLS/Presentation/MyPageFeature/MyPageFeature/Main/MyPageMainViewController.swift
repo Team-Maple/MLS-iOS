@@ -171,7 +171,16 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             } else {
                 // index.row == 0은 제목
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
-                cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                switch item {
+                case .setCharacterInfo(let info):
+                    if let info = info {
+                        cell.inject(input: MyPageListCell.Input(title: info.job, isHeader: false, addLevel: info.level))
+                    } else {
+                        cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                    }
+                default:
+                    cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                }
             }
 
             return cell
