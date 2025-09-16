@@ -56,7 +56,7 @@ public final class SetProfileReactor: Reactor {
         case .showBottomSheet:
             return .just(.toNavigate(.imageBottomSheet))
         case .inputNickName(let nickName):
-            return checkNickNameUseCase.excute(nickName: nickName)
+            return checkNickNameUseCase.execute(nickName: nickName)
                 .map { isValid in
                     [.setNickName(nickName), .showError(isValid)]
                 }

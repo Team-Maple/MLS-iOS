@@ -124,13 +124,14 @@ extension MyPageMainViewController {
 // MARK: - Delegate
 extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let reactor = reactor else { return 0 }
         switch section {
         case 0:
             return 1
         case 1:
-            return 3
+            return reactor.currentState.menus[0].count + 1
         default:
-            return 5
+            return reactor.currentState.menus[1].count + 1
         }
     }
 

@@ -6,5 +6,5 @@ public protocol CheckEmptyLevelAndRoleUseCase {
     ///   - level: 현재 입력된 레벨
     ///   - role: 현재 입력된 직업
     /// - Returns: true / false
-    func excute(level: Int?, role: String?) -> Observable<Bool>
+    func execute(level: Int?, role: String?) -> Observable<Bool>
 }

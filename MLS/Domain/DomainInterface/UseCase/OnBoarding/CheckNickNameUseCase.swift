@@ -5,5 +5,5 @@ public protocol CheckNickNameUseCase {
     /// - Parameters:
     ///   - nickName: 현재 입력된 닉네임
     /// - Returns: true / false
-    func excute(nickName: String) -> Observable<Bool>
+    func execute(nickName: String) -> Observable<Bool>
 }

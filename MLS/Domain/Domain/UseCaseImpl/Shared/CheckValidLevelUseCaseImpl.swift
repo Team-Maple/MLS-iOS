@@ -5,7 +5,7 @@ import RxSwift
 public class CheckValidLevelUseCaseImpl: CheckValidLevelUseCase {
     public init() {}
 
-    public func excute(level: Int?) -> Observable<Bool?> {
+    public func execute(level: Int?) -> Observable<Bool?> {
         guard let level = level else {
             return .just(nil)
         }
