@@ -54,5 +54,13 @@ private extension AppDelegate {
         DIContainer.register(type: MyPageMainFactory.self) {
             MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self))
         }
+
+        DIContainer.register(type: CustomerSupportFactory.self) {
+            CustomerSupportBaseViewFactoryImpl()
+        }
+
+        DIContainer.register(type: NotificationSettingFactory.self) {
+            NotificationSettingViewFactoryImpl()
+        }
     }
 }
