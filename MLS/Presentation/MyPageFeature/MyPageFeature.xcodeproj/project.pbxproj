@@ -31,6 +31,7 @@
 		77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B92E78596900522216 /* DomainInterface.framework */; };
 		77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B92E78596900522216 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D2DA8C322E798917009C53BA /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2227A7C2E76A84A0095343A /* ReactorKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +70,6 @@
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
 				773A3F672E71731700F75B30 /* MyPageFeature.framework in Embed Frameworks */,
-				D2227A782E76A7E70095343A /* Core.framework in Embed Frameworks */,
 				773A3C002E7170A700F75B30 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -148,9 +148,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2DA8C322E798917009C53BA /* ReactorKit in Frameworks */,
 				77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */,
 				773A3F6E2E71736300F75B30 /* BaseFeature.framework in Frameworks */,
-				D2227A7D2E76A84A0095343A /* ReactorKit in Frameworks */,
 				773A3F6B2E71734600F75B30 /* DesignSystem.framework in Frameworks */,
 				773A3F662E71731700F75B30 /* MyPageFeature.framework in Frameworks */,
 				77BE55BA2E78596900522216 /* Domain.framework in Frameworks */,
@@ -158,7 +158,6 @@
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
 				773A3BF82E71701D00F75B30 /* RxCocoa in Frameworks */,
-				D2227A772E76A7E70095343A /* Core.framework in Frameworks */,
 				773A3BFF2E7170A700F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,4 +1,5 @@
 import BaseFeature
+import MyPageFeatureInterface
 import DictionaryFeatureInterface
 import DomainInterface
 

@@ -13,6 +13,8 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
+import MyPageFeature
+import MyPageFeatureInterface
 
 import KakaoSDKCommon
 
@@ -175,7 +177,7 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
-            return NotificationSettingFactoryImpl()
+            return NotificationSettingViewFactoryImpl()
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             return DictionaryNotificationFactoryImpl(

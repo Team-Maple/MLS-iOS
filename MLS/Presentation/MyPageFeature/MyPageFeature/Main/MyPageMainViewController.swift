@@ -19,13 +19,17 @@ public final class MyPageMainViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let setProfileFactory: SetProfileFactory
+    private let customerSupportFactory: CustomerSupportFactory
+    private let notificationSettingFactory: NotificationSettingFactory
 
     // MARK: - Components
     private let mainView = MyPageMainView()
 
     // MARK: - Init
-    public init(setProfileFactory: SetProfileFactory) {
+    public init(setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory) {
         self.setProfileFactory = setProfileFactory
+        self.customerSupportFactory = customerSupportFactory
+        self.notificationSettingFactory = notificationSettingFactory
         super.init()
     }
 
@@ -91,7 +95,9 @@ extension MyPageMainViewController {
         bindState(reactor: reactor)
     }
 
-    private func bindUserActions(reactor: Reactor) {}
+    private func bindUserActions(reactor: Reactor) {
+        
+    }
 
     private func bindState(reactor: Reactor) {
         rx.viewDidAppear
@@ -112,6 +118,21 @@ extension MyPageMainViewController {
                             })
                             .disposed(by: owner.disposeBag)
                     }
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .event:
+                    let viewController = owner.customerSupportFactory.make(type: .event)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .notice:
+                    let viewController = owner.customerSupportFactory.make(type: .announcement)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .patchNode:
+                    let viewController = owner.customerSupportFactory.make(type: .patchNote)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .policy:
+                    let viewController = owner.customerSupportFactory.make(type: .terms)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .notificationSetting:
+                    let viewController = owner.notificationSettingFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -179,6 +200,19 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionViewCell()
         }
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard indexPath.section > 0 else { return } // section 0은 프로필 셀
+
+        let row = indexPath.row
+        guard row > 0 else { return } // row 0은 header
+
+        // 메뉴 항목 가져오기
+        guard let menu = reactor?.currentState.menus[indexPath.section - 1][row - 1] else { return }
+        // 액션 발생
+        reactor?.action.onNext(.menuItemTapped(menu))
+    }
+
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 디자이너 문의 필요
