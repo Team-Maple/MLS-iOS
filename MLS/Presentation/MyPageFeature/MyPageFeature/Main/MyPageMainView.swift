@@ -13,7 +13,6 @@ public final class MyPageMainView: UIView {
     }
 
     // MARK: - Properties
-    
 
     // MARK: - Components
     private let titleLabel: UILabel = {
@@ -21,7 +20,7 @@ public final class MyPageMainView: UIView {
         label.attributedText = .makeStyledString(font: .h_xxxl_b, text: "마이페이지", alignment: .left)
         return label
     }()
-    
+
     public let mainCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -56,13 +55,13 @@ private extension MyPageMainView {
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.titleLabelHeight)
         }
-        
+
         mainCollectionView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(Constant.colletionViewTopMargin)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .whiteMLS
     }

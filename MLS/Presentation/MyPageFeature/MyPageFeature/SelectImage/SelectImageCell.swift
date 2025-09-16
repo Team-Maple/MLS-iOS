@@ -11,7 +11,7 @@ public final class SelectImageCell: UICollectionViewCell {
         static let iconSize: CGFloat = 24
         static let height: CGFloat = 50
     }
-    
+
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()

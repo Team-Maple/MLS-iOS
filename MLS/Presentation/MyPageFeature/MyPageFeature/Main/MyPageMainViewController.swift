@@ -145,26 +145,26 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 withReuseIdentifier: MyPageMainCell.identifier,
                 for: indexPath
             ) as? MyPageMainCell else { return UICollectionViewCell() }
-            
+
             cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱"))
             cell.onSetProfileTap = { [weak self] in
                 self?.reactor?.action.onNext(.editButtonTapped)
             }
             return cell
-            
+
         case 1, 2:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: MyPageListCell.identifier,
                 for: indexPath
             ) as? MyPageListCell,
                   let reactor = reactor else { return UICollectionViewCell() }
-            
+
             let headerTitle: String
             switch indexPath.section {
             case 1: headerTitle = "설정"
             default: headerTitle = "고객 지원"
             }
-            
+
             if indexPath.row == 0 {
                 cell.inject(input: MyPageListCell.Input(title: headerTitle, isHeader: true))
             } else {
@@ -172,9 +172,9 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
                 cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
             }
-            
+
             return cell
-            
+
         default:
             return UICollectionViewCell()
         }

@@ -5,7 +5,7 @@ import MyPageFeatureInterface
 public final class SetProfileFactoryImpl: SetProfileFactory {
     private let selectImageFactory: SelectImageFactory
     private let checkNickNameUseCase: CheckNickNameUseCase
-    
+
     public init(selectImageFactory: SelectImageFactory, checkNickNameUseCase: CheckNickNameUseCase) {
         self.selectImageFactory = selectImageFactory
         self.checkNickNameUseCase = checkNickNameUseCase

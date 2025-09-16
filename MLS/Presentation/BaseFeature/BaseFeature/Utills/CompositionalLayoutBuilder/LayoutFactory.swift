@@ -116,7 +116,7 @@ public class LayoutFactory {
             .group(.vertical, width: .fractionalWidth(1.0), height: .estimated(200))
             .buildSection()
     }
-    
+
     public func getMyPageSettingLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(50))
@@ -125,7 +125,7 @@ public class LayoutFactory {
             .decorationItem(kind: SettingBackgroundView.identifier)
             .contentInsets(.init(top: 20 + 10, leading: 16 + 10, bottom: 10, trailing: 16 + 10))
     }
-    
+
     public func getMyPageSupportLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(50))
@@ -134,7 +134,7 @@ public class LayoutFactory {
             .decorationItem(kind: SupportBackgroundView.identifier)
             .contentInsets(.init(top: 16 + 10, leading: 16 + 10, bottom: 20 + 10, trailing: 16 + 10))
     }
-    
+
     public func getSelectImageLayout() -> CompositionalSectionBuilder {
         let itemSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0/3.0),

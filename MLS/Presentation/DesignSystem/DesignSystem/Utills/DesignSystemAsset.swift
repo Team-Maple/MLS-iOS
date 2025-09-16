@@ -9,7 +9,7 @@ public enum DesignSystemAsset {
     public static func image(named name: String) -> UIImage? {
         return UIImage(named: name, in: bundle, compatibleWith: nil)
     }
-    
+
     public static func loadMapleIllustration(type: MapleIllustration) -> UIImage? {
         return UIImage(named: type.rawValue, in: bundle, compatibleWith: nil)
     }

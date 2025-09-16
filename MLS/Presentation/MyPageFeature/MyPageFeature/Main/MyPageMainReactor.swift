@@ -9,7 +9,7 @@ public final class MyPageMainReactor: Reactor {
         case showNotice
         case showPatchNode
         case showPolicy
-        
+
         var description: String {
             switch self {
             case .setAlarm:
@@ -27,7 +27,7 @@ public final class MyPageMainReactor: Reactor {
             }
         }
     }
-    
+
     // MARK: - Route
     public enum Route {
         case edit
@@ -50,7 +50,7 @@ public final class MyPageMainReactor: Reactor {
             [
                 .setAlarm,
                 .setCharacterInfo
-            ],[
+            ], [
                 .showEvent,
                 .showNotice,
                 .showPatchNode,

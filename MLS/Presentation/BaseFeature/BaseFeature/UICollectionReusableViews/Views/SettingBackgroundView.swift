@@ -8,7 +8,7 @@ final public class SettingBackgroundView: UICollectionReusableView {
         static let topInset: CGFloat = 20
         static let horizontalInset: CGFloat = 16
     }
-    
+
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .whiteMLS

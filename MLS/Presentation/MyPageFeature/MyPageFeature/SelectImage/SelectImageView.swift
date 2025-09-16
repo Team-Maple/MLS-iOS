@@ -16,13 +16,13 @@ final class SelectImageView: UIView {
 
     // MARK: - Components
     public let header = Header(style: .filter, title: "정렬")
-    
+
     public let imageCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         return collectionView
     }()
-    
+
     public let applyButton = CommonButton(style: .normal, title: "적용", disabledTitle: nil)
 
     // MARK: - init
@@ -53,12 +53,12 @@ private extension SelectImageView {
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.headerHeight)
         }
-        
+
         imageCollectionView.snp.makeConstraints { make in
             make.top.equalTo(header.snp.bottom)
             make.horizontalEdges.equalToSuperview()
         }
-        
+
         applyButton.snp.makeConstraints { make in
             make.top.equalTo(imageCollectionView.snp.bottom).offset(Constant.bottomMargin)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)

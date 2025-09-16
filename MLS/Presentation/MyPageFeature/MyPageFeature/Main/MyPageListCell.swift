@@ -11,7 +11,7 @@ public final class MyPageListCell: UICollectionViewCell {
         static let iconSize: CGFloat = 24
         static let height: CGFloat = 50
     }
-    
+
     // MARK: - Components
     private let titleLabel = UILabel()
     private let iconView: UIImageView = {
@@ -46,13 +46,13 @@ private extension MyPageListCell {
             make.leading.equalToSuperview().inset(Constant.inset)
             make.centerY.equalToSuperview()
         }
-        
+
         iconView.snp.makeConstraints { make in
             make.leading.equalTo(titleLabel.snp.trailing)
             make.trailing.equalToSuperview().inset(Constant.inset)
             make.centerY.equalToSuperview()
         }
-        
+
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }

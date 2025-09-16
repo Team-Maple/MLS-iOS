@@ -42,7 +42,7 @@ public final class SetProfileReactor: Reactor {
 
     // MARK: - Properties
     public var initialState = State(setProfileState: .normal)
-    
+
     private let checkNickNameUseCase: CheckNickNameUseCase
 
     // MARK: - Init

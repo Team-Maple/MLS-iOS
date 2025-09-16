@@ -46,11 +46,11 @@ private extension AppDelegate {
         DIContainer.register(type: SelectImageFactory.self) {
             SelectImageFactoryImpl()
         }
-        
+
         DIContainer.register(type: SetProfileFactory.self) {
             SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
         }
-        
+
         DIContainer.register(type: MyPageMainFactory.self) {
             MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self))
         }
