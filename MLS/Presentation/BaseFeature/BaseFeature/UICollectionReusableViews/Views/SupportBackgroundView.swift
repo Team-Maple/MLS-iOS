@@ -1,25 +1,25 @@
 import DesignSystem
 import UIKit
 
-final public class DescriptionBackgroundView: UICollectionReusableView {
+final public class SupportBackgroundView: UICollectionReusableView {
     // MARK: - Type
     enum Constant {
-        static let horizontalInset: CGFloat = 16
-        static let topInset: CGFloat = 60
+        static let radius: CGFloat = 16
+        static let topInset: CGFloat = 16
         static let bottomInset: CGFloat = 20
+        static let horizontalInset: CGFloat = 16
     }
 
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .whiteMLS
-        view.layer.cornerRadius = 16
-        view.layer.masksToBounds = true
+        view.layer.cornerRadius = Constant.radius
         return view
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .neutral200
+        backgroundColor = .neutral100
         addViews()
         setConstraints()
     }
@@ -30,7 +30,7 @@ final public class DescriptionBackgroundView: UICollectionReusableView {
 
 }
 
-private extension DescriptionBackgroundView {
+private extension SupportBackgroundView {
     private func addViews() {
         addSubview(containerView)
     }

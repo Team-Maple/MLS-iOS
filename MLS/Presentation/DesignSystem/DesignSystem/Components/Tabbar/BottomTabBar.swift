@@ -17,6 +17,7 @@ public final class BottomTabBar: UIStackView {
 
     // MARK: - Properties
     public var onTabSelected: ((Int) -> Void)?
+    private var heightConstraint: Constraint?
 
     private var tabButtons: [TabButton] = []
     private var selectedIndex: Int = 0 {
@@ -40,11 +41,18 @@ public final class BottomTabBar: UIStackView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override public func didMoveToWindow() {
+        super.didMoveToWindow()
+        guard let window = window else { return }
+        let bottomInset = window.safeAreaInsets.bottom
+        heightConstraint?.update(offset: Constant.height + bottomInset)
+    }
+
     // MARK: - Setup
 
     private func setUpConstraints() {
         snp.makeConstraints { make in
-            make.height.equalTo(Constant.height)
+            heightConstraint = make.height.equalTo(Constant.height).constraint
         }
     }
 
@@ -78,6 +86,8 @@ public final class BottomTabBar: UIStackView {
         axis = .horizontal
         distribution = .equalSpacing
         spacing = 0
+        isLayoutMarginsRelativeArrangement = true
+
     }
 
     @objc private func tabButtonTapped(_ sender: TabButton) {
