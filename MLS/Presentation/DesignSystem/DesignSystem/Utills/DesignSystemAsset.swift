@@ -9,7 +9,23 @@ public enum DesignSystemAsset {
     public static func image(named name: String) -> UIImage? {
         return UIImage(named: name, in: bundle, compatibleWith: nil)
     }
+
+    public static func loadMapleIllustration(type: MapleIllustration) -> UIImage? {
+        return UIImage(named: type.rawValue, in: bundle, compatibleWith: nil)
+    }
 }
 
 /// Marker 클래스 - 번들 식별용
 private class DesignSystemMarker {}
+
+public enum MapleIllustration: String {
+    case mushroom
+    case slime
+    case blueSnail
+    case juniorYeti
+    case yeti
+    case pepe
+    case wraith
+    case starPixie
+    case rash
+}

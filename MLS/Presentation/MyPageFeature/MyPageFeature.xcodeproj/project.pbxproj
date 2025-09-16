@@ -27,11 +27,10 @@
 		773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F6D2E71736300F75B30 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F702E71736A00F75B30 /* BaseFeature.framework */; };
 		773A42D02E717B8900F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A42CF2E717B8900F75B30 /* BaseFeature.framework */; };
-		D2227A772E76A7E70095343A /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A762E76A7E70095343A /* Core.framework */; };
-		D2227A782E76A7E70095343A /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A762E76A7E70095343A /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D2227A7A2E76A8430095343A /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A792E76A8430095343A /* DomainInterface.framework */; };
-		D2227A7B2E76A8430095343A /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D2227A792E76A8430095343A /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D2227A7D2E76A84A0095343A /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = D2227A7C2E76A84A0095343A /* ReactorKit */; };
+		77BE55BA2E78596900522216 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; };
+		77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B92E78596900522216 /* DomainInterface.framework */; };
+		77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B92E78596900522216 /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +64,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D2227A7B2E76A8430095343A /* DomainInterface.framework in Embed Frameworks */,
+				77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */,
+				77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */,
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
 				773A3F672E71731700F75B30 /* MyPageFeature.framework in Embed Frameworks */,
@@ -85,8 +85,9 @@
 		773A3F6D2E71736300F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A3F702E71736A00F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A42CF2E717B8900F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77BE55B82E78596900522216 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77BE55B92E78596900522216 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2227A762E76A7E70095343A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2227A792E76A8430095343A /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -147,11 +148,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2227A7A2E76A8430095343A /* DomainInterface.framework in Frameworks */,
+				77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */,
 				773A3F6E2E71736300F75B30 /* BaseFeature.framework in Frameworks */,
 				D2227A7D2E76A84A0095343A /* ReactorKit in Frameworks */,
 				773A3F6B2E71734600F75B30 /* DesignSystem.framework in Frameworks */,
 				773A3F662E71731700F75B30 /* MyPageFeature.framework in Frameworks */,
+				77BE55BA2E78596900522216 /* Domain.framework in Frameworks */,
 				773A3BFC2E71701D00F75B30 /* RxSwift in Frameworks */,
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
@@ -188,7 +190,8 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D2227A792E76A8430095343A /* DomainInterface.framework */,
+				77BE55B82E78596900522216 /* Domain.framework */,
+				77BE55B92E78596900522216 /* DomainInterface.framework */,
 				D2227A762E76A7E70095343A /* Core.framework */,
 				773A42CF2E717B8900F75B30 /* BaseFeature.framework */,
 				773A3F702E71736A00F75B30 /* BaseFeature.framework */,
