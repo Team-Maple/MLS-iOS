@@ -16,7 +16,7 @@ public final class MyPageListCell: UICollectionViewCell {
     private let titleLabel = UILabel()
     private let iconView: UIImageView = {
         let view = UIImageView()
-        view.image = DesignSystemAsset.image(named: "arrowForward")
+        view.image = DesignSystemAsset.image(named: "arrowForwardSmall")
         return view
     }()
 
@@ -48,8 +48,8 @@ private extension MyPageListCell {
         }
         
         iconView.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel.snp.trailing)/*.priority(.high)*/
-            make.trailing.equalToSuperview().inset(Constant.inset)/*.priority(.high)*/
+            make.leading.equalTo(titleLabel.snp.trailing)
+            make.trailing.equalToSuperview().inset(Constant.inset)
             make.centerY.equalToSuperview()
         }
         

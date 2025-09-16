@@ -64,7 +64,7 @@ public final class CollectionList: UIView {
     }()
 
     private let clickIcon: UIImageView = {
-        let view = UIImageView(image: .arrowForwordSmall)
+        let view = UIImageView(image: .arrowForwardSmall)
         view.tintColor = .black
         return view
     }()

@@ -5,13 +5,19 @@ import ReactorKit
 public final class SetProfileReactor: Reactor {
     // MARK: - Route
     public enum Route {
+        case none
+        case dismiss
+        case dismissWithUpdate
         case imageBottomSheet
     }
 
     // MARK: - Action
     public enum Action {
+        case backButtonTapped
+        case editButtonTapped
         case showBottomSheet
         case inputNickName(String)
+        case beginEditingNickName
     }
 
     // MARK: - Mutation
@@ -19,14 +25,19 @@ public final class SetProfileReactor: Reactor {
         case toNavigate(Route)
         case setNickName(String)
         case showError(Bool)
+        case beginSetText(Bool)
+        case beginEditting
+        case cancelEditting
+        case completeEditting
     }
 
     // MARK: - State
     public struct State {
-        @Pulse var route: Route?
+        @Pulse var route: Route = .none
         var setProfileState: SetProfileView.SetProfileState
         var nickName: String = ""
         var isShowError = false
+        var isEditingNickName = false
     }
 
     // MARK: - Properties
@@ -50,6 +61,22 @@ public final class SetProfileReactor: Reactor {
                     [.setNickName(nickName), .showError(isValid)]
                 }
                 .flatMap { Observable.from($0) }
+        case .beginEditingNickName:
+            return .just(.beginSetText(true))
+        case .backButtonTapped:
+            switch currentState.setProfileState {
+            case .edit:
+                return .just(.cancelEditting)
+            case .normal:
+                return .just(.toNavigate(.dismiss))
+            }
+        case .editButtonTapped:
+            switch currentState.setProfileState {
+            case .edit:
+                return .just(.completeEditting)
+            case .normal:
+                return .just(.beginEditting)
+            }
         }
     }
 
@@ -64,6 +91,15 @@ public final class SetProfileReactor: Reactor {
             newState.nickName = nickName
         case .showError(let error):
             newState.isShowError = error
+        case .beginSetText(let isEditing):
+            newState.isEditingNickName = isEditing
+        case .cancelEditting:
+            newState.setProfileState = .normal
+        case .beginEditting:
+            newState.setProfileState = .edit
+        case .completeEditting:
+            // 저장후
+            newState.route = .dismissWithUpdate
         }
 
         return newState

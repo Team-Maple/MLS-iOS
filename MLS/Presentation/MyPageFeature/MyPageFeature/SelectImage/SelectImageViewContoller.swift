@@ -16,7 +16,6 @@ public final class SelectImageViewContoller: BaseViewController, ModalPresentabl
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    public var onSelectedIndex: ((Int) -> Void)?
 
     // MARK: - Components
 

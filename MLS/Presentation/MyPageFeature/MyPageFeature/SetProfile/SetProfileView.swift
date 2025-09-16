@@ -27,6 +27,8 @@ public final class SetProfileView: UIView {
         static let logoutBottomMargin: CGFloat = 11
         static let nickNameTopMargin: CGFloat = 40
         static let nickNameHorizontalMargin: CGFloat = 33
+        static let errorMessageBottomMargin: CGFloat = 12
+        static let countLabelTopMargin: CGFloat = 3
         static let radius: CGFloat = 16
     }
 
@@ -64,7 +66,7 @@ public final class SetProfileView: UIView {
         return view
     }()
     
-    private let backButton: UIButton = {
+    public let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack"), for: .normal)
         return button
@@ -76,7 +78,7 @@ public final class SetProfileView: UIView {
         return label
     }()
     
-    private let editButton = UIButton()
+    public let editButton = UIButton()
     
     private lazy var imageView: UIImageView = {
         let view = UIImageView()
@@ -94,7 +96,11 @@ public final class SetProfileView: UIView {
     
     private let setImageButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "plusIcon"), for: .normal)
+        var config = UIButton.Configuration.plain()
+        config.baseBackgroundColor = .clear
+        config.background.backgroundColor = .clear
+        config.image = DesignSystemAsset.image(named: "plusIcon")
+        button.configuration = config
         return button
     }()
     
@@ -208,6 +214,21 @@ public final class SetProfileView: UIView {
         box.label.attributedText = .makeStyledString(font: .cp_s_r, text: "닉네임", color: .textColor)
         return box
     }()
+    
+    private lazy var errorMessageContentView: UIView = {
+        let view = UIView()
+        
+        view.addSubview(errorMessage)
+        
+        errorMessage.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Constant.errorMessageBottomMargin)
+        }
+        
+        return view
+    }()
+    
+    private let errorMessage = ErrorMessage(message: "비속어 사용은 불가능해요!")
 
     private let countLabel = UILabel()
 
@@ -224,6 +245,14 @@ public final class SetProfileView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    public override var inputAccessoryView: UIView? {
+        return errorMessageContentView
+    }
+
+    public override var canBecomeFirstResponder: Bool {
+        return true
+    }
 }
 
 // MARK: - SetUp
@@ -234,8 +263,10 @@ private extension SetProfileView {
         addSubview(nameLabel)
         addSubview(backgroudView)
         addSubview(nickNameInputBox)
+        addSubview(countLabel)
         addSubview(logoutButton)
         addSubview(cancelTextView)
+//        addSubview(errorMessage)
     }
 
     func setupConstraints() {
@@ -265,6 +296,11 @@ private extension SetProfileView {
             make.horizontalEdges.equalToSuperview().inset(Constant.nickNameHorizontalMargin)
         }
         
+        countLabel.snp.makeConstraints { make in
+            make.top.equalTo(nickNameInputBox.snp.bottom).offset(Constant.countLabelTopMargin)
+            make.trailing.equalTo(nickNameInputBox)
+        }
+        
         logoutButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
         }
@@ -274,6 +310,12 @@ private extension SetProfileView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(Constant.cancelTextViewBottomMargin)
         }
+        
+//        errorMessage.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.bottom.equalToSuperview().inset(Constant.errorMessageBottomMargin)
+//    
+//        }
     }
     
     func configureUI() {
@@ -355,17 +397,27 @@ public extension SetProfileView {
     func setCount(count: Int) {
         countLabel.isHidden = count < 0
         let text = "\(count)/15"
-           
+
         let attributed = NSMutableAttributedString(string: text)
-           
-        let countRange = (text as NSString).range(of: "\(count)")
-        attributed.addAttribute(.font, value: UIFont.korFont(style: .semiBold, size: 12)!, range: countRange)
-        attributed.addAttribute(.foregroundColor, value: UIColor.textColor, range: countRange)
-           
-        let suffixRange = (text as NSString).range(of: "/15")
-        attributed.addAttribute(.font, value: UIFont.korFont(style: .regular, size: 12)!, range: suffixRange)
-        attributed.addAttribute(.foregroundColor, value: UIColor.neutral600, range: suffixRange)
+
+        if count == 0 {
+            let fullRange = NSRange(location: 0, length: attributed.length)
+            attributed.addAttribute(.font, value: UIFont.korFont(style: .regular, size: 12)!, range: fullRange)
+            attributed.addAttribute(.foregroundColor, value: UIColor.neutral600, range: fullRange)
+        } else {
+            let countRange = (text as NSString).range(of: "\(count)")
+            attributed.addAttribute(.font, value: UIFont.korFont(style: .semiBold, size: 12)!, range: countRange)
+            attributed.addAttribute(.foregroundColor, value: UIColor.textColor, range: countRange)
+
+            let suffixRange = (text as NSString).range(of: "/15")
+            attributed.addAttribute(.font, value: UIFont.korFont(style: .regular, size: 12)!, range: suffixRange)
+            attributed.addAttribute(.foregroundColor, value: UIColor.neutral600, range: suffixRange)
+        }
 
         countLabel.attributedText = attributed
+    }
+    
+    func setError(isError: Bool) {
+        errorMessage.isHidden = !isError
     }
 }

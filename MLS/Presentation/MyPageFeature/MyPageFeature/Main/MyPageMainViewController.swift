@@ -102,6 +102,16 @@ extension MyPageMainViewController {
                 switch route {
                 case .edit:
                     let viewController = owner.setProfileFactory.make()
+                    if let viewController = viewController as? SetProfileViewController {
+                        viewController.didReturn
+                            .withUnretained(self)
+                            .subscribe(onNext: { _, isUpdate in
+                                if isUpdate {
+                                    ToastFactory.createToast(message: "프로필이 업데이트 되었어요.")
+                                }
+                            })
+                            .disposed(by: owner.disposeBag)
+                    }
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -131,20 +141,42 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         switch indexPath.section {
         case 0:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageMainCell.identifier, for: indexPath) as? MyPageMainCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MyPageMainCell.identifier,
+                for: indexPath
+            ) as? MyPageMainCell else { return UICollectionViewCell() }
+            
             cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱"))
             cell.onSetProfileTap = { [weak self] in
                 self?.reactor?.action.onNext(.editButtonTapped)
             }
             return cell
-        case 1:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageListCell.identifier, for: indexPath) as? MyPageListCell else { return UICollectionViewCell() }
-            cell.inject(input: MyPageListCell.Input(title: "제목", isHeader: indexPath.row == 0))
+            
+        case 1, 2:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: MyPageListCell.identifier,
+                for: indexPath
+            ) as? MyPageListCell,
+                  let reactor = reactor else { return UICollectionViewCell() }
+            
+            let headerTitle: String
+            switch indexPath.section {
+            case 1: headerTitle = "설정"
+            default: headerTitle = "고객 지원"
+            }
+            
+            if indexPath.row == 0 {
+                cell.inject(input: MyPageListCell.Input(title: headerTitle, isHeader: true))
+            } else {
+                // index.row == 0은 제목
+                let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
+                cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+            }
+            
             return cell
+            
         default:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyPageListCell.identifier, for: indexPath) as? MyPageListCell else { return UICollectionViewCell() }
-            cell.inject(input: MyPageListCell.Input(title: "이벤트", isHeader: indexPath.row == 0))
-            return cell
+            return UICollectionViewCell()
         }
     }
 
