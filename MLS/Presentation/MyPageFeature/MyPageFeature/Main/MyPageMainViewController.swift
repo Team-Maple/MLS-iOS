@@ -120,7 +120,9 @@ extension MyPageMainViewController {
                             })
                             .disposed(by: owner.disposeBag)
                     }
-//                    let viewController = owner.setCharacterFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .characterInfoSetting:
+                    let viewController = owner.setCharacterFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .event:
                     let viewController = owner.customerSupportFactory.make(type: .event)
