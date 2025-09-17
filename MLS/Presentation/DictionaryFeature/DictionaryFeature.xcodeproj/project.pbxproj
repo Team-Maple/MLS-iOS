@@ -42,6 +42,14 @@
 		081D9E082DF80F68004F850D /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; };
 		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		772DC9972E55CA93005F92E3 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 772DC9962E55CA93005F92E3 /* RxKeyboard */; };
+		773E8D462E7AF4A70094714D /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */; };
+		773E8D472E7AF4A70094714D /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8D4A2E7AF4D30094714D /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D492E7AF4D30094714D /* MyPageFeature.framework */; };
+		773E8D4B2E7AF4D30094714D /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D492E7AF4D30094714D /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8D4D2E7AF4F00094714D /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */; };
+		773E8D4E2E7AF4F00094714D /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8D502E7AF4F60094714D /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D4F2E7AF4F60094714D /* MyPageFeatureInterface.framework */; };
+		773E8D512E7AF4F60094714D /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D4F2E7AF4F60094714D /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; };
 		779A49142E1AD4BC00ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77C755B82E4B70C30081D80F /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B62E4B70C30081D80F /* AuthFeature.framework */; };
@@ -89,9 +97,12 @@
 				779A49142E1AD4BC00ABDE4F /* BookmarkFeature.framework in Embed Frameworks */,
 				081D9DF92DF80F3C004F850D /* DesignSystem.framework in Embed Frameworks */,
 				081D9DE32DF80F1D004F850D /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+				773E8D4E2E7AF4F00094714D /* MyPageFeature.framework in Embed Frameworks */,
 				081D9DED2DF80F23004F850D /* BaseFeature.framework in Embed Frameworks */,
 				081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */,
 				081D9DE82DF80F20004F850D /* DictionaryFeature.framework in Embed Frameworks */,
+				773E8D4B2E7AF4D30094714D /* MyPageFeature.framework in Embed Frameworks */,
+				773E8D512E7AF4F60094714D /* MyPageFeatureInterface.framework in Embed Frameworks */,
 				77DBD8C02E1AD0C600529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
 				081D9DF32DF80F30004F850D /* Data.framework in Embed Frameworks */,
 				081D9DF62DF80F34004F850D /* DataMock.framework in Embed Frameworks */,
@@ -99,6 +110,17 @@
 				081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */,
 				081D9DF02DF80F2B004F850D /* Core.framework in Embed Frameworks */,
 				77C755B92E4B70C30081D80F /* AuthFeature.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		773E8D482E7AF4A70094714D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				773E8D472E7AF4A70094714D /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +143,10 @@
 		081D9DF72DF80F3C004F850D /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081D9E042DF80F63004F850D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		081D9E072DF80F68004F850D /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8D492E7AF4D30094714D /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8D4F2E7AF4F60094714D /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		775D68052DFD638900DDAD2F /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		775D68092DFD641E00DDAD2F /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A49122E1AD4BC00ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +204,7 @@
 				77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */,
 				081D9DC12DF80DF6004F850D /* BaseFeature.framework in Frameworks */,
 				081D9DCA2DF80E27004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
+				773E8D462E7AF4A70094714D /* MyPageFeatureInterface.framework in Frameworks */,
 				081D9DD42DF80E5C004F850D /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -201,6 +228,8 @@
 				081D9DE22DF80F1D004F850D /* DictionaryFeatureInterface.framework in Frameworks */,
 				77C755B82E4B70C30081D80F /* AuthFeature.framework in Frameworks */,
 				081D9DEC2DF80F23004F850D /* BaseFeature.framework in Frameworks */,
+				773E8D502E7AF4F60094714D /* MyPageFeatureInterface.framework in Frameworks */,
+				773E8D4D2E7AF4F00094714D /* MyPageFeature.framework in Frameworks */,
 				77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */,
 				081D9DE72DF80F20004F850D /* DictionaryFeature.framework in Frameworks */,
 				779A49132E1AD4BC00ABDE4F /* BookmarkFeature.framework in Frameworks */,
@@ -213,6 +242,7 @@
 				081D9DEF2DF80F2B004F850D /* Core.framework in Frameworks */,
 				77C755BA2E4B70C30081D80F /* AuthFeatureInterface.framework in Frameworks */,
 				081D9E032DF80F58004F850D /* ReactorKit in Frameworks */,
+				773E8D4A2E7AF4D30094714D /* MyPageFeature.framework in Frameworks */,
 				081D9E012DF80F53004F850D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,6 +274,10 @@
 		081D9DBF2DF80DF6004F850D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				773E8D4F2E7AF4F60094714D /* MyPageFeatureInterface.framework */,
+				773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */,
+				773E8D492E7AF4D30094714D /* MyPageFeature.framework */,
+				773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */,
 				77C755B62E4B70C30081D80F /* AuthFeature.framework */,
 				77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */,
 				77C97DAA2E37D4AC007198DA /* AuthFeature.framework */,
@@ -296,6 +330,7 @@
 				081D9C152DF80854004F850D /* Sources */,
 				081D9C162DF80854004F850D /* Frameworks */,
 				081D9C172DF80854004F850D /* Resources */,
+				773E8D482E7AF4A70094714D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
