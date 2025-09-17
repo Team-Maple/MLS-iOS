@@ -35,7 +35,7 @@ public final class SetProfileView: UIView {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
 
-    var onCancelTap: (() -> Void)?
+    var onCancelTap = PublishRelay<Void>()
     public let imageTap = PublishRelay<Void>()
 
     // MARK: - Components
@@ -106,7 +106,7 @@ public final class SetProfileView: UIView {
 
     private let nameLabel = UILabel()
 
-    private let logoutButton: UIButton = {
+    public let logoutButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledUnderlinedString(font: .b_s_r, text: "로그아웃", color: .neutral600), for: .normal)
         return button
@@ -337,7 +337,7 @@ private extension SetProfileView {
 extension SetProfileView: UITextViewDelegate {
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         if URL.absoluteString == "cancel" {
-            onCancelTap?()
+            onCancelTap.accept(())
             return false
         }
         return true

@@ -6,8 +6,7 @@ public class AuthGuideAlert: GuideAlert {
     // MARK: - Type
     private enum Constant {
         static let iconSize: CGFloat = 24
-        static let logoutSpacing: CGFloat = 7
-        static let withdrawSpacing: CGFloat = 14
+        static let topSpacing: CGFloat = 7
         static let stackViewSpacing: CGFloat = 8
         static let iconSpacing: CGFloat = 5
     }
@@ -51,7 +50,11 @@ public class AuthGuideAlert: GuideAlert {
         return view
     }()
     
-    private let subTextLabel = UILabel()
+    private let subTextLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        return label
+    }()
     
     private lazy var bookmarkStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [bookmarkCheckIcon, bookmarkLabel])
@@ -71,7 +74,7 @@ public class AuthGuideAlert: GuideAlert {
     
     private let bookmarkLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .cp_s_r, text: "북마크 컬렉션", color: .neutral700)
+        label.attributedText = .makeStyledString(font: .cp_s_r, text: "북마크 컬렉션", color: .neutral700, alignment: .left)
         return label
     }()
     
@@ -93,13 +96,16 @@ public class AuthGuideAlert: GuideAlert {
     
     private let characterLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .cp_s_r, text: "캐릭터 정보", color: .neutral700)
+        label.attributedText = .makeStyledString(font: .cp_s_r, text: "캐릭터 정보", color: .neutral700, alignment: .left)
         return label
     }()
 
     // MARK: - init
     public init(type: AuthGuideAlertType) {
         super.init(mainText: type.mainText, ctaText: type.ctaText, cancelText: "취소")
+        addViews(type: type)
+        setupConstraints(type: type)
+        configureUI(type: type)
     }
 
     @available(*, unavailable)
@@ -111,6 +117,8 @@ public class AuthGuideAlert: GuideAlert {
 // MARK: - SetUp
 private extension AuthGuideAlert {
     func addViews(type: AuthGuideAlertType) {
+        addSubview(contentStackView)
+        
         contentStackView.addArrangedSubview(subTextLabel)
         if type == .withdraw {
             contentStackView.addArrangedSubview(bookmarkStackView)
@@ -123,21 +131,24 @@ private extension AuthGuideAlert {
         switch type {
         case .logout:
             contentStackView.snp.makeConstraints { make in
-                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.logoutSpacing)
+                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing)
                 make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
             }
         case .withdraw:
-            contentStackView.setCustomSpacing(Constant.withdrawSpacing * 2, after: subTextLabel)
-            contentStackView.setCustomSpacing(Constant.withdrawSpacing, after: bookmarkStackView)
+            contentStackView.setCustomSpacing(Constant.stackViewSpacing * 2, after: subTextLabel)
+            contentStackView.setCustomSpacing(Constant.stackViewSpacing, after: bookmarkStackView)
             
             contentStackView.snp.makeConstraints { make in
-                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.logoutSpacing * 2)
+                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing * 2)
                 make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
             }
         }
         
-        buttonStackView.snp.updateConstraints { make in
+        buttonStackView.snp.remakeConstraints { make in
             make.top.equalTo(contentStackView.snp.bottom).offset(GuideAlert.Constant.verticalSpacing)
+            make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
+            make.bottom.equalToSuperview().inset(GuideAlert.Constant.verticalInset)
+            make.height.equalTo(GuideAlert.Constant.buttonHeight)
         }
     }
 

@@ -43,6 +43,8 @@ private extension GuideAlertTestViewController {
     func addViews() {
         view.addSubview(oneButton)
         view.addSubview(twoButton)
+        view.addSubview(logoutButton)
+        view.addSubview(withdrawButton)
     }
 
     func setupConstraints() {

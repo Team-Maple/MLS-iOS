@@ -102,6 +102,16 @@ extension SetProfileViewController {
             .map { Reactor.Action.beginEditingNickName }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.logoutButton.rx.tap
+            .map { Reactor.Action.logoutButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.onCancelTap
+            .map { Reactor.Action.withdrawButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindState(reactor: Reactor) {
@@ -149,6 +159,10 @@ extension SetProfileViewController {
                 case .dismissWithUpdate:
                     owner.didReturn.accept(true)
                     owner.navigationController?.popViewController(animated: true)
+                case .logoutAlert:
+                    GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
+                case .withdrawAlert:
+                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
                 default:
                     break
                 }

@@ -171,7 +171,7 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 for: indexPath
             ) as? MyPageMainCell else { return UICollectionViewCell() }
 
-            cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱"))
+            cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱", isLogin: true))
             cell.onSetProfileTap = { [weak self] in
                 self?.reactor?.action.onNext(.editButtonTapped)
             }
