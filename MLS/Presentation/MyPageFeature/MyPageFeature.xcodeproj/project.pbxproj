@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		772216962E79D9F7004A5C11 /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772216942E79D9F7004A5C11 /* Data.framework */; };
+		772216972E79D9F7004A5C11 /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 772216942E79D9F7004A5C11 /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		772216982E79D9F7004A5C11 /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772216952E79D9F7004A5C11 /* DataMock.framework */; };
+		772216992E79D9F7004A5C11 /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 772216952E79D9F7004A5C11 /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7722169C2E79DA42004A5C11 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7722169B2E79DA42004A5C11 /* RxKeyboard */; };
 		773A3BEB2E716FD800F75B30 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 773A3BEA2E716FD800F75B30 /* SnapKit */; };
 		773A3BEE2E716FEF00F75B30 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 773A3BED2E716FEF00F75B30 /* RxCocoa */; };
 		773A3BF02E716FEF00F75B30 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 773A3BEF2E716FEF00F75B30 /* RxRelay */; };
@@ -66,8 +71,10 @@
 			files = (
 				77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */,
 				77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */,
+				772216992E79D9F7004A5C11 /* DataMock.framework in Embed Frameworks */,
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
+				772216972E79D9F7004A5C11 /* Data.framework in Embed Frameworks */,
 				773A3F672E71731700F75B30 /* MyPageFeature.framework in Embed Frameworks */,
 				773A3C002E7170A700F75B30 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
@@ -77,6 +84,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		772216942E79D9F7004A5C11 /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		772216952E79D9F7004A5C11 /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A38062E7158B400F75B30 /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A38202E71591B00F75B30 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A38772E7159CA00F75B30 /* MyPageFeatureDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPageFeatureDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +139,7 @@
 				773A3BF22E716FEF00F75B30 /* RxSwift in Frameworks */,
 				773A3BF52E716FFD00F75B30 /* ReactorKit in Frameworks */,
 				773A3C092E71712300F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
+				7722169C2E79DA42004A5C11 /* RxKeyboard in Frameworks */,
 				773A3BEB2E716FD800F75B30 /* SnapKit in Frameworks */,
 				773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */,
 			);
@@ -147,6 +157,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772216962E79D9F7004A5C11 /* Data.framework in Frameworks */,
 				77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */,
 				773A3F6E2E71736300F75B30 /* BaseFeature.framework in Frameworks */,
 				773A3F6B2E71734600F75B30 /* DesignSystem.framework in Frameworks */,
@@ -156,6 +167,7 @@
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
 				773A3BF82E71701D00F75B30 /* RxCocoa in Frameworks */,
+				772216982E79D9F7004A5C11 /* DataMock.framework in Frameworks */,
 				773A3BFF2E7170A700F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,6 +199,8 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				772216942E79D9F7004A5C11 /* Data.framework */,
+				772216952E79D9F7004A5C11 /* DataMock.framework */,
 				77BE55B82E78596900522216 /* Domain.framework */,
 				77BE55B92E78596900522216 /* DomainInterface.framework */,
 				D2227A762E76A7E70095343A /* Core.framework */,
@@ -242,6 +256,7 @@
 				773A3BEF2E716FEF00F75B30 /* RxRelay */,
 				773A3BF12E716FEF00F75B30 /* RxSwift */,
 				773A3BF42E716FFD00F75B30 /* ReactorKit */,
+				7722169B2E79DA42004A5C11 /* RxKeyboard */,
 			);
 			productName = MyPageFeature;
 			productReference = 773A38062E7158B400F75B30 /* MyPageFeature.framework */;
@@ -335,6 +350,7 @@
 				773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				773A3BEC2E716FEF00F75B30 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				773A3BF32E716FFD00F75B30 /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				7722169A2E79DA42004A5C11 /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 773A38072E7158B400F75B30 /* Products */;
@@ -782,6 +798,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7722169A2E79DA42004A5C11 /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 		773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -809,6 +833,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7722169B2E79DA42004A5C11 /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7722169A2E79DA42004A5C11 /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
+		};
 		773A3BEA2E716FD800F75B30 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */;

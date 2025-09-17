@@ -390,7 +390,7 @@ public extension SetProfileView {
             platformIconView.image = DesignSystemAsset.image(named: "kakaoImage")
         case .apple:
             platformLabel.attributedText = .makeStyledString(font: .b_m_r, text: "애플")
-            platformIconView.image = DesignSystemAsset.image(named: "kakaoImage")
+            platformIconView.image = DesignSystemAsset.image(named: "appleImage")
         }
     }
 

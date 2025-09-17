@@ -2,6 +2,8 @@ import UIKit
 
 import BaseFeature
 import Core
+import Data
+import DataMock
 import DesignSystem
 import Domain
 import DomainInterface
@@ -32,13 +34,33 @@ private extension AppDelegate {
         registerFactory()
     }
 
-    func registerProvider() {}
+    func registerProvider() {
+        DIContainer.register(type: NetworkProvider.self) {
+            NetworkProviderImpl()
+        }
+    }
 
-    func registerRepository() {}
+    func registerRepository() {
+        DIContainer.register(type: AuthAPIRepository.self) {
+            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
+        }
+    }
 
     func registerUseCase() {
         DIContainer.register(type: CheckNickNameUseCase.self) {
             CheckNickNameUseCaseImpl()
+        }
+        DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
+            CheckEmptyLevelAndRoleUseCaseImpl()
+        }
+        DIContainer.register(type: CheckValidLevelUseCase.self) {
+            CheckValidLevelUseCaseImpl()
+        }
+        DIContainer.register(type: FetchJobListUseCase.self) {
+            FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: UpdateUserInfoUseCase.self) {
+            UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
     }
 
@@ -50,9 +72,13 @@ private extension AppDelegate {
         DIContainer.register(type: SetProfileFactory.self) {
             SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
         }
+        
+        DIContainer.register(type: SetCharacterFactory.self) {
+            SetCharacterFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+        }
 
         DIContainer.register(type: MyPageMainFactory.self) {
-            MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self))
+            MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self), setCharacterFactory: DIContainer.resolve(type: SetCharacterFactory.self))
         }
     }
 }

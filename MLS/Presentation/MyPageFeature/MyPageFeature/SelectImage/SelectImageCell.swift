@@ -12,6 +12,15 @@ public final class SelectImageCell: UICollectionViewCell {
         static let height: CGFloat = 50
     }
 
+    // MARK: - Properties
+    private var type: MapleIllustration?
+
+    override public var isSelected: Bool {
+        didSet {
+            updateImage()
+        }
+    }
+
     // MARK: - Components
     private let imageView: UIImageView = {
         let view = UIImageView()
@@ -44,14 +53,20 @@ private extension SelectImageCell {
             make.edges.equalToSuperview()
         }
     }
+
+    func updateImage() {
+        guard let type = type else { return }
+        imageView.image = DesignSystemAsset.loadMapleIllustration(type: type, isSelected: isSelected)
+    }
 }
 
-extension SelectImageCell {
-    public struct Input {
+public extension SelectImageCell {
+    struct Input {
         let type: MapleIllustration
     }
 
-    public func inject(input: Input) {
-        imageView.image = DesignSystemAsset.loadMapleIllustration(type: input.type)
+    func inject(input: Input) {
+        self.type = input.type
+        updateImage()
     }
 }

@@ -22,7 +22,9 @@ public final class GuideAlert: UIView {
         return view
     }()
 
-    private let textLabel = UILabel()
+    private let mainTextLabel = UILabel()
+    
+    private let subTextLabel = UILabel()
 
     public let buttonStackView: UIStackView = {
         let view = UIStackView()
@@ -34,15 +36,15 @@ public final class GuideAlert: UIView {
     public let cancelButton: CommonButton?
 
     // MARK: - init
-    public init(mainText: String, ctaText: String, cancelText: String?, ctaRatio: Double = 0.7) {
-        textLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
+    public init(mainText: String, subText: String, ctaText: String, cancelText: String?, ctaRatio: Double = 0.7) {
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
         self.ctaButton = CommonButton(style: .normal, title: ctaText, disabledTitle: nil)
         self.cancelButton = cancelText.map { CommonButton(style: .border, title: $0, disabledTitle: nil) }
         super.init(frame: .zero)
 
-        addViews(cancelText: cancelText)
-        setupConstraints(ctaRatio: ctaRatio)
-        configureUI()
+        addViews(cancelText: cancelText, subText: subText)
+        setupConstraints(ctaRatio: ctaRatio, subText: subText)
+        configureUI(subText: subText)
     }
 
     @available(*, unavailable)
@@ -53,9 +55,14 @@ public final class GuideAlert: UIView {
 
 // MARK: - SetUp
 private extension GuideAlert {
-    func addViews(cancelText: String?) {
+    func addViews(cancelText: String?, subText: String?) {
         addSubview(warningIconView)
-        addSubview(textLabel)
+        addSubview(mainTextLabel)
+        
+        if subText != nil {
+            addSubview(<#T##view: UIView##UIView#>)
+        }
+        
         addSubview(buttonStackView)
 
         if let cancelButton = cancelButton {
@@ -64,7 +71,7 @@ private extension GuideAlert {
         buttonStackView.addArrangedSubview(ctaButton)
     }
 
-    func setupConstraints(ctaRatio: Double) {
+    func setupConstraints(ctaRatio: Double, subText: String?) {
         snp.makeConstraints { make in
             make.width.equalTo(Constant.alertWidth)
         }
@@ -75,13 +82,13 @@ private extension GuideAlert {
             make.size.equalTo(Constant.iconSize)
         }
 
-        textLabel.snp.makeConstraints { make in
+        mainTextLabel.snp.makeConstraints { make in
             make.top.equalTo(warningIconView.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
 
         buttonStackView.snp.makeConstraints { make in
-            make.top.equalTo(textLabel.snp.bottom).offset(Constant.verticalSpacing)
+            make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.verticalSpacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview().inset(Constant.verticalInset)
             make.height.equalTo(Constant.stackViewHeight)
@@ -103,7 +110,7 @@ private extension GuideAlert {
         }
     }
 
-    func configureUI() {
+    func configureUI(subText: String?) {
         backgroundColor = .whiteMLS
         layer.cornerRadius = Constant.radius
     }

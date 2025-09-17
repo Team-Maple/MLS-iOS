@@ -67,7 +67,7 @@ public final class CommonButton: UIButton {
     // MARK: - Properties
     private let style: CommonButtonStyle
     private var title: String?
-    private let disabledTitle: String?
+    private var disabledTitle: String?
 
     override public var isEnabled: Bool {
         didSet {
@@ -161,8 +161,11 @@ private extension CommonButton {
 }
 
 public extension CommonButton {
-    func updateTitle(title: String) {
+    func updateTitle(title: String, disabledTitle: String? = nil) {
         self.title = title
+        if let disabledTitle = disabledTitle {
+            self.disabledTitle = disabledTitle
+        }
         configureUI()
     }
 }

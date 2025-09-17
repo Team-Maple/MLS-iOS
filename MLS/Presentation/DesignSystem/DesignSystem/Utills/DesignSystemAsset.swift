@@ -10,8 +10,8 @@ public enum DesignSystemAsset {
         return UIImage(named: name, in: bundle, compatibleWith: nil)
     }
 
-    public static func loadMapleIllustration(type: MapleIllustration) -> UIImage? {
-        return UIImage(named: type.rawValue, in: bundle, compatibleWith: nil)
+    public static func loadMapleIllustration(type: MapleIllustration, isSelected: Bool = false) -> UIImage? {
+        return UIImage(named: isSelected ? "\(type.rawValue)Selected" : type.rawValue, in: bundle, compatibleWith: nil)
     }
 }
 

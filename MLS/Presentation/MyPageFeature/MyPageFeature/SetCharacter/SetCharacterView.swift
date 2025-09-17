@@ -7,25 +7,23 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class OnBoardingInputView: CharacterInputView {
+public final class SetCharacterView: CharacterInputView {
     // MARK: - Type
     
     // MARK: - Properties
 
     // MARK: - Components
     public let headerView: NavigationBar = {
-        let view = NavigationBar(type: .withUnderLine("다음에 하기"))
+        let view = NavigationBar(type: .arrowLeft)
         return view
     }()
     
     // MARK: - init
-    init(leftButtonIsHidden: Bool = false, underlineTextButtonIsHidden: Bool = false) {
+    override init() {
         super.init()
         addViews()
         setupConstraints()
         configureUI()
-        if leftButtonIsHidden { headerView.leftButton.isHidden = true }
-        if underlineTextButtonIsHidden { headerView.underlineTextButton.isHidden = true }
     }
 
     @available(*, unavailable)
@@ -35,7 +33,7 @@ public final class OnBoardingInputView: CharacterInputView {
 }
 
 // MARK: - SetUp
-private extension OnBoardingInputView {
+private extension SetCharacterView {
     func addViews() {
         addSubview(headerView)
     }
@@ -53,5 +51,6 @@ private extension OnBoardingInputView {
 
     func configureUI() {
         backgroundColor = .clearMLS
+        nextButton.updateTitle(title: "완료", disabledTitle: "완료")
     }
 }

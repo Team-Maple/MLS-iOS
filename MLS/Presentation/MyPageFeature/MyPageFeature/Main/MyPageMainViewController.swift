@@ -19,13 +19,15 @@ public final class MyPageMainViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let setProfileFactory: SetProfileFactory
+    private let setCharacterFactory: SetCharacterFactory
 
     // MARK: - Components
     private let mainView = MyPageMainView()
 
     // MARK: - Init
-    public init(setProfileFactory: SetProfileFactory) {
+    public init(setProfileFactory: SetProfileFactory, setCharacterFactory: SetCharacterFactory) {
         self.setProfileFactory = setProfileFactory
+        self.setCharacterFactory = setCharacterFactory
         super.init()
     }
 
@@ -112,6 +114,7 @@ extension MyPageMainViewController {
                             })
                             .disposed(by: owner.disposeBag)
                     }
+//                    let viewController = owner.setCharacterFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
