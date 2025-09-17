@@ -17,7 +17,6 @@ final class EventViewController: CustomerSupportBaseViewController {
         guard index < 3 else { return }
 
         if currentTabIndex == index { return }
-        print("hello")
         currentTabIndex = index
 
         mainView.detailItemStackView.arrangedSubviews.forEach { subview in

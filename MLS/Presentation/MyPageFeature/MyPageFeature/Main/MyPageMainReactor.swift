@@ -2,13 +2,30 @@ import ReactorKit
 
 public final class MyPageMainReactor: Reactor {
     // MARK: - Type
-    enum MyPageMenu {
+    public enum MyPageMenu {
         case setAlarm
         case setCharacterInfo
         case showEvent
         case showNotice
         case showPatchNode
         case showPolicy
+
+        var route: Route {
+            switch self {
+            case .setAlarm:
+                    .notificationSetting
+            case .showEvent:
+                    .event
+            case .showNotice:
+                    .notice
+            case .showPatchNode:
+                    .patchNode
+            case .showPolicy:
+                    .policy
+            case .setCharacterInfo:
+                    .characterInfoSetting
+            }
+        }
 
         var description: String {
             switch self {
@@ -31,11 +48,18 @@ public final class MyPageMainReactor: Reactor {
     // MARK: - Route
     public enum Route {
         case edit
+        case notificationSetting
+        case characterInfoSetting
+        case event
+        case notice
+        case patchNode
+        case policy
     }
 
     // MARK: - Action
     public enum Action {
         case editButtonTapped
+        case menuItemTapped(MyPageMenu)
     }
 
     // MARK: - Mutation
@@ -71,6 +95,8 @@ public final class MyPageMainReactor: Reactor {
         switch action {
         case .editButtonTapped:
             return .just(.toNavigate(.edit))
+        case .menuItemTapped(let menu):
+            return .just(.toNavigate(menu.route))
         }
     }
 

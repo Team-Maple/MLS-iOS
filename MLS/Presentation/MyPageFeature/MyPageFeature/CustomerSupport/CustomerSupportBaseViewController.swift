@@ -37,6 +37,7 @@ class CustomerSupportBaseViewController: BaseViewController {
         isBottomTabbarHidden = true
         addViews()
         setupConstaraints()
+        bindBackButton()
     }
 
     func createDetailItem(items: [(String, String)]) {
@@ -94,17 +95,23 @@ extension CustomerSupportBaseViewController {
     @objc public func itemTapped(_ sender: UITapGestureRecognizer) {
         switch type {
         case .announcement, .event, .patchNote:
-            print("not terms")
             guard let tappedView = sender.view else { return }
             let index = tappedView.tag
             let url = urlStrings[index]
             let webViewController = WebViewController(urlString: url)
             navigationController?.pushViewController(webViewController, animated: true)
         case .terms:
-            print("terms")
             let viewController = TermsDetailViewController()
             navigationController?.pushViewController(viewController, animated: true)
         }
 
+    }
+
+    func bindBackButton() {
+        mainView.backButton.rx.tap
+            .bind { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }

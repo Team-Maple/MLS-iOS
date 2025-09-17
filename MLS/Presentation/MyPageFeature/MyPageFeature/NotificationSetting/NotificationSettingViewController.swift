@@ -3,7 +3,15 @@ import UIKit
 import BaseFeature
 import DomainInterface
 
-final class NotificationSettingViewController: BaseViewController, UNUserNotificationCenterDelegate {
+import ReactorKit
+import RxSwift
+
+final class NotificationSettingViewController: BaseViewController, View, UNUserNotificationCenterDelegate {
+
+    public typealias Reactor = NotificationSettingReactor
+
+    // MARK: - Properties
+    public var disposeBag = DisposeBag()
 
     private var authorized: Bool?
     // MARK: - Components
@@ -29,20 +37,15 @@ final class NotificationSettingViewController: BaseViewController, UNUserNotific
         isBottomTabbarHidden = true
         addViews()
         setupConstraints()
-        // AppDelegate에서 알림 권한 허용 물어보는 것 같음
-        //        isNotificationOn { isOn in
-        //            if isOn {
-//                print("알림 허용")
-//            } else {
-//                print("알림 허용 X")
-//            }
-//        }
-        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
-    }
+        bindBackButton()
 
-    override func viewWillAppear(_ animated: Bool) {
-        print("hello")
-        self.makeNotificationView()
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.appWillEnterForeground()
+            })
+            .disposed(by: disposeBag)
+
     }
 
     @available(*, unavailable)
@@ -50,7 +53,7 @@ final class NotificationSettingViewController: BaseViewController, UNUserNotific
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func appWillEnterForeground() {
+    private func appWillEnterForeground() {
         isNotificationOn { isOn in
             self.authorized = isOn
             DispatchQueue.main.async {
@@ -80,7 +83,6 @@ extension NotificationSettingViewController {
         mainView.clearNotificationViews()
         // 알림 권한 허용되지 않았을 경우
         if !authorized {
-            print("허용X")
             mainView.onChangeButtonTapped = { [weak self] in
                 guard let url = URL(string: UIApplication.openSettingsURLString),
                       UIApplication.shared.canOpenURL(url) else { return }
@@ -89,7 +91,6 @@ extension NotificationSettingViewController {
             mainView.createNotificationView(titleText: "푸시 알림 설정", subText: "기기 설정을 변경해야 알림을 받을 수 있어요.", authorized: authorized)
 
         } else { // 알림 권한 허용되었을 경우
-            print("허용")
             mainView.createNotificationView(titleText: "신규 이벤트 알림 설정", subText: "메이플랜드 이벤트 소식을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
             mainView.createNotificationView(titleText: "공지사항 알림 설정", subText: "메이플랜드 공지사항을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
         }
@@ -101,19 +102,39 @@ extension NotificationSettingViewController {
     func isNotificationOn(completion: @escaping (Bool) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             switch settings.authorizationStatus {
-            case .authorized, .provisional:
-                print(" 알림 허용됨")
+            case .authorized, .provisional: // 알림 허용됨
                 completion(true)
-            case .denied, .ephemeral:
-                print(" 알림 거부됨")
+            case .denied, .ephemeral: // 알림 거부됨
                 completion(false)
-            case .notDetermined:
-                print(" 아직 알림 권한 요청 안 함")
+            case .notDetermined: // 아직 알림 권한 요청 안 함
                 completion(false)
-            @unknown default:
-                print(" 알 수 없는 상태")
+            @unknown default: // 알 수 없는 상태
                 completion(false)
             }
         }
     }
+}
+
+// MARK: - Bind
+extension NotificationSettingViewController {
+    public func bind(reactor: Reactor) {
+        bindUserActions(reactor: reactor)
+        bindState(reactor: reactor)
+    }
+
+    private func bindUserActions(reactor: Reactor) {
+
+    }
+
+    private func bindState(reactor: Reactor) {
+
+    }
+    func bindBackButton() {
+        mainView.backButton.rx.tap
+            .bind { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+
 }

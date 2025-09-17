@@ -27,7 +27,7 @@ final class CustomerSupportBaseView: UIView {
     // 헤더 뷰
     public let headerView = UIView()
 
-    private let backButton: UIButton = {
+    public let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor

@@ -1,10 +1,15 @@
 import UIKit
 
 import DesignSystem
+
+import RxCocoa
+import RxSwift
 /*
  푸시 알림 설정이 허용된 경우의 뷰
  */
 class NotificationSettingView: UIView {
+    // MARK: - Properites
+    public var disposeBag = DisposeBag()
     // MARK: - Type
     public enum Constant {
         static let iconInset: CGFloat = 10
@@ -19,7 +24,7 @@ class NotificationSettingView: UIView {
     // MARK: - Components
     // 헤더 뷰
     public let headerView = UIView()
-    private let backButton: UIButton = {
+    let backButton: UIButton = {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
@@ -91,77 +96,19 @@ private extension NotificationSettingView {
 extension NotificationSettingView {
 
     func createNotificationView(titleText: String, subText: String, authorized: Bool) {
-        let view = UIView()
-        let titleLabel = UILabel()
-        let subTextLabel = UILabel()
-        let spacer = UIView()
-        let switchButton = UISwitch()
-        let changeButton: UIButton = {
-            let button = UIButton()
-            button.setAttributedTitle(.makeStyledString(font: .cp_xs_r, text: "변경하기", color: .primary700), for: .normal)
-            button.setImage(DesignSystemAsset.image(named: "arrowRight"), for: .normal)
-            return button
-        }()
-
-        titleLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: titleText, color: .textColor)
-        titleLabel.textAlignment = .left
-
-        subTextLabel.attributedText = .makeStyledString(font: .cp_s_r, text: subText, color: .neutral500)
-        subTextLabel.numberOfLines = 0
-        subTextLabel.textAlignment = .left
-
-        view.addSubview(titleLabel)
-        view.addSubview(subTextLabel)
-        view.addSubview(spacer)
-        // 허용 권한에 따라 다른 버튼
-        if authorized {
-            view.addSubview(switchButton)
-        } else {
-            view.addSubview(changeButton)
-        }
-
-        switchButton.onTintColor = .primary700
-
-        spacer.backgroundColor = .neutral100
-
-        view.snp.makeConstraints { make in
-            make.height.equalTo(Constant.viewHeight)
-        }
-
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().inset(Constant.horizontalMargin)
-        }
-
-        subTextLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(Constant.subTextTopMargin)
-            make.leading.equalToSuperview().inset(Constant.horizontalMargin)
-            // 임의 너비 설정
-            make.width.equalTo(Constant.subTextViewWidth)
-        }
-        if authorized {
-            switchButton.snp.makeConstraints { make in
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
-                make.top.equalToSuperview().offset(Constant.topMargin)
-            }
-        } else {
-            changeButton.snp.makeConstraints { make in
-                make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
-                make.top.equalToSuperview().offset(Constant.topMargin)
-            }
-        }
-        spacer.snp.makeConstraints { make in
-            make.height.equalTo(Constant.spacerHeight)
-            make.bottom.equalToSuperview()
-            make.width.equalToSuperview()
-        }
-        stackView.addArrangedSubview(view)
-
-        bindAction(button: changeButton)
+        let itemView = NotificationItemView(title: titleText, subtitle: subText, authorized: authorized)
+         itemView.onChangeButtonTapped = { [weak self] in
+             self?.onChangeButtonTapped?()
+         }
+         stackView.addArrangedSubview(itemView)
     }
 
     private func bindAction(button: UIButton) {
-        button.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
+        button.rx.tap
+            .bind { [weak self] in
+                self?.onChangeButtonTapped?()
+            }
+            .disposed(by: disposeBag)
     }
 
     @objc private func changeButtonTapped() {
