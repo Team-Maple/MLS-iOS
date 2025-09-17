@@ -1,6 +1,7 @@
 import BaseFeature
 import DictionaryFeatureInterface
 import DomainInterface
+import MyPageFeatureInterface
 
 public final class DictionaryNotificationFactoryImpl: DictionaryNotificationFactory {
     private let fetchNotificationUseCase: FetchNotificationUseCase

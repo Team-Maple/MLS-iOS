@@ -310,12 +310,6 @@ private extension SetProfileView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(Constant.cancelTextViewBottomMargin)
         }
-
-//        errorMessage.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.bottom.equalToSuperview().inset(Constant.errorMessageBottomMargin)
-//    
-//        }
     }
 
     func configureUI() {

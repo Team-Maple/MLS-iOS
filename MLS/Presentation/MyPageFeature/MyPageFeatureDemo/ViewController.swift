@@ -13,14 +13,38 @@ class ViewController: UIViewController {
     }()
 
     lazy var views: [[UIViewController]] = {
-        let view = BottomTabBarController(viewControllers: [
+        let mainView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: MyPageMainFactory.self).make()
         ])
+        let announceView = BottomTabBarController(viewControllers: [
+            DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .announcement)
+        ])
 
-        view.title = "마이 페이지"
+        let eventView = BottomTabBarController(viewControllers: [
+            DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .event)
+        ])
+
+        let patchView = BottomTabBarController(viewControllers: [
+            DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .patchNote)
+        ])
+
+        let termsView = BottomTabBarController(viewControllers: [
+            DIContainer.resolve(type: CustomerSupportFactory.self).make(type: .terms)
+        ])
+
+        let notiView = BottomTabBarController(viewControllers: [
+            DIContainer.resolve(type: NotificationSettingFactory.self).make()
+        ])
+
+        mainView.title = "마이페이지 메인"
+        announceView.title = "공지사항"
+        eventView.title = "이벤트"
+        patchView.title = "패치 노트"
+        termsView.title = "약관"
+        notiView.title = "알림설정"
 
         return [
-            [view]
+            [mainView, announceView, eventView, patchView, termsView, notiView]
         ]
     }()
 
@@ -30,7 +54,6 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         navigationItem.title = "MLS Feature System"
-
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints { make in

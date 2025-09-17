@@ -12,6 +12,8 @@ final class GuideAlertTestViewController: UIViewController {
 
     let oneButton = CommonButton(style: .normal, title: "oneButtonModal", disabledTitle: nil)
     let twoButton = CommonButton(style: .normal, title: "twoButtonModal", disabledTitle: nil)
+    let logoutButton = CommonButton(style: .normal, title: "logoutButtonModal", disabledTitle: nil)
+    let withdrawButton = CommonButton(style: .normal, title: "withdrawButtonModal", disabledTitle: nil)
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -53,6 +55,16 @@ private extension GuideAlertTestViewController {
             make.bottom.equalTo(oneButton.snp.top).offset(-16)
             make.centerX.equalToSuperview()
         }
+        
+        logoutButton.snp.makeConstraints { make in
+            make.bottom.equalTo(twoButton.snp.top).offset(-16)
+            make.centerX.equalToSuperview()
+        }
+
+        withdrawButton.snp.makeConstraints { make in
+            make.bottom.equalTo(logoutButton.snp.top).offset(-16)
+            make.centerX.equalToSuperview()
+        }
     }
 
     func configureUI() {
@@ -71,6 +83,20 @@ private extension GuideAlertTestViewController {
             .withUnretained(self)
             .subscribe { _, _ in
                 GuideAlertFactory.show(mainText: "버튼 두개", ctaText: "확인", cancelText: "취소", ctaAction: {})
+            }
+            .disposed(by: disposeBag)
+        
+        logoutButton.rx.tap
+            .withUnretained(self)
+            .subscribe { _, _ in
+                GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
+            }
+            .disposed(by: disposeBag)
+
+        withdrawButton.rx.tap
+            .withUnretained(self)
+            .subscribe { _, _ in
+                GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
             }
             .disposed(by: disposeBag)
     }
