@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         let notiView = BottomTabBarController(viewControllers: [
             DIContainer.resolve(type: NotificationSettingFactory.self).make()
         ])
-        
+
         mainView.title = "마이페이지 메인"
         announceView.title = "공지사항"
         eventView.title = "이벤트"

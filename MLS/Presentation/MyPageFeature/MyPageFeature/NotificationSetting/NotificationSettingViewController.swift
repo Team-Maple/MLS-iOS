@@ -7,9 +7,9 @@ import ReactorKit
 import RxSwift
 
 final class NotificationSettingViewController: BaseViewController, View, UNUserNotificationCenterDelegate {
-    
+
     public typealias Reactor = NotificationSettingReactor
-    
+
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
@@ -121,13 +121,13 @@ extension NotificationSettingViewController {
         bindUserActions(reactor: reactor)
         bindState(reactor: reactor)
     }
-    
+
     private func bindUserActions(reactor: Reactor) {
-        
+
     }
-    
+
     private func bindState(reactor: Reactor) {
-        
+
     }
     func bindBackButton() {
         mainView.backButton.rx.tap
@@ -136,5 +136,5 @@ extension NotificationSettingViewController {
             }
             .disposed(by: disposeBag)
     }
-   
+
 }

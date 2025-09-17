@@ -1,5 +1,5 @@
-import UIKit
 import MyPageFeatureInterface
+import UIKit
 
 import BaseFeature
 import DictionaryFeatureInterface

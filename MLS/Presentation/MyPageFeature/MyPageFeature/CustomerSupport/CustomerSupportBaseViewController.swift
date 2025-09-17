@@ -106,7 +106,7 @@ extension CustomerSupportBaseViewController {
         }
 
     }
-    
+
     func bindBackButton() {
         mainView.backButton.rx.tap
             .bind { [weak self] in

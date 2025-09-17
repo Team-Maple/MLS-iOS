@@ -96,7 +96,7 @@ extension MyPageMainViewController {
     }
 
     private func bindUserActions(reactor: Reactor) {
-        
+
     }
 
     private func bindState(reactor: Reactor) {
@@ -200,7 +200,7 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             return UICollectionViewCell()
         }
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard indexPath.section > 0 else { return } // section 0은 프로필 셀
 
@@ -212,7 +212,6 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
         // 액션 발생
         reactor?.action.onNext(.menuItemTapped(menu))
     }
-
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // 디자이너 문의 필요

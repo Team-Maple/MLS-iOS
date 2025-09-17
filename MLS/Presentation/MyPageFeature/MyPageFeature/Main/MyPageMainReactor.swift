@@ -9,7 +9,7 @@ public final class MyPageMainReactor: Reactor {
         case showNotice
         case showPatchNode
         case showPolicy
-        
+
         var route: Route {
             switch self {
             case .setAlarm:
