@@ -57,7 +57,7 @@ private extension GuideAlertTestViewController {
             make.bottom.equalTo(oneButton.snp.top).offset(-16)
             make.centerX.equalToSuperview()
         }
-        
+
         logoutButton.snp.makeConstraints { make in
             make.bottom.equalTo(twoButton.snp.top).offset(-16)
             make.centerX.equalToSuperview()
@@ -87,7 +87,7 @@ private extension GuideAlertTestViewController {
                 GuideAlertFactory.show(mainText: "버튼 두개", ctaText: "확인", cancelText: "취소", ctaAction: {})
             }
             .disposed(by: disposeBag)
-        
+
         logoutButton.rx.tap
             .withUnretained(self)
             .subscribe { _, _ in

@@ -10,11 +10,11 @@ public class AuthGuideAlert: GuideAlert {
         static let stackViewSpacing: CGFloat = 8
         static let iconSpacing: CGFloat = 5
     }
-    
+
     public enum AuthGuideAlertType {
         case logout
         case withdraw
-        
+
         var mainText: String {
             switch self {
             case .logout:
@@ -23,7 +23,7 @@ public class AuthGuideAlert: GuideAlert {
                 "정말 탈퇴 하시겠어요?"
             }
         }
-        
+
         var subText: String {
             switch self {
             case .logout:
@@ -32,7 +32,7 @@ public class AuthGuideAlert: GuideAlert {
                 "탈퇴 시, 아래 정보가 삭제 되어 복구가 불가능해요."
             }
         }
-        
+
         var ctaText: String {
             switch self {
             case .logout:
@@ -42,58 +42,58 @@ public class AuthGuideAlert: GuideAlert {
             }
         }
     }
-    
+
     // MARK: - Components
     private let contentStackView: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
         return view
     }()
-    
+
     private let subTextLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         return label
     }()
-    
+
     private lazy var bookmarkStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [bookmarkCheckIcon, bookmarkLabel])
         view.axis = .horizontal
         view.spacing = Constant.stackViewSpacing
-        
+
         bookmarkCheckIcon.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         return view
     }()
     private let bookmarkCheckIcon: UIImageView = {
         let view = UIImageView(image: .checkMarkFill)
         return view
     }()
-    
+
     private let bookmarkLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .cp_s_r, text: "북마크 컬렉션", color: .neutral700, alignment: .left)
         return label
     }()
-    
+
     private lazy var characterStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [characterCheckIcon, characterLabel])
         view.axis = .horizontal
         view.spacing = Constant.stackViewSpacing
-        
+
         characterCheckIcon.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }
-        
+
         return view
     }()
     private let characterCheckIcon: UIImageView = {
         let view = UIImageView(image: .checkMarkFill)
         return view
     }()
-    
+
     private let characterLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .cp_s_r, text: "캐릭터 정보", color: .neutral700, alignment: .left)
@@ -118,13 +118,13 @@ public class AuthGuideAlert: GuideAlert {
 private extension AuthGuideAlert {
     func addViews(type: AuthGuideAlertType) {
         addSubview(contentStackView)
-        
+
         contentStackView.addArrangedSubview(subTextLabel)
         if type == .withdraw {
             contentStackView.addArrangedSubview(bookmarkStackView)
             contentStackView.addArrangedSubview(characterStackView)
         }
-            
+
     }
 
     func setupConstraints(type: AuthGuideAlertType) {
@@ -137,13 +137,13 @@ private extension AuthGuideAlert {
         case .withdraw:
             contentStackView.setCustomSpacing(Constant.stackViewSpacing * 2, after: subTextLabel)
             contentStackView.setCustomSpacing(Constant.stackViewSpacing, after: bookmarkStackView)
-            
+
             contentStackView.snp.makeConstraints { make in
                 make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing * 2)
                 make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
             }
         }
-        
+
         buttonStackView.snp.remakeConstraints { make in
             make.top.equalTo(contentStackView.snp.bottom).offset(GuideAlert.Constant.verticalSpacing)
             make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)

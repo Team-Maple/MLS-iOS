@@ -9,7 +9,7 @@ import SnapKit
 
 public final class SetCharacterView: CharacterInputView {
     // MARK: - Type
-    
+
     // MARK: - Properties
 
     // MARK: - Components
@@ -17,7 +17,7 @@ public final class SetCharacterView: CharacterInputView {
         let view = NavigationBar(type: .arrowLeft)
         return view
     }()
-    
+
     // MARK: - init
     override init() {
         super.init()
@@ -42,7 +42,7 @@ private extension SetCharacterView {
         headerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
-        
+
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)

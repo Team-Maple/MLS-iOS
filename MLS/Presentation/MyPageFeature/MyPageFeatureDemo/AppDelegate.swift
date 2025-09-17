@@ -72,7 +72,7 @@ private extension AppDelegate {
         DIContainer.register(type: SetProfileFactory.self) {
             SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
         }
-        
+
         DIContainer.register(type: SetCharacterFactory.self) {
             SetCharacterFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
         }
