@@ -24,7 +24,8 @@ final class DetailStackCardView: UIStackView {
     public let filterButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "드롭률 순", color: .textColor), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "dropDown"), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "dropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
@@ -163,6 +164,11 @@ extension DetailStackCardView {
         spacer.snp.remakeConstraints { make in
             make.height.equalTo(isHidden ? Constant.topSpacing : Constant.filterSpacing)
         }
+    }
+    
+    func selectFilter(selectedType: SortType) {
+        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
+        filterButton.tintColor = .primary700
     }
 }
 
