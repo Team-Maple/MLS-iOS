@@ -3,6 +3,11 @@ import UIKit
 import SnapKit
 
 public final class BottomTabBarController: UITabBarController {
+    // MARK: - Type
+    private enum Constant {
+        static let horizontalInset: CGFloat = 24
+    }
+    
     // MARK: - Components
     private let divider = DividerView()
     private let tabItems: [TabItem]
@@ -47,7 +52,7 @@ private extension BottomTabBarController {
         }
 
         customTabBar.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(24)
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview()
         }
     }
