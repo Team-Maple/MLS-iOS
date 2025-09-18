@@ -9,7 +9,7 @@ import SnapKit
 
 public final class OnBoardingInputView: CharacterInputView {
     // MARK: - Type
-    
+
     // MARK: - Properties
 
     // MARK: - Components
@@ -17,7 +17,7 @@ public final class OnBoardingInputView: CharacterInputView {
         let view = NavigationBar(type: .withUnderLine("다음에 하기"))
         return view
     }()
-    
+
     // MARK: - init
     init(leftButtonIsHidden: Bool = false, underlineTextButtonIsHidden: Bool = false) {
         super.init()
@@ -44,7 +44,7 @@ private extension OnBoardingInputView {
         headerView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
-        
+
         descriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)

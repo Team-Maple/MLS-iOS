@@ -15,7 +15,7 @@ public final class MyPageListCell: UICollectionViewCell {
 
     // MARK: - Components
     private let titleLabel = UILabel()
-    
+
     private let iconView: UIImageView = {
         let view = UIImageView()
         view.image = DesignSystemAsset.image(named: "arrowForwardSmall")
@@ -66,7 +66,7 @@ extension MyPageListCell {
         let title: String
         var isHeader: Bool
         var addLevel: Int?
-        
+
         init(title: String, isHeader: Bool = false, addLevel: Int? = nil) {
             self.title = title
             self.isHeader = isHeader
@@ -81,7 +81,7 @@ extension MyPageListCell {
             let levelBadge = Badge(style: .element("Lv.\(level)"))
 
             addSubview(levelBadge)
-            
+
             levelBadge.snp.makeConstraints { make in
                 make.leading.equalTo(titleLabel.snp.trailing).offset(Constant.badgeMargin)
                 make.centerY.equalToSuperview()

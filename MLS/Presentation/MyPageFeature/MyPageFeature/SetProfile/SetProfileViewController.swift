@@ -63,7 +63,7 @@ private extension SetProfileViewController {
             make.top.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
-        
+
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -102,12 +102,12 @@ extension SetProfileViewController {
             .map { Reactor.Action.beginEditingNickName }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.logoutButton.rx.tap
             .map { Reactor.Action.logoutButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.onCancelTap
             .map { Reactor.Action.withdrawButtonTapped }
             .bind(to: reactor.action)

@@ -6,7 +6,7 @@ public final class MyPageMainReactor: Reactor {
         let job: String
         let level: Int
     }
-    
+
     public enum MyPageMenu {
         case setAlarm
         case setCharacterInfo(CharacterInfo?)
