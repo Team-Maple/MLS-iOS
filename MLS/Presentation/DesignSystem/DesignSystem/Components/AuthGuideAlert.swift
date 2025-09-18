@@ -56,51 +56,8 @@ public class AuthGuideAlert: GuideAlert {
         return label
     }()
 
-    private lazy var bookmarkStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [bookmarkCheckIcon, bookmarkLabel])
-        view.axis = .horizontal
-        view.spacing = Constant.stackViewSpacing
-
-        bookmarkCheckIcon.snp.makeConstraints { make in
-            make.size.equalTo(Constant.iconSize)
-        }
-
-        return view
-    }()
-
-    private let bookmarkCheckIcon: UIImageView = {
-        let view = UIImageView(image: .checkMarkFill)
-        return view
-    }()
-
-    private let bookmarkLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .cp_s_r, text: "북마크 컬렉션", color: .neutral700, alignment: .left)
-        return label
-    }()
-
-    private lazy var characterStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [characterCheckIcon, characterLabel])
-        view.axis = .horizontal
-        view.spacing = Constant.stackViewSpacing
-
-        characterCheckIcon.snp.makeConstraints { make in
-            make.size.equalTo(Constant.iconSize)
-        }
-
-        return view
-    }()
-
-    private let characterCheckIcon: UIImageView = {
-        let view = UIImageView(image: .checkMarkFill)
-        return view
-    }()
-
-    private let characterLabel: UILabel = {
-        let label = UILabel()
-        label.attributedText = .makeStyledString(font: .cp_s_r, text: "캐릭터 정보", color: .neutral700, alignment: .left)
-        return label
-    }()
+    private lazy var bookmarkStackView = makeStack(icon: .checkMarkFill, text: "북마크 컬렉션")
+    private lazy var characterStackView = makeStack(icon: .checkMarkFill, text: "캐릭터 정보")
 
     // MARK: - init
     public init(type: AuthGuideAlertType) {
@@ -149,5 +106,24 @@ private extension AuthGuideAlert {
 
     func configureUI(type: AuthGuideAlertType) {
         subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: type.subText, color: .neutral700)
+    }
+
+    func makeStack(icon: UIImage, text: String) -> UIStackView {
+        let iconView = UIImageView(image: icon)
+
+        let label: UILabel = {
+            let label = UILabel()
+            label.attributedText = .makeStyledString(font: .cp_s_r, text: text, color: .neutral700, alignment: .left)
+            return label
+        }()
+
+        iconView.snp.makeConstraints { make in
+            make.size.equalTo(Constant.iconSize)
+        }
+
+        let stackView = UIStackView(arrangedSubviews: [iconView, label])
+        stackView.axis = .horizontal
+        stackView.spacing = Constant.stackViewSpacing
+        return stackView
     }
 }
