@@ -1,5 +1,3 @@
-import DomainInterface
-
 import ReactorKit
 
 public final class AnnouncementReactor: Reactor {

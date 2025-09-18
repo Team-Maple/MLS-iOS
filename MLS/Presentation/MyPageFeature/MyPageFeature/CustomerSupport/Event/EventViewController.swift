@@ -1,11 +1,5 @@
-//
-//  EventViewController.swift
-//  MyPageFeature
-//
-//  Created by yeosong on 9/14/25.
-//
-
 import UIKit
+
 final class EventViewController: CustomerSupportBaseViewController {
     private var currentTabIndex = -1
     override func viewDidLoad() {

@@ -1,8 +1,10 @@
+import UIKit
+
 import DesignSystem
+
 import RxCocoa
 import RxSwift
 import SnapKit
-import UIKit
 
 final class NotificationItemView: UIView {
     // MARK: - Constants

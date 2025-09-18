@@ -6,7 +6,7 @@ public class AuthGuideAlert: GuideAlert {
     // MARK: - Type
     private enum Constant {
         static let iconSize: CGFloat = 24
-        static let topSpacing: CGFloat = 7
+        static let topSpacing: CGFloat = 14
         static let stackViewSpacing: CGFloat = 8
         static let iconSpacing: CGFloat = 5
     }
@@ -67,6 +67,7 @@ public class AuthGuideAlert: GuideAlert {
         
         return view
     }()
+
     private let bookmarkCheckIcon: UIImageView = {
         let view = UIImageView(image: .checkMarkFill)
         return view
@@ -89,6 +90,7 @@ public class AuthGuideAlert: GuideAlert {
         
         return view
     }()
+
     private let characterCheckIcon: UIImageView = {
         let view = UIImageView(image: .checkMarkFill)
         return view
@@ -124,24 +126,17 @@ private extension AuthGuideAlert {
             contentStackView.addArrangedSubview(bookmarkStackView)
             contentStackView.addArrangedSubview(characterStackView)
         }
-            
     }
 
     func setupConstraints(type: AuthGuideAlertType) {
-        switch type {
-        case .logout:
-            contentStackView.snp.makeConstraints { make in
-                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing)
-                make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
-            }
-        case .withdraw:
+        contentStackView.snp.makeConstraints { make in
+            make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing)
+            make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
+        }
+
+        if type == .withdraw {
             contentStackView.setCustomSpacing(Constant.stackViewSpacing * 2, after: subTextLabel)
             contentStackView.setCustomSpacing(Constant.stackViewSpacing, after: bookmarkStackView)
-            
-            contentStackView.snp.makeConstraints { make in
-                make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.topSpacing * 2)
-                make.horizontalEdges.equalToSuperview().inset(GuideAlert.Constant.horizontalInset)
-            }
         }
         
         buttonStackView.snp.remakeConstraints { make in
@@ -153,6 +148,6 @@ private extension AuthGuideAlert {
     }
 
     func configureUI(type: AuthGuideAlertType) {
-        subTextLabel.attributedText = .makeStyledString(font: .cp_s_r, text: type.subText, color: .neutral700)
+        subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: type.subText, color: .neutral700)
     }
 }
