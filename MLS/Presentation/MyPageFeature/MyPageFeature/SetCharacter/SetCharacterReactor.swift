@@ -73,13 +73,11 @@ public final class SetCharacterReactor: Reactor {
         case .backButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
         case .applyButtonTapped:
-            if let level = currentState.level, let role = currentState.role {
-                return updateUserInfoUseCase.execute(level: level, selectedJob: role)
-                    .andThen(Observable.just(.navigateTo(route: .dismissWithSave)))
-                    .catchAndReturn(.navigateTo(route: .error))
-            } else {
-                return Observable.just(.navigateTo(route: .error))
-            }
+            guard let level = currentState.level,
+                  let role = currentState.role else { return Observable.just(.navigateTo(route: .error)) }
+            return updateUserInfoUseCase.execute(level: level, selectedJob: role)
+                .andThen(Observable.just(.navigateTo(route: .dismissWithSave)))
+                .catchAndReturn(.navigateTo(route: .error))
         case .inputLevel(let level):
             let changeLevel = Observable.just(Mutation.setLevel(level))
             let validateButton = checkEmptyUseCase.execute(level: level, role: currentState.role)
