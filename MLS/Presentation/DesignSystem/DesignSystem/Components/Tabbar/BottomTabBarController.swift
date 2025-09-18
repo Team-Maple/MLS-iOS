@@ -47,7 +47,8 @@ private extension BottomTabBarController {
         }
 
         customTabBar.snp.makeConstraints { make in
-            make.horizontalEdges.bottom.equalToSuperview()/*.inset(24)*/
+            make.horizontalEdges.equalToSuperview().inset(24)
+            make.bottom.equalToSuperview()
         }
     }
 

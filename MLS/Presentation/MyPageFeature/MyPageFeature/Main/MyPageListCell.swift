@@ -22,6 +22,8 @@ public final class MyPageListCell: UICollectionViewCell {
         return view
     }()
 
+    var levelBadge: Badge?
+
     // MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -50,7 +52,6 @@ private extension MyPageListCell {
         }
 
         iconView.snp.makeConstraints { make in
-//            make.leading.equalTo(titleLabel.snp.trailing)
             make.trailing.equalToSuperview().inset(Constant.inset)
             make.centerY.equalToSuperview()
         }
@@ -61,8 +62,8 @@ private extension MyPageListCell {
     }
 }
 
-extension MyPageListCell {
-    public struct Input {
+public extension MyPageListCell {
+    struct Input {
         let title: String
         var isHeader: Bool
         var addLevel: Int?
@@ -74,9 +75,10 @@ extension MyPageListCell {
         }
     }
 
-    public func inject(input: Input) {
+    func inject(input: Input) {
         titleLabel.attributedText = .makeStyledString(font: input.isHeader ? .sub_m_b : .b_m_r, text: input.title, alignment: .left)
         iconView.isHidden = input.isHeader
+        levelBadge?.removeFromSuperview()
         if let level = input.addLevel {
             let levelBadge = Badge(style: .element("Lv.\(level)"))
 
@@ -86,7 +88,7 @@ extension MyPageListCell {
                 make.leading.equalTo(titleLabel.snp.trailing).offset(Constant.badgeMargin)
                 make.centerY.equalToSuperview()
             }
-
+            self.levelBadge = levelBadge
         }
     }
 }
