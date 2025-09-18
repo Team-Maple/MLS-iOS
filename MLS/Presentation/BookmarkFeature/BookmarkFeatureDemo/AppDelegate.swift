@@ -13,6 +13,8 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
+import MyPageFeature
+import MyPageFeatureInterface
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

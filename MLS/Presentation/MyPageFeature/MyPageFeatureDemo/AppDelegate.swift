@@ -86,7 +86,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: NotificationSettingFactory.self) {
-            NotificationSettingViewFactoryImpl()
+            NotificationSettingFactoryImpl()
         }
     }
 }
