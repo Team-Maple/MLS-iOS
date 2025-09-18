@@ -11,7 +11,7 @@ public enum GuideAlertFactory {
     private static var dimmedView: UIView?
     private static var containerView: UIView?
     private static var disposeBag = DisposeBag()
-    
+
     public static func show(
         mainText: String,
         ctaText: String,
