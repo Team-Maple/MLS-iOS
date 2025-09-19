@@ -96,9 +96,7 @@ extension MyPageMainViewController {
         bindState(reactor: reactor)
     }
 
-    private func bindUserActions(reactor: Reactor) {
-
-    }
+    private func bindUserActions(reactor: Reactor) {}
 
     private func bindState(reactor: Reactor) {
         rx.viewDidAppear
@@ -183,7 +181,7 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 withReuseIdentifier: MyPageListCell.identifier,
                 for: indexPath
             ) as? MyPageListCell,
-                  let reactor = reactor else { return UICollectionViewCell() }
+                let reactor = reactor else { return UICollectionViewCell() }
 
             let headerTitle: String
             switch indexPath.section {
@@ -197,12 +195,8 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 // index.row == 0은 제목
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
                 switch item {
-                case .setCharacterInfo(let info):
-                    if let info = info {
-                        cell.inject(input: MyPageListCell.Input(title: info.job, isHeader: false, addLevel: info.level))
-                    } else {
-                        cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
-                    }
+                case .setCharacterInfo(let .some(info)):
+                    cell.inject(input: MyPageListCell.Input(title: info.job, isHeader: false, addLevel: info.level))
                 default:
                     cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
                 }
