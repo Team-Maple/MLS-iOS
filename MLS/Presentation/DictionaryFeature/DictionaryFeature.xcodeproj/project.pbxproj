@@ -43,7 +43,6 @@
 		081D9E092DF80F68004F850D /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 081D9E072DF80F68004F850D /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		772DC9972E55CA93005F92E3 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 772DC9962E55CA93005F92E3 /* RxKeyboard */; };
 		773E8D462E7AF4A70094714D /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */; };
-		773E8D472E7AF4A70094714D /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D452E7AF4A70094714D /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773E8D4A2E7AF4D30094714D /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D492E7AF4D30094714D /* MyPageFeature.framework */; };
 		773E8D4B2E7AF4D30094714D /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D492E7AF4D30094714D /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773E8D4D2E7AF4F00094714D /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */; };
@@ -110,17 +109,6 @@
 				081D9E062DF80F63004F850D /* DomainInterface.framework in Embed Frameworks */,
 				081D9DF02DF80F2B004F850D /* Core.framework in Embed Frameworks */,
 				77C755B92E4B70C30081D80F /* AuthFeature.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		773E8D482E7AF4A70094714D /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				773E8D472E7AF4A70094714D /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,7 +318,6 @@
 				081D9C152DF80854004F850D /* Sources */,
 				081D9C162DF80854004F850D /* Frameworks */,
 				081D9C172DF80854004F850D /* Resources */,
-				773E8D482E7AF4A70094714D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
