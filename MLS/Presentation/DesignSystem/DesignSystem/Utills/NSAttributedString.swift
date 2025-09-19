@@ -12,7 +12,7 @@ public extension NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = 0
         paragraphStyle.lineBreakMode = .byTruncatingTail
-        paragraphStyle.maximumLineHeight = font.lineHeight * lineHeight
+        paragraphStyle.lineHeightMultiple = lineHeight
         paragraphStyle.alignment = alignment
 
         let attributedString = NSAttributedString(

@@ -63,7 +63,6 @@ private extension MyPageMainViewController {
     }
 
     func configureUI() {
-        view.backgroundColor = .neutral100
         mainView.mainCollectionView.collectionViewLayout = createLayout()
         mainView.mainCollectionView.delegate = self
         mainView.mainCollectionView.dataSource = self
