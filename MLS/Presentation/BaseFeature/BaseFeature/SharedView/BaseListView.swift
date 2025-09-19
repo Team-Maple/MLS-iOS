@@ -50,8 +50,7 @@ open class BaseListView: UIView {
                 sortButton: UIButton,
                 filterButton: UIButton,
                 emptyView: UIView,
-                isFilterHidden: Bool)
-    {
+                isFilterHidden: Bool) {
         self.editButton = editButton
         self.sortButton = sortButton
         self.filterButton = filterButton
