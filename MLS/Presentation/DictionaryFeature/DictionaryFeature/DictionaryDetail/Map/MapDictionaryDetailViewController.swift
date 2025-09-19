@@ -134,7 +134,7 @@ extension MapDictionaryDetailViewController {
                     let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
                         owner.selectedIndex = index
                         let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
-                        owner.appearMonsterView.filterButton.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: selectedFilter.rawValue, color: .textColor), for: .normal)
+                        owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
                         self.isBottomTabbarHidden = true
                     }
                     owner.tabBarController?.presentModal(viewController)

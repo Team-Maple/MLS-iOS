@@ -174,7 +174,8 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, isLogin in
-                owner.mainView.emptyView.setLabel(isLogin: isLogin, buttonAction: {
+                guard let emptyView = owner.mainView.emptyView as? BookmarkEmptyView else { return }
+                emptyView.setLabel(isLogin: isLogin, buttonAction: {
                     if isLogin {
                         owner.tabBarController?.selectedIndex = 0
                     } else {

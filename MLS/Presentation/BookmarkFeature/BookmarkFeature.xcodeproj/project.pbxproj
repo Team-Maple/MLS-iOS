@@ -110,6 +110,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		777313172E7DB00700AA92F6 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97A7E2E37AF8D007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,6 +249,7 @@
 		77DBC7A52E182AFF00529428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				777313172E7DB00700AA92F6 /* MyPageFeatureInterface.framework */,
 				778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */,
 				778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */,
 				77C97DAE2E37D4B6007198DA /* AuthFeatureInterface.framework */,
