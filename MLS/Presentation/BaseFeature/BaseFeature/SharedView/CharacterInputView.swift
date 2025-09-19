@@ -15,6 +15,7 @@ open class CharacterInputView: UIView {
         static let horizontalSpacing: CGFloat = 8
         public static let bottomInset: CGFloat = 16
         static let messageSpacing: CGFloat = 8
+        static let boxInset: CGFloat = Constant.horizontalInset + (Constant.horizontalSpacing / 2) / 2
     }
 
     // MARK: - Properties
@@ -70,14 +71,14 @@ private extension CharacterInputView {
         inputBox.snp.makeConstraints { make in
             make.top.equalTo(descriptionLabel.snp.bottom).offset(Constant.verticalSpacing)
             make.leading.equalToSuperview().inset(Constant.horizontalInset)
-            make.width.equalToSuperview().multipliedBy(0.5).inset((Constant.horizontalInset + (Constant.horizontalSpacing / 2)) / 2)
+            make.width.equalToSuperview().multipliedBy(0.5).inset(Constant.boxInset)
         }
 
         dropDownBox.snp.makeConstraints { make in
             make.top.equalTo(inputBox)
             make.leading.equalTo(inputBox.snp.trailing).offset(Constant.horizontalSpacing)
             make.trailing.equalToSuperview().inset(Constant.horizontalInset)
-            make.width.equalToSuperview().multipliedBy(0.5).inset((Constant.horizontalInset + (Constant.horizontalSpacing / 2)) / 2)
+            make.width.equalToSuperview().multipliedBy(0.5).inset(Constant.boxInset)
         }
 
         errorMessage.snp.makeConstraints { make in
