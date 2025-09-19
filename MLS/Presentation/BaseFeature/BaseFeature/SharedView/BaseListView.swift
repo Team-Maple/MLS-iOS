@@ -136,9 +136,6 @@ public extension BaseListView {
     func checkEmptyData(isEmpty: Bool) {
         emptyView.isHidden = !isEmpty
         filterStackView.isHidden = isEmpty
-        sortButton.isHidden = isEmpty
-        filterButton.isHidden = isEmpty
-        editButton?.isHidden = isEmpty
         listCollectionView.isHidden = isEmpty
     }
 }

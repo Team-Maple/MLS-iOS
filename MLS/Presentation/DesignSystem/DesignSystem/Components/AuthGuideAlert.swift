@@ -7,7 +7,8 @@ public class AuthGuideAlert: GuideAlert {
     private enum Constant {
         static let iconSize: CGFloat = 24
         static let topSpacing: CGFloat = 14
-        static let stackViewSpacing: CGFloat = 8
+        static let stackViewTopSpacing: CGFloat = stackViewBottomSpacing * 2
+        static let stackViewBottomSpacing: CGFloat = 8
         static let iconSpacing: CGFloat = 5
     }
 
@@ -92,8 +93,8 @@ private extension AuthGuideAlert {
         }
 
         if type == .withdraw {
-            contentStackView.setCustomSpacing(Constant.stackViewSpacing * 2, after: subTextLabel)
-            contentStackView.setCustomSpacing(Constant.stackViewSpacing, after: bookmarkStackView)
+            contentStackView.setCustomSpacing(Constant.stackViewTopSpacing, after: subTextLabel)
+            contentStackView.setCustomSpacing(Constant.stackViewBottomSpacing, after: bookmarkStackView)
         }
 
         buttonStackView.snp.remakeConstraints { make in
