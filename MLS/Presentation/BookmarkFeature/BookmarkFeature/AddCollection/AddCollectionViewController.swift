@@ -99,15 +99,10 @@ private extension AddCollectionViewController {
     }
 
     func setupKeyboard() {
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] height in
-                guard let self = self else { return }
-                let safeBottom = self.view.safeAreaInsets.bottom
-                let inset = height > 0 ? height - safeBottom + AddCollectionView.Constant.buttonBottomMargin : AddCollectionView.Constant.buttonBottomMargin
-                self.mainView.addButtonBottomConstraint?.update(inset: inset)
-                self.mainView.updateTextField(text: reactor?.initialState.inputText)
-            })
-            .disposed(by: disposeBag)
+        setupKeyboard(inset: AddCollectionView.Constant.buttonBottomMargin) { [weak self] height in
+            self?.mainView.addButtonBottomConstraint?.update(inset: height)
+            self?.mainView.updateTextField(text: self?.reactor?.initialState.inputText)
+        }
     }
 }
 

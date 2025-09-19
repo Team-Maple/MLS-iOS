@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		778C5E442E7D78DA00FD8439 /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */; };
+		778C5E452E7D78DA00FD8439 /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		778C5E462E7D78DA00FD8439 /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */; };
+		778C5E472E7D78DA00FD8439 /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779360FC2E38C2D20099B107 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FB2E38C2D20099B107 /* RxRelay */; };
 		779360FE2E38C4BF0099B107 /* ReactorKit in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FD2E38C4BF0099B107 /* ReactorKit */; };
 		779361002E38C7240099B107 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 779360FF2E38C7240099B107 /* RxKeyboard */; };
@@ -88,8 +92,10 @@
 				77C97A9C2E37AF97007198DA /* Domain.framework in Embed Frameworks */,
 				77C97A762E37AF83007198DA /* BookmarkFeature.framework in Embed Frameworks */,
 				77C97A902E37AF97007198DA /* Core.framework in Embed Frameworks */,
+				778C5E472E7D78DA00FD8439 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 				77C97A942E37AF97007198DA /* DataMock.framework in Embed Frameworks */,
 				77C97A982E37AF97007198DA /* DictionaryFeature.framework in Embed Frameworks */,
+				778C5E452E7D78DA00FD8439 /* MyPageFeature.framework in Embed Frameworks */,
 				77C97A9A2E37AF97007198DA /* DictionaryFeatureInterface.framework in Embed Frameworks */,
 				77C97A962E37AF97007198DA /* DesignSystem.framework in Embed Frameworks */,
 				77C97A9E2E37AF97007198DA /* DomainInterface.framework in Embed Frameworks */,
@@ -104,6 +110,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97A7E2E37AF8D007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97A7F2E37AF8D007198DA /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97A842E37AF97007198DA /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -203,7 +211,9 @@
 				77C97DA22E37B493007198DA /* BaseFeature.framework in Frameworks */,
 				77C97A992E37AF97007198DA /* DictionaryFeatureInterface.framework in Frameworks */,
 				77C97A952E37AF97007198DA /* DesignSystem.framework in Frameworks */,
+				778C5E442E7D78DA00FD8439 /* MyPageFeature.framework in Frameworks */,
 				77C97A9D2E37AF97007198DA /* DomainInterface.framework in Frameworks */,
+				778C5E462E7D78DA00FD8439 /* MyPageFeatureInterface.framework in Frameworks */,
 				77C97A822E37AF8D007198DA /* AuthFeatureInterface.framework in Frameworks */,
 				77C97A912E37AF97007198DA /* Data.framework in Frameworks */,
 				77C97A792E37AF83007198DA /* BookmarkFeatureInterface.framework in Frameworks */,
@@ -238,6 +248,8 @@
 		77DBC7A52E182AFF00529428 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				778C5E422E7D78DA00FD8439 /* MyPageFeature.framework */,
+				778C5E432E7D78DA00FD8439 /* MyPageFeatureInterface.framework */,
 				77C97DAE2E37D4B6007198DA /* AuthFeatureInterface.framework */,
 				77C97DA62E37D46E007198DA /* AuthFeatureInterface.framework */,
 				77C97AAF2E37B27A007198DA /* DomainInterface.framework */,

@@ -45,14 +45,12 @@ private extension MonsterFilterBottomSheetViewController {
     func configureUI() {}
 
     func setupKeyboard() {
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] height in
-                self?.mainView.snp.remakeConstraints { make in
-                    make.top.horizontalEdges.equalToSuperview()
-                    make.bottom.equalToSuperview().inset(height)
-                }
-            })
-            .disposed(by: disposeBag)
+        setupKeyboard { [weak self] height in
+            self?.mainView.snp.remakeConstraints { make in
+                make.top.horizontalEdges.equalToSuperview()
+                make.bottom.equalToSuperview().inset(height)
+            }
+        }
     }
 }
 
@@ -89,8 +87,9 @@ extension MonsterFilterBottomSheetViewController {
             .bind { owner, gesture in
                 let location = gesture.location(in: owner.mainView)
 
-                if !owner.mainView.levelRangeView.leftInputBox.frame.contains(location) &&
-                    !owner.mainView.levelRangeView.rightInputBox.frame.contains(location) {
+                if !owner.mainView.levelRangeView.leftInputBox.frame.contains(location),
+                   !owner.mainView.levelRangeView.rightInputBox.frame.contains(location)
+                {
                     owner.mainView.endEditing(true)
                 }
             }
