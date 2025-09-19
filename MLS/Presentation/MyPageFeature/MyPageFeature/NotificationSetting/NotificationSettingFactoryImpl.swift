@@ -2,7 +2,7 @@ import BaseFeature
 import DomainInterface
 import MyPageFeatureInterface
 
-public final class NotificationSettingViewFactoryImpl: NotificationSettingFactory {
+public final class NotificationSettingFactoryImpl: NotificationSettingFactory {
     public init() {}
 
     public func make() -> BaseViewController {

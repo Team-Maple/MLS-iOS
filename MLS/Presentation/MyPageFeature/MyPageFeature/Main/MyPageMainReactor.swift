@@ -2,9 +2,14 @@ import ReactorKit
 
 public final class MyPageMainReactor: Reactor {
     // MARK: - Type
+    public struct CharacterInfo {
+        let job: String
+        let level: Int
+    }
+
     public enum MyPageMenu {
         case setAlarm
-        case setCharacterInfo
+        case setCharacterInfo(CharacterInfo?)
         case showEvent
         case showNotice
         case showPatchNode
@@ -73,7 +78,7 @@ public final class MyPageMainReactor: Reactor {
         let menus: [[MyPageMenu]] = [
             [
                 .setAlarm,
-                .setCharacterInfo
+                .setCharacterInfo(CharacterInfo(job: "도적", level: 275))
             ], [
                 .showEvent,
                 .showNotice,

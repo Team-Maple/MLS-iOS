@@ -15,7 +15,6 @@ public final class SelectImageReactor: Reactor {
     // MARK: - Reactor
     public enum Action {
         case cancelButtonTapped
-        case sortedButtonTapped
         case applyButtonTapped
     }
 
@@ -52,8 +51,6 @@ public final class SelectImageReactor: Reactor {
         switch action {
         case .cancelButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
-        case .sortedButtonTapped:
-            return .empty()
         case .applyButtonTapped:
             return Observable.just(.navigateTo(route: .dismissWithSave))
         }

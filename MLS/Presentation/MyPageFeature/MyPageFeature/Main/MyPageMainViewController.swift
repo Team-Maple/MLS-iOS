@@ -21,15 +21,17 @@ public final class MyPageMainViewController: BaseViewController, View {
     private let setProfileFactory: SetProfileFactory
     private let customerSupportFactory: CustomerSupportFactory
     private let notificationSettingFactory: NotificationSettingFactory
+    private let setCharacterFactory: SetCharacterFactory
 
     // MARK: - Components
     private let mainView = MyPageMainView()
 
     // MARK: - Init
-    public init(setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory) {
+    public init(setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory, setCharacterFactory: SetCharacterFactory) {
         self.setProfileFactory = setProfileFactory
         self.customerSupportFactory = customerSupportFactory
         self.notificationSettingFactory = notificationSettingFactory
+        self.setCharacterFactory = setCharacterFactory
         super.init()
     }
 
@@ -119,6 +121,9 @@ extension MyPageMainViewController {
                             .disposed(by: owner.disposeBag)
                     }
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .characterInfoSetting:
+                    let viewController = owner.setCharacterFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 case .event:
                     let viewController = owner.customerSupportFactory.make(type: .event)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -145,13 +150,14 @@ extension MyPageMainViewController {
 // MARK: - Delegate
 extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard let reactor = reactor else { return 0 }
         switch section {
         case 0:
             return 1
         case 1:
-            return 3
+            return reactor.currentState.menus[0].count + 1
         default:
-            return 5
+            return reactor.currentState.menus[1].count + 1
         }
     }
 
@@ -167,7 +173,7 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 for: indexPath
             ) as? MyPageMainCell else { return UICollectionViewCell() }
 
-            cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱"))
+            cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱", isLogin: true))
             cell.onSetProfileTap = { [weak self] in
                 self?.reactor?.action.onNext(.editButtonTapped)
             }
@@ -191,7 +197,16 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             } else {
                 // index.row == 0은 제목
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
-                cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                switch item {
+                case .setCharacterInfo(let info):
+                    if let info = info {
+                        cell.inject(input: MyPageListCell.Input(title: info.job, isHeader: false, addLevel: info.level))
+                    } else {
+                        cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                    }
+                default:
+                    cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                }
             }
 
             return cell

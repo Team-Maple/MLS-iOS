@@ -4,14 +4,15 @@ import DesignSystem
 
 import RxCocoa
 import RxSwift
+import SnapKit
 
 public final class MyPageMainCell: UICollectionViewCell {
     // MARK: - Type
     enum Constant {
         static let imageSize: CGFloat = 104
-        static let labelTopMargin: CGFloat = 12
-        static let buttonTopMargin: CGFloat = 16
-        static let buttonHight: CGFloat = 44
+        static let spacingBetweenImageAndLabel: CGFloat = 12
+        static let spacingBetweenLabelAndButton: CGFloat = 16
+        static let buttonHeight: CGFloat = 44
         static let horizontalInset: CGFloat = 16
         static let verticalInset: CGFloat = 20
     }
@@ -21,16 +22,36 @@ public final class MyPageMainCell: UICollectionViewCell {
     public var onSetProfileTap: (() -> Void)?
 
     // MARK: - Components
-    private let imageView = UIImageView()
-    private let nameLabel = UILabel()
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = Constant.imageSize / 2
+        return iv
+    }()
+
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 2
+        label.textAlignment = .center
+        return label
+    }()
+
     public let setProfileButton = CommonButton(style: .normal, title: "프로필 설정", disabledTitle: nil)
 
-    // MARK: - init
+    private lazy var contentStackView: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [imageView, nameLabel, setProfileButton])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = Constant.spacingBetweenImageAndLabel
+        return stack
+    }()
+
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         addViews()
-        setupContstraints()
+        setupConstraints()
         configureUI()
         bindButton()
     }
@@ -41,31 +62,25 @@ public final class MyPageMainCell: UICollectionViewCell {
     }
 }
 
-// MARK: - SetUp
+// MARK: - Setup
 private extension MyPageMainCell {
     func addViews() {
-        addSubview(imageView)
-        addSubview(nameLabel)
-        addSubview(setProfileButton)
+        addSubview(contentStackView)
     }
 
-    func setupContstraints() {
+    func setupConstraints() {
+        contentStackView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview().inset(Constant.verticalInset)
+            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
+        }
+
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Constant.verticalInset)
-            make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
 
-        nameLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(Constant.labelTopMargin)
-            make.centerX.equalToSuperview()
-        }
-
         setProfileButton.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(Constant.buttonTopMargin)
-            make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
-            make.bottom.equalToSuperview().inset(Constant.verticalInset)
-            make.height.equalTo(Constant.buttonHight)
+            make.height.equalTo(Constant.buttonHeight)
+            make.horizontalEdges.equalToSuperview()
         }
     }
 
@@ -83,14 +98,28 @@ private extension MyPageMainCell {
     }
 }
 
+// MARK: - Public
 public extension MyPageMainCell {
     struct Input {
         let image: UIImage
         let name: String
+        let isLogin: Bool
     }
 
     func inject(input: Input) {
-        imageView.image = input.image
-        nameLabel.attributedText = .makeStyledString(font: .sub_l_b, text: input.name)
+        if input.isLogin {
+            imageView.isHidden = false
+            imageView.image = input.image
+            nameLabel.attributedText = .makeStyledString(font: .sub_l_b, text: input.name)
+            contentStackView.spacing = Constant.spacingBetweenImageAndLabel
+        } else {
+            imageView.isHidden = true
+            nameLabel.attributedText = .makeStyledString(
+                font: .b_s_m,
+                text: "로그인 후 이벤트 실시간 알림과 북마크\n그리고 최적화된 검색 서비스를 이용해보세요",
+                color: .neutral500
+            )
+            contentStackView.spacing = Constant.spacingBetweenLabelAndButton
+        }
     }
 }

@@ -9,12 +9,16 @@ public final class SetProfileReactor: Reactor {
         case dismiss
         case dismissWithUpdate
         case imageBottomSheet
+        case logoutAlert
+        case withdrawAlert
     }
 
     // MARK: - Action
     public enum Action {
         case backButtonTapped
         case editButtonTapped
+        case logoutButtonTapped
+        case withdrawButtonTapped
         case showBottomSheet
         case inputNickName(String)
         case beginEditingNickName
@@ -56,7 +60,7 @@ public final class SetProfileReactor: Reactor {
         case .showBottomSheet:
             return .just(.toNavigate(.imageBottomSheet))
         case .inputNickName(let nickName):
-            return checkNickNameUseCase.excute(nickName: nickName)
+            return checkNickNameUseCase.execute(nickName: nickName)
                 .map { isValid in
                     [.setNickName(nickName), .showError(isValid)]
                 }
@@ -77,6 +81,10 @@ public final class SetProfileReactor: Reactor {
             case .normal:
                 return .just(.beginEditting)
             }
+        case .logoutButtonTapped:
+            return Observable.just(.toNavigate(.logoutAlert))
+        case .withdrawButtonTapped:
+            return Observable.just(.toNavigate(.withdrawAlert))
         }
     }
 

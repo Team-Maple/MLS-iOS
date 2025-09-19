@@ -87,7 +87,6 @@ public final class BottomTabBar: UIStackView {
         distribution = .equalSpacing
         spacing = 0
         isLayoutMarginsRelativeArrangement = true
-
     }
 
     @objc private func tabButtonTapped(_ sender: TabButton) {

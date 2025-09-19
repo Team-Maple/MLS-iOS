@@ -177,7 +177,7 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
-            return NotificationSettingViewFactoryImpl()
+            return NotificationSettingFactoryImpl()
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             return DictionaryNotificationFactoryImpl(

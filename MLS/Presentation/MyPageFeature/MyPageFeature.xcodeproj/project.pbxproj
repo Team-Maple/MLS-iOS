@@ -27,6 +27,15 @@
 		773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F6D2E71736300F75B30 /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A3F702E71736A00F75B30 /* BaseFeature.framework */; };
 		773A42D02E717B8900F75B30 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773A42CF2E717B8900F75B30 /* BaseFeature.framework */; };
+		773E8D9F2E7B08F00094714D /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 773E8D9E2E7B08F00094714D /* RxKeyboard */; };
+		773E8DA32E7BF0CF0094714D /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA22E7BF0CF0094714D /* Data.framework */; };
+		773E8DA42E7BF0CF0094714D /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA22E7BF0CF0094714D /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8DA62E7BF0F70094714D /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA52E7BF0F70094714D /* DataMock.framework */; };
+		773E8DA72E7BF0F70094714D /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA52E7BF0F70094714D /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8DA92E7C02E10094714D /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA82E7C02E10094714D /* Core.framework */; };
+		773E8DAA2E7C02E10094714D /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DA82E7C02E10094714D /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		773E8DB02E7C06A80094714D /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DAF2E7C06A80094714D /* DesignSystem.framework */; };
+		773E8DB32E7C08DA0094714D /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 773E8DB22E7C08DA0094714D /* DomainInterface.framework */; };
 		77BE55BA2E78596900522216 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; };
 		77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B92E78596900522216 /* DomainInterface.framework */; };
@@ -67,9 +76,12 @@
 			files = (
 				77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */,
 				77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */,
+				773E8DA72E7BF0F70094714D /* DataMock.framework in Embed Frameworks */,
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
+				773E8DA42E7BF0CF0094714D /* Data.framework in Embed Frameworks */,
 				773A3F672E71731700F75B30 /* MyPageFeature.framework in Embed Frameworks */,
+				773E8DAA2E7C02E10094714D /* Core.framework in Embed Frameworks */,
 				773A3C002E7170A700F75B30 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -85,6 +97,12 @@
 		773A3F6D2E71736300F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A3F702E71736A00F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		773A42CF2E717B8900F75B30 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DA22E7BF0CF0094714D /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DA52E7BF0F70094714D /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DA82E7C02E10094714D /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DAB2E7C066A0094714D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DAF2E7C06A80094714D /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		773E8DB22E7C08DA0094714D /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B82E78596900522216 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B92E78596900522216 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2227A762E76A7E70095343A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,11 +144,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773E8DB32E7C08DA0094714D /* DomainInterface.framework in Frameworks */,
 				773A3BF02E716FEF00F75B30 /* RxRelay in Frameworks */,
 				773A3BEE2E716FEF00F75B30 /* RxCocoa in Frameworks */,
 				773A3BF22E716FEF00F75B30 /* RxSwift in Frameworks */,
 				773A3BF52E716FFD00F75B30 /* ReactorKit in Frameworks */,
 				773A3C092E71712300F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
+				773E8D9F2E7B08F00094714D /* RxKeyboard in Frameworks */,
+				773E8DB02E7C06A80094714D /* DesignSystem.framework in Frameworks */,
 				773A3BEB2E716FD800F75B30 /* SnapKit in Frameworks */,
 				773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */,
 			);
@@ -148,14 +169,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773E8DA32E7BF0CF0094714D /* Data.framework in Frameworks */,
 				D2DA8C322E798917009C53BA /* ReactorKit in Frameworks */,
 				77BE55BC2E78596900522216 /* DomainInterface.framework in Frameworks */,
 				773A3F6E2E71736300F75B30 /* BaseFeature.framework in Frameworks */,
 				773A3F6B2E71734600F75B30 /* DesignSystem.framework in Frameworks */,
 				773A3F662E71731700F75B30 /* MyPageFeature.framework in Frameworks */,
 				77BE55BA2E78596900522216 /* Domain.framework in Frameworks */,
+				773E8DA92E7C02E10094714D /* Core.framework in Frameworks */,
 				773A3BFC2E71701D00F75B30 /* RxSwift in Frameworks */,
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
+				773E8DA62E7BF0F70094714D /* DataMock.framework in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
 				773A3BF82E71701D00F75B30 /* RxCocoa in Frameworks */,
 				773A3BFF2E7170A700F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
@@ -189,6 +213,12 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				773E8DB22E7C08DA0094714D /* DomainInterface.framework */,
+				773E8DAF2E7C06A80094714D /* DesignSystem.framework */,
+				773E8DAB2E7C066A0094714D /* DomainInterface.framework */,
+				773E8DA82E7C02E10094714D /* Core.framework */,
+				773E8DA52E7BF0F70094714D /* DataMock.framework */,
+				773E8DA22E7BF0CF0094714D /* Data.framework */,
 				77BE55B82E78596900522216 /* Domain.framework */,
 				77BE55B92E78596900522216 /* DomainInterface.framework */,
 				D2227A762E76A7E70095343A /* Core.framework */,
@@ -244,6 +274,7 @@
 				773A3BEF2E716FEF00F75B30 /* RxRelay */,
 				773A3BF12E716FEF00F75B30 /* RxSwift */,
 				773A3BF42E716FFD00F75B30 /* ReactorKit */,
+				773E8D9E2E7B08F00094714D /* RxKeyboard */,
 			);
 			productName = MyPageFeature;
 			productReference = 773A38062E7158B400F75B30 /* MyPageFeature.framework */;
@@ -338,6 +369,7 @@
 				773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				773A3BEC2E716FEF00F75B30 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				773A3BF32E716FFD00F75B30 /* XCRemoteSwiftPackageReference "ReactorKit" */,
+				773E8D9D2E7B08F00094714D /* XCRemoteSwiftPackageReference "RxKeyboard" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 773A38072E7158B400F75B30 /* Products */;
@@ -686,9 +718,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KNU45PG8G9;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -700,8 +735,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MyPageFeatureDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.MyPageFeatureDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSMyPageFeatureProvisioningProfileDev;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -717,9 +754,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = KNU45PG8G9;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyPageFeatureDemo/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -731,8 +770,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MyPageFeatureDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.MyPageFeatureDemo2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSMyPageFeatureProvisioningProfileDev;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -809,6 +850,14 @@
 				minimumVersion = 3.2.0;
 			};
 		};
+		773E8D9D2E7B08F00094714D /* XCRemoteSwiftPackageReference "RxKeyboard" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxKeyboard";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -856,6 +905,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 773A3BE92E716FD800F75B30 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		773E8D9E2E7B08F00094714D /* RxKeyboard */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 773E8D9D2E7B08F00094714D /* XCRemoteSwiftPackageReference "RxKeyboard" */;
+			productName = RxKeyboard;
 		};
 		D2227A7C2E76A84A0095343A /* ReactorKit */ = {
 			isa = XCSwiftPackageProductDependency;

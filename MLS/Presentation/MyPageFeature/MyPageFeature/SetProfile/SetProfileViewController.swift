@@ -23,6 +23,11 @@ public final class SetProfileViewController: BaseViewController, View {
 
     // MARK: - Components
     private let mainView = SetProfileView()
+    private let topBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .whiteMLS
+        return view
+    }()
 
     // MARK: - Init
     public init(selectImageFactory: SelectImageFactory) {
@@ -43,25 +48,25 @@ public final class SetProfileViewController: BaseViewController, View {
         super.viewDidLoad()
         addViews()
         setupConstraints()
-        configureUI()
     }
 }
 
 // MARK: - Setup
 private extension SetProfileViewController {
     func addViews() {
+        view.addSubview(topBackgroundView)
         view.addSubview(mainView)
     }
 
     func setupConstraints() {
+        topBackgroundView.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+
         mainView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-    }
-
-    func configureUI() {
-        guard let reactor = reactor else { return }
-        view.backgroundColor = reactor.currentState.setProfileState == .edit ? .neutral100 : .whiteMLS
     }
 }
 
@@ -97,6 +102,16 @@ extension SetProfileViewController {
             .map { Reactor.Action.beginEditingNickName }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.logoutButton.rx.tap
+            .map { Reactor.Action.logoutButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.onCancelTap
+            .map { Reactor.Action.withdrawButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindState(reactor: Reactor) {
@@ -105,6 +120,7 @@ extension SetProfileViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, state in
+                owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
                 owner.mainView.setState(state: state)
             })
             .disposed(by: disposeBag)
@@ -143,6 +159,10 @@ extension SetProfileViewController {
                 case .dismissWithUpdate:
                     owner.didReturn.accept(true)
                     owner.navigationController?.popViewController(animated: true)
+                case .logoutAlert:
+                    GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
+                case .withdrawAlert:
+                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
                 default:
                     break
                 }

@@ -2,15 +2,15 @@ import UIKit
 
 import SnapKit
 
-public final class GuideAlert: UIView {
+public class GuideAlert: UIView {
     // MARK: - Type
-    private enum Constant {
+    enum Constant {
         static let verticalInset: CGFloat = 20
         static let horizontalInset: CGFloat = 20
         static let iconSize: CGFloat = 48
         static let verticalSpacing: CGFloat = 24
-        static let stackViewSpacing: CGFloat = 4
-        static let stackViewHeight: CGFloat = 48
+        static let buttonSpacing: CGFloat = 4
+        static let buttonHeight: CGFloat = 48
         static let alertWidth: CGFloat = 327
         static let radius: CGFloat = 24
     }
@@ -22,20 +22,19 @@ public final class GuideAlert: UIView {
         return view
     }()
 
-    private let textLabel = UILabel()
-
+    public let mainTextLabel = UILabel()
     public let buttonStackView: UIStackView = {
         let view = UIStackView()
-        view.spacing = Constant.stackViewSpacing
+        view.spacing = Constant.buttonSpacing
         return view
     }()
 
-    public let ctaButton: CommonButton
-    public let cancelButton: CommonButton?
+    public var ctaButton: CommonButton
+    public var cancelButton: CommonButton?
 
     // MARK: - init
     public init(mainText: String, ctaText: String, cancelText: String?, ctaRatio: Double = 0.7) {
-        textLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_l_b, text: mainText)
         self.ctaButton = CommonButton(style: .normal, title: ctaText, disabledTitle: nil)
         self.cancelButton = cancelText.map { CommonButton(style: .border, title: $0, disabledTitle: nil) }
         super.init(frame: .zero)
@@ -55,7 +54,7 @@ public final class GuideAlert: UIView {
 private extension GuideAlert {
     func addViews(cancelText: String?) {
         addSubview(warningIconView)
-        addSubview(textLabel)
+        addSubview(mainTextLabel)
         addSubview(buttonStackView)
 
         if let cancelButton = cancelButton {
@@ -75,26 +74,26 @@ private extension GuideAlert {
             make.size.equalTo(Constant.iconSize)
         }
 
-        textLabel.snp.makeConstraints { make in
+        mainTextLabel.snp.makeConstraints { make in
             make.top.equalTo(warningIconView.snp.bottom).offset(Constant.verticalInset)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
         }
 
         buttonStackView.snp.makeConstraints { make in
-            make.top.equalTo(textLabel.snp.bottom).offset(Constant.verticalSpacing)
+            make.top.equalTo(mainTextLabel.snp.bottom).offset(Constant.verticalSpacing)
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.bottom.equalToSuperview().inset(Constant.verticalInset)
-            make.height.equalTo(Constant.stackViewHeight)
+            make.height.equalTo(Constant.buttonHeight)
         }
 
         if let cancelButton = cancelButton {
             let cancelRatio = 1 - ctaRatio
 
             cancelButton.snp.makeConstraints { make in
-                make.width.equalTo(buttonStackView.snp.width).multipliedBy(cancelRatio).offset(-Constant.stackViewSpacing)
+                make.width.equalTo(buttonStackView.snp.width).multipliedBy(cancelRatio).offset(-Constant.buttonSpacing)
             }
             ctaButton.snp.makeConstraints { make in
-                make.width.equalTo(buttonStackView.snp.width).multipliedBy(ctaRatio).offset(-Constant.stackViewSpacing)
+                make.width.equalTo(buttonStackView.snp.width).multipliedBy(ctaRatio).offset(-Constant.buttonSpacing)
             }
         } else {
             ctaButton.snp.makeConstraints { make in

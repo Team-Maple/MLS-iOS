@@ -19,13 +19,28 @@ public enum GuideAlertFactory {
         ctaAction: @escaping () -> Void,
         cancelAction: (() -> Void)? = nil
     ) {
+        let alert = GuideAlert(mainText: mainText, ctaText: ctaText, cancelText: cancelText)
+        presentAlert(alert: alert, ctaAction: ctaAction, cancelAction: cancelAction)
+    }
+
+    public static func showAuthAlert(
+        type: AuthGuideAlert.AuthGuideAlertType,
+        ctaAction: @escaping () -> Void,
+        cancelAction: (() -> Void)? = nil
+    ) {
+        let alert = AuthGuideAlert(type: type)
+        presentAlert(alert: alert, ctaAction: ctaAction, cancelAction: cancelAction)
+    }
+
+    private static func presentAlert(
+        alert: GuideAlert,
+        ctaAction: @escaping () -> Void,
+        cancelAction: (() -> Void)? = nil
+    ) {
         guard currentAlertView == nil, dimmedView == nil else { return }
         guard let windowScene = UIApplication.shared.connectedScenes
             .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene,
-            let window = windowScene.windows.first(where: { $0.isKeyWindow })
-        else {
-            return
-        }
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else { return }
 
         let container = UIView(frame: window.bounds)
         window.addSubview(container)
@@ -34,17 +49,14 @@ public enum GuideAlertFactory {
         dimmed.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         dimmed.alpha = 0
         container.addSubview(dimmed)
-        dimmed.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
+        dimmed.snp.makeConstraints { $0.edges.equalToSuperview() }
 
-        let alert = GuideAlert(mainText: mainText, ctaText: ctaText, cancelText: cancelText)
         alert.alpha = 0
         container.addSubview(alert)
-        alert.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.leading.greaterThanOrEqualToSuperview().offset(16)
-            make.trailing.lessThanOrEqualToSuperview().offset(-16)
+        alert.snp.makeConstraints {
+            $0.center.equalToSuperview()
+            $0.leading.greaterThanOrEqualToSuperview().offset(16)
+            $0.trailing.lessThanOrEqualToSuperview().offset(-16)
         }
 
         disposeBag = DisposeBag()

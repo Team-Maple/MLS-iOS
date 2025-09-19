@@ -15,7 +15,7 @@ final class SelectImageView: UIView {
     }
 
     // MARK: - Components
-    public let header = Header(style: .filter, title: "정렬")
+    public let header = Header(style: .filter, title: "프로필 이미지를 선택해주세요.")
 
     public let imageCollectionView: UICollectionView = {
         let layout = UICollectionViewLayout()
