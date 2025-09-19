@@ -88,8 +88,7 @@ extension MonsterFilterBottomSheetViewController {
                 let location = gesture.location(in: owner.mainView)
 
                 if !owner.mainView.levelRangeView.leftInputBox.frame.contains(location),
-                   !owner.mainView.levelRangeView.rightInputBox.frame.contains(location)
-                {
+                   !owner.mainView.levelRangeView.rightInputBox.frame.contains(location) {
                     owner.mainView.endEditing(true)
                 }
             }
