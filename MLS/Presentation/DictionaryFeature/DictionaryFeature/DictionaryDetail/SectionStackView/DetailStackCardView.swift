@@ -165,7 +165,7 @@ extension DetailStackCardView {
             make.height.equalTo(isHidden ? Constant.topSpacing : Constant.filterSpacing)
         }
     }
-    
+
     func selectFilter(selectedType: SortType) {
         filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         filterButton.tintColor = .primary700

@@ -7,7 +7,7 @@ public final class BottomTabBarController: UITabBarController {
     private enum Constant {
         static let horizontalInset: CGFloat = 24
     }
-    
+
     // MARK: - Components
     private let divider = DividerView()
     private let tabItems: [TabItem]

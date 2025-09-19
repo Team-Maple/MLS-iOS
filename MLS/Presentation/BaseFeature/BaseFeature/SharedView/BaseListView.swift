@@ -30,14 +30,14 @@ open class BaseListView: UIView {
 
     private lazy var filterStackView: UIStackView = {
         var subviews: [UIView] = []
-        
+
         if let editButton = editButton {
             subviews.append(editButton)
         }
         subviews.append(UIView())
         subviews.append(sortButton)
         subviews.append(filterButton)
-        
+
         let view = UIStackView(arrangedSubviews: subviews)
         view.axis = .horizontal
         view.spacing = Constant.stackViewSpacing
