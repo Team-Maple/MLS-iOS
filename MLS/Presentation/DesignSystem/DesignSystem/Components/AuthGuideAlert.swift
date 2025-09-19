@@ -124,7 +124,7 @@ private extension AuthGuideAlert {
 
         let stackView = UIStackView(arrangedSubviews: [iconView, label])
         stackView.axis = .horizontal
-        stackView.spacing = Constant.stackViewSpacing
+        stackView.spacing = Constant.stackViewBottomSpacing
         return stackView
     }
 }

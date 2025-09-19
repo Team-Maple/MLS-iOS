@@ -47,10 +47,11 @@ open class BaseListView: UIView {
 
     // MARK: - Init
     public init(editButton: UIButton? = nil,
-         sortButton: UIButton,
-         filterButton: UIButton,
-         emptyView: UIView,
-         isFilterHidden: Bool) {
+                sortButton: UIButton,
+                filterButton: UIButton,
+                emptyView: UIView,
+                isFilterHidden: Bool)
+    {
         self.editButton = editButton
         self.sortButton = sortButton
         self.filterButton = filterButton
@@ -64,7 +65,7 @@ open class BaseListView: UIView {
     }
 
     @available(*, unavailable)
-    required public init?(coder: NSCoder) { fatalError() }
+    public required init?(coder: NSCoder) { fatalError() }
 }
 
 // MARK: - Setup
@@ -108,7 +109,7 @@ private extension BaseListView {
     }
 }
 
-// MARK: - Public
+// MARK: - Methods
 public extension BaseListView {
     func updateFilter(sortType: SortType?) {
         let hasFilter = sortType != nil
@@ -126,6 +127,26 @@ public extension BaseListView {
         if let sortType = sortType {
             sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: sortType.rawValue, color: sortButton.tintColor), for: .normal)
         }
+    }
+
+    static func makeSortButton(title: String, tintColor: UIColor) -> UIButton {
+        let button = UIButton()
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: title), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "lineArrowDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = tintColor
+        button.setTitleColor(tintColor, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        return button
+    }
+
+    static func makeFilterButton(title: String, tintColor: UIColor) -> UIButton {
+        let button = UIButton()
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: title), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "filter")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.tintColor = tintColor
+        button.setTitleColor(tintColor, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        return button
     }
 
     func selectFilter(selectedType: SortType) {
