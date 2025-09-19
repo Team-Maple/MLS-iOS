@@ -42,18 +42,13 @@ private extension OnBoardingInputViewController {
     }
 
     func configureUI() {
-        setKeyboard()
+        setupKeyboard()
     }
 
-    func setKeyboard() {
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] keyboardHeight in
-                guard let self = self else { return }
-                let safeAreaBottomInset = self.view.safeAreaInsets.bottom
-                let adjustedInset = keyboardHeight > 0 ? keyboardHeight - safeAreaBottomInset + OnBoardingInputView.Constant.bottomInset : OnBoardingInputView.Constant.bottomInset
-                self.mainView.nextButtonBottomConstraint?.update(inset: adjustedInset)
-            })
-            .disposed(by: disposeBag)
+    func setupKeyboard() {
+        setupKeyboard(inset: OnBoardingInputView.Constant.bottomInset) { [weak self] height in
+            self?.mainView.nextButtonBottomConstraint?.update(inset: height)
+        }
     }
 }
 

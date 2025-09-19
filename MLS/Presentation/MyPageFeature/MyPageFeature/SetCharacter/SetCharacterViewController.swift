@@ -42,10 +42,10 @@ private extension SetCharacterViewController {
     }
 
     func configureUI() {
-        setKeyboard()
+        setupKeyboard()
     }
 
-    func setKeyboard() {
+    func setupKeyboard() {
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [weak self] keyboardHeight in
                 guard let self = self else { return }
