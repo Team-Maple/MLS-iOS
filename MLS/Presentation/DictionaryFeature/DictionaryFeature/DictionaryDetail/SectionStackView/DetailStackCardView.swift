@@ -60,8 +60,8 @@ private extension DetailStackCardView {
     func setUpConstraints() {
         filterContainerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterContainerHeight)
-            //make.trailing.equalToSuperview()
-            //make.top.equalToSuperview().offset(Constant.filterContainerTopMargin)
+            // make.trailing.equalToSuperview()
+            // make.top.equalToSuperview().offset(Constant.filterContainerTopMargin)
         }
 
         filterButton.snp.makeConstraints { make in
@@ -121,12 +121,12 @@ extension DetailStackCardView {
         addArrangedSubview(cardView)
         addArrangedSubview(spacer)
 
-        cardView.snp.makeConstraints { make in
-            //horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
+        cardView.snp.makeConstraints { _ in
+            // horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
         }
 
         spacer.snp.makeConstraints { make in
-            //make.horizontalEdges.equalToSuperview()
+            // make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.viewSpacing)
         }
 
