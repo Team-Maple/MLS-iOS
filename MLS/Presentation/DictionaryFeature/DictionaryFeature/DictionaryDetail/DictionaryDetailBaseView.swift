@@ -87,6 +87,8 @@ class DictionaryDetailBaseView: UIView {
         stackView.backgroundColor = .whiteMLS
         // 아이템 기본 중앙배치
         stackView.alignment = .center
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 0 , bottom: 0, right: 0)
 
         return stackView
     }()
@@ -414,6 +416,7 @@ extension DictionaryDetailBaseView {
             make.width.equalTo(width)
             make.height.equalTo(DictionaryDetailBaseView.Constant.badgeHeight)
         }
+    
     }
 
     func setTabView(index: Int, contentViews: [UIView]) {

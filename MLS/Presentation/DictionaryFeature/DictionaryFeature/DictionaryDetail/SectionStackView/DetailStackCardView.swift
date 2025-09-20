@@ -35,6 +35,9 @@ final class DetailStackCardView: UIStackView {
     // MARK: - Init
     init() {
         super.init(frame: .zero)
+        // stack view들의 서브뷰들은 직접 제약사항을 잡지말고, 스택뷰로 컨트롤해야함
+        self.isLayoutMarginsRelativeArrangement = true
+        self.layoutMargins = UIEdgeInsets(top: 12, left: 16, bottom: 0, right: 16)
         addViews()
         setUpConstraints()
         configureUI()
@@ -57,8 +60,8 @@ private extension DetailStackCardView {
     func setUpConstraints() {
         filterContainerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterContainerHeight)
-            make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(Constant.filterContainerTopMargin)
+            //make.trailing.equalToSuperview()
+            //make.top.equalToSuperview().offset(Constant.filterContainerTopMargin)
         }
 
         filterButton.snp.makeConstraints { make in
@@ -119,11 +122,11 @@ extension DetailStackCardView {
         addArrangedSubview(spacer)
 
         cardView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
+            //horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
         }
 
         spacer.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
+            //make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.viewSpacing)
         }
 
