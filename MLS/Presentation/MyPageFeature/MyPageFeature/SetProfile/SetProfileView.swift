@@ -14,7 +14,7 @@ public final class SetProfileView: UIView {
         static let headerViewHeight: CGFloat = 44
         static let imageViewTopMargin: CGFloat = 20
         static let imageSize: CGFloat = 104
-        static let setImageIconSize: CGFloat = 24
+        static let setImageIconSize: CGFloat = 28
         static let nameTopMargin: CGFloat = 12
         static let nameBottomMargin: CGFloat = 64
         static let backgroudViewTopInset: CGFloat = 20
