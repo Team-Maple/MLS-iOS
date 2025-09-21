@@ -230,7 +230,7 @@ public final class SetProfileView: UIView {
 
     private let errorMessage = ErrorMessage(message: "비속어 사용은 불가능해요!")
 
-    private let countLabel = UILabel()
+    public let countLabel = UILabel()
 
     // MARK: - init
     public init() {
@@ -238,7 +238,8 @@ public final class SetProfileView: UIView {
         addViews()
         setupConstraints()
         configureUI()
-        bindGesture()
+        bindImageGesture()
+        bindTextFieldGesture()
     }
 
     @available(*, unavailable)
@@ -266,7 +267,6 @@ private extension SetProfileView {
         addSubview(countLabel)
         addSubview(logoutButton)
         addSubview(cancelTextView)
-//        addSubview(errorMessage)
     }
 
     func setupConstraints() {
@@ -317,7 +317,7 @@ private extension SetProfileView {
         cancelTextView.delegate = self
     }
 
-    private func bindGesture() {
+    func bindImageGesture() {
         imageView.isUserInteractionEnabled = true
 
         let tapGesture = UITapGestureRecognizer()
@@ -330,6 +330,18 @@ private extension SetProfileView {
 
         setImageButton.rx.tap
             .bind(to: imageTap)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindTextFieldGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                self?.endEditing(true)
+            })
             .disposed(by: disposeBag)
     }
 }
