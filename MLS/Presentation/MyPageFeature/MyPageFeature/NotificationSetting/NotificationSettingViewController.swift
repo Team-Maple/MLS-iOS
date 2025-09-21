@@ -93,6 +93,8 @@ extension NotificationSettingViewController {
         } else { // 알림 권한 허용되었을 경우
             mainView.createNotificationView(titleText: "신규 이벤트 알림 설정", subText: "메이플랜드 이벤트 소식을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
             mainView.createNotificationView(titleText: "공지사항 알림 설정", subText: "메이플랜드 공지사항을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
+            mainView.createNotificationView(titleText: "패치노트 알림 설정", subText: "메이플랜드 패치노트를 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
+
         }
 
     }

@@ -88,6 +88,7 @@ extension CustomerSupportBaseViewController {
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
+        mainView.menuContainerView.isHidden = true
     }
 }
 extension CustomerSupportBaseViewController {

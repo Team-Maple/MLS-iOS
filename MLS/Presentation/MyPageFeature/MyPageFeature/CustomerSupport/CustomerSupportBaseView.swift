@@ -36,6 +36,9 @@ final class CustomerSupportBaseView: UIView {
     }()
 
     public let titleLabel = UILabel()
+    
+    let menuContainerView = UIView()
+    
 
     // 이벤트 메뉴(진행중, 종료) 스택 뷰
     let menuStackView: UIStackView = {
@@ -47,6 +50,11 @@ final class CustomerSupportBaseView: UIView {
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = Constant.menuTabBarHorizontalInset
         return stackView
+    }()
+    let bottomLineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .neutral300
+        return view
     }()
     // 메뉴 스택뷰 왼쪽 정렬을 위해서
     let emptyView = UIView()
@@ -85,8 +93,10 @@ private extension CustomerSupportBaseView {
 
     func addViews() {
         [backButton, titleLabel].forEach { headerView.addSubview($0) }
-        [headerView, menuStackView, scrollView].forEach { addSubview($0) }
+        [headerView, menuContainerView, scrollView].forEach { addSubview($0) }
         scrollView.addSubview(detailItemStackView)
+        menuContainerView.addSubview(menuStackView)
+        menuContainerView.addSubview(bottomLineView)
     }
 
     func setupConstraints() {
@@ -106,11 +116,23 @@ private extension CustomerSupportBaseView {
             make.leading.equalTo(backButton.snp.trailing)
             make.verticalEdges.equalToSuperview()
         }
-
-        menuStackView.snp.makeConstraints { make in
+        
+        menuContainerView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()
             make.height.equalTo(Constant.menuStackViewHeight)
+
+        }
+        menuStackView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(Constant.menuStackViewHeight)
+            make.edges.equalToSuperview()
+        }
+        
+        bottomLineView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(Constant.spacerHeight)
         }
 
         scrollView.snp.makeConstraints { make in
@@ -121,7 +143,7 @@ private extension CustomerSupportBaseView {
         }
 
         detailItemStackView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(Constant.topMargin)
+            make.top.equalToSuperview()
             make.width.equalToSuperview()
             make.bottom.equalToSuperview()
         }
@@ -162,12 +184,12 @@ extension CustomerSupportBaseView {
         let date = UILabel()
         let spacer = UIView()
         let imageView = UIImageView()
-        imageView.image = DesignSystemAsset.image(named: "arrowForward")
+        imageView.image = DesignSystemAsset.image(named: "arrowForwardSmall")
 
         title.attributedText = .makeStyledString(font: .sub_m_sb, text: titleText)
         title.textAlignment = .left
 
-        date.attributedText = .makeStyledString(font: .b_s_r, text: dateText)
+        date.attributedText = .makeStyledString(font: .b_s_r, text: dateText, color: .neutral700)
 
         view.addSubview(title)
         view.addSubview(date)
@@ -201,6 +223,7 @@ extension CustomerSupportBaseView {
         spacer.snp.makeConstraints { make in
             make.height.equalTo(Constant.spacerHeight)
         }
+
 
         detailItemStackView.addArrangedSubview(view)
         detailItemStackView.addArrangedSubview(spacer)
