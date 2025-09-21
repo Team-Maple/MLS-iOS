@@ -23,7 +23,7 @@ public final class TabButton: UIButton {
         view.isUserInteractionEnabled = false
         return view
     }()
-    
+
     private let iconView = UIImageView()
     private let textLabel: UILabel = {
         let label = UILabel()

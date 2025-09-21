@@ -332,7 +332,7 @@ private extension SetProfileView {
             .bind(to: imageTap)
             .disposed(by: disposeBag)
     }
-    
+
     func bindTextFieldGesture() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.cancelsTouchesInView = false
