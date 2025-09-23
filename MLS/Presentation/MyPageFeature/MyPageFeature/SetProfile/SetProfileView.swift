@@ -426,7 +426,7 @@ public extension SetProfileView {
     func setError(isError: Bool) {
         errorMessage.isHidden = !isError
     }
-    
+
     func setCountHidden(state: SetProfileState) {
         countLabel.isHidden = state != .edit
     }
