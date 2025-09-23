@@ -91,7 +91,7 @@ private extension Badge {
     func configureUI(style: BadgeStyle) {
         layer.cornerRadius = Constant.radius
         backgroundColor = style.backgroundColor
-        textLabel.attributedText = .makeStyledString(font: style.font, text: style.text, color: style.fontColor)
+        textLabel.attributedText = .makeStyledString(font: style.font, text: style.text, color: style.fontColor, lineHeight: 1)
     }
 }
 

@@ -12,8 +12,8 @@ final class TermsViewController: CustomerSupportBaseViewController {
             "오픈소스 라이선스 보기"
         ]
 
-        mainView.menuStackView.isHidden = true
-        changeeSetupConstraints()
+        mainView.setMenuHidden(true)
+        mainView.changeeSetupConstraints()
         createTermsDetailItem(items: items)
     }
 }

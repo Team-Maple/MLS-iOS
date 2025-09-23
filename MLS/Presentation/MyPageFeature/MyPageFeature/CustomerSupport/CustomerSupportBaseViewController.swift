@@ -2,9 +2,11 @@ import UIKit
 
 import BaseFeature
 import DomainInterface
+import DesignSystem
 
 import RxCocoa
 import RxSwift
+import RxGesture
 /*
 **부모 뷰컨이 될 것 같음**
  */
@@ -49,9 +51,16 @@ class CustomerSupportBaseViewController: BaseViewController {
             } else {
                 urlStrings.append("https://www.naver.com")
             }
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(itemTapped))
-            view.addGestureRecognizer(tapGesture)
+            
             view.isUserInteractionEnabled = true // 꼭 필요!
+            
+            view.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.handleItemTap(index: index)
+                })
+                .disposed(by: disposeBag)
+            
         }
     }
 
@@ -60,9 +69,14 @@ class CustomerSupportBaseViewController: BaseViewController {
             let view = mainView.createDetailItem(titleText: item, dateText: nil)
             view.tag = index // 뷰에 index 태그 부여 (URL 매핑용)
 
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(itemTapped))
-            view.addGestureRecognizer(gesture)
             view.isUserInteractionEnabled = true
+            
+            view.rx.tapGesture()
+                .when(.recognized)
+                .subscribe(onNext: { [weak self] _ in
+                    self?.handleItemTap(index: index)
+                })
+                .disposed(by: disposeBag)
         }
     }
 }
@@ -80,24 +94,15 @@ extension CustomerSupportBaseViewController {
         }
     }
 
-    // 이벤트 뷰가 아닐 경우 메뉴 태ㅐ그 필요없음 -> 제약사항 변경 되어야 함
-    func changeeSetupConstraints() {
-        mainView.scrollView.snp.remakeConstraints { make in
-            make.top.equalTo(mainView.headerView.snp.bottom).offset(CustomerSupportBaseView.Constant.topMargin)
-            make.width.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-        mainView.menuContainerView.isHidden = true
-    }
+
 }
 extension CustomerSupportBaseViewController {
-
-    @objc public func itemTapped(_ sender: UITapGestureRecognizer) {
+    
+    func handleItemTap(index: Int) {
+        // 원하는 URL 열기 또는 네비게이션 처리
         switch type {
         case .announcement, .event, .patchNote:
-            guard let tappedView = sender.view else { return }
-            let index = tappedView.tag
+            guard index < urlStrings.count else { return }
             let url = urlStrings[index]
             let webViewController = WebViewController(urlString: url)
             navigationController?.pushViewController(webViewController, animated: true)
@@ -105,7 +110,6 @@ extension CustomerSupportBaseViewController {
             let viewController = TermsDetailViewController()
             navigationController?.pushViewController(viewController, animated: true)
         }
-
     }
 
     func bindBackButton() {

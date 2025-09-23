@@ -31,7 +31,6 @@ final class CustomerSupportBaseView: UIView {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
         button.tintColor = .textColor
-
         return button
     }()
 
@@ -109,12 +108,12 @@ private extension CustomerSupportBaseView {
         backButton.snp.makeConstraints { make in
             make.leading.centerY.equalToSuperview()
             make.size.equalTo(Constant.buttonSize)
-            make.verticalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalTo(backButton.snp.trailing)
-            make.verticalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
         }
         
         menuContainerView.snp.makeConstraints { make in
@@ -136,7 +135,7 @@ private extension CustomerSupportBaseView {
         }
 
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(menuStackView.snp.bottom)
+            make.top.equalTo(menuContainerView.snp.bottom)
             make.width.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -236,4 +235,19 @@ extension CustomerSupportBaseView {
         spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         menuStackView.addArrangedSubview(spacerView)
     }
+    
+    // 이벤트 뷰가 아닐 경우 메뉴 태그 필요없음 -> 제약사항 변경 되어야 함
+    func changeeSetupConstraints() {
+        scrollView.snp.remakeConstraints { make in
+            make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
+            make.width.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview()
+        }
+        setMenuHidden(true) // menuContainer뷰 숨기기
+    }
+    // menuContainerView Encapsulation
+    func setMenuHidden(_ hidden: Bool) {
+          menuContainerView.isHidden = hidden
+      }
 }

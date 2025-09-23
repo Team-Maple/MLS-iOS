@@ -16,6 +16,8 @@ final class DetailStackCardView: UIStackView {
         static let filterContainerTopMargin: CGFloat = 12
         static let filterButtonTrailing: CGFloat = 8
         static let viewSpacing: CGFloat = 10
+        static let stackViewInset: UIEdgeInsets = .init(top: 12, left: 16, bottom: 0, right: 16)
+
     }
 
     // MARK: - Components
@@ -23,7 +25,7 @@ final class DetailStackCardView: UIStackView {
     // 몬스터 순서 필터 버튼
     public let filterButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .btn_s_r, text: "드롭률 순", color: .textColor), for: .normal)
+        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "드롭률 높은 순", color: .textColor), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "dropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
@@ -35,6 +37,8 @@ final class DetailStackCardView: UIStackView {
     // MARK: - Init
     init() {
         super.init(frame: .zero)
+        self.isLayoutMarginsRelativeArrangement = true
+        self.layoutMargins = Constant.stackViewInset
         addViews()
         setUpConstraints()
         configureUI()
@@ -57,8 +61,6 @@ private extension DetailStackCardView {
     func setUpConstraints() {
         filterContainerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterContainerHeight)
-            make.trailing.equalToSuperview()
-            make.top.equalToSuperview().offset(Constant.filterContainerTopMargin)
         }
 
         filterButton.snp.makeConstraints { make in
@@ -118,12 +120,7 @@ extension DetailStackCardView {
         addArrangedSubview(cardView)
         addArrangedSubview(spacer)
 
-        cardView.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(Constant.cardHorizontalInset)
-        }
-
         spacer.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(Constant.viewSpacing)
         }
 
