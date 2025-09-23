@@ -8,8 +8,6 @@ public final class MyPageListCell: UICollectionViewCell {
     // MARK: - Type
     enum Constant {
         static let inset: CGFloat = 10
-        static let iconSize: CGFloat = 24
-        static let height: CGFloat = 50
         static let badgeMargin: CGFloat = 12
     }
 
@@ -54,10 +52,6 @@ private extension MyPageListCell {
         iconView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(Constant.inset)
             make.centerY.equalToSuperview()
-        }
-
-        snp.makeConstraints { make in
-            make.height.equalTo(Constant.height)
         }
     }
 }

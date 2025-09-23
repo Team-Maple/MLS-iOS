@@ -14,7 +14,7 @@ public final class SetProfileView: UIView {
         static let headerViewHeight: CGFloat = 44
         static let imageViewTopMargin: CGFloat = 20
         static let imageSize: CGFloat = 104
-        static let setImageIconSize: CGFloat = 24
+        static let setImageIconSize: CGFloat = 28
         static let nameTopMargin: CGFloat = 12
         static let nameBottomMargin: CGFloat = 64
         static let backgroudViewTopInset: CGFloat = 20
@@ -238,7 +238,8 @@ public final class SetProfileView: UIView {
         addViews()
         setupConstraints()
         configureUI()
-        bindGesture()
+        bindImageGesture()
+        bindTextFieldGesture()
     }
 
     @available(*, unavailable)
@@ -266,7 +267,6 @@ private extension SetProfileView {
         addSubview(countLabel)
         addSubview(logoutButton)
         addSubview(cancelTextView)
-//        addSubview(errorMessage)
     }
 
     func setupConstraints() {
@@ -317,7 +317,7 @@ private extension SetProfileView {
         cancelTextView.delegate = self
     }
 
-    private func bindGesture() {
+    func bindImageGesture() {
         imageView.isUserInteractionEnabled = true
 
         let tapGesture = UITapGestureRecognizer()
@@ -330,6 +330,18 @@ private extension SetProfileView {
 
         setImageButton.rx.tap
             .bind(to: imageTap)
+            .disposed(by: disposeBag)
+    }
+
+    func bindTextFieldGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.cancelsTouchesInView = false
+        addGestureRecognizer(tapGesture)
+
+        tapGesture.rx.event
+            .subscribe(onNext: { [weak self] _ in
+                self?.endEditing(true)
+            })
             .disposed(by: disposeBag)
     }
 }
@@ -413,5 +425,9 @@ public extension SetProfileView {
 
     func setError(isError: Bool) {
         errorMessage.isHidden = !isError
+    }
+
+    func setCountHidden(state: SetProfileState) {
+        countLabel.isHidden = state != .edit
     }
 }

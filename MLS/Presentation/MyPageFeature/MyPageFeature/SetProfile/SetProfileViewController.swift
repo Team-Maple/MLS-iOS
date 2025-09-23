@@ -121,6 +121,7 @@ extension SetProfileViewController {
             .withUnretained(self)
             .bind(onNext: { owner, state in
                 owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
+                owner.mainView.setCountHidden(state: state)
                 owner.mainView.setState(state: state)
             })
             .disposed(by: disposeBag)
