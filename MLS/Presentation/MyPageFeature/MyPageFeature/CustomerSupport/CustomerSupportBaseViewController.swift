@@ -81,11 +81,10 @@ extension CustomerSupportBaseViewController {
     }
 
     // 이벤트 뷰가 아닐 경우 메뉴 태ㅐ그 필요없음 -> 제약사항 변경 되어야 함
-    func changeeSetupConstraints() {
+    func changeSetupConstraints() {
         mainView.scrollView.snp.remakeConstraints { make in
             make.top.equalTo(mainView.headerView.snp.bottom).offset(CustomerSupportBaseView.Constant.topMargin)
             make.width.equalToSuperview()
-            make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }

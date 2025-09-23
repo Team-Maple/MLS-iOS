@@ -12,7 +12,7 @@ final class PatchNoteViewController: CustomerSupportBaseViewController {
         ]
 
         mainView.menuStackView.isHidden = true
-        changeeSetupConstraints()
+        changeSetupConstraints()
         createDetailItem(items: items)
     }
 }
