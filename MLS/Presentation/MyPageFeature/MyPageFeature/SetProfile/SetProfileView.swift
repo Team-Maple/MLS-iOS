@@ -230,7 +230,7 @@ public final class SetProfileView: UIView {
 
     private let errorMessage = ErrorMessage(message: "비속어 사용은 불가능해요!")
 
-    public let countLabel = UILabel()
+    private let countLabel = UILabel()
 
     // MARK: - init
     public init() {
@@ -425,5 +425,9 @@ public extension SetProfileView {
 
     func setError(isError: Bool) {
         errorMessage.isHidden = !isError
+    }
+    
+    func setCountHidden(state: SetProfileState) {
+        countLabel.isHidden = state != .edit
     }
 }
