@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "stat_minus_line color.png",
+      "filename" : "dropDown.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "stat_minus_line color@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "stat_minus_line color@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
