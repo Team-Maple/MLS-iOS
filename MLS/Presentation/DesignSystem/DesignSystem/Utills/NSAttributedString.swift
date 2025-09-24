@@ -14,7 +14,7 @@ public extension NSAttributedString {
         paragraphStyle.lineBreakMode = .byTruncatingTail
         paragraphStyle.lineHeightMultiple = lineHeight
         paragraphStyle.alignment = alignment
-        
+
         let actualLineHeight = font.lineHeight * lineHeight
         let baselineOffset = (actualLineHeight - font.lineHeight) / 2
 

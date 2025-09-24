@@ -106,7 +106,7 @@ extension MonsterDictionaryDetailViewController {
         let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
         dropItemView.selectFilter(selectedType: selectedFilter)
         isBottomTabbarHidden = true
-        
+
         reactor.state
             .map(\.tags)
             .distinctUntilChanged()// tag는 변경될 때만 이벤트 받기

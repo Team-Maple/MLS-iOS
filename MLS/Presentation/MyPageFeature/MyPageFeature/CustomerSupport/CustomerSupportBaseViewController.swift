@@ -1,12 +1,12 @@
 import UIKit
 
 import BaseFeature
-import DomainInterface
 import DesignSystem
+import DomainInterface
 
 import RxCocoa
-import RxSwift
 import RxGesture
+import RxSwift
 /*
 **부모 뷰컨이 될 것 같음**
  */
@@ -51,16 +51,16 @@ class CustomerSupportBaseViewController: BaseViewController {
             } else {
                 urlStrings.append("https://www.naver.com")
             }
-            
+
             view.isUserInteractionEnabled = true // 꼭 필요!
-            
+
             view.rx.tapGesture()
                 .when(.recognized)
                 .subscribe(onNext: { [weak self] _ in
                     self?.handleItemTap(index: index)
                 })
                 .disposed(by: disposeBag)
-            
+
         }
     }
 
@@ -70,7 +70,7 @@ class CustomerSupportBaseViewController: BaseViewController {
             view.tag = index // 뷰에 index 태그 부여 (URL 매핑용)
 
             view.isUserInteractionEnabled = true
-            
+
             view.rx.tapGesture()
                 .when(.recognized)
                 .subscribe(onNext: { [weak self] _ in
@@ -95,7 +95,7 @@ extension CustomerSupportBaseViewController {
     }
 }
 extension CustomerSupportBaseViewController {
-    
+
     func handleItemTap(index: Int) {
         // 원하는 URL 열기 또는 네비게이션 처리
         switch type {

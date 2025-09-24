@@ -127,7 +127,7 @@ extension MapDictionaryDetailViewController {
         let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
         appearMonsterView.selectFilter(selectedType: selectedFilter)
         isBottomTabbarHidden = true
-        
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음

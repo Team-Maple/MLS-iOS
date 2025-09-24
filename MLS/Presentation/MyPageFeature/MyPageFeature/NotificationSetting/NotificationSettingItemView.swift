@@ -60,7 +60,6 @@ final class NotificationItemView: UIView {
         )
         changeButton.setImage(DesignSystemAsset.image(named: "arrowRight"), for: .normal)
 
-
         // addSubviews
         addSubview(titleLabel)
         addSubview(subTextLabel)

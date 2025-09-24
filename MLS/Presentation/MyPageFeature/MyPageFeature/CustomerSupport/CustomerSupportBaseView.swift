@@ -35,9 +35,8 @@ final class CustomerSupportBaseView: UIView {
     }()
 
     public let titleLabel = UILabel()
-    
+
     let menuContainerView = UIView()
-    
 
     // 이벤트 메뉴(진행중, 종료) 스택 뷰
     let menuStackView: UIStackView = {
@@ -115,7 +114,7 @@ private extension CustomerSupportBaseView {
             make.leading.equalTo(backButton.snp.trailing)
             make.centerY.equalToSuperview()
         }
-        
+
         menuContainerView.snp.makeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()
@@ -127,7 +126,7 @@ private extension CustomerSupportBaseView {
             make.height.equalTo(Constant.menuStackViewHeight)
             make.edges.equalToSuperview()
         }
-        
+
         bottomLineView.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
@@ -222,7 +221,6 @@ extension CustomerSupportBaseView {
             make.height.equalTo(Constant.spacerHeight)
         }
 
-
         detailItemStackView.addArrangedSubview(view)
         detailItemStackView.addArrangedSubview(spacer)
 
@@ -234,7 +232,7 @@ extension CustomerSupportBaseView {
         spacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         menuStackView.addArrangedSubview(spacerView)
     }
-    
+
     // 이벤트 뷰가 아닐 경우 메뉴 태그 필요없음 -> 제약사항 변경 되어야 함
     func changeeSetupConstraints() {
         scrollView.snp.remakeConstraints { make in
