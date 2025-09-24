@@ -12,8 +12,8 @@ final class AnnouncementViewController: CustomerSupportBaseViewController {
         ]
 
         // 타입을 나눠서 베이스에서 다 처리하는게 나을려나??
-        mainView.menuStackView.isHidden = true
-        changeSetupConstraints()
+        mainView.setMenuHidden(true)
+        mainView.changeeSetupConstraints()
         createDetailItem(items: items)
     }
 }

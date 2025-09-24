@@ -85,6 +85,11 @@ extension ItemDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
+        //  초기 필터 선택 상태를 적용
+        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
+        monsterCardView.selectFilter(selectedType: selectedFilter)
+        isBottomTabbarHidden = true
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -96,7 +101,6 @@ extension ItemDictionaryDetailViewController {
                         owner.selectedIndex = index
                         let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
                         owner.monsterCardView.selectFilter(selectedType: selectedFilter)
-                        self.isBottomTabbarHidden = true
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .none:

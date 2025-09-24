@@ -105,6 +105,10 @@ extension NpcDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
+        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
+        questView.selectFilter(selectedType: selectedFilter)
+        isBottomTabbarHidden = true
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -116,7 +120,6 @@ extension NpcDictionaryDetailViewController {
                         owner.selectedIndex = index
                         let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
                         owner.questView.selectFilter(selectedType: selectedFilter)
-                        self.isBottomTabbarHidden = true
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .none:

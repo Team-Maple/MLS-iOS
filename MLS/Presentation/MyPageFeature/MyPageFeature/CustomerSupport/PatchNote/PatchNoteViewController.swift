@@ -11,8 +11,8 @@ final class PatchNoteViewController: CustomerSupportBaseViewController {
             ("2025년 7월 25일(금) 패치노트3", "2025년 07월 25일(금) 12:55")
         ]
 
-        mainView.menuStackView.isHidden = true
-        changeSetupConstraints()
+        mainView.setMenuHidden(true)
+        mainView.changeeSetupConstraints()
         createDetailItem(items: items)
     }
 }

@@ -60,12 +60,11 @@ final class NotificationItemView: UIView {
         )
         changeButton.setImage(DesignSystemAsset.image(named: "arrowRight"), for: .normal)
 
-        spacer.backgroundColor = .neutral100
-
         // addSubviews
         addSubview(titleLabel)
         addSubview(subTextLabel)
         addSubview(spacer)
+        spacer.backgroundColor = .neutral100
 
         if authorized {
             addSubview(switchButton)
@@ -100,7 +99,6 @@ final class NotificationItemView: UIView {
                 make.top.equalToSuperview().offset(Constant.topMargin)
             }
         }
-
         spacer.snp.makeConstraints { make in
             make.height.equalTo(Constant.spacerHeight)
             make.bottom.equalToSuperview()

@@ -33,6 +33,8 @@ class DictionaryDetailBaseView: UIView {
         static let tabBarStackViewInset: UIEdgeInsets = .init(top: 30, left: 16, bottom: 0, right: 16)
         static let tagStackViewInset: UIEdgeInsets = .init(top: 10, left: 0, bottom: 10, right: 0)
         static let secondSectionStackViewInset: UIEdgeInsets = .init(top: 0, left: 0, bottom: 20, right: 0)
+        static let stackViewInset: UIEdgeInsets = .init(top: 20, left: 0, bottom: 0, right: 0)
+
         static let menuTabBarButtonInset: NSDirectionalEdgeInsets = .init(top: 9, leading: 4, bottom: 9, trailing: 4)
         static let underLineHeight: CGFloat = 2
         static let underTag: Int = 999999
@@ -88,8 +90,7 @@ class DictionaryDetailBaseView: UIView {
         // 아이템 기본 중앙배치
         stackView.alignment = .center
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0)
-
+        stackView.layoutMargins = Constant.stackViewInset
         return stackView
     }()
 
@@ -298,7 +299,6 @@ private extension DictionaryDetailBaseView {
         }
 
         imageContentView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(Constant.imageContentTopMargin)
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageContentViewSize)
         }

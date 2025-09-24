@@ -15,15 +15,18 @@ public extension NSAttributedString {
         paragraphStyle.lineHeightMultiple = lineHeight
         paragraphStyle.alignment = alignment
 
+        let actualLineHeight = font.lineHeight * lineHeight
+        let baselineOffset = (actualLineHeight - font.lineHeight) / 2
+
         let attributedString = NSAttributedString(
             string: text,
             attributes: [
                 .font: font,
                 .foregroundColor: color,
-                .paragraphStyle: paragraphStyle
+                .paragraphStyle: paragraphStyle,
+                .baselineOffset: baselineOffset
             ]
         )
-
         return attributedString
     }
 
