@@ -167,7 +167,6 @@ extension CustomerSupportBaseView {
             make.height.equalTo(Constant.underlineHeight)
             make.leading.trailing.bottom.equalToSuperview()
         }
-
         return button
     }
 

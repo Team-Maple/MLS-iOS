@@ -416,6 +416,7 @@ extension DictionaryDetailBaseView {
             make.width.equalTo(width)
             make.height.equalTo(DictionaryDetailBaseView.Constant.badgeHeight)
         }
+
     }
 
     func setTabView(index: Int, contentViews: [UIView]) {

@@ -39,6 +39,7 @@ final class DetailStackCardView: UIStackView {
         super.init(frame: .zero)
         self.isLayoutMarginsRelativeArrangement = true
         self.layoutMargins = Constant.stackViewInset
+
         addViews()
         setUpConstraints()
         configureUI()

@@ -78,7 +78,7 @@ private extension MyPageMainCell {
             make.size.equalTo(Constant.imageSize)
         }
 
-        setProfileButton.snp.makeConstraints { make in
+        setProfileButton.snp.remakeConstraints { make in
             make.height.equalTo(Constant.buttonHeight)
             make.horizontalEdges.equalToSuperview()
         }

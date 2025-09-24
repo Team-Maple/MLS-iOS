@@ -5,10 +5,7 @@ import SnapKit
 public final class TabButton: UIButton {
     // MARK: - Type
     private enum Constant {
-        static let buttonSize: CGFloat = 64
-        static let iconSize: CGFloat = 60
         static let spacing: CGFloat = 4
-        static let padding: CGFloat = 11
     }
 
     // MARK: - Properties
@@ -19,10 +16,18 @@ public final class TabButton: UIButton {
     }
 
     // MARK: - Components
+    private lazy var contentView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [iconView, textLabel])
+        view.axis = .vertical
+        view.spacing = Constant.spacing
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+
     private let iconView = UIImageView()
     private let textLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 10, weight: .regular)
+        label.textAlignment = .center
         return label
     }()
 
@@ -45,30 +50,18 @@ public final class TabButton: UIButton {
 // MARK: - SetUp
 private extension TabButton {
     func addViews() {
-        addSubview(iconView)
-        addSubview(textLabel)
+        addSubview(contentView)
     }
 
     func setupConstraints() {
-        snp.makeConstraints { make in
-            make.size.equalTo(Constant.buttonSize).priority(.low)
-        }
-
-        iconView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(Constant.padding)
-            make.centerX.equalToSuperview()
-        }
-
-        textLabel.snp.makeConstraints { make in
-            make.top.equalTo(iconView.snp.bottom).offset(Constant.spacing)
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(Constant.padding)
+        contentView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 
     func updateUI() {
         iconView.tintColor = isSelected ? .primary700 : .neutral300
         textLabel.textColor = isSelected ? .primary700 : .neutral700
-        textLabel.font = .systemFont(ofSize: 10, weight: isSelected ? .semibold : .regular)
+        textLabel.font = .systemFont(ofSize: 11, weight: isSelected ? .semibold : .regular)
     }
 }

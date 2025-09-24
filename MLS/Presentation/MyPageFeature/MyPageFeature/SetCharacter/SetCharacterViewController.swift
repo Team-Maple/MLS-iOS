@@ -46,14 +46,9 @@ private extension SetCharacterViewController {
     }
 
     func setupKeyboard() {
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [weak self] keyboardHeight in
-                guard let self = self else { return }
-                let safeAreaBottomInset = self.view.safeAreaInsets.bottom
-                let adjustedInset = keyboardHeight > 0 ? keyboardHeight - safeAreaBottomInset + CharacterInputView.Constant.bottomInset : CharacterInputView.Constant.bottomInset
-                self.mainView.nextButtonBottomConstraint?.update(inset: adjustedInset)
-            })
-            .disposed(by: disposeBag)
+        setupKeyboard(inset: CharacterInputView.Constant.bottomInset) { [weak self] height in
+            self?.mainView.nextButtonBottomConstraint?.update(inset: height)
+        }
     }
 }
 

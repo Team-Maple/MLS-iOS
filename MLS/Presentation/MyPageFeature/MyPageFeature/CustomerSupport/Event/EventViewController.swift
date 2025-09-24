@@ -4,6 +4,7 @@ final class EventViewController: CustomerSupportBaseViewController {
     private var currentTabIndex = -1
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupMenu()
     }
 
