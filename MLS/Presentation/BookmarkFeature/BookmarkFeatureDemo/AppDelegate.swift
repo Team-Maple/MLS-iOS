@@ -1,3 +1,5 @@
+// swiftlint:disable function_body_length
+
 import UIKit
 
 import AuthFeature

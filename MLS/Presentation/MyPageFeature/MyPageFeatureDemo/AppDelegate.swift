@@ -74,11 +74,29 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: SetCharacterFactory.self) {
-            SetCharacterFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+            SetCharacterFactoryImpl(
+                checkEmptyUseCase: DIContainer
+                    .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer
+                    .resolve(type: CheckValidLevelUseCase.self),
+                fetchJobListUseCase: DIContainer
+                    .resolve(type: FetchJobListUseCase.self),
+                updateUserInfoUseCase: DIContainer
+                    .resolve(type: UpdateUserInfoUseCase.self)
+            )
         }
 
         DIContainer.register(type: MyPageMainFactory.self) {
-            MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self), customerSupportFactory: DIContainer.resolve(type: CustomerSupportFactory.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self), setCharacterFactory: DIContainer.resolve(type: SetCharacterFactory.self))
+            MyPageMainFactoryImpl(
+                setProfileFactory: DIContainer
+                    .resolve(type: SetProfileFactory.self),
+                customerSupportFactory: DIContainer
+                    .resolve(type: CustomerSupportFactory.self),
+                notificationSettingFactory: DIContainer
+                    .resolve(type: NotificationSettingFactory.self),
+                setCharacterFactory: DIContainer
+                    .resolve(type: SetCharacterFactory.self)
+            )
         }
 
         DIContainer.register(type: CustomerSupportFactory.self) {

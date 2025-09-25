@@ -71,13 +71,13 @@ extension EventViewController {
 
     // 버튼 상태 변경 함수
     private func updateButtonStates(in stackView: UIStackView, selectedTag: Int) {
-        for (i, subview) in stackView.arrangedSubviews.enumerated() {
+        for (index, subview) in stackView.arrangedSubviews.enumerated() {
             guard let button = subview as? UIButton else { continue }
             let title = button.titleLabel?.text ?? ""
 
             let underline = button.subviews.first { $0.tag == 999999 }
 
-            if i == selectedTag {
+            if index == selectedTag {
                 button.setAttributedTitle(.makeStyledString(font: .sub_m_b, text: title, color: .black), for: .normal)
                 underline?.isHidden = false
             } else {

@@ -12,12 +12,12 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     struct TabMenu: Equatable {
         var infos: [Info]
         var maps: [Map]
-        var Items: [Item]
+        var items: [Item]
 
         static func == (lhs: TabMenu, rhs: TabMenu) -> Bool {
             return lhs.infos == rhs.infos &&
             lhs.maps == rhs.maps &&
-            lhs.Items == rhs.Items
+            lhs.items == rhs.items
         }
     }
 
@@ -67,7 +67,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
 
             ], maps: [
                 Map(desc: "임시 라벨")
-            ], Items: [
+            ], items: [
                 Item(desc: "임시 라벨")
             ])
     }
