@@ -141,7 +141,7 @@ public final class CheckBoxButton: UIButton {
 
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "arrowForwardSmall")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
