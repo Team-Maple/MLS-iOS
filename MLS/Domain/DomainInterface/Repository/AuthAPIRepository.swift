@@ -51,4 +51,6 @@ public protocol AuthAPIRepository {
     func reissueToken(refreshToken: String) -> Observable<LoginResponse>
 
     func fcmToken(credential: String, fcmToken: String?) -> Completable
+    
+    func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable
 }

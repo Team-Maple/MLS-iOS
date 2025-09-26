@@ -162,6 +162,9 @@ private extension AppDelegate {
         DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
             return DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
+        DIContainer.register(type: UpdateMarketingAgreementUseCase.self) {
+            return UpdateMarketingAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -184,7 +187,7 @@ private extension AppDelegate {
                 signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
                 signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
                 saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self),
-                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self), updateMarketingAgreementUseCase: DIContainer.resolve(type: UpdateMarketingAgreementUseCase.self)
             )
         }
         DIContainer.register(type: LoginFactory.self) {

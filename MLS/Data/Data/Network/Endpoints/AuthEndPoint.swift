@@ -62,4 +62,14 @@ public enum AuthEndPoint {
             body: body
         )
     }
+    
+    public static func updateMarketingAgreement(credential: String, body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/marketing-agreement",
+            method: .PUT,
+            headers: ["Authorization": "Bearer \(credential)"],
+            body: body
+        )
+    }
 }

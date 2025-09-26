@@ -80,6 +80,12 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
     public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
         return .never()
     }
+    
+    public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
+        let endPoint = AuthEndPoint.updateMarketingAgreement(credential: credential, body: MarketingAgreementBody(marketingAgreement: isMarketingAgreement))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
 }
 
 private extension AuthAPIRepositoryImpl {
@@ -101,5 +107,9 @@ private extension AuthAPIRepositoryImpl {
 
     struct FCMTokenBody: Encodable {
         let fcmToken: String?
+    }
+    
+    struct MarketingAgreementBody: Encodable {
+        let marketingAgreement: Bool
     }
 }

@@ -10,22 +10,30 @@ public final class TermsAgreementReactor: Reactor {
         case dismiss
         case onBoarding
         case error
+        case ageAgreement
+        case serviceAgreement
+        case personalAgreement
+        case marketingAgreement
     }
 
     // MARK: - Reactor
     public enum Action {
         case backButtonTapped
         case totalAgreeButtonTapped
-        case oldAgreeButtonTapped
+        case ageAgreeButtonTapped
+        case toAgeAgreeButtonTapped
         case serviceTermsAgreeButtonTapped
+        case toServiceTermsAgreeButtonTapped
         case personalInformationAgreeButtonTapped
+        case toPersonalInformationAgreeButtonTapped
         case marketingAgreeButtonTapped
+        case toMarketingAgreeButtonTapped
         case bottomButtonTapped
     }
 
     public enum Mutation {
         case changeIsTotalAgreeState
-        case changeIsOldAgreeState
+        case changeIsAgeAgreeState
         case changeIsServiceTermsAgreeState
         case changeIsPersonalInformationAgreeState
         case changeIsMarketingAgreeState
@@ -36,7 +44,7 @@ public final class TermsAgreementReactor: Reactor {
         @Pulse var route: Route = .none
 
         var isTotalAgree: Bool = false
-        var isOldAgree: Bool = false
+        var isAgeAgree: Bool = false
         var isServiceTermsAgree: Bool = false
         var isPersonalInformationAgree: Bool = false
         var isMarketingAgree: Bool = false
@@ -52,6 +60,7 @@ public final class TermsAgreementReactor: Reactor {
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
     private let saveTokenUseCase: SaveTokenToLocalUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
+    private let updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
 
     // MARK: - init
     public init(
@@ -60,7 +69,8 @@ public final class TermsAgreementReactor: Reactor {
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
         saveTokenUseCase: SaveTokenToLocalUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase
+        fetchTokenUseCase: FetchTokenFromLocalUseCase,
+        updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
     ) {
         self.credential = credential
         self.socialPlatform = socialPlatform
@@ -68,6 +78,7 @@ public final class TermsAgreementReactor: Reactor {
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
         self.saveTokenUseCase = saveTokenUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
+        self.updateMarketingAgreementUseCase = updateMarketingAgreementUseCase
         self.initialState = State()
     }
 
@@ -78,8 +89,8 @@ public final class TermsAgreementReactor: Reactor {
             return Observable.just(.navigateTo(route: .dismiss))
         case .totalAgreeButtonTapped:
             return Observable.just(.changeIsTotalAgreeState)
-        case .oldAgreeButtonTapped:
-            return Observable.just(.changeIsOldAgreeState)
+        case .ageAgreeButtonTapped:
+            return Observable.just(.changeIsAgeAgreeState)
         case .serviceTermsAgreeButtonTapped:
             return Observable.just(.changeIsServiceTermsAgreeState)
         case .personalInformationAgreeButtonTapped:
@@ -95,8 +106,10 @@ public final class TermsAgreementReactor: Reactor {
                 case .authorized, .provisional, .ephemeral:
                     let fetchResult = fetchTokenUseCase.execute(type: .fcmToken)
                     switch fetchResult {
-                    case .success(let token): fcmToken = token
-                    case .failure(let failure): fcmToken = nil
+                    case .success(let token):
+                        fcmToken = token
+                    case .failure(_):
+                        fcmToken = nil
                     }
                 default:
                     fcmToken = nil
@@ -125,6 +138,14 @@ public final class TermsAgreementReactor: Reactor {
                     }
                     .catchAndReturn(.navigateTo(route: .error))
             }
+        case .toAgeAgreeButtonTapped:
+            return .just(.navigateTo(route: .ageAgreement))
+        case .toServiceTermsAgreeButtonTapped:
+            return .just(.navigateTo(route: .serviceAgreement))
+        case .toPersonalInformationAgreeButtonTapped:
+            return .just(.navigateTo(route: .personalAgreement))
+        case .toMarketingAgreeButtonTapped:
+            return .just(.navigateTo(route: .marketingAgreement))
         }
     }
 
@@ -132,13 +153,13 @@ public final class TermsAgreementReactor: Reactor {
         var newState = state
         switch mutation {
         case .changeIsTotalAgreeState:
-            newState.isOldAgree = newState.isTotalAgree ? false : true
+            newState.isAgeAgree = newState.isTotalAgree ? false : true
             newState.isServiceTermsAgree = newState.isTotalAgree ? false : true
             newState.isPersonalInformationAgree = newState.isTotalAgree ? false : true
             newState.isMarketingAgree = newState.isTotalAgree ? false : true
             newState.isTotalAgree.toggle()
-        case .changeIsOldAgreeState:
-            newState.isOldAgree.toggle()
+        case .changeIsAgeAgreeState:
+            newState.isAgeAgree.toggle()
         case .changeIsServiceTermsAgreeState:
             newState.isServiceTermsAgree.toggle()
         case .changeIsPersonalInformationAgreeState:
@@ -148,7 +169,7 @@ public final class TermsAgreementReactor: Reactor {
         case .navigateTo(let route):
             newState.route = route
         }
-        if newState.isOldAgree == true &&
+        if newState.isAgeAgree == true &&
             newState.isServiceTermsAgree == true &&
             newState.isPersonalInformationAgree == true {
             if newState.isMarketingAgree == true {
