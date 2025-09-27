@@ -72,4 +72,12 @@ public enum AuthEndPoint {
             body: body
         )
     }
+    
+    public static func fetchJobs() -> ResponsableEndPoint<[JobsDTO]> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/jobs",
+            method: .GET
+        )
+    }
 }

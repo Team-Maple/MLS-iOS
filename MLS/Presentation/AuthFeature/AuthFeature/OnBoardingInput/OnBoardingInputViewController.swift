@@ -97,6 +97,7 @@ public extension OnBoardingInputViewController {
     func bindViewState(reactor: Reactor) {
         reactor.state
             .map { $0.jobList }
+            .observe(on: MainScheduler.instance)
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, list in
