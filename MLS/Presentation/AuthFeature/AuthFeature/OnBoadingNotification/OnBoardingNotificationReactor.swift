@@ -1,7 +1,7 @@
 import ReactorKit
 import RxSwift
 
-public final class NotificationReactor: Reactor {
+public final class OnBoardingNotificationReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none

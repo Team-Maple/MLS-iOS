@@ -78,12 +78,18 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
 
-    public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
-        return .never()
+    public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
+        let endPoint = AuthEndPoint.updateCharacterInfo(level: level, jobID: selectedJobID)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 
     public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
         let endPoint = AuthEndPoint.updateMarketingAgreement(credential: credential, body: MarketingAgreementBody(marketingAgreement: isMarketingAgreement))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
+    public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
+        let endPoint = AuthEndPoint.updateNotification(body: NotificationAgreementBody(noticeAgreement: noticeAgreement, patchNoteAgreement: patchNoteAgreement, eventAgreement: eventAgreement))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 }
@@ -111,5 +117,11 @@ private extension AuthAPIRepositoryImpl {
 
     struct MarketingAgreementBody: Encodable {
         let marketingAgreement: Bool
+    }
+    
+    struct NotificationAgreementBody: Encodable {
+        let noticeAgreement: Bool
+        let patchNoteAgreement: Bool
+        let eventAgreement: Bool
     }
 }

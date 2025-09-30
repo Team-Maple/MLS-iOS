@@ -9,6 +9,7 @@ public final class OnBoardingInputReactor: Reactor {
         case none
         case dismiss
         case home
+        case notification
         case error
     }
 
@@ -77,8 +78,8 @@ public final class OnBoardingInputReactor: Reactor {
             return Observable.just(.navigateTo(route: .home))
         case .nextButtonTapped:
             if let level = currentState.level, let role = currentState.role {
-                return updateUserInfoUseCase.execute(level: level, selectedJob: role)
-                    .andThen(Observable.just(.navigateTo(route: .home)))
+                return updateUserInfoUseCase.execute(level: level, selectedJobID: 111)
+                    .andThen(Observable.just(.navigateTo(route: .notification)))
                     .catchAndReturn(.navigateTo(route: .error))
             } else {
                 return Observable.just(.navigateTo(route: .error))

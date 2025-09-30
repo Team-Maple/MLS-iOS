@@ -15,7 +15,7 @@ open class CharacterInputView: UIView {
         static let horizontalSpacing: CGFloat = 8
         public static let bottomInset: CGFloat = 16
         static let messageSpacing: CGFloat = 8
-        static let boxInset: CGFloat = horizontalInset + (horizontalSpacing / 2) / 2
+        static let boxInset: CGFloat = (horizontalInset + (horizontalSpacing / 2)) / 2
     }
 
     // MARK: - Properties

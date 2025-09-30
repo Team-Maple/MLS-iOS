@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
 
@@ -12,11 +13,18 @@ import SnapKit
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
+    
+    private let onBoadingNotificationFactory: OnBoadingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
+    
+    init(onBoadingNotificationFactory: OnBoadingNotificationFactory) {
+        self.onBoadingNotificationFactory = onBoadingNotificationFactory
+        super.init()
+    }
 }
 
 // MARK: - Life Cycle
@@ -123,6 +131,7 @@ public extension OnBoardingInputViewController {
 
         rx.viewDidAppear
             .take(1)
+            .observe(on: MainScheduler.instance)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
@@ -136,6 +145,9 @@ public extension OnBoardingInputViewController {
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
+                case .notification:
+                    let viewController = owner.onBoadingNotificationFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }

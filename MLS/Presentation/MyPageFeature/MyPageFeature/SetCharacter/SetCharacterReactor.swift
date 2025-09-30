@@ -75,7 +75,7 @@ public final class SetCharacterReactor: Reactor {
         case .applyButtonTapped:
             guard let level = currentState.level,
                   let role = currentState.role else { return Observable.just(.navigateTo(route: .error)) }
-            return updateUserInfoUseCase.execute(level: level, selectedJob: role)
+            return updateUserInfoUseCase.execute(level: level, selectedJobID: 111)
                 .andThen(Observable.just(.navigateTo(route: .dismissWithSave)))
                 .catchAndReturn(.navigateTo(route: .error))
         case .inputLevel(let level):

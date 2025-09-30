@@ -80,4 +80,21 @@ public enum AuthEndPoint {
             method: .GET
         )
     }
+    
+    public static func updateCharacterInfo(level: Int, jobID: Int) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/profile",
+            method: .PUT
+        )
+    }
+    
+    public static func updateNotification(body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/alert-agreement",
+            method: .PUT,
+            body: body
+        )
+    }
 }

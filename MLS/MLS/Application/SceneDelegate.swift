@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
-                let notificationFactory: NotificationFactory = DIContainer.resolve(type: NotificationFactory.self)
+                let notificationFactory: OnBoadingNotificationFactory = DIContainer.resolve(type: OnBoadingNotificationFactory.self)
                 window?.makeKeyAndVisible()
                 if settings.authorizationStatus == .notDetermined {
                     window?.rootViewController = UINavigationController(rootViewController: notificationFactory.make())

@@ -105,17 +105,41 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateMarketingAgreementUseCase.self) {
             return UpdateMarketingAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
+        DIContainer.register(type: PutFCMTokenUseCase.self) {
+            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
+            return CheckNotificationPermissionUseCaseImpl()
+        }
+        DIContainer.register(type: OpenNotificationSettingUseCase.self) {
+            return OpenNotificationSettingUseCaseImpl()
+        }
+        DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
+            return UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
     }
 
     func registerFactory() {
-
+        DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
+            return OnBoardingNotificationSheetFactoryImpl(
+                checkNotificationPermissionUseCase: DIContainer
+                    .resolve(type: CheckNotificationPermissionUseCase.self),
+                openNotificationSettingUseCase: DIContainer
+                    .resolve(type: OpenNotificationSettingUseCase.self),
+                updateNotificationAgreementUseCase: DIContainer
+                    .resolve(type: UpdateNotificationAgreementUseCase.self)
+            )
+        }
+        DIContainer.register(type: OnBoadingNotificationFactory.self) {
+            return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
+        }
         DIContainer.register(type: OnBoardingInputFactory.self) {
             return OnBoardingInputFactoryImpl(
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
-                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self)
-            )
+                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
+                onBoadingNotificationFactory: DIContainer.resolve(type: OnBoadingNotificationFactory.self))
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
             return OnBoardingQuestionFactoryImpl(
@@ -131,9 +155,6 @@ private extension AppDelegate {
                 fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self), updateMarketingAgreementUseCase: DIContainer.resolve(type: UpdateMarketingAgreementUseCase.self)
             )
         }
-        DIContainer.register(type: PutFCMTokenUseCase.self) {
-            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-        }
         DIContainer.register(type: LoginFactory.self) {
             return LoginFactoryImpl(
                 termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
@@ -144,9 +165,6 @@ private extension AppDelegate {
                 fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
                 putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
             )
-        }
-        DIContainer.register(type: NotificationFactory.self) {
-            return NotificationFactoryImpl(loginFactory: DIContainer.resolve(type: LoginFactory.self))
         }
     }
 }

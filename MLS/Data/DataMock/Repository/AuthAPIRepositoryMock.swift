@@ -73,4 +73,12 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
         return .empty()
     }
+    
+    public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
+        return .empty()
+    }
+    
+    public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
+        return .empty()
+    }
 }
