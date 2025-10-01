@@ -11,9 +11,6 @@ import RxSwift
 class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = MonsterDictionaryDetailReactor
 
-    // MARK: - Properties
-    private var selectedIndex = 0
-
     // MARK: - Componenets
     private var detailView = DetailStackInfoView(type: .monster)
     private var appearMapView = DetailStackMapView(imageUrl: "")
@@ -34,7 +31,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
 private extension MonsterDictionaryDetailViewController {
     func setUpMainInfo() {
         // 상세정보
-        self.inject(
+        inject(
             input: DictionaryDetailBaseViewController
                 .Input(
                     image: DesignSystemAsset.image(named: "testImage"),
@@ -44,6 +41,7 @@ private extension MonsterDictionaryDetailViewController {
                 )
         )
     }
+
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
@@ -68,6 +66,10 @@ private extension MonsterDictionaryDetailViewController {
     }
 
     func setUpDropItemView() {
+        guard let reactor = reactor,
+              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+        dropItemView.initFilter(firstFilter: filter)
+        
         if true {
             // 드롭아이템
             contentViews.append(dropItemView)
@@ -103,24 +105,20 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
-        dropItemView.selectFilter(selectedType: selectedFilter)
-        isBottomTabbarHidden = true
-
         reactor.state
             .map(\.tags)
-            .distinctUntilChanged()// tag는 변경될 때만 이벤트 받기
+            .distinctUntilChanged() // tag는 변경될 때만 이벤트 받기
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] tags in
+            .bind(onNext: { [weak self] tags in
                 self?.makeTagsRow(tags)
             })
             .disposed(by: disposeBag)
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .filter(let type):
                     let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
