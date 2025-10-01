@@ -95,6 +95,7 @@ private extension LoginReactor {
                                         .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
+                                    // 회원가입(서비스 이용 불가 유저로) + 로그인
                                     return .just(.navigateTo(route: .termsAgreements(
                                         credential: credential,
                                         platform: .kakao
