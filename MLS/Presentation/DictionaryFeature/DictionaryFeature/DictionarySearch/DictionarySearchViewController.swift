@@ -234,7 +234,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             case 2:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
                 let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item.name, index: item.rank))
+                cell.inject(input: .init(text: item.name, rank: item.rank))
                 return cell
 
             default:
@@ -245,7 +245,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             case 0:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
                 let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item.name, index: item.rank))
+                cell.inject(input: .init(text: item.name, rank: item.rank))
                 return cell
 
             default:
