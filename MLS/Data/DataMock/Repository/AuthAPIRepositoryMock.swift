@@ -81,4 +81,8 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
         return .empty()
     }
+    
+    public func updateNickName(nickName: String) -> RxSwift.Completable {
+        return .empty()
+    }
 }

@@ -9,6 +9,7 @@ public class TokenInterceptor: Interceptor {
     public init(fetchTokenUseCase: FetchTokenFromLocalUseCase) {
         self.fetchTokenUseCase = fetchTokenUseCase
     }
+
     public func adapt(_ request: URLRequest) -> URLRequest {
         let accessFetchResult = fetchTokenUseCase.execute(type: .accessToken)
         switch accessFetchResult {

@@ -55,4 +55,6 @@ public protocol AuthAPIRepository {
     func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable
     
     func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable
+    
+    func updateNickName(nickName: String) -> Completable
 }

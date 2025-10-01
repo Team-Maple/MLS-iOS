@@ -97,4 +97,13 @@ public enum AuthEndPoint {
             body: body
         )
     }
+    
+    public static func updateNickName(body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/nickname",
+            method: .PUT,
+            body: body
+        )
+    }
 }
