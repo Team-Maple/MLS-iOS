@@ -9,8 +9,6 @@ import ReactorKit
 final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = ItemDictionaryDetailReactor
 
-    // MARK: - Propereties
-    private var selectedIndex = 0 // 필터 선택 인덱스
     // MARK: - Components
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
@@ -51,6 +49,10 @@ private extension ItemDictionaryDetailViewController {
     }
 
     func setUpMonsterView() {
+        guard let reactor = reactor,
+              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+        monsterCardView.initFilter(firstFilter: filter)
+        
         if true {
             contentViews.append(monsterCardView)
             monsterCardView
@@ -85,11 +87,6 @@ extension ItemDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-        //  초기 필터 선택 상태를 적용
-        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
-        monsterCardView.selectFilter(selectedType: selectedFilter)
-        isBottomTabbarHidden = true
-
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음

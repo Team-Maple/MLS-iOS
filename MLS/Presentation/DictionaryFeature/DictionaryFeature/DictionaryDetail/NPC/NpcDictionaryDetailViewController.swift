@@ -11,9 +11,6 @@ import RxSwift
 final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = NpcDictionaryDetailReactor
 
-    // MARK: - Properties
-    private var selectedIndex = 0
-
     // MARK: - Componenets
     private var appearMapView = DetailStackCardView()
     private var questView = DetailStackCardView()
