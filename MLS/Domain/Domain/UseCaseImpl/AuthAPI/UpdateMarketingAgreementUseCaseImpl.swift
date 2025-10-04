@@ -19,7 +19,6 @@ public class UpdateMarketingAgreementUseCaseImpl: UpdateMarketingAgreementUseCas
         case .success(let token):
             return authRepository.updateMarketingAgreement(credential: token, isMarketingAgreement: isMarketingAgreement)
         case .failure(let error):
-            print("마케팅동의 업데이트 실패:", error.localizedDescription)
             return .error(error)
         }
         

@@ -38,11 +38,20 @@ private extension AppDelegate {
         DIContainer.register(type: NetworkProvider.self) {
             NetworkProviderImpl()
         }
+        DIContainer.register(type: Interceptor.self) {
+            TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+        }
     }
 
     func registerRepository() {
+        DIContainer.register(type: TokenRepository.self) {
+            KeyChainRepositoryImpl()
+        }
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
+            AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
+        }
+        DIContainer.register(type: AlarmAPIRepository.self) {
+            AlarmAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
         }
     }
 
@@ -63,7 +72,22 @@ private extension AppDelegate {
             UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: UpdateNickNameUseCase.self) {
-            return UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
+            FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: FetchNoticesUseCase.self) {
+            FetchNoticesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOngoingEventsUseCase.self) {
+            FetchOngoingEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOutdatedEventsUseCase.self) {
+            FetchOutdatedEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchPatchNotesUseCase.self) {
+            FetchPatchNotesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
         }
     }
 
@@ -103,7 +127,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: CustomerSupportFactory.self) {
-            CustomerSupportBaseViewFactoryImpl()
+            CustomerSupportBaseViewFactoryImpl(fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self))
         }
 
         DIContainer.register(type: NotificationSettingFactory.self) {

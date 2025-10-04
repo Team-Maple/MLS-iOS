@@ -20,7 +20,7 @@ class CustomerSupportBaseViewController: BaseViewController {
     public var type: CustomerSupportType
 
     /// 현재 보여지고 있는 뷰의 인덱스
-    private var currentTabIndex: Int?
+    public var currentTabIndex: Int?
     public var urlStrings: [String] = []
 
     public init(type: CustomerSupportType) {
@@ -42,9 +42,9 @@ class CustomerSupportBaseViewController: BaseViewController {
         bindBackButton()
     }
 
-    func createDetailItem(items: [(String, String)]) {
+    func createDetailItem(items: [AlarmResponse]) {
         for (index, item) in items.enumerated() {
-            let view = mainView.createDetailItem(titleText: item.0, dateText: item.1)
+            let view = mainView.createDetailItem(titleText: item.title, dateText: "\(String(describing: item.date.first))")
             view.tag = index
             if index == 0 {
                 urlStrings.append("https://www.naver.com")
