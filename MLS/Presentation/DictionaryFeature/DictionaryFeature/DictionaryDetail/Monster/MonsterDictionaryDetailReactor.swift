@@ -11,13 +11,13 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     /// UI 구현을 위한 임시 모델(몬스터 상세정보)
     struct TabMenu: Equatable {
         var infos: [Info]
-        var maps: [Map]
-        var Items: [Item]
+        var maps: [DictionaryDetailMonsterMapResponse]
+        var items: [DictionaryDetailMonsterDropItemResponse]
 
         static func == (lhs: TabMenu, rhs: TabMenu) -> Bool {
             return lhs.infos == rhs.infos &&
             lhs.maps == rhs.maps &&
-            lhs.Items == rhs.Items
+            lhs.items == rhs.items
         }
     }
 
@@ -27,70 +27,96 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     }
     // 임시 모델
     public struct Map: Equatable {
-        var desc: String // 임시 라벨
+        var mapName: String
+        var detailName: String
+        var maxSpawnCount: Int
+        var iconUrl: String
     }
     public struct Item: Equatable {
-        var desc: String // 임시 라벨
+        var itemName: String
+        var dropRate: Double
+        var imageUrl: String
+        var itemLevel: Int
     }
 
     public enum Action {
-        case filterButtonTapped
+        case filterButtonTapped(DictionaryType)
+        case viewWillAppear
     }
 
     public enum Mutation {
-        case showFilter
+        case showFilter(DictionaryType)
+        case setDetailData(DictionaryDetailMonsterResponse)
+        case setDetailDropItemData([DictionaryDetailMonsterDropItemResponse])
+        case setDetailMapData([DictionaryDetailMonsterMapResponse])
     }
 
     public struct State {
         @Pulse var route: Route = .none
-        var type: DictionaryType = .monster
+        var type: DictionaryType = .item
+        var id = 0
         var name = "슈미의 의뢰"
+        var level = 0
+        var imageUrl = ""
         var subTextLabel = "LV.21"
-        var tags = ["불약점", "불꽃약점", "불꽃 약점", "불 약점", "불약점", "불약점", "불꽃약점", "불꽃약점", "불꽃약점", "불꽃약점", "불꽃약점", "테스트테스트테스트", "테스트", "테스트", "테스트"]
+        var tags: Effectiveness = Effectiveness(fire: nil, lightning: nil, poison: nil, holy: nil, ice: nil, physical: nil)
         var menus = TabMenu(
-            infos: [
-                Info(name: "HP", desc: "400"),
-                Info(name: "ATK", desc: "200"),
-                Info(name: "DEF", desc: "100"),
-                Info(name: "SPD", desc: "50"),
-                Info(name: "EXP", desc: "400"),
-                Info(name: "물리공격력", desc: "200"),
-                Info(name: "필요명중률", desc: "400"),
-                Info(name: "마법방어력", desc: "200"),
-                Info(name: "1Lv 낮을 때마다", desc: "+0.93 명중 필요"),
-                Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인"),
-                Info(name: "스티키 확인", desc: "확인")
-
-            ], maps: [
-                Map(desc: "임시 라벨")
-            ], Items: [
-                Item(desc: "임시 라벨")
-            ])
+            infos: [],
+            maps: [],
+            items: []
+        )
     }
-
+    
+    public let dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase
+    public let dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase
+    public let dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase
+    
     public var initialState: State
     private let disposBag = DisposeBag()
 
-    public init() {
-        initialState = State(type: .monster)
+    public init(dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase,id: Int) {
+        self.initialState = State(type: .monster, id: id)
+        self.dictionaryDetailMonsterUseCase = dictionaryDetailMonsterUseCase
+        self.dictionaryDetailMonsterDropItemUseCase = dictionaryDetailMonsterDropItemUseCase
+        self.dictionaryDetailMonsterMapUseCase = dictionaryDetailMonsterMapUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .filterButtonTapped:
-            return Observable.just(.showFilter)
+        case let .filterButtonTapped(type):
+            return Observable.just(.showFilter(type))
+        case .viewWillAppear:
+            return .concat([
+                dictionaryDetailMonsterUseCase.execute(id: currentState.id).map {.setDetailData($0)},
+                dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id).map {.setDetailDropItemData($0)},
+                dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)},
+            ])
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .showFilter:
-            newState.route = .filter(newState.type)
+        case let .showFilter(type):
+            newState.type = type
+            newState.route = .filter(type)
+        case let .setDetailData(data):
+            newState.name = data.nameKr
+            newState.level = data.level
+            var infos: [Info] = []
+            infos.append(.init(name: "HP", desc: "\(data.hp)"))
+            infos.append(.init(name: "MP", desc: "\(data.mp)"))
+            infos.append(.init(name: "EXP", desc: "\(data.exp)"))
+            infos.append(.init(name: "물리방어력", desc: "\(data.physicalDefense)"))
+            infos.append(.init(name: "마법방어력", desc: "\(data.magicDefense)"))
+            if let typeEffectiveness = data.typeEffectiveness {
+                newState.tags = typeEffectiveness
+            }
+            newState.menus.infos = infos
+        case let .setDetailDropItemData(data):
+            newState.menus.items = data
+        case let .setDetailMapData(data):
+            newState.menus.maps = data
         }
         return newState
     }

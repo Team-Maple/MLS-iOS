@@ -15,6 +15,8 @@ public class FilterLevelSectionView: UIView {
         static let sliderBottomMargin: CGFloat = 12
         static let sliderHeight: CGFloat = 26
     }
+    
+    private var isEdit = false
 
     let leftInputBox: InputBox = {
         let box = InputBox(label: "범위", placeHodler: "0")
@@ -42,10 +44,7 @@ public class FilterLevelSectionView: UIView {
         return view
     }()
 
-    public let slider: FilterSlider = {
-        let slider = FilterSlider(minimumValue: 0, maximumValue: 200, initialLowerValue: 0, initialUpperValue: 200)
-        return slider
-    }()
+    public let slider: FilterSlider
 
     private let lowerLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +66,8 @@ public class FilterLevelSectionView: UIView {
 
     public var disposeBag = DisposeBag()
 
-    init() {
+    public init(initialLowerValue: CGFloat = 0, initialUpperValue: CGFloat = 200) {
+        self.slider = FilterSlider(minimumValue: 0, maximumValue: 200, initialLowerValue: initialLowerValue, initialUpperValue: initialUpperValue)
         super.init(frame: .zero)
         addViews()
         setupConstraints()
@@ -127,12 +127,13 @@ private extension FilterLevelSectionView {
         }
     }
 }
-
 public extension FilterLevelSectionView {
+
     func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
             .subscribe { owner, value in
+                guard !owner.isEdit else { return }
                 let lowValue = Int(value)
                 owner.leftInputBox.textField.text = lowValue == 0 ? nil : "\(lowValue)"
             }
@@ -141,6 +142,7 @@ public extension FilterLevelSectionView {
         slider.upperValueObservable
             .withUnretained(self)
             .subscribe { owner, value in
+                guard !owner.isEdit else { return }
                 let upperValue = Int(value)
                 owner.rightInputBox.textField.text = upperValue == 200 ? nil : "\(upperValue)"
             }
@@ -150,6 +152,7 @@ public extension FilterLevelSectionView {
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { owner, text in
+                guard !owner.isEdit else { return }
                 if let value = Double(text) {
                     owner.slider.lowerValue = value
                 } else {
@@ -162,6 +165,7 @@ public extension FilterLevelSectionView {
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { owner, text in
+                guard !owner.isEdit else { return }
                 if let value = Double(text) {
                     owner.slider.upperValue = value
                 } else {
@@ -179,10 +183,12 @@ public extension FilterLevelSectionView {
             .subscribe { owner, _ in
                 if let leftValue = Double(owner.leftInputBox.textField.text ?? "0"), let rightValue = Double(owner.rightInputBox.textField.text ?? "200") {
                     if leftValue > rightValue {
+                        owner.isEdit = true
                         owner.leftInputBox.textField.text = "\(Int(rightValue))"
                         owner.slider.lowerValue = rightValue
                         owner.rightInputBox.textField.text = "\(Int(leftValue))"
                         owner.slider.upperValue = leftValue
+                        owner.isEdit = false
                     }
                 }
             }

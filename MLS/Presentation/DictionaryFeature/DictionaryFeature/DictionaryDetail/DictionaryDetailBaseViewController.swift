@@ -115,7 +115,7 @@ extension DictionaryDetailBaseViewController {
         mainView.subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: input.subText, color: .neutral500)
     }
 
-    func makeTagsRow(_ tags: [String]) {
+    func makeTagsRow(_ tags: Effectiveness) {
         let maxWidth = UIScreen.main.bounds.width - DictionaryDetailBaseView.Constant.horizontalInset // 좌우 여백 고려 (16 * 2)
         let tagSpacing: CGFloat = DictionaryDetailBaseView.Constant.tagVerticalSpacing
 
@@ -123,25 +123,24 @@ extension DictionaryDetailBaseViewController {
         mainView.tagsVerticalStackView.addArrangedSubview(tagsRowStackView)
 
         var currentRowWidth: CGFloat = 0
-
-        for tag in tags {
-            let badge = Badge(style: .element(tag))
-            // 임시로 사이즈 계산용
+        for (element, value) in tags.nonNilElements() {
+            
+            let badge = Badge(style: .element("\(element.rawValue) \(value)"))
             let fittingSize = badge.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             let badgeWidth = fittingSize.width
-
+            
             if currentRowWidth + badgeWidth + tagSpacing > maxWidth {
                 tagsRowStackView = mainView.createHorizontalStackView()
                 mainView.tagsVerticalStackView.addArrangedSubview(tagsRowStackView)
                 currentRowWidth = 0
             }
-
+            
             tagsRowStackView.addArrangedSubview(badge)
             currentRowWidth += badgeWidth + tagSpacing
             mainView.setBadgeConstraints(badge, width: badgeWidth)
         }
     }
-
+    
     // 탭바 메뉴 버튼 구성하기(스티키 쪽도 똑같이 구현)
     func setupMenu(_ menus: [DetailType]) {
         var firstIndexButton: UIButton? // 처음 화면 나올때 첫번째 버튼 클릭되게 하기 위해 첫번째 버튼 저장할 변수
@@ -218,7 +217,6 @@ extension DictionaryDetailBaseViewController {
         if currentTabIndex == index { return }
         // 각 탭에 맞는 뷰 설정
         mainView.setTabView(index: index, contentViews: contentViews)
-
         currentTabIndex = index
     }
 }
