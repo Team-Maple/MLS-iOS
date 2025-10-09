@@ -165,7 +165,9 @@ extension SetProfileViewController {
                         reactor.action.onNext(.logout)
                     })
                 case .withdrawAlert:
-                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
+                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {
+                        reactor.action.onNext(.withdraw)
+                    })
                 default:
                     break
                 }

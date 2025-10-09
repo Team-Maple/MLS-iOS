@@ -62,6 +62,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         )
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
+    
+    public func withdraw() -> Completable {
+        let endPoint = AuthEndPoint.withdraw()
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)

@@ -14,5 +14,8 @@ public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
     // 로그인할때 토큰 저장 필요
     public func execute(credential: Credential) -> Observable<LoginResponse> {
         return repository.loginWithApple(credential: credential)
+            .catch { error in
+                Observable.error(error)
+            }
     }
 }

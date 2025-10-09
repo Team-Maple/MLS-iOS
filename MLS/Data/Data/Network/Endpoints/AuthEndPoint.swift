@@ -63,6 +63,14 @@ public enum AuthEndPoint {
         )
     }
     
+    public static func withdraw() -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member",
+            method: .DELETE
+        )
+    }
+    
     public static func updateMarketingAgreement(credential: String, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,

@@ -15,7 +15,7 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
     public func execute(credential: Credential) -> Observable<LoginResponse> {
         return repository.loginWithKakao(credential: credential)
             .catch { error in
-                return Observable.error(error)
+                Observable.error(error)
             }
     }
 }

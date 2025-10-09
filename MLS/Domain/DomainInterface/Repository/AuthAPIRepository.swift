@@ -33,6 +33,8 @@ public protocol AuthAPIRepository {
     /// - Returns: 회원가입 응답을 담은 Observable
     func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse>
 
+    func withdraw() -> Completable
+    
     /// 직업 목록 조회 API 호출
     ///
     /// - Returns: 직업 목록 응답을 담은 Observable

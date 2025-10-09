@@ -43,6 +43,10 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         return Observable.just(.init(isRegister: true, accessToken: "testToken", refreshToken: "testToken"))
     }
+    
+    public func withdraw() -> Completable {
+        return .empty()
+    }
 
     public func fetchJobList() -> Observable<JobListResponse> {
         tryCount += 1
