@@ -42,7 +42,10 @@ private extension AppDelegate {
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
+            AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
+        }
+        DIContainer.register(type: TokenRepository.self) {
+            KeyChainRepositoryImpl()
         }
     }
 
@@ -62,6 +65,9 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: LogoutUseCase.self) {
+            LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -70,7 +76,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: SetProfileFactory.self) {
-            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self))
         }
 
         DIContainer.register(type: SetCharacterFactory.self) {
