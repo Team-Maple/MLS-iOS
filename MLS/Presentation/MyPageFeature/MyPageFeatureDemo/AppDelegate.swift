@@ -89,6 +89,9 @@ private extension AppDelegate {
         DIContainer.register(type: FetchPatchNotesUseCase.self) {
             FetchPatchNotesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
         }
+        DIContainer.register(type: SetReadUseCase.self) {
+            SetReadUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -127,7 +130,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: CustomerSupportFactory.self) {
-            CustomerSupportBaseViewFactoryImpl(fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self))
+            CustomerSupportBaseViewFactoryImpl(fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self), setReadUseCase: DIContainer.resolve(type: SetReadUseCase.self))
         }
 
         DIContainer.register(type: NotificationSettingFactory.self) {

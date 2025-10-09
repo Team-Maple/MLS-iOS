@@ -11,6 +11,7 @@ public final class AnnouncementReactor: Reactor {
     public enum Action {
         case viewWillAppear
         case loadMore
+        case itemTapped(Int)
     }
 
     public enum Mutation {
@@ -28,10 +29,12 @@ public final class AnnouncementReactor: Reactor {
     public var initialState: State
     private let disposeBag = DisposeBag()
     private let fetchNoticesUseCase: FetchNoticesUseCase
+    private let setReadUseCase: SetReadUseCase
 
-    public init(fetchNoticesUseCase: FetchNoticesUseCase) {
+    public init(fetchNoticesUseCase: FetchNoticesUseCase, setReadUseCase: SetReadUseCase) {
         self.initialState = .init()
         self.fetchNoticesUseCase = fetchNoticesUseCase
+        self.setReadUseCase = setReadUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -56,6 +59,9 @@ public final class AnnouncementReactor: Reactor {
                     },
                 .just(.setLoading(false))
             ])
+        case .itemTapped(let index):
+            return setReadUseCase.execute(alarmLink: currentState.alarms[index].link)
+                .andThen(.empty())
         }
     }
 

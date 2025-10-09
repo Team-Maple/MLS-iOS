@@ -13,6 +13,10 @@ final class EventViewController: CustomerSupportBaseViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenu()
+        
+        onItemTapped = { [weak self] itemIndex in
+            self?.reactor?.action.onNext(.itemTapped(itemIndex))
+        }
     }
     
     // MARK: - Setup

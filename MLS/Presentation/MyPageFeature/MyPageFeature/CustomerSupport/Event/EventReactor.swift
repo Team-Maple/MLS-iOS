@@ -11,6 +11,7 @@ public final class EventReactor: Reactor {
     public enum Action {
         case loadMore
         case selectTab(Int)
+        case itemTapped(Int)
     }
 
     public enum Mutation {
@@ -31,11 +32,13 @@ public final class EventReactor: Reactor {
     private let disposeBag = DisposeBag()
     private let fetchOngoingEventsUseCase: FetchOngoingEventsUseCase
     private let fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase
+    private let setReadUseCase: SetReadUseCase
 
-    public init(fetchOngoingEventsUseCase: FetchOngoingEventsUseCase, fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase) {
+    public init(fetchOngoingEventsUseCase: FetchOngoingEventsUseCase, fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase, setReadUseCase: SetReadUseCase) {
         self.initialState = .init()
         self.fetchOngoingEventsUseCase = fetchOngoingEventsUseCase
         self.fetchOutdatedEventsUseCase = fetchOutdatedEventsUseCase
+        self.setReadUseCase = setReadUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -62,6 +65,9 @@ public final class EventReactor: Reactor {
                     },
                 .just(.setLoading(false))
             ])
+        case .itemTapped(let index):
+            return setReadUseCase.execute(alarmLink: currentState.alarms[index].link)
+                .andThen(.empty())
         }
     }
 

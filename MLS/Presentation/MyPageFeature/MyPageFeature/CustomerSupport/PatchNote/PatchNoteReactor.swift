@@ -11,6 +11,7 @@ public final class PatchNoteReactor: Reactor {
     public enum Action {
         case viewWillAppear
         case loadMore
+        case itemTapped(Int)
     }
 
     public enum Mutation {
@@ -28,10 +29,12 @@ public final class PatchNoteReactor: Reactor {
     public var initialState: State
     private let disposeBag = DisposeBag()
     private let fetchPatchNotesUseCase: FetchPatchNotesUseCase
+    private let setReadUseCase: SetReadUseCase
 
-    public init(fetchPatchNotesUseCase: FetchPatchNotesUseCase) {
+    public init(fetchPatchNotesUseCase: FetchPatchNotesUseCase, setReadUseCase: SetReadUseCase) {
         self.initialState = .init()
         self.fetchPatchNotesUseCase = fetchPatchNotesUseCase
+        self.setReadUseCase = setReadUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -56,6 +59,9 @@ public final class PatchNoteReactor: Reactor {
                     },
                 .just(.setLoading(false))
             ])
+        case .itemTapped(let index):
+            return setReadUseCase.execute(alarmLink: currentState.alarms[index].link)
+                .andThen(.empty())
         }
     }
 

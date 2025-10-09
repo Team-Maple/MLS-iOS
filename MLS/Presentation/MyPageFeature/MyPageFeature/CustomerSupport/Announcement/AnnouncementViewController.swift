@@ -18,6 +18,10 @@ final class AnnouncementViewController: CustomerSupportBaseViewController, View 
         // 타입을 나눠서 베이스에서 다 처리하는게 나을려나??
         mainView.setMenuHidden(true)
         mainView.changeeSetupConstraints()
+        
+        onItemTapped = { [weak self] itemIndex in
+            self?.reactor?.action.onNext(.itemTapped(itemIndex))
+        }
     }
 }
 
