@@ -6,16 +6,18 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
     private let openNotificationSettingUseCase: OpenNotificationSettingUseCase
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
+    private let updateUserInfoUseCase: UpdateUserInfoUseCase
     
-    public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase) {
+    public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase, updateUserInfoUseCase: UpdateUserInfoUseCase) {
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
+        self.updateUserInfoUseCase = updateUserInfoUseCase
     }
 
-    public func make() -> BaseViewController & ModalPresentable {
+    public func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController & ModalPresentable {
         let viewController = OnBoardingNotificationSheetViewController()
-        viewController.reactor = OnBoardingNotificationSheetReactor(checkNotificationPermissionUseCase: checkNotificationPermissionUseCase, openNotificationSettingUseCase: openNotificationSettingUseCase, updateNotificationAgreementUseCase: updateNotificationAgreementUseCase)
+        viewController.reactor = OnBoardingNotificationSheetReactor(selectedLevel: selectedLevel, selectedJobID: selectedJobID, checkNotificationPermissionUseCase: checkNotificationPermissionUseCase, openNotificationSettingUseCase: openNotificationSettingUseCase, updateNotificationAgreementUseCase: updateNotificationAgreementUseCase, updateUserInfoUseCase: updateUserInfoUseCase)
         return viewController
     }
 }

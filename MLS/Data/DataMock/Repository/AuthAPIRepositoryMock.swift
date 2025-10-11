@@ -55,11 +55,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
             return Observable.error(error)
         } else {
             return Observable.just(.init(jobList: [
-                "마법사",
-                "전사",
-                "궁수",
-                "도적",
-                "해적"
+                Job(name: "마법사", id: 1)
             ]))
         }
     }

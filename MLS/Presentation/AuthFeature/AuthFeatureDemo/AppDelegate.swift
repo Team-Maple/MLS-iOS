@@ -127,7 +127,7 @@ private extension AppDelegate {
                 openNotificationSettingUseCase: DIContainer
                     .resolve(type: OpenNotificationSettingUseCase.self),
                 updateNotificationAgreementUseCase: DIContainer
-                    .resolve(type: UpdateNotificationAgreementUseCase.self)
+                    .resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self)
             )
         }
         DIContainer.register(type: OnBoadingNotificationFactory.self) {
@@ -138,7 +138,6 @@ private extension AppDelegate {
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
-                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
                 onBoadingNotificationFactory: DIContainer.resolve(type: OnBoadingNotificationFactory.self))
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {

@@ -8,9 +8,9 @@ public struct OnBoardingNotificationFactoryImpl: OnBoadingNotificationFactory {
         self.onBoardingNotificationSheetFactory = onBoardingNotificationSheetFactory
     }
 
-    public func make() -> BaseViewController {
+    public func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController {
         let viewController = OnBoardingNotificationViewController(onBoardingNotificationSheetFactory: onBoardingNotificationSheetFactory)
-        viewController.reactor = OnBoardingNotificationReactor()
+        viewController.reactor = OnBoardingNotificationReactor(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
         return viewController
     }
 }

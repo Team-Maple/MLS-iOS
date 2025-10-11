@@ -115,8 +115,7 @@ public final class TermsAgreementReactor: Reactor {
                     fcmToken = nil
                 }
             }
-
-            // 현재처럼 회원가입이 아닌 서비스 이용불가 유저 -> 서비스 이용 가능 유저로 변경
+            
             switch socialPlatform {
             case .kakao:
                 return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)

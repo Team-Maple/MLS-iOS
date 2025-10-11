@@ -12,7 +12,17 @@ public final class DropDownBox: UIStackView {
         }
     }
 
-    public var menus = [String]() {
+    public var selectedItem: Item? {
+        guard let index = selectedIndex, Items.indices.contains(index) else {
+            return nil
+        }
+        return Items[index]
+    }
+
+    // 선택 이벤트 콜백
+    public var onItemSelected: ((Item) -> Void)?
+
+    public var Items = [Item]() {
         didSet {
             tableView.reloadData()
         }
@@ -41,8 +51,8 @@ public final class DropDownBox: UIStackView {
     }()
 
     // MARK: - Init
-    public init(label: String? = nil, placeHodler: String? = nil, menus: [String]) {
-        self.menus = menus
+    public init(label: String? = nil, placeHodler: String? = nil, items: [Item]) {
+        self.Items = items
         super.init(frame: .zero)
 
         inputBox.label.attributedText = .makeStyledString(font: .b_s_r, text: label, color: .neutral700, alignment: .left)
@@ -114,7 +124,7 @@ private extension DropDownBox {
         isExpanded.toggle()
         tableView.isHidden = !isExpanded
         iconButton.setImage(isExpanded ? .arrowDropUp : .arrowDropdown, for: .normal)
-        let height = CGFloat(menus.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
+        let height = CGFloat(Items.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
     }
 
@@ -131,7 +141,7 @@ private extension DropDownBox {
 // MARK: - UITableView
 extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return menus.count
+        return Items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -139,19 +149,36 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         let isSelected = selectedIndex == indexPath.row
-        cell.injection(with: menus[indexPath.row], isSelected: isSelected)
+        cell.injection(with: Items[indexPath.row].name, isSelected: isSelected)
         cell.selectionStyle = .none
         return cell
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        inputBox.textField.attributedText = .makeStyledString(font: .b_m_r, text: menus[indexPath.row], alignment: .left)
+        let selectedItem = Items[indexPath.row]
+        inputBox.textField.attributedText = .makeStyledString(font: .b_m_r, text: selectedItem.name, alignment: .left, lineHeight: 1.0)
         inputBox.textField.sendActions(for: .editingChanged)
         toggleDropdown()
+        
+        onItemSelected?(selectedItem)
     }
 
     public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 44
     }
+}
+
+// MARK: Model
+extension DropDownBox {
+    public struct Item {
+        public let name: String
+        public let id: Int
+        
+        public init(name: String, id: Int) {
+            self.name = name
+            self.id = id
+        }
+    }
+
 }

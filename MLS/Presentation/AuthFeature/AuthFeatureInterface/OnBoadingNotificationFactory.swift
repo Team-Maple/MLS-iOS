@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol OnBoadingNotificationFactory {
-    func make() -> BaseViewController
+    func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController
 }

@@ -86,10 +86,10 @@ public extension OnBoardingInputViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.dropDownBox.inputBox.textField.rx.text.orEmpty
-            .map { Reactor.Action.inputRole($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        mainView.dropDownBox.onItemSelected = { [weak self] job in
+            guard let self = self else { return }
+            self.reactor?.action.onNext(.inputRole(.init(name: job.name, id: job.id)))
+        }
 
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
@@ -109,7 +109,7 @@ public extension OnBoardingInputViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, list in
-                owner.mainView.dropDownBox.menus = list
+                owner.mainView.dropDownBox.Items = list.map { .init(name: $0.name, id: $0.id) }
             }
             .disposed(by: disposeBag)
 
@@ -146,7 +146,9 @@ public extension OnBoardingInputViewController {
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
                 case .notification:
-                    let viewController = owner.onBoadingNotificationFactory.make()
+                    guard let selecteLevel = reactor.currentState.level,
+                          let selectedJobID = reactor.currentState.job?.id else { return }
+                    let viewController = owner.onBoadingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
