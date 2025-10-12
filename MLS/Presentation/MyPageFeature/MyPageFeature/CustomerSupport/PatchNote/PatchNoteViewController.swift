@@ -40,9 +40,9 @@ extension PatchNoteViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
+        
         reactor.state
-            .map(\.alarms)
+            .map{ $0.alarms }
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
