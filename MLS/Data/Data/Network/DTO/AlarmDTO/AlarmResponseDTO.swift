@@ -56,7 +56,6 @@ public extension AlarmResponseDTO {
                     date: normal.date
                 )
             case .all(let all):
-                // all.alrim 안에는 NormalContent가 들어있음
                 return AlarmResponse(
                     type: all.alrim.type,
                     title: all.alrim.title,

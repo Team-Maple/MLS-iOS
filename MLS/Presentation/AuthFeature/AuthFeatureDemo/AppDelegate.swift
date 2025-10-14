@@ -130,7 +130,7 @@ private extension AppDelegate {
                     .resolve(type: UpdateNotificationAgreementUseCase.self)
             )
         }
-        DIContainer.register(type: OnBoadingNotificationFactory.self) {
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
             return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
@@ -139,7 +139,7 @@ private extension AppDelegate {
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
                 updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
-                onBoadingNotificationFactory: DIContainer.resolve(type: OnBoadingNotificationFactory.self))
+                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self))
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
             return OnBoardingQuestionFactoryImpl(

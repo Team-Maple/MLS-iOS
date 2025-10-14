@@ -1,7 +1,7 @@
 import AuthFeatureInterface
 import BaseFeature
 
-public struct OnBoardingNotificationFactoryImpl: OnBoadingNotificationFactory {
+public struct OnBoardingNotificationFactoryImpl: OnBoardingNotificationFactory {
     private let onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory
 
     public init(onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory) {

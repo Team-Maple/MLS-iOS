@@ -14,15 +14,15 @@ public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
     
-    private let onBoadingNotificationFactory: OnBoadingNotificationFactory
+    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
     
-    init(onBoadingNotificationFactory: OnBoadingNotificationFactory) {
-        self.onBoadingNotificationFactory = onBoadingNotificationFactory
+    init(onBoardingNotificationFactory: OnBoardingNotificationFactory) {
+        self.onBoardingNotificationFactory = onBoardingNotificationFactory
         super.init()
     }
 }
@@ -146,7 +146,7 @@ public extension OnBoardingInputViewController {
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
                 case .notification:
-                    let viewController = owner.onBoadingNotificationFactory.make()
+                    let viewController = owner.onBoardingNotificationFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

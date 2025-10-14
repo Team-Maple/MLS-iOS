@@ -38,7 +38,7 @@ public class AlarmAPIRepositoryImpl: AlarmAPIRepository {
     }
     
     public func fetchAll(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchOutdatedEvents(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
+        let endpoint = AlarmEndPoint.fetchAll(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAllAlarmDomain() }
     }

@@ -15,7 +15,6 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    public var onSelectedIndex: ((Int) -> Void)?
 
     // MARK: - Components
 
@@ -73,7 +72,7 @@ extension OnBoardingNotificationSheetViewController {
             .disposed(by: disposeBag)
         
         mainView.notificationToggleBox.toggle.rx.isOn
-            .map { Reactor.Action.toggleButton($0) }
+            .map { Reactor.Action.toggleSwitchButton($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }

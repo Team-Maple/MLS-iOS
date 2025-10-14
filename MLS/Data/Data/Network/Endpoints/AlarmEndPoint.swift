@@ -48,7 +48,7 @@ public enum AlarmEndPoint {
         )
     }
 
-    public static func setRead(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
+    public static func setRead(query: Encodable) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/alrim/set-read",

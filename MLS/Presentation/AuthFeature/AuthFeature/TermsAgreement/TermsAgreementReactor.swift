@@ -5,6 +5,11 @@ import ReactorKit
 import RxSwift
 
 public final class TermsAgreementReactor: Reactor {
+    // MARK: - Type
+    public enum AgreeType {
+        case total, age, serviceTerms, personalInfo, marketing
+    }
+
     public enum Route {
         case none
         case dismiss
@@ -19,24 +24,13 @@ public final class TermsAgreementReactor: Reactor {
     // MARK: - Reactor
     public enum Action {
         case backButtonTapped
-        case totalAgreeButtonTapped
-        case ageAgreeButtonTapped
-        case toAgeAgreeButtonTapped
-        case serviceTermsAgreeButtonTapped
-        case toServiceTermsAgreeButtonTapped
-        case personalInformationAgreeButtonTapped
-        case toPersonalInformationAgreeButtonTapped
-        case marketingAgreeButtonTapped
-        case toMarketingAgreeButtonTapped
+        case toggleAgree(type: AgreeType)
         case bottomButtonTapped
+        case navigateTo(route: Route)
     }
 
     public enum Mutation {
-        case changeIsTotalAgreeState
-        case changeIsAgeAgreeState
-        case changeIsServiceTermsAgreeState
-        case changeIsPersonalInformationAgreeState
-        case changeIsMarketingAgreeState
+        case setAgreeState(type: AgreeType, isOn: Bool)
         case navigateTo(route: Route)
     }
 
@@ -86,17 +80,22 @@ public final class TermsAgreementReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .backButtonTapped:
-            return Observable.just(.navigateTo(route: .dismiss))
-        case .totalAgreeButtonTapped:
-            return Observable.just(.changeIsTotalAgreeState)
-        case .ageAgreeButtonTapped:
-            return Observable.just(.changeIsAgeAgreeState)
-        case .serviceTermsAgreeButtonTapped:
-            return Observable.just(.changeIsServiceTermsAgreeState)
-        case .personalInformationAgreeButtonTapped:
-            return Observable.just(.changeIsPersonalInformationAgreeState)
-        case .marketingAgreeButtonTapped:
-            return Observable.just(.changeIsMarketingAgreeState)
+            return .just(.navigateTo(route: .dismiss))
+        case .toggleAgree(let type):
+            let isOn: Bool
+            switch type {
+            case .total:
+                isOn = !currentState.isTotalAgree
+            case .age:
+                isOn = !currentState.isAgeAgree
+            case .serviceTerms:
+                isOn = !currentState.isServiceTermsAgree
+            case .personalInfo:
+                isOn = !currentState.isPersonalInformationAgree
+            case .marketing:
+                isOn = !currentState.isMarketingAgree
+            }
+            return .just(.setAgreeState(type: type, isOn: isOn))
         case .bottomButtonTapped:
             var fcmToken: String?
 
@@ -104,19 +103,14 @@ public final class TermsAgreementReactor: Reactor {
                 guard let self else { return }
                 switch settings.authorizationStatus {
                 case .authorized, .provisional, .ephemeral:
-                    let fetchResult = fetchTokenUseCase.execute(type: .fcmToken)
-                    switch fetchResult {
-                    case .success(let token):
+                    if case .success(let token) = fetchTokenUseCase.execute(type: .fcmToken) {
                         fcmToken = token
-                    case .failure(_):
-                        fcmToken = nil
                     }
                 default:
                     fcmToken = nil
                 }
             }
 
-            // 현재처럼 회원가입이 아닌 서비스 이용불가 유저 -> 서비스 이용 가능 유저로 변경
             switch socialPlatform {
             case .kakao:
                 return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
@@ -139,50 +133,41 @@ public final class TermsAgreementReactor: Reactor {
                     }
                     .catchAndReturn(.navigateTo(route: .error))
             }
-        case .toAgeAgreeButtonTapped:
-            return .just(.navigateTo(route: .ageAgreement))
-        case .toServiceTermsAgreeButtonTapped:
-            return .just(.navigateTo(route: .serviceAgreement))
-        case .toPersonalInformationAgreeButtonTapped:
-            return .just(.navigateTo(route: .personalAgreement))
-        case .toMarketingAgreeButtonTapped:
-            return .just(.navigateTo(route: .marketingAgreement))
+
+        case .navigateTo(let route):
+            return .just(.navigateTo(route: route))
         }
     }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .changeIsTotalAgreeState:
-            newState.isAgeAgree = newState.isTotalAgree ? false : true
-            newState.isServiceTermsAgree = newState.isTotalAgree ? false : true
-            newState.isPersonalInformationAgree = newState.isTotalAgree ? false : true
-            newState.isMarketingAgree = newState.isTotalAgree ? false : true
-            newState.isTotalAgree.toggle()
-        case .changeIsAgeAgreeState:
-            newState.isAgeAgree.toggle()
-        case .changeIsServiceTermsAgreeState:
-            newState.isServiceTermsAgree.toggle()
-        case .changeIsPersonalInformationAgreeState:
-            newState.isPersonalInformationAgree.toggle()
-        case .changeIsMarketingAgreeState:
-            newState.isMarketingAgree.toggle()
+        case .setAgreeState(let type, let isOn):
+            switch type {
+            case .total:
+                newState.isTotalAgree = isOn
+                newState.isAgeAgree = isOn
+                newState.isServiceTermsAgree = isOn
+                newState.isPersonalInformationAgree = isOn
+                newState.isMarketingAgree = isOn
+            case .age:
+                newState.isAgeAgree = isOn
+            case .serviceTerms:
+                newState.isServiceTermsAgree = isOn
+            case .personalInfo:
+                newState.isPersonalInformationAgree = isOn
+            case .marketing:
+                newState.isMarketingAgree = isOn
+            }
         case .navigateTo(let route):
             newState.route = route
         }
-        if newState.isAgeAgree == true &&
-            newState.isServiceTermsAgree == true &&
-            newState.isPersonalInformationAgree == true {
-            if newState.isMarketingAgree == true {
-                newState.isTotalAgree = true
-            } else {
-                newState.isTotalAgree = false
-            }
-            newState.bottomButtonIsEnabled = true
-        } else {
-            newState.bottomButtonIsEnabled = false
-            newState.isTotalAgree = false
-        }
+
+        // bottomButton 활성화 체크
+        let allRequiredAgreed = newState.isAgeAgree && newState.isServiceTermsAgree && newState.isPersonalInformationAgree
+        newState.bottomButtonIsEnabled = allRequiredAgreed
+        newState.isTotalAgree = allRequiredAgreed && newState.isMarketingAgree
+
         return newState
     }
 
