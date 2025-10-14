@@ -33,6 +33,8 @@
 		08E4255B2DF17D5300D6ACD3 /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08E4255A2DF17D5300D6ACD3 /* DataMock.framework */; };
 		08E4255C2DF17D5300D6ACD3 /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 08E4255A2DF17D5300D6ACD3 /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7746ABE22E8BD9DC0046F603 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7746ABE12E8BD9DC0046F603 /* RxKeyboard */; };
+		7777F6F32E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F6F22E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework */; };
+		7777F6F42E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F6F22E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		7787BFB92DED80ED0011C907 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7787BFB82DED80ED0011C907 /* RxKeyboard */; };
 		77EB17C62DED816D004FB380 /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB17C52DED816D004FB380 /* BaseFeature.framework */; };
 		77EB17CA2DED81E0004FB380 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77EB17C92DED81E0004FB380 /* SnapKit */; };
@@ -70,6 +72,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7777F6F52E9EA0AB00F53D68 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				7777F6F42E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77EB18EC2DEDA126004FB380 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -103,6 +116,7 @@
 		08E424F62DF0BB3C00D6ACD3 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E4255A2DF17D5300D6ACD3 /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08EECF932DD908D00047AFE2 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7777F6F22E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB17C52DED816D004FB380 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB18E02DEDA126004FB380 /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77EB18E12DEDA126004FB380 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +173,7 @@
 				085020682DDCD9640055CBCE /* RxSwift in Frameworks */,
 				7787BFB92DED80ED0011C907 /* RxKeyboard in Frameworks */,
 				085020662DDCD9640055CBCE /* RxRelay in Frameworks */,
+				7777F6F32E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework in Frameworks */,
 				0850206C2DDCD97E0055CBCE /* ReactorKit in Frameworks */,
 				085020612DDCD9250055CBCE /* DesignSystem.framework in Frameworks */,
 				0850206A2DDCD9720055CBCE /* SnapKit in Frameworks */,
@@ -217,6 +232,7 @@
 		0858ABEE2DCFDA450060EBCA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7777F6F22E9EA0AB00F53D68 /* DictionaryFeatureInterface.framework */,
 				085BDF562DF459FE009CFB90 /* DomainInterface.framework */,
 				085BDA6C2DF1A4DA009CFB90 /* BaseFeature.framework */,
 				085BDA612DF18617009CFB90 /* DomainInterface.framework */,
@@ -285,6 +301,7 @@
 				0858AB3B2DCFD62C0060EBCA /* Sources */,
 				0858AB3C2DCFD62C0060EBCA /* Frameworks */,
 				0858AB3D2DCFD62C0060EBCA /* Resources */,
+				7777F6F52E9EA0AB00F53D68 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

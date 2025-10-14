@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import DesignSystem
+import DictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa
@@ -17,9 +18,15 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
     public var disposeBag = DisposeBag()
     public var onSelectedIndex: ((Int) -> Void)?
 
-    // MARK: - Components
+    private let dictionaryMainViewFactory: DictionaryMainViewFactory
 
+    // MARK: - Components
     private var mainView = OnBoardingNotificationSheetView()
+
+    init(dictionaryMainViewFactory: DictionaryMainViewFactory) {
+        self.dictionaryMainViewFactory = dictionaryMainViewFactory
+        super.init()
+    }
 }
 
 // MARK: - Life Cycle
@@ -61,17 +68,17 @@ extension OnBoardingNotificationSheetViewController {
             .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.settingButton.rx.tap
             .map { Reactor.Action.setButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.applyButton.rx.tap
             .map { Reactor.Action.applyButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.notificationToggleBox.toggle.rx.isOn
             .map { Reactor.Action.toggleButton($0) }
             .bind(to: reactor.action)
@@ -87,7 +94,7 @@ extension OnBoardingNotificationSheetViewController {
                 owner.mainView.setUI(isAgree: isAgree)
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
@@ -96,18 +103,33 @@ extension OnBoardingNotificationSheetViewController {
 
         rx.viewDidAppear
             .take(1)
+            .observe(on: MainScheduler.instance)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .subscribe { owner, route in
-                switch route {
-                case .dismiss:
-                    owner.dismissCurrentModal()
-                case .home:
-                    break
-                case .setting:
-                    break
-                default:
-                    break
+                DispatchQueue.main.async {
+                    switch route {
+                    case .dismiss:
+                        owner.dismissCurrentModal()
+                    case .home:
+                        let viewController = owner.dictionaryMainViewFactory.make()
+                        let navigationController = UINavigationController(rootViewController: viewController)
+
+                        if let window = UIApplication.shared.connectedScenes
+                            .compactMap({ $0 as? UIWindowScene })
+                            .flatMap({ $0.windows })
+                            .first(where: { $0.isKeyWindow })
+                        {
+                            window.rootViewController = navigationController
+                            window.makeKeyAndVisible()
+                        }
+                    case .setting:
+                        guard let url = URL(string: UIApplication.openSettingsURLString),
+                              UIApplication.shared.canOpenURL(url) else { return }
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    default:
+                        break
+                    }
                 }
             }
             .disposed(by: disposeBag)

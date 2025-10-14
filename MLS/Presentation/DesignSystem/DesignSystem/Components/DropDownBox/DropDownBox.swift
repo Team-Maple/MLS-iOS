@@ -13,16 +13,16 @@ public final class DropDownBox: UIStackView {
     }
 
     public var selectedItem: Item? {
-        guard let index = selectedIndex, Items.indices.contains(index) else {
+        guard let index = selectedIndex, items.indices.contains(index) else {
             return nil
         }
-        return Items[index]
+        return items[index]
     }
 
     // 선택 이벤트 콜백
     public var onItemSelected: ((Item) -> Void)?
 
-    public var Items = [Item]() {
+    public var items = [Item]() {
         didSet {
             tableView.reloadData()
         }
@@ -52,7 +52,7 @@ public final class DropDownBox: UIStackView {
 
     // MARK: - Init
     public init(label: String? = nil, placeHodler: String? = nil, items: [Item]) {
-        self.Items = items
+        self.items = items
         super.init(frame: .zero)
 
         inputBox.label.attributedText = .makeStyledString(font: .b_s_r, text: label, color: .neutral700, alignment: .left)
@@ -124,7 +124,7 @@ private extension DropDownBox {
         isExpanded.toggle()
         tableView.isHidden = !isExpanded
         iconButton.setImage(isExpanded ? .arrowDropUp : .arrowDropdown, for: .normal)
-        let height = CGFloat(Items.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
+        let height = CGFloat(items.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
     }
 
@@ -141,7 +141,7 @@ private extension DropDownBox {
 // MARK: - UITableView
 extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Items.count
+        return items.count
     }
 
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -149,14 +149,14 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         let isSelected = selectedIndex == indexPath.row
-        cell.injection(with: Items[indexPath.row].name, isSelected: isSelected)
+        cell.injection(with: items[indexPath.row].name, isSelected: isSelected)
         cell.selectionStyle = .none
         return cell
     }
 
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
-        let selectedItem = Items[indexPath.row]
+        let selectedItem = items[indexPath.row]
         inputBox.textField.attributedText = .makeStyledString(font: .b_m_r, text: selectedItem.name, alignment: .left, lineHeight: 1.0)
         inputBox.textField.sendActions(for: .editingChanged)
         toggleDropdown()

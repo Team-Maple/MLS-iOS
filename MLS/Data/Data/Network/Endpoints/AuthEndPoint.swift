@@ -89,11 +89,12 @@ public enum AuthEndPoint {
         )
     }
     
-    public static func updateCharacterInfo(level: Int, jobID: Int) -> EndPoint {
+    public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/profile",
-            method: .PUT
+            method: .PUT,
+            body: body
         )
     }
     

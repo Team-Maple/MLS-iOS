@@ -75,12 +75,12 @@ public extension TermsAgreementViewController {
             .disposed(by: disposeBag)
 
         mainView.ageAgreeButton.rx.tap
-            .map { Reactor.Action.toAgeAgreeButtonTapped }
+            .map { Reactor.Action.ageAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
         mainView.ageAgreeButton.rightButton.rx.tap
-            .map { Reactor.Action.ageAgreeButtonTapped }
+            .map { Reactor.Action.toAgeAgreeButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 

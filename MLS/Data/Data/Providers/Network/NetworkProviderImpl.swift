@@ -84,7 +84,6 @@ public final class NetworkProviderImpl: NetworkProvider {
             errors
                 .enumerated()
                 .flatMap { attempt, error -> Observable<Void> in
-                    print("Retry attempt \(attempt), error: \(error)")
                     if attempt < self.retryAttempt, let networkError = error as? NetworkError, networkError == .retry {
                         return Observable.just(())
                     } else {

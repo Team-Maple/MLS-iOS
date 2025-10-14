@@ -109,7 +109,7 @@ public extension OnBoardingInputViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, list in
-                owner.mainView.dropDownBox.Items = list.map { .init(name: $0.name, id: $0.id) }
+                owner.mainView.dropDownBox.items = list.map { .init(name: $0.name, id: $0.id) }
             }
             .disposed(by: disposeBag)
 

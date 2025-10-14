@@ -74,11 +74,11 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
                     eventAgreement: true
                 ))
                 .andThen(Observable.just(.navigateTo(route: .home)))
-                .catchAndReturn(.navigateTo(route: .dismiss)) //
+                .catchAndReturn(.navigateTo(route: .dismiss))
         case .cancelButtonTapped:
             return .just(.navigateTo(route: .dismiss))
         case .skipButtonTapped:
-            return .empty()
+            return .just(.navigateTo(route: .home))
         }
     }
 
