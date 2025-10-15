@@ -12,7 +12,6 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     public typealias Reactor = MonsterDictionaryDetailReactor
 
     // MARK: - Properties
-    private var selectedIndex = 0
     private var dropItemSelectedIndex = 0
     private var mapSelectedIntdex = 0
 
