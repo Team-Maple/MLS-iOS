@@ -5,9 +5,9 @@ import RxSwift
 public class CheckEmptyLevelAndRoleUseCaseImpl: CheckEmptyLevelAndRoleUseCase {
     public init() {}
 
-    public func execute(level: Int?, role: String?) -> Observable<Bool> {
+    public func execute(level: Int?, job: String?) -> Observable<Bool> {
         let isValidLevel = level.map { (1 ... 200).contains($0) } ?? false
-        let isValidRole = role != nil && role != ""
+        let isValidRole = job != nil && job != ""
         return .just(isValidLevel && isValidRole)
     }
 }

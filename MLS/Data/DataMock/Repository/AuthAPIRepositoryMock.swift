@@ -43,6 +43,10 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         return Observable.just(.init(isRegister: true, accessToken: "testToken", refreshToken: "testToken"))
     }
+    
+    public func withdraw() -> Completable {
+        return .empty()
+    }
 
     public func fetchJobList() -> Observable<JobListResponse> {
         tryCount += 1
@@ -51,11 +55,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
             return Observable.error(error)
         } else {
             return Observable.just(.init(jobList: [
-                "마법사",
-                "전사",
-                "궁수",
-                "도적",
-                "해적"
+                Job(name: "마법사", id: 1)
             ]))
         }
     }
@@ -68,5 +68,17 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         } else {
             return .empty()
         }
+    }
+    
+    public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
+        return .empty()
+    }
+    
+    public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
+        return .empty()
+    }
+    
+    public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
+        return .empty()
     }
 }

@@ -11,10 +11,11 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         self.repository = repository
     }
 
+    // 로그인할때 토큰 저장 필요
     public func execute(credential: Credential) -> Observable<LoginResponse> {
         return repository.loginWithKakao(credential: credential)
             .catch { error in
-                return Observable.error(error)
+                Observable.error(error)
             }
     }
 }

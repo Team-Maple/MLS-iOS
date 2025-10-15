@@ -16,27 +16,27 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithKakao(credential: credential)
         return provider.requestData(endPoint: endpoint, interceptor: nil)
-                .map { $0.toLoginDomain() }
-                .catch { error in
-                    if case NetworkError.statusError(let code, _) = error, code == 404 {
-                        return Observable.error(AuthError.userNotFound(credential: credential))
-                    } else {
-                        return Observable.error(error)
-                    }
+            .map { $0.toLoginDomain() }
+            .catch { error in
+                if case NetworkError.statusError(let code, _) = error, code == 404 {
+                    return Observable.error(AuthError.userNotFound(credential: credential))
+                } else {
+                    return Observable.error(error)
                 }
+            }
     }
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithApple(credential: credential)
         return provider.requestData(endPoint: endpoint, interceptor: nil)
-                .map { $0.toLoginDomain() }
-                .catch { error in
-                    if case NetworkError.statusError(let code, _) = error, code == 404 {
-                        return Observable.error(AuthError.userNotFound(credential: credential))
-                    } else {
-                        return Observable.error(error)
-                    }
+            .map { $0.toLoginDomain() }
+            .catch { error in
+                if case NetworkError.statusError(let code, _) = error, code == 404 {
+                    return Observable.error(AuthError.userNotFound(credential: credential))
+                } else {
+                    return Observable.error(error)
                 }
+            }
     }
 
     public func signUpWithKakao(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse> {
@@ -63,6 +63,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endpoint, interceptor: nil).map { $0.toSignUpDomain() }
     }
 
+    public func withdraw() -> Completable {
+        let endPoint = AuthEndPoint.withdraw()
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
@@ -74,11 +79,23 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {
-        return Observable.just(.init(jobList: []))
+        let endPoint = AuthEndPoint.fetchJobs()
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
 
-    public func updateUserInfo(level: Int, selectedJob: String) -> Completable {
-        return .never()
+    public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
+        let endPoint = AuthEndPoint.updateCharacterInfo(body: UpdateInfoBody(level: level, jobId: selectedJobID))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+
+    public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
+        let endPoint = AuthEndPoint.updateMarketingAgreement(credential: credential, body: MarketingAgreementBody(marketingAgreement: isMarketingAgreement))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+
+    public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
+        let endPoint = AuthEndPoint.updateNotification(body: NotificationAgreementBody(noticeAgreement: noticeAgreement, patchNoteAgreement: patchNoteAgreement, eventAgreement: eventAgreement))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 }
 
@@ -101,5 +118,20 @@ private extension AuthAPIRepositoryImpl {
 
     struct FCMTokenBody: Encodable {
         let fcmToken: String?
+    }
+
+    struct MarketingAgreementBody: Encodable {
+        let marketingAgreement: Bool
+    }
+
+    struct NotificationAgreementBody: Encodable {
+        let noticeAgreement: Bool
+        let patchNoteAgreement: Bool
+        let eventAgreement: Bool
+    }
+
+    struct UpdateInfoBody: Encodable {
+        let level: Int
+        let jobId: Int
     }
 }

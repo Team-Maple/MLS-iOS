@@ -22,6 +22,8 @@ public final class SetProfileReactor: Reactor {
         case showBottomSheet
         case inputNickName(String)
         case beginEditingNickName
+        case logout
+        case withdraw
     }
 
     // MARK: - Mutation
@@ -48,10 +50,14 @@ public final class SetProfileReactor: Reactor {
     public var initialState = State(setProfileState: .normal)
 
     private let checkNickNameUseCase: CheckNickNameUseCase
+    private let logoutUseCase: LogoutUseCase
+    private let withdrawUseCase: WithdrawUseCase
 
     // MARK: - Init
-    public init(checkNickNameUseCase: CheckNickNameUseCase) {
+    public init(checkNickNameUseCase: CheckNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase) {
         self.checkNickNameUseCase = checkNickNameUseCase
+        self.logoutUseCase = logoutUseCase
+        self.withdrawUseCase = withdrawUseCase
     }
 
     // MARK: - Mutate
@@ -85,6 +91,12 @@ public final class SetProfileReactor: Reactor {
             return Observable.just(.toNavigate(.logoutAlert))
         case .withdrawButtonTapped:
             return Observable.just(.toNavigate(.withdrawAlert))
+        case .logout:
+            return logoutUseCase.execute()
+                .andThen(.empty())
+        case .withdraw:
+            return withdrawUseCase.execute()
+                .andThen(.empty())
         }
     }
 

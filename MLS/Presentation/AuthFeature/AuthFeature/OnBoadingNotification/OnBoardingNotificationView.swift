@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-public final class NotificationView: OnBoardingBaseView {
+public final class OnBoardingNotificationView: OnBoardingBaseView {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset = 16
@@ -62,7 +62,7 @@ public final class NotificationView: OnBoardingBaseView {
 }
 
 // MARK: - SetUp
-private extension NotificationView {
+private extension OnBoardingNotificationView {
     func addViews() {
         addSubview(contentView)
         addSubview(nextButton)

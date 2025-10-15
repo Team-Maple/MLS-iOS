@@ -42,7 +42,10 @@ private extension AppDelegate {
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
+            AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
+        }
+        DIContainer.register(type: TokenRepository.self) {
+            KeyChainRepositoryImpl()
         }
     }
 
@@ -62,6 +65,15 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: LogoutUseCase.self) {
+            LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: WithdrawUseCase.self) {
+            WithdrawUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
+            FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -70,15 +82,33 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: SetProfileFactory.self) {
-            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self))
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self))
         }
 
         DIContainer.register(type: SetCharacterFactory.self) {
-            SetCharacterFactoryImpl(checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self), checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self), fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self))
+            SetCharacterFactoryImpl(
+                checkEmptyUseCase: DIContainer
+                    .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer
+                    .resolve(type: CheckValidLevelUseCase.self),
+                fetchJobListUseCase: DIContainer
+                    .resolve(type: FetchJobListUseCase.self),
+                updateUserInfoUseCase: DIContainer
+                    .resolve(type: UpdateUserInfoUseCase.self)
+            )
         }
 
         DIContainer.register(type: MyPageMainFactory.self) {
-            MyPageMainFactoryImpl(setProfileFactory: DIContainer.resolve(type: SetProfileFactory.self), customerSupportFactory: DIContainer.resolve(type: CustomerSupportFactory.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self), setCharacterFactory: DIContainer.resolve(type: SetCharacterFactory.self))
+            MyPageMainFactoryImpl(
+                setProfileFactory: DIContainer
+                    .resolve(type: SetProfileFactory.self),
+                customerSupportFactory: DIContainer
+                    .resolve(type: CustomerSupportFactory.self),
+                notificationSettingFactory: DIContainer
+                    .resolve(type: NotificationSettingFactory.self),
+                setCharacterFactory: DIContainer
+                    .resolve(type: SetCharacterFactory.self)
+            )
         }
 
         DIContainer.register(type: CustomerSupportFactory.self) {

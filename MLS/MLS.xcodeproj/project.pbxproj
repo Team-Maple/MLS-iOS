@@ -39,6 +39,14 @@
 		77660AD22DD0D361007A4EF3 /* KakaoConfig.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */; };
 		77660AD52DD0D3DD007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660AD42DD0D3DD007A4EF3 /* KakaoSDKAuth */; };
 		77660AD72DD0D3DD007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660AD62DD0D3DD007A4EF3 /* KakaoSDKUser */; };
+		7777F7022E9EAB8400F53D68 /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7002E9EAB8400F53D68 /* BookmarkFeature.framework */; };
+		7777F7032E9EAB8400F53D68 /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7002E9EAB8400F53D68 /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7777F7042E9EAB8400F53D68 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7012E9EAB8400F53D68 /* BookmarkFeatureInterface.framework */; };
+		7777F7052E9EAB8400F53D68 /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7012E9EAB8400F53D68 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7777F7082E9EAC0D00F53D68 /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7062E9EAC0D00F53D68 /* MyPageFeature.framework */; };
+		7777F7092E9EAC0D00F53D68 /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7062E9EAC0D00F53D68 /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7777F70A2E9EAC0D00F53D68 /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */; };
+		7777F70B2E9EAC0D00F53D68 /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A490D2E1AD26700ABDE4F /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */; };
 		779A490E2E1AD26700ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A49102E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; };
@@ -65,10 +73,13 @@
 			dstSubfolderSpec = 10;
 			files = (
 				080175A02DCD27E600D0919F /* DomainInterface.framework in Embed Frameworks */,
+				7777F70B2E9EAC0D00F53D68 /* MyPageFeatureInterface.framework in Embed Frameworks */,
 				779A49112E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */,
+				7777F7092E9EAC0D00F53D68 /* MyPageFeature.framework in Embed Frameworks */,
 				772199F32E0E7EC800A7B58C /* AuthFeatureInterface.framework in Embed Frameworks */,
 				084A25562DB93BC800C395C0 /* Data.framework in Embed Frameworks */,
 				08DA58A82E1E5BE3009097A6 /* DictionaryFeature.framework in Embed Frameworks */,
+				7777F7052E9EAB8400F53D68 /* BookmarkFeatureInterface.framework in Embed Frameworks */,
 				08DA58AB2E1E5BEB009097A6 /* DictionaryFeatureInterface.framework in Embed Frameworks */,
 				084A25D82DB93E2C00C395C0 /* Core.framework in Embed Frameworks */,
 				0858ABFD2DCFDBF20060EBCA /* DesignSystem.framework in Embed Frameworks */,
@@ -77,6 +88,7 @@
 				085BDF5F2DF6B6B3009CFB90 /* DataMock.framework in Embed Frameworks */,
 				7721A5052E0EE7AE00A7B58C /* BaseFeature.framework in Embed Frameworks */,
 				77EB18D72DED9256004FB380 /* AuthFeature.framework in Embed Frameworks */,
+				7777F7032E9EAB8400F53D68 /* BookmarkFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,6 +119,10 @@
 		772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = KakaoConfig.xcconfig; sourceTree = "<group>"; };
+		7777F7002E9EAB8400F53D68 /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7777F7012E9EAB8400F53D68 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7777F7062E9EAC0D00F53D68 /* MyPageFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,17 +161,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */,
+				7777F70A2E9EAC0D00F53D68 /* MyPageFeatureInterface.framework in Frameworks */,
 				770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */,
 				08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */,
 				7721A5042E0EE7AE00A7B58C /* BaseFeature.framework in Frameworks */,
 				08DA58AA2E1E5BEB009097A6 /* DictionaryFeatureInterface.framework in Frameworks */,
 				7721A5082E0EE7F100A7B58C /* ReactorKit in Frameworks */,
 				0801759F2DCD27E600D0919F /* DomainInterface.framework in Frameworks */,
+				7777F7022E9EAB8400F53D68 /* BookmarkFeature.framework in Frameworks */,
 				08DA58A72E1E5BE3009097A6 /* DictionaryFeature.framework in Frameworks */,
 				08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */,
+				7777F7042E9EAB8400F53D68 /* BookmarkFeatureInterface.framework in Frameworks */,
 				084A25552DB93BC800C395C0 /* Data.framework in Frameworks */,
 				084A25D72DB93E2C00C395C0 /* Core.framework in Frameworks */,
 				08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */,
+				7777F7082E9EAC0D00F53D68 /* MyPageFeature.framework in Frameworks */,
 				0858ABFC2DCFDBF20060EBCA /* DesignSystem.framework in Frameworks */,
 				779A490D2E1AD26700ABDE4F /* BookmarkFeature.framework in Frameworks */,
 				77660AD52DD0D3DD007A4EF3 /* KakaoSDKAuth in Frameworks */,
@@ -225,6 +245,10 @@
 		084A25312DB93A5400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7777F7062E9EAC0D00F53D68 /* MyPageFeature.framework */,
+				7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */,
+				7777F7002E9EAB8400F53D68 /* BookmarkFeature.framework */,
+				7777F7012E9EAB8400F53D68 /* BookmarkFeatureInterface.framework */,
 				779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */,
 				779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */,
 				08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */,

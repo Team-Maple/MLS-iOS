@@ -33,6 +33,8 @@ public protocol AuthAPIRepository {
     /// - Returns: 회원가입 응답을 담은 Observable
     func signUpWithApple(credential: Credential, isMarketingAgreement: Bool, fcmToken: String?) -> Observable<SignUpResponse>
 
+    func withdraw() -> Completable
+    
     /// 직업 목록 조회 API 호출
     ///
     /// - Returns: 직업 목록 응답을 담은 Observable
@@ -40,9 +42,9 @@ public protocol AuthAPIRepository {
 
     /// 사용자 정보 수정 API 호출
     ///
-    /// - Note: 별도의 파라미터 없이 사용자 정보를 수정
+    /// - Note: 레벨과 직업을 업데이트
     /// - Returns: 작업 완료 여부를 나타내는 Completable
-    func updateUserInfo(level: Int, selectedJob: String) -> Completable
+    func updateUserInfo(level: Int, selectedJobID: Int) -> Completable
 
     /// 토큰 재발행 API 호출
     ///
@@ -51,4 +53,8 @@ public protocol AuthAPIRepository {
     func reissueToken(refreshToken: String) -> Observable<LoginResponse>
 
     func fcmToken(credential: String, fcmToken: String?) -> Completable
+    
+    func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable
+    
+    func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable
 }

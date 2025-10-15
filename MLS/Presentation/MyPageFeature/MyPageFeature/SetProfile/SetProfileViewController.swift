@@ -161,9 +161,13 @@ extension SetProfileViewController {
                     owner.didReturn.accept(true)
                     owner.navigationController?.popViewController(animated: true)
                 case .logoutAlert:
-                    GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
+                    GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {
+                        reactor.action.onNext(.logout)
+                    })
                 case .withdrawAlert:
-                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
+                    GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {
+                        reactor.action.onNext(.withdraw)
+                    })
                 default:
                     break
                 }

@@ -62,4 +62,48 @@ public enum AuthEndPoint {
             body: body
         )
     }
+    
+    public static func withdraw() -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member",
+            method: .DELETE
+        )
+    }
+    
+    public static func updateMarketingAgreement(credential: String, body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/marketing-agreement",
+            method: .PUT,
+            headers: ["Authorization": "Bearer \(credential)"],
+            body: body
+        )
+    }
+    
+    public static func fetchJobs() -> ResponsableEndPoint<[JobsDTO]> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/jobs",
+            method: .GET
+        )
+    }
+    
+    public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/profile",
+            method: .PUT,
+            body: body
+        )
+    }
+    
+    public static func updateNotification(body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/alert-agreement",
+            method: .PUT,
+            body: body
+        )
+    }
 }

@@ -1,7 +1,7 @@
 import ReactorKit
 import RxSwift
 
-public final class NotificationReactor: Reactor {
+public final class OnBoardingNotificationReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
@@ -18,6 +18,8 @@ public final class NotificationReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
+        let selectedLevel: Int
+        let selectedJobID: Int
     }
 
     // MARK: - properties
@@ -25,8 +27,8 @@ public final class NotificationReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init() {
-        self.initialState = State()
+    public init(selectedLevel: Int, selectedJobID: Int) {
+        self.initialState = State(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
     }
 
     // MARK: - Reactor Methods

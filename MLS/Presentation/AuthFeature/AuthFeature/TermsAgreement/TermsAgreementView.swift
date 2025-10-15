@@ -59,7 +59,7 @@ public final class TermsAgreementView: UIView {
         return view
     }()
 
-    public let oldAgreeButton: CheckBoxButton = {
+    public let ageAgreeButton: CheckBoxButton = {
         let button = CheckBoxButton(style: .listMedium, mainTitle: "(필수) 만 14세 이상", subTitle: nil)
         return button
     }()
@@ -107,7 +107,7 @@ private extension TermsAgreementView {
         addSubview(totalAgreeButton)
         addSubview(bottomButton)
         addSubview(termsStackView)
-        termsStackView.addArrangedSubview(oldAgreeButton)
+        termsStackView.addArrangedSubview(ageAgreeButton)
         termsStackView.addArrangedSubview(serviceTermsAgreeButton)
         termsStackView.addArrangedSubview(personalInformationAgreeButton)
         termsStackView.addArrangedSubview(marketingAgreeButton)
