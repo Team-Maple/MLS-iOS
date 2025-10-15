@@ -4,7 +4,7 @@ public struct DictionaryDetailMonsterDropItemResponse: Codable, Equatable {
     public let dropRate: Double
     public let imageUrl: String
     public let itemLevel: Int
-
+    
     public init(itemId: Int, itemName: String, dropRate: Double, imageUrl: String, itemLevel: Int) {
         self.itemId = itemId
         self.itemName = itemName

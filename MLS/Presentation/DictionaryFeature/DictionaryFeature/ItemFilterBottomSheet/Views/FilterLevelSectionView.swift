@@ -15,7 +15,7 @@ public class FilterLevelSectionView: UIView {
         static let sliderBottomMargin: CGFloat = 12
         static let sliderHeight: CGFloat = 26
     }
-
+    
     private var isEdit = false
 
     let leftInputBox: InputBox = {

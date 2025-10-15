@@ -46,14 +46,14 @@ private extension MonsterDictionaryDetailViewController {
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
-
+        
         contentViews.append(detailView)
-
+        
         for info in infos {
             detailView.addInfo(mainText: info.name, subText: info.desc)
         }
     }
-
+    
     func setUpMapView() {
         guard let reactor = reactor else { return }
         let maps = reactor.currentState.menus.maps
@@ -63,7 +63,7 @@ private extension MonsterDictionaryDetailViewController {
             contentViews.append(appearMapView)
             appearMapView.filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "출현 많은 순", color: .primary700), for: .normal)
             appearMapView.filterButton.tintColor = .primary700
-
+            
             for map in maps {
                 appearMapView.inject(input: DetailStackCardView
                     .Input(
@@ -105,7 +105,7 @@ private extension MonsterDictionaryDetailViewController {
 
 // MARK: - Bind
 extension MonsterDictionaryDetailViewController {
-
+    
     public func bind(reactor: Reactor) {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
@@ -125,9 +125,9 @@ extension MonsterDictionaryDetailViewController {
     private func bindViewState(reactor: Reactor) {
         let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
         dropItemView.selectFilter(selectedType: selectedFilter)
-
+        
         isBottomTabbarHidden = true
-
+        
         reactor.state.map(\.tags)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -135,7 +135,7 @@ extension MonsterDictionaryDetailViewController {
                 self?.makeTagsRow(tags)
             })
             .disposed(by: disposeBag)
-
+        
         reactor.state.map(\.name)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -164,7 +164,7 @@ extension MonsterDictionaryDetailViewController {
                 self?.setUpDropItemView()
             })
             .disposed(by: disposeBag)
-
+        
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -173,7 +173,7 @@ extension MonsterDictionaryDetailViewController {
                 switch route {
                 case .filter(let type):
                     let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
-
+                    
                     let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: selectedIndex) { index in
                         if type == .item {
                             owner.dropItemSelectedIndex = index
@@ -193,7 +193,7 @@ extension MonsterDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-
+        
         rx.viewWillAppear
             .take(1)
             .subscribe { _ in

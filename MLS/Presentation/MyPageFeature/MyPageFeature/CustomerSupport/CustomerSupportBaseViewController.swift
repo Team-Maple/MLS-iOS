@@ -20,9 +20,8 @@ class CustomerSupportBaseViewController: BaseViewController {
     public var type: CustomerSupportType
 
     /// 현재 보여지고 있는 뷰의 인덱스
-    public var currentTabIndex: Int?
+    private var currentTabIndex: Int?
     public var urlStrings: [String] = []
-    var onItemTapped: ((Int) -> Void)?
 
     public init(type: CustomerSupportType) {
         self.type = type
@@ -43,11 +42,15 @@ class CustomerSupportBaseViewController: BaseViewController {
         bindBackButton()
     }
 
-    func createDetailItem(items: [AlarmResponse]) {
+    func createDetailItem(items: [(String, String)]) {
         for (index, item) in items.enumerated() {
-            let view = mainView.createDetailItem(titleText: item.title, dateText: changeKoreanDate(date: item.date))
+            let view = mainView.createDetailItem(titleText: item.0, dateText: item.1)
             view.tag = index
-            urlStrings.append(item.link)
+            if index == 0 {
+                urlStrings.append("https://www.naver.com")
+            } else {
+                urlStrings.append("https://www.naver.com")
+            }
 
             view.isUserInteractionEnabled = true // 꼭 필요!
 
@@ -76,10 +79,6 @@ class CustomerSupportBaseViewController: BaseViewController {
                 .disposed(by: disposeBag)
         }
     }
-
-    func changeKoreanDate(date: [Int]) -> String? {
-        return "\(date[0])년 \(date[1])월 \(date[2])일 \(date[3]):\(String(format: "%02d", date[4]))"
-    }
 }
 
 // MARK: - SetUp
@@ -101,12 +100,10 @@ extension CustomerSupportBaseViewController {
         // 원하는 URL 열기 또는 네비게이션 처리
         switch type {
         case .announcement, .event, .patchNote:
-            onItemTapped?(index)
             guard index < urlStrings.count else { return }
             let url = urlStrings[index]
             let webViewController = WebViewController(urlString: url)
-//            navigationController?.pushViewController(webViewController, animated: true)
-            present(webViewController, animated: true)
+            navigationController?.pushViewController(webViewController, animated: true)
         case .terms:
             let viewController = TermsDetailViewController()
             navigationController?.pushViewController(viewController, animated: true)

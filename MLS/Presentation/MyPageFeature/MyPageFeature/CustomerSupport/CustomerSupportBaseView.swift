@@ -234,7 +234,7 @@ extension CustomerSupportBaseView {
     }
 
     // 이벤트 뷰가 아닐 경우 메뉴 태그 필요없음 -> 제약사항 변경 되어야 함
-    func changeSetupConstraints() {
+    func changeeSetupConstraints() {
         scrollView.snp.remakeConstraints { make in
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()

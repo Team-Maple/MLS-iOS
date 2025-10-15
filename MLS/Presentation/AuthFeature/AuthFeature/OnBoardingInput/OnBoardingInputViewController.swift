@@ -13,16 +13,16 @@ import SnapKit
 public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
-
-    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
+    
+    private let onBoadingNotificationFactory: OnBoadingNotificationFactory
 
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
-
-    init(onBoardingNotificationFactory: OnBoardingNotificationFactory) {
-        self.onBoardingNotificationFactory = onBoardingNotificationFactory
+    
+    init(onBoadingNotificationFactory: OnBoadingNotificationFactory) {
+        self.onBoadingNotificationFactory = onBoadingNotificationFactory
         super.init()
     }
 }
@@ -148,7 +148,7 @@ public extension OnBoardingInputViewController {
                 case .notification:
                     guard let selecteLevel = reactor.currentState.level,
                           let selectedJobID = reactor.currentState.job?.id else { return }
-                    let viewController = owner.onBoardingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
+                    let viewController = owner.onBoadingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

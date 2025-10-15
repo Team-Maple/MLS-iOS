@@ -1,54 +1,18 @@
 import UIKit
 
-import DomainInterface
-
-import ReactorKit
-
-final class PatchNoteViewController: CustomerSupportBaseViewController, View {
-    typealias Reactor = PatchNoteReactor
-
-    // MARK: - Init
-    override init(type: CustomerSupportType) {
-        super.init(type: type)
-    }
+final class PatchNoteViewController: CustomerSupportBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // 타입을 나눠서 베이스에서 다 처리하는게 나을려나??
+        let items = [
+            ("2025년 7월 25일(금) 패치노트1", "2025년 07월 25일(금) 12:55"),
+            ("2025년 7월 25일(금) 패치노트2", "2025년 07월 25일(금) 12:55"),
+            ("2025년 7월 25일(금) 패치노트3", "2025년 07월 25일(금) 12:55")
+        ]
+
         mainView.setMenuHidden(true)
-        mainView.changeSetupConstraints()
-
-        onItemTapped = { [weak self] itemIndex in
-            self?.reactor?.action.onNext(.itemTapped(itemIndex))
-        }
-    }
-}
-
-// MARK: - Bind
-extension PatchNoteViewController {
-    func bind(reactor: Reactor) {
-        bindUserActions(reactor: reactor)
-        bindViewState(reactor: reactor)
-    }
-
-    func bindUserActions(reactor: Reactor) {}
-
-    func bindViewState(reactor: Reactor) {
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map { $0.alarms }
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, _ in
-                owner.createDetailItem(items: reactor.currentState.alarms)
-            })
-            .disposed(by: disposeBag)
+        mainView.changeeSetupConstraints()
+        createDetailItem(items: items)
     }
 }

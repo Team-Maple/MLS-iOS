@@ -6,11 +6,11 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase
     private let dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase
     private let dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase
-
+    
     public init(dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase) {
         self.dictionaryDetailMonsterUseCase = dictionaryDetailMonsterUseCase
         self.dictionaryDetailMonsterDropItemUseCase = dictionaryDetailMonsterDropItemUseCase
-        self.dictionaryDetailMonsterMapUseCase = dictionaryDetailMonsterMapUseCase
+        self.dictionaryDetailMonsterMapUseCase = dictionaryDetailMonsterMapUseCase 
     }
 
     public func make(type: DictionaryType, id: Int) -> BaseViewController {

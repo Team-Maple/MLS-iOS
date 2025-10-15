@@ -7,18 +7,45 @@ import ReactorKit
 import RxSwift
 
 final class NotificationSettingViewController: BaseViewController, View, UNUserNotificationCenterDelegate {
-    typealias Reactor = NotificationSettingReactor
+
+    public typealias Reactor = NotificationSettingReactor
 
     // MARK: - Properties
-    var disposeBag = DisposeBag()
+    public var disposeBag = DisposeBag()
 
-    // MARK: - UI Components
-    private let mainView = NotificationSettingView()
+    private var authorized: Bool?
+    // MARK: - Components
+    public var mainView = NotificationSettingView()
 
-    // MARK: - Init
-    init(reactor: NotificationSettingReactor) {
+    public override init() {
         super.init()
-        self.reactor = reactor
+    }
+    /// 현재는 테스트 위해 허용 / 거부를 선택한 이후에 해당 값에 맞게 뷰나오도록 함
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        UNUserNotificationCenter.current().delegate = self // NotificationCenter Delegate
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { [weak self] granted, _ in
+            guard let self = self else { return }
+
+            DispatchQueue.main.async {
+                self.authorized = granted // 이거 반드시 필요
+                self.makeNotificationView()
+            }
+        }
+
+        isBottomTabbarHidden = true
+        addViews()
+        setupConstraints()
+        bindBackButton()
+
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] _ in
+                self?.appWillEnterForeground()
+            })
+            .disposed(by: disposeBag)
+
     }
 
     @available(*, unavailable)
@@ -26,19 +53,23 @@ final class NotificationSettingViewController: BaseViewController, View, UNUserN
         fatalError("init(coder:) has not been implemented")
     }
 
-    // MARK: - LifeCycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        bindNotification()
+    private func appWillEnterForeground() {
+        isNotificationOn { isOn in
+            self.authorized = isOn
+            DispatchQueue.main.async {
+                self.makeNotificationView()
+            }
+        }
     }
 }
 
-// MARK: - Setup
-private extension NotificationSettingViewController {
-    func setupUI() {
-        isBottomTabbarHidden = true
+// MARK: - SetUp
+extension NotificationSettingViewController {
+    func addViews() {
         view.addSubview(mainView)
+    }
+
+    func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
@@ -46,103 +77,66 @@ private extension NotificationSettingViewController {
     }
 }
 
-// MARK: - Notification Authorization
-private extension NotificationSettingViewController {
-    func bindNotification() {
-        guard let reactor = reactor else { return }
-        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
-            .observe(on: MainScheduler.instance)
-            .map { _ in NotificationSettingReactor.Action.appWillEnterForeground }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+extension NotificationSettingViewController {
+    func makeNotificationView() {
+        guard let authorized = authorized else { return }
+        mainView.clearNotificationViews()
+        // 알림 권한 허용되지 않았을 경우
+        if !authorized {
+            mainView.onChangeButtonTapped = { [weak self] in
+                guard let url = URL(string: UIApplication.openSettingsURLString),
+                      UIApplication.shared.canOpenURL(url) else { return }
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+            mainView.createNotificationView(titleText: "푸시 알림 설정", subText: "기기 설정을 변경해야 알림을 받을 수 있어요.", authorized: authorized)
+
+        } else { // 알림 권한 허용되었을 경우
+            mainView.createNotificationView(titleText: "신규 이벤트 알림 설정", subText: "메이플랜드 이벤트 소식을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
+            mainView.createNotificationView(titleText: "공지사항 알림 설정", subText: "메이플랜드 공지사항을 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
+            mainView.createNotificationView(titleText: "패치노트 알림 설정", subText: "메이플랜드 패치노트를 푸시 알림으로 빠르게 받을 수 있어요.", authorized: authorized)
+
+        }
+
     }
 }
 
-// MARK: - Reactor Binding
 extension NotificationSettingViewController {
-    func bind(reactor: Reactor) {
+    func isNotificationOn(completion: @escaping (Bool) -> Void) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .authorized, .provisional: // 알림 허용됨
+                completion(true)
+            case .denied, .ephemeral: // 알림 거부됨
+                completion(false)
+            case .notDetermined: // 아직 알림 권한 요청 안 함
+                completion(false)
+            @unknown default: // 알 수 없는 상태
+                completion(false)
+            }
+        }
+    }
+}
+
+// MARK: - Bind
+extension NotificationSettingViewController {
+    public func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
-        bindViewState(reactor: reactor)
+        bindState(reactor: reactor)
     }
 
     private func bindUserActions(reactor: Reactor) {
-        mainView.backButton.rx.tap
-            .map { Reactor.Action.backButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
 
-        mainView.eventView.switchButton.rx.isOn
-            .skip(1)
-            .map { Reactor.Action.eventViewSwitch($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.noticeView.switchButton.rx.isOn
-            .skip(1)
-            .map { Reactor.Action.noticeViewSwitch($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.patchNoteView.switchButton.rx.isOn
-            .skip(1)
-            .map { Reactor.Action.patchNoteViewSwitch($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.pushGuideView.changeButton.rx.tap
-            .map { Reactor.Action.pushGuideViewTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
     }
 
-    private func bindViewState(reactor: Reactor) {
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+    private func bindState(reactor: Reactor) {
 
-        reactor.state
-            .observe(on: MainScheduler.instance)
-            .map { $0.authorized }
-            .withUnretained(self)
-            .subscribe { owner, authorized in
-                owner.mainView.setViews(authorized: authorized)
+    }
+    func bindBackButton() {
+        mainView.backButton.rx.tap
+            .bind { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-
-        reactor.state.map { $0.isAgreeEventNotification }
-            .distinctUntilChanged()
-            .bind(to: mainView.eventView.switchButton.rx.isOn)
-            .disposed(by: disposeBag)
-
-        reactor.state.map { $0.isAgreeNoticeNotification }
-            .distinctUntilChanged()
-            .bind(to: mainView.noticeView.switchButton.rx.isOn)
-            .disposed(by: disposeBag)
-
-        reactor.state.map { $0.isAgreePatchNoteNotification }
-            .distinctUntilChanged()
-            .bind(to: mainView.patchNoteView.switchButton.rx.isOn)
-            .disposed(by: disposeBag)
-
-        rx.viewDidAppear
-            .take(1)
-            .flatMapLatest { _ in reactor.pulse(\.$route) }
-            .withUnretained(self)
-            .subscribe(onNext: { owner, route in
-                switch route {
-                case .dismiss:
-                    owner.navigationController?.popViewController(animated: true)
-                case .setting:
-                    guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-                    if UIApplication.shared.canOpenURL(url) {
-                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                    }
-                default:
-                    break
-                }
-            })
-            .disposed(by: disposeBag)
     }
+
 }

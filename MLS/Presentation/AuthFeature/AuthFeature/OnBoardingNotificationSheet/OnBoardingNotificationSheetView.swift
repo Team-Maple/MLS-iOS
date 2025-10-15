@@ -74,7 +74,7 @@ private extension OnBoardingNotificationSheetView {
             make.horizontalEdges.bottom.equalToSuperview().inset(Constant.inset)
         }
     }
-
+    
     func configureUI() {
         notificationToggleBox.toggle.isOn = true
     }

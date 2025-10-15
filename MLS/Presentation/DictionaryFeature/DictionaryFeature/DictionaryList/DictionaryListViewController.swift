@@ -99,7 +99,7 @@ extension DictionaryListViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-
+    
     func bindViewState(reactor: Reactor) {
         reactor.state.map(\.listItems)
             .distinctUntilChanged()
@@ -111,7 +111,7 @@ extension DictionaryListViewController {
                 self?.mainView.isUserInteractionEnabled = !item.isEmpty
             })
             .disposed(by: disposeBag)
-
+        
         rx.viewWillAppear
             .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
@@ -140,7 +140,7 @@ extension DictionaryListViewController {
                         owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel  in
-
+                            
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
                         owner.tabBarController?.presentModal(viewController)
@@ -161,7 +161,8 @@ extension DictionaryListViewController {
                 owner.mainView.updateFilter(sortType: type.sortedFilter.first)
             })
             .disposed(by: disposeBag)
-
+        
+    
     }
 }
 
@@ -172,7 +173,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
 
         return state.listItems.count
     }
-
+    
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let state = reactor?.currentState else { return UICollectionViewCell() }
         guard
@@ -185,7 +186,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
         let item = state.listItems[indexPath.row]
         let type: DictionaryItemType
-
+        
         switch item.type {
         case "monster":
             type = .monster
@@ -200,9 +201,9 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         default:
             type = .monster
         }
-
+        
         cell.inject(type: .bookmark,
-                    input: DictionaryListCell.Input(type: type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "", isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] in
+                    input: DictionaryListCell.Input(type: type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "" , isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] in
             guard let self = self else { return }
             if item.isBookmarked {
                 self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
@@ -225,21 +226,21 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                     )
                 } else {
                     self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
-
+                    
                     SnackBarFactory.createSnackBar(type: .normal, image: UIImage(named: "pencil"), imageBackgroundColor: DictionaryItemType.monster.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
                         DispatchQueue.main.async {
                             let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
                                 ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
                             })
-
+                            
                             viewController.modalPresentationStyle = .pageSheet
-
+                            
                             if let sheet = viewController.sheetPresentationController {
                                 sheet.detents = [.medium(), .large()]
                                 sheet.prefersGrabberVisible = true
                                 sheet.preferredCornerRadius = 16
                             }
-
+                            
                             self.present(viewController, animated: true)
                         }
                     })
@@ -247,9 +248,9 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             }
         }
         )
-
+        
         return cell
-
+        
     }
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
@@ -257,16 +258,16 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         let item: DictionaryMainItemResponse
 
         item = reactor.currentState.listItems[indexPath.item]
-
+        
         let viewController = detailFactory.make(type: reactor.currentState.type, id: item.id)
         navigationController?.pushViewController(viewController, animated: true)
     }
-
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
-
+        
         if offsetY > contentHeight - height - 100 {
             reactor?.action.onNext(.setCurrentPage) // 페이지 올리고
             reactor?.action.onNext(.fetchList) // 해당 페이지로 데이터 불러오기

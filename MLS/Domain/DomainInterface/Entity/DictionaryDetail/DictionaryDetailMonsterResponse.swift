@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 public struct DictionaryDetailMonsterResponse: Codable {
-
+    
     public let monsterId: Int
     public let nameKr: String
     public let nameEn: String
@@ -20,7 +20,7 @@ public struct DictionaryDetailMonsterResponse: Codable {
     public let mesoDropRate: Int?
     public let typeEffectiveness: Effectiveness?
     public let isBookmarked: Bool
-
+    
     public init(monsterId: Int, nameKr: String, nameEn: String, imageUrl: String, level: Int, exp: Int, hp: Int, mp: Int, physicalDefense: Int, magicDefense: Int, requiredAccuracy: Int, bonusAccuracyPerLevelLower: Double, evasionRate: Int, mesoDropAmount: Int?, mesoDropRate: Int?, typeEffectiveness: Effectiveness?, isBookmarked: Bool) {
         self.monsterId = monsterId
         self.nameKr = nameKr
@@ -49,7 +49,7 @@ public struct Effectiveness: Codable, Equatable {
     public let holy: String?
     public let ice: String?
     public let physical: String?
-
+    
     public init(fire: String?, lightning: String?, poison: String?, holy: String?, ice: String?, physical: String?) {
         self.fire = fire
         self.lightning = lightning
@@ -61,14 +61,14 @@ public struct Effectiveness: Codable, Equatable {
     // 순회하기 위해서
     public func nonNilElements() -> [(element: ElementType, value: String)] {
         var result: [(ElementType, String)] = []
-
+        
         if let fire = fire { result.append((.fire, toKoreanEffect(data: fire))) }
         if let lightning = lightning { result.append((.lightning, toKoreanEffect(data: lightning))) }
         if let poison = poison { result.append((.poison, toKoreanEffect(data: poison))) }
         if let holy = holy { result.append((.holy, toKoreanEffect(data: holy))) }
         if let ice = ice { result.append((.ice, toKoreanEffect(data: ice))) }
         if let physical = physical { result.append((.physical, toKoreanEffect(data: physical))) }
-
+        
         return result
     }
     // 몬스터 약점 태그를 위한 변환

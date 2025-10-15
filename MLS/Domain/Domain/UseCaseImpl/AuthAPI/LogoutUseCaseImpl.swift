@@ -17,7 +17,7 @@ public class LogoutUseCaseImpl: LogoutUseCase {
                 completable(.completed)
                 return Disposables.create()
             }
-
+            
             switch self.repository.deleteToken(type: .accessToken) {
             case .success:
                 completable(.completed)

@@ -215,7 +215,7 @@ private extension AppDelegate {
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
             return OnBoardingNotificationSheetFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), openNotificationSettingUseCase: DIContainer.resolve(type: OpenNotificationSettingUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+        DIContainer.register(type: OnBoadingNotificationFactory.self) {
             return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
@@ -227,7 +227,7 @@ private extension AppDelegate {
                 fetchJobListUseCase: DIContainer
                     .resolve(type: FetchJobListUseCase.self),
                 updateUserInfoUseCase: DIContainer
-                    .resolve(type: UpdateUserInfoUseCase.self), OnBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+                    .resolve(type: UpdateUserInfoUseCase.self), onBoadingNotificationFactory: DIContainer.resolve(type: OnBoadingNotificationFactory.self)
             )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {

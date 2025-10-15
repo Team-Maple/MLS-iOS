@@ -52,7 +52,7 @@ private extension ItemDictionaryDetailViewController {
         guard let reactor = reactor,
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         monsterCardView.initFilter(firstFilter: filter)
-
+        
         if true {
             contentViews.append(monsterCardView)
             monsterCardView

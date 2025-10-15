@@ -36,7 +36,7 @@ public enum DictionaryItemType {
             "퀘스트 상세 정보"
         }
     }
-
+    
    static func from(_ string: String) -> DictionaryItemType? {
             let mapping: [String: DictionaryItemType] = [
                 "item": .item,

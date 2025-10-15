@@ -9,7 +9,7 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
     private let updateUserInfoUseCase: UpdateUserInfoUseCase
     private let dictionaryMainViewFactory: DictionaryMainViewFactory
-
+    
     public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase, updateUserInfoUseCase: UpdateUserInfoUseCase, dictionaryMainViewFactory: DictionaryMainViewFactory) {
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase

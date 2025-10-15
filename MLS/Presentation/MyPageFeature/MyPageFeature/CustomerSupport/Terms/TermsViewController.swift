@@ -13,7 +13,7 @@ final class TermsViewController: CustomerSupportBaseViewController {
         ]
 
         mainView.setMenuHidden(true)
-        mainView.changeSetupConstraints()
+        mainView.changeeSetupConstraints()
         createTermsDetailItem(items: items)
     }
 }

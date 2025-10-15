@@ -5,7 +5,7 @@ import RxSwift
 public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository {
     private let provider: NetworkProvider
     private let tokenInterceptor: Interceptor?
-
+    
     public init(provider: NetworkProvider, tokenInterceptor: Interceptor? = nil) {
         self.provider = provider
         self.tokenInterceptor = tokenInterceptor
@@ -30,9 +30,9 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
     }
     // MARK: - Item 리스트
     public func fetchItemList(keyword: String?, jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse> {
-        let endPoint = DictionaryListEndPoint.fetchItemList(keyword: keyword, jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, page: page, size: size, sort: sort)
+        let endPoint = DictionaryListEndPoint.fetchItemList(keyword: keyword, jobId: jobId, minLevel: minLevel , maxLevel: maxLevel, categoryIds: categoryIds, page: page, size: size, sort: sort)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-            .map { $0.toDomain() }
+            .map { $0.toDomain() } 
     }
     // MARK: - Map 리스트
     public func fetchMapList(keyword: String, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse> {
@@ -40,7 +40,7 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
-
+    
     // MARK: - Bookmark 추가
     public func postBookmark(bookmarkType: String, resourceId: Int) -> Observable<BookmarkResponse> {
         let endPoint = DictionaryListEndPoint.postBookmark(bookmarkType: bookmarkType, resourceId: resourceId)
@@ -48,4 +48,4 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
             .map { $0.toDomain()}
     }
 }
-
+ 

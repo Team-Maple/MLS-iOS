@@ -44,7 +44,7 @@ public final class OnBoardingInputReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-
+    
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
     private let fetchJobListUseCase: FetchJobListUseCase

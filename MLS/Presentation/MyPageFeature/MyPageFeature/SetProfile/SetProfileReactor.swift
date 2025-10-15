@@ -50,14 +50,12 @@ public final class SetProfileReactor: Reactor {
     public var initialState = State(setProfileState: .normal)
 
     private let checkNickNameUseCase: CheckNickNameUseCase
-    private let updateNickNameUseCase: UpdateNickNameUseCase
     private let logoutUseCase: LogoutUseCase
     private let withdrawUseCase: WithdrawUseCase
 
     // MARK: - Init
-    public init(checkNickNameUseCase: CheckNickNameUseCase, updateNickNameUseCase: UpdateNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase) {
+    public init(checkNickNameUseCase: CheckNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase) {
         self.checkNickNameUseCase = checkNickNameUseCase
-        self.updateNickNameUseCase = updateNickNameUseCase
         self.logoutUseCase = logoutUseCase
         self.withdrawUseCase = withdrawUseCase
     }
@@ -85,8 +83,7 @@ public final class SetProfileReactor: Reactor {
         case .editButtonTapped:
             switch currentState.setProfileState {
             case .edit:
-                return updateNickNameUseCase.execute(nickName: currentState.nickName)
-                    .andThen(Observable.just(.completeEditting))
+                return .just(.completeEditting)
             case .normal:
                 return .just(.beginEditting)
             }
@@ -121,6 +118,7 @@ public final class SetProfileReactor: Reactor {
         case .beginEditting:
             newState.setProfileState = .edit
         case .completeEditting:
+            // 저장후
             newState.route = .dismissWithUpdate
         }
 

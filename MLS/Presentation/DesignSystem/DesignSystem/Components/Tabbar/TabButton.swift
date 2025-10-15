@@ -59,7 +59,7 @@ private extension TabButton {
         contentView.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-
+        
         iconView.snp.makeConstraints { make in
             make.size.equalTo(Constant.iconSize)
         }

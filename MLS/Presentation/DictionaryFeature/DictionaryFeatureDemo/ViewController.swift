@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make()
         itemFilterBottomSheetVC.title = "아이템 필터 바텀시트"
 
-        let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make(startLevel: 0, endLevel: 200) { _, _ in }
+        let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make(startLevel: 0, endLevel: 200) { startLevel, endLevel in }
         monsterBottomSheetVC.title = "몬스터 필터 바텀시트"
 
         let sortedBottomSheetVC = DIContainer.resolve(type: SortedBottomSheetFactory.self).make(sortedOptions: [

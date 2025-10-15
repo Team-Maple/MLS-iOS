@@ -7,9 +7,9 @@ import Core
 import Data
 import DataMock
 import DesignSystem
-import DictionaryFeatureInterface
 import Domain
 import DomainInterface
+import DictionaryFeatureInterface
 
 import KakaoSDKCommon
 
@@ -131,7 +131,7 @@ private extension AppDelegate {
                     .resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), dictionaryMainViewFactory: DictionaryFactoryMock()
             )
         }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+        DIContainer.register(type: OnBoadingNotificationFactory.self) {
             return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
@@ -139,8 +139,7 @@ private extension AppDelegate {
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
-                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
-                onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self))
+                onBoadingNotificationFactory: DIContainer.resolve(type: OnBoadingNotificationFactory.self))
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
             return OnBoardingQuestionFactoryImpl(
