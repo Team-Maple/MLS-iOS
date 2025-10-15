@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DomainInterface
 
@@ -9,6 +10,7 @@ final class DictionaryListCell: UICollectionViewCell {
 
     // MARK: - Components
     public let cellView = CardList()
+    private var imageDownloadTask: URLSessionDataTask?
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -42,13 +44,19 @@ extension DictionaryListCell {
         let type: DictionaryItemType
         let mainText: String
         let subText: String
-        let image: UIImage
+        let imageUrl: String
         let isBookmarked: Bool
     }
 
     func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping () -> Void) {
         cellView.setType(type: type)
-        cellView.setImage(image: input.image, backgroundColor: input.type.backgroundColor)
+        // URL이 유효할 때만 요청
+        if let url = URL(string: input.imageUrl) {
+            ImageLoader.shared.loadImage(url: url) { image in
+                guard let image = image else { return }
+                self.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+            }
+        }
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
         cellView.setSelected(isSelected: input.isBookmarked)

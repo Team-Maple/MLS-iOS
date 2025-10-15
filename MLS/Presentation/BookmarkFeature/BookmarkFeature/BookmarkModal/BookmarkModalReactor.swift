@@ -25,12 +25,12 @@ public final class BookmarkModalReactor: Reactor {
         @Pulse var route: Route
         var collections = [
             BookmarkCollection(id: "1", title: "1번", items: [
-                DictionaryItem(id: "1번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
-                DictionaryItem(id: "2번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+                DictionaryItem(id: "1", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "2", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
             ]),
             BookmarkCollection(id: "2", title: "3번", items: [
-                DictionaryItem(id: "3번", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
-                DictionaryItem(id: "4번", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
+                DictionaryItem(id: "3", type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
+                DictionaryItem(id: "4", type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
             ])
         ]
         var selectedItems = [BookmarkCollection]()

@@ -3,9 +3,17 @@ import DictionaryFeatureInterface
 import DomainInterface
 
 public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
-    public init() {}
+    private let dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase
+    private let dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase
+    private let dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase
+    
+    public init(dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase) {
+        self.dictionaryDetailMonsterUseCase = dictionaryDetailMonsterUseCase
+        self.dictionaryDetailMonsterDropItemUseCase = dictionaryDetailMonsterDropItemUseCase
+        self.dictionaryDetailMonsterMapUseCase = dictionaryDetailMonsterMapUseCase 
+    }
 
-    public func make(type: DictionaryType) -> BaseViewController {
+    public func make(type: DictionaryType, id: Int) -> BaseViewController {
         var viewController = BaseViewController()
         switch type {
         case .total:
@@ -20,7 +28,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
             }
         case .monster:
             viewController = MonsterDictionaryDetailViewController(type: .monster)
-            let reactor = MonsterDictionaryDetailReactor()
+            let reactor = MonsterDictionaryDetailReactor(dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: dictionaryDetailMonsterDropItemUseCase, dictionaryDetailMonsterMapUseCase: dictionaryDetailMonsterMapUseCase, id: id)
             if let viewController = viewController as? MonsterDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
