@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import DesignSystem
 
 import ReactorKit
 import RxKeyboard
@@ -14,9 +15,15 @@ public final class MonsterFilterBottomSheetViewController: BaseViewController, M
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-
-    private var mainView = MonsterFilterBottomSheetView()
+    
+    var startLevel:CGFloat = 0
+    var endLevel:CGFloat = 200
+    
+    public lazy var mainView = MonsterFilterBottomSheetView(lowerLevel: startLevel, upperLevel: endLevel)
+    
+    public var onFilterSelected: ((Int, Int) -> Void)?
 }
+
 
 // MARK: - Life Cycle
 public extension MonsterFilterBottomSheetViewController {
@@ -65,8 +72,24 @@ extension MonsterFilterBottomSheetViewController {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.applyButton.rx.tap
+            .withUnretained(self)
+            .compactMap { owner, _ in
+                guard
+                    let startText = self.mainView.levelRangeView.leftInputBox.textField.text,
+                    let endText = self.mainView.levelRangeView.rightInputBox.textField.text,
+                    let start = Int(startText),
+                    let end = Int(endText)
+                else {
+                    return nil
+                }
+                return Reactor.Action.applyButtonTapped(start: start, end: end)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
-
+    
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
@@ -75,6 +98,9 @@ extension MonsterFilterBottomSheetViewController {
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
+                    owner.dismissCurrentModal()
+                case .dismissWithLevelRange(let start, let end):
+                    owner.onFilterSelected?(start, end)
                     owner.dismissCurrentModal()
                 default:
                     break

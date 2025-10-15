@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-final class MonsterFilterBottomSheetView: UIView {
+public class MonsterFilterBottomSheetView: UIView {
     private enum Constant {
         static let horizontalInset: CGFloat = 16
         static let buttonSpacing: CGFloat = 8
@@ -17,6 +17,8 @@ final class MonsterFilterBottomSheetView: UIView {
 
     // MARK: - Properties
     let tapGesture = UITapGestureRecognizer()
+    var lowerLevel: CGFloat
+    var upperLevel: CGFloat
 
     // MARK: - Components
     let header: Header = {
@@ -30,10 +32,7 @@ final class MonsterFilterBottomSheetView: UIView {
         return label
     }()
 
-    let levelRangeView: FilterLevelSectionView = {
-        let cell = FilterLevelSectionView()
-        return cell
-    }()
+    let levelRangeView: FilterLevelSectionView
 
     private let dividerView: UIView = {
         let view = UIView()
@@ -59,9 +58,11 @@ final class MonsterFilterBottomSheetView: UIView {
     }()
 
     // MARK: - init
-    init() {
+    init(lowerLevel: CGFloat, upperLevel: CGFloat) {
+        self.lowerLevel = lowerLevel
+        self.upperLevel = upperLevel
+        self.levelRangeView = FilterLevelSectionView(initialLowerValue: lowerLevel, initialUpperValue: upperLevel)
         super.init(frame: .zero)
-
         addViews()
         setupConstraints()
         configureUI()
