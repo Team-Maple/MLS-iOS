@@ -8,12 +8,11 @@ public class UpdateMarketingAgreementUseCaseImpl: UpdateMarketingAgreementUseCas
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
 
-
     public init(authRepository: AuthAPIRepository, tokenRepository: TokenRepository) {
         self.authRepository = authRepository
         self.tokenRepository = tokenRepository
     }
-    
+
     public func execute(credential: String, isMarketingAgreement: Bool) -> Completable {
         switch tokenRepository.fetchToken(type: .accessToken) {
         case .success(let token):
@@ -21,6 +20,6 @@ public class UpdateMarketingAgreementUseCaseImpl: UpdateMarketingAgreementUseCas
         case .failure(let error):
             return .error(error)
         }
-        
+
     }
 }

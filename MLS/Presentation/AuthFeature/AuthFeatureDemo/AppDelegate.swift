@@ -7,9 +7,9 @@ import Core
 import Data
 import DataMock
 import DesignSystem
+import DictionaryFeatureInterface
 import Domain
 import DomainInterface
-import DictionaryFeatureInterface
 
 import KakaoSDKCommon
 

@@ -6,7 +6,7 @@ import ReactorKit
 
 final class AnnouncementViewController: CustomerSupportBaseViewController, View {
     typealias Reactor = AnnouncementReactor
-    
+
     // MARK: - Init
     override init(type: CustomerSupportType) {
         super.init(type: type)
@@ -18,7 +18,7 @@ final class AnnouncementViewController: CustomerSupportBaseViewController, View 
         // 타입을 나눠서 베이스에서 다 처리하는게 나을려나??
         mainView.setMenuHidden(true)
         mainView.changeSetupConstraints()
-        
+
         onItemTapped = { [weak self] itemIndex in
             self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
@@ -40,13 +40,13 @@ extension AnnouncementViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.alarms)
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, item in
+            .bind(onNext: { owner, _ in
                 owner.createDetailItem(items: reactor.currentState.alarms)
             })
             .disposed(by: disposeBag)

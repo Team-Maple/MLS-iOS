@@ -59,7 +59,7 @@ private extension MapDictionaryDetailViewController {
         guard let reactor = reactor,
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         appearMonsterView.initFilter(firstFilter: filter)
-        
+
         if true {
             contentViews.append(appearMonsterView)
             appearMonsterView

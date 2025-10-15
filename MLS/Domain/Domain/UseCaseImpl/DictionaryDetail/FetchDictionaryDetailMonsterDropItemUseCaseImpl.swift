@@ -6,9 +6,9 @@ public final class FetchDictionaryDetailMonsterDropItemUseCaseImpl: FetchDiction
     public init(repository: DictionaryDetailAPIRepository) {
         self.repository = repository
     }
-    
+
     public func execute(id: Int) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
         return repository.fetchMonsterDetailDropItem(id: id)
     }
-    
+
 }

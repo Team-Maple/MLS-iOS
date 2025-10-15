@@ -18,7 +18,7 @@ final class DetailStackCardView: UIStackView {
         static let viewSpacing: CGFloat = 10
         static let stackViewInset: UIEdgeInsets = .init(top: 12, left: 16, bottom: 0, right: 16)
     }
-    
+
     // MARK: - Components
     private let filterContainerView = UIView()
     // 몬스터 순서 필터 버튼
@@ -168,7 +168,7 @@ extension DetailStackCardView {
         filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         filterButton.tintColor = .primary700
     }
-    
+
     func initFilter(firstFilter: SortType) {
         filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: firstFilter.rawValue, color: .textColor), for: .normal)
     }

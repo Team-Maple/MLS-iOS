@@ -38,7 +38,7 @@ public enum AlarmEndPoint {
             query: query
         )
     }
-    
+
     public static func fetchAll(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,

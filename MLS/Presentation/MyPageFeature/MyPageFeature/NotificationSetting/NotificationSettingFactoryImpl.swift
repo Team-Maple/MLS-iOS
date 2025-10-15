@@ -5,7 +5,7 @@ import MyPageFeatureInterface
 public final class NotificationSettingFactoryImpl: NotificationSettingFactory {
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
-    
+
     public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase) {
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
