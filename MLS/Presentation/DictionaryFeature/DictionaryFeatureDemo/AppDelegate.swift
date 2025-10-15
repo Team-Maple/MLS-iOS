@@ -203,7 +203,7 @@ private extension AppDelegate {
                 dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
                 dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
                 dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
-                dictionaryListItemUseCase : DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
+                dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
                 fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self),
                 toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
@@ -226,7 +226,7 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
-            return NotificationSettingFactoryImpl()
+            return NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             return DictionaryNotificationFactoryImpl(
@@ -251,7 +251,7 @@ private extension AppDelegate {
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
             return OnBoardingNotificationSheetFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), openNotificationSettingUseCase: DIContainer.resolve(type: OpenNotificationSettingUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), dictionaryMainViewFactory: DIContainer.resolve(type: DictionaryMainViewFactory.self))
         }
-        DIContainer.register(type: OnBoadingNotificationFactory.self) {
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
             return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
@@ -261,9 +261,9 @@ private extension AppDelegate {
                 checkValidLevelUseCase: DIContainer
                     .resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer
-                    .resolve(type: FetchJobListUseCase.self),
-                onBoadingNotificationFactory: DIContainer
-                    .resolve(type: OnBoadingNotificationFactory.self)
+                    .resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
+                onBoardingNotificationFactory: DIContainer
+                    .resolve(type: OnBoardingNotificationFactory.self)
             )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {

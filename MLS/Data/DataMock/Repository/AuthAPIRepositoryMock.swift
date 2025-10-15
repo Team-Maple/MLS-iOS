@@ -43,7 +43,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         return Observable.just(.init(isRegister: true, accessToken: "testToken", refreshToken: "testToken"))
     }
-    
+
     public func withdraw() -> Completable {
         return .empty()
     }
@@ -69,16 +69,20 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
             return .empty()
         }
     }
-    
+
     public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
         return .empty()
     }
-    
+
     public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
         return .empty()
     }
-    
+
     public func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable {
+        return .empty()
+    }
+
+    public func updateNickName(nickName: String) -> RxSwift.Completable {
         return .empty()
     }
 }

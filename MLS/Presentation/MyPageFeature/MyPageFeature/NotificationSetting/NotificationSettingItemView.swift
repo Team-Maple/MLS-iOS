@@ -19,23 +19,20 @@ final class NotificationItemView: UIView {
         static let spacerHeight: CGFloat = 10
     }
 
-    // MARK: - UI Components
+    // MARK: - Components
     private let titleLabel = UILabel()
     private let subTextLabel = UILabel()
-    private let switchButton = UISwitch()
-    private let changeButton = UIButton()
+    public let switchButton = UISwitch()
+    public let changeButton = UIButton()
     private let spacer = UIView()
 
-    // MARK: - Exposed
-    var onChangeButtonTapped: (() -> Void)?
-
+    // MARK: - Properties
     private let disposeBag = DisposeBag()
 
     // MARK: - Init
-    init(title: String, subtitle: String, authorized: Bool) {
+    init(title: String, subtitle: String, isAuth: Bool) {
         super.init(frame: .zero)
-        setupUI(title: title, subtitle: subtitle, authorized: authorized)
-        bindActions()
+        setupUI(title: title, subtitle: subtitle, isAuth: isAuth)
     }
 
     required init?(coder: NSCoder) {
@@ -43,7 +40,7 @@ final class NotificationItemView: UIView {
     }
 
     // MARK: - UI Setup
-    private func setupUI(title: String, subtitle: String, authorized: Bool) {
+    private func setupUI(title: String, subtitle: String, isAuth: Bool) {
         // 기본 속성 설정
         titleLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: title, color: .textColor)
         titleLabel.textAlignment = .left
@@ -58,7 +55,9 @@ final class NotificationItemView: UIView {
             .makeStyledString(font: .cp_xs_r, text: "변경하기", color: .primary700),
             for: .normal
         )
-        changeButton.setImage(DesignSystemAsset.image(named: "arrowRight"), for: .normal)
+        changeButton.semanticContentAttribute = .forceRightToLeft
+        changeButton.setImage(DesignSystemAsset.image(named: "arrowForwardSmall")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        changeButton.tintColor = .primary700
 
         // addSubviews
         addSubview(titleLabel)
@@ -66,7 +65,7 @@ final class NotificationItemView: UIView {
         addSubview(spacer)
         spacer.backgroundColor = .neutral100
 
-        if authorized {
+        if isAuth {
             addSubview(switchButton)
         } else {
             addSubview(changeButton)
@@ -88,7 +87,7 @@ final class NotificationItemView: UIView {
             make.width.equalTo(Constant.subTextViewWidth)
         }
 
-        if authorized {
+        if isAuth {
             switchButton.snp.makeConstraints { make in
                 make.trailing.equalToSuperview().inset(Constant.horizontalMargin)
                 make.top.equalToSuperview().offset(Constant.topMargin)
@@ -104,14 +103,5 @@ final class NotificationItemView: UIView {
             make.bottom.equalToSuperview()
             make.width.equalToSuperview()
         }
-    }
-
-    // MARK: - Bind Actions
-    private func bindActions() {
-        changeButton.rx.tap
-            .bind { [weak self] in
-                self?.onChangeButtonTapped?()
-            }
-            .disposed(by: disposeBag)
     }
 }

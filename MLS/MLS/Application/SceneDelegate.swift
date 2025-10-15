@@ -47,7 +47,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             guard let self = self else { return }
             DispatchQueue.main.async {
                 let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
-                let notificationFactory: OnBoadingNotificationFactory = DIContainer.resolve(type: OnBoadingNotificationFactory.self)
+                let notificationFactory: OnBoardingNotificationFactory = DIContainer.resolve(type: OnBoardingNotificationFactory.self)
                 window?.makeKeyAndVisible()
                 let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
                 let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)

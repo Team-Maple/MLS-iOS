@@ -97,6 +97,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endPoint = AuthEndPoint.updateNotification(body: NotificationAgreementBody(noticeAgreement: noticeAgreement, patchNoteAgreement: patchNoteAgreement, eventAgreement: eventAgreement))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
+
+    public func updateNickName(nickName: String) -> Completable {
+        let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
 }
 
 private extension AuthAPIRepositoryImpl {
@@ -128,6 +133,10 @@ private extension AuthAPIRepositoryImpl {
         let noticeAgreement: Bool
         let patchNoteAgreement: Bool
         let eventAgreement: Bool
+    }
+
+    struct NickNameBody: Encodable {
+        let nickname: String
     }
 
     struct UpdateInfoBody: Encodable {

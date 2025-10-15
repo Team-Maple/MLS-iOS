@@ -1,80 +1,83 @@
+import DomainInterface
+import ReactorKit
 import UIKit
 
-final class EventViewController: CustomerSupportBaseViewController {
-    private var currentTabIndex = -1
-    override func viewDidLoad() {
-        super.viewDidLoad()
+final class EventViewController: CustomerSupportBaseViewController, View {
+    typealias Reactor = EventReactor
 
-        setupMenu()
+    // MARK: - Init
+    override init(type: CustomerSupportType) {
+        super.init(type: type)
     }
 
-    func didSelecctMenuTab(index: Int) {
-        guard index < 3 else { return }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupMenu()
 
-        if currentTabIndex == index { return }
-        currentTabIndex = index
-
-        mainView.detailItemStackView.arrangedSubviews.forEach { subview in
-            mainView.detailItemStackView.removeArrangedSubview(subview)
-            subview.removeFromSuperview()
+        onItemTapped = { [weak self] itemIndex in
+            self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
+    }
 
-        if currentTabIndex == 0 {
-            let items = [
-                ("[진행중] 여름에는 시원한 Mapleland1", "2025년 07월 25일(금) 12:55"),
-                ("[진행중] 여름에는 시원한 Mapleland2", "2025년 07월 25일(금) 12:55"),
-                ("[진행중] 여름에는 시원한 Mapleland3", "2025년 07월 25일(금) 12:55")
-            ]
-            createDetailItem(items: items)
-        } else {
-            let items = [
-                ("[종료] 여름에는 시원한 Mapleland1", "2025년 07월 25일(금) 12:55"),
-                ("[종료] 여름에는 시원한 Mapleland2", "2025년 07월 25일(금) 12:55"),
-                ("[종료] 여름에는 시원한 Mapleland3", "2025년 07월 25일(금) 12:55")
-            ]
-            createDetailItem(items: items)
-        }
+    // MARK: - Setup
+    private func setupMenu() {
+        let ongoingButton = mainView.createMenuButton(title: "진행중인 이벤트", tag: 0)
+        let endedButton = mainView.createMenuButton(title: "종료된 이벤트", tag: 1)
+
+        mainView.menuStackView.addArrangedSubview(ongoingButton)
+        mainView.menuStackView.addArrangedSubview(endedButton)
+        mainView.setupSpacerView()
+
+        reactor?.action.onNext(.selectTab(0))
+
+        guard let reactor = reactor else { return }
+        mainView.menuStackView.arrangedSubviews
+            .compactMap { $0 as? UIButton }
+            .forEach { button in
+                button.rx.tap
+                    .map { Reactor.Action.selectTab(button.tag) }
+                    .bind(to: reactor.action)
+                    .disposed(by: disposeBag)
+            }
     }
 }
 
+// MARK: - Bind
 extension EventViewController {
-    func setupMenu() {
-        let button = mainView.createMenuButton(title: "진행중인 이벤트", tag: 0)
-        let button2 = mainView.createMenuButton(title: "종료된 이벤트", tag: 1)
-        mainView.menuStackView.addArrangedSubview(button)
-        mainView.menuStackView.addArrangedSubview(button2)
-
-        button.rx.tap.bind { [weak self] _ in
-            self?.menuTabTapped(button)
-        }
-        .disposed(by: disposeBag)
-
-        button2.rx.tap.bind { [weak self] _ in
-            self?.menuTabTapped(button2)
-        }
-        .disposed(by: disposeBag)
-        // 메뉴 스택뷰 속 버튼들 왼쪽 정렬
-        mainView.setupSpacerView()
-
-        // 첫 진입 시 첫번째 버튼 클릭
-        menuTabTapped(button)
-
+    func bind(reactor: Reactor) {
+        bindViewState(reactor: reactor)
     }
 
-    private func menuTabTapped(_ sender: UIButton) {
-        let selectedTag = sender.tag
-        updateButtonStates(in: mainView.menuStackView, selectedTag: selectedTag)
+    private func bindViewState(reactor: Reactor) {
+        reactor.state.map(\.selectedIndex)
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] selectedIndex in
+                guard let self else { return }
+                self.updateButtonStates(in: self.mainView.menuStackView, selectedTag: selectedIndex)
+            }
+            .disposed(by: disposeBag)
 
-//        // 이후 맞는 data로 detailItem들 다시 채우기
-        didSelecctMenuTab(index: selectedTag)
+        reactor.state.map(\.alarms)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] items in
+                guard let self else { return }
+                self.mainView.detailItemStackView.arrangedSubviews.forEach { subview in
+                    self.mainView.detailItemStackView.removeArrangedSubview(subview)
+                    subview.removeFromSuperview()
+                }
+                self.createDetailItem(items: items)
+            }
+            .disposed(by: disposeBag)
     }
+}
 
-    // 버튼 상태 변경 함수
+// MARK: - Methods
+private extension EventViewController {
     private func updateButtonStates(in stackView: UIStackView, selectedTag: Int) {
         for (index, subview) in stackView.arrangedSubviews.enumerated() {
             guard let button = subview as? UIButton else { continue }
             let title = button.titleLabel?.text ?? ""
-
             let underline = button.subviews.first { $0.tag == 999999 }
 
             if index == selectedTag {

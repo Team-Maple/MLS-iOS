@@ -69,50 +69,24 @@ public extension TermsAgreementViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.totalAgreeButton.rx.tap
-            .map { Reactor.Action.totalAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        let agreeButtons: [(button: UIButton, type: TermsAgreementReactor.AgreeType, isRightButton: Bool)] = [
+            (mainView.totalAgreeButton, .total, false),
+            (mainView.ageAgreeButton, .age, false),
+            (mainView.ageAgreeButton.rightButton, .age, true),
+            (mainView.serviceTermsAgreeButton, .serviceTerms, false),
+            (mainView.serviceTermsAgreeButton.rightButton, .serviceTerms, true),
+            (mainView.personalInformationAgreeButton, .personalInfo, false),
+            (mainView.personalInformationAgreeButton.rightButton, .personalInfo, true),
+            (mainView.marketingAgreeButton, .marketing, false),
+            (mainView.marketingAgreeButton.rightButton, .marketing, true)
+        ]
 
-        mainView.ageAgreeButton.rx.tap
-            .map { Reactor.Action.ageAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        mainView.ageAgreeButton.rightButton.rx.tap
-            .map { Reactor.Action.toAgeAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.serviceTermsAgreeButton.rx.tap
-            .map { Reactor.Action.serviceTermsAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        mainView.serviceTermsAgreeButton.rightButton.rx.tap
-            .map { Reactor.Action.toServiceTermsAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.personalInformationAgreeButton.rx.tap
-            .map { Reactor.Action.personalInformationAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        mainView.personalInformationAgreeButton.rightButton.rx.tap
-            .map { Reactor.Action.toPersonalInformationAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.marketingAgreeButton.rx.tap
-            .map { Reactor.Action.marketingAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
-        mainView.marketingAgreeButton.rightButton.rx.tap
-            .map { Reactor.Action.toMarketingAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        agreeButtons.forEach { button, type, _ in
+            button.rx.tap
+                .map { Reactor.Action.toggleAgree(type: type) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
 
         mainView.bottomButton.rx.tap
             .map { Reactor.Action.bottomButtonTapped }

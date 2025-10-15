@@ -11,11 +11,34 @@ import MyPageFeature
 import MyPageFeatureInterface
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ImageLoader.shared.configure.diskCacheCountLimit = 10
         FontManager.registerFonts()
         registerDependencies()
+
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self
+
+        center.getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    if let error = error {
+                        print("알림 권한 요청 실패: \(error)")
+                    } else {
+                        print("알림 권한 허용 여부: \(granted)")
+                    }
+                }
+            case .denied:
+                print("사용자가 알림 권한 거부")
+            case .authorized, .provisional, .ephemeral:
+                print("알림 권한 이미 허용됨")
+            @unknown default:
+                break
+            }
+        }
+
         return true
     }
 
@@ -38,14 +61,20 @@ private extension AppDelegate {
         DIContainer.register(type: NetworkProvider.self) {
             NetworkProviderImpl()
         }
+        DIContainer.register(type: Interceptor.self) {
+            TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+        }
     }
 
     func registerRepository() {
+        DIContainer.register(type: TokenRepository.self) {
+            KeyChainRepositoryImpl()
+        }
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
-        DIContainer.register(type: TokenRepository.self) {
-            KeyChainRepositoryImpl()
+        DIContainer.register(type: AlarmAPIRepository.self) {
+            AlarmAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
         }
     }
 
@@ -65,6 +94,9 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
             UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: UpdateNickNameUseCase.self) {
+            UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
         DIContainer.register(type: LogoutUseCase.self) {
             LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
@@ -74,6 +106,27 @@ private extension AppDelegate {
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
             FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
+        DIContainer.register(type: FetchNoticesUseCase.self) {
+            FetchNoticesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOngoingEventsUseCase.self) {
+            FetchOngoingEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOutdatedEventsUseCase.self) {
+            FetchOutdatedEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchPatchNotesUseCase.self) {
+            FetchPatchNotesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: SetReadUseCase.self) {
+            SetReadUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
+            CheckNotificationPermissionUseCaseImpl()
+        }
+        DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
+            UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -82,7 +135,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: SetProfileFactory.self) {
-            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self))
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), updateNickNameUseCase: DIContainer.resolve(type: UpdateNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self))
         }
 
         DIContainer.register(type: SetCharacterFactory.self) {
@@ -112,11 +165,11 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: CustomerSupportFactory.self) {
-            CustomerSupportBaseViewFactoryImpl()
+            CustomerSupportBaseViewFactoryImpl(fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self), setReadUseCase: DIContainer.resolve(type: SetReadUseCase.self))
         }
 
         DIContainer.register(type: NotificationSettingFactory.self) {
-            NotificationSettingFactoryImpl()
+            NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
     }
 }

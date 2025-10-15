@@ -15,15 +15,14 @@ public final class MonsterFilterBottomSheetViewController: BaseViewController, M
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
-    var startLevel:CGFloat = 0
-    var endLevel:CGFloat = 200
-    
+
+    var startLevel: CGFloat = 0
+    var endLevel: CGFloat = 200
+
     public lazy var mainView = MonsterFilterBottomSheetView(lowerLevel: startLevel, upperLevel: endLevel)
-    
+
     public var onFilterSelected: ((Int, Int) -> Void)?
 }
-
 
 // MARK: - Life Cycle
 public extension MonsterFilterBottomSheetViewController {
@@ -72,10 +71,10 @@ extension MonsterFilterBottomSheetViewController {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.applyButton.rx.tap
             .withUnretained(self)
-            .compactMap { owner, _ in
+            .compactMap { _, _ in
                 guard
                     let startText = self.mainView.levelRangeView.leftInputBox.textField.text,
                     let endText = self.mainView.levelRangeView.rightInputBox.textField.text,
@@ -89,7 +88,7 @@ extension MonsterFilterBottomSheetViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
-    
+
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)

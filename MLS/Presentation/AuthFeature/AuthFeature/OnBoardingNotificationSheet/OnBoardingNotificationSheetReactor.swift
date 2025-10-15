@@ -15,7 +15,7 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
     // MARK: - Reactor
     public enum Action {
         case viewWillAppear
-        case toggleButton(Bool)
+        case toggleSwitchButton(Bool)
         case setButtonTapped
         case cancelButtonTapped
         case applyButtonTapped
@@ -61,7 +61,7 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
             return checkNotificationPermissionUseCase.execute()
                 .asObservable()
                 .map { .setLocalNotification($0) }
-        case .toggleButton(let isAgree):
+        case .toggleSwitchButton(let isAgree):
             return .just(.setRemoteNotification(isAgree))
         case .setButtonTapped:
             openNotificationSettingUseCase.execute()

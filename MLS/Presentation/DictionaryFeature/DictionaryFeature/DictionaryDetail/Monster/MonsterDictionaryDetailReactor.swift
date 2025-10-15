@@ -66,15 +66,15 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             items: []
         )
     }
-    
+
     public let dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase
     public let dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase
     public let dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase
-    
+
     public var initialState: State
     private let disposBag = DisposeBag()
 
-    public init(dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase,id: Int) {
+    public init(dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase, id: Int) {
         self.initialState = State(type: .monster, id: id)
         self.dictionaryDetailMonsterUseCase = dictionaryDetailMonsterUseCase
         self.dictionaryDetailMonsterDropItemUseCase = dictionaryDetailMonsterDropItemUseCase
@@ -89,7 +89,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             return .concat([
                 dictionaryDetailMonsterUseCase.execute(id: currentState.id).map {.setDetailData($0)},
                 dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id).map {.setDetailDropItemData($0)},
-                dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)},
+                dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)}
             ])
         }
     }

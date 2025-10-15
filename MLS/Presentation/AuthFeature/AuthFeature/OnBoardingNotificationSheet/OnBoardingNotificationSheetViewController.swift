@@ -16,7 +16,6 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    public var onSelectedIndex: ((Int) -> Void)?
 
     private let dictionaryMainViewFactory: DictionaryMainViewFactory
 
@@ -80,7 +79,7 @@ extension OnBoardingNotificationSheetViewController {
             .disposed(by: disposeBag)
 
         mainView.notificationToggleBox.toggle.rx.isOn
-            .map { Reactor.Action.toggleButton($0) }
+            .map { Reactor.Action.toggleSwitchButton($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -118,8 +117,7 @@ extension OnBoardingNotificationSheetViewController {
                         if let window = UIApplication.shared.connectedScenes
                             .compactMap({ $0 as? UIWindowScene })
                             .flatMap({ $0.windows })
-                            .first(where: { $0.isKeyWindow })
-                        {
+                            .first(where: { $0.isKeyWindow }) {
                             window.rootViewController = navigationController
                             window.makeKeyAndVisible()
                         }
