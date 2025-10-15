@@ -12,6 +12,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     public var disposeBag = DisposeBag()
 
     private var didSelectInitialTab = false
+    var selectedIndex = 0
 
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
     public var contentViews: [UIView] = []
@@ -29,6 +30,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         self.type = type
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
+        isBottomTabbarHidden = true
     }
 
     @available(*, unavailable)

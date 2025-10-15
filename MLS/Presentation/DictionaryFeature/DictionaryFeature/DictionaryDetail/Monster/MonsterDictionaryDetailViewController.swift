@@ -15,6 +15,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     private var selectedIndex = 0
     private var dropItemSelectedIndex = 0
     private var mapSelectedIntdex = 0
+
     // MARK: - Componenets
     private var detailView = DetailStackInfoView(type: .monster)
     private var appearMapView = DetailStackCardView()
@@ -32,7 +33,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
 private extension MonsterDictionaryDetailViewController {
     func setUpMainInfo(name: String, subText: String) {
         // 상세정보
-        self.inject(
+        inject(
             input: DictionaryDetailBaseViewController
                 .Input(
                     image: DesignSystemAsset.image(named: "testImage"),
@@ -42,6 +43,7 @@ private extension MonsterDictionaryDetailViewController {
                 )
         )
     }
+
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.menus.infos
@@ -130,7 +132,7 @@ extension MonsterDictionaryDetailViewController {
         reactor.state.map(\.tags)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] tags in
+            .bind(onNext: { [weak self] tags in
                 self?.makeTagsRow(tags)
             })
             .disposed(by: disposeBag)
@@ -166,9 +168,9 @@ extension MonsterDictionaryDetailViewController {
         
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .filter(let type):
                     let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex

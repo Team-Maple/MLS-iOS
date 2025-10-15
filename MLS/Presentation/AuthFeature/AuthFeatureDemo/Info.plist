@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>NSUserNotificationAlertUsageDescription</key>
 	<string>이벤트 소식을 알려드리기 위해 푸시 알림 권한이 필요합니다.</string>
 	<key>UIApplicationSceneManifest</key>

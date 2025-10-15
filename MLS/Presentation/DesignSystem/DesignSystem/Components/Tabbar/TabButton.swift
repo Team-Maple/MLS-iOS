@@ -6,6 +6,7 @@ public final class TabButton: UIButton {
     // MARK: - Type
     private enum Constant {
         static let spacing: CGFloat = 4
+        static let iconSize: CGFloat = 24
     }
 
     // MARK: - Properties
@@ -20,6 +21,7 @@ public final class TabButton: UIButton {
         let view = UIStackView(arrangedSubviews: [iconView, textLabel])
         view.axis = .vertical
         view.spacing = Constant.spacing
+        view.alignment = .center
         view.isUserInteractionEnabled = false
         return view
     }()
@@ -56,6 +58,10 @@ private extension TabButton {
     func setupConstraints() {
         contentView.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        
+        iconView.snp.makeConstraints { make in
+            make.size.equalTo(Constant.iconSize)
         }
     }
 

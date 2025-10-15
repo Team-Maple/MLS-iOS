@@ -26,6 +26,7 @@ final class DetailStackCardView: UIStackView {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "드롭률 높은 순", color: .textColor), for: .normal)
         button.setImage(DesignSystemAsset.image(named: "DropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
         return button
@@ -166,6 +167,10 @@ extension DetailStackCardView {
     func selectFilter(selectedType: SortType) {
         filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         filterButton.tintColor = .primary700
+    }
+    
+    func initFilter(firstFilter: SortType) {
+        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: firstFilter.rawValue, color: .textColor), for: .normal)
     }
 }
 
