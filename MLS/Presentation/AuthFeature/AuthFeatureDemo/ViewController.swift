@@ -30,7 +30,7 @@ class ViewController: UIViewController {
         let inputVC = DIContainer.resolve(type: OnBoardingInputFactory.self).make()
         inputVC.title = "온보딩 입력"
 
-        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make()
+        let notiVC = DIContainer.resolve(type: OnBoardingNotificationFactory.self).make(selectedLevel: 1, selectedJobID: 0)
         notiVC.title = "알림"
 
         return [

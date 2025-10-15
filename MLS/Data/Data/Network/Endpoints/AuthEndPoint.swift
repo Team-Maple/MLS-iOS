@@ -63,6 +63,14 @@ public enum AuthEndPoint {
         )
     }
     
+    public static func withdraw() -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member",
+            method: .DELETE
+        )
+    }
+    
     public static func updateMarketingAgreement(credential: String, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,
@@ -81,11 +89,12 @@ public enum AuthEndPoint {
         )
     }
     
-    public static func updateCharacterInfo(level: Int, jobID: Int) -> EndPoint {
+    public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/profile",
-            method: .PUT
+            method: .PUT,
+            body: body
         )
     }
     

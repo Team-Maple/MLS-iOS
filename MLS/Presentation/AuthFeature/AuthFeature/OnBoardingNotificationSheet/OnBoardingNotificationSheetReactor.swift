@@ -30,6 +30,8 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
+        var selectedLevel: Int
+        var selectedJobID: Int
         var isAgreeLocalNotification = false
         var isAgreeRemoteNotification = true
     }
@@ -41,13 +43,15 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
     private let openNotificationSettingUseCase: OpenNotificationSettingUseCase
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
+    private let updateUserInfoUseCase: UpdateUserInfoUseCase
 
     // MARK: - init
-    public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase) {
-        self.initialState = State()
+    public init(selectedLevel: Int, selectedJobID: Int, checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase, updateUserInfoUseCase: UpdateUserInfoUseCase) {
+        self.initialState = State(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
+        self.updateUserInfoUseCase = updateUserInfoUseCase
     }
 
     // MARK: - Reactor Methods
@@ -63,12 +67,18 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
             openNotificationSettingUseCase.execute()
             return .just(.navigateTo(route: .setting))
         case .applyButtonTapped:
-            return updateNotificationAgreementUseCase.execute(noticeAgreement: true, patchNoteAgreement: true, eventAgreement: true)
+            return updateUserInfoUseCase.execute(level: currentState.selectedLevel, selectedJobID: currentState.selectedJobID)
+                .andThen(updateNotificationAgreementUseCase.execute(
+                    noticeAgreement: true,
+                    patchNoteAgreement: true,
+                    eventAgreement: true
+                ))
                 .andThen(Observable.just(.navigateTo(route: .home)))
+                .catchAndReturn(.navigateTo(route: .dismiss))
         case .cancelButtonTapped:
             return .just(.navigateTo(route: .dismiss))
         case .skipButtonTapped:
-            return .empty()
+            return .just(.navigateTo(route: .home))
         }
     }
 

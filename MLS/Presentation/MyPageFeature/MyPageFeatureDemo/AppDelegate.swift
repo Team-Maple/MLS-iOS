@@ -71,7 +71,7 @@ private extension AppDelegate {
             KeyChainRepositoryImpl()
         }
         DIContainer.register(type: AuthAPIRepository.self) {
-            AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
+            AuthAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
         DIContainer.register(type: AlarmAPIRepository.self) {
             AlarmAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
@@ -96,6 +96,12 @@ private extension AppDelegate {
         }
         DIContainer.register(type: UpdateNickNameUseCase.self) {
             UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LogoutUseCase.self) {
+            LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: WithdrawUseCase.self) {
+            WithdrawUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
             FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
@@ -129,7 +135,7 @@ private extension AppDelegate {
         }
 
         DIContainer.register(type: SetProfileFactory.self) {
-            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), updateNickNameUseCase: DIContainer.resolve(type: UpdateNickNameUseCase.self))
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), updateNickNameUseCase: DIContainer.resolve(type: UpdateNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self))
         }
 
         DIContainer.register(type: SetCharacterFactory.self) {

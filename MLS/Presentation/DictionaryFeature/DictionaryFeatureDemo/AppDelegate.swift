@@ -66,6 +66,12 @@ private extension AppDelegate {
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()
         }
+        DIContainer.register(type: DictionaryListAPIRepository.self) {
+            return DictionaryListAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: nil)
+        }
+        DIContainer.register(type: DictionaryDetailAPIRepository.self) {
+            return DictionaryDetailAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: nil)
+        }
         DIContainer.register(type: DictionaryListRepository.self) {
             return DictionaryListRepositoryImpl(allItems: [
                 DictionaryItem(id: "1", type: .item, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
@@ -119,8 +125,32 @@ private extension AppDelegate {
         DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
             return DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryMapListUseCase.self) {
+            return FetchDictionaryMapListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryItemListUseCase.self) {
+            return FetchDictionaryItemListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryQuestListUseCase.self) {
+            return FetchDictionaryQuestListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryNpcListUseCase.self) {
+            return FetchDictionaryNpcListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryMonsterListUseCase.self) {
+            return FetchDictionaryMonsterListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
         DIContainer.register(type: FetchDictionaryItemsUseCase.self) {
             return FetchDictionaryItemsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterUseCase.self) {
+            return FetchDictionaryDetailMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterItemsUseCase.self) {
+            return FetchDictionaryDetailMonsterDropItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
+            return FetchDictionaryDetailMonsterMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
         }
         DIContainer.register(type: ToggleBookmarkUseCase.self) {
             return ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
@@ -136,6 +166,18 @@ private extension AppDelegate {
         }
         DIContainer.register(type: CheckLoginUseCase.self) {
             return CheckLoginUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: UpdateMarketingAgreementUseCase.self) {
+            return UpdateMarketingAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
+            return CheckNotificationPermissionUseCaseImpl()
+        }
+        DIContainer.register(type: OpenNotificationSettingUseCase.self) {
+            return OpenNotificationSettingUseCaseImpl()
+        }
+        DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
+            return UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
     }
 
@@ -153,10 +195,15 @@ private extension AppDelegate {
             return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
         DIContainer.register(type: DictionaryDetailFactory.self) {
-            return DictionaryDetailFactoryImpl()
+            return DictionaryDetailFactoryImpl(dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
+                dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
+                dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
+                dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
+                dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
+                dictionaryListItemUseCase : DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
                 fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self),
                 toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
@@ -179,7 +226,7 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
-            return NotificationSettingFactoryImpl()
+            return NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             return DictionaryNotificationFactoryImpl(
@@ -201,6 +248,12 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             return BookmarkOnBoardingFactoryImpl()
         }
+        DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
+            return OnBoardingNotificationSheetFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), openNotificationSettingUseCase: DIContainer.resolve(type: OpenNotificationSettingUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), dictionaryMainViewFactory: DIContainer.resolve(type: DictionaryMainViewFactory.self))
+        }
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+            return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
+        }
         DIContainer.register(type: OnBoardingInputFactory.self) {
             return OnBoardingInputFactoryImpl(
                 checkEmptyUseCase: DIContainer
@@ -208,9 +261,9 @@ private extension AppDelegate {
                 checkValidLevelUseCase: DIContainer
                     .resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer
-                    .resolve(type: FetchJobListUseCase.self),
-                updateUserInfoUseCase: DIContainer
-                    .resolve(type: UpdateUserInfoUseCase.self)
+                    .resolve(type: FetchJobListUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self),
+                onBoardingNotificationFactory: DIContainer
+                    .resolve(type: OnBoardingNotificationFactory.self)
             )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
@@ -227,7 +280,7 @@ private extension AppDelegate {
                 saveTokenUseCase: DIContainer
                     .resolve(type: SaveTokenToLocalUseCase.self),
                 fetchTokenUseCase: DIContainer
-                    .resolve(type: FetchTokenFromLocalUseCase.self)
+                    .resolve(type: FetchTokenFromLocalUseCase.self), updateMarketingAgreementUseCase: DIContainer.resolve(type: UpdateMarketingAgreementUseCase.self)
             )
         }
         DIContainer.register(type: PutFCMTokenUseCase.self) {

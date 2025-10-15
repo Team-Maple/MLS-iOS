@@ -82,7 +82,7 @@ public extension OnBoardingNotificationViewController {
             .subscribe { owner, route in
                 switch route {
                 case .notificationAlert:
-                    let viewController = owner.onBoardingNotificationSheetFactory.make()
+                    let viewController = owner.onBoardingNotificationSheetFactory.make(selectedLevel: reactor.currentState.selectedLevel, selectedJobID: reactor.currentState.selectedJobID)
                     owner.presentModal(viewController)
                 default:
                     break

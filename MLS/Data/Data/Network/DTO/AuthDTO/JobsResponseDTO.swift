@@ -9,6 +9,9 @@ public struct JobsDTO: Decodable {
 
 public extension Array where Element == JobsDTO {
     func toDomain() -> JobListResponse {
-        return JobListResponse(jobList: self.map { $0.jobName })
+        let jobs = self
+            .filter { $0.jobLevel == 0 }
+            .map { Job(name: $0.jobName, id: $0.jobId) }
+        return JobListResponse(jobList: jobs)
     }
 }

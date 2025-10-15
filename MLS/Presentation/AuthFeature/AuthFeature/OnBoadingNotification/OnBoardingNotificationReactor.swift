@@ -18,6 +18,8 @@ public final class OnBoardingNotificationReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
+        let selectedLevel: Int
+        let selectedJobID: Int
     }
 
     // MARK: - properties
@@ -25,8 +27,8 @@ public final class OnBoardingNotificationReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init() {
-        self.initialState = State()
+    public init(selectedLevel: Int, selectedJobID: Int) {
+        self.initialState = State(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
     }
 
     // MARK: - Reactor Methods

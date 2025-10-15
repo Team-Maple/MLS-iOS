@@ -5,11 +5,13 @@ public final class MonsterFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case dismissWithLevelRange(start: Int, end: Int)
     }
 
     // MARK: - Reactor
     public enum Action {
         case cancelButtonTapped
+        case applyButtonTapped(start: Int, end: Int)
     }
 
     public enum Mutation {
@@ -25,7 +27,7 @@ public final class MonsterFilterBottomSheetReactor: Reactor {
     var disposeBag = DisposeBag()
 
     // MARK: - init
-    public init() {
+    public init(startLevel: Int = 0, endLevel: Int = 200) {
         self.initialState = State()
     }
 
@@ -34,6 +36,12 @@ public final class MonsterFilterBottomSheetReactor: Reactor {
         switch action {
         case .cancelButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
+        case let .applyButtonTapped(start, end):
+            guard start <= end else {
+                return .empty()
+            }
+            
+            return .just(.navigateTo(route: .dismissWithLevelRange(start: start, end: end)))
         }
     }
 
@@ -42,7 +50,14 @@ public final class MonsterFilterBottomSheetReactor: Reactor {
 
         switch mutation {
         case .navigateTo(let route):
-            newState.route = route
+            switch route {
+            case .dismiss:
+                newState.route = route
+            case .dismissWithLevelRange:
+                newState.route = route
+            default:
+                newState.route = route
+            }
         }
 
         return newState

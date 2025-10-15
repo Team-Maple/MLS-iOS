@@ -9,6 +9,7 @@ import DataMock
 import DesignSystem
 import Domain
 import DomainInterface
+import DictionaryFeatureInterface
 
 import KakaoSDKCommon
 
@@ -127,7 +128,7 @@ private extension AppDelegate {
                 openNotificationSettingUseCase: DIContainer
                     .resolve(type: OpenNotificationSettingUseCase.self),
                 updateNotificationAgreementUseCase: DIContainer
-                    .resolve(type: UpdateNotificationAgreementUseCase.self)
+                    .resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), dictionaryMainViewFactory: DictionaryFactoryMock()
             )
         }
         DIContainer.register(type: OnBoardingNotificationFactory.self) {

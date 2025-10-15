@@ -28,8 +28,7 @@ public struct OnBoardingInputFactoryImpl: OnBoardingInputFactory {
         viewController.reactor = OnBoardingInputReactor(
             checkEmptyUseCase: checkEmptyUseCase,
             checkValidLevelUseCase: checkValidLevelUseCase,
-            fetchJobListUseCase: fetchJobListUseCase,
-            updateUserInfoUseCase: updateUserInfoUseCase
+            fetchJobListUseCase: fetchJobListUseCase
         )
         return viewController
     }

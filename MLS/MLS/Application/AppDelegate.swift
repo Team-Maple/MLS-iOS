@@ -5,6 +5,8 @@ import UserNotifications
 import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
+import BookmarkFeature
+import BookmarkFeatureInterface
 import Core
 import Data
 import DataMock
@@ -13,6 +15,8 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
+import MyPageFeature
+import MyPageFeatureInterface
 
 import Firebase
 import KakaoSDKCommon
@@ -112,6 +116,12 @@ private extension AppDelegate {
         DIContainer.register(type: TokenRepository.self) {
             return KeyChainRepositoryImpl()
         }
+        DIContainer.register(type: DictionaryListRepository.self) {
+            return DictionaryListRepositoryImpl(allItems: [])
+        }
+        DIContainer.register(type: DictionaryDetailAPIRepository.self) {
+            return DictionaryDetailAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
+        }
     }
 
     func registerUseCase() {
@@ -174,9 +184,75 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
             return UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryItemsUseCase.self) {
+            return FetchDictionaryItemsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
+        }
+        DIContainer.register(type: ToggleBookmarkUseCase.self) {
+            return ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
+        }
+        DIContainer.register(type: FetchNotificationUseCase.self) {
+            return FetchNotificationUseCaseImpl()
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterItemsUseCase.self) {
+            return FetchDictionaryDetailMonsterDropItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
+            return FetchDictionaryDetailMonsterMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryMapListUseCase.self) {
+            return FetchDictionaryMapListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryItemListUseCase.self) {
+            return FetchDictionaryItemListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryQuestListUseCase.self) {
+            return FetchDictionaryQuestListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryNpcListUseCase.self) {
+            return FetchDictionaryNpcListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryMonsterListUseCase.self) {
+            return FetchDictionaryMonsterListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
     }
 
     func registerFactory() {
+        DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
+            return ItemFilterBottomSheetFactoryImpl()
+        }
+        DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
+            return MonsterFilterBottomSheetFactoryImpl()
+        }
+        DIContainer.register(type: SortedBottomSheetFactory.self) {
+            return SortedBottomSheetFactoryImpl()
+        }
+        DIContainer.register(type: AddCollectionFactory.self) {
+            return AddCollectionFactoryImpl()
+        }
+        DIContainer.register(type: BookmarkModalFactory.self) {
+            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
+        }
+        DIContainer.register(type: DictionaryDetailFactory.self) {
+            return DictionaryDetailFactoryImpl(dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
+        }
+        DIContainer.register(type: DictionaryMainListFactory.self) {
+            return DictionaryListFactoryImpl(dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self), dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self), dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self), dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self), dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self), fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), detailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self))
+        }
+        DIContainer.register(type: DictionarySearchResultFactory.self) {
+            return DictionarySearchResultFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self))
+        }
+        DIContainer.register(type: DictionarySearchFactory.self) {
+            return DictionarySearchFactoryImpl(searchResultFactory: DIContainer.resolve(type: DictionarySearchResultFactory.self))
+        }
+        DIContainer.register(type: NotificationSettingFactory.self) {
+            return NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
+        }
+        DIContainer.register(type: DictionaryNotificationFactory.self) {
+            return DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
+        }
+        DIContainer.register(type: DictionaryMainViewFactory.self) {
+            return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self))
+        }
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
             return OnBoardingNotificationSheetFactoryImpl(
                 checkNotificationPermissionUseCase: DIContainer
@@ -184,7 +260,7 @@ private extension AppDelegate {
                 openNotificationSettingUseCase: DIContainer
                     .resolve(type: OpenNotificationSettingUseCase.self),
                 updateNotificationAgreementUseCase: DIContainer
-                    .resolve(type: UpdateNotificationAgreementUseCase.self)
+                    .resolve(type: UpdateNotificationAgreementUseCase.self), updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), dictionaryMainViewFactory: DIContainer.resolve(type: DictionaryMainViewFactory.self)
             )
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {

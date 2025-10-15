@@ -54,11 +54,11 @@ private extension PopularResultCell {
 extension PopularResultCell {
     struct Input {
         let text: String
-        let index: Int
+        let rank: Int
     }
 
     func inject(input: Input) {
-        indexLabel.attributedText = .makeStyledString(font: input.index < 3 ? .cp_s_m : .cp_s_r, text: "\(input.index)", color: input.index < 3 ? .primary700 : .neutral700, alignment: .center)
-        textLabel.attributedText = .makeStyledString(font: input.index < 3 ? .cp_s_m : .cp_s_r, text: input.text, color: input.index < 3 ? .primary700 : .neutral700, alignment: .left)
+        indexLabel.attributedText = .makeStyledString(font: input.rank < 4 ? .cp_s_m : .cp_s_r, text: "\(input.rank)", color: input.rank < 4 ? .primary700 : .neutral700, alignment: .center)
+        textLabel.attributedText = .makeStyledString(font: input.rank < 4 ? .cp_s_m : .cp_s_r, text: input.text, color: input.rank < 4 ? .primary700 : .neutral700, alignment: .left)
     }
 }

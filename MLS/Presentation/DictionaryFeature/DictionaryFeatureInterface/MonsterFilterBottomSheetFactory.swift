@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol MonsterFilterBottomSheetFactory {
-    func make() -> BaseViewController & ModalPresentable
+    func make(startLevel: Int, endLevel: Int, onFilterSelected: @escaping ((Int, Int) -> Void)) -> BaseViewController & ModalPresentable
 }

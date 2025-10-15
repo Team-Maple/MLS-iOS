@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol OnBoardingNotificationSheetFactory {
-    func make() -> BaseViewController & ModalPresentable
+    func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController & ModalPresentable
 }

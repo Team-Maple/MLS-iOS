@@ -162,6 +162,17 @@ public final class CheckBoxButton: UIButton {
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
+
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard !isHidden, isUserInteractionEnabled, alpha > 0.01 else { return nil }
+        let view = super.hitTest(point, with: event)
+        if view != self { return view }
+        let rightPoint = convert(point, to: rightButton)
+        if rightButton.bounds.contains(rightPoint) && !rightButton.isHidden && rightButton.isUserInteractionEnabled {
+            return rightButton
+        }
+        return view
+    }
 }
 
 // MARK: - SetUp
