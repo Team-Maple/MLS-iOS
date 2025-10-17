@@ -16,10 +16,12 @@ public final class SelectImageReactor: Reactor {
     public enum Action {
         case cancelButtonTapped
         case applyButtonTapped
+        case imageTapped(MapleIllustration)
     }
 
     public enum Mutation {
         case navigateTo(route: Route)
+        case selectImage(MapleIllustration)
     }
 
     public struct State {
@@ -35,24 +37,32 @@ public final class SelectImageReactor: Reactor {
             .starPixie,
             .rash
         ]
+        var selectedImage: MapleIllustration? = nil
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    
+    private let updateProfileImageUseCase: UpdateProfileImageUseCase
 
     // MARK: - init
-    public init() {
+    public init(updateProfileImageUseCase: UpdateProfileImageUseCase) {
         self.initialState = State()
+        self.updateProfileImageUseCase = updateProfileImageUseCase
     }
 
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .cancelButtonTapped:
-            return Observable.just(.navigateTo(route: .dismiss))
+            return .just(.navigateTo(route: .dismiss))
         case .applyButtonTapped:
-            return Observable.just(.navigateTo(route: .dismissWithSave))
+            guard let url = currentState.selectedImage?.url else { return .empty() }
+            return updateProfileImageUseCase.execute(url: url)
+                .andThen(.just(.navigateTo(route: .dismissWithSave)))
+        case .imageTapped(let image):
+            return .just(.selectImage(image))
         }
     }
 
@@ -62,6 +72,8 @@ public final class SelectImageReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case .selectImage(let image):
+            newState.selectedImage = image
         }
 
         return newState

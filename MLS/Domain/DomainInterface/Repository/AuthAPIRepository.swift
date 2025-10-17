@@ -59,4 +59,6 @@ public protocol AuthAPIRepository {
     func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable
     
     func updateNickName(nickName: String) -> Completable
+    
+    func updateProfileImage(url: String) -> Completable
 }

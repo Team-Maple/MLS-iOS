@@ -102,6 +102,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
+    
+    public func updateProfileImage(url: String) -> Completable {
+        let endPoint = AuthEndPoint.updateProfileImage(body: UpdateProfileImageBody(profileImageUrl: url))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
 }
 
 private extension AuthAPIRepositoryImpl {
@@ -142,5 +147,9 @@ private extension AuthAPIRepositoryImpl {
     struct UpdateInfoBody: Encodable {
         let level: Int
         let jobId: Int
+    }
+    
+    struct UpdateProfileImageBody: Encodable {
+        let profileImageUrl: String
     }
 }
