@@ -7,8 +7,8 @@ public final class FetchDictionaryDetailMonsterDropItemUseCaseImpl: FetchDiction
         self.repository = repository
     }
     
-    public func execute(id: Int) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
-        return repository.fetchMonsterDetailDropItem(id: id)
+    public func execute(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
+        return repository.fetchMonsterDetailDropItem(id: id, sort: sort)
     }
     
 }

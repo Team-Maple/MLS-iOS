@@ -12,7 +12,6 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     public typealias Reactor = MonsterDictionaryDetailReactor
 
     // MARK: - Properties
-    private var selectedIndex = 0
     private var dropItemSelectedIndex = 0
     private var mapSelectedIntdex = 0
 
@@ -21,22 +20,16 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     private var appearMapView = DetailStackCardView()
     private var dropItemView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        type = .monster
-        setUpMapView()
-    }
 }
 
 // MARK: - Populate Data
 private extension MonsterDictionaryDetailViewController {
-    func setUpMainInfo(name: String, subText: String) {
+    func setUpMainInfo(name: String, subText: String, imageUrl: String?) {
         // 상세정보
         inject(
             input: DictionaryDetailBaseViewController
                 .Input(
-                    image: DesignSystemAsset.image(named: "testImage"),
+                    imageUrl: imageUrl,
                     backgroundColor: type.backgroundColor,
                     name: name,
                     subText: subText
@@ -58,10 +51,11 @@ private extension MonsterDictionaryDetailViewController {
     func setUpMapView() {
         guard let reactor = reactor else { return }
         let maps = reactor.currentState.menus.maps
+        contentViews.append(appearMapView)
         if maps.isEmpty {
-            contentViews.append(DetailEmptyView(type: .appearMap))
+            contentViews[1] = DetailEmptyView(type: .appearMap)
         } else {
-            contentViews.append(appearMapView)
+            contentViews[1] = appearMapView
             appearMapView.filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "출현 많은 순", color: .primary700), for: .normal)
             appearMapView.filterButton.tintColor = .primary700
             
@@ -72,7 +66,7 @@ private extension MonsterDictionaryDetailViewController {
                         imageUrl: map.iconUrl,
                         mainText: map.mapName,
                         subText: map.regionName,
-                        additionalText: "\(map.maxSpawnCount)마리"
+                        additionalText: "\(map.maxSpawnCount ?? 0)마리"
                     )
                 )
             }
@@ -82,11 +76,14 @@ private extension MonsterDictionaryDetailViewController {
     func setUpDropItemView() {
         guard let reactor = reactor else { return }
         let items = reactor.currentState.menus.items
+        dropItemView.reset()
+        contentViews.append(dropItemView)
         // 드롭아이템
         if items.isEmpty {
-            contentViews.append(DetailEmptyView(type: .dropItemWithText))
+            // 드롭 아이템
+            contentViews[2] = DetailEmptyView(type: .dropItemWithText)
         } else {
-            contentViews.append(dropItemView)
+            contentViews[2] = dropItemView
             for item in items {
                 dropItemView
                     .inject(
@@ -141,7 +138,7 @@ extension MonsterDictionaryDetailViewController {
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .bind(onNext: {[weak self] _ in
-                self?.setUpMainInfo(name: reactor.currentState.name, subText: "\(reactor.currentState.level)")
+                self?.setUpMainInfo(name: reactor.currentState.name, subText: "\(reactor.currentState.level)", imageUrl: reactor.currentState.imageUrl)
             })
             .disposed(by: disposeBag)
         reactor.state.map(\.menus.infos)
@@ -180,10 +177,11 @@ extension MonsterDictionaryDetailViewController {
                             owner.dropItemSelectedIndex = index
                             let selectedFilter = type.detailSortedFilter[index]
                             owner.dropItemView.selectFilter(selectedType: selectedFilter)
+                            reactor.action.onNext(.selectFilter(selectedFilter))
+                            
                         } else if type == .map {
                             owner.mapSelectedIntdex = index
                             let selectedFilter = type.detailSortedFilter[index]
-                            print("selectedFilter: \(selectedFilter)")
                             owner.appearMapView.selectFilter(selectedType: selectedFilter)
                         }
                         owner.isBottomTabbarHidden = true

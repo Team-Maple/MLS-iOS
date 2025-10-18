@@ -114,7 +114,6 @@ extension DetailStackCardView {
     func inject(input: Input) {
         // type별 필터 유무
         setFilter(isHidden: input.type.sortFilter.isEmpty)
-
         let cardView = CardList()
         let spacer = UIView()
 
@@ -171,6 +170,18 @@ extension DetailStackCardView {
     
     func initFilter(firstFilter: SortType) {
         filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: firstFilter.rawValue, color: .textColor), for: .normal)
+    }
+    
+    func reset() {
+        // 필터 뷰를 제외한 arrangedSubview만 제거
+        for subview in self.arrangedSubviews {
+            
+            if subview == filterContainerView { continue }
+            if subview == spacer { continue }
+            
+            self.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
     }
 }
 

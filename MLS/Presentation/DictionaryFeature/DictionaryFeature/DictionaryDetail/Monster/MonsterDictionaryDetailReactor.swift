@@ -42,6 +42,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public enum Action {
         case filterButtonTapped(DictionaryType)
         case viewWillAppear
+        case selectFilter(SortType)
     }
 
     public enum Mutation {
@@ -88,9 +89,20 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case .viewWillAppear:
             return .concat([
                 dictionaryDetailMonsterUseCase.execute(id: currentState.id).map {.setDetailData($0)},
-                dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id).map {.setDetailDropItemData($0)},
+                dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: nil).map {.setDetailDropItemData($0)},
                 dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)},
             ])
+        case let .selectFilter(type):
+            switch type {
+            case .levelDESC: // 레벨 높은 순
+                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level","desc"]).map {.setDetailDropItemData($0)}
+            case .levelASC: // 레벨 낮은 순
+                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level,asc"]).map {.setDetailDropItemData($0)}
+            case .mostDrop:
+                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: nil).map {.setDetailDropItemData($0)}
+            default:
+                return Observable.empty()
+            }
         }
     }
 
@@ -112,6 +124,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             if let typeEffectiveness = data.typeEffectiveness {
                 newState.tags = typeEffectiveness
             }
+            newState.imageUrl = data.imageUrl
             newState.menus.infos = infos
         case let .setDetailDropItemData(data):
             newState.menus.items = data

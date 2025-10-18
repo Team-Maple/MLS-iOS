@@ -15,13 +15,19 @@ class DictionaryDetailBaseViewController: BaseViewController {
     var selectedIndex = 0
 
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
-    public var contentViews: [UIView] = []
+    public var contentViews: [UIView] = [] {
+        didSet {
+            if let index = currentTabIndex {
+                mainView.setTabView(index: index, contentViews: contentViews)
+            } 
+        }
+    }
 
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
 
     // MARK: - Components
-    private var mainView = DictionaryDetailBaseView()
+    public var mainView = DictionaryDetailBaseView()
 
     // 타입설정
     public var type: DictionaryItemType
@@ -104,14 +110,24 @@ extension DictionaryDetailBaseViewController {
     /// name: 해당 dict의 이름
     /// subText: level, 지역 등 다양한 서브 텍스트
     struct Input {
-        let image: UIImage?
+        let imageUrl: String?
         let backgroundColor: UIColor
         let name: String
         let subText: String? // 없는 경우도 있는듯
     }
-
+    
+    
     func inject(input: Input) {
-        mainView.imageView.image = input.image
+        // Load image if URL exists
+        if let imageUrlString = input.imageUrl {
+            ImageLoader.shared.loadImage(stringURL: imageUrlString) { [weak self] image in
+                guard let self = self, let image = image else { return }
+                self.mainView.imageView.image = image
+            }
+           
+        } else {
+            mainView.imageView.image = nil // Clear image if no URL
+        }
         mainView.imageContentView.backgroundColor = input.backgroundColor
         mainView.nameLabel.attributedText = .makeStyledString(font: .sub_l_m, text: input.name, color: .textColor)
         mainView.subTextLabel.attributedText = .makeStyledString(font: .b_s_r, text: input.subText, color: .neutral500)
