@@ -30,29 +30,29 @@ public final class SelectImageCell: UICollectionViewCell {
     private lazy var checkMarkContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = .primary100.withAlphaComponent(0.5)
-        
+
         view.addSubview(checkMarkView)
-        
+
         checkMarkView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(3)
         }
-        
+
         return view
     }()
-    
+
     private lazy var checkMarkView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(hexCode: "72412C", alpha: 0.5)
         view.clipsToBounds = true
 
         view.addSubview(checkIcon)
-        
+
         checkIcon.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Constant.inset)
         }
         return view
     }()
-    
+
     private let checkIcon: UIImageView = {
         let view = UIImageView(image: DesignSystemAsset.image(named: "checkMark")?.withRenderingMode(.alwaysTemplate))
         view.tintColor = .whiteMLS

@@ -4,7 +4,7 @@ import MyPageFeatureInterface
 
 public struct SelectImageFactoryImpl: SelectImageFactory {
     private let updateProfileImageUseCase: UpdateProfileImageUseCase
-    
+
     public init(updateProfileImageUseCase: UpdateProfileImageUseCase) {
         self.updateProfileImageUseCase = updateProfileImageUseCase
     }

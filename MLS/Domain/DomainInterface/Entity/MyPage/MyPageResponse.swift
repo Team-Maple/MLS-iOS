@@ -5,7 +5,7 @@ public struct MyPageResponse {
     public let level: Int?
     public let profileUrl: String
     public let platform: LoginPlatform
-    
+
     public init(nickname: String, jobId: Int?, jobName: String, level: Int?, profileUrl: String, platform: LoginPlatform) {
         self.nickname = nickname
         self.jobId = jobId

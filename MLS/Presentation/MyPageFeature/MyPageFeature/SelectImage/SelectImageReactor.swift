@@ -37,13 +37,13 @@ public final class SelectImageReactor: Reactor {
             .starPixie,
             .rash
         ]
-        var selectedImage: MapleIllustration? = nil
+        var selectedImage: MapleIllustration?
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
+
     private let updateProfileImageUseCase: UpdateProfileImageUseCase
 
     // MARK: - init

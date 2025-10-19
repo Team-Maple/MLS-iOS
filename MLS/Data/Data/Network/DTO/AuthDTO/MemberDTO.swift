@@ -12,7 +12,7 @@ public struct MemberDTO: Decodable {
     public let jobId: Int?
     public let level: Int?
     public let profileImageUrl: String
-    
+
     func toMyPageDomain() -> MyPageResponse {
         return .init(
             nickname: nickname,

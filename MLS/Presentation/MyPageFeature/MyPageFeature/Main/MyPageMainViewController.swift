@@ -191,7 +191,7 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 for: indexPath
             ) as? MyPageMainCell,
                 let reactor = reactor else { return UICollectionViewCell() }
-            
+
             let profile = reactor.currentState.profile
             cell.inject(
                 input: MyPageMainCell.Input(

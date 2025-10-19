@@ -100,7 +100,7 @@ extension BookmarkListViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.sortButton.rx.tap
             .map { Reactor.Action.sortButtonTapped }
             .bind(to: reactor.action)

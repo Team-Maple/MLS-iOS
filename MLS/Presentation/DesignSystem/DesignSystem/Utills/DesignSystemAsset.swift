@@ -24,7 +24,7 @@ public enum MapleIllustration {
     case wraith
     case starPixie
     case rash
-    
+
     public var url: String {
         switch self {
         case .mushroom:

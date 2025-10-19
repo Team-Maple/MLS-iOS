@@ -2,7 +2,7 @@ import DomainInterface
 
 public enum AuthEndPoint {
     static let base = "https://api.mapleland.kro.kr"
-    
+
     public static func fetchProfile() -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
@@ -10,7 +10,6 @@ public enum AuthEndPoint {
             method: .GET
         )
     }
-
 
     public static func loginWithKakao(credential: Credential) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
@@ -79,7 +78,7 @@ public enum AuthEndPoint {
             method: .DELETE
         )
     }
-    
+
     public static func updateMarketingAgreement(credential: String, body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
@@ -97,7 +96,7 @@ public enum AuthEndPoint {
             method: .GET
         )
     }
-    
+
     public static func fetchJob(jobId: String) -> ResponsableEndPoint<JobsDTO> {
         .init(
             baseURL: base,
@@ -105,7 +104,7 @@ public enum AuthEndPoint {
             method: .GET
         )
     }
-    
+
     public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
@@ -114,7 +113,7 @@ public enum AuthEndPoint {
             body: body
         )
     }
-    
+
     public static func updateNotification(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
@@ -123,7 +122,7 @@ public enum AuthEndPoint {
             body: body
         )
     }
-    
+
     public static func updateNickName(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
@@ -132,7 +131,7 @@ public enum AuthEndPoint {
             body: body
         )
     }
-    
+
     public static func updateProfileImage(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
