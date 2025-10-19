@@ -76,7 +76,7 @@ class CustomerSupportBaseViewController: BaseViewController {
                 .disposed(by: disposeBag)
         }
     }
-    
+
     func changeKoreanDate(date: [Int]) -> String? {
         return "\(date[0])년 \(date[1])월 \(date[2])일 \(date[3]):\(String(format: "%02d", date[4]))"
     }

@@ -8,7 +8,7 @@ public final class CustomerSupportBaseViewFactoryImpl: CustomerSupportFactory {
     private let fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase
     private let fetchPatchNotesUseCase: FetchPatchNotesUseCase
     private let setReadUseCase: SetReadUseCase
-    
+
     public init(fetchNoticesUseCase: FetchNoticesUseCase, fetchOngoingEventsUseCase: FetchOngoingEventsUseCase, fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase, fetchPatchNotesUseCase: FetchPatchNotesUseCase, setReadUseCase: SetReadUseCase) {
         self.fetchNoticesUseCase = fetchNoticesUseCase
         self.fetchOngoingEventsUseCase = fetchOngoingEventsUseCase

@@ -18,7 +18,7 @@ final class PatchNoteViewController: CustomerSupportBaseViewController, View {
         // 타입을 나눠서 베이스에서 다 처리하는게 나을려나??
         mainView.setMenuHidden(true)
         mainView.changeSetupConstraints()
-        
+
         onItemTapped = { [weak self] itemIndex in
             self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
@@ -40,9 +40,9 @@ extension PatchNoteViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         reactor.state
-            .map{ $0.alarms }
+            .map { $0.alarms }
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)

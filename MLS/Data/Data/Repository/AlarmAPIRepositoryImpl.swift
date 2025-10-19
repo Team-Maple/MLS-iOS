@@ -12,42 +12,42 @@ public class AlarmAPIRepositoryImpl: AlarmAPIRepository {
         self.provider = provider
         self.tokenInterceptor = interceptor
     }
-    
+
     public func fetchPatchNotes(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
         let endpoint = AlarmEndPoint.fetchPatchNotes(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
-    
+
     public func fetchNotices(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
         let endpoint = AlarmEndPoint.fetchNotices(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
-    
+
     public func fetchOutdatedEvents(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
         let endpoint = AlarmEndPoint.fetchOutdatedEvents(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
-    
+
     public func fetchOngoingEvents(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
         let endpoint = AlarmEndPoint.fetchOngoingEvents(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
-    
+
     public func fetchAll(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
         let endpoint = AlarmEndPoint.fetchAll(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAllAlarmDomain() }
     }
-    
+
     public func setRead(alarmLink: String) -> Completable {
         let endpoint = AlarmEndPoint.setRead(query: setReadQuery(alrimLink: alarmLink))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
     }
-    
+
 }
 
 private extension AlarmAPIRepositoryImpl {
@@ -55,7 +55,7 @@ private extension AlarmAPIRepositoryImpl {
         let cursor: [Int]?
         let pageSize: Int
     }
-    
+
     struct setReadQuery: Encodable {
         let alrimLink: String
     }

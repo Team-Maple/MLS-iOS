@@ -71,7 +71,7 @@ public enum AuthEndPoint {
             body: body
         )
     }
-    
+
     public static func withdraw() -> EndPoint {
         .init(
             baseURL: base,
@@ -89,7 +89,7 @@ public enum AuthEndPoint {
             body: body
         )
     }
-    
+
     public static func fetchJobs() -> ResponsableEndPoint<[JobsDTO]> {
         .init(
             baseURL: base,

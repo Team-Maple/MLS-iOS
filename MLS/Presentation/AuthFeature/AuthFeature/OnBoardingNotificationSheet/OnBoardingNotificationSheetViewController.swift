@@ -117,8 +117,7 @@ extension OnBoardingNotificationSheetViewController {
                         if let window = UIApplication.shared.connectedScenes
                             .compactMap({ $0 as? UIWindowScene })
                             .flatMap({ $0.windows })
-                            .first(where: { $0.isKeyWindow })
-                        {
+                            .first(where: { $0.isKeyWindow }) {
                             window.rootViewController = navigationController
                             window.makeKeyAndVisible()
                         }

@@ -126,23 +126,23 @@ extension DictionaryDetailBaseViewController {
 
         var currentRowWidth: CGFloat = 0
         for (element, value) in tags.nonNilElements() {
-            
+
             let badge = Badge(style: .element("\(element.rawValue) \(value)"))
             let fittingSize = badge.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             let badgeWidth = fittingSize.width
-            
+
             if currentRowWidth + badgeWidth + tagSpacing > maxWidth {
                 tagsRowStackView = mainView.createHorizontalStackView()
                 mainView.tagsVerticalStackView.addArrangedSubview(tagsRowStackView)
                 currentRowWidth = 0
             }
-            
+
             tagsRowStackView.addArrangedSubview(badge)
             currentRowWidth += badgeWidth + tagSpacing
             mainView.setBadgeConstraints(badge, width: badgeWidth)
         }
     }
-    
+
     // 탭바 메뉴 버튼 구성하기(스티키 쪽도 똑같이 구현)
     func setupMenu(_ menus: [DetailType]) {
         var firstIndexButton: UIButton? // 처음 화면 나올때 첫번째 버튼 클릭되게 하기 위해 첫번째 버튼 저장할 변수

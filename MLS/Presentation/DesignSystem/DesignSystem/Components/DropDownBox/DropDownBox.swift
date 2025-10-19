@@ -160,7 +160,7 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
         inputBox.textField.attributedText = .makeStyledString(font: .b_m_r, text: selectedItem.name, alignment: .left, lineHeight: 1.0)
         inputBox.textField.sendActions(for: .editingChanged)
         toggleDropdown()
-        
+
         onItemSelected?(selectedItem)
     }
 
@@ -174,7 +174,7 @@ extension DropDownBox {
     public struct Item {
         public let name: String
         public let id: Int
-        
+
         public init(name: String, id: Int) {
             self.name = name
             self.id = id

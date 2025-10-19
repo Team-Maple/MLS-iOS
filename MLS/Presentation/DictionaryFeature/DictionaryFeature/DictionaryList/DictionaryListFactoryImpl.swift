@@ -9,7 +9,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase
     private let dictionaryNpcListItemUseCase: FetchDictionaryNpcListUseCase
     private let dictionaryListItemUseCase: FetchDictionaryMonsterListUseCase
-    
+
     private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
     private let toggleBookmarkUseCase: ToggleBookmarkUseCase
 

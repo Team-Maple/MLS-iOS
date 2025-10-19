@@ -4,32 +4,32 @@ import UIKit
 
 final class EventViewController: CustomerSupportBaseViewController, View {
     typealias Reactor = EventReactor
-    
+
     // MARK: - Init
     override init(type: CustomerSupportType) {
         super.init(type: type)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenu()
-        
+
         onItemTapped = { [weak self] itemIndex in
             self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
     }
-    
+
     // MARK: - Setup
     private func setupMenu() {
         let ongoingButton = mainView.createMenuButton(title: "진행중인 이벤트", tag: 0)
         let endedButton = mainView.createMenuButton(title: "종료된 이벤트", tag: 1)
-        
+
         mainView.menuStackView.addArrangedSubview(ongoingButton)
         mainView.menuStackView.addArrangedSubview(endedButton)
         mainView.setupSpacerView()
-        
+
         reactor?.action.onNext(.selectTab(0))
-        
+
         guard let reactor = reactor else { return }
         mainView.menuStackView.arrangedSubviews
             .compactMap { $0 as? UIButton }
@@ -47,7 +47,7 @@ extension EventViewController {
     func bind(reactor: Reactor) {
         bindViewState(reactor: reactor)
     }
-    
+
     private func bindViewState(reactor: Reactor) {
         reactor.state.map(\.selectedIndex)
             .observe(on: MainScheduler.instance)
@@ -56,7 +56,7 @@ extension EventViewController {
                 self.updateButtonStates(in: self.mainView.menuStackView, selectedTag: selectedIndex)
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state.map(\.alarms)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
