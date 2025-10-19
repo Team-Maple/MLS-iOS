@@ -13,6 +13,12 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.tokenInterceptor = interceptor
     }
 
+    public func fetchProfile() -> Observable<MyPageResponse> {
+        let endpoint = AuthEndPoint.fetchProfile()
+        return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
+            .map { $0.toMyPageDomain() }
+    }
+
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithKakao(credential: credential)
         return provider.requestData(endPoint: endpoint, interceptor: nil)
@@ -83,6 +89,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
 
+    public func fetchJob(jobId: String) -> Observable<Job> {
+        let endPoint = AuthEndPoint.fetchJob(jobId: jobId)
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
+    }
+
     public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
         let endPoint = AuthEndPoint.updateCharacterInfo(body: UpdateInfoBody(level: level, jobId: selectedJobID))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
@@ -100,6 +111,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func updateNickName(nickName: String) -> Completable {
         let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+
+    public func updateProfileImage(url: String) -> Completable {
+        let endPoint = AuthEndPoint.updateProfileImage(body: UpdateProfileImageBody(profileImageUrl: url))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 }
@@ -142,5 +158,9 @@ private extension AuthAPIRepositoryImpl {
     struct UpdateInfoBody: Encodable {
         let level: Int
         let jobId: Int
+    }
+
+    struct UpdateProfileImageBody: Encodable {
+        let profileImageUrl: String
     }
 }

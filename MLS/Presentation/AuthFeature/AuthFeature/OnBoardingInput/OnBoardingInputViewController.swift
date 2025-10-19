@@ -131,8 +131,8 @@ public extension OnBoardingInputViewController {
 
         rx.viewDidAppear
             .take(1)
-            .observe(on: MainScheduler.instance)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
                 switch route {

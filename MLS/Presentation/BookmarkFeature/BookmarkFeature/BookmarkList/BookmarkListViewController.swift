@@ -95,6 +95,12 @@ extension BookmarkListViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .take(1)
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.sortButton.rx.tap
             .map { Reactor.Action.sortButtonTapped }
             .bind(to: reactor.action)
@@ -121,12 +127,6 @@ extension BookmarkListViewController {
                     owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
                 }
             })
-            .disposed(by: disposeBag)
-
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
         rx.viewDidAppear

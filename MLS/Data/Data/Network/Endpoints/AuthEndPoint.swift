@@ -3,6 +3,14 @@ import DomainInterface
 public enum AuthEndPoint {
     static let base = "https://api.mapleland.kro.kr"
 
+    public static func fetchProfile() -> ResponsableEndPoint<MemberDTO> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/me",
+            method: .GET
+        )
+    }
+
     public static func loginWithKakao(credential: Credential) -> ResponsableEndPoint<AuthResponseDTO> {
         .init(
             baseURL: base,
@@ -53,7 +61,7 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func fcmToken(credential: String, body: Encodable) -> EndPoint {
+    public static func fcmToken(credential: String, body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/fcm-token",
@@ -71,7 +79,7 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func updateMarketingAgreement(credential: String, body: Encodable) -> EndPoint {
+    public static func updateMarketingAgreement(credential: String, body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/marketing-agreement",
@@ -89,7 +97,15 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<AuthResponseDTO> {
+    public static func fetchJob(jobId: String) -> ResponsableEndPoint<JobsDTO> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/jobs/\(jobId)",
+            method: .GET
+        )
+    }
+
+    public static func updateCharacterInfo(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/profile",
@@ -98,7 +114,7 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func updateNotification(body: Encodable) -> EndPoint {
+    public static func updateNotification(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/alert-agreement",
@@ -107,10 +123,19 @@ public enum AuthEndPoint {
         )
     }
 
-    public static func updateNickName(body: Encodable) -> EndPoint {
+    public static func updateNickName(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/member/nickname",
+            method: .PUT,
+            body: body
+        )
+    }
+
+    public static func updateProfileImage(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
+        .init(
+            baseURL: base,
+            path: "/api/v1/auth/member/profile-image",
             method: .PUT,
             body: body
         )

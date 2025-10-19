@@ -119,6 +119,7 @@ public extension SetCharacterViewController {
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
                 switch route {

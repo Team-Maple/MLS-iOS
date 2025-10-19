@@ -40,6 +40,8 @@ public protocol AuthAPIRepository {
     /// - Returns: 직업 목록 응답을 담은 Observable
     func fetchJobList() -> Observable<JobListResponse>
 
+    func fetchJob(jobId: String) -> Observable<Job>
+
     /// 사용자 정보 수정 API 호출
     ///
     /// - Note: 레벨과 직업을 업데이트
@@ -59,4 +61,8 @@ public protocol AuthAPIRepository {
     func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable
 
     func updateNickName(nickName: String) -> Completable
+
+    func updateProfileImage(url: String) -> Completable
+
+    func fetchProfile() -> Observable<MyPageResponse>
 }

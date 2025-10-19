@@ -32,15 +32,15 @@ extension AnnouncementViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindUserActions(reactor: Reactor) {}
-
-    func bindViewState(reactor: Reactor) {
+    func bindUserActions(reactor: Reactor) {
         rx.viewWillAppear
             .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+    }
 
+    func bindViewState(reactor: Reactor) {
         reactor.state
             .map(\.alarms)
             .distinctUntilChanged()

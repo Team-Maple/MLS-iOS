@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 
 import RxCocoa
@@ -101,7 +102,7 @@ private extension MyPageMainCell {
 // MARK: - Public
 public extension MyPageMainCell {
     struct Input {
-        let image: UIImage
+        let imageUrl: String
         let name: String
         let isLogin: Bool
     }
@@ -109,9 +110,12 @@ public extension MyPageMainCell {
     func inject(input: Input) {
         if input.isLogin {
             imageView.isHidden = false
-            imageView.image = input.image
+            ImageLoader.shared.loadImage(stringURL: input.imageUrl) { [weak self] image in
+                self?.imageView.image = image
+            }
             nameLabel.attributedText = .makeStyledString(font: .sub_l_b, text: input.name)
             contentStackView.spacing = Constant.spacingBetweenImageAndLabel
+            setProfileButton.updateTitle(title: "프로필 설정")
         } else {
             imageView.isHidden = true
             nameLabel.attributedText = .makeStyledString(
@@ -120,6 +124,7 @@ public extension MyPageMainCell {
                 color: .neutral500
             )
             contentStackView.spacing = Constant.spacingBetweenLabelAndButton
+            setProfileButton.updateTitle(title: "로그인 하기")
         }
     }
 }

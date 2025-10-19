@@ -1,15 +1,12 @@
+import DomainInterface
+
 import ReactorKit
 
 public final class MyPageMainReactor: Reactor {
     // MARK: - Type
-    public struct CharacterInfo {
-        let job: String
-        let level: Int
-    }
-
     public enum MyPageMenu {
         case setAlarm
-        case setCharacterInfo(CharacterInfo?)
+        case setCharacterInfo(MyPageResponse?)
         case showEvent
         case showNotice
         case showPatchNode
@@ -18,17 +15,17 @@ public final class MyPageMainReactor: Reactor {
         var route: Route {
             switch self {
             case .setAlarm:
-                    .notificationSetting
+                .notificationSetting
             case .showEvent:
-                    .event
+                .event
             case .showNotice:
-                    .notice
+                .notice
             case .showPatchNode:
-                    .patchNode
+                .patchNode
             case .showPolicy:
-                    .policy
+                .policy
             case .setCharacterInfo:
-                    .characterInfoSetting
+                .characterInfoSetting
             }
         }
 
@@ -59,26 +56,29 @@ public final class MyPageMainReactor: Reactor {
         case notice
         case patchNode
         case policy
+        case login
     }
 
     // MARK: - Action
     public enum Action {
-        case editButtonTapped
+        case viewWillAppear
+        case profileButtonTapped
         case menuItemTapped(MyPageMenu)
     }
 
     // MARK: - Mutation
     public enum Mutation {
         case toNavigate(Route)
+        case setProfile(MyPageResponse)
     }
 
     // MARK: - State
     public struct State {
         @Pulse var route: Route?
-        let menus: [[MyPageMenu]] = [
+        var menus: [[MyPageMenu]] = [
             [
                 .setAlarm,
-                .setCharacterInfo(CharacterInfo(job: "도적", level: 275))
+                .setCharacterInfo(nil)
             ], [
                 .showEvent,
                 .showNotice,
@@ -86,22 +86,33 @@ public final class MyPageMainReactor: Reactor {
                 .showPolicy
             ]
         ]
+        var profile: MyPageResponse?
     }
 
     // MARK: - Properties
     public var initialState = State()
 
+    private let fetchProfileUseCase: FetchProfileUseCase
+
     // MARK: - Init
-    public init() {
+    public init(fetchProfileUseCase: FetchProfileUseCase) {
+        self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     // MARK: - Mutate
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .editButtonTapped:
-            return .just(.toNavigate(.edit))
+        case .profileButtonTapped:
+            if currentState.profile != nil {
+                return .just(.toNavigate(.edit))
+            } else {
+                return .just(.toNavigate(.login))
+            }
         case .menuItemTapped(let menu):
             return .just(.toNavigate(menu.route))
+        case .viewWillAppear:
+            return fetchProfileUseCase.execute()
+                .map { .setProfile($0) }
         }
     }
 
@@ -112,6 +123,9 @@ public final class MyPageMainReactor: Reactor {
         switch mutation {
         case .toNavigate(let route):
             newState.route = route
+        case .setProfile(let profile):
+            newState.profile = profile
+            newState.menus[0][1] = .setCharacterInfo(profile)
         }
 
         return newState

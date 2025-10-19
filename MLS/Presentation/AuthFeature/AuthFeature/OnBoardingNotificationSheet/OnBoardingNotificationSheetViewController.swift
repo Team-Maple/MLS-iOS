@@ -58,6 +58,12 @@ extension OnBoardingNotificationSheetViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .take(1)
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.header.firstIconButton.rx.tap
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
@@ -92,12 +98,6 @@ extension OnBoardingNotificationSheetViewController {
             .subscribe { owner, isAgree in
                 owner.mainView.setUI(isAgree: isAgree)
             }
-            .disposed(by: disposeBag)
-
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
         rx.viewDidAppear
