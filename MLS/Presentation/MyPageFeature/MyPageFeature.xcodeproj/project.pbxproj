@@ -37,6 +37,8 @@
 		7746ABB12E84245D0046F603 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 7746ABB02E84245D0046F603 /* RxGesture */; };
 		7746ABB32E8425E00046F603 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7746ABB22E8425E00046F603 /* DesignSystem.framework */; };
 		7746ABB72E8427F80046F603 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7746ABB62E8427F80046F603 /* RxKeyboard */; };
+		776FEA342EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */; };
+		776FEA352EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		777C28142E7D87B8000765F2 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 777C28132E7D87B8000765F2 /* RxKeyboard */; };
 		77BE55BA2E78596900522216 /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; };
 		77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77BE55B82E78596900522216 /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -80,6 +82,7 @@
 				77BE55BD2E78596900522216 /* DomainInterface.framework in Embed Frameworks */,
 				77BE55BB2E78596900522216 /* Domain.framework in Embed Frameworks */,
 				7746A7F32E841CEA0046F603 /* DataMock.framework in Embed Frameworks */,
+				776FEA352EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Embed Frameworks */,
 				773A3F6F2E71736300F75B30 /* BaseFeature.framework in Embed Frameworks */,
 				773A3F6C2E71734600F75B30 /* DesignSystem.framework in Embed Frameworks */,
 				7746A7F02E841C9C0046F603 /* Data.framework in Embed Frameworks */,
@@ -105,6 +108,7 @@
 		7746ABA92E84225A0046F603 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7746ABAC2E84227A0046F603 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7746ABB22E8425E00046F603 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B82E78596900522216 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B92E78596900522216 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2227A762E76A7E70095343A /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +188,7 @@
 				7746ABAA2E84225A0046F603 /* Core.framework in Frameworks */,
 				773A3BFC2E71701D00F75B30 /* RxSwift in Frameworks */,
 				773A3BFE2E71702300F75B30 /* SnapKit in Frameworks */,
+				776FEA342EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Frameworks */,
 				7746A7F22E841CEA0046F603 /* DataMock.framework in Frameworks */,
 				773A3BFA2E71701D00F75B30 /* RxRelay in Frameworks */,
 				773A3BF82E71701D00F75B30 /* RxCocoa in Frameworks */,
@@ -218,6 +223,7 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */,
 				7746ABB22E8425E00046F603 /* DesignSystem.framework */,
 				7746ABAC2E84227A0046F603 /* DomainInterface.framework */,
 				7746ABA92E84225A0046F603 /* Core.framework */,

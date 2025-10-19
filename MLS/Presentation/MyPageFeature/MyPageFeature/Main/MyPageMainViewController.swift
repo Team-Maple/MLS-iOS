@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import MyPageFeatureInterface
 
@@ -22,16 +23,18 @@ public final class MyPageMainViewController: BaseViewController, View {
     private let customerSupportFactory: CustomerSupportFactory
     private let notificationSettingFactory: NotificationSettingFactory
     private let setCharacterFactory: SetCharacterFactory
+    private let loginFactory: LoginFactory
 
     // MARK: - Components
     private let mainView = MyPageMainView()
 
     // MARK: - Init
-    public init(setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory, setCharacterFactory: SetCharacterFactory) {
+    public init(setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory, setCharacterFactory: SetCharacterFactory, loginFactory: LoginFactory) {
         self.setProfileFactory = setProfileFactory
         self.customerSupportFactory = customerSupportFactory
         self.notificationSettingFactory = notificationSettingFactory
         self.setCharacterFactory = setCharacterFactory
+        self.loginFactory = loginFactory
         super.init()
     }
 
@@ -96,12 +99,27 @@ extension MyPageMainViewController {
         bindState(reactor: reactor)
     }
 
-    private func bindUserActions(reactor: Reactor) {}
+    private func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
     private func bindState(reactor: Reactor) {
+        reactor.state
+            .map { $0.profile }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind { owner, _ in
+                owner.mainView.mainCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
@@ -136,7 +154,10 @@ extension MyPageMainViewController {
                 case .notificationSetting:
                     let viewController = owner.notificationSettingFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
-                default:
+                case .login:
+                    let viewController = owner.loginFactory.make(isReLogin: false)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                case .none:
                     break
                 }
             }
@@ -168,11 +189,19 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: MyPageMainCell.identifier,
                 for: indexPath
-            ) as? MyPageMainCell else { return UICollectionViewCell() }
-
-            cell.inject(input: MyPageMainCell.Input(image: .checkmark, name: "익명의 오무라이스케챱", isLogin: true))
+            ) as? MyPageMainCell,
+                let reactor = reactor else { return UICollectionViewCell() }
+            
+            let profile = reactor.currentState.profile
+            cell.inject(
+                input: MyPageMainCell.Input(
+                    imageUrl: profile?.profileUrl ?? "",
+                    name: profile?.nickname ?? "",
+                    isLogin: profile != nil
+                )
+            )
             cell.onSetProfileTap = { [weak self] in
-                self?.reactor?.action.onNext(.editButtonTapped)
+                self?.reactor?.action.onNext(.profileButtonTapped)
             }
             return cell
 
@@ -195,8 +224,8 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 // index.row == 0은 제목
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
                 switch item {
-                case .setCharacterInfo(let .some(info)):
-                    cell.inject(input: MyPageListCell.Input(title: info.job, isHeader: false, addLevel: info.level))
+                case .setCharacterInfo(let .some(profile)):
+                    cell.inject(input: MyPageListCell.Input(title: profile.jobName, isHeader: false, addLevel: profile.level))
                 default:
                     cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
                 }

@@ -131,27 +131,29 @@ public extension OnBoardingInputViewController {
 
         rx.viewDidAppear
             .take(1)
-            .observe(on: MainScheduler.instance)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
-                switch route {
-                case .dismiss:
-                    owner.navigationController?.popViewController(animated: true)
-                case .home:
-                    let controller = UIViewController()
-                    controller.view.backgroundColor = .green
-                    owner.navigationController?.pushViewController(controller, animated: true)
-                case .error:
-                    let errorViewController = BaseErrorViewController()
-                    owner.present(errorViewController, animated: true)
-                case .notification:
-                    guard let selecteLevel = reactor.currentState.level,
-                          let selectedJobID = reactor.currentState.job?.id else { return }
-                    let viewController = owner.onBoardingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                default:
-                    break
+                DispatchQueue.main.async {
+                    switch route {
+                    case .dismiss:
+                        owner.navigationController?.popViewController(animated: true)
+                    case .home:
+                        let controller = UIViewController()
+                        controller.view.backgroundColor = .green
+                        owner.navigationController?.pushViewController(controller, animated: true)
+                    case .error:
+                        let errorViewController = BaseErrorViewController()
+                        owner.present(errorViewController, animated: true)
+                    case .notification:
+                        guard let selecteLevel = reactor.currentState.level,
+                              let selectedJobID = reactor.currentState.job?.id else { return }
+                        let viewController = owner.onBoardingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
+                        owner.navigationController?.pushViewController(viewController, animated: true)
+                    default:
+                        break
+                    }
                 }
             })
             .disposed(by: disposeBag)

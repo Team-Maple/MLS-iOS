@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import Core
 import Data
@@ -127,11 +128,20 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
             UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
+        DIContainer.register(type: UpdateProfileImageUseCase.self) {
+            UpdateProfileImageUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchJobUseCase.self) {
+            FetchJobUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchProfileUseCase.self) {
+            FetchProfileUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self), fetchJobUseCase: DIContainer.resolve(type: FetchJobUseCase.self))
+        }
     }
 
     func registerFactory() {
         DIContainer.register(type: SelectImageFactory.self) {
-            SelectImageFactoryImpl()
+            SelectImageFactoryImpl(updateProfileImageUseCase: DIContainer.resolve(type: UpdateProfileImageUseCase.self))
         }
 
         DIContainer.register(type: SetProfileFactory.self) {
@@ -153,14 +163,14 @@ private extension AppDelegate {
 
         DIContainer.register(type: MyPageMainFactory.self) {
             MyPageMainFactoryImpl(
-                setProfileFactory: DIContainer
+                loginFactory: DIContainer.resolve(type: LoginFactory.self), setProfileFactory: DIContainer
                     .resolve(type: SetProfileFactory.self),
                 customerSupportFactory: DIContainer
                     .resolve(type: CustomerSupportFactory.self),
                 notificationSettingFactory: DIContainer
                     .resolve(type: NotificationSettingFactory.self),
                 setCharacterFactory: DIContainer
-                    .resolve(type: SetCharacterFactory.self)
+                    .resolve(type: SetCharacterFactory.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
             )
         }
 
@@ -170,6 +180,9 @@ private extension AppDelegate {
 
         DIContainer.register(type: NotificationSettingFactory.self) {
             NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
+        }
+        DIContainer.register(type: LoginFactory.self) {
+            LoginFactoryMock()
         }
     }
 }

@@ -6,6 +6,18 @@ import DomainInterface
 import RxSwift
 
 public class AuthAPIRepositoryMock: AuthAPIRepository {
+    public func fetchJob(jobId: String) -> Observable<Job> {
+        return .empty()
+    }
+    
+    public func updateProfileImage(url: String) -> Completable {
+        return .empty()
+    }
+    
+    public func fetchProfile() -> Observable<MyPageResponse> {
+        return .empty()
+    }
+    
     public func signUpWithKakao(credential: any DomainInterface.Credential, isMarketingAgreement: Bool, fcmToken: String?) -> RxSwift.Observable<DomainInterface.SignUpResponse> {
         if tryCount == 0 {
             tryCount += 1

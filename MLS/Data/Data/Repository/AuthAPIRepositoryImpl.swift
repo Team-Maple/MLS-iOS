@@ -12,6 +12,12 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.provider = provider
         self.tokenInterceptor = interceptor
     }
+    
+    public func fetchProfile() -> Observable<MyPageResponse> {
+        let endpoint = AuthEndPoint.fetchProfile()
+        return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
+            .map { $0.toMyPageDomain() }
+    }
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithKakao(credential: credential)
@@ -80,6 +86,11 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func fetchJobList() -> Observable<JobListResponse> {
         let endPoint = AuthEndPoint.fetchJobs()
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
+    }
+    
+    public func fetchJob(jobId: String) -> Observable<Job> {
+        let endPoint = AuthEndPoint.fetchJob(jobId: jobId)
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
 

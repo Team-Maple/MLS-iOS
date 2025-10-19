@@ -7,6 +7,12 @@ public struct JobsDTO: Decodable {
     public let parentJobId: Int?
 }
 
+public extension JobsDTO {
+    func toDomain() -> Job {
+        return Job(name: jobName, id: jobId)
+    }
+}
+
 public extension Array where Element == JobsDTO {
     func toDomain() -> JobListResponse {
         let jobs = self
