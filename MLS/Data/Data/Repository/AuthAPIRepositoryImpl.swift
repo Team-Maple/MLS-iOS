@@ -12,7 +12,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.provider = provider
         self.tokenInterceptor = interceptor
     }
-    
+
     public func fetchProfile() -> Observable<MyPageResponse> {
         let endpoint = AuthEndPoint.fetchProfile()
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
@@ -88,7 +88,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endPoint = AuthEndPoint.fetchJobs()
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
-    
+
     public func fetchJob(jobId: String) -> Observable<Job> {
         let endPoint = AuthEndPoint.fetchJob(jobId: jobId)
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
@@ -113,7 +113,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
-    
+
     public func updateProfileImage(url: String) -> Completable {
         let endPoint = AuthEndPoint.updateProfileImage(body: UpdateProfileImageBody(profileImageUrl: url))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
@@ -159,7 +159,7 @@ private extension AuthAPIRepositoryImpl {
         let level: Int
         let jobId: Int
     }
-    
+
     struct UpdateProfileImageBody: Encodable {
         let profileImageUrl: String
     }

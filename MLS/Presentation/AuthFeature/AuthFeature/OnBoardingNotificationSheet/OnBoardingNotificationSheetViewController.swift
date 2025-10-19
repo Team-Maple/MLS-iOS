@@ -63,7 +63,7 @@ extension OnBoardingNotificationSheetViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.header.firstIconButton.rx.tap
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)

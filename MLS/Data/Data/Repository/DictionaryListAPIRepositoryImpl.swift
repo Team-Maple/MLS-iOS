@@ -48,4 +48,3 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
             .map { $0.toDomain()}
     }
 }
-
