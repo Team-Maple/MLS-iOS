@@ -47,7 +47,7 @@ private extension MapDictionaryDetailViewController {
 
     func setUpMapView() {
         guard let reactor = reactor else { return }
-        
+
         contentViews.append(mapInfoView)
         if let mapUrl = reactor.currentState.mapDetailInfo.mapUrl, !mapUrl.isEmpty {
             contentViews[0] = mapInfoView
@@ -141,7 +141,7 @@ extension MapDictionaryDetailViewController {
                 self?.setUpNpcView()
             })
             .disposed(by: disposeBag)
-        
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -160,7 +160,7 @@ extension MapDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear.take(1).subscribe { _ in
             reactor.action.onNext(.viewWillAppear)
         }

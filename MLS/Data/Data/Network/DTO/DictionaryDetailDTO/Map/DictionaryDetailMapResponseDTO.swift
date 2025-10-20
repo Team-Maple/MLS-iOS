@@ -10,7 +10,7 @@ public struct DictionaryDetailMapResponseDTO: Codable {
     public let mapUrl: String?
     public let iconUrl: String?
     public let isBookmarked: Bool?
-    
+
     public func toDomain() -> DictionaryDetailMapResponse {
         return DictionaryDetailMapResponse(mapId: mapId, nameKr: nameKr, nameEn: nameEn, regionName: regionName, detailName: detailName, topRegionName: topRegionName, mapUrl: mapUrl, iconUrl: iconUrl, isBookmarked: isBookmarked)
     }

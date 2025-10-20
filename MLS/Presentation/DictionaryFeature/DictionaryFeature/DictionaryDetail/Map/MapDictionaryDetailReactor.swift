@@ -19,7 +19,7 @@ public final class MapDictionaryDetailReactor: Reactor {
         case setDetailSpawnMonsters([DictionaryDetailMapSpawnMonsterResponse])
         case setDetailNpc([DictionaryDetailMapNpcResponse])
     }
-    
+
     public let dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase
     public let dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase
     public let dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase
@@ -38,7 +38,7 @@ public final class MapDictionaryDetailReactor: Reactor {
 
     public init(dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase, id: Int) {
         initialState = State(mapDetailInfo: DictionaryDetailMapResponse(mapId: nil, nameKr: nil, nameEn: nil, regionName: nil, detailName: nil, topRegionName: nil, mapUrl: nil, iconUrl: nil, isBookmarked: nil), spawnMonsters: [], npcs: [], type: .map, id: id)
-        
+
         self.dictionaryDetailMapUseCase = dictionaryDetailMapUseCase
         self.dictionaryDetailMapSpawnMonsterUseCase = dictionaryDetailMapSpawnMonsterUseCase
         self.dictionaryDetailMapNpcUseCase = dictionaryDetailMapNpcUseCase

@@ -1,5 +1,5 @@
 import RxSwift
 
-public protocol FetchDictionaryDetailQuestUseCase  {
+public protocol FetchDictionaryDetailQuestUseCase {
     func execute(id: Int) -> Observable<DictionaryDetailQuestResponse>
 }

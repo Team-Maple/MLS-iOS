@@ -18,7 +18,7 @@ public struct DictionaryDetailMonsterResponseDTO: Codable {
     public let mesoDropRate: Int?
     public let typeEffectiveness: Effectiveness?
     public let isBookmarked: Bool
-    
+
     public func toDomain() -> DictionaryDetailMonsterResponse {
         return DictionaryDetailMonsterResponse(monsterId: monsterId, nameKr: nameKr, nameEn: nameEn, imageUrl: imageUrl, level: level, exp: exp, hp: hp, mp: mp, physicalDefense: physicalDefense, magicDefense: magicDefense, requiredAccuracy: requiredAccuracy, bonusAccuracyPerLevelLower: bonusAccuracyPerLevelLower, evasionRate: evasionRate, mesoDropAmount: mesoDropAmount, mesoDropRate: mesoDropRate, typeEffectiveness: typeEffectiveness, isBookmarked: isBookmarked)
     }

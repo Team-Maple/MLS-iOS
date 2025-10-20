@@ -13,14 +13,14 @@ public enum DictionaryDetailEndPoint {
 
     // 몬스터 디테일 드롭아이템
     public static func fetchMonsterDetailDropItem(id: Int, sort: [String]?) -> ResponsableEndPoint<[DictionaryDetailMonsterDropItemResponseDTO]> {
-        return .init(baseURL: base, path: "/api/v1/monsters/\(id)/items", method: .GET, query: ["sort" : sort?.joined(separator: ",")])
+        return .init(baseURL: base, path: "/api/v1/monsters/\(id)/items", method: .GET, query: ["sort": sort?.joined(separator: ",")])
     }
 
     // 몬스터 디테일 출현맵
     public static func fetchMonsterDetailMap(id: Int) -> ResponsableEndPoint<[DictionaryDetailMonsterMapResponseDTO]> {
         return .init(baseURL: base, path: "/api/v1/monsters/\(id)/maps", method: .GET)
     }
-    
+
     // Npc 디테일 상세정보
     public static func fetchNpcDetail(id: Int) -> ResponsableEndPoint<DictionaryDetailNpcResponseDTO> {
         return .init(baseURL: base, path: "/api/v1/npcs/\(id)", method: .GET)
@@ -41,27 +41,27 @@ public enum DictionaryDetailEndPoint {
     public static func fetchItemDetailDropMonster(id: Int, sort: [String]?) -> ResponsableEndPoint<[DictionaryDetailItemDropMonsterResponseDTO]> {
         return .init(baseURL: base, path: "/api/v1/items/\(id)/monsters", method: .GET, query: ["sort": sort?.joined(separator: ",")])
     }
-    
+
     // Quest 디테일 상세정보
     public static func fetchQuestDetail(id: Int) -> ResponsableEndPoint<DictionaryDetailQuestResponseDTO> {
         return .init(baseURL: base, path: "/api/v1/quests/\(id)", method: .GET)
     }
-    
+
     // Quest 디테일 연계퀘스트
     public static func fetchQuestDetailLinkedQuests(id: Int) -> ResponsableEndPoint<DictionaryDetailQuestLinkedQuestsResponseDTO> {
         return .init(baseURL: base, path: "/api/v1/quests/\(id)/chain", method: .GET)
     }
-    
+
     // Map 디테일 상세정보
     public static func fetchMapDetail(id: Int) -> ResponsableEndPoint<DictionaryDetailMapResponseDTO> {
         return .init(baseURL: base, path: "/api/v1/maps/\(id)", method: .GET)
     }
-    
+
     // Map 디테일 출현 몬스터
     public static func fetchMapDetailSpawnMonster(id: Int) -> ResponsableEndPoint<[DictionaryDetailMapSpawnMonsterResponseDTO]> {
         return .init(baseURL: base, path: "/api/v1/maps/\(id)/monsters", method: .GET)
     }
-    
+
     // Map 디테일 출현 npc
     public static func fetchMapDetailNpc(id: Int) -> ResponsableEndPoint<[DictionaryDetailMapNpcResponseDTO]> {
         return .init(baseURL: base, path: "/api/v1/maps/\(id)/npcs", method: .GET)

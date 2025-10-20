@@ -7,7 +7,7 @@ public struct DictionaryDetailNpcQuestResponseDTO: Codable {
     public let questIconUrl: String
     public let minLevel: Int?
     public let maxLevel: Int?
-    
+
     public func toDomain() -> DictionaryDetailNpcQuestResponse {
         return DictionaryDetailNpcQuestResponse(questId: questId, questNameKr: questNameKr, questNameEn: questNameEn, questIconUrl: questIconUrl, minLevel: minLevel, maxLevel: maxLevel)
     }

@@ -7,7 +7,7 @@ public final class FetchDictionaryDetailQuestLinkedQuestsUseCaseImpl: FetchDicti
     public init(repository: DictionaryDetailAPIRepository) {
         self.repository = repository
     }
-    
+
     public func execute(id: Int) -> Observable<DictionaryDetailQuestLinkedQuestsResponse> {
         return repository.fetchQuestDetailLinkedQuestsDetail(id: id)
     }

@@ -90,12 +90,12 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             return .concat([
                 dictionaryDetailMonsterUseCase.execute(id: currentState.id).map {.setDetailData($0)},
                 dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: nil).map {.setDetailDropItemData($0)},
-                dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)},
+                dictionaryDetailMonsterMapUseCase.execute(id: currentState.id).map {.setDetailMapData($0)}
             ])
         case let .selectFilter(type):
             switch type {
             case .levelDESC: // 레벨 높은 순
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level","desc"]).map {.setDetailDropItemData($0)}
+                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map {.setDetailDropItemData($0)}
             case .levelASC: // 레벨 낮은 순
                 return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level,asc"]).map {.setDetailDropItemData($0)}
             case .mostDrop:

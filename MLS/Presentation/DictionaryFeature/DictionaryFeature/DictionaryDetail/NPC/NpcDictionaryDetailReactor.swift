@@ -8,7 +8,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case none
         case filter(DictionaryType)
     }
-    
+
     public enum Action {
         case filterButtonTapped
         case viewWillAppear
@@ -36,16 +36,16 @@ public final class NpcDictionaryDetailReactor: Reactor {
         var quests: [DictionaryDetailNpcQuestResponse]
         var id = 0
     }
-    
+
     public let dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase
     public let dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase
     public let dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase
-    
+
     public var initialState: State
     private let disposBag = DisposeBag()
 
     public init(dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase, id: Int) {
-        
+
         initialState = State(type: .npc, maps: [], quests: [], id: id)
         self.dictionaryDetailNpcUseCase = dictionaryDetailNpcUseCase
         self.dictionaryDetailNpcQuestUseCase = dictionaryDetailNpcQuestUseCase
@@ -65,9 +65,9 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case let .selectFilter(type):
             switch type {
             case .levelHighest:
-                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["maxLevel", "desc"]).map{.setDetailQuests($0)}
+                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["maxLevel", "desc"]).map {.setDetailQuests($0)}
             case .levelLowest:
-                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["minLevel", "asc"]).map{.setDetailQuests($0)}
+                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["minLevel", "asc"]).map {.setDetailQuests($0)}
             default:
                 return .empty()
             }

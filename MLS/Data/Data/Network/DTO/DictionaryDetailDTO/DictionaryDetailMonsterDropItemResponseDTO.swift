@@ -6,7 +6,7 @@ public struct DictionaryDetailMonsterDropItemResponseDTO: Codable {
     public let dropRate: Double
     public let imageUrl: String
     public let itemLevel: Int
-    
+
     public func toDomain() -> DictionaryDetailMonsterDropItemResponse {
         DictionaryDetailMonsterDropItemResponse(itemId: itemId, itemName: itemName, dropRate: dropRate, imageUrl: imageUrl, itemLevel: itemLevel)
     }

@@ -17,65 +17,65 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         let endPoint = DictionaryDetailEndPoint.fetchMonsterDetail(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchMonsterDetailDropItem(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchMonsterDetailDropItem(id: id, sort: sort)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map{$0.toDomain()}}
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map {$0.toDomain()}}
     }
 
     public func fetchMonsterDetailMap(id: Int) -> Observable<[DictionaryDetailMonsterMapResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchMonsterDetailMap(id: id)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map{$0.toDomain() }}
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain() }}
     }
     // MARK: - Npc 디테일 상세정보
     public func fetchNpcDetail(id: Int) -> Observable<DictionaryDetailNpcResponse> {
         let endPoint = DictionaryDetailEndPoint.fetchNpcDetail(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchNpcDetailQuest(id: Int, sort: [String]?) -> Observable<[DictionaryDetailNpcQuestResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchNpcDetailQuest(id: id, sort: sort)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map{$0.toDomain()} }
-        
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
+
     }
-    
+
     public func fetchNpcDetailMap(id: Int) -> Observable<[DictionaryDetailMonsterMapResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchNpcDetailMap(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0 }
     }
-    
+
     public func fetchItemDetail(id: Int) -> Observable<DictionaryDetailItemResponse> {
         let endPoint = DictionaryDetailEndPoint.fetchItemDetail(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchItemDetailDropMonster(id: Int, sort: [String]?) -> Observable<[DictionaryDetailItemDropMonsterResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchItemDetailDropMonster(id: id, sort: sort)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain() } }
     }
-    
+
     public func fetchQuestDetail(id: Int) -> Observable<DictionaryDetailQuestResponse> {
         let endPoint = DictionaryDetailEndPoint.fetchQuestDetail(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchQuestDetailLinkedQuestsDetail(id: Int) -> Observable<DictionaryDetailQuestLinkedQuestsResponse> {
         let endPoint = DictionaryDetailEndPoint.fetchQuestDetailLinkedQuests(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchMapDetail(id: Int) -> Observable<DictionaryDetailMapResponse> {
         let endPoint = DictionaryDetailEndPoint.fetchMapDetail(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
-    
+
     public func fetchMapDetailSpawnMonster(id: Int) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchMapDetailSpawnMonster(id: id)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map{$0.toDomain()} }
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
     }
-    
+
     public func fetchMapDetailNpc(id: Int) -> Observable<[DictionaryDetailMapNpcResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchMapDetailNpc(id: id)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map{$0.toDomain()}}
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map {$0.toDomain()}}
     }
 }

@@ -8,7 +8,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case none
         case filter(DictionaryType)
     }
-    
+
     public let dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase
     public let dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase
 
@@ -47,17 +47,17 @@ public final class ItemDictionaryDetailReactor: Reactor {
             return Observable.just(.showFilter)
         case .viewWillAppear:
             return .merge([
-                dictionaryDetailItemUseCase.execute(id: currentState.id).map{.setDetailData($0)},
-                dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: nil).map{.setDetailDropMonsterData($0)},
+                dictionaryDetailItemUseCase.execute(id: currentState.id).map {.setDetailData($0)},
+                dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: nil).map {.setDetailDropMonsterData($0)}
             ])
         case let .selectFilter(type):
             switch type {
             case .mostDrop:// 드롭률 내림차순
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["dropRate", "desc"]).map{.setDetailDropMonsterData($0)}
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["dropRate", "desc"]).map {.setDetailDropMonsterData($0)}
             case .levelDESC:
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map{.setDetailDropMonsterData($0)}
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map {.setDetailDropMonsterData($0)}
             case .levelASC:
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map{.setDetailDropMonsterData($0)}
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map {.setDetailDropMonsterData($0)}
             default:
                 return Observable.empty()
             }
@@ -75,7 +75,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case let .setDetailDropMonsterData(data):
             newState.monsters = data
         }
-        
+
         return newState
     }
 }

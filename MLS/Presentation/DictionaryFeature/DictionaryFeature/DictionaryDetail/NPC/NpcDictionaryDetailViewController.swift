@@ -55,9 +55,9 @@ private extension NpcDictionaryDetailViewController {
                     subText: map.detailName))
             }
         }
-        
+
     }
-    
+
     func setUpQuestView() {
         guard let reactor = reactor else { return }
         let quests = reactor.currentState.quests
@@ -126,19 +126,19 @@ extension NpcDictionaryDetailViewController {
         reactor.state.map(\.maps)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] maps in
+            .bind(onNext: {[weak self] _ in
                 self?.setUpMapView()
             })
             .disposed(by: disposeBag)
-        
+
         reactor.state.map(\.quests)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] quests in
+            .bind(onNext: {[weak self] _ in
                 self?.setUpQuestView()
             })
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .take(1)
             .subscribe { _ in

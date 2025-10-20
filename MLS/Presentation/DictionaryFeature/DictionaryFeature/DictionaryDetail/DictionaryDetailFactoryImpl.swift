@@ -17,8 +17,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase
     private let dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase
     private let dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase
-    
-    public init(dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase, dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase, dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase, dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase, dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase, dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase,dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase,dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase) {
+
+    public init(dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase, dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase, dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase, dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase, dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase, dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase, dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase) {
         self.dictionaryDetailMapUseCase = dictionaryDetailMapUseCase
         self.dictionaryDetailMapSpawnMonsterUseCase = dictionaryDetailMapSpawnMonsterUseCase
         self.dictionaryDetailMapNpcUseCase = dictionaryDetailMapNpcUseCase
@@ -60,7 +60,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .npc:
-            let reactor = NpcDictionaryDetailReactor(dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: dictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: dictionaryDetailNpcMapUseCase,id: id)
+            let reactor = NpcDictionaryDetailReactor(dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: dictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: dictionaryDetailNpcMapUseCase, id: id)
             viewController = NpcDictionaryDetailViewController(imageUrl: "")
             if let viewController = viewController as? NpcDictionaryDetailViewController {
                 viewController.reactor = reactor

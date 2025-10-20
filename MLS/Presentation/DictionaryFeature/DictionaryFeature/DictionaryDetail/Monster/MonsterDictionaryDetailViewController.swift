@@ -178,7 +178,7 @@ extension MonsterDictionaryDetailViewController {
                             let selectedFilter = type.detailSortedFilter[index]
                             owner.dropItemView.selectFilter(selectedType: selectedFilter)
                             reactor.action.onNext(.selectFilter(selectedFilter))
-                            
+
                         } else if type == .map {
                             owner.mapSelectedIntdex = index
                             let selectedFilter = type.detailSortedFilter[index]

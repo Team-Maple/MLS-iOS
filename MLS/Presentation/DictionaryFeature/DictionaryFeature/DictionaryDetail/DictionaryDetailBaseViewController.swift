@@ -19,7 +19,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         didSet {
             if let index = currentTabIndex {
                 mainView.setTabView(index: index, contentViews: contentViews)
-            } 
+            }
         }
     }
 
@@ -115,8 +115,7 @@ extension DictionaryDetailBaseViewController {
         let name: String
         let subText: String? // 없는 경우도 있는듯
     }
-    
-    
+
     func inject(input: Input) {
         // Load image if URL exists
         if let imageUrlString = input.imageUrl {
@@ -124,7 +123,7 @@ extension DictionaryDetailBaseViewController {
                 guard let self = self, let image = image else { return }
                 self.mainView.imageView.image = image
             }
-           
+
         } else {
             mainView.imageView.image = nil // Clear image if no URL
         }

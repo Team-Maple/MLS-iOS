@@ -7,10 +7,10 @@ public protocol DictionaryDetailAPIRepository {
     func fetchMonsterDetailDropItem(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMonsterDropItemResponse]>
     // 몬스터 디테일 출현맵
     func fetchMonsterDetailMap(id: Int) -> Observable<[DictionaryDetailMonsterMapResponse]>
-    
+
     // Npc 디테일 상세정보
     func fetchNpcDetail(id: Int) -> Observable<DictionaryDetailNpcResponse>
-    
+
     // NPC 디테일 퀘스트
     func fetchNpcDetailQuest(id: Int, sort: [String]?) -> Observable<[DictionaryDetailNpcQuestResponse]>
     // NPC 디테일 맵

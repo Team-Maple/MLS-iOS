@@ -6,7 +6,7 @@ public final class FetchDictionaryDetailMapSpawnMonsterUseCaseImpl: FetchDiction
     public init(repository: DictionaryDetailAPIRepository) {
         self.repository = repository
     }
-    
+
     public func execute(id: Int) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
         return repository.fetchMapDetailSpawnMonster(id: id)
     }

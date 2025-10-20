@@ -27,10 +27,10 @@ private extension QuestDictionaryDetailViewController {
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let detailInfos = reactor.currentState.detailInfo
-        
+
         let rewardInfos = reactor.currentState.detailInfo.reward
         let rewardItemInfos = reactor.currentState.detailInfo.rewardItems
-        
+
         contentViews.append(detailInfoView)
         // 뭘로 빈페이지 보여줄지 정하지..
         if !(detailInfos.startNpcName == nil) {
@@ -50,7 +50,7 @@ private extension QuestDictionaryDetailViewController {
                     }
                 }
             }
-           
+
             if let minLevel = detailInfos.minLevel {
                 detailInfoView.addDetailInfo(mainText: DictionaryDetailText.minLevel, subText: "\(minLevel)")
             }
@@ -70,7 +70,7 @@ private extension QuestDictionaryDetailViewController {
                     detailInfoView.addDetailInfo(mainText: DictionaryDetailText.job, subText: jobText)
                 }
             }
-            
+
             // 보상 추가 - 메소,경험치, 인기도
             if let meso = rewardInfos?.meso {
                 detailInfoView.addReward(mainText: DictionaryDetailText.meso, subText: "\(meso)")
@@ -109,7 +109,7 @@ private extension QuestDictionaryDetailViewController {
                 }
             }
         }
-        
+
     }
 }
 
@@ -131,15 +131,15 @@ extension QuestDictionaryDetailViewController {
                 self?.setUpInfoStackView()
             })
             .disposed(by: disposeBag)
-        
+
         reactor.state.map(\.linkedQuestInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] i in
+            .bind(onNext: {[weak self] _ in
                 self?.setUpQuestView()
             })
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear.take(1).subscribe { _ in
             reactor.action.onNext(.viewWillAppear)
         }

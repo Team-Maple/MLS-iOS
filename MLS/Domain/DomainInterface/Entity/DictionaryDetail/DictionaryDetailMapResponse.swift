@@ -8,7 +8,7 @@ public struct DictionaryDetailMapResponse: Codable, Equatable {
     public let mapUrl: String?
     public let iconUrl: String?
     public let isBookmarked: Bool?
-    
+
     public init(mapId: Int?, nameKr: String?, nameEn: String?, regionName: String?, detailName: String?, topRegionName: String?, mapUrl: String?, iconUrl: String?, isBookmarked: Bool?) {
         self.mapId = mapId
         self.nameKr = nameKr

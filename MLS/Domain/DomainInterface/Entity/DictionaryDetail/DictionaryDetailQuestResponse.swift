@@ -17,7 +17,7 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
     public let requirements: [Requirements]?
     public let allowedJobs: [AllowedJob]?
     public let isBookmarked: Bool?
-    
+
     public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, isBookmarked: Bool?) {
         self.questId = questId
         self.titlePrefix = titlePrefix
@@ -44,24 +44,12 @@ public struct Reward: Codable, Equatable {
     public let exp: Int?
     public let meso: Int?
     public let popularity: Int?
-    
-    init(exp: Int?, meso: Int?, popularity: Int?) {
-        self.exp = exp
-        self.meso = meso
-        self.popularity = popularity
-    }
 }
 
 public struct RewardItem: Codable, Equatable {
     public let itemId: Int?
     public let itemName: String?
     public let quantity: Int?
-    
-    init(itemId: Int?, itemName: String?, quantity: Int?) {
-        self.itemId = itemId
-        self.itemName = itemName
-        self.quantity = quantity
-    }
 }
 
 public struct Requirements: Codable, Equatable {
@@ -71,23 +59,9 @@ public struct Requirements: Codable, Equatable {
     public let monsterId: Int?
     public let monsterName: String?
     public let quantity: Int?
-    
-    init(requirementType: String?, itemId: Int?, itemName: String?, monsterId: Int?, monsterName: String?, quantity: Int?) {
-        self.requirementType = requirementType
-        self.itemId = itemId
-        self.itemName = itemName
-        self.monsterId = monsterId
-        self.monsterName = monsterName
-        self.quantity = quantity
-    }
 }
 
 public struct AllowedJob: Codable, Equatable {
     public let jobId: Int?
     public let jobName: String?
-    
-    init(jobId: Int?, jobName: String?) {
-        self.jobId = jobId
-        self.jobName = jobName
-    }
 }

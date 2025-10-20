@@ -4,7 +4,7 @@ public struct DictionaryDetailMapSpawnMonsterResponse: Codable, Equatable {
     public let level: Int?
     public let maxSpawnCount: Int?
     public let imageUrl: String?
-    
+
     public init(monsterId: Int?, monsterName: String?, level: Int?, maxSpawnCount: Int?, imageUrl: String?) {
         self.monsterId = monsterId
         self.monsterName = monsterName

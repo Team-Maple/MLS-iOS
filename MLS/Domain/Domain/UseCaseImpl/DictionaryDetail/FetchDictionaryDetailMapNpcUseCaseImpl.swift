@@ -6,7 +6,7 @@ public final class FetchDictionaryDetailMapNpcUseCaseImpl: FetchDictionaryDetail
     public init(repository: DictionaryDetailAPIRepository) {
         self.repository = repository
     }
-    
+
     public func execute(id: Int) -> Observable<[DictionaryDetailMapNpcResponse]> {
         return repository.fetchMapDetailNpc(id: id)
     }

@@ -30,15 +30,15 @@ private extension ItemDictionaryDetailViewController {
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemDetailInfo
-        
+
         contentViews.append(detailInfoView)
         // descriptionText
         detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
-        
+
         if let npcPrice = infos.npcPrice {
             detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice)메소")
         }
-        
+
         if let availableJobs = infos.availableJobs {
             let jobNames = availableJobs.compactMap { $0.jobName }.joined(separator: ", ")
             if !jobNames.isEmpty {
@@ -82,7 +82,7 @@ private extension ItemDictionaryDetailViewController {
                 ("명중률 증가", equipmentStats.accuracy),
                 ("회피율 증가", equipmentStats.evasion),
                 ("이동속도 증가", equipmentStats.speed),
-                ("점프력 증가", equipmentStats.jump),
+                ("점프력 증가", equipmentStats.jump)
             ]
 
             for (title, stat) in statMappings {
@@ -92,7 +92,7 @@ private extension ItemDictionaryDetailViewController {
                 }
             }
         }
-        
+
         if let scrollDetail = infos.scrollDetail {
             let scrollMappings: [(title: String, value: Int?)] = [
                 ("STR 증가", scrollDetail.strChange),
@@ -197,7 +197,7 @@ extension ItemDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear.take(1).subscribe { _ in
             reactor.action.onNext(.viewWillAppear)
         }
