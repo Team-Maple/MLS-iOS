@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
 
@@ -13,10 +14,17 @@ public class OnBoardingInputViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
 
+    private let onBoardingNotificationFactory: OnBoardingNotificationFactory
+
     // MARK: - Components
     public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingInputView()
+
+    init(onBoardingNotificationFactory: OnBoardingNotificationFactory) {
+        self.onBoardingNotificationFactory = onBoardingNotificationFactory
+        super.init()
+    }
 }
 
 // MARK: - Life Cycle
@@ -78,10 +86,10 @@ public extension OnBoardingInputViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.dropDownBox.inputBox.textField.rx.text.orEmpty
-            .map { Reactor.Action.inputRole($0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        mainView.dropDownBox.onItemSelected = { [weak self] job in
+            guard let self = self else { return }
+            self.reactor?.action.onNext(.inputRole(.init(name: job.name, id: job.id)))
+        }
 
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
@@ -97,10 +105,11 @@ public extension OnBoardingInputViewController {
     func bindViewState(reactor: Reactor) {
         reactor.state
             .map { $0.jobList }
+            .observe(on: MainScheduler.instance)
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, list in
-                owner.mainView.dropDownBox.menus = list
+                owner.mainView.dropDownBox.items = list.map { .init(name: $0.name, id: $0.id) }
             }
             .disposed(by: disposeBag)
 
@@ -123,6 +132,7 @@ public extension OnBoardingInputViewController {
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .subscribe(onNext: { owner, route in
                 switch route {
@@ -135,6 +145,11 @@ public extension OnBoardingInputViewController {
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
+                case .notification:
+                    guard let selecteLevel = reactor.currentState.level,
+                          let selectedJobID = reactor.currentState.job?.id else { return }
+                    let viewController = owner.onBoardingNotificationFactory.make(selectedLevel: selecteLevel, selectedJobID: selectedJobID)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }

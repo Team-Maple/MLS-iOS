@@ -39,17 +39,17 @@ open class DictionaryListReactor: Reactor {
         public var items: [DictionaryItem] = []
         public var listItems: [DictionaryMainItemResponse] = []
         public var type: DictionaryType
-        
+
         // 필터 조건
-        public var keyword: String? = nil
-        public var jobId: Int? = nil
-        public var minLevel: Int? = nil
-        public var maxLevel: Int? = nil
-        public var categoryIds: [Int]? = nil
-        public var sort: String? = nil
-        public var startLevel: Int? = nil
-        public var endLevel: Int? = nil
-        
+        public var keyword: String?
+        public var jobId: Int?
+        public var minLevel: Int?
+        public var maxLevel: Int?
+        public var categoryIds: [Int]?
+        public var sort: String?
+        public var startLevel: Int?
+        public var endLevel: Int?
+
         public var currentPage = 0
     }
 
@@ -109,14 +109,14 @@ open class DictionaryListReactor: Reactor {
                     Observable.just(Mutation.initPage),
                     dictionaryNpcListUseCase.execute(keyword: "", page: currentState.currentPage, size: 20, sort: nil)
                 .map { Mutation.setListItem($0)}
-                
+
                 ])
             case .quest:
                 return Observable.concat([
                     Observable.just(Mutation.initPage),
                     dictionaryQuestListUseCase.execute(keyword: "", page: currentState.currentPage, size: 20, sort: nil)
                 .map { Mutation.setListItem($0)}
-                
+
                 ])
             case .item:
                 return Observable.concat([
@@ -133,7 +133,7 @@ open class DictionaryListReactor: Reactor {
             default:
                 return Observable.empty()
             }
-            
+
         case let .toggleBookmark(id):
             return toggleBookmarkUseCase.execute(id: id, type: currentState.type)
                 .map { Mutation.setItems($0) }
@@ -144,13 +144,13 @@ open class DictionaryListReactor: Reactor {
         case let .sortOptionSelected(sort): // 사용자가 필터 선택했을 경우
             return .concat([
                 Observable.just(.setSort(sort.sortParameter)),
-                Observable.just(Mutation.initPage),
-                
+                Observable.just(Mutation.initPage)
+
             ])
         case let .filterOptionSelected(startLevel, endLevel):
             return .concat([
                 Observable.just(.setFilter(start: startLevel, end: endLevel)),
-                Observable.just(Mutation.initPage),
+                Observable.just(Mutation.initPage)
             ])
             .concat(Observable.deferred { [weak self] in
                 // 상태 적용 이후 호출
@@ -167,14 +167,14 @@ open class DictionaryListReactor: Reactor {
                  setCurrentPage 후에 fetchList 호출 함으로써 페이지 올리고, 데이터 불러오기
                  */
                 Observable.just(.setCurrentPage)
-                
+
             ])
         case .fetchList:
             return fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
         case .fetchListFilter:
             return fetchListFilter(sort: currentState.sort, startLevel: currentState.startLevel ?? 1, endLevel: currentState.endLevel ?? 200)
         }
-        
+
     }
     // 필터걸고 난 후 조회
     private func fetchListFilter(sort: String?, startLevel: Int = 1, endLevel: Int = 200) -> Observable<Mutation> {
@@ -197,7 +197,7 @@ open class DictionaryListReactor: Reactor {
             return Observable.empty()
         }
     }
-    
+
     private func fetchList(sort: String?, startLevel: Int?, endLevel: Int?) -> Observable<Mutation> {
             switch currentState.type {
             case .monster:

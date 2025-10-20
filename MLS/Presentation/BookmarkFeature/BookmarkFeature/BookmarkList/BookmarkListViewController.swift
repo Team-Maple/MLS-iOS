@@ -95,6 +95,12 @@ extension BookmarkListViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .take(1)
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.sortButton.rx.tap
             .map { Reactor.Action.sortButtonTapped }
             .bind(to: reactor.action)
@@ -123,12 +129,6 @@ extension BookmarkListViewController {
             })
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -148,7 +148,7 @@ extension BookmarkListViewController {
                         let viewController = owner.itemFilterFactory.make()
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(startLevel: 1, endLevel: 200) { startLevel, endLevel in }
+                        let viewController = owner.monsterFilterFactory.make(startLevel: 1, endLevel: 200) { _, _ in }
                         owner.tabBarController?.presentModal(viewController)
                     default:
                         break

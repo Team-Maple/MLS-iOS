@@ -141,7 +141,7 @@ public final class CheckBoxButton: UIButton {
 
     public let rightButton: UIButton = {
         let button = UIButton()
-        let image = DesignSystemAsset.image(named: "arrowRight")?.withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "arrowForwardSmall")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
         button.tintColor = .textColor
         return button
@@ -161,6 +161,17 @@ public final class CheckBoxButton: UIButton {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
+    }
+
+    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard !isHidden, isUserInteractionEnabled, alpha > 0.01 else { return nil }
+        let view = super.hitTest(point, with: event)
+        if view != self { return view }
+        let rightPoint = convert(point, to: rightButton)
+        if rightButton.bounds.contains(rightPoint) && !rightButton.isHidden && rightButton.isUserInteractionEnabled {
+            return rightButton
+        }
+        return view
     }
 }
 

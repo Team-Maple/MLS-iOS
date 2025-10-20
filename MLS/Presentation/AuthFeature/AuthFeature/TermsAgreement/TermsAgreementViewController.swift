@@ -69,30 +69,24 @@ public extension TermsAgreementViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.totalAgreeButton.rx.tap
-            .map { Reactor.Action.totalAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        let agreeButtons: [(button: UIButton, type: TermsAgreementReactor.AgreeType, isRightButton: Bool)] = [
+            (mainView.totalAgreeButton, .total, false),
+            (mainView.ageAgreeButton, .age, false),
+            (mainView.ageAgreeButton.rightButton, .age, true),
+            (mainView.serviceTermsAgreeButton, .serviceTerms, false),
+            (mainView.serviceTermsAgreeButton.rightButton, .serviceTerms, true),
+            (mainView.personalInformationAgreeButton, .personalInfo, false),
+            (mainView.personalInformationAgreeButton.rightButton, .personalInfo, true),
+            (mainView.marketingAgreeButton, .marketing, false),
+            (mainView.marketingAgreeButton.rightButton, .marketing, true)
+        ]
 
-        mainView.oldAgreeButton.rx.tap
-            .map { Reactor.Action.oldAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.serviceTermsAgreeButton.rx.tap
-            .map { Reactor.Action.serviceTermsAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.personalInformationAgreeButton.rx.tap
-            .map { Reactor.Action.personalInformationAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
-        mainView.marketingAgreeButton.rx.tap
-            .map { Reactor.Action.marketingAgreeButtonTapped }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+        agreeButtons.forEach { button, type, _ in
+            button.rx.tap
+                .map { Reactor.Action.toggleAgree(type: type) }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+        }
 
         mainView.bottomButton.rx.tap
             .map { Reactor.Action.bottomButtonTapped }
@@ -111,11 +105,11 @@ public extension TermsAgreementViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map { $0.isOldAgree }
+            .map { $0.isAgeAgree }
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isAgree in
-                owner.mainView.oldAgreeButton.isSelected = isAgree
+                owner.mainView.ageAgreeButton.isSelected = isAgree
             }
             .disposed(by: disposeBag)
 
@@ -170,6 +164,14 @@ public extension TermsAgreementViewController {
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)
+                case .ageAgreement:
+                    break
+                case .serviceAgreement:
+                    break
+                case .personalAgreement:
+                    break
+                case .marketingAgreement:
+                    break
                 default:
                     break
                 }

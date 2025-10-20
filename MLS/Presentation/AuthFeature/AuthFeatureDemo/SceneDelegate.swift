@@ -12,6 +12,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = UINavigationController(rootViewController: ViewController())
         window?.makeKeyAndVisible()
+
+        checkNotificationPermission()
+    }
+
+    private func checkNotificationPermission() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            switch settings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                }
+            case .denied, .authorized, .provisional, .ephemeral:
+                print(settings.authorizationStatus)
+            @unknown default:
+                break
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

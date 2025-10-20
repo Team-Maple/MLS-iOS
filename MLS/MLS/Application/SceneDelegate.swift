@@ -43,42 +43,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func setStartViewController(window: UIWindow?) {
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] _ in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
-                let notificationFactory: NotificationFactory = DIContainer.resolve(type: NotificationFactory.self)
+                let notificationFactory: OnBoardingNotificationFactory = DIContainer.resolve(type: OnBoardingNotificationFactory.self)
                 window?.makeKeyAndVisible()
-                if settings.authorizationStatus == .notDetermined {
-                    window?.rootViewController = UINavigationController(rootViewController: notificationFactory.make())
-                } else {
-                    let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
-                    let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
-                    let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
-                    let fetchResult = fetchTokenUseCase.execute(type: .refreshToken)
+                let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
+                let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
+                let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
+                let fetchResult = fetchTokenUseCase.execute(type: .refreshToken)
 
-                    switch fetchResult {
-                    case .success(let token):
-                        reissueUseCase.execute(refreshToken: token)
-                            .observe(on: MainScheduler.instance)
-                            .subscribe { response in
-                                let accessSaveResult = saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
-                                let refreshSaveResult = saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
+                switch fetchResult {
+                case .success(let token):
+                    reissueUseCase.execute(refreshToken: token)
+                        .observe(on: MainScheduler.instance)
+                        .subscribe { response in
+                            let accessSaveResult = saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
+                            let refreshSaveResult = saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
+                            window?.rootViewController = UINavigationController(rootViewController: ViewController())
+                            if case .success = accessSaveResult, case .success = refreshSaveResult {
+                                // 저장 결과 모두 성공일 때만 진입
                                 window?.rootViewController = UINavigationController(rootViewController: ViewController())
-                                if case .success = accessSaveResult, case .success = refreshSaveResult {
-                                    // 저장 결과 모두 성공일 때만 진입
-                                    window?.rootViewController = UINavigationController(rootViewController: ViewController())
-                                } else {
-                                    // 저장 실패 시 로그인 화면으로 이동
-                                    window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
-                                }
-                            } onError: { _ in
+                            } else {
+                                // 저장 실패 시 로그인 화면으로 이동
                                 window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
                             }
-                            .disposed(by: self.disposeBag)
-                    case .failure:
-                        window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
-                    }
+                        } onError: { _ in
+                            window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
+                        }
+                        .disposed(by: self.disposeBag)
+                case .failure:
+                    window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
                 }
             }
         }

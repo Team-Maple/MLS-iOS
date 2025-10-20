@@ -12,7 +12,7 @@ public enum SortType: String {
     case levelLowest = "수락 레벨 낮은 순"
     case levelHighest = "수락 레벨 높은 순"
     case mostDrop = "드롭률 높은 순"
-    
+
     // 정렬 키 - 이름, 레벨, 경험치
     public var sortKey: String {
         switch self {
@@ -37,7 +37,7 @@ public enum SortType: String {
             return ""
         }
     }
-    
+
     // 정렬 파라미터
     public var sortParameter: String {
         return "\(sortKey),\(direction)"

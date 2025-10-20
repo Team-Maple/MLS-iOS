@@ -3,17 +3,11 @@ import DomainInterface
 public struct AuthResponseDTO: Decodable {
     public let accessToken: String
     public let refreshToken: String
-    public let member: Member?
-
-    public struct Member: Decodable {
-        public let id: String
-        public let provider: String
-        public let nickname: String
-    }
+    public let member: MemberDTO?
 }
 
-extension AuthResponseDTO {
-    public func toLoginDomain() -> LoginResponse {
+public extension AuthResponseDTO {
+    func toLoginDomain() -> LoginResponse {
         return .init(
             isRegister: member != nil,
             accessToken: accessToken,
@@ -21,7 +15,7 @@ extension AuthResponseDTO {
         )
     }
 
-    public func toSignUpDomain() -> SignUpResponse {
+    func toSignUpDomain() -> SignUpResponse {
         return .init(
             accessToken: accessToken,
             refreshToken: refreshToken

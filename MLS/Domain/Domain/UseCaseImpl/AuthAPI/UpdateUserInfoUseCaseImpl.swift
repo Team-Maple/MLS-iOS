@@ -11,7 +11,7 @@ public class UpdateUserInfoUseCaseImpl: UpdateUserInfoUseCase {
         self.repository = repository
     }
 
-    public func execute(level: Int, selectedJob: String) -> Completable {
-        return repository.updateUserInfo(level: level, selectedJob: selectedJob)
+    public func execute(level: Int, selectedJobID: Int) -> Completable {
+        return repository.updateUserInfo(level: level, selectedJobID: selectedJobID)
     }
 }

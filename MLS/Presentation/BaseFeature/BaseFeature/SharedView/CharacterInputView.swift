@@ -15,7 +15,7 @@ open class CharacterInputView: UIView {
         static let horizontalSpacing: CGFloat = 8
         public static let bottomInset: CGFloat = 16
         static let messageSpacing: CGFloat = 8
-        static let boxInset: CGFloat = horizontalInset + (horizontalSpacing / 2) / 2
+        static let boxInset: CGFloat = (horizontalInset + (horizontalSpacing / 2)) / 2
     }
 
     // MARK: - Properties
@@ -36,7 +36,7 @@ open class CharacterInputView: UIView {
         return box
     }()
 
-    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", menus: [])
+    public let dropDownBox = DropDownBox(label: "직업", placeHodler: "선택", items: [])
 
     public let errorMessage = ErrorMessage(message: "1에서 200까지 숫자만 입력해주세요")
 

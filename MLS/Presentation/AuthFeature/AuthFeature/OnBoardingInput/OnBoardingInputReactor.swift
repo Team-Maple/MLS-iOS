@@ -9,6 +9,7 @@ public final class OnBoardingInputReactor: Reactor {
         case none
         case dismiss
         case home
+        case notification
         case error
     }
 
@@ -18,15 +19,15 @@ public final class OnBoardingInputReactor: Reactor {
         case skipButtonTapped
         case nextButtonTapped
         case inputLevel(Int?)
-        case inputRole(String?)
+        case inputRole(Job?)
     }
 
     public enum Mutation {
-        case setJobList(jobList: [String])
+        case setJobList(jobList: [Job])
         case setButtonEnabled(Bool)
         case setLevelValid(Bool?)
         case setLevel(Int?)
-        case setRole(String?)
+        case setRole(Job?)
         case navigateTo(route: Route)
     }
 
@@ -34,31 +35,29 @@ public final class OnBoardingInputReactor: Reactor {
         @Pulse var route: Route = .none
 
         var level: Int?
-        var role: String?
+        var job: Job?
         var isButtonEnabled: Bool = false
         var isLevelValid: Bool?
-        var jobList: [String] = []
+        var jobList: [Job] = []
     }
 
     // MARK: - properties
     public var initialState: State
+    var disposeBag = DisposeBag()
+
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
     private let fetchJobListUseCase: FetchJobListUseCase
-    private let updateUserInfoUseCase: UpdateUserInfoUseCase
-    var disposeBag = DisposeBag()
 
     // MARK: - init
     public init(
         checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
         checkValidLevelUseCase: CheckValidLevelUseCase,
-        fetchJobListUseCase: FetchJobListUseCase,
-        updateUserInfoUseCase: UpdateUserInfoUseCase
+        fetchJobListUseCase: FetchJobListUseCase
     ) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
         self.fetchJobListUseCase = fetchJobListUseCase
-        self.updateUserInfoUseCase = updateUserInfoUseCase
         self.initialState = State()
     }
 
@@ -76,24 +75,18 @@ public final class OnBoardingInputReactor: Reactor {
         case .skipButtonTapped:
             return Observable.just(.navigateTo(route: .home))
         case .nextButtonTapped:
-            if let level = currentState.level, let role = currentState.role {
-                return updateUserInfoUseCase.execute(level: level, selectedJob: role)
-                    .andThen(Observable.just(.navigateTo(route: .home)))
-                    .catchAndReturn(.navigateTo(route: .error))
-            } else {
-                return Observable.just(.navigateTo(route: .error))
-            }
+               return Observable.just(.navigateTo(route: .notification))
         case .inputLevel(let level):
             let changeLevel = Observable.just(Mutation.setLevel(level))
-            let validateButton = checkEmptyUseCase.execute(level: level, role: currentState.role)
+            let validateJob = checkEmptyUseCase.execute(level: level, job: currentState.job?.name)
                 .map(Mutation.setButtonEnabled)
             let validateLevel = checkValidLevelUseCase.execute(level: level)
                 .map(Mutation.setLevelValid)
-            return .merge(changeLevel, validateButton, validateLevel)
-        case .inputRole(let role):
-            return checkEmptyUseCase.execute(level: currentState.level, role: role)
+            return .merge(changeLevel, validateJob, validateLevel)
+        case .inputRole(let job):
+            return checkEmptyUseCase.execute(level: currentState.level, job: job?.name)
                 .map { isValid in
-                    [.setRole(role), .setButtonEnabled(isValid)]
+                    [.setRole(job), .setButtonEnabled(isValid)]
                 }
                 .flatMap { Observable.from($0) }
         }
@@ -112,7 +105,7 @@ public final class OnBoardingInputReactor: Reactor {
         case .setLevel(let level):
             newState.level = level
         case .setRole(let role):
-            newState.role = role
+            newState.job = role
         case .navigateTo(let route):
             newState.route = route
         }
