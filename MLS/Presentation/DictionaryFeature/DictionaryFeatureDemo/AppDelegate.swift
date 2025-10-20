@@ -152,6 +152,36 @@ private extension AppDelegate {
         DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
             return FetchDictionaryDetailMonsterMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryDetailNpcUseCase.self) {
+            return FetchDictionaryDetailNpcUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailNpcQuestUseCase.self) {
+            return FetchDictionaryDetailNpcQuestUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailNpcMapUseCase.self) {
+            return FetchDictionaryDetailNpcMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailItemUseCase.self) {
+            return FetchDictionaryDetailItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailItemDropMonsterUseCase.self) {
+            return FetchDictionaryDetailItemDropMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailQuestUseCase.self) {
+            return FetchDictionaryDetailQuestUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self) {
+            return FetchDictionaryDetailQuestLinkedQuestsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapUseCase.self) {
+            return FetchDictionaryDetailMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self) {
+            return FetchDictionaryDetailMapSpawnMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapNpcUseCase.self) {
+            return FetchDictionaryDetailMapNpcUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
         DIContainer.register(type: ToggleBookmarkUseCase.self) {
             return ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
         }
@@ -195,7 +225,7 @@ private extension AppDelegate {
             return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
         DIContainer.register(type: DictionaryDetailFactory.self) {
-            return DictionaryDetailFactoryImpl(dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
+            return DictionaryDetailFactoryImpl(dictionaryDetailMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapUseCase.self), dictionaryDetailMapSpawnMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self), dictionaryDetailMapNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapNpcUseCase.self), dictionaryDetailQuestLinkedQuestsUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self), dictionaryDetailQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestUseCase.self), dictionaryDetailItemDropMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemDropMonsterUseCase.self), dictionaryDetailItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemUseCase.self), dictionaryDetailNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcUseCase.self), dictionaryDetailNpcQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcQuestUseCase.self), dictionaryDetailNpcMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcMapUseCase.self), dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(

@@ -13,13 +13,6 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupMainInfo()
-        setUpInfoStackView()
-        setUpMonsterView()
-    }
 }
 
 // MARK: - Populate Data
@@ -27,24 +20,111 @@ private extension ItemDictionaryDetailViewController {
     func setupMainInfo() {
         // 상세 정보(메인?)
         self.inject(input: DictionaryDetailBaseViewController.Input(
-            image: DesignSystemAsset.image(named: "testImage2"),
+            imageUrl: reactor?.currentState.itemDetailInfo.imgUrl,
             backgroundColor: type.backgroundColor,
-            name: "뇌전수리검",
-            subText: "Lv10"
+            name: reactor?.currentState.itemDetailInfo.nameKr ?? "이름 없음",
+            subText: reactor?.currentState.itemDetailInfo.requiredStats?.level.map { "Lv. \($0)" } ?? "" // 착용 레벨이 존재하는 아이템일 경우 레벨 보여주기
         ))
     }
 
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
-        let infos = reactor.currentState.itemInfos
+        let infos = reactor.currentState.itemDetailInfo
 
-        if !infos.isEmpty {
-            contentViews.append(detailInfoView)
-            for info in infos {
-                detailInfoView.addInfo(mainText: info.name, subText: info.desc)
+        contentViews.append(detailInfoView)
+        // descriptionText
+        detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
+
+        if let npcPrice = infos.npcPrice {
+            detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice)메소")
+        }
+
+        if let availableJobs = infos.availableJobs {
+            let jobNames = availableJobs.compactMap { $0.jobName }.joined(separator: ", ")
+            if !jobNames.isEmpty {
+                detailInfoView.addInfo(mainText: "직업", subText: jobNames)
             }
-        } else {
-            contentViews.append(DetailEmptyView(type: .normal))
+        }
+
+        if let requiredStats = infos.requiredStats {
+            if let level = requiredStats.level {
+                detailInfoView.addInfo(mainText: "착용레벨", subText: "Lv. \(level)")
+            }
+            if let str = requiredStats.str {
+                detailInfoView.addInfo(mainText: "필요 STR", subText: "\(str)")
+            }
+            if let dex = requiredStats.dex {
+                detailInfoView.addInfo(mainText: "필요 DEX", subText: "\(dex)")
+            }
+            if let int = requiredStats.intelligence {
+                detailInfoView.addInfo(mainText: "필요 INT", subText: "\(int)")
+            }
+            if let luk = requiredStats.luk {
+                detailInfoView.addInfo(mainText: "필요 LUK", subText: "\(luk)")
+            }
+            if let pop = requiredStats.pop {
+                detailInfoView.addInfo(mainText: "필요 POP", subText: "\(pop)")
+            }
+        }
+        // 해당 스트링들을 상수 추출 하는게 좋을지..
+        if let equipmentStats = infos.equipmentStats {
+            let statMappings: [(title: String, stat: Stats?)] = [
+                ("STR 증가", equipmentStats.str),
+                ("DEX 증가", equipmentStats.dex),
+                ("INT 증가", equipmentStats.intelligence),
+                ("LUK 증가", equipmentStats.luk),
+                ("HP 증가", equipmentStats.hp),
+                ("MP 증가", equipmentStats.mp),
+                ("물리공격력 증가", equipmentStats.weaponAttack),
+                ("마법공격력 증가", equipmentStats.magicAttack),
+                ("물리방어력 증가", equipmentStats.physicalDefense),
+                ("마법방어력 증가", equipmentStats.magicDefense),
+                ("명중률 증가", equipmentStats.accuracy),
+                ("회피율 증가", equipmentStats.evasion),
+                ("이동속도 증가", equipmentStats.speed),
+                ("점프력 증가", equipmentStats.jump)
+            ]
+
+            for (title, stat) in statMappings {
+                if let base = stat?.base {
+                    let subText = formatStatText(base: base, min: stat?.min, max: stat?.max)
+                    detailInfoView.addInfo(mainText: title, subText: subText)
+                }
+            }
+        }
+
+        if let scrollDetail = infos.scrollDetail {
+            let scrollMappings: [(title: String, value: Int?)] = [
+                ("STR 증가", scrollDetail.strChange),
+                ("DEX 증가", scrollDetail.dexChange),
+                ("INT 증가", scrollDetail.intelligenceChange),
+                ("LUK 증가", scrollDetail.lukChange),
+                ("HP 증가", scrollDetail.hpChange),
+                ("MP 증가", scrollDetail.mpChange),
+                ("물리공격력 증가", scrollDetail.weaponAttackChange),
+                ("마법공격력 증가", scrollDetail.magicAttackChange),
+                ("물리방어력 증가", scrollDetail.physicalDefenseChange),
+                ("마법방어력 증가", scrollDetail.magicDefenseChange),
+                ("명중률 증가", scrollDetail.accuracyChange),
+                ("회피율 증가", scrollDetail.evasionChange),
+                ("이동속도 증가", scrollDetail.speedChange),
+                ("점프력 증가", scrollDetail.jumpChange)
+            ]
+
+            if let successRate = scrollDetail.successRatePercent {
+                detailInfoView.addInfo(mainText: "성공 확률", subText: "\(successRate)%")
+            }
+
+            if let targetItem = scrollDetail.targetItemTypeText {
+                detailInfoView.addInfo(mainText: "사용 가능 장비", subText: targetItem)
+            }
+
+            for (title, value) in scrollMappings {
+                if let value = value {
+                    let sign = value >= 0 ? "+" : ""
+                    detailInfoView.addInfo(mainText: title, subText: "\(sign)\(value)")
+                }
+            }
         }
     }
 
@@ -52,22 +132,18 @@ private extension ItemDictionaryDetailViewController {
         guard let reactor = reactor,
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         monsterCardView.initFilter(firstFilter: filter)
+        let monsters = reactor.currentState.monsters
+        monsterCardView.reset()
 
-        if true {
-            contentViews.append(monsterCardView)
-            monsterCardView
-                .inject(
-                    input: DetailStackCardView
-                        .Input(
-                            type: .dropMonsterWithText,
-                            imageUrl: "imageUrl",
-                            mainText: "여신 탑의 러스터픽시(보스 소환용)",
-                            subText: "Lv. 표시",
-                            additionalText: "0.001%"
-                        )
-                )
+        contentViews.append(monsterCardView)
+        if monsters.isEmpty {
+            contentViews[1] = DetailEmptyView(type: .dropMonsterWithText)
         } else {
-            contentViews.append(DetailEmptyView(type: .dropMonsterWithText))
+            contentViews[1] = monsterCardView
+            for monster in monsters {
+                monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, additionalText: "\(monster.dropRate ?? 0)%")
+                )
+            }
         }
     }
 }
@@ -87,6 +163,21 @@ extension ItemDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
+        reactor.state.map(\.itemDetailInfo)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setupMainInfo()
+                self?.setUpInfoStackView()
+            })
+            .disposed(by: disposeBag)
+        reactor.state.map(\.monsters)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpMonsterView()
+            })
+            .disposed(by: disposeBag)
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -98,6 +189,7 @@ extension ItemDictionaryDetailViewController {
                         owner.selectedIndex = index
                         let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
                         owner.monsterCardView.selectFilter(selectedType: selectedFilter)
+                        reactor.action.onNext(.selectFilter(selectedFilter))
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .none:
@@ -105,6 +197,20 @@ extension ItemDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-    }
 
+        rx.viewWillAppear.take(1).subscribe { _ in
+            reactor.action.onNext(.viewWillAppear)
+        }
+        .disposed(by: disposeBag)
+    }
+}
+
+private extension ItemDictionaryDetailViewController {
+    func formatStatText(base: Int, min: Int?, max: Int?) -> String {
+        if let min = min, let max = max {
+            return "\(base) [\(min)-\(max)]"
+        } else {
+            return "\(base)"
+        }
+    }
 }

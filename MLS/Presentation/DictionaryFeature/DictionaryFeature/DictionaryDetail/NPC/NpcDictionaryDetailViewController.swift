@@ -16,13 +16,6 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     private var questView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUpMainInfo()
-        setUpMapView()
-        setUpQuestView()
-    }
-
     init(imageUrl: String) {
         super.init(type: .npc)
     }
@@ -30,59 +23,57 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
 // MARK: - SetUp
 private extension NpcDictionaryDetailViewController {
-    func setUpMainInfo() {
-        // 상세정보(메인?)
+    // 매개변수로 넘겨주는 것과
+    func setUpMainInfo(name: String, imageUrl: String?) {
+        // 상세정보(메인)
         self.inject(
             input: DictionaryDetailBaseViewController
                 .Input(
-                    image: .add,
+                    imageUrl: imageUrl,
                     backgroundColor: type.backgroundColor,
-                    name: "뇌전수리검",
-                    subText: "Lv10"
+                    name: name,
+                    subText: ""
                 )
         )
     }
+    // 내부에서 리액터 사용해서 하는 것
     func setUpMapView() {
-        // 데이터 유효성 검증
-        if true {
-            contentViews.append(appearMapView)
-            // 카드 개수만큼 반복
-            for _ in 0...5 {
-                appearMapView
-                    .inject(
-                        input: DetailStackCardView
-                            .Input(
-                                type: .appearMap,
-                                imageUrl: "testImage",
-                                mainText: "시간의 지평선",
-                                subText: "카테고리(커닝시티 등)"
-                            )
-                    )
-            }
+        guard let reactor = reactor else { return }
+        let maps = reactor.currentState.maps
+        appearMapView.reset()
+        contentViews.append(appearMapView)
+        if maps.isEmpty {
+            // 출현맵
+            contentViews[0] = DetailEmptyView(type: .appearMap)
         } else {
-            contentViews.append(DetailEmptyView(type: .appearMap))
+            contentViews[0] = appearMapView
+            for map in maps {
+                appearMapView.inject(input: DetailStackCardView.Input(
+                    type: .appearMap,
+                    imageUrl: map.iconUrl,
+                    mainText: map.mapName,
+                    subText: map.detailName))
+            }
         }
+
     }
 
     func setUpQuestView() {
-        // 데이터 유효성 검증
-        if false {
-            contentViews.append(questView)
-            // 카드 개수만큼 반복
-            for _ in 0...5 {
-                questView
-                    .inject(
-                        input: DetailStackCardView
-                            .Input(
-                                type: .quest,
-                                imageUrl: "tesetImage",
-                                mainText: "퀘스트 이름",
-                                subText: "수락 Lv. 21"
-                            )
-                    )
-            }
+        guard let reactor = reactor else { return }
+        let quests = reactor.currentState.quests
+        contentViews.append(questView)
+        if quests.isEmpty {
+            // 퀘스트
+            contentViews[1] = DetailEmptyView(type: .quest)
         } else {
-            contentViews.append(DetailEmptyView(type: .quest))
+            contentViews[1] = questView
+            for quest in quests {
+                questView.inject(input: DetailStackCardView.Input(
+                    type: .quest,
+                    imageUrl: quest.questIconUrl,
+                    mainText: quest.questNameKr
+                ))
+            }
         }
     }
 }
@@ -117,11 +108,41 @@ extension NpcDictionaryDetailViewController {
                         owner.selectedIndex = index
                         let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
                         owner.questView.selectFilter(selectedType: selectedFilter)
+                        reactor.action.onNext(.selectFilter(selectedFilter))
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .none:
                     break
                 }
+            }
+            .disposed(by: disposeBag)
+        reactor.state.map(\.info)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] info in
+                self?.setUpMainInfo(name: info.name, imageUrl: info.imgUrl)
+            })
+            .disposed(by: disposeBag)
+        reactor.state.map(\.maps)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpMapView()
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state.map(\.quests)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpQuestView()
+            })
+            .disposed(by: disposeBag)
+
+        rx.viewWillAppear
+            .take(1)
+            .subscribe { _ in
+                reactor.action.onNext(.viewWillAppear)
             }
             .disposed(by: disposeBag)
     }

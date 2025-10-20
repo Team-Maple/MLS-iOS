@@ -46,7 +46,7 @@ extension Requestable {
             request.httpBody = try JSONEncoder().encode(body)
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-
+        print("요청 url: \(request)")
         return request
     }
 }

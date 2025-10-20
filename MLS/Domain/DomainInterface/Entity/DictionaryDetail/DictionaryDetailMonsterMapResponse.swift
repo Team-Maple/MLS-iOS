@@ -5,9 +5,9 @@ public struct DictionaryDetailMonsterMapResponse: Codable, Equatable {
     public let detailName: String
     public let topRegionName: String
     public let iconUrl: String
-    public let maxSpawnCount: Int
+    public let maxSpawnCount: Int?
 
-    public init(mapId: Int, mapName: String, regionName: String, detailName: String, topRegionName: String, iconUrl: String, maxSpawnCount: Int) {
+    public init(mapId: Int, mapName: String, regionName: String, detailName: String, topRegionName: String, iconUrl: String, maxSpawnCount: Int?) {
         self.mapId = mapId
         self.mapName = mapName
         self.regionName = regionName

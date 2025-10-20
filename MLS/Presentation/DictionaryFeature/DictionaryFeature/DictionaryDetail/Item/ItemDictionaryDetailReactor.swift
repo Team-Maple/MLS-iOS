@@ -9,57 +9,58 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case filter(DictionaryType)
     }
 
-    public struct ItemInfo: Equatable {
-        var name: String
-        var desc: String
-    }
-
-    public struct MonsterInfo: Equatable {
-        var name: String
-        var level: String
-    }
+    public let dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase
+    public let dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase
 
     public struct State {
         @Pulse var route: Route = .none
+        var itemDetailInfo: DictionaryDetailItemResponse
         var type: DictionaryType = .item
-        // 아이템 임시 모델
-        var itemInfos: [ItemInfo] = [
-            ItemInfo(name: "물리공격력", desc: "22"),
-            ItemInfo(name: "상점판매가", desc: "20000메소")
-        ]
-        // 몬스터 임시 모델
-        var monsterInfos: [MonsterInfo] = [
-            MonsterInfo(name: "여신 탑의 러스터픽시", level: "Lv. 99"),
-            MonsterInfo(name: "스톤골렘", level: "Lv. 99"),
-            MonsterInfo(name: "주니어 발록", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99"),
-            MonsterInfo(name: "불독", level: "Lv. 99")
-        ]
+        var monsters: [DictionaryDetailItemDropMonsterResponse]
+        var id = 0
     }
 
     public enum Action {
         case filterButtonTapped
+        case viewWillAppear
+        case selectFilter(SortType)
     }
 
     public enum Mutation {
         case showFilter
+        case setDetailData(DictionaryDetailItemResponse)
+        case setDetailDropMonsterData([DictionaryDetailItemDropMonsterResponse])
     }
 
     public var initialState: State
     private let disposeBag = DisposeBag()
 
-    public init() {
-        self.initialState = .init(type: .item)
+    public init(dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase, dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase, id: Int) {
+        self.initialState = .init(itemDetailInfo: DictionaryDetailItemResponse(itemId: nil, nameKr: nil, nameEn: nil, descriptionText: nil, imgUrl: nil, npcPrice: nil, itemType: nil, categoryHierachy: nil, availableJobs: nil, requiredStats: nil, equipmentStats: nil, scrollDetail: nil, isBookmarked: nil), type: .item, monsters: [], id: id)
+        self.dictionaryDetailItemUseCase = dictionaryDetailItemUseCase
+        self.dictionaryDetailItemDropMonsterUseCase = dictionaryDetailItemDropMonsterUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
             return Observable.just(.showFilter)
+        case .viewWillAppear:
+            return .merge([
+                dictionaryDetailItemUseCase.execute(id: currentState.id).map {.setDetailData($0)},
+                dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: nil).map {.setDetailDropMonsterData($0)}
+            ])
+        case let .selectFilter(type):
+            switch type {
+            case .mostDrop:// 드롭률 내림차순
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["dropRate", "desc"]).map {.setDetailDropMonsterData($0)}
+            case .levelDESC:
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map {.setDetailDropMonsterData($0)}
+            case .levelASC:
+                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map {.setDetailDropMonsterData($0)}
+            default:
+                return Observable.empty()
+            }
         }
     }
 
@@ -69,7 +70,12 @@ public final class ItemDictionaryDetailReactor: Reactor {
         switch mutation {
         case .showFilter:
             newState.route = .filter(newState.type)
+        case let .setDetailData(data):
+            newState.itemDetailInfo = data
+        case let .setDetailDropMonsterData(data):
+            newState.monsters = data
         }
+
         return newState
     }
 }

@@ -19,10 +19,6 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpMainInfo()
-        setUpMapView()
-        setUpMonsterView()
-        setUpNpcView()
         bindImageView()
     }
 
@@ -36,22 +32,27 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
 // MARK: - SetUp
 private extension MapDictionaryDetailViewController {
     func setUpMainInfo() {
+        guard let reactor = reactor else { return }
+        let info = reactor.currentState.mapDetailInfo
         self.inject(
             input: DictionaryDetailBaseViewController
                 .Input(
-                    image: .add,
+                    imageUrl: info.iconUrl,
                     backgroundColor: type.backgroundColor,
-                    name: "뇌전수리검",
-                    subText: "Lv10"
+                    name: info.nameKr ?? "이름 없음",
+                    subText: info.detailName ?? ""
                 )
         )
     }
 
     func setUpMapView() {
-        if true {
-            contentViews.append(mapInfoView)
+        guard let reactor = reactor else { return }
+
+        contentViews.append(mapInfoView)
+        if let mapUrl = reactor.currentState.mapDetailInfo.mapUrl, !mapUrl.isEmpty {
+            contentViews[0] = mapInfoView
         } else {
-            contentViews.append(DetailEmptyView(type: .mapInfo))
+            contentViews[0] = DetailEmptyView(type: .mapInfo)
         }
     }
 
@@ -60,37 +61,30 @@ private extension MapDictionaryDetailViewController {
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         appearMonsterView.initFilter(firstFilter: filter)
 
-        if true {
-            contentViews.append(appearMonsterView)
-            appearMonsterView
-                .inject(
-                    input: DetailStackCardView
-                        .Input(
-                            type: .appearMonsterWithText,
-                            imageUrl: "testImage",
-                            mainText: "여신 탑의 러스터 픽시(보스 소환용)",
-                            subText: "Lv. 표시",
-                            additionalText: "9마리"
-                        )
-                )
+        let monsters = reactor.currentState.spawnMonsters
+        contentViews.append(appearMonsterView)
+        if monsters.isEmpty {
+            contentViews[1] = DetailEmptyView(type: .appearMonsterWithText)
         } else {
-            contentViews.append(DetailEmptyView(type: .appearMonsterWithText))
+            contentViews[1] = appearMonsterView
+            for monster in monsters {
+                appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)"))
+            }
         }
     }
 
     func setUpNpcView() {
-        if false {
-            appearNpcView
-                .inject(
-                    input: DetailStackCardView
-                        .Input(
-                            type: .appearNPC,
-                            imageUrl: "testImage",
-                            mainText: "NPC 이름"
-                        )
-                )
+        guard let reactor = reactor, let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+        appearNpcView.initFilter(firstFilter: filter)
+        let npcs = reactor.currentState.npcs
+        contentViews.append(appearNpcView)
+        if npcs.isEmpty {
+            contentViews[2] = DetailEmptyView(type: .appearNPC)
         } else {
-            contentViews.append(DetailEmptyView(type: .appearNPC))
+            contentViews[2] = appearNpcView
+            for npc in npcs {
+                appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: npc.iconUrl ?? "", mainText: npc.npcName))
+            }
         }
     }
 
@@ -125,6 +119,29 @@ extension MapDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
+        reactor.state.map(\.mapDetailInfo)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpMainInfo()
+                self?.setUpMapView()
+            })
+            .disposed(by: disposeBag)
+        reactor.state.map(\.spawnMonsters)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpMonsterView()
+            })
+            .disposed(by: disposeBag)
+        reactor.state.map(\.npcs)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: {[weak self] _ in
+                self?.setUpNpcView()
+            })
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
@@ -144,5 +161,9 @@ extension MapDictionaryDetailViewController {
             }
             .disposed(by: disposeBag)
 
+        rx.viewWillAppear.take(1).subscribe { _ in
+            reactor.action.onNext(.viewWillAppear)
+        }
+        .disposed(by: disposeBag)
     }
 }
