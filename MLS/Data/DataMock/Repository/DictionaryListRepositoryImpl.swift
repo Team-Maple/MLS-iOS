@@ -1,11 +1,11 @@
-//import Foundation
+// import Foundation
 //
-//import DomainInterface
+// import DomainInterface
 //
-//import RxRelay
-//import RxSwift
+// import RxRelay
+// import RxSwift
 //
-//public final class DictionaryListRepositoryImpl: DictionaryListRepository {
+// public final class DictionaryListRepositoryImpl: DictionaryListRepository {
 //    public let itemsRelay: BehaviorRelay<[DictionaryItem]>
 //
 //    public init(allItems: [DictionaryItem]) {
@@ -33,4 +33,4 @@
 //        itemsRelay.accept(items)
 //        return itemsRelay.asObservable()
 //    }
-//}
+// }
