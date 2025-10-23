@@ -40,11 +40,4 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
-
-    // MARK: - Bookmark 추가
-    public func postBookmark(bookmarkType: String, resourceId: Int) -> Observable<BookmarkResponse> {
-        let endPoint = DictionaryListEndPoint.postBookmark(bookmarkType: bookmarkType, resourceId: resourceId)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-            .map { $0.toDomain()}
-    }
 }

@@ -1,11 +1,11 @@
 import UIKit
 
-public enum DictionaryItemType {
-    case item
-    case monster
-    case map
-    case npc
-    case quest
+public enum DictionaryItemType: String {
+    case item/* = "ITEM"*/
+    case monster/* = "MONSTER"*/
+    case map/* = "MAP"*/
+    case npc/* = "NPC"*/
+    case quest/* = "QUEST"*/
 
     public var detailTypes: [DetailType] {
         switch self {
@@ -37,16 +37,16 @@ public enum DictionaryItemType {
         }
     }
 
-   static func from(_ string: String) -> DictionaryItemType? {
-            let mapping: [String: DictionaryItemType] = [
-                "item": .item,
-                "monster": .monster,
-                "map": .map,
-                "npc": .npc,
-                "quest": .quest
-            ]
-            return mapping[string.lowercased()]
-        }
+    static func from(_ string: String) -> DictionaryItemType? {
+        let mapping: [String: DictionaryItemType] = [
+            "item": .item,
+            "monster": .monster,
+            "map": .map,
+            "npc": .npc,
+            "quest": .quest
+        ]
+        return mapping[string.lowercased()]
+    }
 }
 
 public enum DetailType {
@@ -96,5 +96,4 @@ public enum DetailType {
             []
         }
     }
-
 }

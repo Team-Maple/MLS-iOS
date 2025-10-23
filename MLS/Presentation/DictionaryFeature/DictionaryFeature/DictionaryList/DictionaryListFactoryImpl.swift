@@ -10,8 +10,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let dictionaryNpcListItemUseCase: FetchDictionaryNpcListUseCase
     private let dictionaryListItemUseCase: FetchDictionaryMonsterListUseCase
 
-    private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
-    private let toggleBookmarkUseCase: ToggleBookmarkUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
@@ -25,8 +24,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase,
         dictionaryNpcListItemUseCase: FetchDictionaryNpcListUseCase,
         dictionaryListItemUseCase: FetchDictionaryMonsterListUseCase,
-        fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
-        toggleBookmarkUseCase: ToggleBookmarkUseCase,
+        setBookmarkUseCase: SetBookmarkUseCase,
         itemFilterFactory: ItemFilterBottomSheetFactory,
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
@@ -38,8 +36,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         self.dictionaryQuestListItemUseCase = dictionaryQuestListItemUseCase
         self.dictionaryNpcListItemUseCase = dictionaryNpcListItemUseCase
         self.dictionaryListItemUseCase = dictionaryListItemUseCase
-        self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
-        self.toggleBookmarkUseCase = toggleBookmarkUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
@@ -55,8 +52,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             dictionaryQuestListUseCase: dictionaryQuestListItemUseCase,
             dictionaryNpcListUseCase: dictionaryNpcListItemUseCase,
             dictionaryListUseCase: dictionaryListItemUseCase,
-            fetchDictionaryItemsUseCase: fetchDictionaryItemsUseCase,
-            toggleBookmarkUseCase: toggleBookmarkUseCase
+            setBookmarkUseCase: setBookmarkUseCase
         )
         let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, detailFactory: detailFactory)
         if listType == .search {

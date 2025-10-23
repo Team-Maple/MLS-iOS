@@ -6,7 +6,7 @@ import DomainInterface
 
 final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
-    private var onBookmarkTapped: (() -> Void)?
+    private var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
     public let cellView = CardList()
@@ -48,7 +48,7 @@ extension DictionaryListCell {
         let isBookmarked: Bool
     }
 
-    func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping () -> Void) {
+    func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping (Bool) -> Void) {
         cellView.setType(type: type)
         // URL이 유효할 때만 요청
         if let url = URL(string: input.imageUrl) {
@@ -61,8 +61,8 @@ extension DictionaryListCell {
         cellView.setSubText(text: input.subText)
         cellView.setSelected(isSelected: input.isBookmarked)
         self.onBookmarkTapped = onBookmarkTapped
-        cellView.onIconTapped = { [weak self] _ in
-            self?.onBookmarkTapped?()
+        cellView.onIconTapped = { [weak self] isSelected in
+            self?.onBookmarkTapped?(isSelected)
         }
     }
 }

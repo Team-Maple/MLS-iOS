@@ -14,10 +14,10 @@ public struct DictionaryMainItemResponse: Equatable {
     public let id: Int
     public let name: String
     public let imageUrl: String?
-    public let type: String
+    public let type: DictionaryItemType
     public let isBookmarked: Bool
 
-    public init(id: Int, name: String, imageUrl: String?, type: String, isBookmarked: Bool) {
+    public init(id: Int, name: String, imageUrl: String?, type: DictionaryItemType, isBookmarked: Bool) {
         self.id = id
         self.name = name
         self.imageUrl = imageUrl

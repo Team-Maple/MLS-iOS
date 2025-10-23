@@ -30,30 +30,22 @@ public final class BookmarkMainReactor: Reactor {
     }
 
     // MARK: - Properties
-    private let getOnBoardingUseCase: GetBookmarkOnboardingUseCase
-    private let setOnBoardingUseCase: SetBookmarkOnBoardingUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(getOnBoardingUseCase: GetBookmarkOnboardingUseCase, setOnBoardingUseCase: SetBookmarkOnBoardingUseCase) {
+    public init(setBookmarkUseCase: SetBookmarkUseCase) {
         self.initialState = State(route: .none)
-        self.getOnBoardingUseCase = getOnBoardingUseCase
-        self.setOnBoardingUseCase = setOnBoardingUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewDidAppear:
-            if getOnBoardingUseCase.execute() {
                 return .empty()
-            } else {
-                return .just(.navigateTo(.onBoarding))
-            }
-
         case .dismissOnboarding:
-            setOnBoardingUseCase.execute()
             return .empty()
         case .searchButtonTapped:
             return Observable.just(.navigateTo(.search))

@@ -17,7 +17,7 @@ public final class CollectionDetailReactor: Reactor {
         case editButtonTapped
         case addButtonTapped
         case bookmarkButtonTapped
-        case toggleBookmark(String)
+        case toggleBookmark(Int, Bool)
         case selectSetting(CollectionSettingMenu)
         case changeName(String)
     }
@@ -41,22 +41,23 @@ public final class CollectionDetailReactor: Reactor {
     }
 
     // MARK: - Properties
-    private let toggleBookmarkUseCase: ToggleBookmarkUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(toggleBookmarkUseCase: ToggleBookmarkUseCase, collection: BookmarkCollection) {
+    public init(setBookmarkUseCase: SetBookmarkUseCase, collection: BookmarkCollection) {
         self.initialState = State(route: .none, collection: collection)
-        self.toggleBookmarkUseCase = toggleBookmarkUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .toggleBookmark(let id):
-            return toggleBookmarkUseCase.execute(id: id, type: .total)
-                .map { Mutation.setItems($0) }
+        case .toggleBookmark(let id, let isSelected):
+//            return toggleBookmarkUseCase.execute(id: id, type: .total)
+//                .map { Mutation.setItems($0) }
+            return .empty()
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
         case .editButtonTapped:

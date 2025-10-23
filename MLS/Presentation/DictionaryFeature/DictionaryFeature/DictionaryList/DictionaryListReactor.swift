@@ -10,7 +10,7 @@ open class DictionaryListReactor: Reactor {
     }
 
     public enum Action {
-        case toggleBookmark(String)
+        case toggleBookmark(Int, Bool)
         case viewWillAppear
         case sortButtonTapped
         case filterButtonTapped
@@ -24,7 +24,6 @@ open class DictionaryListReactor: Reactor {
     public enum Mutation {
         case setListItem(DictionaryMainResponse)
         case setFilterMonsterItem(DictionaryMainResponse)
-        case setItems([DictionaryItem])
         case setFilterItemsItem(DictionaryMainResponse)
         case showSortFilter
         case showFilter
@@ -36,7 +35,6 @@ open class DictionaryListReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route
-        public var items: [DictionaryItem] = []
         public var listItems: [DictionaryMainItemResponse] = []
         public var type: DictionaryType
 
@@ -63,8 +61,7 @@ open class DictionaryListReactor: Reactor {
     // Npc list UseCase
     private let dictionaryNpcListUseCase: FetchDictionaryNpcListUseCase
     private let dictionaryListUseCase: FetchDictionaryMonsterListUseCase
-    private let fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase
-    private let toggleBookmarkUseCase: ToggleBookmarkUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
 
     private let disposeBag = DisposeBag()
 
@@ -75,8 +72,7 @@ open class DictionaryListReactor: Reactor {
         dictionaryQuestListUseCase: FetchDictionaryQuestListUseCase,
         dictionaryNpcListUseCase: FetchDictionaryNpcListUseCase,
         dictionaryListUseCase: FetchDictionaryMonsterListUseCase,
-        fetchDictionaryItemsUseCase: FetchDictionaryItemsUseCase,
-        toggleBookmarkUseCase: ToggleBookmarkUseCase
+        setBookmarkUseCase: SetBookmarkUseCase
     ) {
         self.initialState = State(route: .none, type: type)
         self.dictionaryMapListUseCase = dictionaryMapListUseCase
@@ -84,18 +80,17 @@ open class DictionaryListReactor: Reactor {
         self.dictionaryQuestListUseCase = dictionaryQuestListUseCase
         self.dictionaryNpcListUseCase = dictionaryNpcListUseCase
         self.dictionaryListUseCase = dictionaryListUseCase
-        self.fetchDictionaryItemsUseCase = fetchDictionaryItemsUseCase
-        self.toggleBookmarkUseCase = toggleBookmarkUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
             switch currentState.type {
-                // monster: keyword, minLevel, maxLevel, page, size, sort
-                // npc: keyword, page, size, sort
-                // quest: keyword, page, size, sort
-                // item: keyword, jobId, minLevel, maxLevel, categoryIds, page, size, sort
+            // monster: keyword, minLevel, maxLevel, page, size, sort
+            // npc: keyword, page, size, sort
+            // quest: keyword, page, size, sort
+            // item: keyword, jobId, minLevel, maxLevel, categoryIds, page, size, sort
             /// 몬스터, 아이템을 제외하고는 피그마 상으로는 정렬이 불가능한데, API에는 정렬 옵션이 있음. -> npc, quest,map 도 일단 정렬 옵션 추가
             case .monster:
                 return Observable.concat([
@@ -108,35 +103,44 @@ open class DictionaryListReactor: Reactor {
                 return Observable.concat([
                     Observable.just(Mutation.initPage),
                     dictionaryNpcListUseCase.execute(keyword: "", page: currentState.currentPage, size: 20, sort: nil)
-                .map { Mutation.setListItem($0)}
+                        .map { Mutation.setListItem($0) }
 
                 ])
             case .quest:
                 return Observable.concat([
                     Observable.just(Mutation.initPage),
                     dictionaryQuestListUseCase.execute(keyword: "", page: currentState.currentPage, size: 20, sort: nil)
-                .map { Mutation.setListItem($0)}
+                        .map { Mutation.setListItem($0) }
 
                 ])
             case .item:
                 return Observable.concat([
                     Observable.just(Mutation.initPage),
                     dictionaryItemListUseCase.execute(keyword: "", jobId: nil, minLevel: nil, maxLevel: nil, categoryIds: nil, page: currentState.currentPage, size: 20, sort: nil)
-                        .map { Mutation.setListItem($0)}
+                        .map { Mutation.setListItem($0) }
                 ])
             case .map:
                 return Observable.concat([
                     Observable.just(Mutation.initPage),
                     dictionaryMapListUseCase.execute(keyword: "", page: currentState.currentPage, size: 20, sort: nil)
-                        .map { Mutation.setListItem($0)}
+                        .map { Mutation.setListItem($0) }
                 ])
             default:
                 return Observable.empty()
             }
 
-        case let .toggleBookmark(id):
-            return toggleBookmarkUseCase.execute(id: id, type: currentState.type)
-                .map { Mutation.setItems($0) }
+        case let .toggleBookmark(id, isSelected):
+            guard let type = currentState.listItems.first?.type
+                  /*let bookmarkId = currentState.items.first(where: { $0.originalId == id })?.bookmarkId*/ else { return .empty() }
+
+            return setBookmarkUseCase.execute(bookmarkId: id,
+                                              isBookmark: isSelected ? .set(type) : .delete)
+                .andThen(
+                    Observable.concat([
+                        .just(.initPage),
+                        fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
+                    ])
+                )
         case .sortButtonTapped:
             return Observable.just(.showSortFilter)
         case .filterButtonTapped:
@@ -174,14 +178,13 @@ open class DictionaryListReactor: Reactor {
         case .fetchListFilter:
             return fetchListFilter(sort: currentState.sort, startLevel: currentState.startLevel ?? 1, endLevel: currentState.endLevel ?? 200)
         }
-
     }
+
     // 필터걸고 난 후 조회
     private func fetchListFilter(sort: String?, startLevel: Int = 1, endLevel: Int = 200) -> Observable<Mutation> {
         switch currentState.type {
         case .monster:
-            return dictionaryListUseCase.execute(type: .monster, query: DictionaryListQuery(page: currentState.currentPage, size: 20, sort: sort, minLevel: startLevel, maxLevel: endLevel)
-            ).map { Mutation.setFilterMonsterItem($0) }
+            return dictionaryListUseCase.execute(type: .monster, query: DictionaryListQuery(page: currentState.currentPage, size: 20, sort: sort, minLevel: startLevel, maxLevel: endLevel)).map { Mutation.setFilterMonsterItem($0) }
         case .item:
             return dictionaryItemListUseCase.execute(
                 keyword: currentState.keyword,
@@ -199,43 +202,43 @@ open class DictionaryListReactor: Reactor {
     }
 
     private func fetchList(sort: String?, startLevel: Int?, endLevel: Int?) -> Observable<Mutation> {
-            switch currentState.type {
-            case .monster:
-                return dictionaryListUseCase.execute(
-                    type: .monster,
-                    query: DictionaryListQuery(
-                        page: currentState.currentPage,
-                        size: 20,
-                        sort: sort,
-                        minLevel: startLevel,
-                        maxLevel: endLevel
-                    )
-                ).map { Mutation.setListItem($0) }
-
-            case .item:
-                return dictionaryItemListUseCase.execute(
-                    keyword: currentState.keyword,
-                    jobId: currentState.jobId,
-                    minLevel: currentState.minLevel,
-                    maxLevel: currentState.maxLevel,
-                    categoryIds: currentState.categoryIds,
+        switch currentState.type {
+        case .monster:
+            return dictionaryListUseCase.execute(
+                type: .monster,
+                query: DictionaryListQuery(
                     page: currentState.currentPage,
                     size: 20,
-                    sort: sort
-                ).map { Mutation.setListItem($0) }
-            case .map: // 몬스터, 아이템을 제외하고는 기본 ASC 정렬
-                return dictionaryMapListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
-                    .map { Mutation.setListItem($0)}
-            case .npc:
-                return dictionaryNpcListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
-                    .map { Mutation.setListItem($0)}
-            case .quest:
-                return dictionaryQuestListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
-                    .map { Mutation.setListItem($0)}
-            default:
-                return Observable.empty()
-            }
+                    sort: sort,
+                    minLevel: startLevel,
+                    maxLevel: endLevel
+                )
+            ).map { Mutation.setListItem($0) }
+
+        case .item:
+            return dictionaryItemListUseCase.execute(
+                keyword: currentState.keyword,
+                jobId: currentState.jobId,
+                minLevel: currentState.minLevel,
+                maxLevel: currentState.maxLevel,
+                categoryIds: currentState.categoryIds,
+                page: currentState.currentPage,
+                size: 20,
+                sort: sort
+            ).map { Mutation.setListItem($0) }
+        case .map: // 몬스터, 아이템을 제외하고는 기본 ASC 정렬
+            return dictionaryMapListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
+                .map { Mutation.setListItem($0) }
+        case .npc:
+            return dictionaryNpcListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
+                .map { Mutation.setListItem($0) }
+        case .quest:
+            return dictionaryQuestListUseCase.execute(keyword: currentState.keyword ?? "", page: currentState.currentPage, size: 20, sort: "ASC")
+                .map { Mutation.setListItem($0) }
+        default:
+            return Observable.empty()
         }
+    }
 
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
@@ -244,8 +247,6 @@ open class DictionaryListReactor: Reactor {
             newState.listItems = items.contents
         case let .setFilterItemsItem(items):
             newState.listItems = items.contents
-        case let .setItems(items):
-            newState.items = items
         case .showSortFilter:
             newState.route = .sort(newState.type)
         case .showFilter:

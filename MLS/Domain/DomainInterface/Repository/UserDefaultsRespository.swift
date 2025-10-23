@@ -1,4 +1,4 @@
-public protocol UserDefaultsRespository {
-    func getBookmarkOnboarding() -> Bool
-    func setBookmarkOnBoarding()
-}
+//public protocol UserDefaultsRespository {
+//    func getBookmarkOnboarding() -> Bool
+//    func setBookmarkOnBoarding()
+//}

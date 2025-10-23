@@ -187,6 +187,7 @@ private extension CardList {
     func bindButton() {
         iconButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
+            self.isIconSelected.toggle()
             self.onIconTapped?(self.isIconSelected)
         }), for: .touchUpInside)
     }

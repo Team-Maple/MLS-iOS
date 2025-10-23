@@ -184,30 +184,14 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             return UICollectionViewCell()
         }
         let item = state.listItems[indexPath.row]
-        let type: DictionaryItemType
-
-        switch item.type {
-        case "monster":
-            type = .monster
-        case "item":
-            type = .item
-        case "map":
-            type = .map
-        case "npc":
-            type = .npc
-        case "quest":
-            type = .quest
-        default:
-            type = .monster
-        }
 
         cell.inject(type: .bookmark,
-                    input: DictionaryListCell.Input(type: type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "", isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] in
+                    input: DictionaryListCell.Input(type: item.type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "", isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] isSelected in
             guard let self = self else { return }
             if item.isBookmarked {
-                self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
+                self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
                 SnackBarFactory.createSnackBar(type: .delete, image: UIImage(named: "pencil"), imageBackgroundColor: UIColor.green, text: "아이템을 북마크에서 삭제했어요.", buttonText: "되돌리기", buttonAction: { [weak self] in
-                    self?.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
+                    self?.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
                 })
             } else {
                 // 로그인 여부 확인
@@ -224,7 +208,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         }
                     )
                 } else {
-                    self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
+                    self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
 
                     SnackBarFactory.createSnackBar(type: .normal, image: UIImage(named: "pencil"), imageBackgroundColor: DictionaryItemType.monster.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
                         DispatchQueue.main.async {

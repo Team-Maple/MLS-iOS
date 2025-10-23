@@ -37,15 +37,15 @@ private extension DictionaryListCell {
     }
 }
 
-extension DictionaryListCell {
-    public struct Input {
+public extension DictionaryListCell {
+    struct Input {
         let type: DictionaryItemType
         let mainText: String
         let subText: String
-        let image: UIImage
+        let image: String?
         let isSelected: Bool
 
-        public init(type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isSelected: Bool) {
+        public init(type: DictionaryItemType, mainText: String, subText: String, image: String?, isSelected: Bool) {
             self.type = type
             self.mainText = mainText
             self.subText = subText
@@ -54,32 +54,34 @@ extension DictionaryListCell {
         }
     }
 
-    public func inject(type: CardList.CardListType, input: Input, onIconTapped: @escaping () -> Void) {
+    func inject(type: CardList.CardListType, input: Input, onIconTapped: @escaping (Bool) -> Void) {
         cellView.setType(type: type)
-        cellView.setImage(image: input.image, backgroundColor: input.type.backgroundColor)
+        ImageLoader.shared.loadImage(stringURL: input.image) { [weak self] image in
+            guard let image = image else { return }
+            self?.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+        }
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
         cellView.setSelected(isSelected: input.isSelected)
-//        self.onIconTapped = onIconTapped
-        cellView.onIconTapped = { _ in
-            onIconTapped()
+        cellView.onIconTapped = { isSelected in
+            onIconTapped(isSelected)
         }
     }
 }
 
-extension DictionaryItemType {
-    public var backgroundColor: UIColor {
+public extension DictionaryItemType {
+    var backgroundColor: UIColor {
         switch self {
         case .item:
-                .listItem
+            .listItem
         case .monster:
-                .listMonster
+            .listMonster
         case .map:
-                .listMap
+            .listMap
         case .npc:
-                .listNPC
+            .listNPC
         case .quest:
-                .listQuest
+            .listQuest
         }
     }
 }

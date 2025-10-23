@@ -1,7 +1,7 @@
 import UIKit
 
 public struct DictionaryItem: Equatable {
-    public let id: String
+    public let id: Int
     public let type: DictionaryItemType
     public let mainText: String
     public let subText: String
@@ -17,7 +17,7 @@ public struct DictionaryItem: Equatable {
             lhs.isBookmarked == rhs.isBookmarked
     }
 
-    public init(id: String, type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isBookmarked: Bool) {
+    public init(id: Int, type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isBookmarked: Bool) {
         self.id = id
         self.type = type
         self.mainText = mainText
