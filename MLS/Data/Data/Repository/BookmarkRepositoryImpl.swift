@@ -54,7 +54,7 @@ public class BookmarkRepositoryImpl: BookmarkRepository {
     }
     
     public func fetchMapBookmark(page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchNPCBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+        let endPoint = BookmarkEndPoint.fetchMapBookmark(query: PagedQuery(page: page, size: size, sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }

@@ -8,9 +8,9 @@ public struct BookmarkDTO: Decodable {
     public let type: String
     public let level: Int?
 
-    public func toDomain() -> BookmarkResponse {
+    public func toDomain() -> BookmarkResponse? {
         guard let type = DictionaryItemType(rawValue: type) else {
-            fatalError("타입이 없습니다.")
+            return nil
         }
         return BookmarkResponse(
             name: name,
@@ -25,6 +25,6 @@ public struct BookmarkDTO: Decodable {
 
 extension Array where Element == BookmarkDTO {
     func toDomain() -> [BookmarkResponse] {
-        return self.map { $0.toDomain() }
+        return self.compactMap { $0.toDomain() }
     }
 }

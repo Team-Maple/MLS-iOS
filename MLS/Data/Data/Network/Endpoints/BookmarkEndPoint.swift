@@ -68,7 +68,7 @@ public enum BookmarkEndPoint {
     public static func fetchMapBookmark(query: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
         .init(
             baseURL: base,
-            path: "/api/v1/bookmarks/mpas",
+            path: "/api/v1/bookmarks/maps",
             method: .GET,
             query: query
         )

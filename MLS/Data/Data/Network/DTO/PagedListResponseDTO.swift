@@ -12,7 +12,7 @@ extension PagedListResponseDTO where Item: DictionaryDTOProtocol {
         DictionaryMainResponse(
             totalPages: totalPages,
             totalElements: totalElements,
-            contents: content.map { $0.toDomain() }
+            contents: content.compactMap { $0.toDomain() }
         )
     }
 }

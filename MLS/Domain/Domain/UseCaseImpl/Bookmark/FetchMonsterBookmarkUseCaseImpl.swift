@@ -10,6 +10,6 @@ public final class FetchMonsterBookmarkUseCaseImpl: FetchMonsterBookmarkUseCase 
     }
     
     public func execute(minLevel: Int?, maxLevel: Int?, page: Int?, size: Int?, sort: SortType?) -> Observable<[BookmarkResponse]> {
-        return repository.fetchMonsterBookmark(minLevel: minLevel, maxLevel: maxLevel, page: page ?? 20, size: size ?? 20, sort: sort?.sortParameter)
+        return repository.fetchMonsterBookmark(minLevel: minLevel, maxLevel: maxLevel, page: page ?? 0, size: size ?? 20, sort: sort?.sortParameter)
     }
 }

@@ -8,13 +8,13 @@ public protocol DictionaryDTOProtocol: Decodable {
     var type: String { get }
     var bookmarkId: Int? { get }
 
-    func toDomain() -> DictionaryMainItemResponse
+    func toDomain() -> DictionaryMainItemResponse?
 }
 
 extension DictionaryDTOProtocol {
-    public func toDomain() -> DictionaryMainItemResponse {
+    public func toDomain() -> DictionaryMainItemResponse? {
         if let type = DictionaryItemType(rawValue: type) {
-            DictionaryMainItemResponse(
+            return DictionaryMainItemResponse(
                 id: id,
                 name: name,
                 imageUrl: imageUrl, level: level,
@@ -22,7 +22,7 @@ extension DictionaryDTOProtocol {
                 bookmarkId: bookmarkId
             )
         } else {
-            fatalError("타입이 없어요.")
+            return nil
         }
     }
 }

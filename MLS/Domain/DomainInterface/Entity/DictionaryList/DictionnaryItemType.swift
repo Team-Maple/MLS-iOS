@@ -1,11 +1,11 @@
 import UIKit
 
 public enum DictionaryItemType: String {
-    case item/* = "ITEM"*/
-    case monster/* = "MONSTER"*/
-    case map/* = "MAP"*/
-    case npc/* = "NPC"*/
-    case quest/* = "QUEST"*/
+    case item
+    case monster
+    case map
+    case npc
+    case quest
 
     public var detailTypes: [DetailType] {
         switch self {
