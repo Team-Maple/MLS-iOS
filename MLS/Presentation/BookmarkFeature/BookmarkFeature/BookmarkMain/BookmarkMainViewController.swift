@@ -133,7 +133,7 @@ public extension BookmarkMainViewController {
             .map { _ in Reactor.Action.viewDidAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.firstIconButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)

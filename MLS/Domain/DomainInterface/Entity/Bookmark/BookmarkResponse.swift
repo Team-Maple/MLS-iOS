@@ -5,7 +5,7 @@ public struct BookmarkResponse: Equatable {
     public let imageUrl: String?
     public let type: DictionaryItemType
     public let level: Int?
-    
+
     public init(name: String, bookmarkId: Int, originalId: Int, imageUrl: String?, type: DictionaryItemType, level: Int?) {
         self.name = name
         self.bookmarkId = bookmarkId
