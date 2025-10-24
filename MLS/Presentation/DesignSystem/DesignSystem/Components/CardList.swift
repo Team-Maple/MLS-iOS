@@ -187,7 +187,6 @@ private extension CardList {
     func bindButton() {
         iconButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
-            self.isIconSelected.toggle()
             self.onIconTapped?(self.isIconSelected)
         }), for: .touchUpInside)
     }
@@ -210,8 +209,10 @@ public extension CardList {
         mainText = text
     }
 
-    func setSubText(text: String) {
-        subText = text
+    func setSubText(text: String?) {
+        if let text = text {
+            subText = text
+        }
     }
 
     func setImage(image: UIImage, backgroundColor: UIColor) {

@@ -5,7 +5,7 @@ public protocol DictionaryDTOProtocol: Decodable {
     var name: String { get }
     var imageUrl: String? { get }
     var type: String { get }
-    var isBookmarked: Bool { get }
+    var bookmarkId: Int? { get }
 
     func toDomain() -> DictionaryMainItemResponse
 }
@@ -18,7 +18,7 @@ extension DictionaryDTOProtocol {
                 name: name,
                 imageUrl: imageUrl,
                 type: type,
-                isBookmarked: isBookmarked
+                bookmarkId: bookmarkId
             )
         } else {
             fatalError("타입이 없어요.")

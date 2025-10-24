@@ -67,11 +67,6 @@ public extension BookmarkMainViewController {
         configureUI()
         setInitialIndex()
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        reactor?.action.onNext(.viewDidAppear)
-    }
 }
 
 // MARK: - SetUp
@@ -134,6 +129,11 @@ public extension BookmarkMainViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewDidAppear
+            .map { _ in Reactor.Action.viewDidAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         mainView.headerView.firstIconButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)

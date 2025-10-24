@@ -6,7 +6,7 @@ public struct BookmarkDTO: Decodable {
     public let name: String
     public let imageUrl: String
     public let type: String
-    public let level: Int
+    public let level: Int?
 
     public func toDomain() -> BookmarkResponse {
         guard let type = DictionaryItemType(rawValue: type) else {

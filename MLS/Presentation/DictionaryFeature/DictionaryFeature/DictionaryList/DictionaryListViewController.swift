@@ -113,7 +113,6 @@ extension DictionaryListViewController {
             .disposed(by: disposeBag)
 
         rx.viewWillAppear
-            .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -185,17 +184,19 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
         let item = state.listItems[indexPath.row]
 
-        cell.inject(type: .bookmark,
-                    input: DictionaryListCell.Input(type: item.type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "", isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] isSelected in
-            guard let self = self else { return }
-            if item.isBookmarked {
-                self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
-                SnackBarFactory.createSnackBar(type: .delete, image: UIImage(named: "pencil"), imageBackgroundColor: UIColor.green, text: "아이템을 북마크에서 삭제했어요.", buttonText: "되돌리기", buttonAction: { [weak self] in
-                    self?.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
-                })
-            } else {
-                // 로그인 여부 확인
-                if false {
+        cell.inject(
+            type: .bookmark,
+            input: DictionaryListCell.Input(
+                type: item.type,
+                mainText: item.name,
+                subText: item.name,
+                imageUrl: item.imageUrl ?? "",
+                isBookmarked: item.bookmarkId != nil
+            ),
+            onBookmarkTapped: { [weak self] isSelected in
+                guard let self = self else { return }
+
+                guard state.isLogin else {
                     GuideAlertFactory.show(
                         mainText: "북마크를 하려면 로그인이 필요해요.",
                         ctaText: "로그인 하기",
@@ -207,29 +208,51 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                             print("취소됨")
                         }
                     )
+                    return
+                }
+
+                if item.bookmarkId != nil {
+                    self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
+                    SnackBarFactory.createSnackBar(
+                        type: .delete,
+                        imageUrl: item.imageUrl,
+                        imageBackgroundColor: item.type.backgroundColor,
+                        text: "아이템을 북마크에서 삭제했어요.",
+                        buttonText: "되돌리기",
+                        buttonAction: { [weak self] in
+                            self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+                        }
+                    )
                 } else {
                     self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
-
-                    SnackBarFactory.createSnackBar(type: .normal, image: UIImage(named: "pencil"), imageBackgroundColor: DictionaryItemType.monster.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
-                        DispatchQueue.main.async {
-                            let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
-                                ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-                            })
-
-                            viewController.modalPresentationStyle = .pageSheet
-
-                            if let sheet = viewController.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                                sheet.prefersGrabberVisible = true
-                                sheet.preferredCornerRadius = 16
+                    SnackBarFactory.createSnackBar(
+                        type: .normal,
+                        imageUrl: item.imageUrl,
+                        imageBackgroundColor: item.type.backgroundColor,
+                        text: "아이템을 북마크에 추가했어요.",
+                        buttonText: "컬렉션 추가",
+                        buttonAction: {
+                            DispatchQueue.main.async {
+                                let viewController = self.bookmarkModalFactory.make(
+                                    onDismissWithColletions: { _ in },
+                                    onDismissWithMessage: { _ in
+                                        ToastFactory.createToast(
+                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
+                                )
+                                viewController.modalPresentationStyle = .pageSheet
+                                if let sheet = viewController.sheetPresentationController {
+                                    sheet.detents = [.medium(), .large()]
+                                    sheet.prefersGrabberVisible = true
+                                    sheet.preferredCornerRadius = 16
+                                }
+                                self.present(viewController, animated: true)
                             }
-
-                            self.present(viewController, animated: true)
                         }
-                    })
+                    )
                 }
             }
-        }
         )
 
         return cell

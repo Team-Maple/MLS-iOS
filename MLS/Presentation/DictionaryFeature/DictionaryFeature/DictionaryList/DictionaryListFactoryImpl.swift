@@ -4,6 +4,7 @@ import DictionaryFeatureInterface
 import DomainInterface
 
 public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
+    private let checkLoginUseCase: CheckLoginUseCase
     private let dictionaryMapListItemUseCase: FetchDictionaryMapListUseCase
     private let dictionaryItemListItemUseCase: FetchDictionaryItemListUseCase
     private let dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase
@@ -19,6 +20,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let detailFactory: DictionaryDetailFactory
 
     public init(
+        checkLoginUseCase: CheckLoginUseCase,
         dictionaryMapListItemUseCase: FetchDictionaryMapListUseCase,
         dictionaryItemListItemUseCase: FetchDictionaryItemListUseCase,
         dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase,
@@ -31,6 +33,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         bookmarkModalFactory: BookmarkModalFactory,
         detailFactory: DictionaryDetailFactory
     ) {
+        self.checkLoginUseCase = checkLoginUseCase
         self.dictionaryMapListItemUseCase = dictionaryMapListItemUseCase
         self.dictionaryItemListItemUseCase = dictionaryItemListItemUseCase
         self.dictionaryQuestListItemUseCase = dictionaryQuestListItemUseCase
@@ -47,6 +50,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
         let reactor = DictionaryListReactor(
             type: type,
+            checkLoginUseCase: checkLoginUseCase,
             dictionaryMapListUseCase: dictionaryMapListItemUseCase,
             dictionaryItemListUseCase: dictionaryItemListItemUseCase,
             dictionaryQuestListUseCase: dictionaryQuestListItemUseCase,

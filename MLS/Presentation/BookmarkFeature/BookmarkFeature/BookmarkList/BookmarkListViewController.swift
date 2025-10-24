@@ -96,7 +96,6 @@ extension BookmarkListViewController {
 
     func bindUserActions(reactor: Reactor) {
         rx.viewWillAppear
-            .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -196,32 +195,32 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let state = reactor?.currentState else { return UICollectionViewCell() }
         guard
             let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: DictionaryListCell.identifier,
                 for: indexPath
-            ) as? DictionaryListCell,
-            let reactor = reactor
+            ) as? DictionaryListCell
         else {
             return UICollectionViewCell()
         }
 
-        let item = reactor.currentState.items[indexPath.row]
-
+        let item = state.items[indexPath.row]
+        let subText = item.level != nil ? String(item.level!) : ""
         cell.inject(
             type: .bookmark,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.name,
-                subText: String(item.level),
-                image: item.imageUrl,
-                isSelected: true
+                subText: subText,
+                imageUrl: item.imageUrl ?? "",
+                isBookmarked: true
             ),
-            onIconTapped: { [weak self] isSelected in
+            onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 
                 // 로그인 상태 확인
-                guard reactor.currentState.isLogin else {
+                guard state.isLogin else {
                     GuideAlertFactory.show(
                         mainText: "북마크를 하려면 로그인이 필요해요.",
                         ctaText: "로그인 하기",
@@ -235,50 +234,18 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
                     return
                 }
 
-                // 북마크 토글 액션 전달
                 self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
 
-                // 즉각적인 사용자 피드백 (서버 반영은 fetch 후 갱신됨)
-                if isSelected {
-                    // 북마크 추가
-                    SnackBarFactory.createSnackBar(
-                        type: .normal,
-                        imageUrl: item.imageUrl,
-                        imageBackgroundColor: item.type.backgroundColor,
-                        text: "아이템을 북마크에 추가했어요.",
-                        buttonText: "컬렉션 추가",
-                        buttonAction: {
-                            DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make(
-                                    onDismissWithColletions: { _ in },
-                                    onDismissWithMessage: { _ in
-                                        ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인할 수 있어요.")
-                                    }
-                                )
-
-                                viewController.modalPresentationStyle = .pageSheet
-                                if let sheet = viewController.sheetPresentationController {
-                                    sheet.detents = [.medium(), .large()]
-                                    sheet.prefersGrabberVisible = true
-                                    sheet.preferredCornerRadius = 16
-                                }
-                                self.present(viewController, animated: true)
-                            }
-                        }
-                    )
-                } else {
-                    // 북마크 해제
-                    SnackBarFactory.createSnackBar(
-                        type: .delete,
-                        imageUrl: item.imageUrl,
-                        imageBackgroundColor: item.type.backgroundColor,
-                        text: "아이템을 북마크에서 삭제했어요.",
-                        buttonText: "되돌리기",
-                        buttonAction: { [weak self] in
-                            self?.reactor?.action.onNext(.toggleBookmark(item.originalId, true))
-                        }
-                    )
-                }
+                SnackBarFactory.createSnackBar(
+                    type: .delete,
+                    imageUrl: item.imageUrl,
+                    imageBackgroundColor: item.type.backgroundColor,
+                    text: "아이템을 북마크에서 삭제했어요.",
+                    buttonText: "되돌리기",
+                    buttonAction: { [weak self] in
+                        self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+                    }
+                )
             }
         )
 

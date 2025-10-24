@@ -15,13 +15,13 @@ public struct DictionaryMainItemResponse: Equatable {
     public let name: String
     public let imageUrl: String?
     public let type: DictionaryItemType
-    public let isBookmarked: Bool
+    public let bookmarkId: Int?
 
-    public init(id: Int, name: String, imageUrl: String?, type: DictionaryItemType, isBookmarked: Bool) {
+    public init(id: Int, name: String, imageUrl: String?, type: DictionaryItemType, bookmarkId: Int?) {
         self.id = id
         self.name = name
         self.imageUrl = imageUrl
         self.type = type
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 }

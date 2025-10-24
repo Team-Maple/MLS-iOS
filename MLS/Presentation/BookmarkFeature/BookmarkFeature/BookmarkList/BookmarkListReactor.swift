@@ -20,6 +20,7 @@ public final class BookmarkListReactor: Reactor {
         case setCurrentPage
         case sortOptionSelected(SortType)
         case filterOptionSelected(startLevel: Int, endLevel: Int)
+        case undoLastDeletedBookmark
     }
 
     // MARK: - Mutation
@@ -32,6 +33,7 @@ public final class BookmarkListReactor: Reactor {
         case initPage
         case setSort(SortType)
         case setFilter(start: Int, end: Int)
+        case setLastDeletedBookmark(BookmarkResponse?)
     }
 
     // MARK: - State
@@ -41,12 +43,10 @@ public final class BookmarkListReactor: Reactor {
         var type: DictionaryType
         var isLogin: Bool
         var currentPage: Int = 0
-        var isBookmarked = true
-
-        // 필터/정렬
         var sort: SortType?
         var startLevel: Int?
         var endLevel: Int?
+        var lastDeletedBookmark: BookmarkResponse? = nil
     }
 
     public var initialState: State
@@ -103,16 +103,18 @@ public final class BookmarkListReactor: Reactor {
                 }
 
         case let .toggleBookmark(id, isSelected):
-            guard let type = currentState.items.first?.type,
-                  let bookmarkId = currentState.items.first(where: { $0.originalId == id })?.bookmarkId else { return .empty() }
-
-            return setBookmarkUseCase.execute(bookmarkId: isSelected ? id : bookmarkId,
-                                              isBookmark: isSelected ? .set(type) : .delete)
-                .andThen(
-                    Observable.concat([
-                        .just(.initPage),
-                        fetchList()
-                    ])
+            guard let type = currentState.type.toItemType,
+                  let bookmarkItem = currentState.items.first(where: { $0.originalId == id }) else { return .empty() }
+            let saveDeletedMutation: Observable<Mutation> = isSelected ? .just(.setLastDeletedBookmark(bookmarkItem)) : .just(.setLastDeletedBookmark(nil))
+            return saveDeletedMutation
+                .concat(
+                    setBookmarkUseCase.execute(bookmarkId: isSelected ? bookmarkItem.bookmarkId : id, isBookmark: isSelected ? .delete : .set(type))
+                    .andThen(
+                        Observable.concat([
+                            .just(.initPage),
+                            fetchList()
+                        ])
+                    )
                 )
 
         case .sortButtonTapped:
@@ -145,6 +147,19 @@ public final class BookmarkListReactor: Reactor {
                 .just(.initPage),
                 fetchList()
             ])
+        case .undoLastDeletedBookmark:
+            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
+            return setBookmarkUseCase.execute(
+                bookmarkId: lastDeleted.originalId,
+                isBookmark: .set(lastDeleted.type)
+            )
+            .andThen(
+                Observable.concat([
+                    .just(.initPage),
+                    fetchList(),
+                    .just(.setLastDeletedBookmark(nil))
+                ])
+            )
         }
     }
 
@@ -230,6 +245,8 @@ public final class BookmarkListReactor: Reactor {
         case let .setFilter(start, end):
             newState.startLevel = start
             newState.endLevel = end
+        case .setLastDeletedBookmark(let item):
+            newState.lastDeletedBookmark = item
         }
 
         return newState

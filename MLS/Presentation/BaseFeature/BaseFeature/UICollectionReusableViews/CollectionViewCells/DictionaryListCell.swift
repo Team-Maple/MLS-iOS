@@ -5,10 +5,11 @@ import DomainInterface
 
 public final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
-//    private var onIconTapped: (() -> Void)?
+    private var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
-    public var cellView = CardList()
+    public let cellView = CardList()
+    private var imageDownloadTask: URLSessionDataTask?
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -39,32 +40,36 @@ private extension DictionaryListCell {
 
 public extension DictionaryListCell {
     struct Input {
-        let type: DictionaryItemType
-        let mainText: String
-        let subText: String
-        let image: String?
-        let isSelected: Bool
-
-        public init(type: DictionaryItemType, mainText: String, subText: String, image: String?, isSelected: Bool) {
+        public let type: DictionaryItemType
+        public let mainText: String
+        public let subText: String?
+        public let imageUrl: String
+        public let isBookmarked: Bool
+        
+        public init(type: DictionaryItemType, mainText: String, subText: String?, imageUrl: String, isBookmarked: Bool) {
             self.type = type
             self.mainText = mainText
             self.subText = subText
-            self.image = image
-            self.isSelected = isSelected
+            self.imageUrl = imageUrl
+            self.isBookmarked = isBookmarked
         }
     }
 
-    func inject(type: CardList.CardListType, input: Input, onIconTapped: @escaping (Bool) -> Void) {
+    func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping (Bool) -> Void) {
         cellView.setType(type: type)
-        ImageLoader.shared.loadImage(stringURL: input.image) { [weak self] image in
-            guard let image = image else { return }
-            self?.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+        // URL이 유효할 때만 요청
+        if let url = URL(string: input.imageUrl) {
+            ImageLoader.shared.loadImage(url: url) { image in
+                guard let image = image else { return }
+                self.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+            }
         }
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
-        cellView.setSelected(isSelected: input.isSelected)
-        cellView.onIconTapped = { isSelected in
-            onIconTapped(isSelected)
+        cellView.setSelected(isSelected: input.isBookmarked)
+        self.onBookmarkTapped = onBookmarkTapped
+        cellView.onIconTapped = { [weak self] isSelected in
+            self?.onBookmarkTapped?(isSelected)
         }
     }
 }

@@ -58,54 +58,54 @@ public extension SnackBarFactory {
         buttonAction: (() -> Void)?,
         bottomMargin: CGFloat = 76
     ) {
-        currentSnackBar?.removeFromSuperview()
-        currentSnackBar = nil
-        var snackBar = SnackBar(
-            type: type,
-            image: image,
-            imageBackgroundColor: imageBackgroundColor,
-            text: text,
-            buttonText: buttonText,
-            buttonAction: buttonAction
-        )
+        DispatchQueue.main.async {
+            currentSnackBar?.removeFromSuperview()
+            currentSnackBar = nil
 
-        if let imageUrl = imageUrl {
-            ImageLoader.shared.loadImage(stringURL: imageUrl) { image in
-                snackBar = SnackBar(
-                    type: type,
-                    image: image,
-                    imageBackgroundColor: imageBackgroundColor,
-                    text: text,
-                    buttonText: buttonText,
-                    buttonAction: buttonAction
-                )
+            let snackBar = SnackBar(
+                type: type,
+                image: image,
+                imageBackgroundColor: imageBackgroundColor,
+                text: text,
+                buttonText: buttonText,
+                buttonAction: buttonAction
+            )
+            snackBar.alpha = 0
+
+            // ✅ window 대신 topViewController의 view 사용
+            guard let topVC = topViewController() else { return }
+            topVC.view.addSubview(snackBar)
+            currentSnackBar = snackBar
+
+            snackBar.snp.makeConstraints { make in
+                make.bottom.equalTo(topVC.view.safeAreaLayoutGuide.snp.bottom).inset(bottomMargin)
+                make.centerX.equalToSuperview()
             }
-        }
 
-        snackBar.alpha = 0
-
-        guard let window = window else { return }
-        window.addSubview(snackBar)
-        currentSnackBar = snackBar
-
-        snackBar.snp.makeConstraints { make in
-            make.bottom.equalTo(window.safeAreaLayoutGuide.snp.bottom).inset(bottomMargin)
-            make.centerX.equalToSuperview()
-        }
-
-        UIView.animate(withDuration: 0.25) {
-            snackBar.alpha = 1
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-            UIView.animate(withDuration: 0.6, animations: {
-                snackBar.alpha = 0
-            }, completion: { _ in
-                snackBar.removeFromSuperview()
-                if currentSnackBar == snackBar {
-                    currentSnackBar = nil
+            if let img = image {
+                snackBar.imageView.setImage(image: img, backgroundColor: imageBackgroundColor)
+            } else if let urlString = imageUrl, let url = URL(string: urlString) {
+                ImageLoader.shared.loadImage(stringURL: urlString) { image in
+                    DispatchQueue.main.async {
+                        snackBar.imageView.setImage(image: image, backgroundColor: imageBackgroundColor)
+                    }
                 }
-            })
+            }
+
+            UIView.animate(withDuration: 0.25) {
+                snackBar.alpha = 1
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+                UIView.animate(withDuration: 0.6, animations: {
+                    snackBar.alpha = 0
+                }, completion: { _ in
+                    snackBar.removeFromSuperview()
+                    if currentSnackBar == snackBar {
+                        currentSnackBar = nil
+                    }
+                })
+            }
         }
     }
 }

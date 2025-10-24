@@ -247,6 +247,7 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             return DictionaryListFactoryImpl(
+                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
                 dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
                 dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
                 dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),

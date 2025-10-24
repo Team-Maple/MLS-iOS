@@ -83,7 +83,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
             newState.info.name = data.nameKr
             newState.info.subText = data.nameEn
             newState.info.imgUrl = data.iconUrlDetail
-            newState.isBookmarked = data.isBookmarked
+            newState.isBookmarked = data.bookmarkId != nil
         case let .setDetailMaps(data):
             newState.maps = data
         case let .setDetailQuests(data):
