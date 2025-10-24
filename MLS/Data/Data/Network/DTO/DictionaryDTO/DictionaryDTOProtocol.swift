@@ -4,6 +4,7 @@ public protocol DictionaryDTOProtocol: Decodable {
     var id: Int { get }
     var name: String { get }
     var imageUrl: String? { get }
+    var level: Int? { get }
     var type: String { get }
     var bookmarkId: Int? { get }
 
@@ -16,7 +17,7 @@ extension DictionaryDTOProtocol {
             DictionaryMainItemResponse(
                 id: id,
                 name: name,
-                imageUrl: imageUrl,
+                imageUrl: imageUrl, level: level,
                 type: type,
                 bookmarkId: bookmarkId
             )

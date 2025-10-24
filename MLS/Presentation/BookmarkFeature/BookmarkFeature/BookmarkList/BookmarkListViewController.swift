@@ -206,7 +206,9 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
         }
 
         let item = state.items[indexPath.row]
-        let subText = item.level != nil ? String(item.level!) : ""
+        var subText: String? {
+            [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
+        }
         cell.inject(
             type: .bookmark,
             input: DictionaryListCell.Input(

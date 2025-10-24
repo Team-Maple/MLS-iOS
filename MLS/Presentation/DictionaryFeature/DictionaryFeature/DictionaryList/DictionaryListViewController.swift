@@ -104,7 +104,7 @@ extension DictionaryListViewController {
         reactor.state.map(\.listItems)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] item in
+            .bind(onNext: { [weak self] item in
                 self?.mainView.listCollectionView.reloadData()
                 self?.mainView.emptyView.isHidden = !item.isEmpty
                 self?.mainView.listCollectionView.isHidden = item.isEmpty
@@ -138,7 +138,7 @@ extension DictionaryListViewController {
                         let viewController = owner.itemFilterFactory.make()
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel  in
+                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
 
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
@@ -160,7 +160,6 @@ extension DictionaryListViewController {
                 owner.mainView.updateFilter(sortType: type.sortedFilter.first)
             })
             .disposed(by: disposeBag)
-
     }
 }
 
@@ -184,12 +183,15 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
         let item = state.listItems[indexPath.row]
 
+        var subText: String? {
+            [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
+        }
         cell.inject(
             type: .bookmark,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.name,
-                subText: item.name,
+                subText: subText,
                 imageUrl: item.imageUrl ?? "",
                 isBookmarked: item.bookmarkId != nil
             ),
@@ -256,10 +258,9 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         )
 
         return cell
-
     }
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         let item: DictionaryMainItemResponse
 
