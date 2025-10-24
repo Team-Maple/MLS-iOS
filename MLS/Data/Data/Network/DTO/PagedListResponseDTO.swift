@@ -6,7 +6,6 @@ public struct PagedListResponseDTO<Item: Decodable>: Decodable {
     public let content: [Item]
 }
 
-
 extension PagedListResponseDTO where Item: DictionaryDTOProtocol {
     public func toDomain() -> DictionaryMainResponse {
         DictionaryMainResponse(

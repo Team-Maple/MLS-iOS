@@ -1,7 +1,7 @@
-//import DomainInterface
-//import RxSwift
+// import DomainInterface
+// import RxSwift
 //
-//public final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
+// public final class ToggleBookmarkUseCaseImpl: ToggleBookmarkUseCase {
 //    private let repository: DictionaryListRepository
 //
 //    public init(repository: DictionaryListRepository) {
@@ -13,4 +13,4 @@
 //            .withLatestFrom(repository.observeItems(type: type))
 //            .take(1)
 //    }
-//}
+// }
