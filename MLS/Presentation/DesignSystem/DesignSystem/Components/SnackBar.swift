@@ -17,7 +17,7 @@ public final class SnackBar: UIView {
     private let type: SnackBarType
 
     // MARK: - Components
-    private let imageView: ItemImageView
+    public let imageView: ItemImageView
     private let label = UILabel()
     private let button = UIButton()
 

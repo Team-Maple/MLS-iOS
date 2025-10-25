@@ -11,6 +11,4 @@ public protocol DictionaryListAPIRepository {
     func fetchItemList(keyword: String?, jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse>
     // Map
     func fetchMapList(keyword: String, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse>
-    // Bookmark
-    func postBookmark(bookmarkType: String, resourceId: Int) -> Observable<BookmarkResponse>
 }

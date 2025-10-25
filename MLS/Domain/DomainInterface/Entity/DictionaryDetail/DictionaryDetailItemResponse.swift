@@ -11,9 +11,9 @@ public struct DictionaryDetailItemResponse: Codable, Equatable {
     public let requiredStats: RequiredStats? // 요구 스탯
     public let equipmentStats: EquipmentStats? // 착용하면 올라가는 스탯
     public let scrollDetail: ScrollDetail? // 주문서 상세정보
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
-    public init(itemId: Int?, nameKr: String?, nameEn: String?, descriptionText: String?, imgUrl: String?, npcPrice: Int?, itemType: String?, categoryHierachy: CategoryHierachy?, availableJobs: [Jobs]?, requiredStats: RequiredStats?, equipmentStats: EquipmentStats?, scrollDetail: ScrollDetail?, isBookmarked: Bool?) {
+    public init(itemId: Int?, nameKr: String?, nameEn: String?, descriptionText: String?, imgUrl: String?, npcPrice: Int?, itemType: String?, categoryHierachy: CategoryHierachy?, availableJobs: [Jobs]?, requiredStats: RequiredStats?, equipmentStats: EquipmentStats?, scrollDetail: ScrollDetail?, bookmarkId: Int?) {
         self.itemId = itemId
         self.nameKr = nameKr
         self.nameEn = nameEn
@@ -26,7 +26,7 @@ public struct DictionaryDetailItemResponse: Codable, Equatable {
         self.requiredStats = requiredStats
         self.equipmentStats = equipmentStats
         self.scrollDetail = scrollDetail
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 
 }

@@ -104,7 +104,7 @@ extension DictionaryListViewController {
         reactor.state.map(\.listItems)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] item in
+            .bind(onNext: { [weak self] item in
                 self?.mainView.listCollectionView.reloadData()
                 self?.mainView.emptyView.isHidden = !item.isEmpty
                 self?.mainView.listCollectionView.isHidden = item.isEmpty
@@ -113,7 +113,6 @@ extension DictionaryListViewController {
             .disposed(by: disposeBag)
 
         rx.viewWillAppear
-            .take(1)
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -139,7 +138,7 @@ extension DictionaryListViewController {
                         let viewController = owner.itemFilterFactory.make()
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel  in
+                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
 
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
@@ -161,7 +160,6 @@ extension DictionaryListViewController {
                 owner.mainView.updateFilter(sortType: type.sortedFilter.first)
             })
             .disposed(by: disposeBag)
-
     }
 }
 
@@ -184,34 +182,23 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             return UICollectionViewCell()
         }
         let item = state.listItems[indexPath.row]
-        let type: DictionaryItemType
 
-        switch item.type {
-        case "monster":
-            type = .monster
-        case "item":
-            type = .item
-        case "map":
-            type = .map
-        case "npc":
-            type = .npc
-        case "quest":
-            type = .quest
-        default:
-            type = .monster
+        var subText: String? {
+            [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
         }
+        cell.inject(
+            type: .bookmark,
+            input: DictionaryListCell.Input(
+                type: item.type,
+                mainText: item.name,
+                subText: subText,
+                imageUrl: item.imageUrl ?? "",
+                isBookmarked: item.bookmarkId != nil
+            ),
+            onBookmarkTapped: { [weak self] isSelected in
+                guard let self = self else { return }
 
-        cell.inject(type: .bookmark,
-                    input: DictionaryListCell.Input(type: type, mainText: item.name, subText: item.name, imageUrl: item.imageUrl ?? "", isBookmarked: item.isBookmarked), onBookmarkTapped: { [weak self] in
-            guard let self = self else { return }
-            if item.isBookmarked {
-                self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
-                SnackBarFactory.createSnackBar(type: .delete, image: UIImage(named: "pencil"), imageBackgroundColor: UIColor.green, text: "아이템을 북마크에서 삭제했어요.", buttonText: "되돌리기", buttonAction: { [weak self] in
-                    self?.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
-                })
-            } else {
-                // 로그인 여부 확인
-                if false {
+                guard state.isLogin else {
                     GuideAlertFactory.show(
                         mainText: "북마크를 하려면 로그인이 필요해요.",
                         ctaText: "로그인 하기",
@@ -223,36 +210,57 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                             print("취소됨")
                         }
                     )
-                } else {
-                    self.reactor?.action.onNext(.toggleBookmark("\(item.id)"))
+                    return
+                }
 
-                    SnackBarFactory.createSnackBar(type: .normal, image: UIImage(named: "pencil"), imageBackgroundColor: DictionaryItemType.monster.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
-                        DispatchQueue.main.async {
-                            let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
-                                ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-                            })
-
-                            viewController.modalPresentationStyle = .pageSheet
-
-                            if let sheet = viewController.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                                sheet.prefersGrabberVisible = true
-                                sheet.preferredCornerRadius = 16
-                            }
-
-                            self.present(viewController, animated: true)
+                if item.bookmarkId != nil {
+                    self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
+                    SnackBarFactory.createSnackBar(
+                        type: .delete,
+                        imageUrl: item.imageUrl,
+                        imageBackgroundColor: item.type.backgroundColor,
+                        text: "아이템을 북마크에서 삭제했어요.",
+                        buttonText: "되돌리기",
+                        buttonAction: { [weak self] in
+                            self?.reactor?.action.onNext(.undoLastDeletedBookmark)
                         }
-                    })
+                    )
+                } else {
+                    self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
+                    SnackBarFactory.createSnackBar(
+                        type: .normal,
+                        imageUrl: item.imageUrl,
+                        imageBackgroundColor: item.type.backgroundColor,
+                        text: "아이템을 북마크에 추가했어요.",
+                        buttonText: "컬렉션 추가",
+                        buttonAction: {
+                            DispatchQueue.main.async {
+                                let viewController = self.bookmarkModalFactory.make(
+                                    onDismissWithColletions: { _ in },
+                                    onDismissWithMessage: { _ in
+                                        ToastFactory.createToast(
+                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
+                                )
+                                viewController.modalPresentationStyle = .pageSheet
+                                if let sheet = viewController.sheetPresentationController {
+                                    sheet.detents = [.medium(), .large()]
+                                    sheet.prefersGrabberVisible = true
+                                    sheet.preferredCornerRadius = 16
+                                }
+                                self.present(viewController, animated: true)
+                            }
+                        }
+                    )
                 }
             }
-        }
         )
 
         return cell
-
     }
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         let item: DictionaryMainItemResponse
 
