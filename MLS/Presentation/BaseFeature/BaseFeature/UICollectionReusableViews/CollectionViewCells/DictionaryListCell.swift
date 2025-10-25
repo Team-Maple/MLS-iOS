@@ -45,7 +45,7 @@ public extension DictionaryListCell {
         public let subText: String?
         public let imageUrl: String
         public let isBookmarked: Bool
-        
+
         public init(type: DictionaryItemType, mainText: String, subText: String?, imageUrl: String, isBookmarked: Bool) {
             self.type = type
             self.mainText = mainText

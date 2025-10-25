@@ -46,7 +46,7 @@ public final class BookmarkListReactor: Reactor {
         var sort: SortType?
         var startLevel: Int?
         var endLevel: Int?
-        var lastDeletedBookmark: BookmarkResponse? = nil
+        var lastDeletedBookmark: BookmarkResponse?
     }
 
     public var initialState: State

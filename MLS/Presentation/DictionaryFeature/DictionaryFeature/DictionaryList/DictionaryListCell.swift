@@ -1,10 +1,10 @@
-//import UIKit
+// import UIKit
 //
-//import BaseFeature
-//import DesignSystem
-//import DomainInterface
+// import BaseFeature
+// import DesignSystem
+// import DomainInterface
 //
-//final class DictionaryListCell: UICollectionViewCell {
+// final class DictionaryListCell: UICollectionViewCell {
 //    // MARK: - Properties
 //    private var onBookmarkTapped: ((Bool) -> Void)?
 //
@@ -24,10 +24,10 @@
 //    required init?(coder: NSCoder) {
 //        fatalError("\(#file), \(#function) Error")
 //    }
-//}
+// }
 //
 //// MARK: - SetUp
-//private extension DictionaryListCell {
+// private extension DictionaryListCell {
 //    func addViews() {
 //        contentView.addSubview(cellView)
 //    }
@@ -37,9 +37,9 @@
 //            make.edges.equalToSuperview()
 //        }
 //    }
-//}
+// }
 //
-//extension DictionaryListCell {
+// extension DictionaryListCell {
 //    struct Input {
 //        let type: DictionaryItemType
 //        let mainText: String
@@ -65,9 +65,9 @@
 //            self?.onBookmarkTapped?(isSelected)
 //        }
 //    }
-//}
+// }
 //
-//public extension DictionaryItemType {
+// public extension DictionaryItemType {
 //    var backgroundColor: UIColor {
 //        switch self {
 //        case .item:
@@ -82,4 +82,4 @@
 //            .listQuest
 //        }
 //    }
-//}
+// }

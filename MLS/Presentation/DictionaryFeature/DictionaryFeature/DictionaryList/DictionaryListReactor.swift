@@ -59,7 +59,7 @@ open class DictionaryListReactor: Reactor {
         public var currentPage = 0
 
         var isLogin: Bool
-        var lastDeletedBookmark: DictionaryMainItemResponse? = nil
+        var lastDeletedBookmark: DictionaryMainItemResponse?
     }
 
     public var initialState: State
