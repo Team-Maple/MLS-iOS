@@ -55,23 +55,12 @@ private extension AppDelegate {
     }
 
     func registerRepository() {
-//        DIContainer.register(type: UserDefaultsRespository.self) {
-//            BookmarkOnBoardingRepositoryImpl()
-//        }
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
         }
         DIContainer.register(type: TokenRepository.self) {
             KeyChainRepositoryImpl()
         }
-//        DIContainer.register(type: DictionaryListRepository.self) {
-//            return DictionaryListRepositoryImpl(allItems: [
-//                DictionaryItem(id: "1", type: .item, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
-//                DictionaryItem(id: "2", type: .monster, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true),
-//                DictionaryItem(id: "3", type: .map, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: false),
-//                DictionaryItem(id: "5", type: .quest, mainText: "최대 줄은 두 줄입니다.\n넘어갈시 말줄임 처리 합니다.", subText: "Lv.표시", image: DesignSystemAsset.image(named: "testImage")!, isBookmarked: true)
-//            ])
-//        }
         DIContainer.register(type: DictionaryListAPIRepository.self) {
             return DictionaryListAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
@@ -125,18 +114,9 @@ private extension AppDelegate {
         DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
             DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
-//        DIContainer.register(type: FetchDictionaryItemsUseCase.self) {
-//            FetchDictionaryItemsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
-//        }
-//        DIContainer.register(type: ToggleBookmarkUseCase.self) {
-//            ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
-//        }
         DIContainer.register(type: FetchNotificationUseCase.self) {
             FetchNotificationUseCaseImpl()
         }
-//        DIContainer.register(type: GetBookmarkOnboardingUseCase.self) {
-//            GetBookmarkOnboardingUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRespository.self))
-//        }
         DIContainer.register(type: SetBookmarkUseCase.self) {
             SetBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
         }
