@@ -55,6 +55,7 @@ public final class BookmarkListReactor: Reactor {
     private let checkLoginUseCase: CheckLoginUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
 
+    private let fetchTotalBookmarkUseCase: FetchBookmarkUseCase
     private let fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase
     private let fetchItemBookmarkUseCase: FetchItemBookmarkUseCase
     private let fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase
@@ -68,6 +69,7 @@ public final class BookmarkListReactor: Reactor {
         type: DictionaryType,
         checkLoginUseCase: CheckLoginUseCase,
         setBookmarkUseCase: SetBookmarkUseCase,
+        fetchBookmarkUseCase: FetchBookmarkUseCase,
         fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase,
         fetchItemBookmarkUseCase: FetchItemBookmarkUseCase,
         fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase,
@@ -77,6 +79,7 @@ public final class BookmarkListReactor: Reactor {
         self.initialState = State(route: .none, type: type, isLogin: false)
         self.checkLoginUseCase = checkLoginUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
+        self.fetchTotalBookmarkUseCase = fetchBookmarkUseCase
         self.fetchMonsterBookmarkUseCase = fetchMonsterBookmarkUseCase
         self.fetchItemBookmarkUseCase = fetchItemBookmarkUseCase
         self.fetchNPCBookmarkUseCase = fetchNPCBookmarkUseCase
@@ -166,6 +169,13 @@ public final class BookmarkListReactor: Reactor {
     // MARK: - Fetch List
     private func fetchList() -> Observable<Mutation> {
         switch currentState.type {
+        case .total:
+            return fetchTotalBookmarkUseCase.execute(
+                page: currentState.currentPage,
+                size: 20,
+                sort: currentState.sort
+            ).map { .setItems($0) }
+            
         case .monster:
             return fetchMonsterBookmarkUseCase.execute(
                 minLevel: currentState.startLevel ?? 1,
