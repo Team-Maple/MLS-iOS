@@ -138,7 +138,7 @@ extension DictionaryListViewController {
                         let viewController = owner.itemFilterFactory.make()
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
+                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
 
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }

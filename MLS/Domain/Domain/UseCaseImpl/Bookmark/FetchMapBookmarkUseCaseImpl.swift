@@ -9,7 +9,7 @@ public final class FetchMapBookmarkUseCaseImpl: FetchMapBookmarkUseCase {
         self.repository = repository
     }
 
-    public func execute(page: Int?, size: Int?, sort: SortType?) -> Observable<[BookmarkResponse]> {
-        return repository.fetchMapBookmark(page: page ?? 0, size: size ?? 20, sort: sort?.sortParameter)
+    public func execute(sort: SortType?) -> Observable<[BookmarkResponse]> {
+        return repository.fetchMapBookmark(sort: sort?.sortParameter)
     }
 }

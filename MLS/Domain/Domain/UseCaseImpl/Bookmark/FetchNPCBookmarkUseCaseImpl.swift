@@ -9,7 +9,7 @@ public final class FetchNPCBookmarkUseCaseImpl: FetchNPCBookmarkUseCase {
         self.repository = repository
     }
 
-    public func execute(page: Int?, size: Int?, sort: SortType?) -> Observable<[BookmarkResponse]> {
-        return repository.fetchNPCBookmark(page: page ?? 0, size: size ?? 20, sort: sort?.sortParameter)
+    public func execute(sort: SortType?) -> Observable<[BookmarkResponse]> {
+        return repository.fetchNPCBookmark(sort: sort?.sortParameter)
     }
 }

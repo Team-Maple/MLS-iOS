@@ -121,10 +121,6 @@ extension BookmarkListViewController {
                 owner.mainView.listCollectionView.reloadData()
                 owner.mainView.isUserInteractionEnabled = !items.isEmpty
                 owner.mainView.checkEmptyData(isEmpty: items.isEmpty)
-                if !items.isEmpty {
-                    let type = reactor.currentState.type
-                    owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
-                }
             })
             .disposed(by: disposeBag)
 
@@ -138,6 +134,7 @@ extension BookmarkListViewController {
                     let viewController = owner.sortedFactory.make(sortedOptions: type.bookmarkSortedFilter, selectedIndex: owner.selectedSortIndex) { index in
                         owner.selectedSortIndex = index
                         let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
+                        reactor.action.onNext(.sortOptionSelected(selectedFilter))
                         owner.mainView.selectFilter(selectedType: selectedFilter)
                     }
                     owner.tabBarController?.presentModal(viewController)
@@ -147,7 +144,10 @@ extension BookmarkListViewController {
                         let viewController = owner.itemFilterFactory.make()
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(startLevel: 1, endLevel: 200) { _, _ in }
+                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
+
+                            reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
+                        }
                         owner.tabBarController?.presentModal(viewController)
                     default:
                         break
@@ -157,14 +157,12 @@ extension BookmarkListViewController {
                 }
             }
             .disposed(by: disposeBag)
-
+        
         reactor.state
-            .map(\.items)
+            .map(\.type)
             .distinctUntilChanged()
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, _ in
-                let type = reactor.currentState.type
+            .bind(onNext: { owner, type in
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })
             .disposed(by: disposeBag)
