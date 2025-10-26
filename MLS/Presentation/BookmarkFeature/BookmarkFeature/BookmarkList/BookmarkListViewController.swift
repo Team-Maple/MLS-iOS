@@ -157,7 +157,7 @@ extension BookmarkListViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.type)
             .distinctUntilChanged()
