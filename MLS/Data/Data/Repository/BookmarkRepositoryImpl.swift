@@ -30,7 +30,7 @@ public class BookmarkRepositoryImpl: BookmarkRepository {
     }
 
     public func fetchMonsterBookmark(minLevel: Int?, maxLevel: Int?, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchMonsterBookmark(query: SortedQuery(sort: sort))
+        let endPoint = BookmarkEndPoint.fetchMonsterBookmark(query: BookmarkMonsterQuery(minLevel: minLevel, maxLevel: maxLevel, sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
@@ -68,6 +68,12 @@ private extension BookmarkRepositoryImpl {
     struct SetBookmarkQuery: Encodable {
         let bookmarkType: String
         let resourceId: Int
+    }
+    
+    struct BookmarkMonsterQuery: Encodable {
+        let minLevel: Int?
+        let maxLevel: Int?
+        let sort: String?
     }
 
     struct BookmarkItemQuery: Encodable {
