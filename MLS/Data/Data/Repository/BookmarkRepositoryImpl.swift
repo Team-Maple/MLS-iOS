@@ -69,7 +69,7 @@ private extension BookmarkRepositoryImpl {
         let bookmarkType: String
         let resourceId: Int
     }
-    
+
     struct BookmarkMonsterQuery: Encodable {
         let minLevel: Int?
         let maxLevel: Int?
