@@ -28,7 +28,7 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     ) {
         let type = reactor.currentState.type
         self.mainView = DictionaryMainView(type: type)
-        self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type) }
+        self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type, keyword: reactor.currentState.keyword) }
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -151,6 +151,33 @@ public extension DictionarySearchResultViewController {
             .take(1)
             .bind(to: mainView.searchBar.textField.rx.text)
             .disposed(by: disposeBag)
+        
+//        for (index, vc) in viewControllers.enumerated() { // 아이템 개수 바인딩
+//            guard let listViewController = vc as? DictionaryListViewController else { continue }
+//            listViewController.itemCountRelay.observe(on: MainScheduler.instance)
+//                .subscribe(onNext: { [weak self] count in
+//                    guard let self = self else { return }
+//                    let title = reactor.currentState.sections[index]
+//                    if let cell = self.mainView.tabCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PageTabbarCell {
+//                        cell.inject(title: "\(title)(\(count))")
+//                    }
+//                })
+//                .disposed(by: disposeBag)
+//        }
+        
+        rx.viewWillAppear
+            .map {_ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .map(\.counts)
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { owner, _ in
+                owner.mainView.tabCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -191,7 +218,8 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
             return UICollectionViewCell()
         }
         let title = reactor.currentState.sections[indexPath.row]
-        cell.inject(title: "\(title)(100)")
+        let count = reactor.currentState.counts[indexPath.row] ?? 0
+        cell.inject(title: "\(title)\(count)")
         cell.isSelected = indexPath.row == currentPageIndex.value
         return cell
     }

@@ -10,6 +10,16 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         self.provider = provider
         self.tokenInterceptor = tokenInterceptor
     }
+    // MARK: - 검색 리스트
+    public func fetchSearchList(keyword: String?) -> Observable<DictionaryMainResponse> {
+        let endPoint = DictionaryListEndPoint.fetchAllList(keyword: keyword)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
+    // MARK: - 전체 리스트
+    public func fetchAllList(keyword: String?, page: Int?) -> Observable<DictionaryMainResponse> {
+        let endPoint = DictionaryListEndPoint.fetchAllList(keyword: keyword, page: page)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
     // MARK: - 몬스터 리스트
     public func fetchMonsterList(keyword: String?, minLevel: Int?, maxLevel: Int?, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse> {
         let endPoint = DictionaryListEndPoint.fetchMonsterList(keyword: keyword, minLevel: minLevel ?? 1, maxLevel: maxLevel ?? 200, page: page, size: size, sort: sort ?? "ASC")

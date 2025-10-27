@@ -116,6 +116,9 @@ private extension AppDelegate {
         DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
             DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryAllListUseCase.self) {
+            FetchDictionaryAllListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
         DIContainer.register(type: FetchDictionaryMapListUseCase.self) {
             FetchDictionaryMapListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
@@ -206,6 +209,9 @@ private extension AppDelegate {
         DIContainer.register(type: FetchNPCBookmarkUseCase.self) {
             FetchNPCBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
         }
+        DIContainer.register(type: FetchDictionarySearchListUseCase.self) {
+            FetchDictionarySearchListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -226,7 +232,9 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             DictionaryListFactoryImpl(
-                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
+                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
+                dictionaryAllListItemUseCase: DIContainer.resolve(type: FetchDictionaryAllListUseCase.self),
+                dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
                 dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
                 dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
                 dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
@@ -242,7 +250,8 @@ private extension AppDelegate {
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             DictionarySearchResultFactoryImpl(
                 dictionaryMainListFactory: DIContainer
-                    .resolve(type: DictionaryMainListFactory.self)
+                    .resolve(type: DictionaryMainListFactory.self),
+                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self)
             )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {

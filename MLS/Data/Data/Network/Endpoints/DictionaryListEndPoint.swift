@@ -5,6 +5,11 @@ import DomainInterface
 
 public enum DictionaryListEndPoint {
     static let base = "https://api.mapleland.kro.kr"
+    // 전체 리스트
+    public static func fetchAllList(keyword: String?, page: Int? = nil, size: Int? = nil) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryAllDTO>>{
+        let query = DictionaryListQuery(keyword: keyword ?? "",page: page ?? 0, size: size ?? 0, sort: nil)
+        return .init(baseURL: base, path: "/api/v1/search", method: .GET, query: query)
+    }
     // 몬스터 리스트
     public static func fetchMonsterList(keyword: String?, minLevel: Int?, maxLevel: Int?, page: Int, size: Int, sort: String?) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryMonsterDTO>> {
         let query = DictionaryListQuery(keyword: keyword ?? "", page: page, size: size, sort: sort, minLevel: minLevel ?? 1, maxLevel: maxLevel ?? 200)
