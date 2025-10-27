@@ -96,6 +96,15 @@ extension BookmarkModalViewController {
             })
             .disposed(by: disposeBag)
 
+        reactor.state
+            .map(\.collections)
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.mainView.folderCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -131,8 +140,10 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FolderCell.identifier, for: indexPath) as? FolderCell else {
                 return UICollectionViewCell()
             }
-            let title = reactor.currentState.collections[indexPath.row - 1].title
-            cell.inject(title: title)
+            let collection = reactor.currentState.collections[indexPath.row - 1]
+            let isSelected = reactor.currentState.selectedItems.contains(where: { $0.id == collection.id })
+            cell.isChecked = isSelected
+            cell.inject(title: collection.title)
             return cell
         }
     }
@@ -141,9 +152,8 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == 0 {
             reactor?.action.onNext(.addCollectionTapped)
         } else {
-            reactor?.action.onNext(.selectItem(indexPath.row))
-            guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else { return }
-            cell.checkBoxButton.isSelected.toggle()
+            let collection = reactor?.currentState.collections[indexPath.row - 1]
+            reactor?.action.onNext(.selectItem(collection?.id ?? 0))
         }
     }
 }

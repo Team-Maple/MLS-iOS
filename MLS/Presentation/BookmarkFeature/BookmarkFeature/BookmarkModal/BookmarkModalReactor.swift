@@ -50,13 +50,12 @@ public final class BookmarkModalReactor: Reactor {
             return .just(.toNavigate(.dismiss))
         case .addCollectionTapped:
             return .just(.toNavigate(.addCollection))
-        case .selectItem(let index):
-            let item = currentState.collections[index - 1]
+        case .selectItem(let id):
             var newItems = currentState.selectedItems
-            if let index = newItems.firstIndex(where: { $0.id == item.id }) {
+            if let index = newItems.firstIndex(where: { $0.id == id }) {
                 newItems.remove(at: index)
-            } else {
-                newItems.append(item)
+            } else if let collection = currentState.collections.first(where: { $0.id == id }) {
+                newItems.append(collection)
             }
             return .just(.checkCollection(newItems))
         }

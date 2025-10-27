@@ -44,6 +44,7 @@ public class FolderCell: UICollectionViewCell {
         let button = UIButton()
         button.setImage(DesignSystemAsset.image(named: "checkSquareFill")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.tintColor = .neutral300
+        button.isUserInteractionEnabled = false
         return button
     }()
 
@@ -53,11 +54,17 @@ public class FolderCell: UICollectionViewCell {
         return view
     }()
 
+    public var isChecked: Bool? {
+        didSet {
+            guard let isChecked else { return }
+            checkBoxButton.tintColor = isChecked ? .primary700 : .neutral300
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addViews()
         setupConstraints()
-        bindButton()
     }
 
     @available(*, unavailable)
@@ -98,23 +105,10 @@ private extension FolderCell {
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
-
-    func bindButton() {
-        checkBoxButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.checkBoxButton.isSelected.toggle()
-            self.checkBoxButton.tintColor = self.checkBoxButton.isSelected ? .primary700 : .neutral300
-        }), for: .touchUpInside)
-    }
 }
 
 public extension FolderCell {
     func inject(title: String?) {
         titleLabel.attributedText = .makeStyledString(font: .b_m_r, text: title, alignment: .left)
-    }
-
-    func toggleSelected() {
-        checkBoxButton.isSelected.toggle()
-        checkBoxButton.tintColor = checkBoxButton.isSelected ? .primary700 : .neutral300
     }
 }
