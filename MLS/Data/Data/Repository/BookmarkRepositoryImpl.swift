@@ -23,47 +23,45 @@ public class BookmarkRepositoryImpl: BookmarkRepository {
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 
-    public func fetchBookmark(page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+    public func fetchBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchBookmark(query: SortedQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 
-    public func fetchMonsterBookmark(minLevel: Int?, maxLevel: Int?, page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchMonsterBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+    public func fetchMonsterBookmark(minLevel: Int?, maxLevel: Int?, sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchMonsterBookmark(query: BookmarkMonsterQuery(minLevel: minLevel, maxLevel: maxLevel, sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 
-    public func fetchNPCBookmark(page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchNPCBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+    public func fetchNPCBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchNPCBookmark(query: SortedQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 
-    public func fetchQuestBookmark(page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchQuestBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+    public func fetchQuestBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchQuestBookmark(query: SortedQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 
-    public func fetchItemBookmark(jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchItemBookmark(query: BookmarkItemQuery(jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, page: page, size: size, sort: sort))
+    public func fetchItemBookmark(jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchItemBookmark(query: BookmarkItemQuery(jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 
-    public func fetchMapBookmark(page: Int, size: Int, sort: String?) -> Observable<[BookmarkResponse]> {
-        let endPoint = BookmarkEndPoint.fetchMapBookmark(query: PagedQuery(page: page, size: size, sort: sort))
+    public func fetchMapBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+        let endPoint = BookmarkEndPoint.fetchMapBookmark(query: SortedQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
 }
 
 private extension BookmarkRepositoryImpl {
-    struct PagedQuery: Encodable {
-        let page: Int
-        let size: Int
+    struct SortedQuery: Encodable {
         let sort: String?
     }
 
@@ -72,13 +70,17 @@ private extension BookmarkRepositoryImpl {
         let resourceId: Int
     }
 
+    struct BookmarkMonsterQuery: Encodable {
+        let minLevel: Int?
+        let maxLevel: Int?
+        let sort: String?
+    }
+
     struct BookmarkItemQuery: Encodable {
         let jobId: Int?
         let minLevel: Int?
         let maxLevel: Int?
         let categoryIds: [Int]?
-        let page: Int
-        let size: Int
         let sort: String?
     }
 }

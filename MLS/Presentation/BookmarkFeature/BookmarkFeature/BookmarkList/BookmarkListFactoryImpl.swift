@@ -13,6 +13,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
 
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchBookmarkUseCase: FetchBookmarkUseCase
     private let fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase
     private let fetchItemBookmarkUseCase: FetchItemBookmarkUseCase
     private let fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase
@@ -27,6 +28,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         loginFactory: LoginFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
         checkLoginUseCase: CheckLoginUseCase,
+        fetchBookmarkUseCase: FetchBookmarkUseCase,
         fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase,
         fetchItemBookmarkUseCase: FetchItemBookmarkUseCase,
         fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase,
@@ -40,6 +42,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.loginFactory = loginFactory
         self.setBookmarkUseCase = setBookmarkUseCase
         self.checkLoginUseCase = checkLoginUseCase
+        self.fetchBookmarkUseCase = fetchBookmarkUseCase
         self.fetchNPCBookmarkUseCase = fetchNPCBookmarkUseCase
         self.fetchMonsterBookmarkUseCase = fetchMonsterBookmarkUseCase
         self.fetchItemBookmarkUseCase = fetchItemBookmarkUseCase
@@ -48,7 +51,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
-        let reactor = BookmarkListReactor(type: type, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase, fetchItemBookmarkUseCase: fetchItemBookmarkUseCase, fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase, fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase, fetchMapBookmarkUseCase: fetchMapBookmarkUseCase)
+        let reactor = BookmarkListReactor(type: type, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, fetchBookmarkUseCase: fetchBookmarkUseCase, fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase, fetchItemBookmarkUseCase: fetchItemBookmarkUseCase, fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase, fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase, fetchMapBookmarkUseCase: fetchMapBookmarkUseCase)
         let viewController = BookmarkListViewController(
             reactor: reactor,
             itemFilterFactory: itemFilterFactory,

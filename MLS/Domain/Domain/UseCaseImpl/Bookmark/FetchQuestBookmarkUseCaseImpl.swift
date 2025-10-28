@@ -9,7 +9,7 @@ public final class FetchQuestBookmarkUseCaseImpl: FetchQuestBookmarkUseCase {
         self.repository = repository
     }
 
-    public func execute(page: Int?, size: Int?, sort: SortType?) -> Observable<[BookmarkResponse]> {
-        return repository.fetchQuestBookmark(page: page ?? 0, size: size ?? 20, sort: sort?.sortParameter)
+    public func execute(sort: SortType?) -> Observable<[BookmarkResponse]> {
+        return repository.fetchQuestBookmark(sort: sort?.sortParameter)
     }
 }
