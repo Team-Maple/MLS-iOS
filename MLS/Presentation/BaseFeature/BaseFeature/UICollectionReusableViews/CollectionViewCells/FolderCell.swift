@@ -54,12 +54,11 @@ public class FolderCell: UICollectionViewCell {
         return view
     }()
 
-    public var isChecked: Bool? {
-        didSet {
-            guard let isChecked else { return }
-            checkBoxButton.tintColor = isChecked ? .primary700 : .neutral300
-        }
-    }
+    public var isChecked: Bool = false {
+          didSet {
+              checkBoxButton.tintColor = isChecked ? .primary700 : .neutral300
+          }
+      }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

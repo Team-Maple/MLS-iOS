@@ -96,15 +96,6 @@ extension BookmarkModalViewController {
             })
             .disposed(by: disposeBag)
 
-        reactor.state
-            .map(\.collections)
-            .observe(on: MainScheduler.instance)
-            .withUnretained(self)
-            .bind(onNext: { owner, _ in
-                owner.mainView.folderCollectionView.reloadData()
-            })
-            .disposed(by: disposeBag)
-
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -153,7 +144,8 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
             reactor?.action.onNext(.addCollectionTapped)
         } else {
             let collection = reactor?.currentState.collections[indexPath.row - 1]
-            reactor?.action.onNext(.selectItem(collection?.id ?? 0))
+            guard let collection = reactor?.currentState.collections[indexPath.row - 1] else { return }
+            reactor?.action.onNext(.selectItem(collection.id))
         }
     }
 }
