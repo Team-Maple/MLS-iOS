@@ -52,7 +52,7 @@ private extension MonsterDictionaryDetailViewController {
         guard let reactor = reactor,
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         appearMapView.initFilter(firstFilter: filter)
-        
+
         let maps = reactor.currentState.menus.maps
         contentViews.append(appearMapView)
         if maps.isEmpty {
