@@ -143,7 +143,6 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == 0 {
             reactor?.action.onNext(.addCollectionTapped)
         } else {
-            let collection = reactor?.currentState.collections[indexPath.row - 1]
             guard let collection = reactor?.currentState.collections[indexPath.row - 1] else { return }
             reactor?.action.onNext(.selectItem(collection.id))
         }
