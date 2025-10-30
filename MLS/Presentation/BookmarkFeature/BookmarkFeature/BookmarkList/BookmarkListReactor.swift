@@ -4,11 +4,20 @@ import ReactorKit
 import RxSwift
 
 public final class BookmarkListReactor: Reactor {
-    // MARK: - Route
+    // MARK: - Type
     public enum Route {
         case none
         case sort(DictionaryType)
         case filter(DictionaryType)
+        case detail(DictionaryType, Int)
+        case dictionary
+        case login
+    }
+
+    enum ViewState: Equatable {
+        case loginWithData
+        case loginWithoutData
+        case logout
     }
 
     // MARK: - Action
@@ -21,17 +30,18 @@ public final class BookmarkListReactor: Reactor {
         case sortOptionSelected(SortType)
         case filterOptionSelected(startLevel: Int, endLevel: Int)
         case undoLastDeletedBookmark
+        case dataTapped(Int)
+        case emptyButtonTapped
     }
 
     // MARK: - Mutation
     public enum Mutation {
         case setItems([BookmarkResponse])
-        case showSortFilter
-        case showFilter
         case setLoginState(Bool)
         case setSort(SortType)
         case setFilter(start: Int, end: Int)
         case setLastDeletedBookmark(BookmarkResponse?)
+        case toNavagate(Route)
     }
 
     // MARK: - State
@@ -44,6 +54,15 @@ public final class BookmarkListReactor: Reactor {
         var startLevel: Int?
         var endLevel: Int?
         var lastDeletedBookmark: BookmarkResponse?
+        var viewState: ViewState {
+            if !isLogin {
+                return .logout
+            } else if items.isEmpty {
+                return .loginWithoutData
+            } else {
+                return .loginWithData
+            }
+        }
     }
 
     public var initialState: State
@@ -107,7 +126,7 @@ public final class BookmarkListReactor: Reactor {
 
             let saveDeletedMutation: Observable<Mutation> =
                 isSelected ? .just(.setLastDeletedBookmark(bookmarkItem))
-                           : .just(.setLastDeletedBookmark(nil))
+                    : .just(.setLastDeletedBookmark(nil))
 
             return saveDeletedMutation
                 .concat(
@@ -119,10 +138,10 @@ public final class BookmarkListReactor: Reactor {
                 )
 
         case .sortButtonTapped:
-            return .just(.showSortFilter)
+            return .just(.toNavagate(.sort(currentState.type)))
 
         case .filterButtonTapped:
-            return .just(.showFilter)
+            return .just(.toNavagate(.filter(currentState.type)))
 
         case .fetchList:
             guard currentState.isLogin else { return .empty() }
@@ -152,6 +171,16 @@ public final class BookmarkListReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .dataTapped(let index):
+            let item = currentState.items[index]
+            guard let type = item.type.toDictionaryType else { return .empty() }
+            return .just(.toNavagate(.detail(type, item.originalId)))
+        case .emptyButtonTapped:
+            if currentState.viewState == .logout {
+                return .just(.toNavagate(.login))
+            } else {
+                return .just(.toNavagate(.dictionary))
+            }
         }
     }
 
@@ -204,12 +233,6 @@ public final class BookmarkListReactor: Reactor {
         case let .setItems(response):
             newState.items = response
 
-        case .showSortFilter:
-            newState.route = .sort(newState.type)
-
-        case .showFilter:
-            newState.route = .filter(newState.type)
-
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
 
@@ -220,8 +243,10 @@ public final class BookmarkListReactor: Reactor {
             newState.startLevel = start
             newState.endLevel = end
 
-        case .setLastDeletedBookmark(let item):
+        case let .setLastDeletedBookmark(item):
             newState.lastDeletedBookmark = item
+        case .toNavagate(let route):
+            newState.route = route
         }
 
         return newState

@@ -10,6 +10,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let sortedFactory: SortedBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
+    private let dictionaryDetailFactory: DictionaryDetailFactory
 
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let checkLoginUseCase: CheckLoginUseCase
@@ -26,6 +27,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         sortedFactory: SortedBottomSheetFactory,
         bookmarkModalFactory: BookmarkModalFactory,
         loginFactory: LoginFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
         checkLoginUseCase: CheckLoginUseCase,
         fetchBookmarkUseCase: FetchBookmarkUseCase,
@@ -40,6 +42,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
+        self.dictionaryDetailFactory = dictionaryDetailFactory
         self.setBookmarkUseCase = setBookmarkUseCase
         self.checkLoginUseCase = checkLoginUseCase
         self.fetchBookmarkUseCase = fetchBookmarkUseCase
@@ -58,7 +61,8 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
             monsterFilterFactory: monsterFilterFactory,
             sortedFactory: sortedFactory,
             bookmarkModalFactory: bookmarkModalFactory,
-            loginFactory: loginFactory
+            loginFactory: loginFactory,
+            dictionaryDetailFactory: dictionaryDetailFactory
         )
         if listType == .search {
             viewController.isBottomTabbarHidden = true
