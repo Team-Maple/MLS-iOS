@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -18,8 +19,9 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
 
     private var viewControllers: [UIViewController]
 
-    private let mainView: DictionaryMainView
+    private var mainView: DictionaryMainView
     private let underLineController = TabBarUnderlineController()
+    private let dictionaryListFactory: DictionaryMainListFactory
 
     public init(
         dictionaryListFactory: DictionaryMainListFactory,
@@ -30,6 +32,7 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
         self.mainView = DictionaryMainView(type: type)
         self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type, keyword: reactor.currentState.keyword) }
         self.initialIndex = initialIndex
+        self.dictionaryListFactory = dictionaryListFactory
         super.init()
         self.reactor = reactor
     }
@@ -38,7 +41,11 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+   
+
 }
+
 
 // MARK: - Life Cycle
 public extension DictionarySearchResultViewController {
@@ -47,8 +54,53 @@ public extension DictionarySearchResultViewController {
         addViews()
         setupConstraints()
         configureUI()
+    }
+    override func viewDidAppear(_ animated: Bool) {
         setInitialIndex()
     }
+    
+    
+    private func updateViewControllers(keyword: String) {
+        guard let reactor = reactor else { return }
+        let type = reactor.currentState.type
+
+        // 기존 viewControllers 제거
+        for vc in viewControllers {
+            vc.removeFromParent()
+            vc.view.removeFromSuperview()
+        }
+
+        // 새로운 viewControllers 생성
+        self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type, keyword: keyword) }
+
+        // PageViewController에 첫 번째 뷰컨트롤러 설정
+        if !viewControllers.isEmpty {
+            mainView.pageViewController.setViewControllers(
+                [viewControllers[0]],
+                direction: .forward,
+                animated: false,
+                completion: nil
+            )
+        }
+
+        // TabCollectionView 갱신
+        mainView.tabCollectionView.reloadData()
+
+        // Tab 선택 초기화
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let indexPath = IndexPath(item: 0, section: 0)
+            if self.mainView.tabCollectionView.numberOfItems(inSection: 0) > 0 {
+                self.mainView.tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+                self.currentPageIndex.accept(0)
+                self.underLineController.setInitialIndicator()
+            }
+            mainView.tabCollectionView.collectionViewLayout.invalidateLayout()
+            mainView.tabCollectionView.layoutIfNeeded()
+        }
+    }
+
+    
 }
 
 // MARK: - SetUp
@@ -99,6 +151,11 @@ private extension DictionarySearchResultViewController {
         )
 
         mainView.tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
+        
+        // 전체 레이아웃 강제 갱신
+        mainView.tabCollectionView.collectionViewLayout.invalidateLayout()
+        mainView.tabCollectionView.layoutIfNeeded()
+        
         DispatchQueue.main.async { [weak self] in
             self?.underLineController.setInitialIndicator()
         }
@@ -118,14 +175,20 @@ public extension DictionarySearchResultViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-        mainView.searchBar.textField.rx.text
-            .orEmpty
-            .distinctUntilChanged()
-            .withLatestFrom(reactor.state.map(\.keyword)) { newText, currentKeyword in
-                (newText, currentKeyword)
-            }
-            .filter { newText, currentKeyword in newText != currentKeyword }
-            .map { newText, _ in Reactor.Action.updateKeyword(newText) }
+//        mainView.searchBar.textField.rx.text
+//            .orEmpty
+//            .distinctUntilChanged()
+//            .withLatestFrom(reactor.state.map(\.keyword)) { newText, currentKeyword in
+//                (newText, currentKeyword)
+//            }
+//            .filter { newText, currentKeyword in newText != currentKeyword }
+//            .map { newText, _ in Reactor.Action.updateKeyword(newText) }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
+//            // 텍스트 입력 시 키워드 업데이트 실시간으로 하는 듯
+        mainView.searchBar.searchButton.rx.tap
+            .withLatestFrom(mainView.searchBar.textField.rx.text.orEmpty)
+            .map { text in Reactor.Action.searchButtonTapped(text) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -146,24 +209,15 @@ public extension DictionarySearchResultViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.keyword)
-            .compactMap { $0 }
-            .take(1)
-            .bind(to: mainView.searchBar.textField.rx.text)
+            .map { $0.keyword ?? "" }
+            .distinctUntilChanged()
+            .skip(1)
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { owner, newKeyword in
+                print("결과창에서 검색")
+                owner.updateViewControllers(keyword: newKeyword)
+            }
             .disposed(by: disposeBag)
-        
-//        for (index, vc) in viewControllers.enumerated() { // 아이템 개수 바인딩
-//            guard let listViewController = vc as? DictionaryListViewController else { continue }
-//            listViewController.itemCountRelay.observe(on: MainScheduler.instance)
-//                .subscribe(onNext: { [weak self] count in
-//                    guard let self = self else { return }
-//                    let title = reactor.currentState.sections[index]
-//                    if let cell = self.mainView.tabCollectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? PageTabbarCell {
-//                        cell.inject(title: "\(title)(\(count))")
-//                    }
-//                })
-//                .disposed(by: disposeBag)
-//        }
         
         rx.viewWillAppear
             .map {_ in Reactor.Action.viewWillAppear }
@@ -221,6 +275,7 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
         let count = reactor.currentState.counts[indexPath.row] ?? 0
         cell.inject(title: "\(title)\(count)")
         cell.isSelected = indexPath.row == currentPageIndex.value
+        cell.layoutIfNeeded() // 레이아웃 갱신
         return cell
     }
 
@@ -238,8 +293,10 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
             animated: true,
             completion: nil
         )
+        collectionView.collectionViewLayout.invalidateLayout()
 
         currentPageIndex.accept(newIndex)
         underLineController.animateIndicatorToSelectedItem()
     }
 }
+

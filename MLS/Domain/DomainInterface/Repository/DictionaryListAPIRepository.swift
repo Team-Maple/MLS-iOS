@@ -15,4 +15,6 @@ public protocol DictionaryListAPIRepository {
     func fetchMapList(keyword: String, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse>
     // 검색
     func fetchSearchList(keyword: String?) -> Observable<DictionaryMainResponse>
+    // 검색 카운트
+    func fetchSearchListCount(type: String, keyword: String?) -> Observable<SearchCountResponse>
 }

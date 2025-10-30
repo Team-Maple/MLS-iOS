@@ -144,8 +144,9 @@ extension BookmarkListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make()
-                        owner.present(viewController, animated: true)
+                        break
+                        //let viewController = owner.itemFilterFactory.make()
+                        //owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: 1, endLevel: 200) { _, _ in }
                         owner.tabBarController?.presentModal(viewController)

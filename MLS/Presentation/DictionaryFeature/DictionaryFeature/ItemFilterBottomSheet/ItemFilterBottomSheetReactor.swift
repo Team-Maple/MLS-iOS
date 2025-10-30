@@ -7,6 +7,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case dismissWithSelection([String])
     }
 
     // MARK: - Reactor
@@ -15,6 +16,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         case filterSelected(indexPath: IndexPath)
         case filterDeselected(indexPath: IndexPath)
         case changeLevelRange(low: Int, high: Int)
+        case applyButtonTapped([String])
     }
 
     public enum Mutation {
@@ -78,6 +80,8 @@ public final class ItemFilterBottomSheetReactor: Reactor {
             }
         case .changeLevelRange(low: let low, high: let high):
             return Observable.just(.setLevelRange(low: low, high: high))
+        case .applyButtonTapped(let selectedItems):
+            return .just(.navigateTo(route: .dismissWithSelection(selectedItems)))
         }
     }
 
@@ -137,6 +141,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
                 if !newState.selectedItemIndexes.contains(levelSection) { newState.selectedItemIndexes.insert(levelSection, at: 0) }
             }
             newState.levelRange = (low, high)
+            print("level설정: \(low), \(high)")
         }
         return newState
     }

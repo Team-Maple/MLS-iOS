@@ -10,6 +10,11 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         self.provider = provider
         self.tokenInterceptor = tokenInterceptor
     }
+    // MARK: - 검색 카운트
+    public func fetchSearchListCount(type: String, keyword: String?) -> Observable<SearchCountResponse> {
+        let endPoint = DictionaryListEndPoint.fetchListCount(type: type, keyword: keyword)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
     // MARK: - 검색 리스트
     public func fetchSearchList(keyword: String?) -> Observable<DictionaryMainResponse> {
         let endPoint = DictionaryListEndPoint.fetchAllList(keyword: keyword)

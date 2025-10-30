@@ -212,6 +212,9 @@ private extension AppDelegate {
         DIContainer.register(type: FetchDictionarySearchListUseCase.self) {
             FetchDictionarySearchListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryListCountUseCase.self) {
+            FetchDictionaryListCountUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -249,9 +252,11 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             DictionarySearchResultFactoryImpl(
+                dictionaryListCountUseCase: DIContainer.resolve(type: FetchDictionaryListCountUseCase.self),
                 dictionaryMainListFactory: DIContainer
                     .resolve(type: DictionaryMainListFactory.self),
-                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self)
+                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self),
+                
             )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {

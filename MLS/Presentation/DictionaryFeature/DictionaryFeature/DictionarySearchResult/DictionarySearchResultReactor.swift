@@ -13,12 +13,19 @@ public final class DictionarySearchResultReactor: Reactor {
         case backbuttonTapped
         case updateKeyword(String)
         case viewWillAppear
+        case searchButtonTapped(String?)
     }
 
     public enum Mutation {
         case navigateTo(Route)
         case setKeyword(String)
-        case setCounts(DictionaryMainResponse)
+        case setKeyword2(String)
+        case setCountsAll(SearchCountResponse)
+        case setCountsMonster(SearchCountResponse)
+        case setCountsItem(SearchCountResponse)
+        case setCountsNpc(SearchCountResponse)
+        case setCountsQuest(SearchCountResponse)
+        case setCountsMap(SearchCountResponse)
     }
 
     public struct State {
@@ -39,11 +46,13 @@ public final class DictionarySearchResultReactor: Reactor {
     
     // MARK: - UseCases
     private let dictionarySearchUseCase: FetchDictionarySearchListUseCase
+    private let dictionarySearchCountUseCase: FetchDictionaryListCountUseCase
 
     // MARK: - init
-    public init(keyword: String?, dictionarySearchUseCase: FetchDictionarySearchListUseCase) {
+    public init(keyword: String?, dictionarySearchUseCase: FetchDictionarySearchListUseCase, dictionarySearchCountUseCase: FetchDictionaryListCountUseCase) {
         self.initialState = State(keyword: keyword)
         self.dictionarySearchUseCase = dictionarySearchUseCase
+        self.dictionarySearchCountUseCase = dictionarySearchCountUseCase
     }
 
     // MARK: - Reactor Methods
@@ -54,7 +63,30 @@ public final class DictionarySearchResultReactor: Reactor {
         case .updateKeyword(let keyword):
             return Observable.just(.setKeyword(keyword))
         case .viewWillAppear:
-            return self.dictionarySearchUseCase.execute(keyword: self.initialState.keyword ?? "").map {Mutation.setCounts($0)}
+            // 초기 검색 시
+            return Observable.concat([
+                // 초기 키워드
+                self.dictionarySearchCountUseCase.execute(type: "search", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsAll($0)},
+                self.dictionarySearchCountUseCase.execute(type: "monsters", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsMonster($0)},
+                self.dictionarySearchCountUseCase.execute(type: "items", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsItem($0)},
+                self.dictionarySearchCountUseCase.execute(type: "npcs", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsNpc($0)},
+                self.dictionarySearchCountUseCase.execute(type: "maps", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsMap($0)},
+                self.dictionarySearchCountUseCase.execute(type: "quests", keyword: self.initialState.keyword ?? "").map { Mutation.setCountsQuest($0)},
+                
+            ])
+        // 검색 결과 화면에서 재검색 시
+        case .searchButtonTapped(let keyword):
+            let keyword = keyword ?? ""
+
+            return Observable.concat([
+                Observable.just(.setKeyword2(keyword)),
+                self.dictionarySearchCountUseCase.execute(type: "search", keyword: keyword).map { Mutation.setCountsAll($0)},
+                self.dictionarySearchCountUseCase.execute(type: "monsters", keyword: keyword).map { Mutation.setCountsMonster($0)},
+                self.dictionarySearchCountUseCase.execute(type: "items", keyword: keyword).map { Mutation.setCountsItem($0)},
+                self.dictionarySearchCountUseCase.execute(type: "npcs", keyword: keyword).map { Mutation.setCountsNpc($0)},
+                self.dictionarySearchCountUseCase.execute(type: "maps", keyword: keyword).map { Mutation.setCountsMap($0)},
+                self.dictionarySearchCountUseCase.execute(type: "quests", keyword: keyword).map { Mutation.setCountsQuest($0)},
+            ])
         }
     }
 
@@ -66,28 +98,31 @@ public final class DictionarySearchResultReactor: Reactor {
             newState.route = route
         case .setKeyword(let keyword):
             newState.keyword = keyword
-        case .setCounts(let items):
-            // response.items 를 type별로 그룹화해서 count 계산
-            let grouped = Dictionary(grouping: items.contents, by: { $0.type })
-            
-            // 순서대로 count 배열을 채운다
-            let allCount = items.totalElements
-            let monsterCount = grouped[.monster]?.count ?? 0
-            let itemCount = grouped[.item]?.count ?? 0
-            let mapCount = grouped[.map]?.count ?? 0
-            let npcCount = grouped[.npc]?.count ?? 0
-            let questCount = grouped[.quest]?.count ?? 0
-            
-            // 배열 순서대로 넣기
-            newState.counts = [
-                allCount,
-                monsterCount,
-                itemCount,
-                mapCount,
-                npcCount,
-                questCount
-            ]
-        }
+        case .setCountsAll(let items):
+            newState.counts[0] = items.count ?? 0
+            print("counts입니다111:\(newState.counts)")
+        case .setCountsMonster(let items):
+            newState.counts[1] = items.count ?? 0
+            print("counts입니다22:\(newState.counts)")
+
+        case .setCountsItem(let items):
+            newState.counts[2] = items.count ?? 0
+            print("counts입니다3333:\(newState.counts)")
+
+        case .setCountsMap(let items):
+            newState.counts[3] = items.count ?? 0
+            print("counts입니다444:\(newState.counts)")
+
+        case .setCountsNpc(let items):
+            newState.counts[4] = items.count ?? 0
+            print("counts입니다5555:\(newState.counts)")
+
+        case .setCountsQuest(let items):
+            newState.counts[5] = items.count ?? 0
+            print("counts입니다666:\(newState.counts)")
+        case .setKeyword2(let keyword):
+            newState.keyword = keyword
+         }
         
         return newState
     }

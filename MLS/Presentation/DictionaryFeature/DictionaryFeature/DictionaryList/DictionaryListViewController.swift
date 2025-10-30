@@ -144,7 +144,10 @@ extension DictionaryListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make()
+                        let viewController = owner.itemFilterFactory.make() { result in
+                            
+                            print("DictionaryList에서 결과 받음:\(result)")
+                        }
                         owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in

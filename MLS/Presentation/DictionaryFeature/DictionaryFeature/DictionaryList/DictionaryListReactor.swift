@@ -23,6 +23,7 @@ open class DictionaryListReactor: Reactor {
         case fetchList // data 불러오기
         case fetchListFilter // 필터링된 data 불러오기
         case undoLastDeletedBookmark
+       // case itemFilterOptionSelected([String]) // 아이템 필터 옵션 선택 시 액션
     }
 
     // MARK: - Mutation
