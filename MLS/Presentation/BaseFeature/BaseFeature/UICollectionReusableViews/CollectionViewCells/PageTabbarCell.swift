@@ -11,8 +11,8 @@ public class PageTabbarCell: UICollectionViewCell {
         label.font = .b_m_r
         label.textColor = .neutral600
         label.numberOfLines = 1
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.8
+        //label.adjustsFontSizeToFitWidth = true
+        //label.minimumScaleFactor = 0.8
         return label
     }()
 

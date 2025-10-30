@@ -156,19 +156,19 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
         }
         let isSelected = reactor?.currentState.selectedItems.contains(where: { $0.id == item.id }) ?? false
 
-        cell.inject(
-            type: .checkbox,
-            input: DictionaryListCell.Input(
-                type: item.type,
-                mainText: item.mainText,
-                subText: item.subText,
-                image: item.image,
-                isSelected: isSelected
-            ),
-            onIconTapped: { [weak self] in
-                self?.reactor?.action.onNext(.itemTapped(indexPath.row))
-            }
-        )
+//        cell.inject(
+//            type: .checkbox,
+//            input: DictionaryListCell.Input(
+//                type: item.type,
+//                mainText: item.mainText,
+//                subText: item.subText,
+//                image: item.image,
+//                isSelected: isSelected
+//            ),
+//            onIconTapped: { [weak self] _ in
+//                self?.reactor?.action.onNext(.itemTapped(indexPath.row))
+//            }
+//        )
         return cell
     }
 

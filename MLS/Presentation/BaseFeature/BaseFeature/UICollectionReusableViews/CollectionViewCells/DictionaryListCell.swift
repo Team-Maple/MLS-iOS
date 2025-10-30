@@ -5,10 +5,11 @@ import DomainInterface
 
 public final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
-//    private var onIconTapped: (() -> Void)?
+    private var onBookmarkTapped: ((Bool) -> Void)?
 
     // MARK: - Components
-    public var cellView = CardList()
+    public let cellView = CardList()
+    private var imageDownloadTask: URLSessionDataTask?
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -37,49 +38,55 @@ private extension DictionaryListCell {
     }
 }
 
-extension DictionaryListCell {
-    public struct Input {
-        let type: DictionaryItemType
-        let mainText: String
-        let subText: String
-        let image: UIImage
-        let isSelected: Bool
+public extension DictionaryListCell {
+    struct Input {
+        public let type: DictionaryItemType
+        public let mainText: String
+        public let subText: String?
+        public let imageUrl: String
+        public let isBookmarked: Bool
 
-        public init(type: DictionaryItemType, mainText: String, subText: String, image: UIImage, isSelected: Bool) {
+        public init(type: DictionaryItemType, mainText: String, subText: String?, imageUrl: String, isBookmarked: Bool) {
             self.type = type
             self.mainText = mainText
             self.subText = subText
-            self.image = image
-            self.isSelected = isSelected
+            self.imageUrl = imageUrl
+            self.isBookmarked = isBookmarked
         }
     }
 
-    public func inject(type: CardList.CardListType, input: Input, onIconTapped: @escaping () -> Void) {
+    func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping (Bool) -> Void) {
         cellView.setType(type: type)
-        cellView.setImage(image: input.image, backgroundColor: input.type.backgroundColor)
+        // URL이 유효할 때만 요청
+        if let url = URL(string: input.imageUrl) {
+            ImageLoader.shared.loadImage(url: url) { image in
+                guard let image = image else { return }
+                self.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+            }
+        }
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
-        cellView.setSelected(isSelected: input.isSelected)
-//        self.onIconTapped = onIconTapped
-        cellView.onIconTapped = { _ in
-            onIconTapped()
+        cellView.setSelected(isSelected: input.isBookmarked)
+        self.onBookmarkTapped = onBookmarkTapped
+        cellView.onIconTapped = { [weak self] isSelected in
+            self?.onBookmarkTapped?(isSelected)
         }
     }
 }
 
-extension DictionaryItemType {
-    public var backgroundColor: UIColor {
+public extension DictionaryItemType {
+    var backgroundColor: UIColor {
         switch self {
         case .item:
-                .listItem
+            .listItem
         case .monster:
-                .listMonster
+            .listMonster
         case .map:
-                .listMap
+            .listMap
         case .npc:
-                .listNPC
+            .listNPC
         case .quest:
-                .listQuest
+            .listQuest
         }
     }
 }

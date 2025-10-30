@@ -5,9 +5,9 @@ public struct DictionaryDetailNpcResponseDTO: Codable {
     public let nameKr: String
     public let nameEn: String
     public let iconUrlDetail: String?
-    public let isBookmarked: Bool
+    public let bookmarkId: Int?
 
     public func toDomain() -> DictionaryDetailNpcResponse {
-        return DictionaryDetailNpcResponse(npcId: npcId, nameKr: nameKr, nameEn: nameEn, iconUrlDetail: iconUrlDetail, isBookmarked: isBookmarked)
+        return DictionaryDetailNpcResponse(npcId: npcId, nameKr: nameKr, nameEn: nameEn, iconUrlDetail: iconUrlDetail, bookmarkId: bookmarkId)
     }
 }

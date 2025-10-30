@@ -5,8 +5,7 @@ import DesignSystem
 import RxSwift
 import SnapKit
 
-public final class SnackBarFactory {
-
+public enum SnackBarFactory {
     // MARK: - Properties
 
     /// 현재 디바이스 최상단 Window를 지정
@@ -38,8 +37,7 @@ public final class SnackBarFactory {
     private static var disposeBag = DisposeBag()
 }
 
-extension SnackBarFactory {
-
+public extension SnackBarFactory {
     // MARK: - Method
 
     /// SnackBar를 생성하는 메소드
@@ -50,50 +48,64 @@ extension SnackBarFactory {
     ///   - text: 스낵바에 들어갈 내용
     ///   - buttonText: 버튼 제목
     ///   - buttonAction: 버튼이 눌렸을때의 액션
-    public static func createSnackBar(
+    static func createSnackBar(
         type: SnackBar.SnackBarType,
-        image: UIImage?,
+        image: UIImage? = nil,
+        imageUrl: String? = nil,
         imageBackgroundColor: UIColor,
         text: String,
         buttonText: String,
         buttonAction: (() -> Void)?,
         bottomMargin: CGFloat = 76
     ) {
-         currentSnackBar?.removeFromSuperview()
-         currentSnackBar = nil
+        DispatchQueue.main.async {
+            currentSnackBar?.removeFromSuperview()
+            currentSnackBar = nil
 
-         let snackBar = SnackBar(
-             type: type,
-             image: image,
-             imageBackgroundColor: imageBackgroundColor,
-             text: text,
-             buttonText: buttonText,
-             buttonAction: buttonAction
-         )
-         snackBar.alpha = 0
+            let snackBar = SnackBar(
+                type: type,
+                image: image,
+                imageBackgroundColor: imageBackgroundColor,
+                text: text,
+                buttonText: buttonText,
+                buttonAction: buttonAction
+            )
+            snackBar.alpha = 0
 
-         guard let window = window else { return }
-         window.addSubview(snackBar)
-         currentSnackBar = snackBar
+            // ✅ window 대신 topViewController의 view 사용
+            guard let topVC = topViewController() else { return }
+            topVC.view.addSubview(snackBar)
+            currentSnackBar = snackBar
 
-         snackBar.snp.makeConstraints { make in
-             make.bottom.equalTo(window.safeAreaLayoutGuide.snp.bottom).inset(bottomMargin)
-             make.centerX.equalToSuperview()
-         }
+            snackBar.snp.makeConstraints { make in
+                make.bottom.equalTo(topVC.view.safeAreaLayoutGuide.snp.bottom).inset(bottomMargin)
+                make.centerX.equalToSuperview()
+            }
 
-         UIView.animate(withDuration: 0.25) {
-             snackBar.alpha = 1
-         }
+            if let img = image {
+                snackBar.imageView.setImage(image: img, backgroundColor: imageBackgroundColor)
+            } else if let urlString = imageUrl, let url = URL(string: urlString) {
+                ImageLoader.shared.loadImage(stringURL: urlString) { image in
+                    DispatchQueue.main.async {
+                        snackBar.imageView.setImage(image: image, backgroundColor: imageBackgroundColor)
+                    }
+                }
+            }
 
-         DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
-             UIView.animate(withDuration: 0.6, animations: {
-                 snackBar.alpha = 0
-             }, completion: { _ in
-                 snackBar.removeFromSuperview()
-                 if currentSnackBar == snackBar {
-                     currentSnackBar = nil
-                 }
-             })
-         }
-     }
+            UIView.animate(withDuration: 0.25) {
+                snackBar.alpha = 1
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+                UIView.animate(withDuration: 0.6, animations: {
+                    snackBar.alpha = 0
+                }, completion: { _ in
+                    snackBar.removeFromSuperview()
+                    if currentSnackBar == snackBar {
+                        currentSnackBar = nil
+                    }
+                })
+            }
+        }
+    }
 }

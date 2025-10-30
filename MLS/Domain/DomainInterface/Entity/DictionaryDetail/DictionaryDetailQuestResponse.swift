@@ -16,9 +16,9 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
     public let rewardItems: [RewardItem]?
     public let requirements: [Requirements]?
     public let allowedJobs: [AllowedJob]?
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
-    public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, isBookmarked: Bool?) {
+    public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, bookmarkId: Int?) {
         self.questId = questId
         self.titlePrefix = titlePrefix
         self.nameKr = nameKr
@@ -36,7 +36,7 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
         self.rewardItems = rewardItems
         self.requirements = requirements
         self.allowedJobs = allowedJobs
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 }
 

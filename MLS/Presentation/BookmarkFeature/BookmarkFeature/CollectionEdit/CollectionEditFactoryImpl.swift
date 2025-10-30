@@ -3,11 +3,11 @@ import BookmarkFeatureInterface
 import DomainInterface
 
 public final class CollectionEditFactoryImpl: CollectionEditFactory {
-    private let toggleBookmarkUseCase: ToggleBookmarkUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
     private let bookmarkModalFactory: BookmarkModalFactory
 
-    public init(toggleBookmarkUseCase: ToggleBookmarkUseCase, bookmarkModalFactory: BookmarkModalFactory) {
-        self.toggleBookmarkUseCase = toggleBookmarkUseCase
+    public init(setBookmarkUseCase: SetBookmarkUseCase, bookmarkModalFactory: BookmarkModalFactory) {
+        self.setBookmarkUseCase = setBookmarkUseCase
         self.bookmarkModalFactory = bookmarkModalFactory
     }
 

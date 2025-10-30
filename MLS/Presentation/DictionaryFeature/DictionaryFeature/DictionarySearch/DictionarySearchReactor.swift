@@ -24,6 +24,7 @@ public final class DictionarySearchReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
         case deleteItem(String)
+        case addRecentItem(String)
     }
 
     public struct State {
@@ -68,7 +69,7 @@ public final class DictionarySearchReactor: Reactor {
 
         self.initialState = State(
             route: .none,
-            recentResult: ["망치", "도끼", "창", "드라이버", "몽키스패너"],
+            recentResult: [],
             popularResult: newItems
         )
     }
@@ -79,7 +80,10 @@ public final class DictionarySearchReactor: Reactor {
         case .backButtonTapped:
             return Observable.just(.navigateTo(.dismiss))
         case .searchButtonTapped(let keyword):
-            return Observable.just(.navigateTo(.search(keyword)))
+            return .concat([
+                .just(.addRecentItem(keyword)),
+                .just(.navigateTo(.search(keyword)))
+            ])
         case .cancelRecentButtonTapped(let name):
             return Observable.just(.deleteItem(name))
         case .recentButtonTapped(let keyword):
@@ -93,6 +97,8 @@ public final class DictionarySearchReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case .addRecentItem(let name):
+            newState.recentResult.insert(name, at: 0) // 맨 앞에 최근 검색어 추가
         case .deleteItem(let name):
             newState.recentResult = state.recentResult.filter { $0 != name }
         }

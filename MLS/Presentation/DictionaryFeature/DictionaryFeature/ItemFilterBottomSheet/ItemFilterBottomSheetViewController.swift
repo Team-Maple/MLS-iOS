@@ -78,7 +78,9 @@ public final class ItemFilterBottomSheetViewController: BaseViewController, View
     private var dataSource: DataSource! = nil
     private var mainView = ItemFilterBottomSheetView()
     private let underLineController = TabBarUnderlineController()
-
+    
+    public var onFilterSelected: (([String]) -> Void)?
+    
     override public init() {
         super.init()
     }
@@ -376,6 +378,56 @@ extension ItemFilterBottomSheetViewController {
                 self?.view.endEditing(true)
             }
             .disposed(by: disposeBag)
+        
+        mainView.headerView.firstIconButton.rx.tap
+            .map { Reactor.Action.closeButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        mainView.applyButton.rx.tap
+            .withUnretained(self)
+            .compactMap { owner, _ in
+               
+                let state = reactor.currentState
+
+                var selectedItems: [String] = []
+
+                for indexPath in state.selectedItemIndexes {
+                    guard let section = ItemFilterBottomSheetViewController.FilterSection(rawValue: indexPath.section) else { continue }
+
+                    switch section {
+                    case .level:
+                        selectedItems.append("레벨 \(state.levelRange.low) ~ \(state.levelRange.high)")
+                    case .job:
+                        selectedItems.append(state.jobs[indexPath.row])
+                    case .weapons:
+                        selectedItems.append(state.weapons[indexPath.row])
+                    case .projectiles:
+                        selectedItems.append(state.projectiles[indexPath.row])
+                    case .armors:
+                        selectedItems.append(state.armors[indexPath.row])
+                    case .accessories:
+                        selectedItems.append(state.accessories[indexPath.row])
+                    case .scrollCategories:
+                        selectedItems.append(state.scrollCategories[indexPath.row])
+                    case .weaponScrolls:
+                        selectedItems.append(state.weaponScrolls[indexPath.row])
+                    case .armorsScrolls:
+                        selectedItems.append(state.armorScrolls[indexPath.row])
+                    case .etcScrolls:
+                        selectedItems.append(state.etcScrolls[indexPath.row])
+                    case .etcItems:
+                        selectedItems.append(state.etcItems[indexPath.row])
+                    }
+                }
+
+                print("✅ 선택된 아이템들:")
+                selectedItems.forEach { print($0) }
+                return Reactor.Action.applyButtonTapped(selectedItems)
+            }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
     }
 
     func bindViewState(reactor: Reactor) {
@@ -428,6 +480,9 @@ extension ItemFilterBottomSheetViewController {
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
+                    owner.dismiss(animated: true)
+                case .dismissWithSelection(let selectedItems):
+                    owner.onFilterSelected?(selectedItems)
                     owner.dismiss(animated: true)
                 default:
                     break
