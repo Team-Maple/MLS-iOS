@@ -37,6 +37,7 @@ public class GuideAlert: UIView {
         mainTextLabel.attributedText = .makeStyledString(font: .sub_l_b, text: mainText)
         self.ctaButton = CommonButton(style: .normal, title: ctaText, disabledTitle: nil)
         self.cancelButton = cancelText.map { CommonButton(style: .border, title: $0, disabledTitle: nil) }
+        mainTextLabel.numberOfLines = 0
         super.init(frame: .zero)
 
         addViews(cancelText: cancelText)

@@ -1,4 +1,4 @@
-public struct DictionaryDetailQuestResponse: Codable, Equatable {
+public struct DictionaryDetailQuestResponse: Equatable {
     public let questId: Int?
     public let titlePrefix: String?
     public let nameKr: String?
@@ -16,9 +16,9 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
     public let rewardItems: [RewardItem]?
     public let requirements: [Requirements]?
     public let allowedJobs: [AllowedJob]?
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
-    public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, isBookmarked: Bool?) {
+    public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, bookmarkId: Int?) {
         self.questId = questId
         self.titlePrefix = titlePrefix
         self.nameKr = nameKr
@@ -36,23 +36,23 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
         self.rewardItems = rewardItems
         self.requirements = requirements
         self.allowedJobs = allowedJobs
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 }
 
-public struct Reward: Codable, Equatable {
+public struct Reward: Decodable, Equatable {
     public let exp: Int?
     public let meso: Int?
     public let popularity: Int?
 }
 
-public struct RewardItem: Codable, Equatable {
+public struct RewardItem: Decodable, Equatable {
     public let itemId: Int?
     public let itemName: String?
     public let quantity: Int?
 }
 
-public struct Requirements: Codable, Equatable {
+public struct Requirements: Decodable, Equatable {
     public let requirementType: String?
     public let itemId: Int?
     public let itemName: String?
@@ -61,7 +61,7 @@ public struct Requirements: Codable, Equatable {
     public let quantity: Int?
 }
 
-public struct AllowedJob: Codable, Equatable {
+public struct AllowedJob: Decodable, Equatable {
     public let jobId: Int?
     public let jobName: String?
 }

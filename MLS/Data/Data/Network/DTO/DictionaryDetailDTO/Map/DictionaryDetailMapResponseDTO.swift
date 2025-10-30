@@ -1,6 +1,6 @@
 import DomainInterface
 
-public struct DictionaryDetailMapResponseDTO: Codable {
+public struct DictionaryDetailMapResponseDTO: Decodable {
     public let mapId: Int?
     public let nameKr: String?
     public let nameEn: String?
@@ -9,9 +9,9 @@ public struct DictionaryDetailMapResponseDTO: Codable {
     public let topRegionName: String?
     public let mapUrl: String?
     public let iconUrl: String?
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
     public func toDomain() -> DictionaryDetailMapResponse {
-        return DictionaryDetailMapResponse(mapId: mapId, nameKr: nameKr, nameEn: nameEn, regionName: regionName, detailName: detailName, topRegionName: topRegionName, mapUrl: mapUrl, iconUrl: iconUrl, isBookmarked: isBookmarked)
+        return DictionaryDetailMapResponse(mapId: mapId, nameKr: nameKr, nameEn: nameEn, regionName: regionName, detailName: detailName, topRegionName: topRegionName, mapUrl: mapUrl, iconUrl: iconUrl, bookmarkId: bookmarkId)
     }
 }

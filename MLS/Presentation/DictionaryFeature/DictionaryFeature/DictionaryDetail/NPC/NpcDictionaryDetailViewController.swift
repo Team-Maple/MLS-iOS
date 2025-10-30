@@ -83,6 +83,7 @@ extension NpcDictionaryDetailViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.id }, itemName: reactor.state.map { $0.info.name })
     }
 
     private func bindUserActions(reactor: Reactor) {

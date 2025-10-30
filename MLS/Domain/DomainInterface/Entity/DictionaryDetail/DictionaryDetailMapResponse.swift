@@ -1,4 +1,4 @@
-public struct DictionaryDetailMapResponse: Codable, Equatable {
+public struct DictionaryDetailMapResponse: Equatable {
     public let mapId: Int?
     public let nameKr: String?
     public let nameEn: String?
@@ -7,9 +7,9 @@ public struct DictionaryDetailMapResponse: Codable, Equatable {
     public let topRegionName: String?
     public let mapUrl: String?
     public let iconUrl: String?
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
-    public init(mapId: Int?, nameKr: String?, nameEn: String?, regionName: String?, detailName: String?, topRegionName: String?, mapUrl: String?, iconUrl: String?, isBookmarked: Bool?) {
+    public init(mapId: Int?, nameKr: String?, nameEn: String?, regionName: String?, detailName: String?, topRegionName: String?, mapUrl: String?, iconUrl: String?, bookmarkId: Int?) {
         self.mapId = mapId
         self.nameKr = nameKr
         self.nameEn = nameEn
@@ -18,6 +18,6 @@ public struct DictionaryDetailMapResponse: Codable, Equatable {
         self.topRegionName = topRegionName
         self.mapUrl = mapUrl
         self.iconUrl = iconUrl
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 }

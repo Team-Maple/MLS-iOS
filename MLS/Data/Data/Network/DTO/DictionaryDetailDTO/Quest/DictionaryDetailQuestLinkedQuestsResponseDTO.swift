@@ -1,6 +1,6 @@
 import DomainInterface
 
-public struct DictionaryDetailQuestLinkedQuestsResponseDTO: Codable {
+public struct DictionaryDetailQuestLinkedQuestsResponseDTO: Decodable {
     public let previousQuests: [Quest]?
     public let nextQuests: [Quest]?
 

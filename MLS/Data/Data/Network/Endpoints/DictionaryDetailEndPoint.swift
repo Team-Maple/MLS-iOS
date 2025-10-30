@@ -30,7 +30,7 @@ public enum DictionaryDetailEndPoint {
         return .init(baseURL: base, path: "/api/v1/npcs/\(id)/quests", method: .GET, query: ["sort": sort?.joined(separator: ",")])
     }
     // NPC 디테일 맵
-    public static func fetchNpcDetailMap(id: Int) -> ResponsableEndPoint<[DictionaryDetailMonsterMapResponse]> {
+    public static func fetchNpcDetailMap(id: Int) -> ResponsableEndPoint<[DictionaryDetailMonsterMapResponseDTO]> {
         return .init(baseURL: base, path: "/api/v1/npcs/\(id)/maps", method: .GET)
     }
     // Item 디테일 상세정보

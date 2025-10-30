@@ -29,7 +29,7 @@ final class QuestDictionaryDetailReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     public init(dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase, dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase, id: Int) {
-        self.initialState = .init(type: .quest, detailInfo: DictionaryDetailQuestResponse(questId: nil, titlePrefix: nil, nameKr: nil, nameEn: nil, iconUrl: nil, questType: nil, minLevel: nil, maxLevel: nil, requiredMesoStart: nil, startNpcId: nil, startNpcName: nil, endNpcId: nil, endNpcName: nil, reward: nil, rewardItems: nil, requirements: nil, allowedJobs: nil, isBookmarked: nil), linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse(previousQuests: nil, nextQuests: nil), id: id)
+        self.initialState = .init(type: .quest, detailInfo: DictionaryDetailQuestResponse(questId: nil, titlePrefix: nil, nameKr: nil, nameEn: nil, iconUrl: nil, questType: nil, minLevel: nil, maxLevel: nil, requiredMesoStart: nil, startNpcId: nil, startNpcName: nil, endNpcId: nil, endNpcName: nil, reward: nil, rewardItems: nil, requirements: nil, allowedJobs: nil, bookmarkId: nil), linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse(previousQuests: nil, nextQuests: nil), id: id)
         self.dictionaryDetailQuestUseCase = dictionaryDetailQuestUseCase
         self.dictionaryDetailQuestLinkedQuestUseCase = dictionaryDetailQuestLinkedQuestsUseCase
     }

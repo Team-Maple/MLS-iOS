@@ -10,6 +10,21 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         self.provider = provider
         self.tokenInterceptor = tokenInterceptor
     }
+    // MARK: - 검색 카운트
+    public func fetchSearchListCount(type: String, keyword: String?) -> Observable<SearchCountResponse> {
+        let endPoint = DictionaryListEndPoint.fetchListCount(type: type, keyword: keyword)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
+    // MARK: - 검색 리스트
+    public func fetchSearchList(keyword: String?) -> Observable<DictionaryMainResponse> {
+        let endPoint = DictionaryListEndPoint.fetchAllList(keyword: keyword)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
+    // MARK: - 전체 리스트
+    public func fetchAllList(keyword: String?, page: Int?) -> Observable<DictionaryMainResponse> {
+        let endPoint = DictionaryListEndPoint.fetchAllList(keyword: keyword, page: page)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.toDomain()}
+    }
     // MARK: - 몬스터 리스트
     public func fetchMonsterList(keyword: String?, minLevel: Int?, maxLevel: Int?, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse> {
         let endPoint = DictionaryListEndPoint.fetchMonsterList(keyword: keyword, minLevel: minLevel ?? 1, maxLevel: maxLevel ?? 200, page: page, size: size, sort: sort ?? "ASC")
@@ -39,12 +54,5 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
         let endPoint = DictionaryListEndPoint.fetchMapList(keyword: keyword, page: page, size: 20, sort: sort ?? "ASC")
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
-    }
-
-    // MARK: - Bookmark 추가
-    public func postBookmark(bookmarkType: String, resourceId: Int) -> Observable<BookmarkResponse> {
-        let endPoint = DictionaryListEndPoint.postBookmark(bookmarkType: bookmarkType, resourceId: resourceId)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-            .map { $0.toDomain()}
     }
 }

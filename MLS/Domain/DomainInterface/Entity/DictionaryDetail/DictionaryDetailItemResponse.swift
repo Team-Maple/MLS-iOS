@@ -1,4 +1,4 @@
-public struct DictionaryDetailItemResponse: Codable, Equatable {
+public struct DictionaryDetailItemResponse: Equatable {
     public let itemId: Int?
     public let nameKr: String?
     public let nameEn: String?
@@ -11,9 +11,9 @@ public struct DictionaryDetailItemResponse: Codable, Equatable {
     public let requiredStats: RequiredStats? // 요구 스탯
     public let equipmentStats: EquipmentStats? // 착용하면 올라가는 스탯
     public let scrollDetail: ScrollDetail? // 주문서 상세정보
-    public let isBookmarked: Bool?
+    public let bookmarkId: Int?
 
-    public init(itemId: Int?, nameKr: String?, nameEn: String?, descriptionText: String?, imgUrl: String?, npcPrice: Int?, itemType: String?, categoryHierachy: CategoryHierachy?, availableJobs: [Jobs]?, requiredStats: RequiredStats?, equipmentStats: EquipmentStats?, scrollDetail: ScrollDetail?, isBookmarked: Bool?) {
+    public init(itemId: Int?, nameKr: String?, nameEn: String?, descriptionText: String?, imgUrl: String?, npcPrice: Int?, itemType: String?, categoryHierachy: CategoryHierachy?, availableJobs: [Jobs]?, requiredStats: RequiredStats?, equipmentStats: EquipmentStats?, scrollDetail: ScrollDetail?, bookmarkId: Int?) {
         self.itemId = itemId
         self.nameKr = nameKr
         self.nameEn = nameEn
@@ -26,31 +26,31 @@ public struct DictionaryDetailItemResponse: Codable, Equatable {
         self.requiredStats = requiredStats
         self.equipmentStats = equipmentStats
         self.scrollDetail = scrollDetail
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 
 }
 
-public struct CategoryHierachy: Codable, Equatable {
+public struct CategoryHierachy: Decodable, Equatable {
     public let rootCategory: Category?
     public let leafCategory: Category?
 }
 
-public struct Category: Codable, Equatable {
+public struct Category: Decodable, Equatable {
     public let categoryId: Int?
     public let name: String?
     public let categoryLevel: Int?
     public let description: String?
 }
 
-public struct Jobs: Codable, Equatable {
+public struct Jobs: Decodable, Equatable {
     public let jobId: Int?
     public let jobName: String?
     public let jobLevel: Int?
     public let parentJobId: Int?
 }
 
-public struct RequiredStats: Codable, Equatable {
+public struct RequiredStats: Decodable, Equatable {
     public let level: Int?
     public let str: Int?
     public let dex: Int?
@@ -59,7 +59,7 @@ public struct RequiredStats: Codable, Equatable {
     public let pop: Int?
 }
 
-public struct EquipmentStats: Codable, Equatable {
+public struct EquipmentStats: Decodable, Equatable {
     public let str: Stats?
     public let dex: Stats?
     public let intelligence: Stats?
@@ -78,13 +78,13 @@ public struct EquipmentStats: Codable, Equatable {
     public let attackSpeedDetails: String?
 }
 
-public struct Stats: Codable, Equatable {
+public struct Stats: Decodable, Equatable {
     public let base: Int?
     public let min: Int?
     public let max: Int?
 }
 
-public struct ScrollDetail: Codable, Equatable {
+public struct ScrollDetail: Decodable, Equatable {
     public let successRatePercent: Int?
     public let targetItemTypeText: String?
     public let strChange: Int?

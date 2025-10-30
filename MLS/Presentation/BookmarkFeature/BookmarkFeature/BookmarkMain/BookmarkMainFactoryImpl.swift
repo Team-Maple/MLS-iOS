@@ -4,8 +4,7 @@ import DictionaryFeatureInterface
 import DomainInterface
 
 public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
-    private let getOnBoardingUseCase: GetBookmarkOnboardingUseCase
-    private let setOnBoardingUseCase: SetBookmarkOnBoardingUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
     private let onBoardingFactory: BookmarkOnBoardingFactory
     private let bookmarkListFactory: BookmarkListFactory
     private let collectionListFactory: CollectionListFactory
@@ -13,16 +12,14 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
     private let notificationFactory: DictionaryNotificationFactory
 
     public init(
-        getOnBoardingUseCase: GetBookmarkOnboardingUseCase,
-        setOnBoardingUseCase: SetBookmarkOnBoardingUseCase,
+        setBookmarkUseCase: SetBookmarkUseCase,
         onBoardingFactory: BookmarkOnBoardingFactory,
         bookmarkListFactory: BookmarkListFactory,
         collectionListFactory: CollectionListFactory,
         searchFactory: DictionarySearchFactory,
         notificationFactory: DictionaryNotificationFactory
     ) {
-        self.getOnBoardingUseCase = getOnBoardingUseCase
-        self.setOnBoardingUseCase = setOnBoardingUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
         self.onBoardingFactory = onBoardingFactory
         self.bookmarkListFactory = bookmarkListFactory
         self.collectionListFactory = collectionListFactory
@@ -32,8 +29,7 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
 
     public func make() -> BaseViewController {
         let reactor = BookmarkMainReactor(
-            getOnBoardingUseCase: getOnBoardingUseCase,
-            setOnBoardingUseCase: setOnBoardingUseCase
+            setBookmarkUseCase: setBookmarkUseCase
         )
         let viewController = BookmarkMainViewController(
             onBoardingFactory: onBoardingFactory,

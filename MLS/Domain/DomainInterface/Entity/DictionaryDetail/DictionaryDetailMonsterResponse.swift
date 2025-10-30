@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public struct DictionaryDetailMonsterResponse: Codable {
+public struct DictionaryDetailMonsterResponse: Equatable {
 
     public let monsterId: Int
     public let nameKr: String
@@ -19,9 +19,9 @@ public struct DictionaryDetailMonsterResponse: Codable {
     public let mesoDropAmount: Int?
     public let mesoDropRate: Int?
     public let typeEffectiveness: Effectiveness?
-    public let isBookmarked: Bool
+    public let bookmarkId: Int?
 
-    public init(monsterId: Int, nameKr: String, nameEn: String, imageUrl: String, level: Int, exp: Int, hp: Int, mp: Int, physicalDefense: Int, magicDefense: Int, requiredAccuracy: Int, bonusAccuracyPerLevelLower: Double, evasionRate: Int, mesoDropAmount: Int?, mesoDropRate: Int?, typeEffectiveness: Effectiveness?, isBookmarked: Bool) {
+    public init(monsterId: Int, nameKr: String, nameEn: String, imageUrl: String, level: Int, exp: Int, hp: Int, mp: Int, physicalDefense: Int, magicDefense: Int, requiredAccuracy: Int, bonusAccuracyPerLevelLower: Double, evasionRate: Int, mesoDropAmount: Int?, mesoDropRate: Int?, typeEffectiveness: Effectiveness?, bookmarkId: Int?) {
         self.monsterId = monsterId
         self.nameKr = nameKr
         self.nameEn = nameEn
@@ -38,11 +38,11 @@ public struct DictionaryDetailMonsterResponse: Codable {
         self.mesoDropAmount = mesoDropAmount
         self.mesoDropRate = mesoDropRate
         self.typeEffectiveness = typeEffectiveness
-        self.isBookmarked = isBookmarked
+        self.bookmarkId = bookmarkId
     }
 }
 
-public struct Effectiveness: Codable, Equatable {
+public struct Effectiveness: Decodable, Equatable {
     public let fire: String?
     public let lightning: String?
     public let poison: String?

@@ -1,4 +1,5 @@
 import Foundation
+import DomainInterface
 import ReactorKit
 
 struct PopularItem {
@@ -15,6 +16,7 @@ public final class DictionarySearchReactor: Reactor {
     }
 
     public enum Action {
+        case viewDidLoad
         case backButtonTapped
         case searchButtonTapped(String)
         case cancelRecentButtonTapped(String)
@@ -24,6 +26,8 @@ public final class DictionarySearchReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
         case deleteItem(String)
+        case addRecentItem(String)
+        case setRecentList([String])
     }
 
     public struct State {
@@ -35,13 +39,20 @@ public final class DictionarySearchReactor: Reactor {
 
         let popularResult: [PopularItem]
     }
+    
+    public let recentSearchAddUseCase: RecentSearchAddUseCase
+    public let recentSearchRemoveUseCase: RecentSearchRemoveUseCase
+    public let recentSearchFetchUseCase: RecentSearchFetchUseCase
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    
+    
 
     // MARK: - init
-    public init() {
+    public init(recentSearchAddUseCase: RecentSearchAddUseCase, recentSearchRemoveUseCase: RecentSearchRemoveUseCase, recentSearchFetchUseCase: RecentSearchFetchUseCase) {
+        // TODO: 인기 검색어 추후 개발
         let items = [
             PopularItem(rank: 1, name: "주니어 예티"),
             PopularItem(rank: 2, name: "주니어 페페"),
@@ -65,23 +76,40 @@ public final class DictionarySearchReactor: Reactor {
         }
 
         let newItems = grid.flatMap { $0.compactMap { $0 } }
+        
+        self.recentSearchAddUseCase = recentSearchAddUseCase
+        self.recentSearchRemoveUseCase = recentSearchRemoveUseCase
+        self.recentSearchFetchUseCase = recentSearchFetchUseCase
+        
+        let savedRecentResult: [String] = []
 
         self.initialState = State(
             route: .none,
-            recentResult: ["망치", "도끼", "창", "드라이버", "몽키스패너"],
+            recentResult: savedRecentResult,
             popularResult: newItems
         )
     }
-
+    
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewDidLoad:
+            return recentSearchFetchUseCase.fetch().map { Mutation.setRecentList($0) }
         case .backButtonTapped:
             return Observable.just(.navigateTo(.dismiss))
         case .searchButtonTapped(let keyword):
-            return Observable.just(.navigateTo(.search(keyword)))
-        case .cancelRecentButtonTapped(let name):
-            return Observable.just(.deleteItem(name))
+            return recentSearchAddUseCase.add(keyword: keyword)
+                .andThen(
+                    currentState.recentResult.contains(keyword)
+                        ? .just(.navigateTo(.search(keyword)))
+                        : .concat([
+                            .just(.addRecentItem(keyword)),
+                            .just(.navigateTo(.search(keyword)))
+                          ])
+                )
+        case .cancelRecentButtonTapped(let keyword):
+            return recentSearchRemoveUseCase.remove(keyword: keyword)
+                .andThen(.just(.deleteItem(keyword)))
         case .recentButtonTapped(let keyword):
             return Observable.just(.navigateTo(.search(keyword)))
         }
@@ -91,8 +119,12 @@ public final class DictionarySearchReactor: Reactor {
         var newState = state
 
         switch mutation {
+        case .setRecentList(let list):
+            newState.recentResult = list
         case .navigateTo(let route):
             newState.route = route
+        case .addRecentItem(let name):
+            newState.recentResult.insert(name, at: 0) // 맨 앞에 최근 검색어 추가
         case .deleteItem(let name):
             newState.recentResult = state.recentResult.filter { $0 != name }
         }

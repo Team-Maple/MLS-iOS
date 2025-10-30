@@ -34,7 +34,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
     ) {
         let type = reactor.currentState.type
         self.mainView = DictionaryMainView(type: type)
-        self.viewControllers = type.pageTabList.map { dictionaryMainListFactory.make(type: $0, listType: type) }
+        self.viewControllers = type.pageTabList.map { dictionaryMainListFactory.make(type: $0, listType: type, keyword: "") }
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
         self.initialIndex = initialIndex

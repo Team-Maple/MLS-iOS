@@ -36,7 +36,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     public init(dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase, dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase, id: Int) {
-        self.initialState = .init(itemDetailInfo: DictionaryDetailItemResponse(itemId: nil, nameKr: nil, nameEn: nil, descriptionText: nil, imgUrl: nil, npcPrice: nil, itemType: nil, categoryHierachy: nil, availableJobs: nil, requiredStats: nil, equipmentStats: nil, scrollDetail: nil, isBookmarked: nil), type: .item, monsters: [], id: id)
+        self.initialState = .init(itemDetailInfo: DictionaryDetailItemResponse(itemId: nil, nameKr: nil, nameEn: nil, descriptionText: nil, imgUrl: nil, npcPrice: nil, itemType: nil, categoryHierachy: nil, availableJobs: nil, requiredStats: nil, equipmentStats: nil, scrollDetail: nil, bookmarkId: nil), type: .item, monsters: [], id: id)
         self.dictionaryDetailItemUseCase = dictionaryDetailItemUseCase
         self.dictionaryDetailItemDropMonsterUseCase = dictionaryDetailItemDropMonsterUseCase
     }

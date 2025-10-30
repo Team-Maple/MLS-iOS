@@ -3,7 +3,7 @@ import UIKit
 import DomainInterface
 
 public struct BookmarkCollection: Equatable {
-    public var id: String
+    public var id: Int
     public var title: String
     public var count: Int {
         return items.count
@@ -14,7 +14,7 @@ public struct BookmarkCollection: Equatable {
         Array(items.prefix(4).map { $0.image })
     }
 
-    public init(id: String, title: String, items: [DictionaryItem]) {
+    public init(id: Int, title: String, items: [DictionaryItem]) {
         self.id = id
         self.title = title
         self.items = items
