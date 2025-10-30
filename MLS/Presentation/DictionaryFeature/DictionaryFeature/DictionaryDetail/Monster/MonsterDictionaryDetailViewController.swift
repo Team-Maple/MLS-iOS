@@ -49,15 +49,16 @@ private extension MonsterDictionaryDetailViewController {
     }
 
     func setUpMapView() {
-        guard let reactor = reactor else { return }
+        guard let reactor = reactor,
+              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+        appearMapView.initFilter(firstFilter: filter)
+
         let maps = reactor.currentState.menus.maps
         contentViews.append(appearMapView)
         if maps.isEmpty {
             contentViews[1] = DetailEmptyView(type: .appearMap)
         } else {
             contentViews[1] = appearMapView
-            appearMapView.filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "출현 많은 순", color: .primary700), for: .normal)
-            appearMapView.filterButton.tintColor = .primary700
 
             for map in maps {
                 appearMapView.inject(input: DetailStackCardView

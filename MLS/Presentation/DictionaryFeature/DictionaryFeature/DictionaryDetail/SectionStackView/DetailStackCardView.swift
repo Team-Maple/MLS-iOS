@@ -25,7 +25,7 @@ final class DetailStackCardView: UIStackView {
     public let filterButton: UIButton = {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "드롭률 높은 순", color: .textColor), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "DropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(DesignSystemAsset.image(named: "dropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
 
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft

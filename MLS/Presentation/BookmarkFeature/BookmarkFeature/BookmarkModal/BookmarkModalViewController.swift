@@ -131,8 +131,10 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FolderCell.identifier, for: indexPath) as? FolderCell else {
                 return UICollectionViewCell()
             }
-            let title = reactor.currentState.collections[indexPath.row - 1].title
-            cell.inject(title: title)
+            let collection = reactor.currentState.collections[indexPath.row - 1]
+            let isSelected = reactor.currentState.selectedItems.contains(where: { $0.id == collection.id })
+            cell.isChecked = isSelected
+            cell.inject(title: collection.title)
             return cell
         }
     }
@@ -141,9 +143,8 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
         if indexPath.row == 0 {
             reactor?.action.onNext(.addCollectionTapped)
         } else {
-            reactor?.action.onNext(.selectItem(indexPath.row))
-            guard let cell = collectionView.cellForItem(at: indexPath) as? FolderCell else { return }
-            cell.checkBoxButton.isSelected.toggle()
+            guard let collection = reactor?.currentState.collections[indexPath.row - 1] else { return }
+            reactor?.action.onNext(.selectItem(collection.id))
         }
     }
 }
