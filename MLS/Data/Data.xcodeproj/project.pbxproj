@@ -15,7 +15,7 @@
 		775D78522E0DA93400DDAD2F /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0879294D2DB90F3A009C301F /* Data.framework */; };
 		77660F932DD259AA007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F922DD259AA007A4EF3 /* KakaoSDKAuth */; };
 		77660F952DD259AA007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F942DD259AA007A4EF3 /* KakaoSDKUser */; };
-		77F0E9522EA525CE007368F8 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77F0E9512EA525CE007368F8 /* RxCocoa */; };
+		776FE2BB2E9FEA930039ACE2 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 776FE2BA2E9FEA930039ACE2 /* RxCocoa */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,7 +70,7 @@
 			files = (
 				775D78522E0DA93400DDAD2F /* Data.framework in Frameworks */,
 				08E425562DF17B6300D6ACD3 /* RxSwift in Frameworks */,
-				77F0E9522EA525CE007368F8 /* RxCocoa in Frameworks */,
+				776FE2BB2E9FEA930039ACE2 /* RxCocoa in Frameworks */,
 				08E425522DF17B5C00D6ACD3 /* DomainInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,7 +175,7 @@
 			name = DataMock;
 			packageProductDependencies = (
 				08E425552DF17B6300D6ACD3 /* RxSwift */,
-				77F0E9512EA525CE007368F8 /* RxCocoa */,
+				776FE2BA2E9FEA930039ACE2 /* RxCocoa */,
 			);
 			productName = DataMock;
 			productReference = 08E4253B2DF17B3700D6ACD3 /* DataMock.framework */;
@@ -633,7 +633,7 @@
 			package = 77660F912DD259AA007A4EF3 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
 		};
-		77F0E9512EA525CE007368F8 /* RxCocoa */ = {
+		776FE2BA2E9FEA930039ACE2 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0858ABFE2DCFDC340060EBCA /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxCocoa;

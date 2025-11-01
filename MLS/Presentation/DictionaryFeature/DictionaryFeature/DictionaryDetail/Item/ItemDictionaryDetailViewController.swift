@@ -13,7 +13,10 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
+    
 }
+
+
 
 // MARK: - Populate Data
 private extension ItemDictionaryDetailViewController {
@@ -153,6 +156,10 @@ extension ItemDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(
+                providerId: reactor.state.map { $0.itemDetailInfo.itemId ?? 0 },
+                itemName: reactor.state.map { $0.itemDetailInfo.nameKr ?? "" }
+            )
     }
 
     private func bindUserAction(reactor: Reactor) {

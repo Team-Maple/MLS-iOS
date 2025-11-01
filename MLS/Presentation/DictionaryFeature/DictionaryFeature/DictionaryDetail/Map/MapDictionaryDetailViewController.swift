@@ -109,6 +109,7 @@ extension MapDictionaryDetailViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.mapDetailInfo.mapId ?? 0}, itemName: reactor.state.map { $0.mapDetailInfo.nameKr ?? ""})
     }
 
     private func bindUserActions(reactor: Reactor) {

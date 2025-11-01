@@ -1,4 +1,4 @@
-public struct DictionaryDetailNpcResponse: Codable {
+public struct DictionaryDetailNpcResponse: Equatable {
     public let npcId: Int
     public let nameKr: String
     public let nameEn: String

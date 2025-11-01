@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public struct DictionaryDetailMonsterResponse: Codable {
+public struct DictionaryDetailMonsterResponse: Equatable {
 
     public let monsterId: Int
     public let nameKr: String
@@ -42,7 +42,7 @@ public struct DictionaryDetailMonsterResponse: Codable {
     }
 }
 
-public struct Effectiveness: Codable, Equatable {
+public struct Effectiveness: Decodable, Equatable {
     public let fire: String?
     public let lightning: String?
     public let poison: String?

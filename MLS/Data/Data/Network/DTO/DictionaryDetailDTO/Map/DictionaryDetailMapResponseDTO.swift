@@ -1,6 +1,6 @@
 import DomainInterface
 
-public struct DictionaryDetailMapResponseDTO: Codable {
+public struct DictionaryDetailMapResponseDTO: Decodable {
     public let mapId: Int?
     public let nameKr: String?
     public let nameEn: String?

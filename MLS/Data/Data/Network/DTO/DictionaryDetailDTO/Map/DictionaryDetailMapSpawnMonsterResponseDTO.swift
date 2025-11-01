@@ -1,6 +1,6 @@
 import DomainInterface
 
-public struct DictionaryDetailMapSpawnMonsterResponseDTO: Codable {
+public struct DictionaryDetailMapSpawnMonsterResponseDTO: Decodable {
     public let monsterId: Int?
     public let monsterName: String?
     public let level: Int?

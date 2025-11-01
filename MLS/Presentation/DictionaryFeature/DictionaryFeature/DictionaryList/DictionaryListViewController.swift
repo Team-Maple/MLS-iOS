@@ -22,6 +22,7 @@ public final class DictionaryListViewController: BaseViewController, View {
     private let detailFactory: DictionaryDetailFactory
 
     private var selectedSortIndex = 0
+    public let itemCountRelay = PublishRelay<Int>()
 
     // MARK: - Components
     private var mainView: DictionaryListView
@@ -48,6 +49,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         addViews()
         setupConstraints()
         configureUI()
+        
     }
 }
 
@@ -101,6 +103,13 @@ extension DictionaryListViewController {
     }
 
     func bindViewState(reactor: Reactor) {
+        
+        reactor.state
+            .map { $0.totalCounts }
+            .distinctUntilChanged()
+            .bind(to: itemCountRelay)
+            .disposed(by: disposeBag)
+        
         reactor.state.map(\.listItems)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -112,8 +121,8 @@ extension DictionaryListViewController {
             })
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear
-            .map { _ in Reactor.Action.viewWillAppear }
+        rx.viewDidLoad
+            .map { _ in Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -135,7 +144,9 @@ extension DictionaryListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make()
+                        let viewController = owner.itemFilterFactory.make() { result in
+                            
+                        }
                         owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
@@ -263,13 +274,35 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         let item: DictionaryMainItemResponse
-
+        
         item = reactor.currentState.listItems[indexPath.item]
-
-        let viewController = detailFactory.make(type: reactor.currentState.type, id: item.id)
+        let viewController: UIViewController
+   
+        switch reactor.currentState.type {
+        case .total:
+            // 전체 타입일 때는 item.type에 따라 분기
+            switch item.type {
+            case .monster:
+                viewController = detailFactory.make(type: .monster, id: item.id)
+            case .item:
+                viewController = detailFactory.make(type: .item, id: item.id)
+            case .npc:
+                viewController = detailFactory.make(type: .npc, id: item.id)
+            case .quest:
+                viewController = detailFactory.make(type: .quest, id: item.id)
+            case .map:
+                viewController = detailFactory.make(type: .map, id: item.id)
+            default:
+                return // 알 수 없는 타입이면 무시
+            }
+        default:
+            // 단일 타입일 경우 리액터 타입에 따라 처리
+            viewController = detailFactory.make(type: reactor.currentState.type, id: item.id)
+        }
+        
         navigationController?.pushViewController(viewController, animated: true)
     }
-
+    
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height

@@ -118,6 +118,7 @@ extension QuestDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.detailInfo.questId ?? 0 }, itemName: reactor.state.map { $0.detailInfo.nameKr ?? ""})
     }
 
     private func bindUserAction(reactor: Reactor) {}

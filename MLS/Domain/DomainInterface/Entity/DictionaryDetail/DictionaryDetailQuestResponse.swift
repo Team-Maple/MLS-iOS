@@ -1,4 +1,4 @@
-public struct DictionaryDetailQuestResponse: Codable, Equatable {
+public struct DictionaryDetailQuestResponse: Equatable {
     public let questId: Int?
     public let titlePrefix: String?
     public let nameKr: String?
@@ -40,19 +40,19 @@ public struct DictionaryDetailQuestResponse: Codable, Equatable {
     }
 }
 
-public struct Reward: Codable, Equatable {
+public struct Reward: Decodable, Equatable {
     public let exp: Int?
     public let meso: Int?
     public let popularity: Int?
 }
 
-public struct RewardItem: Codable, Equatable {
+public struct RewardItem: Decodable, Equatable {
     public let itemId: Int?
     public let itemName: String?
     public let quantity: Int?
 }
 
-public struct Requirements: Codable, Equatable {
+public struct Requirements: Decodable, Equatable {
     public let requirementType: String?
     public let itemId: Int?
     public let itemName: String?
@@ -61,7 +61,7 @@ public struct Requirements: Codable, Equatable {
     public let quantity: Int?
 }
 
-public struct AllowedJob: Codable, Equatable {
+public struct AllowedJob: Decodable, Equatable {
     public let jobId: Int?
     public let jobName: String?
 }

@@ -20,6 +20,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     private var appearMapView = DetailStackCardView()
     private var dropItemView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
+    
 }
 
 // MARK: - Populate Data
@@ -108,6 +109,7 @@ extension MonsterDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.id }, itemName: reactor.state.map { $0.name })
     }
 
     private func bindcUserActions(reactor: Reactor) {
