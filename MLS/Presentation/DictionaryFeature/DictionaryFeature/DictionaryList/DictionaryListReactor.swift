@@ -19,10 +19,12 @@ open class DictionaryListReactor: Reactor {
         case filterButtonTapped
         case sortOptionSelected(SortType) // 정렬 옵션 선택 시 액션
         case filterOptionSelected(startLevel: Int, endLevel: Int) // 필터 옵션 선택 시 액션
+        case itemFilterOptionSelected(keyword: String?, jobId: Int?, startLevel: Int?, endLevel: Int?)
         case setCurrentPage
         case fetchList // data 불러오기
         case fetchListFilter // 필터링된 data 불러오기
         case undoLastDeletedBookmark
+        case setJobId(Int)
        // case itemFilterOptionSelected([String]) // 아이템 필터 옵션 선택 시 액션
     }
 
@@ -39,6 +41,7 @@ open class DictionaryListReactor: Reactor {
         case initPage
         case setLoginState(Bool)
         case setLastDeletedBookmark(DictionaryMainItemResponse?)
+        case setJobId(Int) // jobId 설정
     }
 
     // MARK: - State
@@ -132,7 +135,7 @@ open class DictionaryListReactor: Reactor {
                             self.dictionaryListUseCase
                                 .execute(
                                     type: .monster,
-                                    query: DictionaryListQuery(keyword: self.currentState.keyword ?? "", page: self.currentState.currentPage, size: 20, sort: nil)
+                                    query: DictionaryListQuery(keyword: self.currentState.keyword ?? "", page: self.currentState.currentPage, size: 20, sort: currentState.sort)
                                 )
                                 .map { Mutation.setListItem($0) }
                         ])
@@ -154,7 +157,7 @@ open class DictionaryListReactor: Reactor {
                         fetchMutation = Observable.concat([
                             .just(.initPage),
                             self.dictionaryItemListUseCase
-                                .execute(keyword: self.currentState.keyword ?? "", jobId: nil, minLevel: nil, maxLevel: nil, categoryIds: nil, page: self.currentState.currentPage, size: 20, sort: nil)
+                                .execute(keyword: self.currentState.keyword ?? "", jobId: nil, minLevel: nil, maxLevel: nil, categoryIds: nil, page: self.currentState.currentPage, size: 20, sort: currentState.sort)
                                 .map { Mutation.setListItem($0) }
                         ])
                     case .map:
@@ -243,6 +246,15 @@ open class DictionaryListReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .itemFilterOptionSelected(let keyword, let jobId, let startLevel, let endLevel):
+            return .concat([Observable.just(.setJobId(jobId ?? 0)), Observable.just(.setFilter(start: startLevel ?? 1, end: endLevel ?? 200)), .just(.initPage)])
+                .concat(Observable.deferred { [weak self] in
+                    guard let self = self else { return .empty()}
+                    return self.fetchListFilter(sort: self.currentState.sort, startLevel: currentState.startLevel ?? 1, endLevel: currentState.endLevel ?? 200)
+                })
+        case .setJobId(let id):
+            return Observable.just(.setJobId(id))
+      
         }
     }
 
@@ -341,6 +353,9 @@ open class DictionaryListReactor: Reactor {
             newState.lastDeletedBookmark = item
         case .setLoginState(let isLogin):
             newState.isLogin = isLogin
+        case .setJobId(let id):
+            print("새로운 잡아이디:\(id)")
+            newState.jobId = id
         }
         return newState
     }

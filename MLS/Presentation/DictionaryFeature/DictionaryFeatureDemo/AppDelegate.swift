@@ -255,8 +255,7 @@ private extension AppDelegate {
                 dictionaryListCountUseCase: DIContainer.resolve(type: FetchDictionaryListCountUseCase.self),
                 dictionaryMainListFactory: DIContainer
                     .resolve(type: DictionaryMainListFactory.self),
-                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self),
-                
+                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self)
             )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {

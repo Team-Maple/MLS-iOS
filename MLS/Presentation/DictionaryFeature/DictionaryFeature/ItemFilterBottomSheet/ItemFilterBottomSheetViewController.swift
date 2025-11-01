@@ -79,7 +79,7 @@ public final class ItemFilterBottomSheetViewController: BaseViewController, View
     private var mainView = ItemFilterBottomSheetView()
     private let underLineController = TabBarUnderlineController()
     
-    public var onFilterSelected: (([String]) -> Void)?
+    public var onFilterSelected: (([(String, String)]) -> Void)?
     
     override public init() {
         super.init()
@@ -390,39 +390,40 @@ extension ItemFilterBottomSheetViewController {
                
                 let state = reactor.currentState
 
-                var selectedItems: [String] = []
+                var selectedItems: [(String, String)] = []
 
                 for indexPath in state.selectedItemIndexes {
                     guard let section = ItemFilterBottomSheetViewController.FilterSection(rawValue: indexPath.section) else { continue }
 
                     switch section {
                     case .level:
-                        selectedItems.append("레벨 \(state.levelRange.low) ~ \(state.levelRange.high)")
+                        selectedItems.append(("레벨", "레벨 \(state.levelRange.low) ~ \(state.levelRange.high)"))
                     case .job:
-                        selectedItems.append(state.jobs[indexPath.row])
+                        selectedItems.append(("직업",state.jobs[indexPath.row]))
                     case .weapons:
-                        selectedItems.append(state.weapons[indexPath.row])
+                        selectedItems.append(("무기",state.weapons[indexPath.row]))
                     case .projectiles:
-                        selectedItems.append(state.projectiles[indexPath.row])
+                        selectedItems.append(("발사체",state.projectiles[indexPath.row]))
                     case .armors:
-                        selectedItems.append(state.armors[indexPath.row])
+                        selectedItems.append(("방어구",state.armors[indexPath.row]))
                     case .accessories:
-                        selectedItems.append(state.accessories[indexPath.row])
+                        selectedItems.append(("장신구",state.accessories[indexPath.row]))
                     case .scrollCategories:
-                        selectedItems.append(state.scrollCategories[indexPath.row])
+                        selectedItems.append(("주문서",state.scrollCategories[indexPath.row]))
                     case .weaponScrolls:
-                        selectedItems.append(state.weaponScrolls[indexPath.row])
+                        selectedItems.append(("무기주문서",state.weaponScrolls[indexPath.row]))
                     case .armorsScrolls:
-                        selectedItems.append(state.armorScrolls[indexPath.row])
+                        selectedItems.append(("방어구주문서",state.armorScrolls[indexPath.row]))
                     case .etcScrolls:
-                        selectedItems.append(state.etcScrolls[indexPath.row])
+                        selectedItems.append(("기타주문서",state.etcScrolls[indexPath.row]))
                     case .etcItems:
-                        selectedItems.append(state.etcItems[indexPath.row])
+                        selectedItems.append(("기타아이템",state.etcItems[indexPath.row]))
                     }
                 }
 
-                print("✅ 선택된 아이템들:")
-                selectedItems.forEach { print($0) }
+                for item in selectedItems {
+                    print("\(item.0): \(item.1)")
+                }
                 return Reactor.Action.applyButtonTapped(selectedItems)
             }
             .bind(to: reactor.action)

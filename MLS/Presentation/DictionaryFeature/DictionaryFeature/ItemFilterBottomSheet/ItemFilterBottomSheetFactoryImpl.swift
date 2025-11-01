@@ -4,7 +4,7 @@ import DictionaryFeatureInterface
 public struct ItemFilterBottomSheetFactoryImpl: ItemFilterBottomSheetFactory {
     public init() {}
 
-    public func make(onFilterSelected: @escaping ([String]) -> Void) -> BaseViewController {
+    public func make(onFilterSelected: @escaping ([(String, String)]) -> Void) -> BaseViewController {
         let viewController = ItemFilterBottomSheetViewController()
         viewController.reactor = ItemFilterBottomSheetReactor()
         viewController.onFilterSelected = onFilterSelected

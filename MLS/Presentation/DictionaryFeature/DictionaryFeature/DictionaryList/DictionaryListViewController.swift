@@ -144,9 +144,37 @@ extension DictionaryListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make() { result in
+                        let viewController = owner.itemFilterFactory.make() { results in
                             
-                            print("DictionaryList에서 결과 받음:\(result)")
+                            // TODO: 해당 결과 이용해서 필터 걸고 API 호출해서 데이터 상태 변경
+                            let jobId = ["전사": 100, "마법사": 200, "도적": 400, "궁수": 300]
+                        
+                            for result in results {
+                                
+                                switch result.0 {
+                                case "직업":
+                                    print("jobId:\(jobId[result.1])")
+                                    reactor.action.onNext(.setJobId(jobId[result.1] ?? 0))
+                                case "레벨":
+                                    let resultText = result.1
+                                    print("resultText: \(resultText)")
+                                    //  "레벨:" 제거
+                                    let levelText = resultText.replacingOccurrences(of: "레벨", with: "").trimmingCharacters(in: .whitespaces)
+
+                                    //  "~" 기준으로 분리
+                                    let parts = levelText.components(separatedBy: "~").map { $0.trimmingCharacters(in: .whitespaces) }
+
+                                    if let low = Int(parts.first ?? ""), let high = Int(parts.last ?? "") {
+                                        print("low:", low)   // 15
+                                        print("high:", high) // 186
+                                        reactor.action.onNext(.filterOptionSelected(startLevel: low, endLevel: high))
+                                    }
+                                default:
+                                    break
+                                }
+                            }
+                            print("최종 호출전 잡아이디: \(reactor.currentState.jobId)")
+//                            reactor.action.onNext(.itemFilterOptionSelected(keyword: reactor.currentState.keyword, jobId: reactor.currentState.jobId, startLevel: reactor.currentState.startLevel, endLevel: reactor.currentState.endLevel))
                         }
                         owner.present(viewController, animated: true)
                     case .monster:
@@ -300,7 +328,6 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(type: reactor.currentState.type, id: item.id)
         }
-        
         navigationController?.pushViewController(viewController, animated: true)
     }
     

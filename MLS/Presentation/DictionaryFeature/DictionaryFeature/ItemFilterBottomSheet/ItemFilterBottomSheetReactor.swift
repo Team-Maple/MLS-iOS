@@ -7,7 +7,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
     public enum Route {
         case none
         case dismiss
-        case dismissWithSelection([String])
+        case dismissWithSelection([(String, String)])
     }
 
     // MARK: - Reactor
@@ -16,7 +16,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         case filterSelected(indexPath: IndexPath)
         case filterDeselected(indexPath: IndexPath)
         case changeLevelRange(low: Int, high: Int)
-        case applyButtonTapped([String])
+        case applyButtonTapped([(String, String)])
     }
 
     public enum Mutation {
