@@ -176,6 +176,13 @@ extension DictionarySearchViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        rx.viewWillAppear
+            .take(1)
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+            
     }
 }
 
@@ -193,14 +200,14 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             case 0:
                 return reactor.currentState.recentResult.count
             case 2:
-                return reactor.currentState.popularResult.count
+                return true ? 0 : reactor.currentState.popularResult.count // TODO: 인기검색어는 추후에
             default:
                 return 0
             }
         } else {
             switch section {
             case 0:
-                return reactor.currentState.popularResult.count
+                return true ? 0 : reactor.currentState.popularResult.count // TODO: 인기검색어는 추후에
             default:
                 return 0
             }
@@ -276,7 +283,8 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
                 withReuseIdentifier: PopularSearchHeaderView.identifier,
                 for: indexPath
             ) as! PopularSearchHeaderView
-            view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
+            // TODO: 인기검색어 추후에
+            //view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
             return view
 
         default:

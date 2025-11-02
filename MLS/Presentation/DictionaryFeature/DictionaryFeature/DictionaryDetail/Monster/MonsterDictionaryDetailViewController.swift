@@ -39,7 +39,7 @@ private extension MonsterDictionaryDetailViewController {
 
     func setUpInfoStackView() {
         guard let reactor = reactor else { return }
-        let infos = reactor.currentState.menus.infos
+        let infos = reactor.currentState.infos
 
         contentViews.append(detailView)
 
@@ -53,7 +53,7 @@ private extension MonsterDictionaryDetailViewController {
               let filter = reactor.currentState.type.detailSortedFilter.first else { return }
         appearMapView.initFilter(firstFilter: filter)
 
-        let maps = reactor.currentState.menus.maps
+        let maps = reactor.currentState.spawnMaps
         contentViews.append(appearMapView)
         if maps.isEmpty {
             contentViews[1] = DetailEmptyView(type: .appearMap)
@@ -76,7 +76,7 @@ private extension MonsterDictionaryDetailViewController {
 
     func setUpDropItemView() {
         guard let reactor = reactor else { return }
-        let items = reactor.currentState.menus.items
+        let items = reactor.currentState.dropItems
         dropItemView.reset()
         contentViews.append(dropItemView)
         // 드롭아이템
@@ -104,17 +104,23 @@ private extension MonsterDictionaryDetailViewController {
 
 // MARK: - Bind
 extension MonsterDictionaryDetailViewController {
-
     public func bind(reactor: Reactor) {
         bindcUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.id }, itemName: reactor.state.map { $0.monsterDetailInfo.nameKr })
     }
 
     private func bindcUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         dropItemView.filterButton.rx.tap
             .map { Reactor.Action.filterButtonTapped(.item) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
         appearMapView.filterButton.rx.tap
             .map { Reactor.Action.filterButtonTapped(.map) }
             .bind(to: reactor.action)
@@ -127,40 +133,35 @@ extension MonsterDictionaryDetailViewController {
 
         isBottomTabbarHidden = true
 
-        reactor.state.map(\.tags)
+        reactor.state.map(\.monsterDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] tags in
-                self?.makeTagsRow(tags)
+            .withUnretained(self)
+            .bind(onNext: { owner, monster in
+                if let tags = monster.typeEffectiveness {
+                    owner.makeTagsRow(tags)
+                }
+                owner.setUpMainInfo(name: reactor.currentState.monsterDetailInfo.nameKr, subText: "Lv. \(reactor.currentState.monsterDetailInfo.level)", imageUrl: reactor.currentState.monsterDetailInfo.imageUrl)
+                owner.mainView.setBookmark(isBookmarked: monster.bookmarkId != nil)
+                owner.setUpInfoStackView()
             })
             .disposed(by: disposeBag)
 
-        reactor.state.map(\.name)
+        reactor.state.map(\.spawnMaps)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMainInfo(name: reactor.currentState.name, subText: "\(reactor.currentState.level)", imageUrl: reactor.currentState.imageUrl)
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpMapView()
             })
             .disposed(by: disposeBag)
-        reactor.state.map(\.menus.infos)
+
+        reactor.state.map(\.dropItems)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpInfoStackView()
-            })
-            .disposed(by: disposeBag)
-        reactor.state.map(\.menus.maps)
-            .distinctUntilChanged()
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMapView()
-            })
-            .disposed(by: disposeBag)
-        reactor.state.map(\.menus.items)
-            .distinctUntilChanged()
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpDropItemView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpDropItemView()
             })
             .disposed(by: disposeBag)
 
@@ -194,12 +195,16 @@ extension MonsterDictionaryDetailViewController {
             }
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear
-            .take(1)
-            .subscribe { _ in
-                // TODO: 디테일 API 호출
-                reactor.action.onNext(.viewWillAppear)
-            }
-            .disposed(by: disposeBag)
+        bindBookmarkButton(
+            buttonTap: mainView.bookmarkButton.rx.tap,
+            currentItem: reactor.state.map { $0.monsterDetailInfo },
+            isLogin: { reactor.currentState.isLogin },
+            imageUrl: { $0.imageUrl },
+            backgroundColor: type.backgroundColor,
+            isBookmarked: { $0.bookmarkId != nil },
+            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
+            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) }
+        )
+        .disposed(by: disposeBag)
     }
 }

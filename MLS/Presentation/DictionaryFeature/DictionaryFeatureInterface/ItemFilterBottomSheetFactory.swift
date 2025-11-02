@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol ItemFilterBottomSheetFactory {
-    func make() -> BaseViewController
+    func make(onFilterSelected: @escaping ([String]) -> Void) -> BaseViewController
 }

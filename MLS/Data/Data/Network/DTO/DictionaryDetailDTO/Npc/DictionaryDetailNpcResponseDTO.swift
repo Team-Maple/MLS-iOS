@@ -1,6 +1,6 @@
 import DomainInterface
 
-public struct DictionaryDetailNpcResponseDTO: Codable {
+public struct DictionaryDetailNpcResponseDTO: Decodable {
     public let npcId: Int
     public let nameKr: String
     public let nameEn: String

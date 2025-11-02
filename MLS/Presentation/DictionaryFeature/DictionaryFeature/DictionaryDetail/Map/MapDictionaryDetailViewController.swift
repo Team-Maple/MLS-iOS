@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
@@ -12,7 +13,7 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     public typealias Reactor = MapDictionaryDetailReactor
 
     // MARK: - Componenets
-    private var mapInfoView: DetailStackMapView
+    private var mapInfoView = DetailStackMapView(imageUrl: "")
     private var appearMonsterView = DetailStackCardView()
     private var appearNpcView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
@@ -21,12 +22,6 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
         super.viewDidLoad()
         bindImageView()
     }
-
-    init(imageUrl: String) {
-        self.mapInfoView = DetailStackMapView(imageUrl: imageUrl)
-
-        super.init(type: .map)
-    }
 }
 
 // MARK: - SetUp
@@ -34,7 +29,7 @@ private extension MapDictionaryDetailViewController {
     func setUpMainInfo() {
         guard let reactor = reactor else { return }
         let info = reactor.currentState.mapDetailInfo
-        self.inject(
+        inject(
             input: DictionaryDetailBaseViewController
                 .Input(
                     imageUrl: info.iconUrl,
@@ -48,6 +43,7 @@ private extension MapDictionaryDetailViewController {
     func setUpMapView() {
         guard let reactor = reactor else { return }
 
+        mapInfoView.setUpMapView(imageUrl: reactor.currentState.mapDetailInfo.mapUrl)
         contentViews.append(mapInfoView)
         if let mapUrl = reactor.currentState.mapDetailInfo.mapUrl, !mapUrl.isEmpty {
             contentViews[0] = mapInfoView
@@ -94,13 +90,13 @@ private extension MapDictionaryDetailViewController {
         mapInfoView.mapImageView.addGestureRecognizer(tapGesture)
 
         tapGesture.rx.event
-               .bind(onNext: { [weak self] _ in
-                   guard let self else { return }
-                   let viewController = PinchMapViewController(imageUrl: "")
-                   viewController.modalPresentationStyle = .overFullScreen
-                   self.present(viewController, animated: true)
-               })
-               .disposed(by: disposeBag)
+            .bind(onNext: { [weak self] _ in
+                guard let self else { return }
+                let viewController = PinchMapViewController(imageUrl: "")
+                viewController.modalPresentationStyle = .overFullScreen
+                self.present(viewController, animated: true)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -109,9 +105,15 @@ extension MapDictionaryDetailViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.mapDetailInfo.mapId ?? 0 }, itemName: reactor.state.map { $0.mapDetailInfo.nameKr ?? "" })
     }
 
     private func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         appearMonsterView.filterButton.rx.tap
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
@@ -122,48 +124,42 @@ extension MapDictionaryDetailViewController {
         reactor.state.map(\.mapDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMainInfo()
-                self?.setUpMapView()
+            .withUnretained(self)
+            .bind(onNext: { owner, item in
+                owner.setUpMainInfo()
+                owner.setUpMapView()
+                owner.mainView.setBookmark(isBookmarked: item.bookmarkId != nil)
             })
             .disposed(by: disposeBag)
+
         reactor.state.map(\.spawnMonsters)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMonsterView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpMonsterView()
             })
             .disposed(by: disposeBag)
+
         reactor.state.map(\.npcs)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpNpcView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpNpcView()
             })
             .disposed(by: disposeBag)
 
-        rx.viewDidAppear
-            .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
-            .withUnretained(self)
-            .subscribe { (owner, route) in
-                switch route {
-                case .filter(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
-                        owner.selectedIndex = index
-                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
-                        owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
-                    }
-                    owner.tabBarController?.presentModal(viewController)
-                case .none:
-                    break
-                }
-            }
-            .disposed(by: disposeBag)
-
-        rx.viewWillAppear.take(1).subscribe { _ in
-            reactor.action.onNext(.viewWillAppear)
-        }
+        bindBookmarkButton(
+            buttonTap: mainView.bookmarkButton.rx.tap,
+            currentItem: reactor.state.map { $0.mapDetailInfo },
+            isLogin: { reactor.currentState.isLogin },
+            imageUrl: { $0.mapUrl },
+            backgroundColor: type.backgroundColor,
+            isBookmarked: { $0.bookmarkId != nil },
+            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
+            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) }
+        )
         .disposed(by: disposeBag)
     }
 }

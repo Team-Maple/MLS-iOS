@@ -15,10 +15,6 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     private var appearMapView = DetailStackCardView()
     private var questView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-
-    init(imageUrl: String) {
-        super.init(type: .npc)
-    }
 }
 
 // MARK: - SetUp
@@ -26,7 +22,7 @@ private extension NpcDictionaryDetailViewController {
     // 매개변수로 넘겨주는 것과
     func setUpMainInfo(name: String, imageUrl: String?) {
         // 상세정보(메인)
-        self.inject(
+        inject(
             input: DictionaryDetailBaseViewController
                 .Input(
                     imageUrl: imageUrl,
@@ -36,6 +32,7 @@ private extension NpcDictionaryDetailViewController {
                 )
         )
     }
+
     // 내부에서 리액터 사용해서 하는 것
     func setUpMapView() {
         guard let reactor = reactor else { return }
@@ -52,10 +49,10 @@ private extension NpcDictionaryDetailViewController {
                     type: .appearMap,
                     imageUrl: map.iconUrl,
                     mainText: map.mapName,
-                    subText: map.detailName))
+                    subText: map.detailName
+                ))
             }
         }
-
     }
 
     func setUpQuestView() {
@@ -83,9 +80,15 @@ extension NpcDictionaryDetailViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.id }, itemName: reactor.state.map { $0.npcDetailInfo.nameKr })
     }
 
     private func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         questView.filterButton.rx.tap
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
@@ -99,9 +102,9 @@ extension NpcDictionaryDetailViewController {
 
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .filter(let type):
                     let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
@@ -116,34 +119,45 @@ extension NpcDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        reactor.state.map(\.info)
+
+        reactor.state.map(\.npcDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] info in
-                self?.setUpMainInfo(name: info.name, imageUrl: info.imgUrl)
+            .withUnretained(self)
+            .bind(onNext: { owner, map in
+                owner.setUpMainInfo(name: map.nameKr, imageUrl: map.iconUrlDetail)
+                owner.mainView.setBookmark(isBookmarked: map.bookmarkId != nil)
             })
             .disposed(by: disposeBag)
+
         reactor.state.map(\.maps)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMapView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpMapView()
             })
             .disposed(by: disposeBag)
 
         reactor.state.map(\.quests)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpQuestView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpQuestView()
             })
             .disposed(by: disposeBag)
-
-        rx.viewWillAppear
-            .take(1)
-            .subscribe { _ in
-                reactor.action.onNext(.viewWillAppear)
-            }
-            .disposed(by: disposeBag)
+        
+        bindBookmarkButton(
+            buttonTap: mainView.bookmarkButton.rx.tap,
+            currentItem: reactor.state.map { $0.npcDetailInfo },
+            isLogin: { reactor.currentState.isLogin },
+            imageUrl: { $0.iconUrlDetail },
+            backgroundColor: type.backgroundColor,
+            isBookmarked: { $0.bookmarkId != nil },
+            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
+            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) }
+        )
+        .disposed(by: disposeBag)
     }
 }

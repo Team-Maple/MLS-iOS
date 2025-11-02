@@ -4,6 +4,8 @@ import DesignSystem
 import DomainInterface
 
 import ReactorKit
+import RxCocoa
+import RxSwift
 
 final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewController, View {
     public typealias Reactor = QuestDictionaryDetailReactor
@@ -16,11 +18,11 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
 private extension QuestDictionaryDetailViewController {
     func setUpMainInfo() {
         // 상세 정보(메인?)
-        self.inject(input: DictionaryDetailBaseViewController.Input(
+        inject(input: DictionaryDetailBaseViewController.Input(
             imageUrl: reactor?.currentState.detailInfo.iconUrl,
             backgroundColor: type.backgroundColor,
             name: reactor?.currentState.detailInfo.nameKr ?? "이름 없음",
-            subText: "Lv.\(reactor?.currentState.detailInfo.minLevel ?? 0)"
+            subText: "수락Lv.\(reactor?.currentState.detailInfo.minLevel ?? 0)"
         ))
     }
 
@@ -99,7 +101,7 @@ private extension QuestDictionaryDetailViewController {
         let quests = reactor.currentState.linkedQuestInfo
         contentViews.append(linkedQuestView)
         if let previousQuests = quests.previousQuests, let nextQuests = quests.nextQuests {
-            if previousQuests.isEmpty && nextQuests.isEmpty {
+            if previousQuests.isEmpty, nextQuests.isEmpty {
                 contentViews[1] = DetailEmptyView(type: .quest)
             } else {
                 contentViews[1] = linkedQuestView
@@ -109,7 +111,6 @@ private extension QuestDictionaryDetailViewController {
                 }
             }
         }
-
     }
 }
 
@@ -118,31 +119,47 @@ extension QuestDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(providerId: reactor.state.map { $0.detailInfo.questId ?? 0 }, itemName: reactor.state.map { $0.detailInfo.nameKr ?? "" })
     }
 
-    private func bindUserAction(reactor: Reactor) {}
+    private func bindUserAction(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
     private func bindViewState(reactor: Reactor) {
         reactor.state.map(\.detailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMainInfo()
-                self?.setUpInfoStackView()
+            .withUnretained(self)
+            .bind(onNext: { owner, map in
+                owner.setUpMainInfo()
+                owner.setUpInfoStackView()
+                owner.mainView.setBookmark(isBookmarked: map.bookmarkId != nil)
             })
             .disposed(by: disposeBag)
 
         reactor.state.map(\.linkedQuestInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpQuestView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpQuestView()
             })
             .disposed(by: disposeBag)
-
-        rx.viewWillAppear.take(1).subscribe { _ in
-            reactor.action.onNext(.viewWillAppear)
-        }
+        
+        bindBookmarkButton(
+            buttonTap: mainView.bookmarkButton.rx.tap,
+            currentItem: reactor.state.map { $0.detailInfo },
+            isLogin: { reactor.currentState.isLogin },
+            imageUrl: { $0.iconUrl },
+            backgroundColor: type.backgroundColor,
+            isBookmarked: { $0.bookmarkId != nil },
+            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
+            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) }
+        )
         .disposed(by: disposeBag)
     }
 }

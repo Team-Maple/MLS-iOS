@@ -1,4 +1,4 @@
-public struct DictionaryDetailQuestLinkedQuestsResponse: Codable, Equatable {
+public struct DictionaryDetailQuestLinkedQuestsResponse: Equatable {
     public let previousQuests: [Quest]?
     public let nextQuests: [Quest]?
 
@@ -8,7 +8,7 @@ public struct DictionaryDetailQuestLinkedQuestsResponse: Codable, Equatable {
     }
 }
 
-public struct Quest: Codable, Equatable {
+public struct Quest: Decodable, Equatable {
     public let questId: Int?
     public let name: String?
     public let minLevel: Int?

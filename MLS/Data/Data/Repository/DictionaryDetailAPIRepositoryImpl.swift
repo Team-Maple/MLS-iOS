@@ -41,7 +41,7 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
 
     public func fetchNpcDetailMap(id: Int) -> Observable<[DictionaryDetailMonsterMapResponse]> {
         let endPoint = DictionaryDetailEndPoint.fetchNpcDetailMap(id: id)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0 }
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
     }
 
     public func fetchItemDetail(id: Int) -> Observable<DictionaryDetailItemResponse> {

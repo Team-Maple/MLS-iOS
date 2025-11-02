@@ -1,4 +1,4 @@
-public struct DictionaryDetailItemDropMonsterResponse: Codable, Equatable {
+public struct DictionaryDetailItemDropMonsterResponse: Equatable {
     public let monsterId: Int?
     public let monsterName: String?
     public let level: Int?

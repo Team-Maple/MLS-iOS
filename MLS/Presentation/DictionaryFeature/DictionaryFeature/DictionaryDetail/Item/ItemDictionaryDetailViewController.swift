@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
@@ -19,7 +20,7 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
 private extension ItemDictionaryDetailViewController {
     func setupMainInfo() {
         // 상세 정보(메인?)
-        self.inject(input: DictionaryDetailBaseViewController.Input(
+        inject(input: DictionaryDetailBaseViewController.Input(
             imageUrl: reactor?.currentState.itemDetailInfo.imgUrl,
             backgroundColor: type.backgroundColor,
             name: reactor?.currentState.itemDetailInfo.nameKr ?? "이름 없음",
@@ -153,36 +154,50 @@ extension ItemDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
+        bindReportButton(
+            providerId: reactor.state.map { $0.itemDetailInfo.itemId ?? 0 },
+            itemName: reactor.state.map { $0.itemDetailInfo.nameKr ?? "" }
+        )
     }
 
     private func bindUserAction(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         monsterCardView.filterButton.rx.tap
-        .map { Reactor.Action.filterButtonTapped }
-        .bind(to: reactor.action)
-        .disposed(by: disposeBag)
+            .map { Reactor.Action.filterButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
         reactor.state.map(\.itemDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setupMainInfo()
-                self?.setUpInfoStackView()
+            .withUnretained(self)
+            .bind(onNext: { owner, item in
+                owner.setupMainInfo()
+                owner.setUpInfoStackView()
+                owner.mainView.setBookmark(isBookmarked: item.bookmarkId != nil)
             })
             .disposed(by: disposeBag)
+
         reactor.state.map(\.monsters)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: {[weak self] _ in
-                self?.setUpMonsterView()
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.setUpMonsterView()
             })
             .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
-            .subscribe { (owner, route) in
+            .subscribe { owner, route in
                 switch route {
                 case .filter(let type):
                     let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
@@ -198,9 +213,16 @@ extension ItemDictionaryDetailViewController {
             }
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear.take(1).subscribe { _ in
-            reactor.action.onNext(.viewWillAppear)
-        }
+        bindBookmarkButton(
+            buttonTap: mainView.bookmarkButton.rx.tap,
+            currentItem: reactor.state.map { $0.itemDetailInfo },
+            isLogin: { reactor.currentState.isLogin },
+            imageUrl: { $0.imgUrl },
+            backgroundColor: type.backgroundColor,
+            isBookmarked: { $0.bookmarkId != nil },
+            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
+            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) }
+        )
         .disposed(by: disposeBag)
     }
 }

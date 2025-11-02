@@ -114,11 +114,7 @@ class DictionaryDetailBaseView: UIView {
     }()
 
     // 북마크 버튼
-    public let bookmarkButton: UIButton = {
-        let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "bookmarkGrayBorder"), for: .normal)
-        return button
-    }()
+    public let bookmarkButton = UIButton()
 
     // 이름
     public let nameLabel: UILabel = {
@@ -442,5 +438,9 @@ extension DictionaryDetailBaseView {
         stickySpacerView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         tabBarStackView.addArrangedSubview(spacerView)
         tabBarStickyStackView.addArrangedSubview(stickySpacerView)
+    }
+    
+    func setBookmark(isBookmarked: Bool) {
+        bookmarkButton.setImage(DesignSystemAsset.image(named: isBookmarked ? "bookmark" : "bookmarkGrayBorder"), for: .normal)
     }
 }

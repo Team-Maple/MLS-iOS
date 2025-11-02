@@ -1,4 +1,4 @@
-public struct DictionaryDetailMapResponse: Codable, Equatable {
+public struct DictionaryDetailMapResponse: Equatable {
     public let mapId: Int?
     public let nameKr: String?
     public let nameEn: String?

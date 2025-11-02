@@ -5,6 +5,7 @@ import DomainInterface
 
 public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let checkLoginUseCase: CheckLoginUseCase
+    private let dictionaryAllListItemUseCase: FetchDictionaryAllListUseCase
     private let dictionaryMapListItemUseCase: FetchDictionaryMapListUseCase
     private let dictionaryItemListItemUseCase: FetchDictionaryItemListUseCase
     private let dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase
@@ -21,6 +22,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
 
     public init(
         checkLoginUseCase: CheckLoginUseCase,
+        dictionaryAllListItemUseCase: FetchDictionaryAllListUseCase,
         dictionaryMapListItemUseCase: FetchDictionaryMapListUseCase,
         dictionaryItemListItemUseCase: FetchDictionaryItemListUseCase,
         dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase,
@@ -34,6 +36,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         detailFactory: DictionaryDetailFactory
     ) {
         self.checkLoginUseCase = checkLoginUseCase
+        self.dictionaryAllListItemUseCase = dictionaryAllListItemUseCase
         self.dictionaryMapListItemUseCase = dictionaryMapListItemUseCase
         self.dictionaryItemListItemUseCase = dictionaryItemListItemUseCase
         self.dictionaryQuestListItemUseCase = dictionaryQuestListItemUseCase
@@ -47,10 +50,12 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         self.detailFactory = detailFactory
     }
 
-    public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
+    public func make(type: DictionaryType, listType: DictionaryMainViewType, keyword: String? = "") -> BaseViewController {
         let reactor = DictionaryListReactor(
             type: type,
+            keyword: keyword,
             checkLoginUseCase: checkLoginUseCase,
+            dictionaryAllListUseCase: dictionaryAllListItemUseCase,
             dictionaryMapListUseCase: dictionaryMapListItemUseCase,
             dictionaryItemListUseCase: dictionaryItemListItemUseCase,
             dictionaryQuestListUseCase: dictionaryQuestListItemUseCase,

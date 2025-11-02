@@ -121,8 +121,7 @@ public final class BookmarkListReactor: Reactor {
                 }
 
         case let .toggleBookmark(id, isSelected):
-            guard let type = currentState.type.toItemType,
-                  let bookmarkItem = currentState.items.first(where: { $0.originalId == id }) else { return .empty() }
+            guard let bookmarkItem = currentState.items.first(where: { $0.originalId == id }) else { return .empty() }
 
             let saveDeletedMutation: Observable<Mutation> =
                 isSelected ? .just(.setLastDeletedBookmark(bookmarkItem))
@@ -132,7 +131,7 @@ public final class BookmarkListReactor: Reactor {
                 .concat(
                     setBookmarkUseCase.execute(
                         bookmarkId: isSelected ? bookmarkItem.bookmarkId : id,
-                        isBookmark: isSelected ? .delete : .set(type)
+                        isBookmark: isSelected ? .delete : .set(bookmarkItem.type)
                     )
                     .andThen(fetchList())
                 )

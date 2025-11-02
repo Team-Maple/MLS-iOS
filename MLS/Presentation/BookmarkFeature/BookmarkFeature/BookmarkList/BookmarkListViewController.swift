@@ -129,7 +129,6 @@ extension BookmarkListViewController {
             .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, items in
                 owner.mainView.listCollectionView.reloadData()
-//                owner.mainView.isUserInteractionEnabled = !items.isEmpty
             })
             .disposed(by: disposeBag)
 
@@ -150,8 +149,9 @@ extension BookmarkListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make()
-                        owner.present(viewController, animated: true)
+                        break
+                        //let viewController = owner.itemFilterFactory.make()
+                        //owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
 

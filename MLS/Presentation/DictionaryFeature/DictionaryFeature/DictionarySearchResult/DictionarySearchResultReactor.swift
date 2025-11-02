@@ -12,11 +12,14 @@ public final class DictionarySearchResultReactor: Reactor {
     public enum Action {
         case backbuttonTapped
         case updateKeyword(String)
+        case viewWillAppear
+        case searchButtonTapped(String?)
     }
 
     public enum Mutation {
         case navigateTo(Route)
         case setKeyword(String)
+        case setCounts([Int])
     }
 
     public struct State {
@@ -27,15 +30,23 @@ public final class DictionarySearchResultReactor: Reactor {
         }
 
         var keyword: String?
+        
+        var counts: [Int] = [0, 0, 0, 0, 0, 0]
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
+    
+    // MARK: - UseCases
+    private let dictionarySearchUseCase: FetchDictionarySearchListUseCase
+    private let dictionarySearchCountUseCase: FetchDictionaryListCountUseCase
 
     // MARK: - init
-    public init(keyword: String?) {
+    public init(keyword: String?, dictionarySearchUseCase: FetchDictionarySearchListUseCase, dictionarySearchCountUseCase: FetchDictionaryListCountUseCase) {
         self.initialState = State(keyword: keyword)
+        self.dictionarySearchUseCase = dictionarySearchUseCase
+        self.dictionarySearchCountUseCase = dictionarySearchCountUseCase
     }
 
     // MARK: - Reactor Methods
@@ -45,19 +56,58 @@ public final class DictionarySearchResultReactor: Reactor {
             return Observable.just(.navigateTo(.dismiss))
         case .updateKeyword(let keyword):
             return Observable.just(.setKeyword(keyword))
+        case .viewWillAppear:
+            // 초기 검색 시, state.keyword를 그대로 사용
+            // transform에서 keyword 변화 감지 후 호출됨
+            if let keyword = currentState.keyword {
+                return Observable.just(.setKeyword(keyword))
+            } else {
+                return .empty()
+            }
+            // 검색 결과 화면에서 재검색 시
+        case .searchButtonTapped(let keyword):
+            let keyword = keyword ?? ""
+            
+            return Observable.just(.setKeyword(keyword))
         }
     }
-
+    
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-
+        
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
         case .setKeyword(let keyword):
             newState.keyword = keyword
-        }
-
+        case .setCounts(let counts):
+            newState.counts = counts
+         }
+        
         return newState
     }
+    
+    public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
+        let keywordChanges = mutation
+            .compactMap { mutation -> String? in
+                if case let .setKeyword(keyword) = mutation { return keyword }
+                return nil
+            }
+            .distinctUntilChanged() // 중복 keyword 방지
+            .flatMap { [weak self] keyword -> Observable<Mutation> in
+                guard let self = self else { return .empty() }
+                let types = ["search", "monsters", "items", "npcs", "maps", "quests"]
+                let countObservables = types.map { type in
+                                self.dictionarySearchCountUseCase.execute(type: type, keyword: keyword)
+                                    .map { $0.count ?? 0 }
+                            }
+                return Observable.zip(countObservables)
+                                .map { counts in
+                                    Mutation.setCounts(counts)
+                                }
+            }
+
+        return Observable.merge(mutation, keywordChanges)
+    }
+
 }

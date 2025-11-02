@@ -1,4 +1,4 @@
-public struct DictionaryDetailItemResponse: Codable, Equatable {
+public struct DictionaryDetailItemResponse: Equatable {
     public let itemId: Int?
     public let nameKr: String?
     public let nameEn: String?
@@ -31,26 +31,26 @@ public struct DictionaryDetailItemResponse: Codable, Equatable {
 
 }
 
-public struct CategoryHierachy: Codable, Equatable {
+public struct CategoryHierachy: Decodable, Equatable {
     public let rootCategory: Category?
     public let leafCategory: Category?
 }
 
-public struct Category: Codable, Equatable {
+public struct Category: Decodable, Equatable {
     public let categoryId: Int?
     public let name: String?
     public let categoryLevel: Int?
     public let description: String?
 }
 
-public struct Jobs: Codable, Equatable {
+public struct Jobs: Decodable, Equatable {
     public let jobId: Int?
     public let jobName: String?
     public let jobLevel: Int?
     public let parentJobId: Int?
 }
 
-public struct RequiredStats: Codable, Equatable {
+public struct RequiredStats: Decodable, Equatable {
     public let level: Int?
     public let str: Int?
     public let dex: Int?
@@ -59,7 +59,7 @@ public struct RequiredStats: Codable, Equatable {
     public let pop: Int?
 }
 
-public struct EquipmentStats: Codable, Equatable {
+public struct EquipmentStats: Decodable, Equatable {
     public let str: Stats?
     public let dex: Stats?
     public let intelligence: Stats?
@@ -78,13 +78,13 @@ public struct EquipmentStats: Codable, Equatable {
     public let attackSpeedDetails: String?
 }
 
-public struct Stats: Codable, Equatable {
+public struct Stats: Decodable, Equatable {
     public let base: Int?
     public let min: Int?
     public let max: Int?
 }
 
-public struct ScrollDetail: Codable, Equatable {
+public struct ScrollDetail: Decodable, Equatable {
     public let successRatePercent: Int?
     public let targetItemTypeText: String?
     public let strChange: Int?
