@@ -8,6 +8,7 @@ public final class DictionaryMainReactor: Reactor {
         case none
         case search
         case notification
+        case login
     }
 
     public enum Action {
@@ -31,9 +32,12 @@ public final class DictionaryMainReactor: Reactor {
     public var initialState: State
     var disposeBag = DisposeBag()
 
+    private let checkLoginUseCase: CheckLoginUseCase
+
     // MARK: - init
-    public init() {
+    public init(checkLoginUseCase: CheckLoginUseCase) {
         self.initialState = State()
+        self.checkLoginUseCase = checkLoginUseCase
     }
 
     // MARK: - Reactor Methods
@@ -42,7 +46,14 @@ public final class DictionaryMainReactor: Reactor {
         case .searchButtonTapped:
             return Observable.just(.navigateTo(.search))
         case .notificationButtonTapped:
-            return Observable.just(.navigateTo(.notification))
+            return checkLoginUseCase.execute()
+                .map { isLogin in
+                    if isLogin {
+                        return .navigateTo(.notification)
+                    } else {
+                        return .navigateTo(.login)
+                    }
+                }
         }
     }
 

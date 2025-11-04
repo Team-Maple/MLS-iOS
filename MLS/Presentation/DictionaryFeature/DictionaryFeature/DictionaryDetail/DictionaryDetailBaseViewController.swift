@@ -53,8 +53,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
         
         addViews()
         setupConstraints()
-        bindActions() // 액션 바인딩
-        mainView.scrollView.delegate = self
+        configureUI()
+        bind() // 액션 바인딩
         setupMenu(type.detailTypes)
     }
     
@@ -80,6 +80,10 @@ private extension DictionaryDetailBaseViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
+    }
+    
+    func configureUI() {
+        mainView.scrollView.delegate = self
     }
 }
 
@@ -298,25 +302,16 @@ extension DictionaryDetailBaseViewController {
 }
 
 private extension DictionaryDetailBaseViewController {
-    func bindActions() {
-        // 뒤로가기 버튼 액션 바인드
-        bindBackButton()
-        bindBookmarkButton()
-    }
-    
-    func bindBackButton() {
+    func bind() {
         mainView.backButton.rx.tap
             .bind { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
-    }
-    
-    // 이부분은 왜 inject로 넣어야 하나??
-    func bindBookmarkButton() {
-        mainView.bookmarkButton.rx.tap
+        
+        mainView.dictButton.rx.tap
             .bind { [weak self] in
-                print("bookmark tapped")
+                self?.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: disposeBag)
     }

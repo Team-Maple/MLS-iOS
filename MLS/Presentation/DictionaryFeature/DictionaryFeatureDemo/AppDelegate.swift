@@ -298,8 +298,7 @@ private extension AppDelegate {
                     .resolve(type: DictionaryMainListFactory.self),
                 searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer
-                    .resolve(type: DictionaryNotificationFactory.self)
-            )
+                    .resolve(type: DictionaryNotificationFactory.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self))
         }
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             BookmarkOnBoardingFactoryImpl()
