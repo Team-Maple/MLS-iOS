@@ -13,7 +13,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.tokenInterceptor = interceptor
     }
 
-    public func fetchProfile() -> Observable<MyPageResponse> {
+    public func fetchProfile() -> Observable<MyPageResponse?> {
         let endpoint = AuthEndPoint.fetchProfile()
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toMyPageDomain() }

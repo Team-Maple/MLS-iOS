@@ -61,7 +61,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             coordinator.showLogin(exitRoute: .home)
                         }
                     },
-                    onError: { _ in
+                    onError: { error in
+                        print(error)
                         coordinator.showLogin(exitRoute: .home)
                     }
                 )

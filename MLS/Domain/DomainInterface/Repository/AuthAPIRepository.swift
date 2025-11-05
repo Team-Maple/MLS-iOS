@@ -64,5 +64,5 @@ public protocol AuthAPIRepository {
 
     func updateProfileImage(url: String) -> Completable
 
-    func fetchProfile() -> Observable<MyPageResponse>
+    func fetchProfile() -> Observable<MyPageResponse?>
 }

@@ -11,17 +11,17 @@ public class FetchProfileUseCaseImpl: FetchProfileUseCase {
         self.fetchJobUseCase = fetchJobUseCase
     }
 
-    public func execute() -> Observable<MyPageResponse> {
+    public func execute() -> Observable<MyPageResponse?> {
         return repository.fetchProfile()
-            .flatMap { [weak self] profile -> Observable<MyPageResponse> in
-                guard let self = self, let jobId = profile.jobId else {
+            .flatMap { [weak self] profile -> Observable<MyPageResponse?> in
+                guard let self = self, let jobId = profile?.jobId else {
                     return .just(profile)
                 }
 
                 return self.fetchJobUseCase.execute(jobId: String(jobId))
                     .map { job in
                         var new = profile
-                        new.jobName = job.name
+                        new?.jobName = job.name
                         return new
                     }
             }

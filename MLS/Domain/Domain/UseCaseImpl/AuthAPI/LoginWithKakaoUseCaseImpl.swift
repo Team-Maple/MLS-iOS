@@ -20,14 +20,17 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         return authRepository.loginWithKakao(credential: credential)
             .flatMap { response -> Observable<LoginResponse> in
                 let saveAccess = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
+                let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
+                let savePlatform = self.userDefaultsRepository.savePlatform(platform: .apple)
 
-                let savePlatform = self.userDefaultsRepository.savePlatform(platform: .kakao)
-
-                switch saveAccess {
-                case .success:
+                // ✅ 모든 저장 결과 확인
+                switch (saveAccess, saveRefresh) {
+                case (.success, .success):
                     return savePlatform.andThen(Observable.just(response))
                 default:
-                    return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))
+                    return Observable.error(
+                        TokenRepositoryError.dataConversionError(message: "Failed to save tokens")
+                    )
                 }
             }
             .catch { error in
