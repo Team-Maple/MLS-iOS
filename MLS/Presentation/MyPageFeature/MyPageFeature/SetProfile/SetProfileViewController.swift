@@ -18,6 +18,7 @@ public final class SetProfileViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    
     var didReturn = PublishRelay<Bool>()
     private var selectImageFactory: SelectImageFactory
 

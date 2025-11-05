@@ -16,6 +16,7 @@ public final class SortedBottomSheetViewController: BaseViewController, ModalPre
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    
     public var onSelectedIndex: ((Int) -> Void)?
 
     // MARK: - Components

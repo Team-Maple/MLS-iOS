@@ -18,7 +18,26 @@ public struct DictionaryDetailQuestResponse: Equatable {
     public let allowedJobs: [AllowedJob]?
     public let bookmarkId: Int?
 
-    public init(questId: Int?, titlePrefix: String?, nameKr: String?, nameEn: String?, iconUrl: String?, questType: String?, minLevel: Int?, maxLevel: Int?, requiredMesoStart: Int?, startNpcId: Int?, startNpcName: String?, endNpcId: Int?, endNpcName: String?, reward: Reward?, rewardItems: [RewardItem]?, requirements: [Requirements]?, allowedJobs: [AllowedJob]?, bookmarkId: Int?) {
+    public init(
+        questId: Int?,
+        titlePrefix: String?,
+        nameKr: String?,
+        nameEn: String?,
+        iconUrl: String?,
+        questType: String?,
+        minLevel: Int?,
+        maxLevel: Int?,
+        requiredMesoStart: Int?,
+        startNpcId: Int?,
+        startNpcName: String?,
+        endNpcId: Int?,
+        endNpcName: String?,
+        reward: Reward?,
+        rewardItems: [RewardItem]?,
+        requirements: [Requirements]?,
+        allowedJobs: [AllowedJob]?,
+        bookmarkId: Int?
+    ) {
         self.questId = questId
         self.titlePrefix = titlePrefix
         self.nameKr = nameKr

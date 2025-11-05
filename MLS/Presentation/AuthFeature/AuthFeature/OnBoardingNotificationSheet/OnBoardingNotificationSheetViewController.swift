@@ -13,9 +13,10 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
     public var modalHeight: CGFloat?
 
     public typealias Reactor = OnBoardingNotificationSheetReactor
+    
+    public var disposeBag = DisposeBag()
 
     // MARK: - Properties
-    public var disposeBag = DisposeBag()
 
     private let dictionaryMainViewFactory: DictionaryMainViewFactory
 
@@ -113,14 +114,7 @@ extension OnBoardingNotificationSheetViewController {
                     case .home:
                         let viewController = owner.dictionaryMainViewFactory.make()
                         let navigationController = UINavigationController(rootViewController: viewController)
-
-                        if let window = UIApplication.shared.connectedScenes
-                            .compactMap({ $0 as? UIWindowScene })
-                            .flatMap({ $0.windows })
-                            .first(where: { $0.isKeyWindow }) {
-                            window.rootViewController = navigationController
-                            window.makeKeyAndVisible()
-                        }
+                        AppRouter.setRoot(navigationController)
                     case .setting:
                         guard let url = URL(string: UIApplication.openSettingsURLString),
                               UIApplication.shared.canOpenURL(url) else { return }

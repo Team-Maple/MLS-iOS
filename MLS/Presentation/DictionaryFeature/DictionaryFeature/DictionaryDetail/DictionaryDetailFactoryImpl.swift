@@ -22,7 +22,24 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let checkLoginUseCase: CheckLoginUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
 
-    public init(bookmarkModalFactory: BookmarkModalFactory, dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase, dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase, dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase, dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase, dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase, dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase, dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase, dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase, checkLoginUseCase: CheckLoginUseCase, setBookmarkUseCase: SetBookmarkUseCase) {
+    public init(
+        bookmarkModalFactory: BookmarkModalFactory,
+        dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase,
+        dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase,
+        dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase,
+        dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase,
+        dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase,
+        dictionaryDetailItemDropMonsterUseCase: FetchDictionaryDetailItemDropMonsterUseCase,
+        dictionaryDetailItemUseCase: FetchDictionaryDetailItemUseCase,
+        dictionaryDetailNpcUseCase: FetchDictionaryDetailNpcUseCase,
+        dictionaryDetailNpcQuestUseCase: FetchDictionaryDetailNpcQuestUseCase,
+        dictionaryDetailNpcMapUseCase: FetchDictionaryDetailNpcMapUseCase,
+        dictionaryDetailMonsterUseCase: FetchDictionaryDetailMonsterUseCase,
+        dictionaryDetailMonsterDropItemUseCase: FetchDictionaryDetailMonsterItemsUseCase,
+        dictionaryDetailMonsterMapUseCase: FetchDictionaryDetailMonsterMapUseCase,
+        checkLoginUseCase: CheckLoginUseCase,
+        setBookmarkUseCase: SetBookmarkUseCase
+    ) {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.dictionaryDetailMapUseCase = dictionaryDetailMapUseCase
         self.dictionaryDetailMapSpawnMonsterUseCase = dictionaryDetailMapSpawnMonsterUseCase
@@ -56,18 +73,39 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
             }
         case .monster:
             viewController = MonsterDictionaryDetailViewController(type: .monster, bookmarkModalFactory: bookmarkModalFactory)
-            let reactor = MonsterDictionaryDetailReactor(dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase, dictionaryDetailMonsterDropItemUseCase: dictionaryDetailMonsterDropItemUseCase, dictionaryDetailMonsterMapUseCase: dictionaryDetailMonsterMapUseCase, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, id: id)
+            let reactor = MonsterDictionaryDetailReactor(
+                dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase,
+                dictionaryDetailMonsterDropItemUseCase: dictionaryDetailMonsterDropItemUseCase,
+                dictionaryDetailMonsterMapUseCase: dictionaryDetailMonsterMapUseCase,
+                checkLoginUseCase: checkLoginUseCase,
+                setBookmarkUseCase: setBookmarkUseCase,
+                id: id
+            )
             if let viewController = viewController as? MonsterDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .map:
-            let reactor = MapDictionaryDetailReactor(dictionaryDetailMapUseCase: dictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: dictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: dictionaryDetailMapNpcUseCase, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, id: id)
+            let reactor = MapDictionaryDetailReactor(
+                dictionaryDetailMapUseCase: dictionaryDetailMapUseCase,
+                dictionaryDetailMapSpawnMonsterUseCase: dictionaryDetailMapSpawnMonsterUseCase,
+                dictionaryDetailMapNpcUseCase: dictionaryDetailMapNpcUseCase,
+                checkLoginUseCase: checkLoginUseCase,
+                setBookmarkUseCase: setBookmarkUseCase,
+                id: id
+            )
             viewController = MapDictionaryDetailViewController(type: .map, bookmarkModalFactory: bookmarkModalFactory)
             if let viewController = viewController as? MapDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .npc:
-            let reactor = NpcDictionaryDetailReactor(dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase, dictionaryDetailNpcQuestUseCase: dictionaryDetailNpcQuestUseCase, dictionaryDetailNpcMapUseCase: dictionaryDetailNpcMapUseCase, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, id: id)
+            let reactor = NpcDictionaryDetailReactor(
+                dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase,
+                dictionaryDetailNpcQuestUseCase: dictionaryDetailNpcQuestUseCase,
+                dictionaryDetailNpcMapUseCase: dictionaryDetailNpcMapUseCase,
+                checkLoginUseCase: checkLoginUseCase,
+                setBookmarkUseCase: setBookmarkUseCase,
+                id: id
+            )
             viewController = NpcDictionaryDetailViewController(type: .npc, bookmarkModalFactory: bookmarkModalFactory)
             if let viewController = viewController as? NpcDictionaryDetailViewController {
                 viewController.reactor = reactor

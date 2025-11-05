@@ -54,7 +54,17 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
-        let reactor = BookmarkListReactor(type: type, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, fetchBookmarkUseCase: fetchBookmarkUseCase, fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase, fetchItemBookmarkUseCase: fetchItemBookmarkUseCase, fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase, fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase, fetchMapBookmarkUseCase: fetchMapBookmarkUseCase)
+        let reactor = BookmarkListReactor(
+            type: type,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            fetchBookmarkUseCase: fetchBookmarkUseCase,
+            fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase,
+            fetchItemBookmarkUseCase: fetchItemBookmarkUseCase,
+            fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase,
+            fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase,
+            fetchMapBookmarkUseCase: fetchMapBookmarkUseCase
+        )
         let viewController = BookmarkListViewController(
             reactor: reactor,
             itemFilterFactory: itemFilterFactory,

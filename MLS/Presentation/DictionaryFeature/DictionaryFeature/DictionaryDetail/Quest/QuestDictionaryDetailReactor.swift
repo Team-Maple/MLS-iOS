@@ -47,7 +47,26 @@ public final class QuestDictionaryDetailReactor: Reactor {
         self.setBookmarkUseCase = setBookmarkUseCase
         self.initialState = .init(
             id: id,
-            detailInfo: .init(questId: nil, titlePrefix: nil, nameKr: nil, nameEn: nil, iconUrl: nil, questType: nil, minLevel: nil, maxLevel: nil, requiredMesoStart: nil, startNpcId: nil, startNpcName: nil, endNpcId: nil, endNpcName: nil, reward: nil, rewardItems: nil, requirements: nil, allowedJobs: nil, bookmarkId: nil),
+            detailInfo: .init(
+                questId: nil,
+                titlePrefix: nil,
+                nameKr: nil,
+                nameEn: nil,
+                iconUrl: nil,
+                questType: nil,
+                minLevel: nil,
+                maxLevel: nil,
+                requiredMesoStart: nil,
+                startNpcId: nil,
+                startNpcName: nil,
+                endNpcId: nil,
+                endNpcName: nil,
+                reward: nil,
+                rewardItems: nil,
+                requirements: nil,
+                allowedJobs: nil,
+                bookmarkId: nil
+            ),
             linkedQuestInfo: .init(previousQuests: nil, nextQuests: nil)
         )
     }

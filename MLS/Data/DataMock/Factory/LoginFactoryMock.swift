@@ -6,7 +6,7 @@ import DomainInterface
 public final class LoginFactoryMock: LoginFactory {
     public init() {}
 
-    public func make(isReLogin isRelogin: Bool) -> BaseViewController {
+    public func make(exitRoute: LoginExitRoute) -> BaseViewController {
         let viewController = BaseViewController()
         viewController.view.backgroundColor = .blue
         return viewController

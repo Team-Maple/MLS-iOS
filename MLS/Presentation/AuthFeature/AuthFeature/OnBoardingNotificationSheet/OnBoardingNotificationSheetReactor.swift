@@ -46,7 +46,14 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
     private let updateUserInfoUseCase: UpdateUserInfoUseCase
 
     // MARK: - init
-    public init(selectedLevel: Int, selectedJobID: Int, checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase, updateUserInfoUseCase: UpdateUserInfoUseCase) {
+    public init(
+        selectedLevel: Int,
+        selectedJobID: Int,
+        checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase,
+        openNotificationSettingUseCase: OpenNotificationSettingUseCase,
+        updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
+        updateUserInfoUseCase: UpdateUserInfoUseCase
+    ) {
         self.initialState = State(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase

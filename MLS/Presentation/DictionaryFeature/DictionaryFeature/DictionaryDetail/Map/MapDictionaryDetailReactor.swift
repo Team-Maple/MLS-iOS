@@ -46,7 +46,14 @@ public final class MapDictionaryDetailReactor: Reactor {
     public var initialState: State
     private let disposBag = DisposeBag()
 
-    public init(dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase, dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase, dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase, checkLoginUseCase: CheckLoginUseCase, setBookmarkUseCase: SetBookmarkUseCase, id: Int) {
+    public init(
+        dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase,
+        dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase,
+        dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase,
+        checkLoginUseCase: CheckLoginUseCase,
+        setBookmarkUseCase: SetBookmarkUseCase,
+        id: Int
+    ) {
         initialState = State(mapDetailInfo: DictionaryDetailMapResponse(mapId: nil, nameKr: nil, nameEn: nil, regionName: nil, detailName: nil, topRegionName: nil, mapUrl: nil, iconUrl: nil, bookmarkId: nil), spawnMonsters: [], npcs: [], type: .map, id: id)
 
         self.dictionaryDetailMapUseCase = dictionaryDetailMapUseCase

@@ -13,13 +13,15 @@ public final class LoginViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    
+    public let routeToHome = PublishRelay<Void>()
 
     private let mainView: LoginView
 
     private let termsAgreementsFactory: TermsAgreementFactory
 
-    public init(isRelogin: Bool, termsAgreementsFactory: TermsAgreementFactory) {
-        self.mainView = LoginView(isRelogin: isRelogin)
+    public init(termsAgreementsFactory: TermsAgreementFactory) {
+        self.mainView = LoginView()
         self.termsAgreementsFactory = termsAgreementsFactory
         super.init()
     }
@@ -66,6 +68,11 @@ public extension LoginViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.kakaoLoginButton.rx.tap
             .map { Reactor.Action.kakaoLoginButtonTapped }
             .bind(to: reactor.action)
@@ -111,6 +118,16 @@ public extension LoginViewController {
     }
 
     func bindViewState(reactor: Reactor) {
+        reactor.state
+            .observe(on: MainScheduler.instance)
+            .map { $0.platform }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { owner, platform in
+                owner.mainView.update(loginPlatform: platform)
+            }
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
@@ -121,10 +138,8 @@ public extension LoginViewController {
                 case .termsAgreements(let credential, let platform):
                     let controller = owner.termsAgreementsFactory.make(credential: credential, platform: platform)
                     owner.navigationController?.pushViewController(controller, animated: true)
-                case .home:
-                    let controller = UIViewController()
-                    controller.view.backgroundColor = .green
-                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .dismiss:
+                    owner.routeToHome.accept(())
                 case .error:
                     DispatchQueue.main.async {
                         let controller = BaseErrorViewController()

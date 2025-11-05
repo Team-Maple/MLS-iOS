@@ -157,6 +157,5 @@ public extension BaseListView {
         emptyView.isHidden = !isEmpty
         filterStackView.isHidden = isEmpty
         listCollectionView.isHidden = isEmpty
-        isUserInteractionEnabled = !isEmpty
     }
 }

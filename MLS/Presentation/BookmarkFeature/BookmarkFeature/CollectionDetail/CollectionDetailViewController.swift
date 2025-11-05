@@ -13,12 +13,12 @@ public final class CollectionDetailViewController: BaseViewController, View {
     public typealias Reactor = CollectionDetailReactor
 
     // MARK: - Properties
+    public var disposeBag = DisposeBag()
+    
     private let bookmarkModalFactory: BookmarkModalFactory
     private let collectionSettingFactory: CollectionSettingFactory
     private let addCollectionFactory: AddCollectionFactory
     private let collectionEditFactory: CollectionEditFactory
-
-    public var disposeBag = DisposeBag()
 
     private var selectedSortIndex = 0
 

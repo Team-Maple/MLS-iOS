@@ -1,4 +1,5 @@
 // swiftlint:disable function_body_length
+// swiftlint:disable line_length
 
 import UIKit
 

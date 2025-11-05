@@ -239,7 +239,15 @@ extension DictionaryDetailBaseViewController {
         currentTabIndex = index
     }
     
-    func bindBookmarkButton<T>(buttonTap: ControlEvent<Void>, currentItem: Observable<T>, isLogin: @escaping () -> Bool, imageUrl: @escaping (T) -> String?, backgroundColor: UIColor, isBookmarked: @escaping (T) -> Bool, toggleBookmark: @escaping (Bool) -> Void, undoLastDeleted: @escaping () -> Void) -> Disposable {
+    func bindBookmarkButton<T>(
+        buttonTap: ControlEvent<Void>,
+        currentItem: Observable<T>,
+        isLogin: @escaping () -> Bool,
+        imageUrl: @escaping (T) -> String?,
+        backgroundColor: UIColor,
+        isBookmarked: @escaping (T) -> Bool,
+        toggleBookmark: @escaping (Bool) -> Void,
+        undoLastDeleted: @escaping () -> Void) -> Disposable {
         buttonTap
             .withLatestFrom(currentItem)
             .observe(on: MainScheduler.instance)

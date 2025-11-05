@@ -13,11 +13,12 @@ public final class DictionarySearchViewController: BaseViewController, View {
     public typealias Reactor = DictionarySearchReactor
 
     // MARK: - Properties
+    public var disposeBag = DisposeBag()
+    
     private var searchResultFactory: DictionarySearchResultFactory
 
     private let chipTapRelay = PublishRelay<String>()
     private let chipCancelRelay = PublishRelay<String>()
-    public var disposeBag = DisposeBag()
 
     // MARK: - Components
     private let mainView = DictionarySearchView()

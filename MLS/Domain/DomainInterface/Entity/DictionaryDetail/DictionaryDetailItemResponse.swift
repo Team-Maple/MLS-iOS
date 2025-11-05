@@ -13,7 +13,21 @@ public struct DictionaryDetailItemResponse: Equatable {
     public let scrollDetail: ScrollDetail? // 주문서 상세정보
     public let bookmarkId: Int?
 
-    public init(itemId: Int?, nameKr: String?, nameEn: String?, descriptionText: String?, imgUrl: String?, npcPrice: Int?, itemType: String?, categoryHierachy: CategoryHierachy?, availableJobs: [Jobs]?, requiredStats: RequiredStats?, equipmentStats: EquipmentStats?, scrollDetail: ScrollDetail?, bookmarkId: Int?) {
+    public init(
+        itemId: Int?,
+        nameKr: String?,
+        nameEn: String?,
+        descriptionText: String?,
+        imgUrl: String?,
+        npcPrice: Int?,
+        itemType: String?,
+        categoryHierachy: CategoryHierachy?,
+        availableJobs: [Jobs]?,
+        requiredStats: RequiredStats?,
+        equipmentStats: EquipmentStats?,
+        scrollDetail: ScrollDetail?,
+        bookmarkId: Int?
+    ) {
         self.itemId = itemId
         self.nameKr = nameKr
         self.nameEn = nameEn

@@ -12,11 +12,12 @@ import SnapKit
 public class OnBoardingNotificationViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingNotificationReactor
-
+    
+    public var disposeBag = DisposeBag()
+    
     private let onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory
 
     // MARK: - Components
-    public var disposeBag = DisposeBag()
 
     private var mainView = OnBoardingNotificationView()
 

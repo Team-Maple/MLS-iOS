@@ -6,7 +6,7 @@ import ReactorKit
 
 final class AnnouncementViewController: CustomerSupportBaseViewController, View {
     typealias Reactor = AnnouncementReactor
-
+    
     // MARK: - Init
     override init(type: CustomerSupportType) {
         super.init(type: type)

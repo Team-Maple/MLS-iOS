@@ -10,11 +10,12 @@ public final class CollectionListViewController: BaseViewController, View {
     public typealias Reactor = CollectionListReactor
 
     // MARK: - Properties
+    public var disposeBag = DisposeBag()
+    
+    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
+    
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
-
-    public var disposeBag = DisposeBag()
-    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
 
     // MARK: - Components
     private var mainView = CollectionListView()

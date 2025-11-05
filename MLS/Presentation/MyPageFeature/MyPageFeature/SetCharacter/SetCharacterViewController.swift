@@ -12,9 +12,10 @@ import SnapKit
 public class SetCharacterViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = SetCharacterReactor
+    
+    public var disposeBag = DisposeBag()
 
     // MARK: - Components
-    public var disposeBag = DisposeBag()
 
     private var mainView = SetCharacterView()
 }

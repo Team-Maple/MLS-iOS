@@ -1,6 +1,7 @@
 import UIKit
 
 import DesignSystem
+import DomainInterface
 
 import SnapKit
 
@@ -78,8 +79,6 @@ final class LoginView: UIView {
         return button
     }()
 
-    private let isRelogin: Bool
-
     private let mainTitleLabel: UILabel = {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .h_xl_b, text: "모험가님,")
@@ -93,8 +92,7 @@ final class LoginView: UIView {
     }()
 
     // MARK: - init
-    init(isRelogin: Bool) {
-        self.isRelogin = isRelogin
+    init() {
         super.init(frame: .zero)
 
         addViews()
@@ -113,15 +111,9 @@ private extension LoginView {
     func addViews() {
         addSubview(loginImageView)
         addSubview(buttonStackView)
+        
         buttonStackView.addArrangedSubview(kakaoLoginButton)
         buttonStackView.addArrangedSubview(appleLoginButton)
-
-        if isRelogin {
-            addSubview(mainTitleLabel)
-            addSubview(subTitleLabel)
-        } else {
-            buttonStackView.addArrangedSubview(guestLoginButton)
-        }
 
         kakaoLoginButton.addSubview(kakaoLogoImageView)
         kakaoLoginButton.addSubview(kakaoLoginLabel)
@@ -170,24 +162,42 @@ private extension LoginView {
             make.centerY.equalToSuperview()
             make.centerX.equalToSuperview().inset(Constant.buttonCenterXInset)
         }
+    }
 
-        if isRelogin {
-            subTitleLabel.snp.makeConstraints { make in
+    func configureUI() {}
+}
+
+extension LoginView {
+    func update(loginPlatform: LoginPlatform?) {
+        mainTitleLabel.removeFromSuperview()
+        subTitleLabel.removeFromSuperview()
+        guestLoginButton.removeFromSuperview()
+
+        switch loginPlatform {
+        case .kakao, .apple:
+            // 최근로그인 라벨 추가
+            addSubview(mainTitleLabel)
+            addSubview(subTitleLabel)
+
+            subTitleLabel.snp.remakeConstraints { make in
                 make.bottom.equalTo(buttonStackView.snp.top).offset(Constant.subTitleBottomSpacing)
                 make.centerX.equalToSuperview()
                 make.height.equalTo(Constant.labelHeight)
             }
-            mainTitleLabel.snp.makeConstraints { make in
+            mainTitleLabel.snp.remakeConstraints { make in
                 make.bottom.equalTo(subTitleLabel.snp.top)
                 make.centerX.equalToSuperview()
                 make.height.equalTo(Constant.labelHeight)
             }
-        } else {
-            guestLoginButton.snp.makeConstraints { make in
+        case nil:
+            buttonStackView.addArrangedSubview(guestLoginButton)
+            guestLoginButton.snp.remakeConstraints { make in
                 make.height.equalTo(Constant.buttonHeight)
             }
+            
         }
-    }
 
-    func configureUI() {}
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
 }

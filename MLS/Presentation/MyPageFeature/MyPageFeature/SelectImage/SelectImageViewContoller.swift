@@ -11,11 +11,11 @@ import RxSwift
 import SnapKit
 
 public final class SelectImageViewContoller: BaseViewController, ModalPresentable, View {
+    // 수정필요
     public var modalHeight: CGFloat? = 16 + 32 + UIScreen.main.bounds.size.width + 4 + 24 + 54 + 4
 
     public typealias Reactor = SelectImageReactor
-
-    // MARK: - Properties
+    
     public var disposeBag = DisposeBag()
 
     // MARK: - Components

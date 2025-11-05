@@ -1,6 +1,6 @@
 import Foundation
 
-public enum LoginPlatform {
+public enum LoginPlatform: String {
     case kakao
     case apple
 }

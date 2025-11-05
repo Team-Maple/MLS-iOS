@@ -34,11 +34,13 @@ extension BookmarkListView {
         case .loginWithoutData:
             checkEmptyData(isEmpty: true)
             if let emptyView = emptyView as? BookmarkEmptyView {
+                checkEmptyData(isEmpty: true)
                 emptyView.setLabel(isLogin: true)
             }
 
         case .logout:
             if let emptyView = emptyView as? BookmarkEmptyView {
+                checkEmptyData(isEmpty: true)
                 emptyView.setLabel(isLogin: false)
             }
         }

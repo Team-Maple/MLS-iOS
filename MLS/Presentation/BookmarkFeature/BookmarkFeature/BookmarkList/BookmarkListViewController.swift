@@ -165,7 +165,7 @@ extension BookmarkListViewController {
                     let vc = owner.dictionaryDetailFactory.make(type: type, id: id)
                     owner.navigationController?.pushViewController(vc, animated: true)
                 case .login:
-                    let vc = owner.loginFactory.make(isReLogin: false)
+                    let vc = owner.loginFactory.make(exitRoute: .pop)
                     owner.navigationController?.pushViewController(vc, animated: true)
 
                 case .dictionary:
@@ -239,7 +239,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
                         ctaText: "로그인 하기",
                         cancelText: "취소",
                         ctaAction: {
-                            let viewController = self.loginFactory.make(isReLogin: false)
+                            let viewController = self.loginFactory.make(exitRoute: .pop)
                             self.navigationController?.pushViewController(viewController, animated: true)
                         },
                         cancelAction: nil

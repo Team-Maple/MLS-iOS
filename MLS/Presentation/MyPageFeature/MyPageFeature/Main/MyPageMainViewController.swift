@@ -18,7 +18,7 @@ public final class MyPageMainViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-
+    
     private let setProfileFactory: SetProfileFactory
     private let customerSupportFactory: CustomerSupportFactory
     private let notificationSettingFactory: NotificationSettingFactory
@@ -155,7 +155,7 @@ extension MyPageMainViewController {
                     let viewController = owner.notificationSettingFactory.make()
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .login:
-                    let viewController = owner.loginFactory.make(isReLogin: false)
+                    let viewController = owner.loginFactory.make(exitRoute: .pop)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .none:
                     break
