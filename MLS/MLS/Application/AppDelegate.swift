@@ -487,7 +487,9 @@ private extension AppDelegate {
                 addCollectionFactory: DIContainer
                     .resolve(type: AddCollectionFactory.self),
                 collectionEditFactory: DIContainer
-                    .resolve(type: CollectionEditFactory.self)
+                    .resolve(type: CollectionEditFactory.self),
+                dictionaryDetailFactory: DIContainer
+                    .resolve(type: DictionaryDetailFactory.self)
             )
         }
         DIContainer.register(type: CollectionSettingFactory.self) {

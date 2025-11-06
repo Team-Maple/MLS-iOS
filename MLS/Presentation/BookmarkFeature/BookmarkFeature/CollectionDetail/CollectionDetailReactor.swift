@@ -9,10 +9,11 @@ public final class CollectionDetailReactor: Reactor {
         case toMain
         case dismiss
         case edit
+        case detail(DictionaryType, Int)
     }
 
     public enum Action {
-        case viewDidAppear
+        case viewWillAppear
         case backButtonTapped
         case editButtonTapped
         case addButtonTapped
@@ -20,6 +21,8 @@ public final class CollectionDetailReactor: Reactor {
         case toggleBookmark(Int, Bool)
         case selectSetting(CollectionSettingMenu)
         case changeName(String)
+        case undoLastDeletedBookmark
+        case dataTapped(Int)
     }
 
     public enum Mutation {
@@ -27,17 +30,18 @@ public final class CollectionDetailReactor: Reactor {
         case setItems([DictionaryItem])
         case setMenu(CollectionSettingMenu)
         case setName(String)
+        case setLastDeletedBookmark(BookmarkResponse?)
     }
 
     public struct State {
         @Pulse var route: Route
-        let type = DictionaryMainViewType.bookmark
-        var collection: BookmarkCollection
+        @Pulse var collectionMenu: CollectionSettingMenu?
         var sections: [String] {
             return type.pageTabList.map { $0.title }
         }
-
-        @Pulse var collectionMenu: CollectionSettingMenu?
+        let type = DictionaryMainViewType.bookmark
+        var collection: BookmarkCollection
+        var lastDeletedBookmark: BookmarkResponse?
     }
 
     // MARK: - Properties
@@ -55,26 +59,40 @@ public final class CollectionDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .toggleBookmark(let id, let isSelected):
-//            return toggleBookmarkUseCase.execute(id: id, type: .total)
-//                .map { Mutation.setItems($0) }
+            // 북마크 설정 및 마지막 삭제 데이터 저장 후 컬렉션 데이터 가져오는 동작 필요
             return .empty()
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
         case .editButtonTapped:
             return .just(.navigateTo(.edit))
-        case .viewDidAppear:
+        case .viewWillAppear:
             // 데이터 불러오기?
             return .empty()
         case .addButtonTapped:
             // 컬렉션 추가
             return .empty()
         case .bookmarkButtonTapped:
-            // 북마크로 이동
-            return .empty()
+            return .just(.navigateTo(.toMain))
         case .selectSetting(let menu):
             return .just(.setMenu(menu))
         case .changeName(let name):
             return .just(.setName(name))
+        case .undoLastDeletedBookmark:
+            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
+            return setBookmarkUseCase.execute(
+                bookmarkId: lastDeleted.originalId,
+                isBookmark: .set(lastDeleted.type)
+            )
+            .andThen(
+                Observable.concat([
+                    // 불러오기
+                    .just(.setLastDeletedBookmark(nil))
+                ])
+            )
+        case .dataTapped(let index):
+            let item = currentState.collection.items[index]
+            guard let type = item.type.toDictionaryType else { return .empty() }
+            return .just(.navigateTo(.detail(type, item.id)))
         }
     }
 
@@ -89,6 +107,8 @@ public final class CollectionDetailReactor: Reactor {
             newState.collectionMenu = menu
         case .setName(let name):
             newState.collection.title = name
+        case .setLastDeletedBookmark(let bookmark):
+            newState.lastDeletedBookmark = bookmark
         }
         return newState
     }

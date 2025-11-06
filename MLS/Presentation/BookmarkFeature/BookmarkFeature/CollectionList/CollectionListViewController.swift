@@ -11,9 +11,9 @@ public final class CollectionListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
-    
+
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
 

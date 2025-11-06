@@ -1,4 +1,3 @@
-import UIKit
 import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
@@ -6,6 +5,7 @@ import BookmarkFeatureInterface
 import DesignSystem
 import DictionaryFeatureInterface
 import MyPageFeatureInterface
+import UIKit
 
 import RxSwift
 
@@ -41,7 +41,10 @@ public final class AppCoordinator {
             bookmarkMainFactory.make(),
             myPageMainFactory.make()
         ])
-        setRoot(tabBar)
+
+        let navigationController = UINavigationController(rootViewController: tabBar)
+        navigationController.isNavigationBarHidden = true
+        setRoot(navigationController)
     }
 
     public func showLogin(exitRoute: LoginExitRoute) {
