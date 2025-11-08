@@ -11,7 +11,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let dictionaryQuestListItemUseCase: FetchDictionaryQuestListUseCase
     private let dictionaryNpcListItemUseCase: FetchDictionaryNpcListUseCase
     private let dictionaryListItemUseCase: FetchDictionaryMonsterListUseCase
-
+    private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
@@ -29,6 +29,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         dictionaryNpcListItemUseCase: FetchDictionaryNpcListUseCase,
         dictionaryListItemUseCase: FetchDictionaryMonsterListUseCase,
         setBookmarkUseCase: SetBookmarkUseCase,
+        partItemFilterResultUseCase: ParseItemFilterResultUseCase,
         itemFilterFactory: ItemFilterBottomSheetFactory,
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
@@ -43,6 +44,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         self.dictionaryNpcListItemUseCase = dictionaryNpcListItemUseCase
         self.dictionaryListItemUseCase = dictionaryListItemUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
+        self.parseItemFilterResultUseCase = partItemFilterResultUseCase
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
@@ -61,7 +63,9 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             dictionaryQuestListUseCase: dictionaryQuestListItemUseCase,
             dictionaryNpcListUseCase: dictionaryNpcListItemUseCase,
             dictionaryListUseCase: dictionaryListItemUseCase,
-            setBookmarkUseCase: setBookmarkUseCase
+            setBookmarkUseCase: setBookmarkUseCase,
+            parseItemFilterResultUseCase: parseItemFilterResultUseCase,
+            
         )
         let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, detailFactory: detailFactory)
         if listType == .search {

@@ -117,11 +117,13 @@ extension DictionaryListViewController {
                 self?.mainView.listCollectionView.reloadData()
                 self?.mainView.emptyView.isHidden = !item.isEmpty
                 self?.mainView.listCollectionView.isHidden = item.isEmpty
-                self?.mainView.isUserInteractionEnabled = !item.isEmpty
+                // 보여줄 item이 없을 경우, 터치를 막는데 왜 막는건지?
+                // 몬스터나 아이템 탭에서 필터링을 하다가 item이 없을 경우, 필터 버튼도 터치가 안되서 계속 item 없음
+                //self?.mainView.isUserInteractionEnabled = !item.isEmpty
             })
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear
+        rx.viewDidLoad
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -137,49 +139,22 @@ extension DictionaryListViewController {
                         owner.selectedSortIndex = index
                         let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
                         reactor.action.onNext(.sortOptionSelected(selectedFilter))
-                        owner.mainView.selectFilter(selectedType: selectedFilter)
+                        owner.mainView.selectSort(selectedType: selectedFilter)
                         reactor.action.onNext(.fetchListFilter)
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make() { results in
-                            
-                            // TODO: 해당 결과 이용해서 필터 걸고 API 호출해서 데이터 상태 변경
-                            let jobId = ["전사": 100, "마법사": 200, "도적": 400, "궁수": 300]
                         
-                            for result in results {
-                                
-                                switch result.0 {
-                                case "직업":
-                                    print("jobId:\(jobId[result.1])")
-                                    reactor.action.onNext(.setJobId(jobId[result.1] ?? 0))
-                                case "레벨":
-                                    let resultText = result.1
-                                    print("resultText: \(resultText)")
-                                    //  "레벨:" 제거
-                                    let levelText = resultText.replacingOccurrences(of: "레벨", with: "").trimmingCharacters(in: .whitespaces)
-
-                                    //  "~" 기준으로 분리
-                                    let parts = levelText.components(separatedBy: "~").map { $0.trimmingCharacters(in: .whitespaces) }
-
-                                    if let low = Int(parts.first ?? ""), let high = Int(parts.last ?? "") {
-                                        print("low:", low)   // 15
-                                        print("high:", high) // 186
-                                        reactor.action.onNext(.filterOptionSelected(startLevel: low, endLevel: high))
-                                    }
-                                default:
-                                    break
-                                }
-                            }
-                            print("최종 호출전 잡아이디: \(reactor.currentState.jobId)")
-//                            reactor.action.onNext(.itemFilterOptionSelected(keyword: reactor.currentState.keyword, jobId: reactor.currentState.jobId, startLevel: reactor.currentState.startLevel, endLevel: reactor.currentState.endLevel))
+                        let viewController = owner.itemFilterFactory.make() { results in
+                            reactor.action.onNext(.itemFilterOptionSelected(results))
+                            owner.mainView.selectFilter()
                         }
                         owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
-
+                            owner.mainView.selectFilter()
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
                         owner.tabBarController?.presentModal(viewController)

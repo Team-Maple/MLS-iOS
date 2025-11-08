@@ -27,7 +27,7 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
     }
     // MARK: - 몬스터 리스트
     public func fetchMonsterList(keyword: String?, minLevel: Int?, maxLevel: Int?, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse> {
-        let endPoint = DictionaryListEndPoint.fetchMonsterList(keyword: keyword, minLevel: minLevel ?? 1, maxLevel: maxLevel ?? 200, page: page, size: size, sort: sort ?? "ASC")
+        let endPoint = DictionaryListEndPoint.fetchMonsterList(keyword: keyword, minLevel: minLevel, maxLevel: maxLevel, page: page, size: size, sort: sort ?? "ASC")
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
@@ -44,7 +44,7 @@ public final class DictionaryListAPIRepositoryImpl: DictionaryListAPIRepository 
             .map { $0.toDomain() }
     }
     // MARK: - Item 리스트
-    public func fetchItemList(keyword: String?, jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse> {
+    public func fetchItemList(keyword: String?, jobId: [Int]?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse> {
         let endPoint = DictionaryListEndPoint.fetchItemList(keyword: keyword, jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, page: page, size: size, sort: sort)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }

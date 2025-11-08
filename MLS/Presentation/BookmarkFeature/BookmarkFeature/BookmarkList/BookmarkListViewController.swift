@@ -138,7 +138,7 @@ extension BookmarkListViewController {
                     let viewController = owner.sortedFactory.make(sortedOptions: type.bookmarkSortedFilter, selectedIndex: owner.selectedSortIndex) { index in
                         owner.selectedSortIndex = index
                         let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
-                        owner.mainView.selectFilter(selectedType: selectedFilter)
+                        owner.mainView.selectSort(selectedType: selectedFilter)
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):

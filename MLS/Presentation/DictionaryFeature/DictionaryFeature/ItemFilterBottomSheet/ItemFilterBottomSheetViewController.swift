@@ -420,10 +420,6 @@ extension ItemFilterBottomSheetViewController {
                         selectedItems.append(("기타아이템",state.etcItems[indexPath.row]))
                     }
                 }
-
-                for item in selectedItems {
-                    print("\(item.0): \(item.1)")
-                }
                 return Reactor.Action.applyButtonTapped(selectedItems)
             }
             .bind(to: reactor.action)

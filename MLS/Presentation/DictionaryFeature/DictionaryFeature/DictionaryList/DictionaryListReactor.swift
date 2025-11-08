@@ -19,13 +19,11 @@ open class DictionaryListReactor: Reactor {
         case filterButtonTapped
         case sortOptionSelected(SortType) // 정렬 옵션 선택 시 액션
         case filterOptionSelected(startLevel: Int, endLevel: Int) // 필터 옵션 선택 시 액션
-        case itemFilterOptionSelected(keyword: String?, jobId: Int?, startLevel: Int?, endLevel: Int?)
+        case itemFilterOptionSelected([(String, String)])
         case setCurrentPage
         case fetchList // data 불러오기
         case fetchListFilter // 필터링된 data 불러오기
         case undoLastDeletedBookmark
-        case setJobId(Int)
-       // case itemFilterOptionSelected([String]) // 아이템 필터 옵션 선택 시 액션
     }
 
     // MARK: - Mutation
@@ -36,12 +34,13 @@ open class DictionaryListReactor: Reactor {
         case showSortFilter
         case showFilter
         case setSort(String)
-        case setFilter(start: Int, end: Int)
+        case setFilter(start: Int?, end: Int?)
         case setCurrentPage
         case initPage
         case setLoginState(Bool)
         case setLastDeletedBookmark(DictionaryMainItemResponse?)
-        case setJobId(Int) // jobId 설정
+        case setJobId([Int]) // jobId 설정
+        case setCategoryId([Int])
     }
 
     // MARK: - State
@@ -52,13 +51,13 @@ open class DictionaryListReactor: Reactor {
 
         // 필터 조건
         public var keyword: String?
-        public var jobId: Int?
+        public var jobId: [Int]?
         public var minLevel: Int?
         public var maxLevel: Int?
         public var categoryIds: [Int]?
         public var sort: String?
-        public var startLevel: Int?
-        public var endLevel: Int?
+        public var startLevel: Int? = 0
+        public var endLevel: Int? = 200
 
         public var currentPage = 0
         public var totalCounts = 0
@@ -78,6 +77,7 @@ open class DictionaryListReactor: Reactor {
     private let dictionaryNpcListUseCase: FetchDictionaryNpcListUseCase
     private let dictionaryListUseCase: FetchDictionaryMonsterListUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
+    private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
 
     private let disposeBag = DisposeBag()
 
@@ -92,7 +92,8 @@ open class DictionaryListReactor: Reactor {
         dictionaryQuestListUseCase: FetchDictionaryQuestListUseCase,
         dictionaryNpcListUseCase: FetchDictionaryNpcListUseCase,
         dictionaryListUseCase: FetchDictionaryMonsterListUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase
+        setBookmarkUseCase: SetBookmarkUseCase,
+        parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     ) {
         self.initialState = State(route: .none, type: type, keyword: keyword, isLogin: false)
         self.checkLoginUseCase = checkLoginUseCase
@@ -103,6 +104,7 @@ open class DictionaryListReactor: Reactor {
         self.dictionaryNpcListUseCase = dictionaryNpcListUseCase
         self.dictionaryListUseCase = dictionaryListUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
+        self.parseItemFilterResultUseCase = parseItemFilterResultUseCase
     }
 
     // MARK: - Mutate
@@ -246,20 +248,27 @@ open class DictionaryListReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
-        case .itemFilterOptionSelected(let keyword, let jobId, let startLevel, let endLevel):
-            return .concat([Observable.just(.setJobId(jobId ?? 0)), Observable.just(.setFilter(start: startLevel ?? 1, end: endLevel ?? 200)), .just(.initPage)])
+        case .itemFilterOptionSelected(let results):
+            let criteria = parseItemFilterResultUseCase.execute(results: results)
+                return .concat([
+                    .just(.setJobId(criteria.jobIds)),
+                    .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
+                    .just(.setCategoryId(criteria.categoryIds)),
+                    .just(.initPage)
+                ])
                 .concat(Observable.deferred { [weak self] in
-                    guard let self = self else { return .empty()}
-                    return self.fetchListFilter(sort: self.currentState.sort, startLevel: currentState.startLevel ?? 1, endLevel: currentState.endLevel ?? 200)
+                    guard let self = self else { return .empty() }
+                    return self.fetchListFilter(
+                        sort: self.currentState.sort,
+                        startLevel: self.currentState.startLevel,
+                        endLevel: self.currentState.endLevel
+                    )
                 })
-        case .setJobId(let id):
-            return Observable.just(.setJobId(id))
-      
         }
     }
 
     // MARK: - Fetch List (필터 적용)
-    private func fetchListFilter(sort: String?, startLevel: Int = 1, endLevel: Int = 200) -> Observable<Mutation> {
+    private func fetchListFilter(sort: String?, startLevel: Int?, endLevel: Int?) -> Observable<Mutation> {
         switch currentState.type {
         case .monster:
             return dictionaryListUseCase
@@ -270,8 +279,8 @@ open class DictionaryListReactor: Reactor {
                 .execute(
                     keyword: currentState.keyword,
                     jobId: currentState.jobId,
-                    minLevel: currentState.minLevel,
-                    maxLevel: currentState.maxLevel,
+                    minLevel: currentState.startLevel,
+                    maxLevel: currentState.endLevel,
                     categoryIds: currentState.categoryIds,
                     page: currentState.currentPage,
                     size: 20,
@@ -354,8 +363,9 @@ open class DictionaryListReactor: Reactor {
         case .setLoginState(let isLogin):
             newState.isLogin = isLogin
         case .setJobId(let id):
-            print("새로운 잡아이디:\(id)")
             newState.jobId = id
+        case .setCategoryId(let id):
+            newState.categoryIds = id
         }
         return newState
     }

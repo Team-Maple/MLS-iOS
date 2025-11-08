@@ -5,8 +5,9 @@ public struct ItemFilterBottomSheetFactoryImpl: ItemFilterBottomSheetFactory {
     public init() {}
 
     public func make(onFilterSelected: @escaping ([(String, String)]) -> Void) -> BaseViewController {
+        let reactor = ItemFilterBottomSheetReactor()
         let viewController = ItemFilterBottomSheetViewController()
-        viewController.reactor = ItemFilterBottomSheetReactor()
+        viewController.reactor = reactor
         viewController.onFilterSelected = onFilterSelected
         return viewController
     }
