@@ -10,7 +10,7 @@ public protocol DictionaryListAPIRepository {
     // Quest
     func fetchQuestList(keyword: String, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse>
     // Item
-    func fetchItemList(keyword: String?, jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse>
+    func fetchItemList(keyword: String?, jobId: [Int]?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse>
     // Map
     func fetchMapList(keyword: String, page: Int, size: Int, sort: String?) -> Observable<DictionaryMainResponse>
     // 검색

@@ -28,11 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerDependencies()
         return true
     }
-
+    
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-
+    
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
@@ -43,7 +43,7 @@ private extension AppDelegate {
         registerUseCase()
         registerFactory()
     }
-
+    
     func registerProvider() {
         DIContainer.register(type: NetworkProvider.self) {
             NetworkProviderImpl()
@@ -55,7 +55,7 @@ private extension AppDelegate {
             AppleLoginProviderMock()
         }
     }
-
+    
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
@@ -77,7 +77,7 @@ private extension AppDelegate {
             UserDefaultsRepositoryImpl()
         }
     }
-
+    
     func registerUseCase() {
         DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "kakao") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")
@@ -231,8 +231,10 @@ private extension AppDelegate {
         DIContainer.register(type: RecentSearchFetchUseCase.self) {
             RecentSearchFetchUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
+        DIContainer.register(type: ParseItemFilterResultUseCase.self) {
+            ParseItemFilterResultUseCaseImpl()
+        }
     }
-
     func registerFactory() {
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
             ItemFilterBottomSheetFactoryImpl()
@@ -259,6 +261,7 @@ private extension AppDelegate {
                 dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
                 dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
                 setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self),
+                parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
                 sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
@@ -276,8 +279,8 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
             DictionarySearchFactoryImpl(recentSearchRemoveUseCase: DIContainer.resolve(type: RecentSearchRemoveUseCase.self),
-                recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
-                searchResultFactory: DIContainer
+                                        recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
+                                        searchResultFactory: DIContainer
                 .resolve(type: DictionarySearchResultFactory.self), recentSearchFetchUseCase: DIContainer.resolve(type: RecentSearchFetchUseCase.self)
             )
         }
