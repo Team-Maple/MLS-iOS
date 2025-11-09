@@ -199,9 +199,6 @@ private extension AppDelegate {
         DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
             UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
-        DIContainer.register(type: FetchNotificationUseCase.self) {
-            FetchNotificationUseCaseImpl()
-        }
         DIContainer.register(type: CheckLoginUseCase.self) {
             CheckLoginUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
@@ -337,6 +334,9 @@ private extension AppDelegate {
         DIContainer.register(type: SetReadUseCase.self) {
             SetReadUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
         }
+        DIContainer.register(type: FetchAllAlarmUseCase.self) {
+            FetchAllAlarmUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -393,7 +393,7 @@ private extension AppDelegate {
             NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
-            DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
+            DictionaryNotificationFactoryImpl(notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self), fetchAllAlarmUseCase: DIContainer.resolve(type: FetchAllAlarmUseCase.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self))
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             DictionaryMainViewFactoryImpl(

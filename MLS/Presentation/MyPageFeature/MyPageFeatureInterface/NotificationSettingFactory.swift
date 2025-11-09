@@ -1,5 +1,5 @@
 import BaseFeature
 
 public protocol NotificationSettingFactory {
-    func make() -> BaseViewController
+    func make(isAgreeEventNotification: Bool, isAgreeNoticeNotification: Bool, isAgreePatchNoteNotification: Bool) -> BaseViewController
 }

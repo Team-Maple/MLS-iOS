@@ -42,7 +42,7 @@ public enum AlarmEndPoint {
     public static func fetchAll(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/list/all",
+            path: "/api/v1/alrim/all",
             method: .GET,
             query: query
         )

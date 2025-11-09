@@ -30,9 +30,9 @@ public final class NotificationSettingReactor: Reactor {
     public struct State {
         @Pulse var route = Route.none
         var authorized = false
-        var isAgreeEventNotification = false
-        var isAgreeNoticeNotification = false
-        var isAgreePatchNoteNotification = false
+        var isAgreeEventNotification: Bool
+        var isAgreeNoticeNotification: Bool
+        var isAgreePatchNoteNotification: Bool
     }
 
     public var initialState: State
@@ -41,8 +41,13 @@ public final class NotificationSettingReactor: Reactor {
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
 
-    init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase) {
-        self.initialState = .init()
+    init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
+         isAgreeEventNotification: Bool,
+         isAgreeNoticeNotification: Bool,
+         isAgreePatchNoteNotification: Bool
+         
+    ) {
+        self.initialState = .init(isAgreeEventNotification: isAgreeEventNotification, isAgreeNoticeNotification: isAgreeNoticeNotification, isAgreePatchNoteNotification: isAgreePatchNoteNotification)
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
     }

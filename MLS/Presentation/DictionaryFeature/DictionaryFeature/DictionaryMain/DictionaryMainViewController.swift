@@ -136,6 +136,7 @@ public extension DictionaryMainViewController {
             .take(1)
             .flatMapLatest { _ in return reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { (owner, route) in
                 switch route {
                 case .search:

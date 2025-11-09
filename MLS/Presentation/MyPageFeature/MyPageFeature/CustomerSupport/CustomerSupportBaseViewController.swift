@@ -44,7 +44,7 @@ class CustomerSupportBaseViewController: BaseViewController {
 
     func createDetailItem(items: [AlarmResponse]) {
         for (index, item) in items.enumerated() {
-            let view = mainView.createDetailItem(titleText: item.title, dateText: changeKoreanDate(date: item.date))
+            let view = mainView.createDetailItem(titleText: item.title, dateText: item.date.changeKoreanDate())
             view.tag = index
             urlStrings.append(item.link)
 
@@ -74,10 +74,6 @@ class CustomerSupportBaseViewController: BaseViewController {
                 })
                 .disposed(by: disposeBag)
         }
-    }
-
-    func changeKoreanDate(date: [Int]) -> String? {
-        return "\(date[0])년 \(date[1])월 \(date[2])일 \(date[3]):\(String(format: "%02d", date[4]))"
     }
 }
 

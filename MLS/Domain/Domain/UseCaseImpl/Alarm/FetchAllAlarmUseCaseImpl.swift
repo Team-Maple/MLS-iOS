@@ -4,7 +4,7 @@ import DomainInterface
 
 import RxSwift
 
-public class FetchAllUseCaseImpl: FetchAllUseCase {
+public class FetchAllAlarmUseCaseImpl: FetchAllAlarmUseCase {
     private var repository: AlarmAPIRepository
 
     public init(repository: AlarmAPIRepository) {
