@@ -37,6 +37,7 @@
 		7746ABB12E84245D0046F603 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 7746ABB02E84245D0046F603 /* RxGesture */; };
 		7746ABB32E8425E00046F603 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7746ABB22E8425E00046F603 /* DesignSystem.framework */; };
 		7746ABB72E8427F80046F603 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 7746ABB62E8427F80046F603 /* RxKeyboard */; };
+		775966F32EC30B3A00CC389B /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 775966F22EC30B3A00CC389B /* AuthFeatureInterface.framework */; };
 		776FEA342EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */; };
 		776FEA352EA4D29B0039ACE2 /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		777C28142E7D87B8000765F2 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 777C28132E7D87B8000765F2 /* RxKeyboard */; };
@@ -108,6 +109,7 @@
 		7746ABA92E84225A0046F603 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7746ABAC2E84227A0046F603 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7746ABB22E8425E00046F603 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		775966F22EC30B3A00CC389B /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B82E78596900522216 /* Domain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Domain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BE55B92E78596900522216 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +161,7 @@
 				7746ABB32E8425E00046F603 /* DesignSystem.framework in Frameworks */,
 				773A3C092E71712300F75B30 /* MyPageFeatureInterface.framework in Frameworks */,
 				777C28142E7D87B8000765F2 /* RxKeyboard in Frameworks */,
+				775966F32EC30B3A00CC389B /* AuthFeatureInterface.framework in Frameworks */,
 				773A3BEB2E716FD800F75B30 /* SnapKit in Frameworks */,
 				773A3F712E71736A00F75B30 /* BaseFeature.framework in Frameworks */,
 			);
@@ -223,6 +226,7 @@
 		773A3BF62E71701D00F75B30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				775966F22EC30B3A00CC389B /* AuthFeatureInterface.framework */,
 				776FEA332EA4D29B0039ACE2 /* AuthFeatureInterface.framework */,
 				7746ABB22E8425E00046F603 /* DesignSystem.framework */,
 				7746ABAC2E84227A0046F603 /* DomainInterface.framework */,

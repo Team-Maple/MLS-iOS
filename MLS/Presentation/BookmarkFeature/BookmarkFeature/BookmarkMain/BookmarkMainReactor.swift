@@ -8,6 +8,7 @@ public final class BookmarkMainReactor: Reactor {
         case search
         case onBoarding
         case notification
+        case edit
     }
 
     public enum Action {

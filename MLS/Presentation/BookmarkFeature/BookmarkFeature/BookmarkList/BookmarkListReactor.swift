@@ -12,6 +12,7 @@ public final class BookmarkListReactor: Reactor {
         case detail(DictionaryType, Int)
         case dictionary
         case login
+        case edit
     }
 
     enum ViewState: Equatable {
@@ -26,6 +27,7 @@ public final class BookmarkListReactor: Reactor {
         case toggleBookmark(Int, Bool)
         case sortButtonTapped
         case filterButtonTapped
+        case editButtonTapped
         case fetchList
         case sortOptionSelected(SortType)
         case filterOptionSelected(startLevel: Int, endLevel: Int)
@@ -180,6 +182,8 @@ public final class BookmarkListReactor: Reactor {
             } else {
                 return .just(.toNavagate(.dictionary))
             }
+        case .editButtonTapped:
+            return .just(.toNavagate(.edit))
         }
     }
 

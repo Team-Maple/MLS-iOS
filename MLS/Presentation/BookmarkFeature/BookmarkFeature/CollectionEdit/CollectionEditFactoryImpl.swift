@@ -15,6 +15,7 @@ public final class CollectionEditFactoryImpl: CollectionEditFactory {
         let reactor = CollectionEditReactor()
         let viewController = CollectionEditViewController(bookmarkModalFactory: bookmarkModalFactory)
         viewController.reactor = reactor
+        viewController.isBottomTabbarHidden = true
         return viewController
     }
 }

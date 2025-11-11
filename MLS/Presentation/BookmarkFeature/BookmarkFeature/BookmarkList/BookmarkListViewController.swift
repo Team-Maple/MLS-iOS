@@ -21,6 +21,7 @@ public final class BookmarkListViewController: BaseViewController, View {
     private let sortedFactory: SortedBottomSheetFactory
     private let loginFactory: LoginFactory
     private let dictionaryDetailFactory: DictionaryDetailFactory
+    private let collectionEditFactory: CollectionEditFactory
 
     private var selectedSortIndex = 0
 
@@ -35,7 +36,8 @@ public final class BookmarkListViewController: BaseViewController, View {
         sortedFactory: SortedBottomSheetFactory,
         bookmarkModalFactory: BookmarkModalFactory,
         loginFactory: LoginFactory,
-        dictionaryDetailFactory: DictionaryDetailFactory
+        dictionaryDetailFactory: DictionaryDetailFactory,
+        collectionEditFactory: CollectionEditFactory
     ) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
@@ -43,6 +45,7 @@ public final class BookmarkListViewController: BaseViewController, View {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.dictionaryDetailFactory = dictionaryDetailFactory
+        self.collectionEditFactory = collectionEditFactory
         self.mainView = BookmarkListView(isFilterHidden: reactor.currentState.type.isBookmarkSortHidden, bookmarkEmptyView: emptyView)
         super.init()
         self.reactor = reactor
@@ -115,6 +118,11 @@ extension BookmarkListViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
+        mainView.editButton?.rx.tap
+            .map { Reactor.Action.editButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         emptyView.button.rx.tap
             .map { .emptyButtonTapped }
             .bind(to: reactor.action)
@@ -172,6 +180,9 @@ extension BookmarkListViewController {
                     if let tabBarController = owner.tabBarController as? BottomTabBarController {
                         tabBarController.selectTab(index: 0)
                     }
+                case .edit:
+                    let viewController = owner.collectionEditFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
