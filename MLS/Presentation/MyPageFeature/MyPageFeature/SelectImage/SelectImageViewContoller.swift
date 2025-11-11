@@ -73,6 +73,11 @@ extension SelectImageViewContoller {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.applyButton.rx.tap
+            .map { Reactor.Action.applyButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -80,6 +85,7 @@ extension SelectImageViewContoller {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
@@ -105,5 +111,10 @@ extension SelectImageViewContoller: UICollectionViewDelegate, UICollectionViewDa
               let reactor = reactor else { return UICollectionViewCell() }
         cell.inject(input: SelectImageCell.Input(type: reactor.currentState.images[indexPath.row]))
         return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let reactor = reactor else { return }
+        reactor.action.onNext(.imageTapped(indexPath.row))
     }
 }

@@ -98,7 +98,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         return .empty()
     }
 
-    public func updateNickName(nickName: String) -> RxSwift.Completable {
+    public func updateNickName(nickName: String) -> Observable<MyPageResponse> {
         return .empty()
     }
 }

@@ -1,5 +1,5 @@
-public struct MyPageResponse {
-    public let nickname: String
+public struct MyPageResponse: Equatable {
+    public var nickname: String
     public let jobId: Int?
     public var jobName: String
     public let level: Int?

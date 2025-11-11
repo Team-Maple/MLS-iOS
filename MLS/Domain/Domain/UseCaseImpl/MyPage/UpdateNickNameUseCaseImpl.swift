@@ -9,7 +9,7 @@ public class UpdateNickNameUseCaseImpl: UpdateNickNameUseCase {
         self.repository = repository
     }
 
-    public func execute(nickName: String) -> Completable {
+    public func execute(nickName: String) -> Observable<MyPageResponse> {
         return repository.updateNickName(nickName: nickName)
     }
 }
