@@ -19,9 +19,9 @@ public final class ParseItemFilterResultUseCaseImpl: ParseItemFilterResultUseCas
         "귀장식주문서": 78, "펫장비주문서": 75, "연성서주문서": 76, "귀환주문서": 77,
         "마스터리북": 42, "스킬북": 43, "소비": 44, "설치": 45, "이동수단": 46
     ]
-    
+
     public init() {}
-    
+
     public func execute(results: [(String, String)]) -> ItemFilterCriteria {
         let initialCriteria = (jobIds: [Int](), startLevel: Int?(nil), endLevel: Int?(nil), categoryIds: [Int]())
 

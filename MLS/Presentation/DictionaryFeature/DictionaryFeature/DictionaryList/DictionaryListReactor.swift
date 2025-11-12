@@ -113,7 +113,7 @@ open class DictionaryListReactor: Reactor {
         case .viewDidLoad:
             // 로그인 체크 + 초기 데이터 fetch
             return checkLoginUseCase.execute()
-                .flatMap { [weak self] isLoggedIn -> Observable<Mutation> in
+                .flatMap { [weak self] _ -> Observable<Mutation> in
                     guard let self = self else { return .empty() }
 
 //                    if !isLoggedIn {

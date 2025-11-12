@@ -45,7 +45,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         @Pulse var armorScrolls: [String] = []
         @Pulse var etcScrolls: [String] = []
         var etcItems: [String] = ["마스터리북", "스킬북", "소비", "설치", "이동수단"]
-        var selectedScrollIndexes: Int? = nil
+        var selectedScrollIndexes: Int?
         var selectedItemIndexes: [IndexPath] = []
         var levelRange: (low: Int, high: Int) = (0, 200)
         @Pulse var route: Route = .none

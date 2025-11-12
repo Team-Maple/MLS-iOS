@@ -30,14 +30,14 @@ public final class DictionarySearchResultReactor: Reactor {
         }
 
         var keyword: String?
-        
+
         var counts: [Int] = [0, 0, 0, 0, 0, 0]
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
+
     // MARK: - UseCases
     private let dictionarySearchUseCase: FetchDictionarySearchListUseCase
     private let dictionarySearchCountUseCase: FetchDictionaryListCountUseCase
@@ -67,14 +67,14 @@ public final class DictionarySearchResultReactor: Reactor {
             // 검색 결과 화면에서 재검색 시
         case .searchButtonTapped(let keyword):
             let keyword = keyword ?? ""
-            
+
             return Observable.just(.setKeyword(keyword))
         }
     }
-    
+
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-        
+
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
@@ -83,10 +83,10 @@ public final class DictionarySearchResultReactor: Reactor {
         case .setCounts(let counts):
             newState.counts = counts
          }
-        
+
         return newState
     }
-    
+
     public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let keywordChanges = mutation
             .compactMap { mutation -> String? in

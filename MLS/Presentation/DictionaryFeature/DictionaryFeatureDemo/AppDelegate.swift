@@ -28,11 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerDependencies()
         return true
     }
-    
+
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-    
+
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
@@ -43,7 +43,7 @@ private extension AppDelegate {
         registerUseCase()
         registerFactory()
     }
-    
+
     func registerProvider() {
         DIContainer.register(type: NetworkProvider.self) {
             NetworkProviderImpl()
@@ -55,7 +55,7 @@ private extension AppDelegate {
             AppleLoginProviderMock()
         }
     }
-    
+
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryMock(provider: DIContainer.resolve(type: NetworkProvider.self))
@@ -72,12 +72,12 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkRepository.self) {
             BookmarkRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
-        
+
         DIContainer.register(type: UserDefaultsRepository.self) {
             UserDefaultsRepositoryImpl()
         }
     }
-    
+
     func registerUseCase() {
         DIContainer.register(type: FetchSocialCredentialUseCase.self, name: "kakao") {
             let provider = DIContainer.resolve(type: SocialAuthenticatableProvider.self, name: "kakao")

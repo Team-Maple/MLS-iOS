@@ -13,10 +13,8 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-    
+
 }
-
-
 
 // MARK: - Populate Data
 private extension ItemDictionaryDetailViewController {
