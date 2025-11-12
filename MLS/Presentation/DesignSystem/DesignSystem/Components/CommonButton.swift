@@ -83,7 +83,7 @@ public final class CommonButton: UIButton {
         super.init(frame: .zero)
         configureUI()
     }
-    
+
     public init() {
         self.style = .normal
         self.title = nil
