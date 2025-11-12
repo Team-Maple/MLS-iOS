@@ -83,6 +83,13 @@ public final class CommonButton: UIButton {
         super.init(frame: .zero)
         configureUI()
     }
+    
+    public init() {
+        self.style = .normal
+        self.title = nil
+        self.disabledTitle = nil
+        super.init(frame: .zero)
+    }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {

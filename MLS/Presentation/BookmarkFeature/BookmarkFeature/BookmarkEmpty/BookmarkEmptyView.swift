@@ -18,7 +18,7 @@ final class BookmarkEmptyView: UIView {
     private let mainLabel = UILabel()
     private let subLabel = UILabel()
 
-    public let button = CommonButton(style: .normal, title: "ㅌ 가기", disabledTitle: nil)
+    public let button = CommonButton()
 
     // MARK: - Init
     init() {
