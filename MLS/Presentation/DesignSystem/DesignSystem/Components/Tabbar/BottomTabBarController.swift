@@ -95,7 +95,7 @@ public extension BottomTabBarController {
             divider.alpha = hidden ? 0 : 1
         }
     }
-    
+
     func selectTab(index: Int, animated: Bool = false) {
         UIView.performWithoutAnimation {
             selectedIndex = index

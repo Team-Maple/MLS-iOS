@@ -50,8 +50,7 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
     public func fetchPlatform() -> Observable<LoginPlatform?> {
         return Observable.create { observer in
             if let rawValue = UserDefaults.standard.string(forKey: self.platformKey),
-               let platform = LoginPlatform(rawValue: rawValue)
-            {
+               let platform = LoginPlatform(rawValue: rawValue) {
                 observer.onNext(platform)
             } else {
                 observer.onNext(nil)

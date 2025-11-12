@@ -14,7 +14,7 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let initialIndex: Int
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
 
@@ -23,7 +23,7 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     private var mainView: DictionaryMainView
     private let underLineController = TabBarUnderlineController()
     private let dictionaryListFactory: DictionaryMainListFactory
-    
+
     private var didSetInitialIndex = false
 
     public init(
@@ -44,11 +44,8 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-   
 
 }
-
 
 // MARK: - Life Cycle
 public extension DictionarySearchResultViewController {
@@ -64,8 +61,7 @@ public extension DictionarySearchResultViewController {
         didSetInitialIndex = true
         setInitialIndex()
     }
-    
-    
+
     private func updateViewControllers(keyword: String) {
         guard let reactor = reactor else { return }
         let type = reactor.currentState.type
@@ -104,7 +100,6 @@ public extension DictionarySearchResultViewController {
         }
     }
 
-    
 }
 
 // MARK: - SetUp
@@ -155,11 +150,11 @@ private extension DictionarySearchResultViewController {
         )
 
         mainView.tabCollectionView.selectItem(at: indexPath, animated: false, scrollPosition: .centeredHorizontally)
-        
+
         // 전체 레이아웃 강제 갱신
         mainView.tabCollectionView.collectionViewLayout.invalidateLayout()
         mainView.tabCollectionView.layoutIfNeeded()
-        
+
         DispatchQueue.main.async { [weak self] in
             self?.underLineController.setInitialIndicator()
         }
@@ -178,7 +173,7 @@ public extension DictionarySearchResultViewController {
             .map { Reactor.Action.backbuttonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.searchBar.searchButton.rx.tap
             .withLatestFrom(mainView.searchBar.textField.rx.text.orEmpty)
             .map { text in Reactor.Action.searchButtonTapped(text) }
@@ -210,12 +205,12 @@ public extension DictionarySearchResultViewController {
                 owner.updateViewControllers(keyword: newKeyword)
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .map {_ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .map(\.counts)
             .distinctUntilChanged()
@@ -289,4 +284,3 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
         underLineController.animateIndicatorToSelectedItem()
     }
 }
-

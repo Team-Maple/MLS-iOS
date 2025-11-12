@@ -45,7 +45,7 @@ public final class NotificationSettingReactor: Reactor {
          isAgreeEventNotification: Bool,
          isAgreeNoticeNotification: Bool,
          isAgreePatchNoteNotification: Bool
-         
+
     ) {
         self.initialState = .init(isAgreeEventNotification: isAgreeEventNotification, isAgreeNoticeNotification: isAgreeNoticeNotification, isAgreePatchNoteNotification: isAgreePatchNoteNotification)
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase

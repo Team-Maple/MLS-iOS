@@ -13,7 +13,7 @@ public final class LoginViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     public let routeToHome = PublishRelay<Void>()
 
     private let mainView: LoginView

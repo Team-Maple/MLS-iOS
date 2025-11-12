@@ -14,7 +14,7 @@ public final class DictionarySearchViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var searchResultFactory: DictionarySearchResultFactory
 
     private let chipTapRelay = PublishRelay<String>()
@@ -177,13 +177,13 @@ extension DictionarySearchViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .take(1)
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-            
+
     }
 }
 
@@ -285,7 +285,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
                 for: indexPath
             ) as! PopularSearchHeaderView
             // TODO: 인기검색어 추후에
-            //view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
+            // view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
             return view
 
         default:

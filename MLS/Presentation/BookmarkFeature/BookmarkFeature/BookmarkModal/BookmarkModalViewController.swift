@@ -16,7 +16,7 @@ public final class BookmarkModalViewController: BaseViewController, View {
 
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
     public var onDismissWithCollections: (([BookmarkCollection?]) -> Void)?
-    
+
     private let addCollectionFactory: AddCollectionFactory
 
     // MARK: - Components

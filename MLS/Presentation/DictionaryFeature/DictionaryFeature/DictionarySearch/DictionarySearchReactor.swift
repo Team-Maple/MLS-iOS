@@ -1,5 +1,5 @@
-import Foundation
 import DomainInterface
+import Foundation
 import ReactorKit
 
 struct PopularItem {
@@ -39,7 +39,7 @@ public final class DictionarySearchReactor: Reactor {
 
         let popularResult: [PopularItem]
     }
-    
+
     public let recentSearchAddUseCase: RecentSearchAddUseCase
     public let recentSearchRemoveUseCase: RecentSearchRemoveUseCase
     public let recentSearchFetchUseCase: RecentSearchFetchUseCase
@@ -47,8 +47,6 @@ public final class DictionarySearchReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    
-    
 
     // MARK: - init
     public init(recentSearchAddUseCase: RecentSearchAddUseCase, recentSearchRemoveUseCase: RecentSearchRemoveUseCase, recentSearchFetchUseCase: RecentSearchFetchUseCase) {
@@ -76,11 +74,11 @@ public final class DictionarySearchReactor: Reactor {
         }
 
         let newItems = grid.flatMap { $0.compactMap { $0 } }
-        
+
         self.recentSearchAddUseCase = recentSearchAddUseCase
         self.recentSearchRemoveUseCase = recentSearchRemoveUseCase
         self.recentSearchFetchUseCase = recentSearchFetchUseCase
-        
+
         let savedRecentResult: [String] = []
 
         self.initialState = State(
@@ -89,7 +87,7 @@ public final class DictionarySearchReactor: Reactor {
             popularResult: newItems
         )
     }
-    
+
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {

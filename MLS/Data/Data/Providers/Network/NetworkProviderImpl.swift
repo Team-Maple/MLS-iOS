@@ -22,7 +22,7 @@ public final class NetworkProviderImpl: NetworkProvider {
             print("🚀 requestData: 요청 시작 - \(endPoint)")
 
             self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
-                
+
                 switch result {
                 case .success(let data):
                     print("✅ requestData: 응답 수신")

@@ -1,5 +1,5 @@
-import ReactorKit
 import DomainInterface
+import ReactorKit
 import RxSwift
 
 public final class DictionaryNotificationReactor: Reactor {
@@ -29,7 +29,7 @@ public final class DictionaryNotificationReactor: Reactor {
     public struct State {
         @Pulse var route: Route = .none
         var notifications: [AllAlarmResponse] = []
-        var profile: MyPageResponse? = nil
+        var profile: MyPageResponse?
         var hasMore: Bool = false
         var isLoading: Bool = false
     }
@@ -62,7 +62,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
             let cursor = currentState.notifications.last?.date
-            
+
             return .concat([
                 .just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: cursor, pageSize: 20)

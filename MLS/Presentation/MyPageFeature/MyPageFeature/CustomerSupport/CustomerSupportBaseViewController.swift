@@ -13,12 +13,12 @@ import RxSwift
 class CustomerSupportBaseViewController: BaseViewController {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     /// 현재 보여지고 있는 뷰의 인덱스
     public var currentTabIndex: Int?
     public var urlStrings: [String] = []
     var onItemTapped: ((Int) -> Void)?
-    
+
     // MARK: - Components
     public var mainView = CustomerSupportBaseView()
     public var type: CustomerSupportType

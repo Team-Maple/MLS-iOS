@@ -7,4 +7,3 @@ public struct DictionaryAllDTO: DictionaryDTOProtocol {
     public let bookmarkId: Int?
     public var id: Int { originalId }
 }
-

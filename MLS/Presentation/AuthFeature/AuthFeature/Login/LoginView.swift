@@ -111,7 +111,7 @@ private extension LoginView {
     func addViews() {
         addSubview(loginImageView)
         addSubview(buttonStackView)
-        
+
         buttonStackView.addArrangedSubview(kakaoLoginButton)
         buttonStackView.addArrangedSubview(appleLoginButton)
 
@@ -194,7 +194,7 @@ extension LoginView {
             guestLoginButton.snp.remakeConstraints { make in
                 make.height.equalTo(Constant.buttonHeight)
             }
-            
+
         }
 
         setNeedsLayout()

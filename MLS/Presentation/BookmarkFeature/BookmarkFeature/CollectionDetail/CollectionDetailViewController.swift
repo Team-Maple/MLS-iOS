@@ -173,7 +173,7 @@ extension CollectionDetailViewController {
                         owner.reactor?.action.onNext(.selectSetting(menu))
                     })
                     owner.presentModal(viewController)
-                case .detail(let type,let id):
+                case .detail(let type, let id):
                     let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
@@ -254,7 +254,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
 
         return cell
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         reactor?.action.onNext(.dataTapped(indexPath.row))
     }

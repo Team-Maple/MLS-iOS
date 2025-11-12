@@ -13,7 +13,7 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
     public var modalHeight: CGFloat?
 
     public typealias Reactor = OnBoardingNotificationSheetReactor
-    
+
     public var disposeBag = DisposeBag()
 
     // MARK: - Properties

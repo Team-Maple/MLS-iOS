@@ -11,9 +11,9 @@ import SnapKit
 public class OnBoardingQuestionViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingQuestionReactor
-    
+
     public var disposeBag = DisposeBag()
-    
+
     private let onBoardingInputFactory: OnBoardingInputFactory
 
     // MARK: - Components

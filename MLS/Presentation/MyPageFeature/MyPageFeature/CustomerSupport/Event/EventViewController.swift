@@ -5,7 +5,6 @@ import UIKit
 final class EventViewController: CustomerSupportBaseViewController, View {
     typealias Reactor = EventReactor
 
-
     // MARK: - Init
     override init(type: CustomerSupportType) {
         super.init(type: type)

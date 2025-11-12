@@ -18,7 +18,7 @@ public final class MyPageMainViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let setProfileFactory: SetProfileFactory
     private let customerSupportFactory: CustomerSupportFactory
     private let notificationSettingFactory: NotificationSettingFactory

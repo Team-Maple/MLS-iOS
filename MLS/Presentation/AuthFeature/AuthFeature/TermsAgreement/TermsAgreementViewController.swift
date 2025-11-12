@@ -13,7 +13,7 @@ public class TermsAgreementViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
 
     private var mainView = TermsAgreementView()

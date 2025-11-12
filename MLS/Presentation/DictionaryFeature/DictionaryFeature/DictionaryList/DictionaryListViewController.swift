@@ -163,8 +163,7 @@ extension DictionaryListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make {
-                            result in
+                        let viewController = owner.itemFilterFactory.make { _ in
 
                         }
                         owner.present(viewController, animated: true)

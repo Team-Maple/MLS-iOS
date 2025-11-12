@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     }()
 
     lazy var views: [[UIViewController]] = {
-        let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make() { _ in }
+        let itemFilterBottomSheetVC = DIContainer.resolve(type: ItemFilterBottomSheetFactory.self).make { _ in }
         itemFilterBottomSheetVC.title = "아이템 필터 바텀시트"
 
         let monsterBottomSheetVC = DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self).make(startLevel: 0, endLevel: 200) { _, _ in }
