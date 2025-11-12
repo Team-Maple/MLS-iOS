@@ -12,7 +12,7 @@ public final class CollectionEditViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let bookmarkModalFactory: BookmarkModalFactory
 
     // MARK: - Components

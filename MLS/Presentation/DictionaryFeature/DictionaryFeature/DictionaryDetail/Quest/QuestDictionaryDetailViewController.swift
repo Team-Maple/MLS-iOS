@@ -149,7 +149,7 @@ extension QuestDictionaryDetailViewController {
                 owner.setUpQuestView()
             })
             .disposed(by: disposeBag)
-        
+
         bindBookmarkButton(
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.detailInfo },

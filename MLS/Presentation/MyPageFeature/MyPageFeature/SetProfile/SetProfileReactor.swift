@@ -45,7 +45,7 @@ public final class SetProfileReactor: Reactor {
         var setProfileState: SetProfileView.SetProfileState
         var isShowError = false
         var isEditingNickName = false
-        var profile: MyPageResponse? = nil
+        var profile: MyPageResponse?
     }
 
     // MARK: - Properties

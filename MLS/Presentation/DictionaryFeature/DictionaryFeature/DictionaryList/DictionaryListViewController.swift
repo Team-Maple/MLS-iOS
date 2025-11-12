@@ -49,7 +49,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         addViews()
         setupConstraints()
         configureUI()
-        
+
     }
 }
 
@@ -103,13 +103,13 @@ extension DictionaryListViewController {
     }
 
     func bindViewState(reactor: Reactor) {
-        
+
         reactor.state
             .map { $0.totalCounts }
             .distinctUntilChanged()
             .bind(to: itemCountRelay)
             .disposed(by: disposeBag)
-        
+
         reactor.state.map(\.listItems)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -144,8 +144,8 @@ extension DictionaryListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make() { result in
-                            
+                        let viewController = owner.itemFilterFactory.make { _ in
+
                         }
                         owner.present(viewController, animated: true)
                     case .monster:
@@ -274,10 +274,10 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         let item: DictionaryMainItemResponse
-        
+
         item = reactor.currentState.listItems[indexPath.item]
         let viewController: UIViewController
-   
+
         switch reactor.currentState.type {
         case .total:
             // 전체 타입일 때는 item.type에 따라 분기
@@ -299,10 +299,10 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(type: reactor.currentState.type, id: item.id)
         }
-        
+
         navigationController?.pushViewController(viewController, animated: true)
     }
-    
+
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height

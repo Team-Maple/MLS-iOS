@@ -36,7 +36,7 @@ public enum DictionaryItemType: String {
             "퀘스트 상세 정보"
         }
     }
-    
+
     public var toDictionaryType: DictionaryType? {
         switch self {
         case .item:

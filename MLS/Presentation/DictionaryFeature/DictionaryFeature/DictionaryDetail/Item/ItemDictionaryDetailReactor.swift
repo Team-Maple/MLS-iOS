@@ -28,7 +28,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case setLastDeletedBookmark(DictionaryDetailItemResponse?)
         case setLoginState(Bool)
     }
-    
+
     // MARK: State
     public struct State {
         @Pulse var route: Route = .none

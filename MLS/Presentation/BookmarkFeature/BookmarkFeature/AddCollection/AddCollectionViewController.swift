@@ -14,7 +14,7 @@ public final class AddCollectionViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
 
     // MARK: - Components

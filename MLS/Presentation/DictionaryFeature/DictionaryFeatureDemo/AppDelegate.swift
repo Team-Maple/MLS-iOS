@@ -73,7 +73,7 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkRepository.self) {
             BookmarkRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
-        
+
         DIContainer.register(type: UserDefaultsRepository.self) {
             UserDefaultsRepositoryImpl()
         }

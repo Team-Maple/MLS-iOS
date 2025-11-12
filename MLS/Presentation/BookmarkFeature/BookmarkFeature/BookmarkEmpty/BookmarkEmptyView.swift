@@ -66,7 +66,7 @@ private extension BookmarkEmptyView {
             make.width.equalTo(Constant.buttonWidth)
         }
     }
-    
+
     func configureUI() {
         backgroundColor = .neutral100
     }

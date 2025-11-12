@@ -27,7 +27,7 @@ public final class LoginReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route = .none
-        var platform: LoginPlatform? = nil
+        var platform: LoginPlatform?
     }
 
     // MARK: - properties
@@ -66,7 +66,7 @@ public final class LoginReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return fetchPlatformUseCase.execute()
-                .map{ Mutation.setRelogin($0) }
+                .map { Mutation.setRelogin($0) }
         case .kakaoLoginButtonTapped:
             return handleKakaoLogin()
         case .appleLoginButtonTapped:

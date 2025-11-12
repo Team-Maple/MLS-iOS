@@ -7,7 +7,7 @@ public final class DictionarySearchFactoryImpl: DictionarySearchFactory {
     private let recentSearchAddUseCase: RecentSearchAddUseCase
     private let recentSearchFetchUseCase: RecentSearchFetchUseCase
     private let searchResultFactory: DictionarySearchResultFactory
-    
+
     public init(recentSearchRemoveUseCase: RecentSearchRemoveUseCase, recentSearchAddUseCase: RecentSearchAddUseCase, searchResultFactory: DictionarySearchResultFactory, recentSearchFetchUseCase: RecentSearchFetchUseCase) {
         self.recentSearchRemoveUseCase = recentSearchRemoveUseCase
         self.recentSearchAddUseCase = recentSearchAddUseCase

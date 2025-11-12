@@ -117,12 +117,12 @@ extension BookmarkListViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.editButton?.rx.tap
             .map { Reactor.Action.editButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         emptyView.button.rx.tap
             .map { .emptyButtonTapped }
             .bind(to: reactor.action)
@@ -135,7 +135,7 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, items in
+            .bind(onNext: { owner, _ in
                 owner.mainView.listCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -158,8 +158,8 @@ extension BookmarkListViewController {
                     switch type {
                     case .item:
                         break
-                        //let viewController = owner.itemFilterFactory.make()
-                        //owner.present(viewController, animated: true)
+                        // let viewController = owner.itemFilterFactory.make()
+                        // owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
 

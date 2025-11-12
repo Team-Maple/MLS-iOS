@@ -11,8 +11,8 @@ public enum DictionaryListEndPoint {
         return .init(baseURL: base, path: "/api/v1/\(type)/counts", method: .GET, query: query)
     }
     // 전체 리스트
-    public static func fetchAllList(keyword: String?, page: Int? = nil, size: Int? = nil) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryAllDTO>>{
-        let query = DictionaryListQuery(keyword: keyword ?? "",page: page ?? 0, size: size ?? 20, sort: nil)
+    public static func fetchAllList(keyword: String?, page: Int? = nil, size: Int? = nil) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryAllDTO>> {
+        let query = DictionaryListQuery(keyword: keyword ?? "", page: page ?? 0, size: size ?? 20, sort: nil)
         return .init(baseURL: base, path: "/api/v1/search", method: .GET, query: query)
     }
     // 몬스터 리스트

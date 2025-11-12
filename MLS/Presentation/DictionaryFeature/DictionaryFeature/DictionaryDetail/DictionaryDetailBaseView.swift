@@ -439,7 +439,7 @@ extension DictionaryDetailBaseView {
         tabBarStackView.addArrangedSubview(spacerView)
         tabBarStickyStackView.addArrangedSubview(stickySpacerView)
     }
-    
+
     func setBookmark(isBookmarked: Bool) {
         bookmarkButton.setImage(DesignSystemAsset.image(named: isBookmarked ? "bookmark" : "bookmarkGrayBorder"), for: .normal)
     }

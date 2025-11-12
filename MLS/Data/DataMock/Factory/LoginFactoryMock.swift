@@ -11,9 +11,9 @@ public final class LoginFactoryMock: LoginFactory {
         viewController.view.backgroundColor = .blue
         return viewController
     }
-    
+
     public func make(exitRoute: LoginExitRoute, onLoginCompleted: (() -> Void)?) -> BaseViewController {
         return BaseViewController()
     }
-    
+
 }

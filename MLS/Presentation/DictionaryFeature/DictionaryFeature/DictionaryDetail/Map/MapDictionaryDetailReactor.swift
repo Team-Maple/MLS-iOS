@@ -31,7 +31,6 @@ public final class MapDictionaryDetailReactor: Reactor {
     private let checkLoginUseCase: CheckLoginUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
 
-
     public struct State {
         @Pulse var route: Route = .none
         var mapDetailInfo: DictionaryDetailMapResponse

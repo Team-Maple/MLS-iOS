@@ -85,7 +85,7 @@ public extension DictionaryNotificationViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.header.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
@@ -116,7 +116,7 @@ public extension DictionaryNotificationViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.state.map { $0.notifications }
             .distinctUntilChanged()
             .withUnretained(self)

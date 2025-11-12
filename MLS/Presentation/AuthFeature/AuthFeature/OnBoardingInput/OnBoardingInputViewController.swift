@@ -15,7 +15,7 @@ public class OnBoardingInputViewController: BaseViewController, View {
     public typealias Reactor = OnBoardingInputReactor
 
     public var disposeBag = DisposeBag()
-    
+
     private let onBoardingNotificationFactory: OnBoardingNotificationFactory
 
     // MARK: - Components

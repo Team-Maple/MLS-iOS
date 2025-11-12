@@ -15,7 +15,7 @@ public final class SelectImageViewContoller: BaseViewController, ModalPresentabl
     public var modalHeight: CGFloat? = 16 + 32 + UIScreen.main.bounds.size.width + 4 + 24 + 54 + 4
 
     public typealias Reactor = SelectImageReactor
-    
+
     public var disposeBag = DisposeBag()
 
     // MARK: - Components
@@ -112,7 +112,7 @@ extension SelectImageViewContoller: UICollectionViewDelegate, UICollectionViewDa
         cell.inject(input: SelectImageCell.Input(type: reactor.currentState.images[indexPath.row]))
         return cell
     }
-    
+
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let reactor = reactor else { return }
         reactor.action.onNext(.imageTapped(indexPath.row))
