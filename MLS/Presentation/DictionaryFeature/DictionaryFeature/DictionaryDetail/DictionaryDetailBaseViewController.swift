@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
 import DesignSystem
@@ -27,7 +28,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
     
-    public let bookmarkModalFactory: BookmarkModalFactory
+    private let bookmarkModalFactory: BookmarkModalFactory
+    private let loginFactory: LoginFactory
 
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
@@ -35,9 +37,10 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // 타입설정
     public var type: DictionaryItemType
     
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.loginFactory = loginFactory
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
         isBottomTabbarHidden = true
@@ -259,8 +262,11 @@ extension DictionaryDetailBaseViewController {
                         mainText: "북마크를 하려면 로그인이 필요해요.",
                         ctaText: "로그인 하기",
                         cancelText: "취소",
-                        ctaAction: { print("로그인 화면으로 이동") },
-                        cancelAction: { print("취소됨") }
+                        ctaAction: {
+                            let viewController = self.loginFactory.make(exitRoute: .pop)
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        },
+                        cancelAction: nil
                     )
                     return
                 }

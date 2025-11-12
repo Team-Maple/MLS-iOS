@@ -355,8 +355,19 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkModalFactory.self) {
             BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
         }
+        DIContainer.register(type: LoginFactory.self) {
+            LoginFactoryImpl(
+                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
+                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self), fetchPlatformUseCase: DIContainer.resolve(type: FetchPlatformUseCase.self)
+            )
+        }
         DIContainer.register(type: DictionaryDetailFactory.self) {
-            DictionaryDetailFactoryImpl(bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), dictionaryDetailMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapUseCase.self), dictionaryDetailMapSpawnMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self), dictionaryDetailMapNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapNpcUseCase.self), dictionaryDetailQuestLinkedQuestsUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self), dictionaryDetailQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestUseCase.self), dictionaryDetailItemDropMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemDropMonsterUseCase.self), dictionaryDetailItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemUseCase.self), dictionaryDetailNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcUseCase.self), dictionaryDetailNpcQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcQuestUseCase.self), dictionaryDetailNpcMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcMapUseCase.self), dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self))
+            DictionaryDetailFactoryImpl(loginFactory: { DIContainer.resolve(type: LoginFactory.self) }, bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), dictionaryDetailMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapUseCase.self), dictionaryDetailMapSpawnMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self), dictionaryDetailMapNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapNpcUseCase.self), dictionaryDetailQuestLinkedQuestsUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self), dictionaryDetailQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestUseCase.self), dictionaryDetailItemDropMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemDropMonsterUseCase.self), dictionaryDetailItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemUseCase.self), dictionaryDetailNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcUseCase.self), dictionaryDetailNpcQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcQuestUseCase.self), dictionaryDetailNpcMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcMapUseCase.self), dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
             DictionaryListFactoryImpl(
@@ -372,7 +383,7 @@ private extension AppDelegate {
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
                 sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
                 bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self),
-                detailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self)
+                detailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self), loginFactory: { DIContainer.resolve(type: LoginFactory.self) }
             )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
@@ -434,17 +445,6 @@ private extension AppDelegate {
                 signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
                 saveTokenUseCase: DIContainer.resolve(type: SaveTokenToLocalUseCase.self),
                 fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self), updateMarketingAgreementUseCase: DIContainer.resolve(type: UpdateMarketingAgreementUseCase.self)
-            )
-        }
-        DIContainer.register(type: LoginFactory.self) {
-            LoginFactoryImpl(
-                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
-                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
-                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
-                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
-                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self), fetchPlatformUseCase: DIContainer.resolve(type: FetchPlatformUseCase.self)
             )
         }
         DIContainer.register(type: OnBoardingNotificationFactory.self) {
