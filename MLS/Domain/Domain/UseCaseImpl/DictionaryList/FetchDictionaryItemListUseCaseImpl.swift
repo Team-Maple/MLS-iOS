@@ -10,7 +10,7 @@ public final class FetchDictionaryItemListUseCaseImpl: FetchDictionaryItemListUs
         self.repository = repository
     }
 
-    public func execute(keyword: String?, jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse> {
+    public func execute(keyword: String?, jobId: [Int]?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, page: Int?, size: Int?, sort: String?) -> Observable<DictionaryMainResponse> {
         return repository.fetchItemList(keyword: keyword, jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, page: page, size: size, sort: sort)
     }
 }

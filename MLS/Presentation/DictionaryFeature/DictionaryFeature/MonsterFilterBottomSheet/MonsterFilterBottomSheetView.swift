@@ -53,7 +53,7 @@ public class MonsterFilterBottomSheetView: UIView {
     }()
 
     public let applyButton: CommonButton = {
-        let button = CommonButton(style: .normal, title: "n개의 아이템 보기", disabledTitle: nil)
+        let button = CommonButton(style: .normal, title: "적용하기", disabledTitle: nil)
         return button
     }()
 

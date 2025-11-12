@@ -16,21 +16,21 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
-    
+
     public func addRecentSearch(keyword: String) -> Completable {
         return Completable.create { completable in
             var current = UserDefaults.standard.stringArray(forKey: self.key) ?? []
-            
+
             // 중복 제거
             current.removeAll(where: { $0 == keyword})
             current.insert(keyword, at: 0)
-            
+
             UserDefaults.standard.set(current, forKey: self.key)
             completable(.completed)
             return Disposables.create()
         }
     }
-    
+
     public func removeRecentSearch(keyword: String) -> Completable {
         return Completable.create { completable in
             var current = UserDefaults.standard.stringArray(forKey: self.key) ?? []

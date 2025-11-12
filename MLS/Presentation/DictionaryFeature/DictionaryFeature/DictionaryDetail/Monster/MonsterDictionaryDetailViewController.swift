@@ -20,7 +20,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     private var appearMapView = DetailStackCardView()
     private var dropItemView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-    
+
 }
 
 // MARK: - Populate Data

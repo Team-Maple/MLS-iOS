@@ -176,13 +176,13 @@ extension DictionarySearchViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         rx.viewDidLoad
             .take(1)
             .map { Reactor.Action.viewDidLoad }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-            
+
     }
 }
 
@@ -284,7 +284,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
                 for: indexPath
             ) as! PopularSearchHeaderView
             // TODO: 인기검색어 추후에
-            //view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
+            // view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
             return view
 
         default:

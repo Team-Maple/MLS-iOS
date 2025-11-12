@@ -72,7 +72,7 @@ private extension AppDelegate {
         DIContainer.register(type: BookmarkRepository.self) {
             BookmarkRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
         }
-        
+
         DIContainer.register(type: UserDefaultsRepository.self) {
             UserDefaultsRepositoryImpl()
         }
@@ -213,6 +213,9 @@ private extension AppDelegate {
         DIContainer.register(type: FetchNPCBookmarkUseCase.self) {
             FetchNPCBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
         }
+        DIContainer.register(type: FetchBookmarkUseCase.self) {
+            FetchBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
         DIContainer.register(type: FetchDictionarySearchListUseCase.self) {
             FetchDictionarySearchListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
@@ -228,11 +231,10 @@ private extension AppDelegate {
         DIContainer.register(type: RecentSearchFetchUseCase.self) {
             RecentSearchFetchUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
-        DIContainer.register(type: FetchBookmarkUseCase.self) {
-            FetchBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        DIContainer.register(type: ParseItemFilterResultUseCase.self) {
+            ParseItemFilterResultUseCaseImpl()
         }
     }
-
     func registerFactory() {
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
             ItemFilterBottomSheetFactoryImpl()
@@ -259,6 +261,7 @@ private extension AppDelegate {
                 dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
                 dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
                 setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self),
+                parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
                 sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
@@ -276,8 +279,8 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
             DictionarySearchFactoryImpl(recentSearchRemoveUseCase: DIContainer.resolve(type: RecentSearchRemoveUseCase.self),
-                recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
-                searchResultFactory: DIContainer
+                                        recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
+                                        searchResultFactory: DIContainer
                 .resolve(type: DictionarySearchResultFactory.self), recentSearchFetchUseCase: DIContainer.resolve(type: RecentSearchFetchUseCase.self)
             )
         }
