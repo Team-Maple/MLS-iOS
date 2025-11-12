@@ -27,7 +27,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
-    
+
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
     // MARK: - Components
@@ -35,7 +35,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     // 타입설정
     public var type: DictionaryItemType
-    
+
     public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
