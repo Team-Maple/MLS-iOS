@@ -337,6 +337,9 @@ private extension AppDelegate {
         DIContainer.register(type: FetchAllAlarmUseCase.self) {
             FetchAllAlarmUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
         }
+        DIContainer.register(type: ParseItemFilterResultUseCase.self) {
+            ParseItemFilterResultUseCaseImpl()
+        }
     }
 
     func registerFactory() {
@@ -376,9 +379,10 @@ private extension AppDelegate {
                 dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
                 dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
                 dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
-                dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self),
+                dictionaryNpcListItemUseCase: DIContainer
+                    .resolve(type: FetchDictionaryNpcListUseCase.self),
                 dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
-                setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self),
+                setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self),
                 itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
                 monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
                 sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),

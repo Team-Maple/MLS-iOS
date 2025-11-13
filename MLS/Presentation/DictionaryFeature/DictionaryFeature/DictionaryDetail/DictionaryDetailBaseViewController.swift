@@ -230,6 +230,11 @@ extension DictionaryDetailBaseViewController {
         }
     }
 
+    // 북마크 버튼 클릭 시
+    func updateBookmarkButton(isBookmarked: Bool) {
+        // TODO: 북마크 버튼 누르면 이벤트 발생
+    }
+
     func didSelectMenuTab(index: Int) {
         // 인덱스 유효성 검사
         guard index < contentViews.count else { return }
@@ -316,15 +321,14 @@ extension DictionaryDetailBaseViewController {
 
 private extension DictionaryDetailBaseViewController {
     func bind() {
+        // 뒤로가기 버튼 액션 바인드
+        bindBackButton()
+    }
+
+    func bindBackButton() {
         mainView.backButton.rx.tap
             .bind { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
-            }
-            .disposed(by: disposeBag)
-
-        mainView.dictButton.rx.tap
-            .bind { [weak self] in
-                self?.navigationController?.popToRootViewController(animated: true)
             }
             .disposed(by: disposeBag)
     }

@@ -16,6 +16,8 @@
 		77660F932DD259AA007A4EF3 /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F922DD259AA007A4EF3 /* KakaoSDKAuth */; };
 		77660F952DD259AA007A4EF3 /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 77660F942DD259AA007A4EF3 /* KakaoSDKUser */; };
 		77F0E9522EA525CE007368F8 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77F0E9512EA525CE007368F8 /* RxCocoa */; };
+		77FEEF222EC5B2300023197A /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FEEF202EC5B2300023197A /* AuthFeatureInterface.framework */; };
+		77FEEF242EC5B2300023197A /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FEEF212EC5B2300023197A /* DictionaryFeatureInterface.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,8 @@
 		0879294D2DB90F3A009C301F /* Data.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Data.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E4253B2DF17B3700D6ACD3 /* DataMock.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataMock.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08E425512DF17B5C00D6ACD3 /* DomainInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DomainInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77FEEF202EC5B2300023197A /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77FEEF212EC5B2300023197A /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -71,6 +75,8 @@
 				775D78522E0DA93400DDAD2F /* Data.framework in Frameworks */,
 				08E425562DF17B6300D6ACD3 /* RxSwift in Frameworks */,
 				77F0E9522EA525CE007368F8 /* RxCocoa in Frameworks */,
+				77FEEF242EC5B2300023197A /* DictionaryFeatureInterface.framework in Frameworks */,
+				77FEEF222EC5B2300023197A /* AuthFeatureInterface.framework in Frameworks */,
 				08E425522DF17B5C00D6ACD3 /* DomainInterface.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,6 +87,8 @@
 		084A256D2DB93C1400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77FEEF202EC5B2300023197A /* AuthFeatureInterface.framework */,
+				77FEEF212EC5B2300023197A /* DictionaryFeatureInterface.framework */,
 				08E425512DF17B5C00D6ACD3 /* DomainInterface.framework */,
 				080175482DCD274B00D0919F /* DomainInterface.framework */,
 				084A25C72DB93E0500C395C0 /* Core.framework */,

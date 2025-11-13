@@ -60,6 +60,7 @@
 		77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DAA2E37D4AC007198DA /* AuthFeature.framework */; };
 		77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; };
 		77DBD8C02E1AD0C600529428 /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77FEEF1D2EC5B0870023197A /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FEEF1C2EC5B0870023197A /* AuthFeatureInterface.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		77C974722E376124007198DA /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77C97DAA2E37D4AC007198DA /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77FEEF1C2EC5B0870023197A /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -188,6 +190,7 @@
 				081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */,
 				081D9DDA2DF80E7E004F850D /* ReactorKit in Frameworks */,
 				77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */,
+				77FEEF1D2EC5B0870023197A /* AuthFeatureInterface.framework in Frameworks */,
 				081D9DD02DF80E5C004F850D /* RxCocoa in Frameworks */,
 				77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */,
 				081D9DC12DF80DF6004F850D /* BaseFeature.framework in Frameworks */,
@@ -262,6 +265,7 @@
 		081D9DBF2DF80DF6004F850D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77FEEF1C2EC5B0870023197A /* AuthFeatureInterface.framework */,
 				773E8D4F2E7AF4F60094714D /* MyPageFeatureInterface.framework */,
 				773E8D4C2E7AF4F00094714D /* MyPageFeature.framework */,
 				773E8D492E7AF4D30094714D /* MyPageFeature.framework */,

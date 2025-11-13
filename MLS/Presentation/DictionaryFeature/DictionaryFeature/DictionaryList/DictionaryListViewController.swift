@@ -130,7 +130,9 @@ extension DictionaryListViewController {
                 self?.mainView.listCollectionView.reloadData()
                 self?.mainView.emptyView.isHidden = !item.isEmpty
                 self?.mainView.listCollectionView.isHidden = item.isEmpty
-                self?.mainView.isUserInteractionEnabled = !item.isEmpty
+                // 보여줄 item이 없을 경우, 터치를 막는데 왜 막는건지?
+                // 몬스터나 아이템 탭에서 필터링을 하다가 item이 없을 경우, 필터 버튼도 터치가 안되서 계속 item 없음
+                // self?.mainView.isUserInteractionEnabled = !item.isEmpty
             })
             .disposed(by: disposeBag)
 
@@ -151,31 +153,29 @@ extension DictionaryListViewController {
                         selectedIndex: owner.selectedSortIndex
                     ) { index in
                         owner.selectedSortIndex = index
-                        let selectedFilter = reactor.currentState.type
-                            .bookmarkSortedFilter[index]
-                        reactor.action.onNext(
-                            .sortOptionSelected(selectedFilter))
-                        owner.mainView.selectFilter(
-                            selectedType: selectedFilter)
+                        let selectedFilter = reactor.currentState.type.bookmarkSortedFilter[index]
+                        reactor.action.onNext(.sortOptionSelected(selectedFilter))
+                        owner.mainView.selectSort(selectedType: selectedFilter)
                         reactor.action.onNext(.fetchListFilter)
                     }
                     owner.tabBarController?.presentModal(viewController)
                 case .filter(let type):
                     switch type {
                     case .item:
-                        let viewController = owner.itemFilterFactory.make { _ in
+                        let viewController = owner.itemFilterFactory.make { results in
+                            reactor.action.onNext(.itemFilterOptionSelected(results))
 
+                            if results.isEmpty {
+                                owner.mainView.resetFilter()
+                            } else {
+                                owner.mainView.selectFilter()
+                            }
                         }
                         owner.present(viewController, animated: true)
                     case .monster:
-                        let viewController = owner.monsterFilterFactory.make(
-                            startLevel: reactor.currentState.startLevel ?? 1,
-                            endLevel: reactor.currentState.endLevel ?? 200
-                        ) { startLevel, endLevel in
-
-                            reactor.action.onNext(
-                                .filterOptionSelected(
-                                    startLevel: startLevel, endLevel: endLevel))
+                        let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 0, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
+                            owner.mainView.selectFilter()
+                            reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
                         owner.tabBarController?.presentModal(viewController)
                     default:
@@ -322,27 +322,13 @@ extension DictionaryListViewController: UICollectionViewDelegate,
 
         switch reactor.currentState.type {
         case .total:
-            // 전체 타입일 때는 item.type에 따라 분기
-            switch item.type {
-            case .monster:
-                viewController = detailFactory.make(type: .monster, id: item.id)
-            case .item:
-                viewController = detailFactory.make(type: .item, id: item.id)
-            case .npc:
-                viewController = detailFactory.make(type: .npc, id: item.id)
-            case .quest:
-                viewController = detailFactory.make(type: .quest, id: item.id)
-            case .map:
-                viewController = detailFactory.make(type: .map, id: item.id)
-            default:
-                return  // 알 수 없는 타입이면 무시
-            }
+            guard let type = item.type.toDictionaryType else { return }
+            viewController = detailFactory.make(type: type, id: item.id)
         default:
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(
                 type: reactor.currentState.type, id: item.id)
         }
-
         navigationController?.pushViewController(viewController, animated: true)
     }
 

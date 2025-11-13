@@ -123,6 +123,12 @@ extension DictionarySearchViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .take(1)
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         mainView.searchBar.backButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
@@ -177,13 +183,6 @@ extension DictionarySearchViewController {
                 }
             }
             .disposed(by: disposeBag)
-
-        rx.viewWillAppear
-            .take(1)
-            .map { Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
     }
 }
 

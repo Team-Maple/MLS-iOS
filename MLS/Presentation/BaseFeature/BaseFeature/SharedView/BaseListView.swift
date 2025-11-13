@@ -148,9 +148,19 @@ public extension BaseListView {
         return button
     }
 
-    func selectFilter(selectedType: SortType) {
+    func selectSort(selectedType: SortType) {
         sortButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
         sortButton.tintColor = .primary700
+    }
+
+    func selectFilter() {
+        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "필터", color: .primary700), for: .normal)
+        filterButton.tintColor = .primary700
+    }
+
+    func resetFilter() {
+        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "필터"), for: .normal)
+        filterButton.tintColor = .black
     }
 
     func checkEmptyData(isEmpty: Bool) {
