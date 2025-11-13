@@ -1,4 +1,5 @@
 // swiftlint:disable function_body_length
+// swiftlint:disable line_length
 
 import UIKit
 
@@ -69,6 +70,9 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionaryDetailAPIRepository.self) {
             return DictionaryDetailAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
+        }
+        DIContainer.register(type: UserDefaultsRepository.self) {
+            UserDefaultsRepositoryImpl()
         }
     }
 
@@ -207,6 +211,24 @@ private extension AppDelegate {
         DIContainer.register(type: FetchBookmarkUseCase.self) {
             FetchBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
         }
+        DIContainer.register(type: FetchDictionaryAllListUseCase.self) {
+            FetchDictionaryAllListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: RecentSearchRemoveUseCase.self) {
+            RecentSearchRemoveUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
+        DIContainer.register(type: RecentSearchAddUseCase.self) {
+            RecentSearchAddUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryListCountUseCase.self) {
+            FetchDictionaryListCountUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionarySearchListUseCase.self) {
+            FetchDictionarySearchListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: RecentSearchFetchUseCase.self) {
+            RecentSearchFetchUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -229,8 +251,9 @@ private extension AppDelegate {
             return DictionaryDetailFactoryImpl(dictionaryDetailMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapUseCase.self), dictionaryDetailMapSpawnMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self), dictionaryDetailMapNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapNpcUseCase.self), dictionaryDetailQuestLinkedQuestsUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self), dictionaryDetailQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestUseCase.self), dictionaryDetailItemDropMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemDropMonsterUseCase.self), dictionaryDetailItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemUseCase.self), dictionaryDetailNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcUseCase.self), dictionaryDetailNpcQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcQuestUseCase.self), dictionaryDetailNpcMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcMapUseCase.self), dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
-            return DictionaryListFactoryImpl(
+            DictionaryListFactoryImpl(
                 checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
+                dictionaryAllListItemUseCase: DIContainer.resolve(type: FetchDictionaryAllListUseCase.self),
                 dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
                 dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
                 dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
@@ -246,14 +269,17 @@ private extension AppDelegate {
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             DictionarySearchResultFactoryImpl(
+                dictionaryListCountUseCase: DIContainer.resolve(type: FetchDictionaryListCountUseCase.self),
                 dictionaryMainListFactory: DIContainer
-                    .resolve(type: DictionaryMainListFactory.self)
+                    .resolve(type: DictionaryMainListFactory.self),
+                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self)
             )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
-            DictionarySearchFactoryImpl(
+            DictionarySearchFactoryImpl(recentSearchRemoveUseCase: DIContainer.resolve(type: RecentSearchRemoveUseCase.self),
+                recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
                 searchResultFactory: DIContainer
-                    .resolve(type: DictionarySearchResultFactory.self)
+                .resolve(type: DictionarySearchResultFactory.self), recentSearchFetchUseCase: DIContainer.resolve(type: RecentSearchFetchUseCase.self)
             )
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
@@ -273,8 +299,7 @@ private extension AppDelegate {
                     .resolve(type: DictionaryMainListFactory.self),
                 searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer
-                    .resolve(type: DictionaryNotificationFactory.self)
-            )
+                    .resolve(type: DictionaryNotificationFactory.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self))
         }
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             BookmarkOnBoardingFactoryImpl()
@@ -334,7 +359,7 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: BookmarkListFactory.self) {
-            BookmarkListFactoryImpl(itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), loginFactory: DIContainer.resolve(type: LoginFactory.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), fetchBookmarkUseCase: DIContainer.resolve(type: FetchBookmarkUseCase.self), fetchMonsterBookmarkUseCase: DIContainer.resolve(type: FetchMonsterBookmarkUseCase.self), fetchItemBookmarkUseCase: DIContainer.resolve(type: FetchItemBookmarkUseCase.self), fetchNPCBookmarkUseCase: DIContainer.resolve(type: FetchNPCBookmarkUseCase.self), fetchQuestBookmarkUseCase: DIContainer.resolve(type: FetchQuestBookmarkUseCase.self), fetchMapBookmarkUseCase: DIContainer.resolve(type: FetchMapBookmarkUseCase.self))
+            BookmarkListFactoryImpl(itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), loginFactory: DIContainer.resolve(type: LoginFactory.self), dictionaryDetailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), fetchBookmarkUseCase: DIContainer.resolve(type: FetchBookmarkUseCase.self), fetchMonsterBookmarkUseCase: DIContainer.resolve(type: FetchMonsterBookmarkUseCase.self), fetchItemBookmarkUseCase: DIContainer.resolve(type: FetchItemBookmarkUseCase.self), fetchNPCBookmarkUseCase: DIContainer.resolve(type: FetchNPCBookmarkUseCase.self), fetchQuestBookmarkUseCase: DIContainer.resolve(type: FetchQuestBookmarkUseCase.self), fetchMapBookmarkUseCase: DIContainer.resolve(type: FetchMapBookmarkUseCase.self))
         }
         DIContainer.register(type: CollectionSettingFactory.self) {
             CollectionSettingFactoryImpl()

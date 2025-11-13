@@ -18,6 +18,7 @@ public final class SetProfileViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+
     var didReturn = PublishRelay<Bool>()
     private var selectImageFactory: SelectImageFactory
 
@@ -33,9 +34,6 @@ public final class SetProfileViewController: BaseViewController, View {
     public init(selectImageFactory: SelectImageFactory) {
         self.selectImageFactory = selectImageFactory
         super.init()
-        mainView.setName(name: "익명의 오무라이스케챱")
-        mainView.setImage(image: .add)
-        mainView.setPlatform(platform: .kakao)
     }
 
     @available(*, unavailable)
@@ -78,6 +76,11 @@ extension SetProfileViewController {
     }
 
     private func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.backButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
@@ -119,6 +122,7 @@ extension SetProfileViewController {
             .map(\.setProfileState)
             .distinctUntilChanged()
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, state in
                 owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
                 owner.mainView.setCountHidden(state: state)
@@ -127,12 +131,25 @@ extension SetProfileViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .filter(\.isEditingNickName)
-            .map(\.nickName)
+            .compactMap(\.profile)
             .distinctUntilChanged()
             .withUnretained(self)
-            .bind(onNext: { owner, nickName in
-                owner.mainView.setCount(count: nickName.count)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, profile in
+                owner.mainView.setName(name: profile.nickname)
+                owner.mainView.setImage(imageUrl: profile.profileUrl)
+                owner.mainView.setPlatform(platform: profile.platform)
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .filter(\.isEditingNickName)
+            .compactMap(\.profile?.nickname)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, nickname in
+                owner.mainView.setCount(count: nickname.count)
             })
             .disposed(by: disposeBag)
 
@@ -140,6 +157,7 @@ extension SetProfileViewController {
             .map(\.isShowError)
             .distinctUntilChanged()
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, isShowError in
                 owner.mainView.setError(isError: isShowError)
             })
@@ -149,10 +167,21 @@ extension SetProfileViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .imageBottomSheet:
                     let viewController = owner.selectImageFactory.make()
+
+                    if let viewController = viewController as? UIViewController {
+                        viewController.rx
+                            .methodInvoked(#selector(UIViewController.viewDidDisappear))
+                            .take(1)
+                            .map { _ in Reactor.Action.viewWillAppear }
+                            .bind(to: reactor.action)
+                            .disposed(by: owner.disposeBag)
+                    }
+
                     owner.presentModal(viewController)
                 case .dismiss:
                     owner.didReturn.accept(false)

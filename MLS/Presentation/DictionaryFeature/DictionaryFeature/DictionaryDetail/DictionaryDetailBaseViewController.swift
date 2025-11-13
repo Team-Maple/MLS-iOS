@@ -1,6 +1,8 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
+import BookmarkFeatureInterface
 import DesignSystem
 import DomainInterface
 
@@ -26,14 +28,18 @@ class DictionaryDetailBaseViewController: BaseViewController {
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
 
+    private let bookmarkModalFactory: BookmarkModalFactory
+    private let loginFactory: LoginFactory
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
 
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
         self.type = type
+        self.bookmarkModalFactory = bookmarkModalFactory
+        self.loginFactory = loginFactory
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
         isBottomTabbarHidden = true
@@ -49,8 +55,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
         addViews()
         setupConstraints()
-        bindActions() // 액션 바인딩
-        mainView.scrollView.delegate = self
+        configureUI()
+        bind() // 액션 바인딩
         setupMenu(type.detailTypes)
     }
 
@@ -76,6 +82,10 @@ private extension DictionaryDetailBaseViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
+    }
+
+    func configureUI() {
+        mainView.scrollView.delegate = self
     }
 }
 
@@ -141,7 +151,6 @@ extension DictionaryDetailBaseViewController {
 
         var currentRowWidth: CGFloat = 0
         for (element, value) in tags.nonNilElements() {
-
             let badge = Badge(style: .element("\(element.rawValue) \(value)"))
             let fittingSize = badge.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             let badgeWidth = fittingSize.width
@@ -236,28 +245,90 @@ extension DictionaryDetailBaseViewController {
         mainView.setTabView(index: index, contentViews: contentViews)
         currentTabIndex = index
     }
+
+    func bindBookmarkButton<T>(
+        buttonTap: ControlEvent<Void>,
+        currentItem: Observable<T>,
+        isLogin: @escaping () -> Bool,
+        imageUrl: @escaping (T) -> String?,
+        backgroundColor: UIColor,
+        isBookmarked: @escaping (T) -> Bool,
+        toggleBookmark: @escaping (Bool) -> Void,
+        undoLastDeleted: @escaping () -> Void) -> Disposable {
+        buttonTap
+            .withLatestFrom(currentItem)
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] item in
+                guard let self else { return }
+
+                guard isLogin() else {
+                    GuideAlertFactory.show(
+                        mainText: "북마크를 하려면 로그인이 필요해요.",
+                        ctaText: "로그인 하기",
+                        cancelText: "취소",
+                        ctaAction: {
+                            let viewController = self.loginFactory.make(exitRoute: .pop)
+                            self.navigationController?.pushViewController(viewController, animated: true)
+                        },
+                        cancelAction: nil
+                    )
+                    return
+                }
+
+                if isBookmarked(item) {
+                    toggleBookmark(true)
+                    SnackBarFactory.createSnackBar(
+                        type: .delete,
+                        imageUrl: imageUrl(item),
+                        imageBackgroundColor: backgroundColor,
+                        text: "아이템을 북마크에서 삭제했어요.",
+                        buttonText: "되돌리기",
+                        buttonAction: { undoLastDeleted() }
+                    )
+                } else {
+                    toggleBookmark(false)
+                    SnackBarFactory.createSnackBar(
+                        type: .normal,
+                        imageUrl: imageUrl(item),
+                        imageBackgroundColor: backgroundColor,
+                        text: "아이템을 북마크에 추가했어요.",
+                        buttonText: "컬렉션 추가",
+                        buttonAction: { [weak self] in
+                            guard let self else { return }
+                            DispatchQueue.main.async {
+                                let viewController = self.bookmarkModalFactory.make(
+                                    onDismissWithColletions: { _ in },
+                                    onDismissWithMessage: { _ in
+                                        ToastFactory.createToast(
+                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
+                                )
+                                viewController.modalPresentationStyle = .pageSheet
+                                if let sheet = viewController.sheetPresentationController {
+                                    sheet.detents = [.medium(), .large()]
+                                    sheet.prefersGrabberVisible = true
+                                    sheet.preferredCornerRadius = 16
+                                }
+                                self.present(viewController, animated: true)
+                            }
+                        }
+                    )
+                }
+            }
+    }
 }
 
 private extension DictionaryDetailBaseViewController {
-    func bindActions() {
+    func bind() {
         // 뒤로가기 버튼 액션 바인드
         bindBackButton()
-        bindBookmarkButton()
     }
 
     func bindBackButton() {
         mainView.backButton.rx.tap
             .bind { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
-            }
-            .disposed(by: disposeBag)
-    }
-
-    // 이부분은 왜 inject로 넣어야 하나??
-    func bindBookmarkButton() {
-        mainView.bookmarkButton.rx.tap
-            .bind { [weak self] in
-                print("bookmark tapped")
             }
             .disposed(by: disposeBag)
     }
@@ -286,5 +357,4 @@ extension DictionaryDetailBaseViewController {
             }
             .disposed(by: disposeBag)
     }
-
 }

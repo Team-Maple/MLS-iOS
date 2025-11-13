@@ -18,7 +18,7 @@ public final class BaseErrorViewController: BaseViewController {
     }
 
     // MARK: - Properties
-    var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
 
     private let containerView: UIView = UIView()
 

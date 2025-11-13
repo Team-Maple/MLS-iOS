@@ -9,8 +9,9 @@ import RxSwift
 final class NotificationSettingViewController: BaseViewController, View, UNUserNotificationCenterDelegate {
     typealias Reactor = NotificationSettingReactor
 
+    public var disposeBag = DisposeBag()
+
     // MARK: - Properties
-    var disposeBag = DisposeBag()
 
     // MARK: - UI Components
     private let mainView = NotificationSettingView()

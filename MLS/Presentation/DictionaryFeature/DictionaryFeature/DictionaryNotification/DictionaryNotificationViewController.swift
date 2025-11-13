@@ -57,7 +57,7 @@ private extension DictionaryNotificationViewController {
     func configureUI() {
         isBottomTabbarHidden = true
         guard let reactor = reactor else { return }
-        mainView.setEmpty(isEmpty: reactor.currentState.isAgreeNotification)
+        mainView.setEmpty(isEmpty: reactor.currentState.profile?.noticeAgreement == false)
 
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self
@@ -81,8 +81,13 @@ public extension DictionaryNotificationViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.header.leftButton.rx.tap
-            .map { Reactor.Action.backbuttonTapped }
+            .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -102,7 +107,9 @@ public extension DictionaryNotificationViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .setting:
-                    let viewController = owner.notificationSettingFactory.make()
+                    guard let reactor = owner.reactor,
+                          let profile = reactor.currentState.profile else { return }
+                    let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -110,12 +117,14 @@ public extension DictionaryNotificationViewController {
             }
             .disposed(by: disposeBag)
 
-        rx.viewWillAppear
-            .take(1)
-            .map { _ in Reactor.Action.viewWillAppear }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-    }
+        reactor.state.map { $0.notifications }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe { owner, _ in
+                owner.mainView.notificationCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)    }
 }
 
 // MARK: - Delegate
@@ -129,7 +138,7 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         guard let reactor = reactor else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryNotificationCell.identifier, for: indexPath) as? DictionaryNotificationCell else { return UICollectionViewCell() }
         let item = reactor.currentState.notifications[indexPath.row]
-        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date, isChecked: item.isChecked))
+        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.changeKoreanDate(), isChecked: item.alreadyRead))
         return cell
     }
 }

@@ -44,7 +44,7 @@ public class AlarmAPIRepositoryImpl: AlarmAPIRepository {
     }
 
     public func setRead(alarmLink: String) -> Completable {
-        let endpoint = AlarmEndPoint.setRead(query: setReadQuery(alrimLink: alarmLink))
+        let endpoint = AlarmEndPoint.setRead(query: SetReadQuery(alrimLink: alarmLink))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
     }
 
@@ -56,7 +56,7 @@ private extension AlarmAPIRepositoryImpl {
         let pageSize: Int
     }
 
-    struct setReadQuery: Encodable {
+    struct SetReadQuery: Encodable {
         let alrimLink: String
     }
 }

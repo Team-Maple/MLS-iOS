@@ -13,7 +13,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.tokenInterceptor = interceptor
     }
 
-    public func fetchProfile() -> Observable<MyPageResponse> {
+    public func fetchProfile() -> Observable<MyPageResponse?> {
         let endpoint = AuthEndPoint.fetchProfile()
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toMyPageDomain() }
@@ -109,9 +109,10 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 
-    public func updateNickName(nickName: String) -> Completable {
+    public func updateNickName(nickName: String) -> Observable<MyPageResponse> {
         let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+            .map { $0.toMyPageDomain() }
     }
 
     public func updateProfileImage(url: String) -> Completable {

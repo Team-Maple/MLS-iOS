@@ -10,6 +10,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let sortedFactory: SortedBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
+    private let dictionaryDetailFactory: DictionaryDetailFactory
 
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let checkLoginUseCase: CheckLoginUseCase
@@ -19,6 +20,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase
     private let fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase
     private let fetchMapBookmarkUseCase: FetchMapBookmarkUseCase
+    private let collectionEditFactory: CollectionEditFactory
 
     public init(
         itemFilterFactory: ItemFilterBottomSheetFactory,
@@ -26,6 +28,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         sortedFactory: SortedBottomSheetFactory,
         bookmarkModalFactory: BookmarkModalFactory,
         loginFactory: LoginFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
         checkLoginUseCase: CheckLoginUseCase,
         fetchBookmarkUseCase: FetchBookmarkUseCase,
@@ -33,13 +36,15 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         fetchItemBookmarkUseCase: FetchItemBookmarkUseCase,
         fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase,
         fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase,
-        fetchMapBookmarkUseCase: FetchMapBookmarkUseCase
+        fetchMapBookmarkUseCase: FetchMapBookmarkUseCase,
+        collectionEditFactory: CollectionEditFactory
     ) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
+        self.dictionaryDetailFactory = dictionaryDetailFactory
         self.setBookmarkUseCase = setBookmarkUseCase
         self.checkLoginUseCase = checkLoginUseCase
         self.fetchBookmarkUseCase = fetchBookmarkUseCase
@@ -48,17 +53,30 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.fetchItemBookmarkUseCase = fetchItemBookmarkUseCase
         self.fetchQuestBookmarkUseCase = fetchQuestBookmarkUseCase
         self.fetchMapBookmarkUseCase = fetchMapBookmarkUseCase
+        self.collectionEditFactory = collectionEditFactory
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
-        let reactor = BookmarkListReactor(type: type, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, fetchBookmarkUseCase: fetchBookmarkUseCase, fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase, fetchItemBookmarkUseCase: fetchItemBookmarkUseCase, fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase, fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase, fetchMapBookmarkUseCase: fetchMapBookmarkUseCase)
+        let reactor = BookmarkListReactor(
+            type: type,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            fetchBookmarkUseCase: fetchBookmarkUseCase,
+            fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase,
+            fetchItemBookmarkUseCase: fetchItemBookmarkUseCase,
+            fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase,
+            fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase,
+            fetchMapBookmarkUseCase: fetchMapBookmarkUseCase
+        )
         let viewController = BookmarkListViewController(
             reactor: reactor,
             itemFilterFactory: itemFilterFactory,
             monsterFilterFactory: monsterFilterFactory,
             sortedFactory: sortedFactory,
             bookmarkModalFactory: bookmarkModalFactory,
-            loginFactory: loginFactory
+            loginFactory: loginFactory,
+            dictionaryDetailFactory: dictionaryDetailFactory,
+            collectionEditFactory: collectionEditFactory
         )
         if listType == .search {
             viewController.isBottomTabbarHidden = true

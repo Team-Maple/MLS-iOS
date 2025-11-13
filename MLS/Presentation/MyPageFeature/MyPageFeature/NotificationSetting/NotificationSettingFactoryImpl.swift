@@ -11,8 +11,16 @@ public final class NotificationSettingFactoryImpl: NotificationSettingFactory {
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
     }
 
-    public func make() -> BaseViewController {
-        let viewController = NotificationSettingViewController(reactor: NotificationSettingReactor(checkNotificationPermissionUseCase: checkNotificationPermissionUseCase, updateNotificationAgreementUseCase: updateNotificationAgreementUseCase))
+    public func make(isAgreeEventNotification: Bool, isAgreeNoticeNotification: Bool, isAgreePatchNoteNotification: Bool) -> BaseViewController {
+        let viewController = NotificationSettingViewController(
+            reactor: NotificationSettingReactor(
+                checkNotificationPermissionUseCase: checkNotificationPermissionUseCase,
+                updateNotificationAgreementUseCase: updateNotificationAgreementUseCase,
+                isAgreeEventNotification: isAgreeEventNotification,
+                isAgreeNoticeNotification: isAgreeNoticeNotification,
+                isAgreePatchNoteNotification: isAgreePatchNoteNotification
+            )
+        )
         return viewController
     }
 }

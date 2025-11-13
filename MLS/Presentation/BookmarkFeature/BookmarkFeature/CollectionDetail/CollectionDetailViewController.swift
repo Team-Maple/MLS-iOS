@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa
@@ -13,24 +14,26 @@ public final class CollectionDetailViewController: BaseViewController, View {
     public typealias Reactor = CollectionDetailReactor
 
     // MARK: - Properties
+    public var disposeBag = DisposeBag()
+
     private let bookmarkModalFactory: BookmarkModalFactory
     private let collectionSettingFactory: CollectionSettingFactory
     private let addCollectionFactory: AddCollectionFactory
     private let collectionEditFactory: CollectionEditFactory
-
-    public var disposeBag = DisposeBag()
+    private let dictionaryDetailFactory: DictionaryDetailFactory
 
     private var selectedSortIndex = 0
 
     // MARK: - Components
     private var mainView: CollectionDetailView
 
-    public init(reactor: CollectionDetailReactor, bookmarkModalFactory: BookmarkModalFactory, collectionSettingFactory: CollectionSettingFactory, addCollectionFactory: AddCollectionFactory, collectionEditFactory: CollectionEditFactory) {
+    public init(reactor: CollectionDetailReactor, bookmarkModalFactory: BookmarkModalFactory, collectionSettingFactory: CollectionSettingFactory, addCollectionFactory: AddCollectionFactory, collectionEditFactory: CollectionEditFactory, dictionaryDetailFactory: DictionaryDetailFactory) {
         self.mainView = CollectionDetailView(navTitle: reactor.currentState.collection.title)
         self.bookmarkModalFactory = bookmarkModalFactory
         self.collectionSettingFactory = collectionSettingFactory
         self.addCollectionFactory = addCollectionFactory
         self.collectionEditFactory = collectionEditFactory
+        self.dictionaryDetailFactory = dictionaryDetailFactory
         super.init()
         self.reactor = reactor
         navigationController?.navigationBar.isHidden = true
@@ -88,6 +91,11 @@ extension CollectionDetailViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.emptyView.bookmarkButton.rx.tap
             .map { Reactor.Action.bookmarkButtonTapped }
             .bind(to: reactor.action)
@@ -165,6 +173,9 @@ extension CollectionDetailViewController {
                         owner.reactor?.action.onNext(.selectSetting(menu))
                     })
                     owner.presentModal(viewController)
+                case .detail(let type, let id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
@@ -242,5 +253,9 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
 //        )
 
         return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        reactor?.action.onNext(.dataTapped(indexPath.row))
     }
 }

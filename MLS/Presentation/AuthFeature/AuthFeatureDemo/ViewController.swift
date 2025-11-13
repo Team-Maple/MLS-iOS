@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     }()
 
     lazy var views: [UIViewController] = {
-        let loginVC = DIContainer.resolve(type: LoginFactory.self).make(isReLogin: false)
+        let loginVC = DIContainer.resolve(type: LoginFactory.self).make(exitRoute: .pop)
         loginVC.title = "로그인"
 
         let termVC = DIContainer.resolve(type: TermsAgreementFactory.self).make(credential: KakaoCredential(token: "", providerID: ""), platform: .apple)

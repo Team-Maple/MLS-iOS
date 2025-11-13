@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DomainInterface
 
@@ -381,8 +382,10 @@ public extension SetProfileView {
         }
     }
 
-    func setImage(image: UIImage) {
-        imageView.image = image
+    func setImage(imageUrl: String) {
+        ImageLoader.shared.loadImage(stringURL: imageUrl) { [weak self] image in
+            self?.imageView.image = image
+        }
     }
 
     func setName(name: String) {

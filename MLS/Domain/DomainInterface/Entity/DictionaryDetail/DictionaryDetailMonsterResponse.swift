@@ -21,7 +21,25 @@ public struct DictionaryDetailMonsterResponse: Equatable {
     public let typeEffectiveness: Effectiveness?
     public let bookmarkId: Int?
 
-    public init(monsterId: Int, nameKr: String, nameEn: String, imageUrl: String, level: Int, exp: Int, hp: Int, mp: Int, physicalDefense: Int, magicDefense: Int, requiredAccuracy: Int, bonusAccuracyPerLevelLower: Double, evasionRate: Int, mesoDropAmount: Int?, mesoDropRate: Int?, typeEffectiveness: Effectiveness?, bookmarkId: Int?) {
+    public init(
+        monsterId: Int,
+        nameKr: String,
+        nameEn: String,
+        imageUrl: String,
+        level: Int,
+        exp: Int,
+        hp: Int,
+        mp: Int,
+        physicalDefense: Int,
+        magicDefense: Int,
+        requiredAccuracy: Int,
+        bonusAccuracyPerLevelLower: Double,
+        evasionRate: Int,
+        mesoDropAmount: Int?,
+        mesoDropRate: Int?,
+        typeEffectiveness: Effectiveness?,
+        bookmarkId: Int?
+    ) {
         self.monsterId = monsterId
         self.nameKr = nameKr
         self.nameEn = nameEn

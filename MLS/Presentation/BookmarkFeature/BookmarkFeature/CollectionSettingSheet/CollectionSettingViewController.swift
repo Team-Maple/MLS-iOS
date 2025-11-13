@@ -15,6 +15,7 @@ public final class CollectionSettingViewController: BaseViewController, ModalPre
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+
     public var setMenu: ((CollectionSettingMenu) -> Void)?
 
     private var mainView = CollectionSettingView()

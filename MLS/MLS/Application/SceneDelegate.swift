@@ -1,82 +1,76 @@
-import NotificationCenter
 import UIKit
 
-import AuthFeature
 import AuthFeatureInterface
-import BaseFeature
+import BookmarkFeatureInterface
 import Core
-import Data
-import DictionaryFeature
 import DictionaryFeatureInterface
-import Domain
 import DomainInterface
+import MyPageFeatureInterface
 
-import KakaoSDKAuth
 import RxSwift
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var appCoordinator: AppCoordinator?
     var disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        window = UIWindow(windowScene: windowScene)
-        setStartViewController(window: window)
+
+        let window = UIWindow(windowScene: windowScene)
+        window.makeKeyAndVisible()
+        self.window = window
+
+        let dictionaryMainViewFactory: DictionaryMainViewFactory = DIContainer.resolve(type: DictionaryMainViewFactory.self)
+        let bookmarkMainFactory: BookmarkMainFactory = DIContainer.resolve(type: BookmarkMainFactory.self)
+        let myPageMainFactory: MyPageMainFactory = DIContainer.resolve(type: MyPageMainFactory.self)
+        let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
+
+        let coordinator = AppCoordinator(
+            window: window,
+            dictionaryMainViewFactory: dictionaryMainViewFactory,
+            bookmarkMainFactory: bookmarkMainFactory,
+            myPageMainFactory: myPageMainFactory,
+            loginFactory: loginFactory
+        )
+        self.appCoordinator = coordinator
+
+        startScene(coordinator: coordinator)
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {}
+    private func startScene(coordinator: AppCoordinator) {
+        let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
+        let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
+        let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
 
-    func sceneDidBecomeActive(_ scene: UIScene) {}
+        let fetchResult = fetchTokenUseCase.execute(type: .refreshToken)
 
-    func sceneWillResignActive(_ scene: UIScene) {}
+        switch fetchResult {
+        case .success(let refreshToken):
+            // ✅ refreshToken 존재 → accessToken 재발급 시도
+            reissueUseCase.execute(refreshToken: refreshToken)
+                .observe(on: MainScheduler.instance)
+                .subscribe(
+                    onNext: { response in
+                        let accessSave = saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
+                        let refreshSave = saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
 
-    func sceneWillEnterForeground(_ scene: UIScene) {}
-
-    func sceneDidEnterBackground(_ scene: UIScene) {}
-
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        if let url = URLContexts.first?.url {
-            if AuthApi.isKakaoTalkLoginUrl(url) {
-                _ = AuthController.handleOpenUrl(url: url)
-            }
-        }
-    }
-
-    func setStartViewController(window: UIWindow?) {
-        UNUserNotificationCenter.current().getNotificationSettings { [weak self] _ in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
-                let notificationFactory: OnBoardingNotificationFactory = DIContainer.resolve(type: OnBoardingNotificationFactory.self)
-                window?.makeKeyAndVisible()
-                let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
-                let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
-                let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
-                let fetchResult = fetchTokenUseCase.execute(type: .refreshToken)
-
-                switch fetchResult {
-                case .success(let token):
-                    reissueUseCase.execute(refreshToken: token)
-                        .observe(on: MainScheduler.instance)
-                        .subscribe { response in
-                            let accessSaveResult = saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
-                            let refreshSaveResult = saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-                            window?.rootViewController = UINavigationController(rootViewController: ViewController())
-                            if case .success = accessSaveResult, case .success = refreshSaveResult {
-                                // 저장 결과 모두 성공일 때만 진입
-                                window?.rootViewController = UINavigationController(rootViewController: ViewController())
-                            } else {
-                                // 저장 실패 시 로그인 화면으로 이동
-                                window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
-                            }
-                        } onError: { _ in
-                            window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
+                        if case .success = accessSave, case .success = refreshSave {
+                            coordinator.showMainTab()
+                        } else {
+                            coordinator.showLogin(exitRoute: .home)
                         }
-                        .disposed(by: self.disposeBag)
-                case .failure:
-                    window?.rootViewController = UINavigationController(rootViewController: loginFactory.make(isReLogin: false))
-                }
-            }
+                    },
+                    onError: { error in
+                        print(error)
+                        coordinator.showLogin(exitRoute: .home)
+                    }
+                )
+                .disposed(by: disposeBag)
+
+        case .failure:
+            // ✅ refreshToken 없으면 바로 로그인으로
+            coordinator.showLogin(exitRoute: .home)
         }
     }
 }

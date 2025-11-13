@@ -1,3 +1,6 @@
+// swiftlint:disable function_body_length
+// swiftlint:disable line_length
+
 import os
 import UIKit
 import UserNotifications
@@ -96,31 +99,43 @@ private extension AppDelegate {
 
     func registerProvider() {
         DIContainer.register(type: NetworkProvider.self) {
-            return NetworkProviderImpl()
+            NetworkProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "kakao") {
-            return KakaoLoginProviderImpl()
+            KakaoLoginProviderImpl()
         }
         DIContainer.register(type: SocialAuthenticatableProvider.self, name: "apple") {
-            return AppleLoginProviderImpl()
+            AppleLoginProviderImpl()
+        }
+        DIContainer.register(type: Interceptor.self) {
+            TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
         }
     }
 
     func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
-            return AuthAPIRepositoryImpl(
+            AuthAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                interceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self))
+                interceptor: DIContainer.resolve(type: Interceptor.self)
             )
         }
         DIContainer.register(type: TokenRepository.self) {
-            return KeyChainRepositoryImpl()
-        }
-        DIContainer.register(type: DictionaryListRepository.self) {
-            return DictionaryListRepositoryImpl(allItems: [])
+            KeyChainRepositoryImpl()
         }
         DIContainer.register(type: DictionaryDetailAPIRepository.self) {
-            return DictionaryDetailAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: TokenInterceptor(fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)))
+            DictionaryDetailAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: DIContainer.resolve(type: Interceptor.self))
+        }
+        DIContainer.register(type: DictionaryListAPIRepository.self) {
+            DictionaryListAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), tokenInterceptor: DIContainer.resolve(type: Interceptor.self))
+        }
+        DIContainer.register(type: BookmarkRepository.self) {
+            BookmarkRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
+        }
+        DIContainer.register(type: UserDefaultsRepository.self) {
+            UserDefaultsRepositoryImpl()
+        }
+        DIContainer.register(type: AlarmAPIRepository.self) {
+            AlarmAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
         }
     }
 
@@ -134,127 +149,278 @@ private extension AppDelegate {
             return SocialLoginUseCaseImpl(provider: provider)
         }
         DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
-            return CheckEmptyLevelAndRoleUseCaseImpl()
+            CheckEmptyLevelAndRoleUseCaseImpl()
         }
         DIContainer.register(type: CheckValidLevelUseCase.self) {
-            return CheckValidLevelUseCaseImpl()
+            CheckValidLevelUseCaseImpl()
         }
         DIContainer.register(type: FetchJobListUseCase.self) {
-            return FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: LoginWithAppleUseCase.self) {
-            return LoginWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            LoginWithAppleUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self), userDefaultsRepository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
         DIContainer.register(type: LoginWithKakaoUseCase.self) {
-            return LoginWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            LoginWithKakaoUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self), userDefaultsRepository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
         DIContainer.register(type: SignUpWithAppleUseCase.self) {
-            return SignUpWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            SignUpWithAppleUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: SignUpWithKakaoUseCase.self) {
-            return SignUpWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            SignUpWithKakaoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: UpdateUserInfoUseCase.self) {
-            return UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: ReissueUseCase.self) {
-            return ReissueUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            ReissueUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: PutFCMTokenUseCase.self) {
-            return PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+            PutFCMTokenUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
         DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
-            return FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+            FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: SaveTokenToLocalUseCase.self) {
-            return SaveTokenToLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+            SaveTokenToLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: DeleteTokenFromLocalUseCase.self) {
-            return DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+            DeleteTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: UpdateMarketingAgreementUseCase.self) {
-            return UpdateMarketingAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+            UpdateMarketingAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
-            return CheckNotificationPermissionUseCaseImpl()
+            CheckNotificationPermissionUseCaseImpl()
         }
         DIContainer.register(type: OpenNotificationSettingUseCase.self) {
-            return OpenNotificationSettingUseCaseImpl()
+            OpenNotificationSettingUseCaseImpl()
         }
         DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
-            return UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
+            UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
         }
-        DIContainer.register(type: FetchDictionaryItemsUseCase.self) {
-            return FetchDictionaryItemsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
+        DIContainer.register(type: CheckLoginUseCase.self) {
+            CheckLoginUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
-        DIContainer.register(type: ToggleBookmarkUseCase.self) {
-            return ToggleBookmarkUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListRepository.self))
+        DIContainer.register(type: FetchDictionaryAllListUseCase.self) {
+            FetchDictionaryAllListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
-        DIContainer.register(type: FetchNotificationUseCase.self) {
-            return FetchNotificationUseCaseImpl()
+        DIContainer.register(type: SetBookmarkUseCase.self) {
+            SetBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
         }
-        DIContainer.register(type: FetchDictionaryDetailMonsterItemsUseCase.self) {
-            return FetchDictionaryDetailMonsterDropItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
-        }
-        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
-            return FetchDictionaryDetailMonsterMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        DIContainer.register(type: FetchPlatformUseCase.self) {
+            FetchPlatformUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
         DIContainer.register(type: FetchDictionaryMapListUseCase.self) {
-            return FetchDictionaryMapListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+            FetchDictionaryMapListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
         DIContainer.register(type: FetchDictionaryItemListUseCase.self) {
-            return FetchDictionaryItemListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+            FetchDictionaryItemListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
         DIContainer.register(type: FetchDictionaryQuestListUseCase.self) {
-            return FetchDictionaryQuestListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+            FetchDictionaryQuestListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
         DIContainer.register(type: FetchDictionaryNpcListUseCase.self) {
-            return FetchDictionaryNpcListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+            FetchDictionaryNpcListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
         }
         DIContainer.register(type: FetchDictionaryMonsterListUseCase.self) {
-            return FetchDictionaryMonsterListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+            FetchDictionaryMonsterListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterUseCase.self) {
+            FetchDictionaryDetailMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterItemsUseCase.self) {
+            FetchDictionaryDetailMonsterDropItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
+            FetchDictionaryDetailMonsterMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailNpcUseCase.self) {
+            FetchDictionaryDetailNpcUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailNpcQuestUseCase.self) {
+            FetchDictionaryDetailNpcQuestUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailNpcMapUseCase.self) {
+            FetchDictionaryDetailNpcMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailItemUseCase.self) {
+            FetchDictionaryDetailItemUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailItemDropMonsterUseCase.self) {
+            FetchDictionaryDetailItemDropMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailQuestUseCase.self) {
+            FetchDictionaryDetailQuestUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self) {
+            FetchDictionaryDetailQuestLinkedQuestsUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapUseCase.self) {
+            FetchDictionaryDetailMapUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self) {
+            FetchDictionaryDetailMapSpawnMonsterUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryDetailMapNpcUseCase.self) {
+            FetchDictionaryDetailMapNpcUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
+        }
+        DIContainer.register(type: RecentSearchRemoveUseCase.self) {
+            RecentSearchRemoveUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
+        DIContainer.register(type: RecentSearchAddUseCase.self) {
+            RecentSearchAddUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
+        DIContainer.register(type: FetchDictionaryListCountUseCase.self) {
+            FetchDictionaryListCountUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: FetchDictionarySearchListUseCase.self) {
+            FetchDictionarySearchListUseCaseImpl(repository: DIContainer.resolve(type: DictionaryListAPIRepository.self))
+        }
+        DIContainer.register(type: RecentSearchFetchUseCase.self) {
+            RecentSearchFetchUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
+        DIContainer.register(type: FetchBookmarkUseCase.self) {
+            FetchBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: FetchMonsterBookmarkUseCase.self) {
+            FetchMonsterBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: FetchItemBookmarkUseCase.self) {
+            FetchItemBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: FetchNPCBookmarkUseCase.self) {
+            FetchNPCBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: FetchQuestBookmarkUseCase.self) {
+            FetchQuestBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: FetchMapBookmarkUseCase.self) {
+            FetchMapBookmarkUseCaseImpl(repository: DIContainer.resolve(type: BookmarkRepository.self))
+        }
+        DIContainer.register(type: UpdateProfileImageUseCase.self) {
+            UpdateProfileImageUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchJobUseCase.self) {
+            FetchJobUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: FetchProfileUseCase.self) {
+            FetchProfileUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self), fetchJobUseCase: DIContainer.resolve(type: FetchJobUseCase.self))
+        }
+        DIContainer.register(type: CheckNickNameUseCase.self) {
+            CheckNickNameUseCaseImpl()
+        }
+        DIContainer.register(type: UpdateNickNameUseCase.self) {
+            UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
+        }
+        DIContainer.register(type: LogoutUseCase.self) {
+            LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: WithdrawUseCase.self) {
+            WithdrawUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
+        }
+        DIContainer.register(type: FetchNoticesUseCase.self) {
+            FetchNoticesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOngoingEventsUseCase.self) {
+            FetchOngoingEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchOutdatedEventsUseCase.self) {
+            FetchOutdatedEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchPatchNotesUseCase.self) {
+            FetchPatchNotesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: SetReadUseCase.self) {
+            SetReadUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: FetchAllAlarmUseCase.self) {
+            FetchAllAlarmUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
+        }
+        DIContainer.register(type: ParseItemFilterResultUseCase.self) {
+            ParseItemFilterResultUseCaseImpl()
         }
     }
 
     func registerFactory() {
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
-            return ItemFilterBottomSheetFactoryImpl()
+            ItemFilterBottomSheetFactoryImpl()
         }
         DIContainer.register(type: MonsterFilterBottomSheetFactory.self) {
-            return MonsterFilterBottomSheetFactoryImpl()
+            MonsterFilterBottomSheetFactoryImpl()
         }
         DIContainer.register(type: SortedBottomSheetFactory.self) {
-            return SortedBottomSheetFactoryImpl()
+            SortedBottomSheetFactoryImpl()
         }
         DIContainer.register(type: AddCollectionFactory.self) {
-            return AddCollectionFactoryImpl()
+            AddCollectionFactoryImpl()
         }
         DIContainer.register(type: BookmarkModalFactory.self) {
-            return BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
+            BookmarkModalFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self))
+        }
+        DIContainer.register(type: LoginFactory.self) {
+            LoginFactoryImpl(
+                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
+                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
+                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
+                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
+                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
+                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
+                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self), fetchPlatformUseCase: DIContainer.resolve(type: FetchPlatformUseCase.self)
+            )
         }
         DIContainer.register(type: DictionaryDetailFactory.self) {
-            return DictionaryDetailFactoryImpl(dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self))
+            DictionaryDetailFactoryImpl(loginFactory: { DIContainer.resolve(type: LoginFactory.self) }, bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), dictionaryDetailMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapUseCase.self), dictionaryDetailMapSpawnMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapSpawnMonsterUseCase.self), dictionaryDetailMapNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailMapNpcUseCase.self), dictionaryDetailQuestLinkedQuestsUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestLinkedQuestsUseCase.self), dictionaryDetailQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailQuestUseCase.self), dictionaryDetailItemDropMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemDropMonsterUseCase.self), dictionaryDetailItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailItemUseCase.self), dictionaryDetailNpcUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcUseCase.self), dictionaryDetailNpcQuestUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcQuestUseCase.self), dictionaryDetailNpcMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailNpcMapUseCase.self), dictionaryDetailMonsterUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterUseCase.self), dictionaryDetailMonsterDropItemUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterItemsUseCase.self), dictionaryDetailMonsterMapUseCase: DIContainer.resolve(type: FetchDictionaryDetailMonsterMapUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self))
         }
         DIContainer.register(type: DictionaryMainListFactory.self) {
-            return DictionaryListFactoryImpl(dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self), dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self), dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self), dictionaryNpcListItemUseCase: DIContainer.resolve(type: FetchDictionaryNpcListUseCase.self), dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self), fetchDictionaryItemsUseCase: DIContainer.resolve(type: FetchDictionaryItemsUseCase.self), toggleBookmarkUseCase: DIContainer.resolve(type: ToggleBookmarkUseCase.self), itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), detailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self))
+            DictionaryListFactoryImpl(
+                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
+                dictionaryAllListItemUseCase: DIContainer.resolve(type: FetchDictionaryAllListUseCase.self),
+                dictionaryMapListItemUseCase: DIContainer.resolve(type: FetchDictionaryMapListUseCase.self),
+                dictionaryItemListItemUseCase: DIContainer.resolve(type: FetchDictionaryItemListUseCase.self),
+                dictionaryQuestListItemUseCase: DIContainer.resolve(type: FetchDictionaryQuestListUseCase.self),
+                dictionaryNpcListItemUseCase: DIContainer
+                    .resolve(type: FetchDictionaryNpcListUseCase.self),
+                dictionaryListItemUseCase: DIContainer.resolve(type: FetchDictionaryMonsterListUseCase.self),
+                setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self),
+                itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self),
+                monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self),
+                sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self),
+                bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self),
+                detailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self), loginFactory: { DIContainer.resolve(type: LoginFactory.self) }
+            )
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
-            return DictionarySearchResultFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self))
+            DictionarySearchResultFactoryImpl(
+                dictionaryListCountUseCase: DIContainer.resolve(type: FetchDictionaryListCountUseCase.self),
+                dictionaryMainListFactory: DIContainer
+                    .resolve(type: DictionaryMainListFactory.self),
+                dictionarySearchListUseCase: DIContainer.resolve(type: FetchDictionarySearchListUseCase.self)
+            )
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
-            return DictionarySearchFactoryImpl(searchResultFactory: DIContainer.resolve(type: DictionarySearchResultFactory.self))
+            DictionarySearchFactoryImpl(recentSearchRemoveUseCase: DIContainer.resolve(type: RecentSearchRemoveUseCase.self),
+                                        recentSearchAddUseCase: DIContainer.resolve(type: RecentSearchAddUseCase.self),
+                                        searchResultFactory: DIContainer
+                                            .resolve(type: DictionarySearchResultFactory.self), recentSearchFetchUseCase: DIContainer.resolve(type: RecentSearchFetchUseCase.self))
         }
         DIContainer.register(type: NotificationSettingFactory.self) {
-            return NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
+            NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
-            return DictionaryNotificationFactoryImpl(fetchNotificationUseCase: DIContainer.resolve(type: FetchNotificationUseCase.self), notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self))
+            DictionaryNotificationFactoryImpl(notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self), fetchAllAlarmUseCase: DIContainer.resolve(type: FetchAllAlarmUseCase.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self))
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
-            return DictionaryMainViewFactoryImpl(dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self), searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self), notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self))
+            DictionaryMainViewFactoryImpl(
+                dictionaryMainListFactory: DIContainer
+                    .resolve(type: DictionaryMainListFactory.self),
+                searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
+                notificationFactory: DIContainer
+                    .resolve(type: DictionaryNotificationFactory.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self)
+            )
         }
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
-            return OnBoardingNotificationSheetFactoryImpl(
+            OnBoardingNotificationSheetFactoryImpl(
                 checkNotificationPermissionUseCase: DIContainer
                     .resolve(type: CheckNotificationPermissionUseCase.self),
                 openNotificationSettingUseCase: DIContainer
@@ -264,19 +430,20 @@ private extension AppDelegate {
             )
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
-            return OnBoardingInputFactoryImpl(
+            OnBoardingInputFactoryImpl(
                 checkEmptyUseCase: DIContainer.resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase: DIContainer.resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase: DIContainer.resolve(type: FetchJobListUseCase.self),
-                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self))
+                updateUserInfoUseCase: DIContainer.resolve(type: UpdateUserInfoUseCase.self), onBoardingNotificationFactory: DIContainer.resolve(type: OnBoardingNotificationFactory.self)
+            )
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
-            return OnBoardingQuestionFactoryImpl(
+            OnBoardingQuestionFactoryImpl(
                 onBoardingInputFactory: DIContainer.resolve(type: OnBoardingInputFactory.self)
             )
         }
         DIContainer.register(type: TermsAgreementFactory.self) {
-            return TermsAgreementFactoryImpl(
+            TermsAgreementFactoryImpl(
                 onBoardingQuestionFactory: DIContainer.resolve(type: OnBoardingQuestionFactory.self),
                 signUpWithKakaoUseCase: DIContainer.resolve(type: SignUpWithKakaoUseCase.self),
                 signUpWithAppleUseCase: DIContainer.resolve(type: SignUpWithAppleUseCase.self),
@@ -284,19 +451,89 @@ private extension AppDelegate {
                 fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self), updateMarketingAgreementUseCase: DIContainer.resolve(type: UpdateMarketingAgreementUseCase.self)
             )
         }
-        DIContainer.register(type: LoginFactory.self) {
-            return LoginFactoryImpl(
-                termsAgreementsFactory: DIContainer.resolve(type: TermsAgreementFactory.self),
-                appleLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "apple"),
-                kakaoLoginUseCase: DIContainer.resolve(type: FetchSocialCredentialUseCase.self, name: "kakao"),
-                loginWithAppleUseCase: DIContainer.resolve(type: LoginWithAppleUseCase.self),
-                loginWithKakaoUseCase: DIContainer.resolve(type: LoginWithKakaoUseCase.self),
-                fetchTokenUseCase: DIContainer.resolve(type: FetchTokenFromLocalUseCase.self),
-                putFCMTokenUseCase: DIContainer.resolve(type: PutFCMTokenUseCase.self)
+        DIContainer.register(type: OnBoardingNotificationFactory.self) {
+            OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
+        }
+        DIContainer.register(type: BookmarkMainFactory.self) {
+            BookmarkMainFactoryImpl(
+                setBookmarkUseCase: DIContainer
+                    .resolve(type: SetBookmarkUseCase.self),
+                onBoardingFactory: DIContainer
+                    .resolve(type: BookmarkOnBoardingFactory.self),
+                bookmarkListFactory: DIContainer
+                    .resolve(type: BookmarkListFactory.self),
+                collectionListFactory: DIContainer
+                    .resolve(type: CollectionListFactory.self),
+                searchFactory: DIContainer
+                    .resolve(type: DictionarySearchFactory.self),
+                notificationFactory: DIContainer.resolve(
+                    type: DictionaryNotificationFactory.self
+                )
             )
         }
-        DIContainer.register(type: OnBoardingNotificationFactory.self) {
-            return OnBoardingNotificationFactoryImpl(onBoardingNotificationSheetFactory: DIContainer.resolve(type: OnBoardingNotificationSheetFactory.self))
+        DIContainer.register(type: BookmarkOnBoardingFactory.self) {
+            BookmarkOnBoardingFactoryImpl()
+        }
+        DIContainer.register(type: BookmarkListFactory.self) {
+            BookmarkListFactoryImpl(itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), loginFactory: DIContainer.resolve(type: LoginFactory.self), dictionaryDetailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), fetchBookmarkUseCase: DIContainer.resolve(type: FetchBookmarkUseCase.self), fetchMonsterBookmarkUseCase: DIContainer.resolve(type: FetchMonsterBookmarkUseCase.self), fetchItemBookmarkUseCase: DIContainer.resolve(type: FetchItemBookmarkUseCase.self), fetchNPCBookmarkUseCase: DIContainer.resolve(type: FetchNPCBookmarkUseCase.self), fetchQuestBookmarkUseCase: DIContainer.resolve(type: FetchQuestBookmarkUseCase.self), fetchMapBookmarkUseCase: DIContainer.resolve(type: FetchMapBookmarkUseCase.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
+        }
+        DIContainer.register(type: CollectionListFactory.self) {
+            CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
+        }
+        DIContainer.register(type: CollectionDetailFactory.self) {
+            CollectionDetailFactoryImpl(
+                setBookmarkUseCase: DIContainer
+                    .resolve(type: SetBookmarkUseCase.self),
+                bookmarkModalFactory: DIContainer
+                    .resolve(type: BookmarkModalFactory.self),
+                collectionSettingFactory: DIContainer
+                    .resolve(type: CollectionSettingFactory.self),
+                addCollectionFactory: DIContainer
+                    .resolve(type: AddCollectionFactory.self),
+                collectionEditFactory: DIContainer
+                    .resolve(type: CollectionEditFactory.self),
+                dictionaryDetailFactory: DIContainer
+                    .resolve(type: DictionaryDetailFactory.self)
+            )
+        }
+        DIContainer.register(type: CollectionSettingFactory.self) {
+            CollectionSettingFactoryImpl()
+        }
+        DIContainer.register(type: CollectionEditFactory.self) {
+            CollectionEditFactoryImpl(setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self))
+        }
+        DIContainer.register(type: MyPageMainFactory.self) {
+            MyPageMainFactoryImpl(
+                loginFactory: DIContainer.resolve(type: LoginFactory.self), setProfileFactory: DIContainer
+                    .resolve(type: SetProfileFactory.self),
+                customerSupportFactory: DIContainer
+                    .resolve(type: CustomerSupportFactory.self),
+                notificationSettingFactory: DIContainer
+                    .resolve(type: NotificationSettingFactory.self),
+                setCharacterFactory: DIContainer
+                    .resolve(type: SetCharacterFactory.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
+            )
+        }
+        DIContainer.register(type: CustomerSupportFactory.self) {
+            CustomerSupportBaseViewFactoryImpl(fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self), setReadUseCase: DIContainer.resolve(type: SetReadUseCase.self))
+        }
+        DIContainer.register(type: SetProfileFactory.self) {
+            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), updateNickNameUseCase: DIContainer.resolve(type: UpdateNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self))
+        }
+        DIContainer.register(type: SetCharacterFactory.self) {
+            SetCharacterFactoryImpl(
+                checkEmptyUseCase: DIContainer
+                    .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
+                checkValidLevelUseCase: DIContainer
+                    .resolve(type: CheckValidLevelUseCase.self),
+                fetchJobListUseCase: DIContainer
+                    .resolve(type: FetchJobListUseCase.self),
+                updateUserInfoUseCase: DIContainer
+                    .resolve(type: UpdateUserInfoUseCase.self)
+            )
+        }
+        DIContainer.register(type: SelectImageFactory.self) {
+            SelectImageFactoryImpl(updateProfileImageUseCase: DIContainer.resolve(type: UpdateProfileImageUseCase.self))
         }
     }
 }

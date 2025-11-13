@@ -16,6 +16,20 @@ public struct DictionaryDetailItemResponseDTO: Decodable {
     public let bookmarkId: Int?
 
     public func toDomain() -> DictionaryDetailItemResponse {
-        return DictionaryDetailItemResponse(itemId: itemId, nameKr: nameKr, nameEn: nameEn, descriptionText: descriptionText, imgUrl: imgUrl, npcPrice: npcPrice, itemType: itemType, categoryHierachy: categoryHierachy, availableJobs: availableJobs, requiredStats: requiredStats, equipmentStats: equipmentStats, scrollDetail: scrollDetail, bookmarkId: bookmarkId)
+        return DictionaryDetailItemResponse(
+            itemId: itemId,
+            nameKr: nameKr,
+            nameEn: nameEn,
+            descriptionText: descriptionText,
+            imgUrl: imgUrl,
+            npcPrice: npcPrice,
+            itemType: itemType,
+            categoryHierachy: categoryHierachy,
+            availableJobs: availableJobs,
+            requiredStats: requiredStats,
+            equipmentStats: equipmentStats,
+            scrollDetail: scrollDetail,
+            bookmarkId: bookmarkId
+        )
     }
 }

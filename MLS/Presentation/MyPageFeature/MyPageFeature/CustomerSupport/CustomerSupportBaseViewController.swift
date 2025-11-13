@@ -12,17 +12,16 @@ import RxSwift
  */
 class CustomerSupportBaseViewController: BaseViewController {
     // MARK: - Properties
-
     public var disposeBag = DisposeBag()
-
-    // MARK: - Components
-    public var mainView = CustomerSupportBaseView()
-    public var type: CustomerSupportType
 
     /// 현재 보여지고 있는 뷰의 인덱스
     public var currentTabIndex: Int?
     public var urlStrings: [String] = []
     var onItemTapped: ((Int) -> Void)?
+
+    // MARK: - Components
+    public var mainView = CustomerSupportBaseView()
+    public var type: CustomerSupportType
 
     public init(type: CustomerSupportType) {
         self.type = type
@@ -45,7 +44,7 @@ class CustomerSupportBaseViewController: BaseViewController {
 
     func createDetailItem(items: [AlarmResponse]) {
         for (index, item) in items.enumerated() {
-            let view = mainView.createDetailItem(titleText: item.title, dateText: changeKoreanDate(date: item.date))
+            let view = mainView.createDetailItem(titleText: item.title, dateText: item.date.changeKoreanDate())
             view.tag = index
             urlStrings.append(item.link)
 
@@ -75,10 +74,6 @@ class CustomerSupportBaseViewController: BaseViewController {
                 })
                 .disposed(by: disposeBag)
         }
-    }
-
-    func changeKoreanDate(date: [Int]) -> String? {
-        return "\(date[0])년 \(date[1])월 \(date[2])일 \(date[3]):\(String(format: "%02d", date[4]))"
     }
 }
 

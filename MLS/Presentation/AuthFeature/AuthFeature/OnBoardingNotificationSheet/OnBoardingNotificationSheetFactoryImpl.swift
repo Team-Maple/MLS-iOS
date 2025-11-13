@@ -10,7 +10,13 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
     private let updateUserInfoUseCase: UpdateUserInfoUseCase
     private let dictionaryMainViewFactory: DictionaryMainViewFactory
 
-    public init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, openNotificationSettingUseCase: OpenNotificationSettingUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase, updateUserInfoUseCase: UpdateUserInfoUseCase, dictionaryMainViewFactory: DictionaryMainViewFactory) {
+    public init(
+        checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase,
+        openNotificationSettingUseCase: OpenNotificationSettingUseCase,
+        updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
+        updateUserInfoUseCase: UpdateUserInfoUseCase,
+        dictionaryMainViewFactory: DictionaryMainViewFactory
+    ) {
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
@@ -20,7 +26,14 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
 
     public func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController & ModalPresentable {
         let viewController = OnBoardingNotificationSheetViewController(dictionaryMainViewFactory: dictionaryMainViewFactory)
-        viewController.reactor = OnBoardingNotificationSheetReactor(selectedLevel: selectedLevel, selectedJobID: selectedJobID, checkNotificationPermissionUseCase: checkNotificationPermissionUseCase, openNotificationSettingUseCase: openNotificationSettingUseCase, updateNotificationAgreementUseCase: updateNotificationAgreementUseCase, updateUserInfoUseCase: updateUserInfoUseCase)
+        viewController.reactor = OnBoardingNotificationSheetReactor(
+            selectedLevel: selectedLevel,
+            selectedJobID: selectedJobID,
+            checkNotificationPermissionUseCase: checkNotificationPermissionUseCase,
+            openNotificationSettingUseCase: openNotificationSettingUseCase,
+            updateNotificationAgreementUseCase: updateNotificationAgreementUseCase,
+            updateUserInfoUseCase: updateUserInfoUseCase
+        )
         return viewController
     }
 }

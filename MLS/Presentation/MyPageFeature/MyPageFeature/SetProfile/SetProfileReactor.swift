@@ -15,6 +15,7 @@ public final class SetProfileReactor: Reactor {
 
     // MARK: - Action
     public enum Action {
+        case viewWillAppear
         case backButtonTapped
         case editButtonTapped
         case logoutButtonTapped
@@ -30,6 +31,7 @@ public final class SetProfileReactor: Reactor {
     public enum Mutation {
         case toNavigate(Route)
         case setNickName(String)
+        case setProfile(MyPageResponse?)
         case showError(Bool)
         case beginSetText(Bool)
         case beginEditting
@@ -41,9 +43,9 @@ public final class SetProfileReactor: Reactor {
     public struct State {
         @Pulse var route: Route = .none
         var setProfileState: SetProfileView.SetProfileState
-        var nickName: String = ""
         var isShowError = false
         var isEditingNickName = false
+        var profile: MyPageResponse?
     }
 
     // MARK: - Properties
@@ -53,13 +55,15 @@ public final class SetProfileReactor: Reactor {
     private let updateNickNameUseCase: UpdateNickNameUseCase
     private let logoutUseCase: LogoutUseCase
     private let withdrawUseCase: WithdrawUseCase
+    private let fetchProfileUseCase: FetchProfileUseCase
 
     // MARK: - Init
-    public init(checkNickNameUseCase: CheckNickNameUseCase, updateNickNameUseCase: UpdateNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase) {
+    public init(checkNickNameUseCase: CheckNickNameUseCase, updateNickNameUseCase: UpdateNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase, fetchProfileUseCase: FetchProfileUseCase) {
         self.checkNickNameUseCase = checkNickNameUseCase
         self.updateNickNameUseCase = updateNickNameUseCase
         self.logoutUseCase = logoutUseCase
         self.withdrawUseCase = withdrawUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     // MARK: - Mutate
@@ -85,8 +89,14 @@ public final class SetProfileReactor: Reactor {
         case .editButtonTapped:
             switch currentState.setProfileState {
             case .edit:
-                return updateNickNameUseCase.execute(nickName: currentState.nickName)
-                    .andThen(Observable.just(.completeEditting))
+                guard let profile = currentState.profile else { return .empty() }
+                return updateNickNameUseCase.execute(nickName: profile.nickname)
+                    .flatMap { profile in
+                        Observable.concat([
+                            .just(.setProfile(profile)),
+                            .just(.completeEditting)
+                        ])
+                    }
             case .normal:
                 return .just(.beginEditting)
             }
@@ -100,6 +110,9 @@ public final class SetProfileReactor: Reactor {
         case .withdraw:
             return withdrawUseCase.execute()
                 .andThen(.empty())
+        case .viewWillAppear:
+            return fetchProfileUseCase.execute()
+                .map { Mutation.setProfile($0)}
         }
     }
 
@@ -110,8 +123,6 @@ public final class SetProfileReactor: Reactor {
         switch mutation {
         case .toNavigate(let route):
             newState.route = route
-        case .setNickName(let nickName):
-            newState.nickName = nickName
         case .showError(let error):
             newState.isShowError = error
         case .beginSetText(let isEditing):
@@ -122,6 +133,10 @@ public final class SetProfileReactor: Reactor {
             newState.setProfileState = .edit
         case .completeEditting:
             newState.route = .dismissWithUpdate
+        case .setProfile(let profile):
+            newState.profile = profile
+        case .setNickName(let nickName):
+            newState.profile?.nickname = nickName
         }
 
         return newState

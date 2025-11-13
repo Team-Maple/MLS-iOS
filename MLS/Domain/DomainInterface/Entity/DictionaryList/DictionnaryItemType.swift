@@ -37,15 +37,19 @@ public enum DictionaryItemType: String {
         }
     }
 
-    static func from(_ string: String) -> DictionaryItemType? {
-        let mapping: [String: DictionaryItemType] = [
-            "item": .item,
-            "monster": .monster,
-            "map": .map,
-            "npc": .npc,
-            "quest": .quest
-        ]
-        return mapping[string.lowercased()]
+    public var toDictionaryType: DictionaryType? {
+        switch self {
+        case .item:
+            return .item
+        case .monster:
+            return .monster
+        case .map:
+            return .map
+        case .npc:
+            return .npc
+        case .quest:
+            return .quest
+        }
     }
 }
 

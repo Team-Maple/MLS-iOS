@@ -14,6 +14,7 @@ public final class BookmarkMainViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+
     private let initialIndex: Int
     private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
 

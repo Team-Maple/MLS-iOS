@@ -2,47 +2,117 @@ import DomainInterface
 
 import ReactorKit
 
-final class QuestDictionaryDetailReactor: Reactor {
-
-    public struct State {
-        var type: DictionaryItemType
-
-        var detailInfo: DictionaryDetailQuestResponse
-        var linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse
-
-        var id = 0
-    }
-
-    public let dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase
-    public let dictionaryDetailQuestLinkedQuestUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase
-
+public final class QuestDictionaryDetailReactor: Reactor {
+    // MARK: - Action / Mutation / State
     public enum Action {
         case viewWillAppear
+        case toggleBookmark(Bool)
+        case undoLastDeletedBookmark
     }
 
     public enum Mutation {
         case setDetailData(DictionaryDetailQuestResponse)
         case setLinkedQuests(DictionaryDetailQuestLinkedQuestsResponse)
+        case setLoginState(Bool)
+        case setLastDeletedBookmark(DictionaryDetailQuestResponse?)
     }
+
+    public struct State {
+        var type: DictionaryType = .quest
+        var id: Int
+        var detailInfo: DictionaryDetailQuestResponse
+        var linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse
+        var isLogin = false
+        var lastDeletedBookmark: DictionaryDetailQuestResponse?
+    }
+
+    private let dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase
+    private let dictionaryDetailQuestLinkedQuestUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase
+    private let checkLoginUseCase: CheckLoginUseCase
+    private let setBookmarkUseCase: SetBookmarkUseCase
 
     public var initialState: State
     private let disposeBag = DisposeBag()
 
-    public init(dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase, dictionaryDetailQuestLinkedQuestsUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase, id: Int) {
-        self.initialState = .init(type: .quest, detailInfo: DictionaryDetailQuestResponse(questId: nil, titlePrefix: nil, nameKr: nil, nameEn: nil, iconUrl: nil, questType: nil, minLevel: nil, maxLevel: nil, requiredMesoStart: nil, startNpcId: nil, startNpcName: nil, endNpcId: nil, endNpcName: nil, reward: nil, rewardItems: nil, requirements: nil, allowedJobs: nil, bookmarkId: nil), linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse(previousQuests: nil, nextQuests: nil), id: id)
+    public init(
+        dictionaryDetailQuestUseCase: FetchDictionaryDetailQuestUseCase,
+        dictionaryDetailQuestLinkedQuestUseCase: FetchDictionaryDetailQuestLinkedQuestsUseCase,
+        checkLoginUseCase: CheckLoginUseCase,
+        setBookmarkUseCase: SetBookmarkUseCase,
+        id: Int
+    ) {
         self.dictionaryDetailQuestUseCase = dictionaryDetailQuestUseCase
-        self.dictionaryDetailQuestLinkedQuestUseCase = dictionaryDetailQuestLinkedQuestsUseCase
+        self.dictionaryDetailQuestLinkedQuestUseCase = dictionaryDetailQuestLinkedQuestUseCase
+        self.checkLoginUseCase = checkLoginUseCase
+        self.setBookmarkUseCase = setBookmarkUseCase
+        self.initialState = .init(
+            id: id,
+            detailInfo: .init(
+                questId: nil,
+                titlePrefix: nil,
+                nameKr: nil,
+                nameEn: nil,
+                iconUrl: nil,
+                questType: nil,
+                minLevel: nil,
+                maxLevel: nil,
+                requiredMesoStart: nil,
+                startNpcId: nil,
+                startNpcName: nil,
+                endNpcId: nil,
+                endNpcName: nil,
+                reward: nil,
+                rewardItems: nil,
+                requirements: nil,
+                allowedJobs: nil,
+                bookmarkId: nil
+            ),
+            linkedQuestInfo: .init(previousQuests: nil, nextQuests: nil)
+        )
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return .concat([
-                dictionaryDetailQuestUseCase.execute(id: currentState.id).map {.setDetailData($0)},
-                dictionaryDetailQuestLinkedQuestUseCase.execute(id: currentState.id).map {.setLinkedQuests( $0 )
-                }
-
+            return .merge([
+                checkLoginUseCase.execute().map { .setLoginState($0) },
+                dictionaryDetailQuestUseCase.execute(id: currentState.id).map { .setDetailData($0) },
+                dictionaryDetailQuestLinkedQuestUseCase.execute(id: currentState.id).map { .setLinkedQuests($0) }
             ])
+
+        case let .toggleBookmark(isSelected):
+            guard let questId = currentState.detailInfo.questId else { return .empty() }
+
+            let saveDeleted: Observable<Mutation> = isSelected
+                ? .just(.setLastDeletedBookmark(currentState.detailInfo))
+                : .just(.setLastDeletedBookmark(nil))
+
+            return saveDeleted.concat(
+                setBookmarkUseCase.execute(
+                    bookmarkId: currentState.detailInfo.bookmarkId ?? questId,
+                    isBookmark: isSelected ? .delete : .set(.quest)
+                )
+                .andThen(
+                    dictionaryDetailQuestUseCase.execute(id: currentState.id)
+                        .map { .setDetailData($0) }
+                )
+            )
+
+        case .undoLastDeletedBookmark:
+            guard let lastDeleted = currentState.lastDeletedBookmark,
+                  let questId = lastDeleted.questId else { return .empty() }
+
+            return setBookmarkUseCase.execute(
+                bookmarkId: questId,
+                isBookmark: .set(.quest)
+            )
+            .andThen(
+                Observable.concat([
+                    dictionaryDetailQuestUseCase.execute(id: currentState.id)
+                        .map { .setDetailData($0) },
+                    .just(.setLastDeletedBookmark(nil))
+                ])
+            )
         }
     }
 
@@ -53,6 +123,10 @@ final class QuestDictionaryDetailReactor: Reactor {
             newState.detailInfo = data
         case let .setLinkedQuests(data):
             newState.linkedQuestInfo = data
+        case let .setLoginState(isLogin):
+            newState.isLogin = isLogin
+        case let .setLastDeletedBookmark(data):
+            newState.lastDeletedBookmark = data
         }
         return newState
     }

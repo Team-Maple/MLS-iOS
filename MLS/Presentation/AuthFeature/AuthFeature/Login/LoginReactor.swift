@@ -8,12 +8,13 @@ public final class LoginReactor: Reactor {
     public enum Route {
         case none
         case termsAgreements(credential: Credential, platform: LoginPlatform)
-        case home
         case error
+        case dismiss
     }
 
     // MARK: - Reactor
     public enum Action {
+        case viewWillAppear
         case kakaoLoginButtonTapped
         case appleLoginButtonTapped
         case guestLoginButtonTapped
@@ -21,10 +22,12 @@ public final class LoginReactor: Reactor {
 
     public enum Mutation {
         case navigateTo(route: Route)
+        case setRelogin(LoginPlatform?)
     }
 
     public struct State {
         @Pulse var route: Route = .none
+        var platform: LoginPlatform?
     }
 
     // MARK: - properties
@@ -36,6 +39,7 @@ public final class LoginReactor: Reactor {
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
     private let putFCMTokenUseCase: PutFCMTokenUseCase
+    private let fetchPlatformUseCase: FetchPlatformUseCase
 
     // MARK: - init
     public init(
@@ -44,7 +48,8 @@ public final class LoginReactor: Reactor {
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
         fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        putFCMTokenUseCase: PutFCMTokenUseCase
+        putFCMTokenUseCase: PutFCMTokenUseCase,
+        fetchPlatformUseCase: FetchPlatformUseCase
     ) {
         self.fetchAppleCredentialUseCase = fetchAppleCredentialUseCase
         self.fetchKakaoCredentialUseCase = fetchKakaoCredentialUseCase
@@ -52,18 +57,22 @@ public final class LoginReactor: Reactor {
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
         self.putFCMTokenUseCase = putFCMTokenUseCase
+        self.fetchPlatformUseCase = fetchPlatformUseCase
         self.initialState = State()
     }
 
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewWillAppear:
+            return fetchPlatformUseCase.execute()
+                .map { Mutation.setRelogin($0) }
         case .kakaoLoginButtonTapped:
             return handleKakaoLogin()
         case .appleLoginButtonTapped:
             return handleAppleLogin()
         case .guestLoginButtonTapped:
-            return .just(.navigateTo(route: .home))
+            return .just(.navigateTo(route: .dismiss))
         }
     }
 
@@ -72,6 +81,8 @@ public final class LoginReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case .setRelogin(let platform):
+            newState.platform = platform
         }
         return newState
     }
@@ -92,7 +103,7 @@ private extension LoginReactor {
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
                                     return owner.putFCMTokenUseCase.execute(credential: response.accessToken, fcmToken: fcmToken)
-                                        .andThen(.just(.navigateTo(route: .home)))
+                                        .andThen(.just(.navigateTo(route: .dismiss)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
                                     return .just(.navigateTo(route: .termsAgreements(
@@ -129,7 +140,7 @@ private extension LoginReactor {
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
                                     return owner.putFCMTokenUseCase.execute(credential: response.accessToken, fcmToken: fcmToken)
-                                        .andThen(.just(.navigateTo(route: .home)))
+                                        .andThen(.just(.navigateTo(route: .dismiss)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
                                     return .just(.navigateTo(route: .termsAgreements(

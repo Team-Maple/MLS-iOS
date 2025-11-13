@@ -7,7 +7,8 @@ import SnapKit
 final class CollectionDetailView: UIView {
     // MARK: - Type
     enum Constant {
-        static let TopMargin: CGFloat = 12
+        static let topMargin: CGFloat = 12
+        static let collectionViewMargin: CGFloat = 24
     }
 
     // MARK: - Components
@@ -61,16 +62,16 @@ private extension CollectionDetailView {
         spacer.snp.makeConstraints { make in
             make.top.equalTo(navigation.snp.bottom)
             make.horizontalEdges.equalToSuperview()
-            make.height.equalTo(Constant.TopMargin)
+            make.height.equalTo(Constant.topMargin)
         }
 
         listCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(spacer.snp.bottom)
+            make.top.equalTo(spacer.snp.bottom).offset(Constant.collectionViewMargin)
             make.horizontalEdges.bottom.equalToSuperview()
         }
 
         emptyContainerView.snp.makeConstraints { make in
-            make.top.equalTo(navigation.snp.bottom).offset(Constant.TopMargin)
+            make.top.equalTo(navigation.snp.bottom).offset(Constant.collectionViewMargin)
             make.horizontalEdges.bottom.equalTo(safeAreaLayoutGuide)
         }
 
@@ -90,7 +91,7 @@ private extension CollectionDetailView {
 // MARK: - Methods
 extension CollectionDetailView {
     func isEmptyData(isEmpty: Bool) {
-        listCollectionView.isHidden = !isEmpty
-        emptyContainerView.isHidden = isEmpty
+        listCollectionView.isHidden = isEmpty
+        emptyContainerView.isHidden = !isEmpty
     }
 }

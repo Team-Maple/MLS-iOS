@@ -16,7 +16,7 @@ public final class DictionarySearchReactor: Reactor {
     }
 
     public enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case backButtonTapped
         case searchButtonTapped(String)
         case cancelRecentButtonTapped(String)
@@ -91,7 +91,7 @@ public final class DictionarySearchReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
+        case .viewWillAppear:
             return recentSearchFetchUseCase.fetch().map { Mutation.setRecentList($0) }
         case .backButtonTapped:
             return Observable.just(.navigateTo(.dismiss))

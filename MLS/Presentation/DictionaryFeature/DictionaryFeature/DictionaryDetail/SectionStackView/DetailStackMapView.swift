@@ -49,8 +49,10 @@ private extension DetailStackMapView {
         isLayoutMarginsRelativeArrangement = true
         layoutMargins = Constant.mapLayoutMargin
     }
+}
 
-    func setUpMapView(imageUrl: String) {
+extension DetailStackMapView {
+    func setUpMapView(imageUrl: String?) {
         ImageLoader.shared.loadImage(stringURL: imageUrl) { [weak self] image in
             self?.mapImageView.image = image
         }

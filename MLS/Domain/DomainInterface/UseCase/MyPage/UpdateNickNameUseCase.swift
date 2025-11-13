@@ -1,5 +1,5 @@
 import RxSwift
 
 public protocol UpdateNickNameUseCase {
-    func execute(nickName: String) -> Completable
+    func execute(nickName: String) -> Observable<MyPageResponse>
 }

@@ -12,12 +12,12 @@ public final class BookmarkModalViewController: BaseViewController, View {
     public typealias Reactor = BookmarkModalReactor
 
     // MARK: - Properties
-    private let addCollectionFactory: AddCollectionFactory
+    public var disposeBag = DisposeBag()
 
     public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
     public var onDismissWithCollections: (([BookmarkCollection?]) -> Void)?
 
-    public var disposeBag = DisposeBag()
+    private let addCollectionFactory: AddCollectionFactory
 
     // MARK: - Components
     private let mainView = BookmarkModalView()

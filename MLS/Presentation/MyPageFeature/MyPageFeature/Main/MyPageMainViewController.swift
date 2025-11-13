@@ -152,10 +152,12 @@ extension MyPageMainViewController {
                     let viewController = owner.customerSupportFactory.make(type: .terms)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .notificationSetting:
-                    let viewController = owner.notificationSettingFactory.make()
+                    guard let reactor = owner.reactor,
+                          let profile = reactor.currentState.profile else { return }
+                    let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .login:
-                    let viewController = owner.loginFactory.make(isReLogin: false)
+                    let viewController = owner.loginFactory.make(exitRoute: .pop)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .none:
                     break

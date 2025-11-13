@@ -1,3 +1,4 @@
+import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
@@ -19,6 +20,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let sortedFactory: SortedBottomSheetFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let detailFactory: DictionaryDetailFactory
+    private let loginFactory: () -> LoginFactory
 
     public init(
         checkLoginUseCase: CheckLoginUseCase,
@@ -34,7 +36,8 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
         bookmarkModalFactory: BookmarkModalFactory,
-        detailFactory: DictionaryDetailFactory
+        detailFactory: DictionaryDetailFactory,
+        loginFactory: @escaping () -> LoginFactory
     ) {
         self.checkLoginUseCase = checkLoginUseCase
         self.dictionaryAllListItemUseCase = dictionaryAllListItemUseCase
@@ -50,6 +53,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.detailFactory = detailFactory
+        self.loginFactory = loginFactory
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType, keyword: String? = "") -> BaseViewController {
@@ -66,7 +70,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             setBookmarkUseCase: setBookmarkUseCase,
             parseItemFilterResultUseCase: parseItemFilterResultUseCase
         )
-        let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, detailFactory: detailFactory)
+        let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, detailFactory: detailFactory, loginFactory: loginFactory())
         if listType == .search {
             viewController.isBottomTabbarHidden = true
         }

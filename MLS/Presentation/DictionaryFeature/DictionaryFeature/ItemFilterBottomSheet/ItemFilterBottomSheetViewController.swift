@@ -1,3 +1,5 @@
+// swiftlint:disable all
+
 import UIKit
 
 import BaseFeature
@@ -456,7 +458,6 @@ extension ItemFilterBottomSheetViewController {
             }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-
     }
 
     func bindViewState(reactor: Reactor) {

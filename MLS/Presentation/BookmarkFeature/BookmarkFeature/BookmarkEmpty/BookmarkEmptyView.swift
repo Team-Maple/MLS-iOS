@@ -18,13 +18,14 @@ final class BookmarkEmptyView: UIView {
     private let mainLabel = UILabel()
     private let subLabel = UILabel()
 
-    private let button = CommonButton(style: .normal, title: "북마크하러 가기", disabledTitle: nil)
+    public let button = CommonButton()
 
     // MARK: - Init
     init() {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
+        configureUI()
     }
 
     @available(*, unavailable)
@@ -51,7 +52,7 @@ private extension BookmarkEmptyView {
 
         mainLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom)
-            make.centerX.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
         }
 
         subLabel.snp.makeConstraints { make in
@@ -65,10 +66,14 @@ private extension BookmarkEmptyView {
             make.width.equalTo(Constant.buttonWidth)
         }
     }
+
+    func configureUI() {
+        backgroundColor = .neutral100
+    }
 }
 
 extension BookmarkEmptyView {
-    func setLabel(isLogin: Bool, buttonAction: @escaping () -> Void) {
+    func setLabel(isLogin: Bool) {
         imageView.image = DesignSystemAsset.image(named: "noShowList")
         mainLabel.attributedText = .makeStyledString(
             font: .h_xl_b,
@@ -81,9 +86,5 @@ extension BookmarkEmptyView {
         )
 
         button.updateTitle(title: isLogin ? "북마크하러 가기" : "로그인하러 가기")
-        button.removeTarget(nil, action: nil, for: .allEvents)
-        button.addAction(UIAction { _ in
-            buttonAction()
-        }, for: .touchUpInside)
     }
 }

@@ -69,7 +69,7 @@ public final class MyPageMainReactor: Reactor {
     // MARK: - Mutation
     public enum Mutation {
         case toNavigate(Route)
-        case setProfile(MyPageResponse)
+        case setProfile(MyPageResponse?)
     }
 
     // MARK: - State
@@ -113,6 +113,10 @@ public final class MyPageMainReactor: Reactor {
         case .viewWillAppear:
             return fetchProfileUseCase.execute()
                 .map { .setProfile($0) }
+                .catch { error in
+                    print(error)
+                    return .just(.setProfile(nil))
+                }
         }
     }
 

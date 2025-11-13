@@ -60,9 +60,9 @@ public protocol AuthAPIRepository {
 
     func updateNotificationAgreement(noticeAgreement: Bool, patchNoteAgreement: Bool, eventAgreement: Bool) -> Completable
 
-    func updateNickName(nickName: String) -> Completable
+    func updateNickName(nickName: String) -> Observable<MyPageResponse>
 
     func updateProfileImage(url: String) -> Completable
 
-    func fetchProfile() -> Observable<MyPageResponse>
+    func fetchProfile() -> Observable<MyPageResponse?>
 }

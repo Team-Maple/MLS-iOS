@@ -20,6 +20,24 @@ public struct DictionaryDetailMonsterResponseDTO: Decodable {
     public let bookmarkId: Int?
 
     public func toDomain() -> DictionaryDetailMonsterResponse {
-        return DictionaryDetailMonsterResponse(monsterId: monsterId, nameKr: nameKr, nameEn: nameEn, imageUrl: imageUrl, level: level, exp: exp, hp: hp, mp: mp, physicalDefense: physicalDefense, magicDefense: magicDefense, requiredAccuracy: requiredAccuracy, bonusAccuracyPerLevelLower: bonusAccuracyPerLevelLower, evasionRate: evasionRate, mesoDropAmount: mesoDropAmount, mesoDropRate: mesoDropRate, typeEffectiveness: typeEffectiveness, bookmarkId: bookmarkId)
+        return DictionaryDetailMonsterResponse(
+            monsterId: monsterId,
+            nameKr: nameKr,
+            nameEn: nameEn,
+            imageUrl: imageUrl,
+            level: level,
+            exp: exp,
+            hp: hp,
+            mp: mp,
+            physicalDefense: physicalDefense,
+            magicDefense: magicDefense,
+            requiredAccuracy: requiredAccuracy,
+            bonusAccuracyPerLevelLower: bonusAccuracyPerLevelLower,
+            evasionRate: evasionRate,
+            mesoDropAmount: mesoDropAmount,
+            mesoDropRate: mesoDropRate,
+            typeEffectiveness: typeEffectiveness,
+            bookmarkId: bookmarkId
+        )
     }
 }

@@ -13,8 +13,9 @@ public class SetCharacterViewController: BaseViewController, View {
     // MARK: - Properties
     public typealias Reactor = SetCharacterReactor
 
-    // MARK: - Components
     public var disposeBag = DisposeBag()
+
+    // MARK: - Components
 
     private var mainView = SetCharacterView()
 }

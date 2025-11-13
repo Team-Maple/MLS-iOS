@@ -1,5 +1,5 @@
 import RxSwift
 
-public protocol FetchAllUseCase {
+public protocol FetchAllAlarmUseCase {
     func execute(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>>
 }

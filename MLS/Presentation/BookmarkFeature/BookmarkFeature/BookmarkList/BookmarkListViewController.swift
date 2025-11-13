@@ -3,6 +3,7 @@ import UIKit
 import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
+import DesignSystem
 import DictionaryFeatureInterface
 
 import ReactorKit
@@ -19,11 +20,14 @@ public final class BookmarkListViewController: BaseViewController, View {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let sortedFactory: SortedBottomSheetFactory
     private let loginFactory: LoginFactory
+    private let dictionaryDetailFactory: DictionaryDetailFactory
+    private let collectionEditFactory: CollectionEditFactory
 
     private var selectedSortIndex = 0
 
     // MARK: - Components
     private var mainView: BookmarkListView
+    private var emptyView = BookmarkEmptyView()
 
     public init(
         reactor: BookmarkListReactor,
@@ -31,14 +35,18 @@ public final class BookmarkListViewController: BaseViewController, View {
         monsterFilterFactory: MonsterFilterBottomSheetFactory,
         sortedFactory: SortedBottomSheetFactory,
         bookmarkModalFactory: BookmarkModalFactory,
-        loginFactory: LoginFactory
+        loginFactory: LoginFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory,
+        collectionEditFactory: CollectionEditFactory
     ) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
         self.sortedFactory = sortedFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
-        self.mainView = BookmarkListView(isFilterHidden: reactor.currentState.type.isBookmarkSortHidden)
+        self.dictionaryDetailFactory = dictionaryDetailFactory
+        self.collectionEditFactory = collectionEditFactory
+        self.mainView = BookmarkListView(isFilterHidden: reactor.currentState.type.isBookmarkSortHidden, bookmarkEmptyView: emptyView)
         super.init()
         self.reactor = reactor
     }
@@ -109,6 +117,16 @@ extension BookmarkListViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.editButton?.rx.tap
+            .map { Reactor.Action.editButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        emptyView.button.rx.tap
+            .map { .emptyButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -117,10 +135,8 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, items in
+            .bind(onNext: { owner, _ in
                 owner.mainView.listCollectionView.reloadData()
-                owner.mainView.isUserInteractionEnabled = !items.isEmpty
-                owner.mainView.checkEmptyData(isEmpty: items.isEmpty)
             })
             .disposed(by: disposeBag)
 
@@ -153,6 +169,20 @@ extension BookmarkListViewController {
                     default:
                         break
                     }
+                case .detail(let type, let id):
+                    let vc = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(vc, animated: true)
+                case .login:
+                    let vc = owner.loginFactory.make(exitRoute: .pop)
+                    owner.navigationController?.pushViewController(vc, animated: true)
+
+                case .dictionary:
+                    if let tabBarController = owner.tabBarController as? BottomTabBarController {
+                        tabBarController.selectTab(index: 0)
+                    }
+                case .edit:
+                    let viewController = owner.collectionEditFactory.make()
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
@@ -169,19 +199,12 @@ extension BookmarkListViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.isLogin)
+            .map(\.viewState)
             .distinctUntilChanged()
             .withUnretained(self)
-            .bind(onNext: { owner, isLogin in
-                guard let emptyView = owner.mainView.emptyView as? BookmarkEmptyView else { return }
-                emptyView.setLabel(isLogin: isLogin, buttonAction: {
-                    if isLogin {
-                        owner.tabBarController?.selectedIndex = 0
-                    } else {
-                        let viewController = owner.loginFactory.make(isReLogin: false)
-                        owner.navigationController?.pushViewController(viewController, animated: true)
-                    }
-                })
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, state in
+                owner.mainView.updateView(state: state)
             })
             .disposed(by: disposeBag)
     }
@@ -227,7 +250,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
                         ctaText: "로그인 하기",
                         cancelText: "취소",
                         ctaAction: {
-                            let viewController = self.loginFactory.make(isReLogin: false)
+                            let viewController = self.loginFactory.make(exitRoute: .pop)
                             self.navigationController?.pushViewController(viewController, animated: true)
                         },
                         cancelAction: nil
@@ -251,5 +274,9 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
         )
 
         return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        reactor?.action.onNext(.dataTapped(indexPath.item))
     }
 }

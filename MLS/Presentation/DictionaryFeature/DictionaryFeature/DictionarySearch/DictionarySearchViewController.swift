@@ -13,11 +13,12 @@ public final class DictionarySearchViewController: BaseViewController, View {
     public typealias Reactor = DictionarySearchReactor
 
     // MARK: - Properties
+    public var disposeBag = DisposeBag()
+
     private var searchResultFactory: DictionarySearchResultFactory
 
     private let chipTapRelay = PublishRelay<String>()
     private let chipCancelRelay = PublishRelay<String>()
-    public var disposeBag = DisposeBag()
 
     // MARK: - Components
     private let mainView = DictionarySearchView()
@@ -122,6 +123,12 @@ extension DictionarySearchViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .take(1)
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.searchBar.backButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
@@ -176,13 +183,6 @@ extension DictionarySearchViewController {
                 }
             }
             .disposed(by: disposeBag)
-
-        rx.viewDidLoad
-            .take(1)
-            .map { Reactor.Action.viewDidLoad }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-
     }
 }
 

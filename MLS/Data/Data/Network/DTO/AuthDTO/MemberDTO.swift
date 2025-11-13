@@ -20,7 +20,10 @@ public struct MemberDTO: Decodable {
             jobName: "",
             level: level,
             profileUrl: profileImageUrl,
-            platform: provider == "APPLE" ? .apple : .kakao
+            platform: provider == "APPLE" ? .apple : .kakao,
+            noticeAgreement: noticeAgreement,
+            patchNoteAgreement: patchNoteAgreement,
+            eventAgreement: eventAgreement
         )
     }
 

@@ -60,7 +60,6 @@ private extension CollectionDetailEmptyView {
 
     func setupConstraints() {
         imageView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
@@ -79,7 +78,6 @@ private extension CollectionDetailEmptyView {
             make.top.equalTo(subLabel.snp.bottom).offset(Constant.buttonSpacing)
             make.width.equalTo(Constant.buttonWidth)
             make.centerX.equalToSuperview()
-//            make.centerX.bottom.equalToSuperview()
         }
     }
 

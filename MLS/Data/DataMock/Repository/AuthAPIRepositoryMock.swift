@@ -6,6 +6,10 @@ import DomainInterface
 import RxSwift
 
 public class AuthAPIRepositoryMock: AuthAPIRepository {
+    public func fetchProfile() -> Observable<MyPageResponse?> {
+        return .empty()
+    }
+
     public func fetchJob(jobId: String) -> Observable<Job> {
         return .empty()
     }
@@ -94,7 +98,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         return .empty()
     }
 
-    public func updateNickName(nickName: String) -> RxSwift.Completable {
+    public func updateNickName(nickName: String) -> Observable<MyPageResponse> {
         return .empty()
     }
 }

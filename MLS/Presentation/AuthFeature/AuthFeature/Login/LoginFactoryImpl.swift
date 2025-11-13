@@ -2,6 +2,8 @@ import AuthFeatureInterface
 import BaseFeature
 import DomainInterface
 
+import RxSwift
+
 public struct LoginFactoryImpl: LoginFactory {
     private let termsAgreementsFactory: TermsAgreementFactory
     private let appleLoginUseCase: FetchSocialCredentialUseCase
@@ -10,6 +12,7 @@ public struct LoginFactoryImpl: LoginFactory {
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
     private let putFCMTokenUseCase: PutFCMTokenUseCase
+    private let fetchPlatformUseCase: FetchPlatformUseCase
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
@@ -18,7 +21,8 @@ public struct LoginFactoryImpl: LoginFactory {
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
         fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        putFCMTokenUseCase: PutFCMTokenUseCase
+        putFCMTokenUseCase: PutFCMTokenUseCase,
+        fetchPlatformUseCase: FetchPlatformUseCase
     ) {
         self.termsAgreementsFactory = termsAgreementsFactory
         self.appleLoginUseCase = appleLoginUseCase
@@ -27,20 +31,35 @@ public struct LoginFactoryImpl: LoginFactory {
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
         self.putFCMTokenUseCase = putFCMTokenUseCase
+        self.fetchPlatformUseCase = fetchPlatformUseCase
     }
 
-    public func make(
-        isReLogin: Bool
-    ) -> BaseViewController {
-        let viewController = LoginViewController(isRelogin: isReLogin, termsAgreementsFactory: termsAgreementsFactory)
+    public func make(exitRoute: LoginExitRoute, onLoginCompleted: (() -> Void)?) -> BaseViewController {
+        let viewController = LoginViewController(termsAgreementsFactory: termsAgreementsFactory)
+        viewController.isBottomTabbarHidden = true
+
         viewController.reactor = LoginReactor(
             fetchAppleCredentialUseCase: appleLoginUseCase,
             fetchKakaoCredentialUseCase: kakaoLoginUseCase,
             loginWithAppleUseCase: loginWithAppleUseCase,
             loginWithKakaoUseCase: loginWithKakaoUseCase,
             fetchTokenUseCase: fetchTokenUseCase,
-            putFCMTokenUseCase: putFCMTokenUseCase
+            putFCMTokenUseCase: putFCMTokenUseCase,
+            fetchPlatformUseCase: fetchPlatformUseCase
         )
+
+        viewController.routeToHome
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak viewController] in
+                switch exitRoute {
+                case .home:
+                    onLoginCompleted?()
+                case .pop:
+                    viewController?.navigationController?.popViewController(animated: true)
+                }
+            })
+            .disposed(by: viewController.disposeBag)
+
         return viewController
     }
 }

@@ -16,7 +16,7 @@ public final class SelectImageReactor: Reactor {
     public enum Action {
         case cancelButtonTapped
         case applyButtonTapped
-        case imageTapped(MapleIllustration)
+        case imageTapped(Int)
     }
 
     public enum Mutation {
@@ -61,7 +61,8 @@ public final class SelectImageReactor: Reactor {
             guard let url = currentState.selectedImage?.url else { return .empty() }
             return updateProfileImageUseCase.execute(url: url)
                 .andThen(.just(.navigateTo(route: .dismissWithSave)))
-        case .imageTapped(let image):
+        case .imageTapped(let index):
+            let image = currentState.images[index]
             return .just(.selectImage(image))
         }
     }
