@@ -1,4 +1,5 @@
 import UIKit
+import BaseFeature
 
 import DesignSystem
 
@@ -39,18 +40,42 @@ public extension CollectionListCell {
     struct Input {
         let title: String
         let count: Int
-        let images: [UIImage?]
+        let images: [String?]
 
-        public init(title: String, count: Int, images: [UIImage?]) {
+        public init(title: String, count: Int, images: [String?]) {
             self.title = title
             self.count = count
             self.images = images
         }
     }
-
+    
     func inject(input: Input) {
-        cellView.setImages(images: input.images)
+        loadImages(from: input.images) { [weak self] images in
+            print("이미지:\(images)")
+            self?.cellView.setImages(images: images)
+        }
         cellView.setTitle(text: input.title)
         cellView.setSubtitle(text: "\(String(input.count))개")
     }
 }
+
+private func loadImages(from urls: [String?], completion: @escaping ([UIImage?]) -> Void) {
+
+    var results = Array<UIImage?>(repeating: nil, count: urls.count)
+    let dispatchGroup = DispatchGroup()
+    
+    for (index, urlString) in urls.enumerated() {
+        dispatchGroup.enter()
+        
+        ImageLoader.shared.loadImage(stringURL: urlString) { image in
+            results[index] = image
+            dispatchGroup.leave()
+        }
+    }
+    
+    dispatchGroup.notify(queue: .main) {
+        completion(results)
+    }
+}
+
+

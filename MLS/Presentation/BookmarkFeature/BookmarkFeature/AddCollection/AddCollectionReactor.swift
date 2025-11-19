@@ -82,10 +82,15 @@ public final class AddCollectionModalReactor: Reactor {
             newState.route = route
         case .addCollection(let title):
             var collection = newState.collection
-            collection?.title = title
+            // 기존 collection이 없으면 새로 생성
+            if collection == nil {
+                collection = BookmarkCollection(id: -1, title: title, items: [])
+            } else {
+                collection?.title = title
+            }
             newState.route = .dismissWithSuccess(collection)
         }
-
+        
         return newState
     }
 }

@@ -61,6 +61,10 @@ private extension CollectionListViewController {
         addFloatingButton { [weak self] in
             guard let self = self else { return }
             let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
+                if let collection = collection {
+                    // Reactor에게 새로운 콜렉션 추가를 알림
+                    self?.reactor?.action.onNext(.addCollection(collection.title))
+                }
                 self?.onDismissWithMessage?(collection)
             })
             self.present(viewController, animated: true)
@@ -83,7 +87,12 @@ extension CollectionListViewController {
         bindViewState(reactor: reactor)
     }
 
-    func bindUserActions(reactor: Reactor) {}
+    func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+    }
 
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
@@ -102,10 +111,11 @@ extension CollectionListViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.collections)
+            .map(\.collectionListData)
             .withUnretained(self)
-            .subscribe { owner, collections in
-                owner.mainView.updateView(isEmptyData: collections.isEmpty)
+            .observe(on: MainScheduler.instance)
+            .subscribe { owner, collectionListData in
+                owner.mainView.updateView(isEmptyData: collectionListData.isEmpty)
                 owner.mainView.listCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
@@ -115,7 +125,7 @@ extension CollectionListViewController {
 // MARK: - Delegate
 extension CollectionListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reactor?.currentState.collections.count ?? 0
+        reactor?.currentState.collectionListData.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -124,11 +134,11 @@ extension CollectionListViewController: UICollectionViewDelegate, UICollectionVi
                 withReuseIdentifier: CollectionListCell.identifier,
                 for: indexPath
             ) as? CollectionListCell,
-            let item = reactor?.currentState.collections[indexPath.row]
+            let item = reactor?.currentState.collectionListData[indexPath.row]
         else {
             return UICollectionViewCell()
         }
-        cell.inject(input: CollectionListCell.Input(title: item.title, count: item.count, images: item.thumbnails))
+        cell.inject(input: CollectionListCell.Input(title: item.name, count: item.recentBookmarks.count, images: item.recentBookmarks.map { $0.imageUrl }))
         return cell
     }
 

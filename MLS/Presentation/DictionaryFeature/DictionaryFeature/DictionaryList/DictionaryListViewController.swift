@@ -148,6 +148,7 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
+                    print("sortsort실행~~~~~~~~~~~~~~~~~~~~~~~")
                     let viewController = owner.sortedFactory.make(
                         sortedOptions: type.bookmarkSortedFilter,
                         selectedIndex: owner.selectedSortIndex
