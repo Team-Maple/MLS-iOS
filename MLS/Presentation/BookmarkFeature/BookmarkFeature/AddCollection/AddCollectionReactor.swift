@@ -90,7 +90,7 @@ public final class AddCollectionModalReactor: Reactor {
             }
             newState.route = .dismissWithSuccess(collection)
         }
-        
+
         return newState
     }
 }

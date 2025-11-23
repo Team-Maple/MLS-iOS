@@ -1,5 +1,5 @@
-import UIKit
 import BaseFeature
+import UIKit
 
 import DesignSystem
 
@@ -48,7 +48,7 @@ public extension CollectionListCell {
             self.images = images
         }
     }
-    
+
     func inject(input: Input) {
         loadImages(from: input.images) { [weak self] images in
             print("이미지:\(images)")
@@ -61,21 +61,19 @@ public extension CollectionListCell {
 
 private func loadImages(from urls: [String?], completion: @escaping ([UIImage?]) -> Void) {
 
-    var results = Array<UIImage?>(repeating: nil, count: urls.count)
+    var results = [UIImage?](repeating: nil, count: urls.count)
     let dispatchGroup = DispatchGroup()
-    
+
     for (index, urlString) in urls.enumerated() {
         dispatchGroup.enter()
-        
+
         ImageLoader.shared.loadImage(stringURL: urlString) { image in
             results[index] = image
             dispatchGroup.leave()
         }
     }
-    
+
     dispatchGroup.notify(queue: .main) {
         completion(results)
     }
 }
-
-

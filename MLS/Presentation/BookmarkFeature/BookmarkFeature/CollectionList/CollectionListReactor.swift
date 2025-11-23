@@ -32,7 +32,7 @@ public final class CollectionListReactor: Reactor {
     public var initialState: State
 
     private let disposeBag = DisposeBag()
-    
+
     private let collectionListUseCase: FetchCollectionListUseCase
     private let createCollectionListUseCase: CreateCollectionListUseCase
 

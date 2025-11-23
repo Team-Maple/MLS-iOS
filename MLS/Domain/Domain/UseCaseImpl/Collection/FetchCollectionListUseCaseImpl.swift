@@ -4,11 +4,11 @@ import RxSwift
 
 public final class FetchCollectionListUseCaseImpl: FetchCollectionListUseCase {
     private let repository: CollectionAPIRepository
-    
+
     public init(repository: CollectionAPIRepository) {
         self.repository = repository
     }
-    
+
     public func execute() -> Observable<[CollectionListResponse]> {
         return repository.fetchCollectionList()
     }

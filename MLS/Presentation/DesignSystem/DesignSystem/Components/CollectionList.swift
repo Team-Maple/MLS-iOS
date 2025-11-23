@@ -1,6 +1,5 @@
 import UIKit
 
-
 import SnapKit
 
 public final class CollectionList: UIView {
