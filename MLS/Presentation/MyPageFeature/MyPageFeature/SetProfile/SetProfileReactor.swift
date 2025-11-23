@@ -106,7 +106,7 @@ public final class SetProfileReactor: Reactor {
             return Observable.just(.toNavigate(.withdrawAlert))
         case .logout:
             return logoutUseCase.execute()
-                .andThen(.empty())
+                .andThen(.just(.toNavigate(.dismiss)))
         case .withdraw:
             return withdrawUseCase.execute()
                 .andThen(.empty())
