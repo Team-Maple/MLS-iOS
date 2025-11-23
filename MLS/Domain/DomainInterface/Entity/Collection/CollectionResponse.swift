@@ -1,8 +1,8 @@
-public struct CollectionListResponse {
+public struct CollectionResponse: Equatable {
     public let collectionId: Int
-    public let name: String
+    public var name: String
     public let createdAt: [Int]
-    public let recentBookmarks: [BookmarkResponse]
+    public var recentBookmarks: [BookmarkResponse]
 
     public init(collectionId: Int, name: String, createdAt: [Int], recentBookmarks: [BookmarkResponse]) {
         self.collectionId = collectionId

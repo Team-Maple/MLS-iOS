@@ -18,22 +18,13 @@ public final class BookmarkModalReactor: Reactor {
 
     public enum Mutation {
         case toNavigate(Route)
-        case checkCollection([BookmarkCollection])
+        case checkCollection([CollectionResponse])
     }
 
     public struct State {
         @Pulse var route: Route
-        var collections = [
-            BookmarkCollection(id: 1, title: "1번", items: [
-                DictionaryItem(id: 1, type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
-                DictionaryItem(id: 2, type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
-            ]),
-            BookmarkCollection(id: 2, title: "3번", items: [
-                DictionaryItem(id: 3, type: .item, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: true),
-                DictionaryItem(id: 4, type: .monster, mainText: "메인", subText: "서브", image: .checkmark, isBookmarked: false)
-            ])
-        ]
-        var selectedItems = [BookmarkCollection]()
+        var collections = [CollectionResponse]()
+        var selectedItems = [CollectionResponse]()
     }
 
     public var initialState: State
@@ -52,9 +43,9 @@ public final class BookmarkModalReactor: Reactor {
             return .just(.toNavigate(.addCollection))
         case .selectItem(let id):
             var newItems = currentState.selectedItems
-            if let index = newItems.firstIndex(where: { $0.id == id }) {
+            if let index = newItems.firstIndex(where: { $0.collectionId == id }) {
                 newItems.remove(at: index)
-            } else if let collection = currentState.collections.first(where: { $0.id == id }) {
+            } else if let collection = currentState.collections.first(where: { $0.collectionId == id }) {
                 newItems.append(collection)
             }
             return .just(.checkCollection(newItems))

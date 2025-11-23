@@ -98,7 +98,7 @@ extension CollectionEditViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.collection.items)
+            .map(\.collection.recentBookmarks)
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, _ in
@@ -141,7 +141,7 @@ extension CollectionEditViewController {
 // MARK: - Delegate
 extension CollectionEditViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reactor?.currentState.collection.items.count ?? 0
+        reactor?.currentState.collection.recentBookmarks.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -150,11 +150,11 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
                 withReuseIdentifier: DictionaryListCell.identifier,
                 for: indexPath
             ) as? DictionaryListCell,
-            let item = reactor?.currentState.collection.items[indexPath.row]
+            let item = reactor?.currentState.collection.recentBookmarks[indexPath.row]
         else {
             return UICollectionViewCell()
         }
-        let isSelected = reactor?.currentState.selectedItems.contains(where: { $0.id == item.id }) ?? false
+        let isSelected = reactor?.currentState.selectedItems.contains(where: { $0.originalId == item.originalId }) ?? false
 
 //        cell.inject(
 //            type: .checkbox,

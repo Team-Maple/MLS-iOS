@@ -6,7 +6,7 @@ public struct CollectionListResponseDTO: Decodable {
     public let createdAt: [Int]
     public let recentBookmarks: [BookmarkDTO]
 
-    public func toDomain() -> CollectionListResponse {
-        return CollectionListResponse(collectionId: collectionId, name: name, createdAt: createdAt, recentBookmarks: recentBookmarks.toDomain())
+    public func toDomain() -> CollectionResponse {
+        return CollectionResponse(collectionId: collectionId, name: name, createdAt: createdAt, recentBookmarks: recentBookmarks.toDomain())
     }
 }

@@ -28,7 +28,7 @@ public final class CollectionDetailViewController: BaseViewController, View {
     private var mainView: CollectionDetailView
 
     public init(reactor: CollectionDetailReactor, bookmarkModalFactory: BookmarkModalFactory, collectionSettingFactory: CollectionSettingFactory, addCollectionFactory: AddCollectionFactory, collectionEditFactory: CollectionEditFactory, dictionaryDetailFactory: DictionaryDetailFactory) {
-        self.mainView = CollectionDetailView(navTitle: reactor.currentState.collection.title)
+        self.mainView = CollectionDetailView(navTitle: reactor.currentState.collection.name)
         self.bookmarkModalFactory = bookmarkModalFactory
         self.collectionSettingFactory = collectionSettingFactory
         self.addCollectionFactory = addCollectionFactory
@@ -119,7 +119,7 @@ extension CollectionDetailViewController {
 
     func bindViewState(reactor: Reactor) {
         reactor.state
-            .map(\.collection.items)
+            .map(\.collection.recentBookmarks)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .bind(onNext: { [weak self] items in
@@ -139,7 +139,7 @@ extension CollectionDetailViewController {
                 case .editName:
                     let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection, onDismissWithMessage: { collection in
                         guard let collection = collection else { return }
-                        reactor.action.onNext(.changeName(collection.title))
+                        reactor.action.onNext(.changeName(collection.name))
                     })
                     owner.present(viewController, animated: true)
                 case .delete:
@@ -187,7 +187,7 @@ extension CollectionDetailViewController {
 // MARK: - Delegate
 extension CollectionDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reactor?.currentState.collection.items.count ?? 0
+        reactor?.currentState.collection.recentBookmarks.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -196,7 +196,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
                 withReuseIdentifier: DictionaryListCell.identifier,
                 for: indexPath
             ) as? DictionaryListCell,
-            let item = reactor?.currentState.collection.items[indexPath.row]
+            let item = reactor?.currentState.collection.recentBookmarks[indexPath.row]
         else {
             return UICollectionViewCell()
         }

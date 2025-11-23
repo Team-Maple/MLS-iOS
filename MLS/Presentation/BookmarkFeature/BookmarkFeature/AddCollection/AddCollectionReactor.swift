@@ -1,4 +1,5 @@
 import BookmarkFeatureInterface
+import DomainInterface
 
 import ReactorKit
 
@@ -6,7 +7,7 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - Route
     public enum Route {
         case dismiss
-        case dismissWithSuccess(BookmarkCollection?)
+        case dismissWithSuccess(CollectionResponse?)
     }
 
     // MARK: - Action
@@ -28,7 +29,7 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - State
     public struct State {
         @Pulse var route: Route?
-        var collection: BookmarkCollection?
+        var collection: CollectionResponse?
         var inputText: String?
         var isError: Bool = false
         var isButtonEnabled: Bool = false
@@ -38,9 +39,9 @@ public final class AddCollectionModalReactor: Reactor {
     public var initialState = State(collection: nil)
 
     // MARK: - Init
-    public init(collection: BookmarkCollection?) {
+    public init(collection: CollectionResponse?) {
         self.initialState.collection = collection
-        self.initialState.inputText = collection?.title
+        self.initialState.inputText = collection?.name
     }
 
     // MARK: - Mutate
@@ -80,13 +81,13 @@ public final class AddCollectionModalReactor: Reactor {
             newState.isButtonEnabled = isEnabled
         case .toNavigate(let route):
             newState.route = route
-        case .addCollection(let title):
+        case .addCollection(let name):
             var collection = newState.collection
             // 기존 collection이 없으면 새로 생성
             if collection == nil {
-                collection = BookmarkCollection(id: -1, title: title, items: [])
+                collection = CollectionResponse(collectionId: -1, name: "", createdAt: [], recentBookmarks: [])
             } else {
-                collection?.title = title
+                collection?.name = name
             }
             newState.route = .dismissWithSuccess(collection)
         }

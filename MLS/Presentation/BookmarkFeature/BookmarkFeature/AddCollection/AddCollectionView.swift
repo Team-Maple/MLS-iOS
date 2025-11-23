@@ -2,6 +2,7 @@ import UIKit
 
 import BookmarkFeatureInterface
 import DesignSystem
+import DomainInterface
 
 import SnapKit
 
@@ -167,7 +168,7 @@ extension AddCollectionView {
         completeButton.isEnabled = isEnabled
     }
 
-    func checkIsEmptyCollection(collection: BookmarkCollection?) {
+    func checkIsEmptyCollection(collection: CollectionResponse?) {
         if collection != nil {
             nameLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: "컬렉션 이름 수정", alignment: .left)
         }

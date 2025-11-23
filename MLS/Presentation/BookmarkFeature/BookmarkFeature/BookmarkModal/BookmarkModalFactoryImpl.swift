@@ -1,5 +1,6 @@
 import BaseFeature
 import BookmarkFeatureInterface
+import DomainInterface
 
 public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
     private let addCollectionFactory: AddCollectionFactory
@@ -8,7 +9,7 @@ public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
         self.addCollectionFactory = addCollectionFactory
     }
 
-    public func make(onDismissWithColletions: (([BookmarkCollection?]) -> Void)?, onDismissWithMessage: ((BookmarkCollection?) -> Void)?) -> BaseViewController {
+    public func make(onDismissWithColletions: (([CollectionResponse?]) -> Void)?, onDismissWithMessage: ((CollectionResponse?) -> Void)?) -> BaseViewController {
         let reactor = BookmarkModalReactor()
         let viewController = BookmarkModalViewController(addCollectionFactory: addCollectionFactory)
         viewController.reactor = reactor

@@ -16,21 +16,21 @@ public final class CollectionEditReactor: Reactor {
         case backButtonTapped
         case addCollectionButtonTapped
         case completeButtonTapped
-        case dismissAddCollection([BookmarkCollection])
+        case dismissAddCollection([CollectionResponse])
         case itemTapped(Int)
     }
 
     public enum Mutation {
         case navigateTo(Route)
-        case checkBookMarks([DictionaryItem])
-        case checkCollections([BookmarkCollection])
+        case checkBookMarks([BookmarkResponse])
+        case checkCollections([CollectionResponse])
     }
 
     public struct State {
         @Pulse var route: Route
-        var collection: BookmarkCollection
-        var selectedItems = [DictionaryItem]()
-        var selectedCollections = [BookmarkCollection]()
+        var collection: CollectionResponse
+        var selectedItems = [BookmarkResponse]()
+        var selectedCollections = [CollectionResponse]()
     }
 
     // MARK: - Properties
@@ -39,11 +39,7 @@ public final class CollectionEditReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     public init() {
-        self.initialState = State(route: .none, collection:
-            BookmarkCollection(id: 3, title: "2번", items: [
-                DictionaryItem(id: 3, type: .item, mainText: "3번 아이템", subText: "3번 설명", image: .add, isBookmarked: false),
-                DictionaryItem(id: 4, type: .item, mainText: "4번 아이템", subText: "4번 설명", image: .add, isBookmarked: false)
-            ]))
+        self.initialState = State(route: .none, collection: CollectionResponse(collectionId: -1, name: "", createdAt: [], recentBookmarks: []))
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -60,9 +56,9 @@ public final class CollectionEditReactor: Reactor {
             // addCollection에서 선택된 컬렉션 목록 저장
             return .empty()
         case .itemTapped(let index):
-            let item = currentState.collection.items[index]
+            let item = currentState.collection.recentBookmarks[index]
             var newItems = currentState.selectedItems
-            if let index = newItems.firstIndex(where: { $0.id == item.id }) {
+            if let index = newItems.firstIndex(where: { $0.originalId == item.originalId }) {
                 newItems.remove(at: index)
             } else {
                 newItems.append(item)
