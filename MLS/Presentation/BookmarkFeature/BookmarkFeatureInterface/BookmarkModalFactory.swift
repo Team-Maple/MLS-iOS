@@ -1,5 +1,6 @@
 import BaseFeature
+import DomainInterface
 
 public protocol BookmarkModalFactory {
-    func make(onDismissWithColletions: (([BookmarkCollection?]) -> Void)?, onDismissWithMessage: ((BookmarkCollection?) -> Void)?) -> BaseViewController
+    func make(onDismissWithColletions: (([CollectionResponse?]) -> Void)?, onDismissWithMessage: ((CollectionResponse?) -> Void)?) -> BaseViewController
 }

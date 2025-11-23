@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -14,8 +15,8 @@ public final class BookmarkModalViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
-    public var onDismissWithCollections: (([BookmarkCollection?]) -> Void)?
+    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
+    public var onDismissWithCollections: (([CollectionResponse?]) -> Void)?
 
     private let addCollectionFactory: AddCollectionFactory
 
@@ -132,9 +133,9 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
                 return UICollectionViewCell()
             }
             let collection = reactor.currentState.collections[indexPath.row - 1]
-            let isSelected = reactor.currentState.selectedItems.contains(where: { $0.id == collection.id })
+            let isSelected = reactor.currentState.selectedItems.contains(where: { $0.collectionId == collection.collectionId })
             cell.isChecked = isSelected
-            cell.inject(title: collection.title)
+            cell.inject(title: collection.name)
             return cell
         }
     }
@@ -144,7 +145,7 @@ extension BookmarkModalViewController: UICollectionViewDelegate, UICollectionVie
             reactor?.action.onNext(.addCollectionTapped)
         } else {
             guard let collection = reactor?.currentState.collections[indexPath.row - 1] else { return }
-            reactor?.action.onNext(.selectItem(collection.id))
+            reactor?.action.onNext(.selectItem(collection.collectionId))
         }
     }
 }

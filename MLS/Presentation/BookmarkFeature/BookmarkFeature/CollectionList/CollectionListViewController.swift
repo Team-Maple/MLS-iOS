@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxSwift
@@ -12,7 +13,7 @@ public final class CollectionListViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
+    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
 
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
@@ -60,13 +61,14 @@ private extension CollectionListViewController {
 
         addFloatingButton { [weak self] in
             guard let self = self else { return }
-            let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
-                if let collection = collection {
-                    // Reactor에게 새로운 콜렉션 추가를 알림
-                    self?.reactor?.action.onNext(.addCollection(collection.title))
-                }
-                self?.onDismissWithMessage?(collection)
-            })
+//            let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
+//                if let collection = collection {
+//                    // Reactor에게 새로운 콜렉션 추가를 알림
+//                    self?.reactor?.action.onNext(.addCollection(collection.title))
+//                }
+//                self?.onDismissWithMessage?(collection)
+//            })
+        let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { _ in })
             self.present(viewController, animated: true)
         }
     }
@@ -111,11 +113,11 @@ extension CollectionListViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.collectionListData)
+            .map(\.collectionList)
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe { owner, collectionListData in
-                owner.mainView.updateView(isEmptyData: collectionListData.isEmpty)
+            .subscribe { owner, collectionList in
+                owner.mainView.updateView(isEmptyData: collectionList.isEmpty)
                 owner.mainView.listCollectionView.reloadData()
             }
             .disposed(by: disposeBag)
@@ -125,7 +127,7 @@ extension CollectionListViewController {
 // MARK: - Delegate
 extension CollectionListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reactor?.currentState.collectionListData.count ?? 0
+        reactor?.currentState.collectionList.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -134,7 +136,7 @@ extension CollectionListViewController: UICollectionViewDelegate, UICollectionVi
                 withReuseIdentifier: CollectionListCell.identifier,
                 for: indexPath
             ) as? CollectionListCell,
-            let item = reactor?.currentState.collectionListData[indexPath.row]
+            let item = reactor?.currentState.collectionList[indexPath.row]
         else {
             return UICollectionViewCell()
         }

@@ -15,7 +15,7 @@ public final class AddCollectionViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
+//    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
 
     // MARK: - Components
     private let mainView = AddCollectionView()
@@ -65,8 +65,8 @@ private extension AddCollectionViewController {
         view.addSubview(addCollectionContainer)
         addCollectionContainer.addSubview(mainView)
 
-        addCollectionContainer.clipsToBounds = true
         addCollectionContainer.layer.cornerRadius = 16
+        addCollectionContainer.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         addCollectionContainer.backgroundColor = .whiteMLS
 
         addCollectionContainer.isHidden = true
@@ -173,7 +173,7 @@ extension AddCollectionViewController {
                 case .dismissWithSuccess(let collectionName):
                     owner.dismissWithAnimation {
                         owner.dismiss(animated: false) {
-                            owner.onDismissWithMessage?(collectionName)
+//                            owner.onDismissWithMessage?(collectionName)
                         }
                     }
                 default:
