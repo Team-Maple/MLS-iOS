@@ -137,6 +137,10 @@ private extension AppDelegate {
         DIContainer.register(type: AlarmAPIRepository.self) {
             AlarmAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self), interceptor: DIContainer.resolve(type: Interceptor.self))
         }
+        DIContainer.register(type: CollectionAPIRepository.self) {
+            CollectionAPIRepositoryImpl(provider: DIContainer.resolve(type: NetworkProvider.self),
+                                        tokenInterceptor: DIContainer.resolve(type: Interceptor.self))
+        }
     }
 
     func registerUseCase() {
@@ -340,6 +344,12 @@ private extension AppDelegate {
         DIContainer.register(type: ParseItemFilterResultUseCase.self) {
             ParseItemFilterResultUseCaseImpl()
         }
+        DIContainer.register(type: FetchCollectionListUseCase.self) {
+            FetchCollectionListUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
+        DIContainer.register(type: CreateCollectionListUseCase.self) {
+            CreateCollectionListUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
     }
 
     func registerFactory() {
@@ -478,7 +488,7 @@ private extension AppDelegate {
             BookmarkListFactoryImpl(itemFilterFactory: DIContainer.resolve(type: ItemFilterBottomSheetFactory.self), monsterFilterFactory: DIContainer.resolve(type: MonsterFilterBottomSheetFactory.self), sortedFactory: DIContainer.resolve(type: SortedBottomSheetFactory.self), bookmarkModalFactory: DIContainer.resolve(type: BookmarkModalFactory.self), loginFactory: DIContainer.resolve(type: LoginFactory.self), dictionaryDetailFactory: DIContainer.resolve(type: DictionaryDetailFactory.self), setBookmarkUseCase: DIContainer.resolve(type: SetBookmarkUseCase.self), checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self), fetchBookmarkUseCase: DIContainer.resolve(type: FetchBookmarkUseCase.self), fetchMonsterBookmarkUseCase: DIContainer.resolve(type: FetchMonsterBookmarkUseCase.self), fetchItemBookmarkUseCase: DIContainer.resolve(type: FetchItemBookmarkUseCase.self), fetchNPCBookmarkUseCase: DIContainer.resolve(type: FetchNPCBookmarkUseCase.self), fetchQuestBookmarkUseCase: DIContainer.resolve(type: FetchQuestBookmarkUseCase.self), fetchMapBookmarkUseCase: DIContainer.resolve(type: FetchMapBookmarkUseCase.self), collectionEditFactory: DIContainer.resolve(type: CollectionEditFactory.self))
         }
         DIContainer.register(type: CollectionListFactory.self) {
-            CollectionListFactoryImpl(addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
+            CollectionListFactoryImpl(collectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self), createCollectionListUseCase: DIContainer.resolve(type: CreateCollectionListUseCase.self), addCollectionFactory: DIContainer.resolve(type: AddCollectionFactory.self), bookmarkDetailFactory: DIContainer.resolve(type: CollectionDetailFactory.self))
         }
         DIContainer.register(type: CollectionDetailFactory.self) {
             CollectionDetailFactoryImpl(

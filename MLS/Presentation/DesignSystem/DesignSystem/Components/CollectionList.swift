@@ -136,6 +136,7 @@ public extension CollectionList {
     func setImages(images: [UIImage?]) {
         for (index, view) in imageViews.enumerated() {
             let imageView = view.subviews.compactMap { $0 as? UIImageView }.first
+            print("이미지 뷰 설정")
             imageView?.image = index < images.count ? images[index] : nil
         }
     }
