@@ -9,7 +9,7 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
     private let addCollectionFactory: AddCollectionFactory
     private let collectionEditFactory: CollectionEditFactory
     private let dictionaryDetailFactory: DictionaryDetailFactory
-    
+
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchCollectionUseCase: FetchCollectionUseCase
 
