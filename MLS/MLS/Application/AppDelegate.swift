@@ -18,9 +18,9 @@ import Firebase
 import KakaoSDKCommon
 import MyPageFeature
 import MyPageFeatureInterface
+import os
 import UIKit
 import UserNotifications
-import os
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -327,8 +327,7 @@ extension AppDelegate {
                 repository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self))
         }
-        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self)
-        {
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
             FetchDictionaryDetailMonsterMapUseCaseImpl(
                 repository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self))
