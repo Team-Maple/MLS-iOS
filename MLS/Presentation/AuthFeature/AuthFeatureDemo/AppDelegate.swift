@@ -175,9 +175,6 @@ private extension AppDelegate {
         DIContainer.register(type: FetchDictionaryDetailMapNpcUseCase.self) {
             FetchDictionaryDetailMapNpcUseCaseImpl(repository: DIContainer.resolve(type: DictionaryDetailAPIRepository.self))
         }
-        DIContainer.register(type: FetchNotificationUseCase.self) {
-            FetchNotificationUseCaseImpl()
-        }
         DIContainer.register(type: FetchPlatformUseCase.self) {
             FetchPlatformUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }

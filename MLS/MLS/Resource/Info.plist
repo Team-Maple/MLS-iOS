@@ -13,12 +13,12 @@
 			</array>
 		</dict>
 	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
 	<key>KAKAO_NATIVE_APP_KEY</key>
 	<string>${KAKAO_NATIVE_APP_KEY}</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>kakaostory</string>
+		<string>kakaolink</string>
 		<string>kakaokompassauth</string>
 		<string>kakaotalk</string>
 	</array>

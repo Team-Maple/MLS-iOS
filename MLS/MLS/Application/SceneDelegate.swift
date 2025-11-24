@@ -7,6 +7,7 @@ import DictionaryFeatureInterface
 import DomainInterface
 import MyPageFeatureInterface
 
+import KakaoSDKAuth
 import RxSwift
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -37,6 +38,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         startScene(coordinator: coordinator)
     }
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+            if let url = URLContexts.first?.url {
+                if AuthApi.isKakaoTalkLoginUrl(url) {
+                    _ = AuthController.handleOpenUrl(url: url)
+                }
+            }
+        }
 
     private func startScene(coordinator: AppCoordinator) {
         let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
