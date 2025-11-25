@@ -12,17 +12,21 @@ public final class BookmarkModalReactor: Reactor {
 
     public enum Action {
         case backButtonTapped
+        case addButtonTapped
         case addCollectionTapped
         case selectItem(Int)
+        case viewWillAppear
     }
 
     public enum Mutation {
         case toNavigate(Route)
         case checkCollection([CollectionResponse])
+        case setCollection([CollectionResponse])
     }
 
     public struct State {
         @Pulse var route: Route
+        var bookmarkId: Int
         var collections = [CollectionResponse]()
         var selectedItems = [CollectionResponse]()
     }
@@ -31,12 +35,23 @@ public final class BookmarkModalReactor: Reactor {
 
     private let disposeBag = DisposeBag()
 
-    public init() {
-        self.initialState = State(route: .none)
+    private let fetchCollectionListUseCase: FetchCollectionListUseCase
+    private let addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase
+
+    public init(bookmarkId: Int, fetchCollectionListUseCase: FetchCollectionListUseCase, addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase) {
+        self.initialState = State(route: .none, bookmarkId: bookmarkId)
+        self.fetchCollectionListUseCase = fetchCollectionListUseCase
+        self.addCollectionsToBookmarkUseCase = addCollectionsToBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewWillAppear:
+            return fetchCollectionListUseCase.execute()
+                .map { .setCollection($0) }
+        case .addButtonTapped:
+            return addCollectionsToBookmarkUseCase.execute(bookmarkId: currentState.bookmarkId, collectionIds: currentState.selectedItems.map { $0.collectionId })
+                .andThen(.just(.toNavigate(.dismiss)))
         case .backButtonTapped:
             return .just(.toNavigate(.dismiss))
         case .addCollectionTapped:
@@ -59,6 +74,8 @@ public final class BookmarkModalReactor: Reactor {
             newState.route = route
         case .checkCollection(let collections):
             newState.selectedItems = collections
+        case .setCollection(let collections):
+            newState.collections = collections
         }
         return newState
     }

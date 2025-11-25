@@ -2,6 +2,7 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DesignSystem
 import DomainInterface
 
 import ReactorKit
@@ -104,7 +105,11 @@ extension CollectionListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .detail(let collection):
-                    let viewController = owner.detailFactory.make(collection: collection)
+                    let viewController = owner.detailFactory.make(collection: collection, onMoveToMain: {
+                        if let tabBarController = owner.tabBarController as? BottomTabBarController {
+                            tabBarController.selectTab(index: 0)
+                        }
+                    })
                     owner.tabBarController?.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

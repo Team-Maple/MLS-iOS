@@ -13,3 +13,7 @@ function_body_length:
 disabled_rules:
   - force_cast
   - blanket_disable_command
+  
+function_parameter_count:
+  warning: 5
+  error: 10

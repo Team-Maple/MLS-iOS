@@ -30,10 +30,29 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.toDomain() }
     }
+    
+    public func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable {
+        let endPoint = CollectionEndPoint.addBookmarksToCollection(id: collectionId, body: AddBookmarkRequestBody(bookmarkIds: bookmarkIds))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
+    public func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable {
+        let endPoint = CollectionEndPoint.addCollectionsToBookmark(id: bookmarkId, body: AddCollectionRequestBody(collectionIds: collectionIds))
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
 }
 
 private extension CollectionAPIRepositoryImpl {
     struct CreateCollectionRequestDTO: Encodable {
         let name: String
+    }
+    
+    struct AddBookmarkRequestBody: Encodable {
+        let bookmarkIds: [Int]
+    }
+    
+    struct AddCollectionRequestBody: Encodable {
+        let collectionIds: [Int]
     }
 }

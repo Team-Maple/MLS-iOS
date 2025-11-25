@@ -254,21 +254,22 @@ extension DictionaryDetailBaseViewController {
         backgroundColor: UIColor,
         isBookmarked: @escaping (T) -> Bool,
         toggleBookmark: @escaping (Bool) -> Void,
-        undoLastDeleted: @escaping () -> Void) -> Disposable {
+        undoLastDeleted: @escaping () -> Void,
+        bookmarkId: Observable<Int?>
+    ) -> Disposable {
         buttonTap
-            .withLatestFrom(currentItem)
+            .withLatestFrom(Observable.combineLatest(currentItem, bookmarkId))
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] item in
+            .bind { [weak self] item, bookmarkId in
                 guard let self else { return }
-
                 guard isLogin() else {
                     GuideAlertFactory.show(
                         mainText: "북마크를 하려면 로그인이 필요해요.",
                         ctaText: "로그인 하기",
                         cancelText: "취소",
                         ctaAction: {
-                            let viewController = self.loginFactory.make(exitRoute: .pop)
-                            self.navigationController?.pushViewController(viewController, animated: true)
+                            let vc = self.loginFactory.make(exitRoute: .pop)
+                            self.navigationController?.pushViewController(vc, animated: true)
                         },
                         cancelAction: nil
                     )
@@ -294,24 +295,24 @@ extension DictionaryDetailBaseViewController {
                         text: "아이템을 북마크에 추가했어요.",
                         buttonText: "컬렉션 추가",
                         buttonAction: { [weak self] in
-                            guard let self else { return }
-                            DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make(
-                                    onDismissWithColletions: { _ in },
-                                    onDismissWithMessage: { _ in
-                                        ToastFactory.createToast(
-                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                        )
-                                    }
-                                )
-                                viewController.modalPresentationStyle = .pageSheet
-                                if let sheet = viewController.sheetPresentationController {
-                                    sheet.detents = [.medium(), .large()]
-                                    sheet.prefersGrabberVisible = true
-                                    sheet.preferredCornerRadius = 16
+                            guard let self,
+                            let id = bookmarkId else { return }
+                            let viewController = self.bookmarkModalFactory.make(
+                                bookmarkId: id,
+                                onDismissWithColletions: { _ in },
+                                onDismissWithMessage: { _ in
+                                    ToastFactory.createToast(
+                                        message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                    )
                                 }
-                                self.present(viewController, animated: true)
+                            )
+                            viewController.modalPresentationStyle = .pageSheet
+                            if let sheet = viewController.sheetPresentationController {
+                                sheet.detents = [.medium(), .large()]
+                                sheet.prefersGrabberVisible = true
+                                sheet.preferredCornerRadius = 16
                             }
+                            self.present(viewController, animated: true)
                         }
                     )
                 }

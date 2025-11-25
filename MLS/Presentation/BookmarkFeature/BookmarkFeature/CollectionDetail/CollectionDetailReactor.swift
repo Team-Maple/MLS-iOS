@@ -41,7 +41,6 @@ public final class CollectionDetailReactor: Reactor {
         }
         let type = DictionaryMainViewType.bookmark
         var collection: CollectionResponse
-        var bookmarks = [BookmarkResponse]()
         var lastDeletedBookmark: BookmarkResponse?
     }
 
@@ -62,7 +61,7 @@ public final class CollectionDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .toggleBookmark(let id, let isSelected):
-            guard let bookmarkItem = currentState.bookmarks.first(where: { $0.originalId == id }) else { return .empty() }
+            guard let bookmarkItem = currentState.collection.recentBookmarks.first(where: { $0.originalId == id }) else { return .empty() }
 
             let saveDeletedMutation: Observable<Mutation> =
                 isSelected ? .just(.setLastDeletedBookmark(bookmarkItem))
@@ -84,8 +83,7 @@ public final class CollectionDetailReactor: Reactor {
             return fetchCollectionUseCase.execute(id: currentState.collection.collectionId)
                 .map { .setItems($0) }
         case .addButtonTapped:
-            // 컬렉션 추가
-            return .empty()
+            return .just(.navigateTo(.toMain))
         case .bookmarkButtonTapped:
             return .just(.navigateTo(.toMain))
         case .selectSetting(let menu):
@@ -105,7 +103,7 @@ public final class CollectionDetailReactor: Reactor {
                 ])
             )
         case .dataTapped(let index):
-            let item = currentState.bookmarks[index]
+            let item = currentState.collection.recentBookmarks[index]
             guard let type = item.type.toDictionaryType else { return .empty() }
             return .just(.navigateTo(.detail(type, item.originalId)))
         }
@@ -115,7 +113,7 @@ public final class CollectionDetailReactor: Reactor {
         var newState = state
         switch mutation {
         case .setItems(let items):
-            newState.bookmarks = items
+            newState.collection.recentBookmarks = items
         case .navigateTo(let route):
             newState.route = route
         case .setMenu(let menu):

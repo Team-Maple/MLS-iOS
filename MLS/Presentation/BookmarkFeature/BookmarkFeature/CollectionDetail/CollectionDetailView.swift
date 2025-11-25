@@ -76,7 +76,7 @@ private extension CollectionDetailView {
         }
 
         emptyView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 

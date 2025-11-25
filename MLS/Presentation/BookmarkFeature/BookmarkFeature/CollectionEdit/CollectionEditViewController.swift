@@ -124,7 +124,8 @@ extension CollectionEditViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .collcectionList:
-                    let viewController = owner.bookmarkModalFactory.make(onDismissWithColletions: { _ in
+                    // 수정필요 bookmarkId -> bookmarkIds
+                    let viewController = owner.bookmarkModalFactory.make(bookmarkId: reactor.currentState.selectedCollections.first?.collectionId ?? 0, onDismissWithColletions: { _ in
 
                     }, onDismissWithMessage: { _ in
 

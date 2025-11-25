@@ -1,7 +1,10 @@
 import BaseFeature
 import BookmarkFeatureInterface
+import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
+
+import RxSwift
 
 public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
     private let bookmarkModalFactory: BookmarkModalFactory
@@ -31,12 +34,13 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
         self.fetchCollectionUseCase = fetchCollectionUseCase
     }
 
-    public func make(collection: CollectionResponse) -> BaseViewController {
+    public func make(collection: CollectionResponse, onMoveToMain: (() -> Void)?) -> BaseViewController {
         let reactor = CollectionDetailReactor(
             setBookmarkUseCase: setBookmarkUseCase,
             fetchCollectionUseCase: fetchCollectionUseCase,
             collection: collection
         )
+
         let viewController = CollectionDetailViewController(
             reactor: reactor,
             bookmarkModalFactory: bookmarkModalFactory,
@@ -45,6 +49,21 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
             collectionEditFactory: collectionEditFactory,
             dictionaryDetailFactory: dictionaryDetailFactory
         )
+
+        reactor.pulse(\.$route)
+            .compactMap { $0 }
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { [weak viewController] route in
+                switch route {
+                case .toMain:
+                    onMoveToMain?()
+                    viewController?.navigationController?.popToRootViewController(animated: true)
+                default:
+                    break
+                }
+            })
+            .disposed(by: viewController.disposeBag)
+
         return viewController
     }
 }

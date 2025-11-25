@@ -80,8 +80,18 @@ extension BookmarkModalViewController {
     }
 
     private func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { .viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.backButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.addButtton.rx.tap
+            .map { Reactor.Action.addButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -91,9 +101,17 @@ extension BookmarkModalViewController {
             .map(\.collections)
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                owner.mainView.folderCollectionView.reloadData()
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.selectedItems)
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
             .bind(onNext: { owner, items in
                 owner.mainView.setButtonTitle(count: items.count)
-                owner.mainView.folderCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
 
@@ -101,12 +119,13 @@ extension BookmarkModalViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, route in
                 switch route {
                 case .dismiss:
                     owner.dismiss(animated: true)
                 case .addCollection:
-                    let viewController = owner.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
+                    let viewController = owner.addCollectionFactory.make( collection: nil, onDismissWithMessage: { [weak self] collection in
                         self?.onDismissWithMessage?(collection)
                     })
                     owner.present(viewController, animated: true)

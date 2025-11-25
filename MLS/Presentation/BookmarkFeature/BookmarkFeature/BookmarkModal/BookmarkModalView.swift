@@ -36,7 +36,7 @@ final class BookmarkModalView: UIView {
 
     private let divider = DividerView()
 
-    private let addButtton = CommonButton(style: .normal, title: "", disabledTitle: "추가하기")
+    public let addButtton = CommonButton(style: .normal, title: "", disabledTitle: "추가하기")
 
     // MARK: - Init
     init() {

@@ -1,6 +1,10 @@
 // swiftlint:disable function_body_length
 // swiftlint:disable line_length
 
+import os
+import UIKit
+import UserNotifications
+
 import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
@@ -14,13 +18,11 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
-import Firebase
-import KakaoSDKCommon
 import MyPageFeature
 import MyPageFeatureInterface
-import os
-import UIKit
-import UserNotifications
+
+import Firebase
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -509,6 +511,9 @@ extension AppDelegate {
         DIContainer.register(type: FetchCollectionUseCase.self) {
             FetchCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
+        DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
+            AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
     }
 
     fileprivate func registerFactory() {
@@ -527,7 +532,7 @@ extension AppDelegate {
         DIContainer.register(type: BookmarkModalFactory.self) {
             BookmarkModalFactoryImpl(
                 addCollectionFactory: DIContainer.resolve(
-                    type: AddCollectionFactory.self))
+                    type: AddCollectionFactory.self), fetchCollectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self), addCollectionsToBookmarkUseCase: DIContainer.resolve(type: AddCollectionsToBookmarkUseCase.self))
         }
         DIContainer.register(type: LoginFactory.self) {
             LoginFactoryImpl(
