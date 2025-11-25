@@ -11,7 +11,14 @@ public final class MyPageMainFactoryImpl: MyPageMainFactory {
     private let setCharacterFactory: SetCharacterFactory
     private let fetchProfileUseCase: FetchProfileUseCase
 
-    public init(loginFactory: LoginFactory, setProfileFactory: SetProfileFactory, customerSupportFactory: CustomerSupportFactory, notificationSettingFactory: NotificationSettingFactory, setCharacterFactory: SetCharacterFactory, fetchProfileUseCase: FetchProfileUseCase) {
+    public init(
+        loginFactory: LoginFactory,
+        setProfileFactory: SetProfileFactory,
+        customerSupportFactory: CustomerSupportFactory,
+        notificationSettingFactory: NotificationSettingFactory,
+        setCharacterFactory: SetCharacterFactory,
+        fetchProfileUseCase: FetchProfileUseCase
+    ) {
         self.loginFactory = loginFactory
         self.setProfileFactory = setProfileFactory
         self.customerSupportFactory = customerSupportFactory
@@ -21,7 +28,13 @@ public final class MyPageMainFactoryImpl: MyPageMainFactory {
     }
 
     public func make() -> BaseViewController {
-        let viewController = MyPageMainViewController(setProfileFactory: setProfileFactory, customerSupportFactory: customerSupportFactory, notificationSettingFactory: notificationSettingFactory, setCharacterFactory: setCharacterFactory, loginFactory: loginFactory)
+        let viewController = MyPageMainViewController(
+            setProfileFactory: setProfileFactory,
+            customerSupportFactory: customerSupportFactory,
+            notificationSettingFactory: notificationSettingFactory,
+            setCharacterFactory: setCharacterFactory,
+            loginFactory: loginFactory
+        )
         viewController.reactor = MyPageMainReactor(fetchProfileUseCase: fetchProfileUseCase)
         return viewController
     }

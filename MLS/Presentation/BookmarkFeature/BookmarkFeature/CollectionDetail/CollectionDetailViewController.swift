@@ -219,7 +219,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
             ),
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
-                
+
                 self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
 
                 SnackBarFactory.createSnackBar(

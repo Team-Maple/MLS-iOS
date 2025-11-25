@@ -1,5 +1,3 @@
-// swiftlint:disable function_body_length
-
 import DomainInterface
 import ReactorKit
 import RxSwift

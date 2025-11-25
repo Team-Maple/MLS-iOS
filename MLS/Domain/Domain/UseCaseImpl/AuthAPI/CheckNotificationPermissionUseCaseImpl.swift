@@ -11,10 +11,10 @@ public final class CheckNotificationPermissionUseCaseImpl: CheckNotificationPerm
         return Single.create { single in
             UNUserNotificationCenter.current().getNotificationSettings { settings in
                 switch settings.authorizationStatus {
-                    case .authorized:
-                        single(.success(true))
-                    default:
-                        single(.success(false))
+                case .authorized:
+                    single(.success(true))
+                default:
+                    single(.success(false))
                 }
             }
             return Disposables.create()

@@ -71,7 +71,13 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
             break
         case .item:
             viewController = ItemDictionaryDetailViewController(type: .item, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
-            let reactor = ItemDictionaryDetailReactor(dictionaryDetailItemUseCase: dictionaryDetailItemUseCase, dictionaryDetailItemDropMonsterUseCase: dictionaryDetailItemDropMonsterUseCase, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, id: id)
+            let reactor = ItemDictionaryDetailReactor(
+                dictionaryDetailItemUseCase: dictionaryDetailItemUseCase,
+                dictionaryDetailItemDropMonsterUseCase: dictionaryDetailItemDropMonsterUseCase,
+                checkLoginUseCase: checkLoginUseCase,
+                setBookmarkUseCase: setBookmarkUseCase,
+                id: id
+            )
             if let viewController = viewController as? ItemDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
@@ -116,7 +122,13 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
             }
         case .quest:
             viewController = QuestDictionaryDetailViewController(type: .quest, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
-            let reactor = QuestDictionaryDetailReactor(dictionaryDetailQuestUseCase: dictionaryDetailQuestUseCase, dictionaryDetailQuestLinkedQuestUseCase: dictionaryDetailQuestLinkedQuestsUseCase, checkLoginUseCase: checkLoginUseCase, setBookmarkUseCase: setBookmarkUseCase, id: id)
+            let reactor = QuestDictionaryDetailReactor(
+                dictionaryDetailQuestUseCase: dictionaryDetailQuestUseCase,
+                dictionaryDetailQuestLinkedQuestUseCase: dictionaryDetailQuestLinkedQuestsUseCase,
+                checkLoginUseCase: checkLoginUseCase,
+                setBookmarkUseCase: setBookmarkUseCase,
+                id: id
+            )
             if let viewController = viewController as? QuestDictionaryDetailViewController {
                 viewController.reactor = reactor
             }

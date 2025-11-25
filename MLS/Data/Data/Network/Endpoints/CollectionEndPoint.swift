@@ -18,7 +18,7 @@ public enum CollectionEndPoint {
             method: .GET
         )
     }
-    
+
     public static func addBookmarksToCollection(id: Int, body: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
         .init(
             baseURL: base,
@@ -27,7 +27,7 @@ public enum CollectionEndPoint {
             body: body
         )
     }
-    
+
     public static func addCollectionsToBookmark(id: Int, body: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
         .init(
             baseURL: base,

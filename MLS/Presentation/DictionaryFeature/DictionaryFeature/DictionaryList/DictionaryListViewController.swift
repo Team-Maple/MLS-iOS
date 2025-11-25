@@ -200,9 +200,7 @@ extension DictionaryListViewController {
 }
 
 // MARK: - Delegate
-extension DictionaryListViewController: UICollectionViewDelegate,
-    UICollectionViewDataSource
-{
+extension DictionaryListViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     public func collectionView(
         _ collectionView: UICollectionView, numberOfItemsInSection section: Int
     ) -> Int {
@@ -298,11 +296,8 @@ extension DictionaryListViewController: UICollectionViewDelegate,
                                             )
                                         }
                                     )
-                                viewController.modalPresentationStyle =
-                                    .pageSheet
-                                if let sheet = viewController
-                                    .sheetPresentationController
-                                {
+                                viewController.modalPresentationStyle = .pageSheet
+                                if let sheet = viewController.sheetPresentationController {
                                     sheet.detents = [.medium(), .large()]
                                     sheet.prefersGrabberVisible = true
                                     sheet.preferredCornerRadius = 16

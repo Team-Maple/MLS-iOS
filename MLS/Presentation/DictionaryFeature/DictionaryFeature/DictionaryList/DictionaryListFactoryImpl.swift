@@ -70,7 +70,15 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             setBookmarkUseCase: setBookmarkUseCase,
             parseItemFilterResultUseCase: parseItemFilterResultUseCase
         )
-        let viewController = DictionaryListViewController(reactor: reactor, itemFilterFactory: itemFilterFactory, monsterFilterFactory: monsterFilterFactory, sortedFactory: sortedFactory, bookmarkModalFactory: bookmarkModalFactory, detailFactory: detailFactory, loginFactory: loginFactory())
+        let viewController = DictionaryListViewController(
+            reactor: reactor,
+            itemFilterFactory: itemFilterFactory,
+            monsterFilterFactory: monsterFilterFactory,
+            sortedFactory: sortedFactory,
+            bookmarkModalFactory: bookmarkModalFactory,
+            detailFactory: detailFactory,
+            loginFactory: loginFactory()
+        )
         if listType == .search {
             viewController.isBottomTabbarHidden = true
         }

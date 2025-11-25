@@ -64,7 +64,7 @@ public final class DictionarySearchResultReactor: Reactor {
             } else {
                 return .empty()
             }
-            // 검색 결과 화면에서 재검색 시
+        // 검색 결과 화면에서 재검색 시
         case .searchButtonTapped(let keyword):
             let keyword = keyword ?? ""
 
@@ -82,7 +82,7 @@ public final class DictionarySearchResultReactor: Reactor {
             newState.keyword = keyword
         case .setCounts(let counts):
             newState.counts = counts
-         }
+        }
 
         return newState
     }
@@ -90,7 +90,7 @@ public final class DictionarySearchResultReactor: Reactor {
     public func transform(mutation: Observable<Mutation>) -> Observable<Mutation> {
         let keywordChanges = mutation
             .compactMap { mutation -> String? in
-                if case let .setKeyword(keyword) = mutation { return keyword }
+                if case .setKeyword(let keyword) = mutation { return keyword }
                 return nil
             }
             .distinctUntilChanged() // 중복 keyword 방지
@@ -98,16 +98,15 @@ public final class DictionarySearchResultReactor: Reactor {
                 guard let self = self else { return .empty() }
                 let types = ["search", "monsters", "items", "npcs", "maps", "quests"]
                 let countObservables = types.map { type in
-                                self.dictionarySearchCountUseCase.execute(type: type, keyword: keyword)
-                                    .map { $0.count ?? 0 }
-                            }
+                    self.dictionarySearchCountUseCase.execute(type: type, keyword: keyword)
+                        .map { $0.count ?? 0 }
+                }
                 return Observable.zip(countObservables)
-                                .map { counts in
-                                    Mutation.setCounts(counts)
-                                }
+                    .map { counts in
+                        Mutation.setCounts(counts)
+                    }
             }
 
         return Observable.merge(mutation, keywordChanges)
     }
-
 }

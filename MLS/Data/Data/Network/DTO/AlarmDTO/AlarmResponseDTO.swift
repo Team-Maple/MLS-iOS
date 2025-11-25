@@ -8,18 +8,6 @@ public struct AlarmResponseDTO: Decodable {
         case normal(NormalContent)
         case all(AllContent)
 
-        public struct NormalContent: Decodable {
-            public let type: String
-            public let title: String
-            public let link: String
-            public let date: [Int]
-        }
-
-        public struct AllContent: Decodable {
-            public let alrim: NormalContent
-            public let alreadyRead: Bool
-        }
-
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
 
@@ -41,6 +29,18 @@ public struct AlarmResponseDTO: Decodable {
                 )
             )
         }
+    }
+    
+    public struct NormalContent: Decodable {
+        public let type: String
+        public let title: String
+        public let link: String
+        public let date: [Int]
+    }
+
+    public struct AllContent: Decodable {
+        public let alrim: NormalContent
+        public let alreadyRead: Bool
     }
 }
 

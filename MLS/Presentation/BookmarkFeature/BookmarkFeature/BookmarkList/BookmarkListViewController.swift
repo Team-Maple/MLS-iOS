@@ -170,11 +170,11 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let vc = owner.dictionaryDetailFactory.make(type: type, id: id)
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
-                    let vc = owner.loginFactory.make(exitRoute: .pop)
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let viewcontroller = owner.loginFactory.make(exitRoute: .pop)
+                    owner.navigationController?.pushViewController(viewcontroller, animated: true)
 
                 case .dictionary:
                     if let tabBarController = owner.tabBarController as? BottomTabBarController {

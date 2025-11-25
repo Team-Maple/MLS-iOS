@@ -467,7 +467,7 @@ extension ItemFilterBottomSheetViewController {
             .skip(1)
             .withUnretained(self)
             .subscribe { owner, scrolls in
-                guard let dataSource = owner.dataSource else { return }
+                guard owner.dataSource != nil else { return }
                 var snapshot = owner.dataSource.snapshot()
                 snapshot.deleteItems(snapshot.itemIdentifiers(inSection: .scrollCategories))
                 snapshot.appendItems(scrolls.scrollTypes.map { .scrollCategories($0) }, toSection: .scrollCategories)

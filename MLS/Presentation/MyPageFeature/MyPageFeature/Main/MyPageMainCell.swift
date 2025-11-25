@@ -24,11 +24,11 @@ public final class MyPageMainCell: UICollectionViewCell {
 
     // MARK: - Components
     private let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.layer.cornerRadius = Constant.imageSize / 2
-        return iv
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = Constant.imageSize / 2
+        return imageView
     }()
 
     private let nameLabel: UILabel = {

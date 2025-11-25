@@ -49,14 +49,14 @@ public final class BookmarkOnBoardingView: UIView {
             case .end: return .second
             }
         }
+    }
 
-        struct OnboardingContent {
-            let imageName: String
-            let title: String
-            let description: String
-            let isBackButtonHidden: Bool
-            let buttonTitle: String
-        }
+    struct OnboardingContent {
+        let imageName: String
+        let title: String
+        let description: String
+        let isBackButtonHidden: Bool
+        let buttonTitle: String
     }
 
     enum Constant {

@@ -29,7 +29,21 @@ final class CustomerSupportBaseView: UIView {
 
     public let backButton: UIButton = {
         let button = UIButton()
-        button.setImage(DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate).resizableImage(withCapInsets: UIEdgeInsets(top: Constant.iconInset, left: Constant.iconInset, bottom: Constant.iconInset, right: Constant.iconInset)), for: .normal)
+        button
+            .setImage(
+                DesignSystemAsset
+                    .image(named: "arrowBack")?
+                    .withRenderingMode(.alwaysTemplate)
+                    .resizableImage(
+                        withCapInsets: UIEdgeInsets(
+                            top: Constant.iconInset,
+                            left: Constant.iconInset,
+                            bottom: Constant.iconInset,
+                            right: Constant.iconInset
+                        )
+                    ),
+                for: .normal
+            )
         button.tintColor = .textColor
         return button
     }()

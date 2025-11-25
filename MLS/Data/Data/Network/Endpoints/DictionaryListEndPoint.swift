@@ -34,7 +34,16 @@ public enum DictionaryListEndPoint {
         )
     }
     // 아이템 리스트
-    public static func fetchItemList(keyword: String? = nil, jobId: [Int]? = nil, minLevel: Int? = nil, maxLevel: Int? = nil, categoryIds: [Int]? = nil, page: Int? = nil, size: Int? = nil, sort: String? = nil) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryItemDTO>> {
+    public static func fetchItemList(
+        keyword: String? = nil,
+        jobId: [Int]? = nil,
+        minLevel: Int? = nil,
+        maxLevel: Int? = nil,
+        categoryIds: [Int]? = nil,
+        page: Int? = nil,
+        size: Int? = nil,
+        sort: String? = nil
+    ) -> ResponsableEndPoint<PagedListResponseDTO<DictionaryItemDTO>> {
         let joinedCategoryIds = categoryIds?.map(String.init).joined(separator: ",")
         let joinedJobIds = jobId?.map(String.init).joined(separator: ",")
 

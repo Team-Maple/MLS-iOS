@@ -95,7 +95,8 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
         // 탭바의 frame을 self.view 기준으로 변환
         let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: view)
 
-        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top { // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
+        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top {
+            // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
             mainView.tabBarStickyStackView.isHidden = false
             mainView.stickyTabBarDividerView.isHidden = false
         } else {
@@ -268,8 +269,8 @@ extension DictionaryDetailBaseViewController {
                         ctaText: "로그인 하기",
                         cancelText: "취소",
                         ctaAction: {
-                            let vc = self.loginFactory.make(exitRoute: .pop)
-                            self.navigationController?.pushViewController(vc, animated: true)
+                            let viewController = self.loginFactory.make(exitRoute: .pop)
+                            self.navigationController?.pushViewController(viewController, animated: true)
                         },
                         cancelAction: nil
                     )
