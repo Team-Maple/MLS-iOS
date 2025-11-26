@@ -50,7 +50,7 @@ public final class BookmarkModalReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear, .completeAdding:
-            return fetchCollectionListUseCase.execute()
+            return fetchCollectionListUseCase.execute(sort: nil)
                 .map { .setCollection($0) }
 
         case .addButtonTapped:

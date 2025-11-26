@@ -9,22 +9,28 @@ public final class CollectionListReactor: Reactor {
     public enum Route {
         case none
         case detail(CollectionResponse)
+        case sortFilter
     }
 
     public enum Action {
         case itemTapped(Int)
         case viewWillAppear
         case completeAdding
+        case sortButtonTapped
+        case sortOptionSelected(SortType)
     }
 
     public enum Mutation {
         case navigateTo(Route)
         case setListData([CollectionResponse])
+        case setSort(SortType)
     }
 
     public struct State {
         @Pulse var route: Route
         var collectionList: [CollectionResponse]
+        var sortFilter: [SortType] = [.korean, .latest]
+        var selectedSort: SortType?
     }
 
     // MARK: - Properties
@@ -42,12 +48,19 @@ public final class CollectionListReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchCollectionListUseCase.execute().map { .setListData($0) }
+            return fetchCollectionListUseCase.execute(sort: currentState.selectedSort).map { .setListData($0) }
         case .itemTapped(let index):
             return .just(.navigateTo(.detail(currentState.collectionList[index])))
         case .completeAdding:
-            return fetchCollectionListUseCase.execute()
+            return fetchCollectionListUseCase.execute(sort: currentState.selectedSort)
                 .map {.setListData($0)}
+        case .sortButtonTapped:
+            return .just(.navigateTo(.sortFilter))
+        case .sortOptionSelected(let sort):
+            return Observable.concat([
+                .just(.setSort(sort)),
+                fetchCollectionListUseCase.execute(sort: currentState.selectedSort).map { .setListData($0) }
+            ])
         }
     }
 
@@ -58,6 +71,8 @@ public final class CollectionListReactor: Reactor {
             newState.collectionList = data
         case .navigateTo(let route):
             newState.route = route
+        case .setSort(let sort):
+            newState.selectedSort = sort
         }
         return newState
     }

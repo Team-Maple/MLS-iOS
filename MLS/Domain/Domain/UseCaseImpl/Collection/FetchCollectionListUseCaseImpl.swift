@@ -9,7 +9,7 @@ public final class FetchCollectionListUseCaseImpl: FetchCollectionListUseCase {
         self.repository = repository
     }
 
-    public func execute() -> Observable<[CollectionResponse]> {
-        return repository.fetchCollectionList()
+    public func execute(sort: SortType?) -> Observable<[CollectionResponse]> {
+        return repository.fetchCollectionList(sort: sort?.sortParameter)
     }
 }

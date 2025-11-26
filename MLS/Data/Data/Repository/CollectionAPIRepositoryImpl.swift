@@ -13,8 +13,8 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
         self.tokenInterceptor = tokenInterceptor
     }
 
-    public func fetchCollectionList() -> Observable<[CollectionResponse]> {
-        let endPoint = CollectionEndPoint.fetchCollectionList()
+    public func fetchCollectionList(sort: String?) -> Observable<[CollectionResponse]> {
+        let endPoint = CollectionEndPoint.fetchCollectionList(query: FetchCollectionListQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
             .map { $0.map { $0.toDomain() }
             }
@@ -70,6 +70,10 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
 }
 
 private extension CollectionAPIRepositoryImpl {
+    struct FetchCollectionListQuery: Encodable {
+        let sort: String?
+    }
+    
     struct CreateCollectionRequestDTO: Encodable {
         let name: String
     }

@@ -813,7 +813,9 @@ extension AppDelegate {
                 addCollectionFactory: DIContainer.resolve(
                     type: AddCollectionFactory.self),
                 bookmarkDetailFactory: DIContainer.resolve(
-                    type: CollectionDetailFactory.self))
+                    type: CollectionDetailFactory.self),
+                sortedBottomSheetFactory: DIContainer
+                    .resolve(type: SortedBottomSheetFactory.self))
         }
         DIContainer.register(type: CollectionDetailFactory.self) {
             CollectionDetailFactoryImpl(
