@@ -157,12 +157,19 @@ extension BookmarkListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        break
-                        // let viewController = owner.itemFilterFactory.make()
-                        // owner.present(viewController, animated: true)
+                        let viewController = owner.itemFilterFactory.make { results in
+                            reactor.action.onNext(.itemFilterOptionSelected(results))
+
+                            if results.isEmpty {
+                                owner.mainView.resetFilter()
+                            } else {
+                                owner.mainView.selectFilter()
+                            }
+                        }
+                        owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
-
+                            owner.mainView.selectFilter()
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
                         owner.tabBarController?.presentModal(viewController)
@@ -194,6 +201,7 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
+                owner.mainView.updateBookmarkFilter(type: type)
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })
             .disposed(by: disposeBag)

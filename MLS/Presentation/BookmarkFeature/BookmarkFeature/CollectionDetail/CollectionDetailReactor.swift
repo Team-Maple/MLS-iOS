@@ -49,18 +49,18 @@ public final class CollectionDetailReactor: Reactor {
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchCollectionUseCase: FetchCollectionUseCase
     private let deleteCollectionUseCase: DeleteCollectionUseCase
-    private let addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
+    private let addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(collection: CollectionResponse, setBookmarkUseCase: SetBookmarkUseCase, fetchCollectionUseCase: FetchCollectionUseCase, deleteCollectionUseCase: DeleteCollectionUseCase, addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase) {
+    public init(collection: CollectionResponse, setBookmarkUseCase: SetBookmarkUseCase, fetchCollectionUseCase: FetchCollectionUseCase, deleteCollectionUseCase: DeleteCollectionUseCase, addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase) {
         self.initialState = State(route: .none, collection: collection)
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchCollectionUseCase = fetchCollectionUseCase
         self.deleteCollectionUseCase = deleteCollectionUseCase
-        self.addBookmarksToCollectionUseCase = addBookmarksToCollectionUseCase
+        self.addCollectionAndBookmarkUseCase = addCollectionAndBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -103,7 +103,7 @@ public final class CollectionDetailReactor: Reactor {
                 isBookmark: .set(lastDeleted.type)
             )
             // 북마크 다시 설정시 이전 collection을 전부 추적해야하고 새로 바뀐 북마크ID가 필요하여 현재는 원할하게 동작하지 않음
-            .andThen(addBookmarksToCollectionUseCase.execute(collectionId: currentState.collection.collectionId, bookmarkIds: [lastDeletedBookmarkId]))
+            .andThen(addCollectionAndBookmarkUseCase.execute(collectionIds: [currentState.collection.collectionId], bookmarkIds: [lastDeletedBookmarkId]))
             .andThen(
                 Observable.concat([
                     fetchCollectionUseCase.execute(id: currentState.collection.collectionId)

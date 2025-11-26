@@ -31,27 +31,27 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
             .map { $0.toDomain() }
     }
 
-    public func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable {
-        let endPoint = CollectionEndPoint.addBookmarksToCollection(id: collectionId, body: AddBookmarkRequestBody(bookmarkIds: bookmarkIds))
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-            .catch { error in
-                if let netErr = error as? NetworkError {
-                    switch netErr {
-                    case let .statusError(code, body):
-                        return .error(DomainHTTPError.httpStatus(code: code, message: body))
-                    default:
-                        return .error(DomainHTTPError.unknown)
-                    }
-                } else {
-                    return .error(DomainHTTPError.unknown)
-                }
-            }
-    }
-
-    public func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable {
-        let endPoint = CollectionEndPoint.addCollectionsToBookmark(id: bookmarkId, body: AddCollectionRequestBody(collectionIds: collectionIds))
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-    }
+//    public func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable {
+//        let endPoint = CollectionEndPoint.addBookmarksToCollection(id: collectionId, body: AddBookmarkRequestBody(bookmarkIds: bookmarkIds))
+//        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+//            .catch { error in
+//                if let netErr = error as? NetworkError {
+//                    switch netErr {
+//                    case let .statusError(code, body):
+//                        return .error(DomainHTTPError.httpStatus(code: code, message: body))
+//                    default:
+//                        return .error(DomainHTTPError.unknown)
+//                    }
+//                } else {
+//                    return .error(DomainHTTPError.unknown)
+//                }
+//            }
+//    }
+//
+//    public func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable {
+//        let endPoint = CollectionEndPoint.addCollectionsToBookmark(id: bookmarkId, body: AddCollectionRequestBody(collectionIds: collectionIds))
+//        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+//    }
 
     public func setCollectionName(collectionId: Int, name: String) -> Completable {
         let endPoint = CollectionEndPoint.setCollectionName(id: collectionId, body: SetCollectionRequestBody(name: name))
@@ -60,6 +60,11 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
     
     public func deleteCollection(collectionId: Int) -> Completable {
         let endPoint = CollectionEndPoint.deleteCollection(id: collectionId)
+        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    }
+    
+    public func addCollectionAndBookmark(collectionIds: [Int], bookmarkIds: [Int]) -> Completable {
+        let endPoint = CollectionEndPoint.addCollectionAndBookmark(body: AddCollectionAndBookmarkBody(collectionIds: collectionIds, bookmarkIds: bookmarkIds))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 }
@@ -79,5 +84,10 @@ private extension CollectionAPIRepositoryImpl {
 
     struct SetCollectionRequestBody: Encodable {
         let name: String
+    }
+    
+    struct AddCollectionAndBookmarkBody: Encodable {
+        let collectionIds: [Int]
+        let bookmarkIds: [Int]
     }
 }

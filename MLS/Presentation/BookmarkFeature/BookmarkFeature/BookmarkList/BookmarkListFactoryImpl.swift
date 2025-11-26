@@ -11,6 +11,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
     private let dictionaryDetailFactory: DictionaryDetailFactory
+    private let collectionEditFactory: CollectionEditFactory
 
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let checkLoginUseCase: CheckLoginUseCase
@@ -20,7 +21,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase
     private let fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase
     private let fetchMapBookmarkUseCase: FetchMapBookmarkUseCase
-    private let collectionEditFactory: CollectionEditFactory
+    private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
 
     public init(
         itemFilterFactory: ItemFilterBottomSheetFactory,
@@ -29,6 +30,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         bookmarkModalFactory: BookmarkModalFactory,
         loginFactory: LoginFactory,
         dictionaryDetailFactory: DictionaryDetailFactory,
+        collectionEditFactory: CollectionEditFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
         checkLoginUseCase: CheckLoginUseCase,
         fetchBookmarkUseCase: FetchBookmarkUseCase,
@@ -37,7 +39,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase,
         fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase,
         fetchMapBookmarkUseCase: FetchMapBookmarkUseCase,
-        collectionEditFactory: CollectionEditFactory
+        parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     ) {
         self.itemFilterFactory = itemFilterFactory
         self.monsterFilterFactory = monsterFilterFactory
@@ -45,6 +47,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.dictionaryDetailFactory = dictionaryDetailFactory
+        self.collectionEditFactory = collectionEditFactory
         self.setBookmarkUseCase = setBookmarkUseCase
         self.checkLoginUseCase = checkLoginUseCase
         self.fetchBookmarkUseCase = fetchBookmarkUseCase
@@ -53,7 +56,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.fetchItemBookmarkUseCase = fetchItemBookmarkUseCase
         self.fetchQuestBookmarkUseCase = fetchQuestBookmarkUseCase
         self.fetchMapBookmarkUseCase = fetchMapBookmarkUseCase
-        self.collectionEditFactory = collectionEditFactory
+        self.parseItemFilterResultUseCase = parseItemFilterResultUseCase
     }
 
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
@@ -66,7 +69,8 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
             fetchItemBookmarkUseCase: fetchItemBookmarkUseCase,
             fetchNPCBookmarkUseCase: fetchNPCBookmarkUseCase,
             fetchQuestBookmarkUseCase: fetchQuestBookmarkUseCase,
-            fetchMapBookmarkUseCase: fetchMapBookmarkUseCase
+            fetchMapBookmarkUseCase: fetchMapBookmarkUseCase,
+            parseItemFilterResultUseCase: parseItemFilterResultUseCase
         )
         let viewController = BookmarkListViewController(
             reactor: reactor,

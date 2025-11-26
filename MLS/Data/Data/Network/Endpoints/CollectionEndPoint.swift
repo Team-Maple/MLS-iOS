@@ -45,12 +45,21 @@ public enum CollectionEndPoint {
             body: body
         )
     }
-    
+
     public static func deleteCollection(id: Int) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/collections/\(id)",
             method: .DELETE
+        )
+    }
+    
+    public static func addCollectionAndBookmark(body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/bookmark-collections",
+            method: .POST,
+            body: body
         )
     }
 }

@@ -510,17 +510,20 @@ extension AppDelegate {
         DIContainer.register(type: FetchCollectionUseCase.self) {
             FetchCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
-        DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
-            AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
-        }
+//        DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
+//            AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+//        }
         DIContainer.register(type: SetCollectionUseCase.self) {
             SetCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
         DIContainer.register(type: DeleteCollectionUseCase.self) {
             DeleteCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
-        DIContainer.register(type: AddBookmarksToCollectionUseCase.self) {
-            AddBookmarksToCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+//        DIContainer.register(type: AddBookmarksToCollectionUseCase.self) {
+//            AddBookmarksToCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+//        }
+        DIContainer.register(type: AddCollectionAndBookmarkUseCase.self) {
+            AddCollectionAndBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
     }
 
@@ -540,7 +543,9 @@ extension AppDelegate {
         DIContainer.register(type: BookmarkModalFactory.self) {
             BookmarkModalFactoryImpl(
                 addCollectionFactory: DIContainer.resolve(
-                    type: AddCollectionFactory.self), fetchCollectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self), addCollectionsToBookmarkUseCase: DIContainer.resolve(type: AddCollectionsToBookmarkUseCase.self))
+                    type: AddCollectionFactory.self), fetchCollectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self),
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
+            )
         }
         DIContainer.register(type: LoginFactory.self) {
             LoginFactoryImpl(
@@ -781,6 +786,8 @@ extension AppDelegate {
                 loginFactory: DIContainer.resolve(type: LoginFactory.self),
                 dictionaryDetailFactory: DIContainer.resolve(
                     type: DictionaryDetailFactory.self),
+                collectionEditFactory: DIContainer.resolve(
+                    type: CollectionEditFactory.self),
                 setBookmarkUseCase: DIContainer.resolve(
                     type: SetBookmarkUseCase.self),
                 checkLoginUseCase: DIContainer.resolve(
@@ -797,8 +804,7 @@ extension AppDelegate {
                     type: FetchQuestBookmarkUseCase.self),
                 fetchMapBookmarkUseCase: DIContainer.resolve(
                     type: FetchMapBookmarkUseCase.self),
-                collectionEditFactory: DIContainer.resolve(
-                    type: CollectionEditFactory.self))
+                parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self))
         }
         DIContainer.register(type: CollectionListFactory.self) {
             CollectionListFactoryImpl(
@@ -833,8 +839,7 @@ extension AppDelegate {
                     type: FetchCollectionUseCase.self),
                 deleteCollectionUseCase: DIContainer
                     .resolve(type: DeleteCollectionUseCase.self),
-                addBookmarksToCollectionUseCase: DIContainer
-                    .resolve(type: AddBookmarksToCollectionUseCase.self)
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
             )
         }
         DIContainer.register(type: CollectionSettingFactory.self) {

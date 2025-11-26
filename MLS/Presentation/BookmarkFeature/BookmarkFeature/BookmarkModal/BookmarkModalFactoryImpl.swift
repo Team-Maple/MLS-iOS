@@ -5,23 +5,23 @@ import DomainInterface
 public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
     private let addCollectionFactory: AddCollectionFactory
     private let fetchCollectionListUseCase: FetchCollectionListUseCase
-    private let addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase
+    private let addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
 
-    public init(addCollectionFactory: AddCollectionFactory, fetchCollectionListUseCase: FetchCollectionListUseCase, addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase) {
+    public init(addCollectionFactory: AddCollectionFactory, fetchCollectionListUseCase: FetchCollectionListUseCase, addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase) {
         self.addCollectionFactory = addCollectionFactory
         self.fetchCollectionListUseCase = fetchCollectionListUseCase
-        self.addCollectionsToBookmarkUseCase = addCollectionsToBookmarkUseCase
+        self.addCollectionAndBookmarkUseCase = addCollectionAndBookmarkUseCase
     }
 
-    public func make(bookmarkId: Int) -> BaseViewController {
-        let reactor = BookmarkModalReactor(bookmarkId: bookmarkId, fetchCollectionListUseCase: fetchCollectionListUseCase, addCollectionsToBookmarkUseCase: addCollectionsToBookmarkUseCase)
+    public func make(bookmarkIds: [Int]) -> BaseViewController {
+        let reactor = BookmarkModalReactor(bookmarkIds: bookmarkIds, fetchCollectionListUseCase: fetchCollectionListUseCase, addCollectionAndBookmarkUseCase: addCollectionAndBookmarkUseCase)
         let viewController = BookmarkModalViewController(addCollectionFactory: addCollectionFactory)
         viewController.reactor = reactor
         return viewController
     }
 
-    public func make(bookmarkId: Int, onComplete: ((Bool) -> Void)? = nil) -> BaseViewController {
-        let viewController = make(bookmarkId: bookmarkId)
+    public func make(bookmarkIds: [Int], onComplete: ((Bool) -> Void)? = nil) -> BaseViewController {
+        let viewController = make(bookmarkIds: bookmarkIds)
         if let viewController = viewController as? BookmarkModalViewController {
             viewController.onCompleted = onComplete
         }

@@ -128,6 +128,12 @@ public extension BaseListView {
         }
     }
 
+    func updateBookmarkFilter(type: DictionaryType) {
+        if type == .total {
+            filterButton.isHidden = true
+        }
+    }
+
     static func makeSortButton(title: String, tintColor: UIColor) -> UIButton {
         let button = UIButton()
         button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: title), for: .normal)

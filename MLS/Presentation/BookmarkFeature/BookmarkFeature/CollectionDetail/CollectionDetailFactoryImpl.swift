@@ -16,7 +16,7 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchCollectionUseCase: FetchCollectionUseCase
     private let deleteCollectionUseCase: DeleteCollectionUseCase
-    private let addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
+    private let addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
 
     public init(
         bookmarkModalFactory: BookmarkModalFactory,
@@ -27,7 +27,7 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
         setBookmarkUseCase: SetBookmarkUseCase,
         fetchCollectionUseCase: FetchCollectionUseCase,
         deleteCollectionUseCase: DeleteCollectionUseCase,
-        addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
+        addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
     ) {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.collectionSettingFactory = collectionSettingFactory
@@ -37,7 +37,7 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchCollectionUseCase = fetchCollectionUseCase
         self.deleteCollectionUseCase = deleteCollectionUseCase
-        self.addBookmarksToCollectionUseCase = addBookmarksToCollectionUseCase
+        self.addCollectionAndBookmarkUseCase = addCollectionAndBookmarkUseCase
     }
 
     public func make(collection: CollectionResponse, onMoveToMain: (() -> Void)?) -> BaseViewController {
@@ -46,7 +46,7 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
             setBookmarkUseCase: setBookmarkUseCase,
             fetchCollectionUseCase: fetchCollectionUseCase,
             deleteCollectionUseCase: deleteCollectionUseCase,
-            addBookmarksToCollectionUseCase: addBookmarksToCollectionUseCase
+            addCollectionAndBookmarkUseCase: addCollectionAndBookmarkUseCase
         )
 
         let viewController = CollectionDetailViewController(

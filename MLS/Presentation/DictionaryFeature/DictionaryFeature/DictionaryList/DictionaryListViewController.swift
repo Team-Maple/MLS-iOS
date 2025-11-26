@@ -272,7 +272,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                                       let reactor = self.reactor,
                                       let id = reactor.currentState.listItems[indexPath.row].bookmarkId else { return }
 
-                                let viewController = self.bookmarkModalFactory.make(bookmarkId: id, onComplete: { isAdd in
+                                let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
                                     if isAdd {
                                         ToastFactory.createToast(
                                             message:

@@ -50,12 +50,10 @@ open class DictionaryListReactor: Reactor {
 
         public var keyword: String?
         public var jobId: [Int]?
-        public var minLevel: Int?
-        public var maxLevel: Int?
         public var categoryIds: [Int]?
         public var sort: String?
-        public var startLevel: Int? = 1
-        public var endLevel: Int? = 200
+        public var startLevel: Int?
+        public var endLevel: Int?
 
         public var currentPage = 0
         public var totalCounts = 0
@@ -152,7 +150,7 @@ open class DictionaryListReactor: Reactor {
         }
     }
 
-    // MARK: - Fetch (완전 통합)
+    // MARK: - Fetch
     private func fetchList(
         sort: String?,
         startLevel: Int?,
@@ -179,8 +177,8 @@ open class DictionaryListReactor: Reactor {
             response = dictionaryItemListUseCase.execute(
                 keyword: currentState.keyword ?? "",
                 jobId: currentState.jobId,
-                minLevel: currentState.minLevel,
-                maxLevel: currentState.maxLevel,
+                minLevel: currentState.startLevel,
+                maxLevel: currentState.endLevel,
                 categoryIds: currentState.categoryIds,
                 page: currentState.currentPage,
                 size: 20,

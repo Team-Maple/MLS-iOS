@@ -298,7 +298,7 @@ extension DictionaryDetailBaseViewController {
                         buttonAction: { [weak self] in
                             guard let self,
                                   let id = bookmarkId else { return }
-                            let viewController = self.bookmarkModalFactory.make(bookmarkId: id, onComplete: { isAdd in
+                            let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
                                 if isAdd {
                                     DispatchQueue.main.async {
                                         ToastFactory.createToast(

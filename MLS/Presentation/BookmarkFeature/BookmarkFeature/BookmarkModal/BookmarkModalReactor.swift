@@ -29,7 +29,7 @@ public final class BookmarkModalReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route
-        var bookmarkId: Int
+        var bookmarkIds: [Int]
         var collections = [CollectionResponse]()
         var selectedItems = [CollectionResponse]()
     }
@@ -39,12 +39,12 @@ public final class BookmarkModalReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     private let fetchCollectionListUseCase: FetchCollectionListUseCase
-    private let addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase
+    private let addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
 
-    public init(bookmarkId: Int, fetchCollectionListUseCase: FetchCollectionListUseCase, addCollectionsToBookmarkUseCase: AddCollectionsToBookmarkUseCase) {
-        self.initialState = State(route: .none, bookmarkId: bookmarkId)
+    public init(bookmarkIds: [Int], fetchCollectionListUseCase: FetchCollectionListUseCase, addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase) {
+        self.initialState = State(route: .none, bookmarkIds: bookmarkIds)
         self.fetchCollectionListUseCase = fetchCollectionListUseCase
-        self.addCollectionsToBookmarkUseCase = addCollectionsToBookmarkUseCase
+        self.addCollectionAndBookmarkUseCase = addCollectionAndBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -54,10 +54,10 @@ public final class BookmarkModalReactor: Reactor {
                 .map { .setCollection($0) }
 
         case .addButtonTapped:
-            return addCollectionsToBookmarkUseCase
+            return addCollectionAndBookmarkUseCase
                 .execute(
-                    bookmarkId: currentState.bookmarkId,
-                    collectionIds: currentState.selectedItems.map { $0.collectionId }
+                    collectionIds: currentState.selectedItems.map { $0.collectionId },
+                    bookmarkIds: currentState.bookmarkIds
                 )
                 .do(onError: { error in
                     if let error = error as? DomainHTTPError {
