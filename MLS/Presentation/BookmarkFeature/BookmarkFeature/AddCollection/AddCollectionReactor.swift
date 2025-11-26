@@ -7,7 +7,7 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - Route
     public enum Route {
         case dismiss
-        case dismissWithSuccess(CollectionResponse?)
+        case dismissWithData
     }
 
     // MARK: - Action
@@ -21,7 +21,6 @@ public final class AddCollectionModalReactor: Reactor {
     public enum Mutation {
         case saveInput(String)
         case setError(Bool)
-        case addCollection(String)
         case setButtonEnabled(Bool)
         case toNavigate(Route)
     }
@@ -38,10 +37,14 @@ public final class AddCollectionModalReactor: Reactor {
     // MARK: - Properties
     public var initialState = State(collection: nil)
 
+    private let createCollectionListUseCase: CreateCollectionListUseCase
+    private let setCollectionUseCase: SetCollectionUseCase
+
     // MARK: - Init
-    public init(collection: CollectionResponse?) {
-        self.initialState.collection = collection
-        self.initialState.inputText = collection?.name
+    public init(collection: CollectionResponse?, createCollectionListUseCase: CreateCollectionListUseCase, setCollectionUseCase: SetCollectionUseCase) {
+        self.initialState = State(collection: collection, inputText: collection?.name)
+        self.createCollectionListUseCase = createCollectionListUseCase
+        self.setCollectionUseCase = setCollectionUseCase
     }
 
     // MARK: - Mutate
@@ -60,10 +63,21 @@ public final class AddCollectionModalReactor: Reactor {
         case .completeButtonTapped:
             guard let text = currentState.inputText else { return .empty() }
             let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+
             if trimmed.count > 18 {
                 return .just(.setError(true))
+            }
+
+            if currentState.collection == nil {
+                return createCollectionListUseCase.execute(name: trimmed)
+                    .andThen(.just(.toNavigate(.dismissWithData)))
             } else {
-                return .just(.addCollection(trimmed))
+                guard let id = currentState.collection?.collectionId else { return .empty() }
+                return setCollectionUseCase.execute(
+                    collectionId: id,
+                    name: trimmed
+                )
+                .andThen(.just(.toNavigate(.dismissWithData)))
             }
         }
     }
@@ -81,15 +95,6 @@ public final class AddCollectionModalReactor: Reactor {
             newState.isButtonEnabled = isEnabled
         case .toNavigate(let route):
             newState.route = route
-        case .addCollection(let name):
-            var collection = newState.collection
-            // 기존 collection이 없으면 새로 생성
-            if collection == nil {
-                collection = CollectionResponse(collectionId: -1, name: "", createdAt: [], recentBookmarks: [])
-            } else {
-                collection?.name = name
-            }
-            newState.route = .dismissWithSuccess(collection)
         }
 
         return newState

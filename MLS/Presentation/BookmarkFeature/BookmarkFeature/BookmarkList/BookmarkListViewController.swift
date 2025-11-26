@@ -181,7 +181,7 @@ extension BookmarkListViewController {
                         tabBarController.selectTab(index: 0)
                     }
                 case .edit:
-                    let viewController = owner.collectionEditFactory.make()
+                    let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.items)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

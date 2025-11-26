@@ -174,3 +174,9 @@ private extension NavigationBar {
         }
     }
 }
+
+public extension NavigationBar {
+    func setTitle(title: String) {
+        collectionTitleLabel.text = title
+    }
+}

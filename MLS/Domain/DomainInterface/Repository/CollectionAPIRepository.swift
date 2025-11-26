@@ -13,4 +13,6 @@ public protocol CollectionAPIRepository {
     func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable
 
     func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable
+    
+    func setCollectionName(collectionId: Int, name: String) -> Completable
 }

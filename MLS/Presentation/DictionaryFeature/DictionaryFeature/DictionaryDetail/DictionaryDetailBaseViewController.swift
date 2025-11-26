@@ -297,16 +297,18 @@ extension DictionaryDetailBaseViewController {
                         buttonText: "컬렉션 추가",
                         buttonAction: { [weak self] in
                             guard let self,
-                            let id = bookmarkId else { return }
-                            let viewController = self.bookmarkModalFactory.make(
-                                bookmarkId: id,
-                                onDismissWithColletions: { _ in },
-                                onDismissWithMessage: { _ in
-                                    ToastFactory.createToast(
-                                        message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                    )
+                                  let id = bookmarkId else { return }
+                            let viewController = self.bookmarkModalFactory.make(bookmarkId: id, onComplete: { isAdd in
+                                if isAdd {
+                                    DispatchQueue.main.async {
+                                        ToastFactory.createToast(
+                                            message:
+                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
                                 }
-                            )
+                            })
+
                             viewController.modalPresentationStyle = .pageSheet
                             if let sheet = viewController.sheetPresentationController {
                                 sheet.detents = [.medium(), .large()]

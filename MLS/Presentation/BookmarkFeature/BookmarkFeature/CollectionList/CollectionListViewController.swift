@@ -62,14 +62,16 @@ private extension CollectionListViewController {
 
         addFloatingButton { [weak self] in
             guard let self = self else { return }
-//            let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
-//                if let collection = collection {
-//                    // Reactor에게 새로운 콜렉션 추가를 알림
-//                    self?.reactor?.action.onNext(.addCollection(collection.title))
-//                }
-//                self?.onDismissWithMessage?(collection)
-//            })
-        let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { _ in })
+            let viewController = self.addCollectionFactory.make(collection: nil)
+
+            guard let viewController = viewController as? AddCollectionViewController else { return }
+            viewController.dismissed
+                .withUnretained(self)
+                .subscribe { owner, _ in
+                    owner.reactor?.action.onNext(.completeAdding)
+                }
+                .disposed(by: disposeBag)
+
             self.present(viewController, animated: true)
         }
     }
@@ -102,6 +104,7 @@ extension CollectionListViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .detail(let collection):

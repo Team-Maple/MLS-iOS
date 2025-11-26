@@ -148,7 +148,6 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    print("sortsort실행~~~~~~~~~~~~~~~~~~~~~~~")
                     let viewController = owner.sortedFactory.make(
                         sortedOptions: type.bookmarkSortedFilter,
                         selectedIndex: owner.selectedSortIndex
@@ -200,29 +199,15 @@ extension DictionaryListViewController {
 }
 
 // MARK: - Delegate
-extension DictionaryListViewController: UICollectionViewDelegate, UICollectionViewDataSource{
-    public func collectionView(
-        _ collectionView: UICollectionView, numberOfItemsInSection section: Int
-    ) -> Int {
+extension DictionaryListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let state = reactor?.currentState else { return 0 }
-
         return state.listItems.count
     }
 
-    public func collectionView(
-        _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let state = reactor?.currentState else {
-            return UICollectionViewCell()
-        }
-        guard
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DictionaryListCell.identifier,
-                for: indexPath
-            ) as? DictionaryListCell
-        else {
-            return UICollectionViewCell()
-        }
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let state = reactor?.currentState,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryListCell.identifier, for: indexPath) as? DictionaryListCell else { return UICollectionViewCell() }
         let item = state.listItems[indexPath.row]
 
         var subText: String? {
@@ -282,20 +267,20 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         text: "아이템을 북마크에 추가했어요.",
                         buttonText: "컬렉션 추가",
                         buttonAction: {
-                            DispatchQueue.main.async {
-                                guard let reactor = self.reactor,
+                            DispatchQueue.main.async { [weak self] in
+                                guard let self = self,
+                                      let reactor = self.reactor,
                                       let id = reactor.currentState.listItems[indexPath.row].bookmarkId else { return }
-                                let viewController = self.bookmarkModalFactory
-                                    .make(
-                                        bookmarkId: id,
-                                        onDismissWithColletions: { _ in },
-                                        onDismissWithMessage: { _ in
-                                            ToastFactory.createToast(
-                                                message:
-                                                "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                            )
-                                        }
-                                    )
+
+                                let viewController = self.bookmarkModalFactory.make(bookmarkId: id, onComplete: { isAdd in
+                                    if isAdd {
+                                        ToastFactory.createToast(
+                                            message:
+                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
+                                })
+
                                 viewController.modalPresentationStyle = .pageSheet
                                 if let sheet = viewController.sheetPresentationController {
                                     sheet.detents = [.medium(), .large()]

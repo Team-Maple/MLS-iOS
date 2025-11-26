@@ -14,9 +14,7 @@ public final class BookmarkModalViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-
-    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
-    public var onDismissWithCollections: (([CollectionResponse?]) -> Void)?
+    public var onCompleted: ((Bool) -> Void)?
 
     private let addCollectionFactory: AddCollectionFactory
 
@@ -116,18 +114,29 @@ extension BookmarkModalViewController {
             .disposed(by: disposeBag)
 
         rx.viewDidAppear
-            .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, route in
                 switch route {
+                case .dismissWithData:
+                    owner.onCompleted?(true)
+                    owner.dismiss(animated: true)
                 case .dismiss:
+                    owner.onCompleted?(false)
                     owner.dismiss(animated: true)
                 case .addCollection:
-                    let viewController = owner.addCollectionFactory.make( collection: nil, onDismissWithMessage: { [weak self] collection in
-                        self?.onDismissWithMessage?(collection)
-                    })
+                    let viewController = owner.addCollectionFactory.make(collection: nil)
+
+                    guard let viewController = viewController as? AddCollectionViewController else { return }
+
+                    viewController.dismissed
+                        .withUnretained(self)
+                        .subscribe { owner, _ in
+                            owner.reactor?.action.onNext(.completeAdding)
+                        }
+                        .disposed(by: owner.disposeBag)
+
                     owner.present(viewController, animated: true)
                 default:
                     break

@@ -28,7 +28,7 @@ public final class CollectionEditReactor: Reactor {
 
     public struct State {
         @Pulse var route: Route
-        var collection: CollectionResponse
+        var bookmarks: [BookmarkResponse]
         var selectedItems = [BookmarkResponse]()
         var selectedCollections = [CollectionResponse]()
     }
@@ -38,8 +38,8 @@ public final class CollectionEditReactor: Reactor {
 
     private let disposeBag = DisposeBag()
 
-    public init() {
-        self.initialState = State(route: .none, collection: CollectionResponse(collectionId: -1, name: "", createdAt: [], recentBookmarks: []))
+    public init(bookmarks: [BookmarkResponse]) {
+        self.initialState = State(route: .none, bookmarks: bookmarks)
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -56,7 +56,7 @@ public final class CollectionEditReactor: Reactor {
             // addCollection에서 선택된 컬렉션 목록 저장
             return .empty()
         case .itemTapped(let index):
-            let item = currentState.collection.recentBookmarks[index]
+            let item = currentState.bookmarks[index]
             var newItems = currentState.selectedItems
             if let index = newItems.firstIndex(where: { $0.originalId == item.originalId }) {
                 newItems.remove(at: index)

@@ -15,7 +15,7 @@ public final class AddCollectionViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-//    public var onDismissWithMessage: ((BookmarkCollection?) -> Void)?
+    public let dismissed = PublishSubject<String>()
 
     // MARK: - Components
     private let mainView = AddCollectionView()
@@ -94,7 +94,7 @@ private extension AddCollectionViewController {
         tapGesture.rx.event
             .withUnretained(self)
             .subscribe(onNext: { owner, _ in
-                owner.dismissWithAnimation()
+                owner.dismissWithAnimation(withData: false)
             })
             .disposed(by: disposeBag)
     }
@@ -102,7 +102,6 @@ private extension AddCollectionViewController {
     func setupKeyboard() {
         setupKeyboard(inset: AddCollectionView.Constant.buttonBottomMargin) { [weak self] height in
             self?.mainView.addButtonBottomConstraint?.update(inset: height)
-            self?.mainView.updateTextField(text: self?.reactor?.initialState.inputText)
         }
     }
 }
@@ -116,6 +115,7 @@ extension AddCollectionViewController {
 
     private func bindUserActions(reactor: Reactor) {
         mainView.inputTextField.rx.text
+            .distinctUntilChanged()
             .map { Reactor.Action.inputTextChanged($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -132,6 +132,15 @@ extension AddCollectionViewController {
     }
 
     private func bindState(reactor: Reactor) {
+        reactor.state
+            .map(\.inputText)
+            .take(1)
+            .withUnretained(self)
+            .bind(onNext: { owner, text in
+                owner.mainView.updateTextField(text: text)
+            })
+            .disposed(by: disposeBag)
+
         reactor.state
             .map(\.isError)
             .distinctUntilChanged()
@@ -167,14 +176,12 @@ extension AddCollectionViewController {
             .subscribe(onNext: { owner, route in
                 switch route {
                 case .dismiss:
-                    owner.dismissWithAnimation {
+                    owner.dismissWithAnimation(withData: false) {
                         owner.dismiss(animated: false)
                     }
-                case .dismissWithSuccess(let collectionName):
-                    owner.dismissWithAnimation {
-                        owner.dismiss(animated: false) {
-//                            owner.onDismissWithMessage?(collectionName)
-                        }
+                case .dismissWithData:
+                    owner.dismissWithAnimation(withData: true) {
+                        owner.dismiss(animated: false)
                     }
                 default:
                     break
@@ -197,13 +204,12 @@ private extension AddCollectionViewController {
             self.addCollectionContainer.transform = .identity
         }
 
-        mainView.inputTextField.text = nil
         mainView.setError(isError: false)
         mainView.setButtonEnabled(isEnabled: false)
         mainView.inputTextField.becomeFirstResponder()
     }
 
-    func dismissWithAnimation(shouldDismissVC: Bool = true, completion: (() -> Void)? = nil) {
+    func dismissWithAnimation(withData: Bool, completion: (() -> Void)? = nil) {
         mainView.endEditing(true)
 
         UIView.animate(withDuration: 0.25, animations: {
@@ -213,11 +219,13 @@ private extension AddCollectionViewController {
             self.addCollectionContainer.isHidden = true
             self.dimmedBackgroundView.isHidden = true
 
-            if shouldDismissVC {
-                self.dismiss(animated: false, completion: completion)
-            } else {
-                completion?()
+            if withData {
+                guard let text = self.mainView.inputTextField.text else { return }
+                self.dismissed.onNext((text))
+                self.dismissed.onCompleted()
             }
+        
+            self.dismiss(animated: false, completion: completion)
         })
     }
 }

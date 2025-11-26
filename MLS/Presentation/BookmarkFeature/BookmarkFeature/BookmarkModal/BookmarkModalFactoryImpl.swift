@@ -13,12 +13,18 @@ public final class BookmarkModalFactoryImpl: BookmarkModalFactory {
         self.addCollectionsToBookmarkUseCase = addCollectionsToBookmarkUseCase
     }
 
-    public func make(bookmarkId: Int, onDismissWithColletions: (([CollectionResponse?]) -> Void)?, onDismissWithMessage: ((CollectionResponse?) -> Void)?) -> BaseViewController {
+    public func make(bookmarkId: Int) -> BaseViewController {
         let reactor = BookmarkModalReactor(bookmarkId: bookmarkId, fetchCollectionListUseCase: fetchCollectionListUseCase, addCollectionsToBookmarkUseCase: addCollectionsToBookmarkUseCase)
         let viewController = BookmarkModalViewController(addCollectionFactory: addCollectionFactory)
         viewController.reactor = reactor
-        viewController.onDismissWithMessage = onDismissWithMessage
-        viewController.onDismissWithCollections = onDismissWithColletions
+        return viewController
+    }
+
+    public func make(bookmarkId: Int, onComplete: ((Bool) -> Void)? = nil) -> BaseViewController {
+        let viewController = make(bookmarkId: bookmarkId)
+        if let viewController = viewController as? BookmarkModalViewController {
+            viewController.onCompleted = onComplete
+        }
         return viewController
     }
 }

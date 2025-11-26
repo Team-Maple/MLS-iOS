@@ -1,5 +1,4 @@
 import DomainInterface
-
 import RxSwift
 
 public final class AddCollectionsToBookmarkUseCaseImpl: AddCollectionsToBookmarkUseCase {

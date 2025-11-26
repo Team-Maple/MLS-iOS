@@ -98,9 +98,10 @@ extension CollectionEditViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .map(\.collection.recentBookmarks)
+            .map(\.bookmarks)
             .distinctUntilChanged()
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, _ in
                 owner.mainView.listCollectionView.reloadData()
             }
@@ -110,6 +111,7 @@ extension CollectionEditViewController {
             .map(\.selectedItems)
             .distinctUntilChanged()
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, _ in
                 owner.mainView.listCollectionView.reloadData()
             }
@@ -119,17 +121,14 @@ extension CollectionEditViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .collcectionList:
                     // 수정필요 bookmarkId -> bookmarkIds
-                    let viewController = owner.bookmarkModalFactory.make(bookmarkId: reactor.currentState.selectedCollections.first?.collectionId ?? 0, onDismissWithColletions: { _ in
-
-                    }, onDismissWithMessage: { _ in
-
-                    })
+                    let viewController = owner.bookmarkModalFactory.make(bookmarkId: reactor.currentState.selectedItems.first?.bookmarkId ?? 0)
                     owner.present(viewController, animated: true)
                 default:
                     break
@@ -142,7 +141,7 @@ extension CollectionEditViewController {
 // MARK: - Delegate
 extension CollectionEditViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        reactor?.currentState.collection.recentBookmarks.count ?? 0
+        reactor?.currentState.bookmarks.count ?? 0
     }
 
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -151,25 +150,28 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
                 withReuseIdentifier: DictionaryListCell.identifier,
                 for: indexPath
             ) as? DictionaryListCell,
-            let item = reactor?.currentState.collection.recentBookmarks[indexPath.row]
+            let item = reactor?.currentState.bookmarks[indexPath.row]
         else {
             return UICollectionViewCell()
         }
         let isSelected = reactor?.currentState.selectedItems.contains(where: { $0.originalId == item.originalId }) ?? false
+        var subText: String? {
+            [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
+        }
 
-//        cell.inject(
-//            type: .checkbox,
-//            input: DictionaryListCell.Input(
-//                type: item.type,
-//                mainText: item.mainText,
-//                subText: item.subText,
-//                image: item.image,
-//                isSelected: isSelected
-//            ),
-//            onIconTapped: { [weak self] _ in
-//                self?.reactor?.action.onNext(.itemTapped(indexPath.row))
-//            }
-//        )
+        cell.inject(
+            type: .checkbox,
+            input: DictionaryListCell.Input(
+                type: item.type,
+                mainText: item.name,
+                subText: subText,
+                imageUrl: item.imageUrl ?? "",
+                isBookmarked: isSelected
+            ),
+            onBookmarkTapped: { [weak self] _ in
+                self?.reactor?.action.onNext(.itemTapped(indexPath.row))
+            }
+        )
         return cell
     }
 

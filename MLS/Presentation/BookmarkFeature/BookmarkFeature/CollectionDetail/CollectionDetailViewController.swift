@@ -128,10 +128,21 @@ extension CollectionDetailViewController {
         reactor.state
             .map(\.collection.recentBookmarks)
             .distinctUntilChanged()
+            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] items in
-                self?.mainView.listCollectionView.reloadData()
-                self?.mainView.isEmptyData(isEmpty: items.isEmpty)
+            .bind(onNext: { owner, items in
+                owner.mainView.listCollectionView.reloadData()
+                owner.mainView.isEmptyData(isEmpty: items.isEmpty)
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.collection.name)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, name in
+                owner.mainView.setName(name: name)
             })
             .disposed(by: disposeBag)
 
@@ -141,13 +152,19 @@ extension CollectionDetailViewController {
             .bind(onNext: { owner, menu in
                 switch menu {
                 case .editBookmark:
-                    let viewController = owner.collectionEditFactory.make()
+                    let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.collection.recentBookmarks)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .editName:
-                    let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection, onDismissWithMessage: { collection in
-                        guard let collection = collection else { return }
-                        reactor.action.onNext(.changeName(collection.name))
-                    })
+                    let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection)
+
+                    guard let viewController = viewController as? AddCollectionViewController else { return }
+
+                    viewController.dismissed
+                        .subscribe { name in
+                            reactor.action.onNext(.changeName(name))
+                        }
+                        .disposed(by: owner.disposeBag)
+
                     owner.present(viewController, animated: true)
                 case .delete:
                     GuideAlertFactory.show(

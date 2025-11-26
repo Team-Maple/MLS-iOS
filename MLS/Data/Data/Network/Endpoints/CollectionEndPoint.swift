@@ -19,7 +19,7 @@ public enum CollectionEndPoint {
         )
     }
 
-    public static func addBookmarksToCollection(id: Int, body: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
+    public static func addBookmarksToCollection(id: Int, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/collections/\(id)/bookmarks",
@@ -28,11 +28,20 @@ public enum CollectionEndPoint {
         )
     }
 
-    public static func addCollectionsToBookmark(id: Int, body: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
+    public static func addCollectionsToBookmark(id: Int, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/bookmarks/\(id)/collections",
             method: .POST,
+            body: body
+        )
+    }
+    
+    public static func setCollectionName(id: Int, body: Encodable) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/collections/\(id)",
+            method: .PUT,
             body: body
         )
     }

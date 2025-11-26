@@ -513,6 +513,9 @@ extension AppDelegate {
         DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
             AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
+        DIContainer.register(type: SetCollectionUseCase.self) {
+            SetCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
     }
 
     fileprivate func registerFactory() {
@@ -526,7 +529,7 @@ extension AppDelegate {
             SortedBottomSheetFactoryImpl()
         }
         DIContainer.register(type: AddCollectionFactory.self) {
-            AddCollectionFactoryImpl()
+            AddCollectionFactoryImpl(createCollectionListUseCase: DIContainer.resolve(type: CreateCollectionListUseCase.self), setCollectionUseCase: DIContainer.resolve(type: SetCollectionUseCase.self))
         }
         DIContainer.register(type: BookmarkModalFactory.self) {
             BookmarkModalFactoryImpl(
@@ -793,10 +796,8 @@ extension AppDelegate {
         }
         DIContainer.register(type: CollectionListFactory.self) {
             CollectionListFactoryImpl(
-                collectionListUseCase: DIContainer.resolve(
+                fetchCollectionListUseCase: DIContainer.resolve(
                     type: FetchCollectionListUseCase.self),
-                createCollectionListUseCase: DIContainer.resolve(
-                    type: CreateCollectionListUseCase.self),
                 addCollectionFactory: DIContainer.resolve(
                     type: AddCollectionFactory.self),
                 bookmarkDetailFactory: DIContainer.resolve(

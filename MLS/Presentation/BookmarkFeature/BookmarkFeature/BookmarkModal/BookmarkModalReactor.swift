@@ -2,17 +2,20 @@ import BookmarkFeatureInterface
 import DomainInterface
 
 import ReactorKit
+import RxSwift
 
 public final class BookmarkModalReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case dismissWithData
         case addCollection
     }
 
     public enum Action {
         case backButtonTapped
         case addButtonTapped
+        case completeAdding
         case addCollectionTapped
         case selectItem(Int)
         case viewWillAppear
@@ -46,16 +49,29 @@ public final class BookmarkModalReactor: Reactor {
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewWillAppear:
+        case .viewWillAppear, .completeAdding:
             return fetchCollectionListUseCase.execute()
                 .map { .setCollection($0) }
+
         case .addButtonTapped:
-            return addCollectionsToBookmarkUseCase.execute(bookmarkId: currentState.bookmarkId, collectionIds: currentState.selectedItems.map { $0.collectionId })
-                .andThen(.just(.toNavigate(.dismiss)))
+            return addCollectionsToBookmarkUseCase
+                .execute(
+                    bookmarkId: currentState.bookmarkId,
+                    collectionIds: currentState.selectedItems.map { $0.collectionId }
+                )
+                .do(onError: { error in
+                    if let error = error as? DomainHTTPError {
+                        print(error)
+                    }
+                })
+                .andThen(.just(.toNavigate(.dismissWithData)))
+
         case .backButtonTapped:
             return .just(.toNavigate(.dismiss))
+
         case .addCollectionTapped:
             return .just(.toNavigate(.addCollection))
+
         case .selectItem(let id):
             var newItems = currentState.selectedItems
             if let index = newItems.firstIndex(where: { $0.collectionId == id }) {
