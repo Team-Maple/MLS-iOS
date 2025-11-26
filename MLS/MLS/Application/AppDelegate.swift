@@ -516,6 +516,12 @@ extension AppDelegate {
         DIContainer.register(type: SetCollectionUseCase.self) {
             SetCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
+        DIContainer.register(type: DeleteCollectionUseCase.self) {
+            DeleteCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
+        DIContainer.register(type: AddBookmarksToCollectionUseCase.self) {
+            AddBookmarksToCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
     }
 
     fileprivate func registerFactory() {
@@ -824,7 +830,11 @@ extension AppDelegate {
                     DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
                 fetchCollectionUseCase: DIContainer.resolve(
-                    type: FetchCollectionUseCase.self)
+                    type: FetchCollectionUseCase.self),
+                deleteCollectionUseCase: DIContainer
+                    .resolve(type: DeleteCollectionUseCase.self),
+                addBookmarksToCollectionUseCase: DIContainer
+                    .resolve(type: AddBookmarksToCollectionUseCase.self)
             )
         }
         DIContainer.register(type: CollectionSettingFactory.self) {

@@ -15,6 +15,8 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
 
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchCollectionUseCase: FetchCollectionUseCase
+    private let deleteCollectionUseCase: DeleteCollectionUseCase
+    private let addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
 
     public init(
         bookmarkModalFactory: BookmarkModalFactory,
@@ -23,7 +25,9 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
         collectionEditFactory: CollectionEditFactory,
         dictionaryDetailFactory: DictionaryDetailFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
-        fetchCollectionUseCase: FetchCollectionUseCase
+        fetchCollectionUseCase: FetchCollectionUseCase,
+        deleteCollectionUseCase: DeleteCollectionUseCase,
+        addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
     ) {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.collectionSettingFactory = collectionSettingFactory
@@ -32,13 +36,17 @@ public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
         self.dictionaryDetailFactory = dictionaryDetailFactory
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchCollectionUseCase = fetchCollectionUseCase
+        self.deleteCollectionUseCase = deleteCollectionUseCase
+        self.addBookmarksToCollectionUseCase = addBookmarksToCollectionUseCase
     }
 
     public func make(collection: CollectionResponse, onMoveToMain: (() -> Void)?) -> BaseViewController {
         let reactor = CollectionDetailReactor(
+            collection: collection,
             setBookmarkUseCase: setBookmarkUseCase,
             fetchCollectionUseCase: fetchCollectionUseCase,
-            collection: collection
+            deleteCollectionUseCase: deleteCollectionUseCase,
+            addBookmarksToCollectionUseCase: addBookmarksToCollectionUseCase
         )
 
         let viewController = CollectionDetailViewController(

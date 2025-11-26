@@ -36,13 +36,21 @@ public enum CollectionEndPoint {
             body: body
         )
     }
-    
+
     public static func setCollectionName(id: Int, body: Encodable) -> EndPoint {
         .init(
             baseURL: base,
             path: "/api/v1/collections/\(id)",
             method: .PUT,
             body: body
+        )
+    }
+    
+    public static func deleteCollection(id: Int) -> EndPoint {
+        .init(
+            baseURL: base,
+            path: "/api/v1/collections/\(id)",
+            method: .DELETE
         )
     }
 }

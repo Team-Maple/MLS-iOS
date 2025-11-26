@@ -23,6 +23,7 @@ public final class CollectionDetailReactor: Reactor {
         case changeName(String)
         case undoLastDeletedBookmark
         case dataTapped(Int)
+        case deleteCollection
     }
 
     public enum Mutation {
@@ -47,15 +48,19 @@ public final class CollectionDetailReactor: Reactor {
     // MARK: - Properties
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchCollectionUseCase: FetchCollectionUseCase
+    private let deleteCollectionUseCase: DeleteCollectionUseCase
+    private let addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(setBookmarkUseCase: SetBookmarkUseCase, fetchCollectionUseCase: FetchCollectionUseCase, collection: CollectionResponse) {
+    public init(collection: CollectionResponse, setBookmarkUseCase: SetBookmarkUseCase, fetchCollectionUseCase: FetchCollectionUseCase, deleteCollectionUseCase: DeleteCollectionUseCase, addBookmarksToCollectionUseCase: AddBookmarksToCollectionUseCase) {
         self.initialState = State(route: .none, collection: collection)
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchCollectionUseCase = fetchCollectionUseCase
+        self.deleteCollectionUseCase = deleteCollectionUseCase
+        self.addBookmarksToCollectionUseCase = addBookmarksToCollectionUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -91,14 +96,18 @@ public final class CollectionDetailReactor: Reactor {
         case .changeName(let name):
             return .just(.setName(name))
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
+            guard let lastDeleted = currentState.lastDeletedBookmark,
+            let lastDeletedBookmarkId = currentState.lastDeletedBookmark?.bookmarkId else { return .empty() }
             return setBookmarkUseCase.execute(
                 bookmarkId: lastDeleted.originalId,
                 isBookmark: .set(lastDeleted.type)
             )
+            // 북마크 다시 설정시 이전 collection을 전부 추적해야하고 새로 바뀐 북마크ID가 필요하여 현재는 원할하게 동작하지 않음
+            .andThen(addBookmarksToCollectionUseCase.execute(collectionId: currentState.collection.collectionId, bookmarkIds: [lastDeletedBookmarkId]))
             .andThen(
                 Observable.concat([
-                    // 불러오기
+                    fetchCollectionUseCase.execute(id: currentState.collection.collectionId)
+                        .map { .setItems($0) },
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
@@ -106,6 +115,9 @@ public final class CollectionDetailReactor: Reactor {
             let item = currentState.collection.recentBookmarks[index]
             guard let type = item.type.toDictionaryType else { return .empty() }
             return .just(.navigateTo(.detail(type, item.originalId)))
+        case .deleteCollection:
+            return deleteCollectionUseCase.execute(collectionId: currentState.collection.collectionId)
+                .andThen(.just(.navigateTo(.dismiss)))
         }
     }
 

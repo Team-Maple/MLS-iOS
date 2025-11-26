@@ -172,7 +172,7 @@ extension CollectionDetailViewController {
                         ctaText: "삭제하기",
                         cancelText: "취소",
                         ctaAction: {
-                            // 삭제 처리
+                            reactor.action.onNext(.deleteCollection)
                         },
                         cancelAction: {}
                     )
@@ -186,6 +186,7 @@ extension CollectionDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
