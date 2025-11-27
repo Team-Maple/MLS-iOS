@@ -2,6 +2,8 @@ import UIKit
 
 import BaseFeature
 import BookmarkFeatureInterface
+import DesignSystem
+import DictionaryFeatureInterface
 import DomainInterface
 
 import ReactorKit
@@ -12,18 +14,21 @@ public final class CollectionListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    private var selectedSortIndex = 0
 
-    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
+//    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
 
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
+    private let sortedBottomSheetFactory: SortedBottomSheetFactory
 
     // MARK: - Components
     private var mainView = CollectionListView()
 
-    public init(addCollectionFactory: AddCollectionFactory, detailFactory: CollectionDetailFactory) {
+    public init(addCollectionFactory: AddCollectionFactory, detailFactory: CollectionDetailFactory, sortedBottomSheetFactory: SortedBottomSheetFactory) {
         self.addCollectionFactory = addCollectionFactory
         self.detailFactory = detailFactory
+        self.sortedBottomSheetFactory = sortedBottomSheetFactory
         super.init()
     }
 
@@ -61,14 +66,16 @@ private extension CollectionListViewController {
 
         addFloatingButton { [weak self] in
             guard let self = self else { return }
-//            let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { [weak self] collection in
-//                if let collection = collection {
-//                    // Reactor에게 새로운 콜렉션 추가를 알림
-//                    self?.reactor?.action.onNext(.addCollection(collection.title))
-//                }
-//                self?.onDismissWithMessage?(collection)
-//            })
-        let viewController = self.addCollectionFactory.make(collection: nil, onDismissWithMessage: { _ in })
+            let viewController = self.addCollectionFactory.make(collection: nil)
+
+            guard let viewController = viewController as? AddCollectionViewController else { return }
+            viewController.dismissed
+                .withUnretained(self)
+                .subscribe { owner, _ in
+                    owner.reactor?.action.onNext(.completeAdding)
+                }
+                .disposed(by: disposeBag)
+
             self.present(viewController, animated: true)
         }
     }
@@ -94,6 +101,11 @@ extension CollectionListViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.sortButton.rx.tap
+            .map { .sortButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -101,11 +113,24 @@ extension CollectionListViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .detail(let collection):
-                    let viewController = owner.detailFactory.make(collection: collection)
+                    let viewController = owner.detailFactory.make(collection: collection, onMoveToMain: {
+                        if let tabBarController = owner.tabBarController as? BottomTabBarController {
+                            tabBarController.selectTab(index: 0)
+                        }
+                    })
                     owner.tabBarController?.navigationController?.pushViewController(viewController, animated: true)
+                case .sortFilter:
+                    let viewController = owner.sortedBottomSheetFactory.make(sortedOptions: reactor.currentState.sortFilter, selectedIndex: owner.selectedSortIndex) { index in
+                        owner.selectedSortIndex = index
+                        let selectedFilter = reactor.currentState.sortFilter[index]
+                        reactor.action.onNext(.sortOptionSelected(selectedFilter))
+                        owner.mainView.selectSort(selectedType: selectedFilter)
+                    }
+                    owner.tabBarController?.presentModal(viewController)
                 default:
                     break
                 }

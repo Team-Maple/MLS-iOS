@@ -27,7 +27,14 @@ public final class CollectionDetailViewController: BaseViewController, View {
     // MARK: - Components
     private var mainView: CollectionDetailView
 
-    public init(reactor: CollectionDetailReactor, bookmarkModalFactory: BookmarkModalFactory, collectionSettingFactory: CollectionSettingFactory, addCollectionFactory: AddCollectionFactory, collectionEditFactory: CollectionEditFactory, dictionaryDetailFactory: DictionaryDetailFactory) {
+    public init(
+        reactor: CollectionDetailReactor,
+        bookmarkModalFactory: BookmarkModalFactory,
+        collectionSettingFactory: CollectionSettingFactory,
+        addCollectionFactory: AddCollectionFactory,
+        collectionEditFactory: CollectionEditFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory
+    ) {
         self.mainView = CollectionDetailView(navTitle: reactor.currentState.collection.name)
         self.bookmarkModalFactory = bookmarkModalFactory
         self.collectionSettingFactory = collectionSettingFactory
@@ -121,10 +128,21 @@ extension CollectionDetailViewController {
         reactor.state
             .map(\.collection.recentBookmarks)
             .distinctUntilChanged()
+            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] items in
-                self?.mainView.listCollectionView.reloadData()
-                self?.mainView.isEmptyData(isEmpty: items.isEmpty)
+            .bind(onNext: { owner, items in
+                owner.mainView.listCollectionView.reloadData()
+                owner.mainView.isEmptyData(isEmpty: items.isEmpty)
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.collection.name)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, name in
+                owner.mainView.setName(name: name)
             })
             .disposed(by: disposeBag)
 
@@ -134,13 +152,19 @@ extension CollectionDetailViewController {
             .bind(onNext: { owner, menu in
                 switch menu {
                 case .editBookmark:
-                    let viewController = owner.collectionEditFactory.make()
+                    let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.collection.recentBookmarks)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .editName:
-                    let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection, onDismissWithMessage: { collection in
-                        guard let collection = collection else { return }
-                        reactor.action.onNext(.changeName(collection.name))
-                    })
+                    let viewController = owner.addCollectionFactory.make(collection: reactor.currentState.collection)
+
+                    guard let viewController = viewController as? AddCollectionViewController else { return }
+
+                    viewController.dismissed
+                        .subscribe { name in
+                            reactor.action.onNext(.changeName(name))
+                        }
+                        .disposed(by: owner.disposeBag)
+
                     owner.present(viewController, animated: true)
                 case .delete:
                     GuideAlertFactory.show(
@@ -148,7 +172,7 @@ extension CollectionDetailViewController {
                         ctaText: "삭제하기",
                         cancelText: "취소",
                         ctaAction: {
-                            // 삭제 처리
+                            reactor.action.onNext(.deleteCollection)
                         },
                         cancelAction: {}
                     )
@@ -162,10 +186,9 @@ extension CollectionDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
-                case .toMain:
-                    owner.tabBarController?.selectedIndex = 0
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .edit:
@@ -200,58 +223,35 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
         else {
             return UICollectionViewCell()
         }
+        var subText: String? {
+            [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
+        }
+        cell.inject(
+            type: .bookmark,
+            input: DictionaryListCell.Input(
+                type: item.type,
+                mainText: item.name,
+                subText: subText,
+                imageUrl: item.imageUrl ?? "",
+                isBookmarked: true
+            ),
+            onBookmarkTapped: { [weak self] isSelected in
+                guard let self = self else { return }
 
-//        cell.inject(
-//            type: .bookmark,
-//            input: DictionaryListCell.Input(
-//                type: item.type,
-//                mainText: item.mainText,
-//                subText: item.subText,
-//                image: item.image,
-//                isSelected: item.isBookmarked
-//            ),
-//            onIconTapped: { [weak self] isSelcted in
-//                guard let self = self else { return }
-//                if item.isBookmarked {
-//                    self.reactor?.action.onNext(.toggleBookmark(item.id, isSelcted))
-//                } else {
-//                    // 로그인 여부 확인
-//                    if false {
-//                        GuideAlertFactory.show(
-//                            mainText: "북마크를 하려면 로그인이 필요해요.",
-//                            ctaText: "로그인 하기",
-//                            cancelText: "취소",
-//                            ctaAction: {
-//                                print("로그인 화면으로 이동")
-//                            },
-//                            cancelAction: {
-//                                print("취소됨")
-//                            }
-//                        )
-//                    } else {
-//                        self.reactor?.action.onNext(.toggleBookmark(item.id, isSelcted))
-//                        SnackBarFactory.createSnackBar(type: .normal, image: item.image, imageBackgroundColor: item.type.backgroundColor, text: "아이템을 북마크에 추가했어요.", buttonText: "컬렉션 추가", buttonAction: {
-//                            DispatchQueue.main.async {
-//                                let viewController = self.bookmarkModalFactory.make(onDismissWithColletions: { _ in }, onDismissWithMessage: { _ in
-//                                    ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
-//                                })
-//
-//                                viewController.modalPresentationStyle = .pageSheet
-//
-//                                if let sheet = viewController.sheetPresentationController {
-//                                    sheet.detents = [.medium(), .large()]
-//                                    sheet.prefersGrabberVisible = true
-//                                    sheet.preferredCornerRadius = 16
-//                                }
-//
-//                                self.present(viewController, animated: true)
-//                            }
-//                        })
-//                    }
-//                }
-//            }
-//        )
+                self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
 
+                SnackBarFactory.createSnackBar(
+                    type: .delete,
+                    imageUrl: item.imageUrl,
+                    imageBackgroundColor: item.type.backgroundColor,
+                    text: "아이템을 북마크에서 삭제했어요.",
+                    buttonText: "되돌리기",
+                    buttonAction: { [weak self] in
+                        self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+                    }
+                )
+            }
+        )
         return cell
     }
 

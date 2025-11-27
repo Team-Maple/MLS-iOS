@@ -58,40 +58,41 @@ public final class DictionaryListViewController: BaseViewController, View {
         addViews()
         setupConstraints()
         configureUI()
-
     }
 }
 
 // MARK: - SetUp
-extension DictionaryListViewController {
-    fileprivate func addViews() {
+private extension DictionaryListViewController {
+    func addViews() {
         view.addSubview(mainView)
     }
 
-    fileprivate func setupConstraints() {
+    func setupConstraints() {
         mainView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 
-    fileprivate func configureUI() {
+    func configureUI() {
         mainView.listCollectionView.collectionViewLayout = createListLayout()
         mainView.listCollectionView.delegate = self
         mainView.listCollectionView.dataSource = self
         mainView.listCollectionView.register(
             DictionaryListCell.self,
-            forCellWithReuseIdentifier: DictionaryListCell.identifier)
+            forCellWithReuseIdentifier: DictionaryListCell.identifier
+        )
     }
 
-    fileprivate func createListLayout() -> UICollectionViewLayout {
+    func createListLayout() -> UICollectionViewLayout {
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
             .section { _ in layoutFactory.getDictionaryListLayout() }
             .build()
         layout.register(
             Neutral300DividerView.self,
-            forDecorationViewOfKind: Neutral300DividerView.identifier)
+            forDecorationViewOfKind: Neutral300DividerView.identifier
+        )
         return layout
     }
 }
@@ -116,7 +117,6 @@ extension DictionaryListViewController {
     }
 
     func bindViewState(reactor: Reactor) {
-
         reactor.state
             .map { $0.totalCounts }
             .distinctUntilChanged()
@@ -148,7 +148,6 @@ extension DictionaryListViewController {
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
-                    print("sortsort실행~~~~~~~~~~~~~~~~~~~~~~~")
                     let viewController = owner.sortedFactory.make(
                         sortedOptions: type.bookmarkSortedFilter,
                         selectedIndex: owner.selectedSortIndex
@@ -200,30 +199,15 @@ extension DictionaryListViewController {
 }
 
 // MARK: - Delegate
-extension DictionaryListViewController: UICollectionViewDelegate,
-    UICollectionViewDataSource {
-    public func collectionView(
-        _ collectionView: UICollectionView, numberOfItemsInSection section: Int
-    ) -> Int {
+extension DictionaryListViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let state = reactor?.currentState else { return 0 }
-
         return state.listItems.count
     }
 
-    public func collectionView(
-        _ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let state = reactor?.currentState else {
-            return UICollectionViewCell()
-        }
-        guard
-            let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DictionaryListCell.identifier,
-                for: indexPath
-            ) as? DictionaryListCell
-        else {
-            return UICollectionViewCell()
-        }
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let state = reactor?.currentState,
+              let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryListCell.identifier, for: indexPath) as? DictionaryListCell else { return UICollectionViewCell() }
         let item = state.listItems[indexPath.row]
 
         var subText: String? {
@@ -251,7 +235,8 @@ extension DictionaryListViewController: UICollectionViewDelegate,
                             let viewController = self.loginFactory.make(
                                 exitRoute: .pop)
                             self.navigationController?.pushViewController(
-                                viewController, animated: true)
+                                viewController, animated: true
+                            )
                         },
                         cancelAction: nil
                     )
@@ -282,21 +267,22 @@ extension DictionaryListViewController: UICollectionViewDelegate,
                         text: "아이템을 북마크에 추가했어요.",
                         buttonText: "컬렉션 추가",
                         buttonAction: {
-                            DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory
-                                    .make(
-                                        onDismissWithColletions: { _ in },
-                                        onDismissWithMessage: { _ in
-                                            ToastFactory.createToast(
-                                                message:
-                                                    "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                            )
-                                        }
-                                    )
-                                viewController.modalPresentationStyle =
-                                    .pageSheet
-                                if let sheet = viewController
-                                    .sheetPresentationController {
+                            DispatchQueue.main.async { [weak self] in
+                                guard let self = self,
+                                      let reactor = self.reactor,
+                                      let id = reactor.currentState.listItems[indexPath.row].bookmarkId else { return }
+
+                                let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
+                                    if isAdd {
+                                        ToastFactory.createToast(
+                                            message:
+                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                        )
+                                    }
+                                })
+
+                                viewController.modalPresentationStyle = .pageSheet
+                                if let sheet = viewController.sheetPresentationController {
                                     sheet.detents = [.medium(), .large()]
                                     sheet.prefersGrabberVisible = true
                                     sheet.preferredCornerRadius = 16
@@ -328,7 +314,8 @@ extension DictionaryListViewController: UICollectionViewDelegate,
         default:
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(
-                type: reactor.currentState.type, id: item.id)
+                type: reactor.currentState.type, id: item.id
+            )
         }
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -339,8 +326,8 @@ extension DictionaryListViewController: UICollectionViewDelegate,
         let height = scrollView.frame.size.height
 
         if offsetY > contentHeight - height - 100 {
-            reactor?.action.onNext(.setCurrentPage)  // 페이지 올리고
-            reactor?.action.onNext(.fetchList)  // 해당 페이지로 데이터 불러오기
+            reactor?.action.onNext(.setCurrentPage) // 페이지 올리고
+            reactor?.action.onNext(.fetchList) // 해당 페이지로 데이터 불러오기
         }
     }
 }

@@ -157,12 +157,19 @@ extension BookmarkListViewController {
                 case .filter(let type):
                     switch type {
                     case .item:
-                        break
-                        // let viewController = owner.itemFilterFactory.make()
-                        // owner.present(viewController, animated: true)
+                        let viewController = owner.itemFilterFactory.make { results in
+                            reactor.action.onNext(.itemFilterOptionSelected(results))
+
+                            if results.isEmpty {
+                                owner.mainView.resetFilter()
+                            } else {
+                                owner.mainView.selectFilter()
+                            }
+                        }
+                        owner.present(viewController, animated: true)
                     case .monster:
                         let viewController = owner.monsterFilterFactory.make(startLevel: reactor.currentState.startLevel ?? 1, endLevel: reactor.currentState.endLevel ?? 200) { startLevel, endLevel in
-
+                            owner.mainView.selectFilter()
                             reactor.action.onNext(.filterOptionSelected(startLevel: startLevel, endLevel: endLevel))
                         }
                         owner.tabBarController?.presentModal(viewController)
@@ -170,18 +177,18 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let vc = owner.dictionaryDetailFactory.make(type: type, id: id)
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
-                    let vc = owner.loginFactory.make(exitRoute: .pop)
-                    owner.navigationController?.pushViewController(vc, animated: true)
+                    let viewcontroller = owner.loginFactory.make(exitRoute: .pop)
+                    owner.navigationController?.pushViewController(viewcontroller, animated: true)
 
                 case .dictionary:
                     if let tabBarController = owner.tabBarController as? BottomTabBarController {
                         tabBarController.selectTab(index: 0)
                     }
                 case .edit:
-                    let viewController = owner.collectionEditFactory.make()
+                    let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.items)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -194,6 +201,7 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .bind(onNext: { owner, type in
+                owner.mainView.updateBookmarkFilter(type: type)
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })
             .disposed(by: disposeBag)

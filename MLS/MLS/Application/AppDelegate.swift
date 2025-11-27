@@ -1,5 +1,8 @@
 // swiftlint:disable function_body_length
-// swiftlint:disable line_length
+
+import os
+import UIKit
+import UserNotifications
 
 import AuthFeature
 import AuthFeatureInterface
@@ -14,13 +17,11 @@ import DictionaryFeature
 import DictionaryFeatureInterface
 import Domain
 import DomainInterface
-import Firebase
-import KakaoSDKCommon
 import MyPageFeature
 import MyPageFeatureInterface
-import UIKit
-import UserNotifications
-import os
+
+import Firebase
+import KakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -327,8 +328,7 @@ extension AppDelegate {
                 repository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self))
         }
-        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self)
-        {
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
             FetchDictionaryDetailMonsterMapUseCaseImpl(
                 repository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self))
@@ -510,6 +510,21 @@ extension AppDelegate {
         DIContainer.register(type: FetchCollectionUseCase.self) {
             FetchCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
         }
+//        DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
+//            AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+//        }
+        DIContainer.register(type: SetCollectionUseCase.self) {
+            SetCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
+        DIContainer.register(type: DeleteCollectionUseCase.self) {
+            DeleteCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
+//        DIContainer.register(type: AddBookmarksToCollectionUseCase.self) {
+//            AddBookmarksToCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+//        }
+        DIContainer.register(type: AddCollectionAndBookmarkUseCase.self) {
+            AddCollectionAndBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
+        }
     }
 
     fileprivate func registerFactory() {
@@ -523,12 +538,14 @@ extension AppDelegate {
             SortedBottomSheetFactoryImpl()
         }
         DIContainer.register(type: AddCollectionFactory.self) {
-            AddCollectionFactoryImpl()
+            AddCollectionFactoryImpl(createCollectionListUseCase: DIContainer.resolve(type: CreateCollectionListUseCase.self), setCollectionUseCase: DIContainer.resolve(type: SetCollectionUseCase.self))
         }
         DIContainer.register(type: BookmarkModalFactory.self) {
             BookmarkModalFactoryImpl(
                 addCollectionFactory: DIContainer.resolve(
-                    type: AddCollectionFactory.self))
+                    type: AddCollectionFactory.self), fetchCollectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self),
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
+            )
         }
         DIContainer.register(type: LoginFactory.self) {
             LoginFactoryImpl(
@@ -769,6 +786,8 @@ extension AppDelegate {
                 loginFactory: DIContainer.resolve(type: LoginFactory.self),
                 dictionaryDetailFactory: DIContainer.resolve(
                     type: DictionaryDetailFactory.self),
+                collectionEditFactory: DIContainer.resolve(
+                    type: CollectionEditFactory.self),
                 setBookmarkUseCase: DIContainer.resolve(
                     type: SetBookmarkUseCase.self),
                 checkLoginUseCase: DIContainer.resolve(
@@ -785,19 +804,18 @@ extension AppDelegate {
                     type: FetchQuestBookmarkUseCase.self),
                 fetchMapBookmarkUseCase: DIContainer.resolve(
                     type: FetchMapBookmarkUseCase.self),
-                collectionEditFactory: DIContainer.resolve(
-                    type: CollectionEditFactory.self))
+                parseItemFilterResultUseCase: DIContainer.resolve(type: ParseItemFilterResultUseCase.self))
         }
         DIContainer.register(type: CollectionListFactory.self) {
             CollectionListFactoryImpl(
-                collectionListUseCase: DIContainer.resolve(
+                fetchCollectionListUseCase: DIContainer.resolve(
                     type: FetchCollectionListUseCase.self),
-                createCollectionListUseCase: DIContainer.resolve(
-                    type: CreateCollectionListUseCase.self),
                 addCollectionFactory: DIContainer.resolve(
                     type: AddCollectionFactory.self),
                 bookmarkDetailFactory: DIContainer.resolve(
-                    type: CollectionDetailFactory.self))
+                    type: CollectionDetailFactory.self),
+                sortedBottomSheetFactory: DIContainer
+                    .resolve(type: SortedBottomSheetFactory.self))
         }
         DIContainer.register(type: CollectionDetailFactory.self) {
             CollectionDetailFactoryImpl(
@@ -820,7 +838,10 @@ extension AppDelegate {
                     DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
                 fetchCollectionUseCase: DIContainer.resolve(
-                    type: FetchCollectionUseCase.self)
+                    type: FetchCollectionUseCase.self),
+                deleteCollectionUseCase: DIContainer
+                    .resolve(type: DeleteCollectionUseCase.self),
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
             )
         }
         DIContainer.register(type: CollectionSettingFactory.self) {

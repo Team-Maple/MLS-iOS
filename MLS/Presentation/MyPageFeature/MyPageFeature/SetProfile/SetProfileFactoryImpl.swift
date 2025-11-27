@@ -10,7 +10,14 @@ public final class SetProfileFactoryImpl: SetProfileFactory {
     private let withdrawUseCase: WithdrawUseCase
     private let fetchProfileUseCase: FetchProfileUseCase
 
-    public init(selectImageFactory: SelectImageFactory, checkNickNameUseCase: CheckNickNameUseCase, updateNickNameUseCase: UpdateNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase, fetchProfileUseCase: FetchProfileUseCase) {
+    public init(
+        selectImageFactory: SelectImageFactory,
+        checkNickNameUseCase: CheckNickNameUseCase,
+        updateNickNameUseCase: UpdateNickNameUseCase,
+        logoutUseCase: LogoutUseCase,
+        withdrawUseCase: WithdrawUseCase,
+        fetchProfileUseCase: FetchProfileUseCase
+    ) {
         self.selectImageFactory = selectImageFactory
         self.checkNickNameUseCase = checkNickNameUseCase
         self.updateNickNameUseCase = updateNickNameUseCase

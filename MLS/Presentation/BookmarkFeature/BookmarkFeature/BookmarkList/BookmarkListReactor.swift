@@ -34,6 +34,7 @@ public final class BookmarkListReactor: Reactor {
         case undoLastDeletedBookmark
         case dataTapped(Int)
         case emptyButtonTapped
+        case itemFilterOptionSelected([(String, String)])
     }
 
     // MARK: - Mutation
@@ -41,9 +42,11 @@ public final class BookmarkListReactor: Reactor {
         case setItems([BookmarkResponse])
         case setLoginState(Bool)
         case setSort(SortType)
-        case setFilter(start: Int, end: Int)
+        case setFilter(start: Int?, end: Int?)
         case setLastDeletedBookmark(BookmarkResponse?)
         case toNavagate(Route)
+        case setJobId([Int])
+        case setCategoryId([Int])
     }
 
     // MARK: - State
@@ -52,6 +55,8 @@ public final class BookmarkListReactor: Reactor {
         var items: [BookmarkResponse] = []
         var type: DictionaryType
         var isLogin: Bool
+        var jobId: [Int]?
+        var categoryIds: [Int]?
         var sort: SortType?
         var startLevel: Int?
         var endLevel: Int?
@@ -79,6 +84,7 @@ public final class BookmarkListReactor: Reactor {
     private let fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase
     private let fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase
     private let fetchMapBookmarkUseCase: FetchMapBookmarkUseCase
+    private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
 
     private let disposeBag = DisposeBag()
 
@@ -92,7 +98,8 @@ public final class BookmarkListReactor: Reactor {
         fetchItemBookmarkUseCase: FetchItemBookmarkUseCase,
         fetchNPCBookmarkUseCase: FetchNPCBookmarkUseCase,
         fetchQuestBookmarkUseCase: FetchQuestBookmarkUseCase,
-        fetchMapBookmarkUseCase: FetchMapBookmarkUseCase
+        fetchMapBookmarkUseCase: FetchMapBookmarkUseCase,
+        parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     ) {
         self.initialState = State(route: .none, type: type, isLogin: false)
         self.checkLoginUseCase = checkLoginUseCase
@@ -103,6 +110,7 @@ public final class BookmarkListReactor: Reactor {
         self.fetchNPCBookmarkUseCase = fetchNPCBookmarkUseCase
         self.fetchQuestBookmarkUseCase = fetchQuestBookmarkUseCase
         self.fetchMapBookmarkUseCase = fetchMapBookmarkUseCase
+        self.parseItemFilterResultUseCase = parseItemFilterResultUseCase
     }
 
     // MARK: - Mutate
@@ -184,6 +192,18 @@ public final class BookmarkListReactor: Reactor {
             }
         case .editButtonTapped:
             return .just(.toNavagate(.edit))
+        case .itemFilterOptionSelected(let results):
+            let criteria = parseItemFilterResultUseCase.execute(results: results)
+
+              return .concat([
+                  .just(.setJobId(criteria.jobIds)),
+                  .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
+                  .just(.setCategoryId(criteria.categoryIds))
+              ])
+              .concat(Observable.deferred { [weak self] in
+                  guard let self = self else { return .empty() }
+                  return self.fetchList()
+              })
         }
     }
 
@@ -235,21 +255,21 @@ public final class BookmarkListReactor: Reactor {
         switch mutation {
         case let .setItems(response):
             newState.items = response
-
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
-
         case let .setSort(sort):
             newState.sort = sort
-
         case let .setFilter(start, end):
             newState.startLevel = start
             newState.endLevel = end
-
         case let .setLastDeletedBookmark(item):
             newState.lastDeletedBookmark = item
         case .toNavagate(let route):
             newState.route = route
+        case .setJobId(let ids):
+            newState.jobId = ids
+        case .setCategoryId(let ids):
+            newState.categoryIds = ids
         }
 
         return newState

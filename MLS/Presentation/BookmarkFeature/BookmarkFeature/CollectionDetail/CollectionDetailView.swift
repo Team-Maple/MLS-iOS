@@ -76,7 +76,7 @@ private extension CollectionDetailView {
         }
 
         emptyView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.edges.equalToSuperview()
         }
     }
 
@@ -93,5 +93,9 @@ extension CollectionDetailView {
     func isEmptyData(isEmpty: Bool) {
         listCollectionView.isHidden = isEmpty
         emptyContainerView.isHidden = !isEmpty
+    }
+
+    func setName(name: String) {
+        navigation.setTitle(title: name)
     }
 }

@@ -11,8 +11,8 @@ public final class CollectionEditFactoryImpl: CollectionEditFactory {
         self.bookmarkModalFactory = bookmarkModalFactory
     }
 
-    public func make() -> BaseViewController {
-        let reactor = CollectionEditReactor()
+    public func make(bookmarks: [BookmarkResponse]) -> BaseViewController {
+        let reactor = CollectionEditReactor(bookmarks: bookmarks)
         let viewController = CollectionEditViewController(bookmarkModalFactory: bookmarkModalFactory)
         viewController.reactor = reactor
         viewController.isBottomTabbarHidden = true

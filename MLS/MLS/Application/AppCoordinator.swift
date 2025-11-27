@@ -1,3 +1,5 @@
+import UIKit
+
 import AuthFeature
 import AuthFeatureInterface
 import BaseFeature
@@ -5,7 +7,6 @@ import BookmarkFeatureInterface
 import DesignSystem
 import DictionaryFeatureInterface
 import MyPageFeatureInterface
-import UIKit
 
 import RxSwift
 

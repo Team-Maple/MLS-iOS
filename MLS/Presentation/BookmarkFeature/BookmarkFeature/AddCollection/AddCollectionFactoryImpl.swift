@@ -3,12 +3,17 @@ import BookmarkFeatureInterface
 import DomainInterface
 
 public final class AddCollectionFactoryImpl: AddCollectionFactory {
-    public init() {}
+    private let createCollectionListUseCase: CreateCollectionListUseCase
+    private let setCollectionUseCase: SetCollectionUseCase
 
-    public func make(collection: CollectionResponse?, onDismissWithMessage: @escaping (CollectionResponse?) -> Void) -> BaseViewController {
+    public init(createCollectionListUseCase: CreateCollectionListUseCase, setCollectionUseCase: SetCollectionUseCase) {
+        self.createCollectionListUseCase = createCollectionListUseCase
+        self.setCollectionUseCase = setCollectionUseCase
+    }
+
+    public func make(collection: CollectionResponse?) -> BaseViewController {
         let viewController = AddCollectionViewController()
-        viewController.reactor = AddCollectionModalReactor(collection: collection)
-//        viewController.onDismissWithMessage = onDismissWithMessage
+        viewController.reactor = AddCollectionModalReactor(collection: collection, createCollectionListUseCase: createCollectionListUseCase, setCollectionUseCase: setCollectionUseCase)
         return viewController
     }
 }

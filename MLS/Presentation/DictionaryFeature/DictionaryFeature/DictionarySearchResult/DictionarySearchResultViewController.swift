@@ -67,9 +67,9 @@ public extension DictionarySearchResultViewController {
         let type = reactor.currentState.type
 
         // 기존 viewControllers 제거
-        for vc in viewControllers {
-            vc.removeFromParent()
-            vc.view.removeFromSuperview()
+        for viewController in viewControllers {
+            viewController.removeFromParent()
+            viewController.view.removeFromSuperview()
         }
 
         // 새로운 viewControllers 생성

@@ -95,7 +95,8 @@ extension DictionaryDetailBaseViewController: UIScrollViewDelegate {
         // 탭바의 frame을 self.view 기준으로 변환
         let tabBarY = mainView.tabBarStackView.convert(mainView.tabBarStackView.bounds, to: view)
 
-        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top { // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
+        if tabBarY.origin.y <= view.safeAreaInsets.top + DictionaryDetailBaseView.Constant.buttonSize + DictionaryDetailBaseView.Constant.horizontalInset - DictionaryDetailBaseView.Constant.tabBarStackViewInset.top {
+            // safearea + 헤더뷰 + 헤더뷰와의 간격 16 = 122
             mainView.tabBarStickyStackView.isHidden = false
             mainView.stickyTabBarDividerView.isHidden = false
         } else {
@@ -254,13 +255,14 @@ extension DictionaryDetailBaseViewController {
         backgroundColor: UIColor,
         isBookmarked: @escaping (T) -> Bool,
         toggleBookmark: @escaping (Bool) -> Void,
-        undoLastDeleted: @escaping () -> Void) -> Disposable {
+        undoLastDeleted: @escaping () -> Void,
+        bookmarkId: Observable<Int?>
+    ) -> Disposable {
         buttonTap
-            .withLatestFrom(currentItem)
+            .withLatestFrom(Observable.combineLatest(currentItem, bookmarkId))
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] item in
+            .bind { [weak self] item, bookmarkId in
                 guard let self else { return }
-
                 guard isLogin() else {
                     GuideAlertFactory.show(
                         mainText: "북마크를 하려면 로그인이 필요해요.",
@@ -294,24 +296,26 @@ extension DictionaryDetailBaseViewController {
                         text: "아이템을 북마크에 추가했어요.",
                         buttonText: "컬렉션 추가",
                         buttonAction: { [weak self] in
-                            guard let self else { return }
-                            DispatchQueue.main.async {
-                                let viewController = self.bookmarkModalFactory.make(
-                                    onDismissWithColletions: { _ in },
-                                    onDismissWithMessage: { _ in
+                            guard let self,
+                                  let id = bookmarkId else { return }
+                            let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
+                                if isAdd {
+                                    DispatchQueue.main.async {
                                         ToastFactory.createToast(
-                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                            message:
+                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
                                         )
                                     }
-                                )
-                                viewController.modalPresentationStyle = .pageSheet
-                                if let sheet = viewController.sheetPresentationController {
-                                    sheet.detents = [.medium(), .large()]
-                                    sheet.prefersGrabberVisible = true
-                                    sheet.preferredCornerRadius = 16
                                 }
-                                self.present(viewController, animated: true)
+                            })
+
+                            viewController.modalPresentationStyle = .pageSheet
+                            if let sheet = viewController.sheetPresentationController {
+                                sheet.detents = [.medium(), .large()]
+                                sheet.prefersGrabberVisible = true
+                                sheet.preferredCornerRadius = 16
                             }
+                            self.present(viewController, animated: true)
                         }
                     )
                 }
