@@ -22,7 +22,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         window.makeKeyAndVisible()
         self.window = window
-        
+
         let coordinator = DIContainer.resolve(type: AppCoordinatorProtocol.self)
         coordinator.window = window
         self.appCoordinator = coordinator
@@ -61,7 +61,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             coordinator.showLogin(exitRoute: .home)
                         }
                     },
-                    onError: { error in
+                    onError: { _ in
                         coordinator.showLogin(exitRoute: .home)
                     }
                 )
