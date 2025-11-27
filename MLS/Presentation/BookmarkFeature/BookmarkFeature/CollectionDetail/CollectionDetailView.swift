@@ -94,7 +94,7 @@ extension CollectionDetailView {
         listCollectionView.isHidden = isEmpty
         emptyContainerView.isHidden = !isEmpty
     }
-    
+
     func setName(name: String) {
         navigation.setTitle(title: name)
     }

@@ -58,7 +58,7 @@ public enum CollectionEndPoint {
             method: .DELETE
         )
     }
-    
+
     public static func addCollectionAndBookmark(body: Encodable) -> EndPoint {
         .init(
             baseURL: base,

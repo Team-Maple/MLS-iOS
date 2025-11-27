@@ -224,7 +224,7 @@ private extension AddCollectionViewController {
                 self.dismissed.onNext((text))
                 self.dismissed.onCompleted()
             }
-        
+
             self.dismiss(animated: false, completion: completion)
         })
     }

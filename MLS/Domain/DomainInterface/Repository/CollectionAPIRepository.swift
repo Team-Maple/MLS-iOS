@@ -17,6 +17,6 @@ public protocol CollectionAPIRepository {
     func setCollectionName(collectionId: Int, name: String) -> Completable
 
     func deleteCollection(collectionId: Int) -> Completable
-    
+
     func addCollectionAndBookmark(collectionIds: [Int], bookmarkIds: [Int]) -> Completable
 }

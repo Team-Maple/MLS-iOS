@@ -30,7 +30,7 @@ public struct AlarmResponseDTO: Decodable {
             )
         }
     }
-    
+
     public struct NormalContent: Decodable {
         public let type: String
         public let title: String

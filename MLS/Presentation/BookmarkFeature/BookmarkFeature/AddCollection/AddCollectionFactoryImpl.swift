@@ -5,7 +5,7 @@ import DomainInterface
 public final class AddCollectionFactoryImpl: AddCollectionFactory {
     private let createCollectionListUseCase: CreateCollectionListUseCase
     private let setCollectionUseCase: SetCollectionUseCase
-    
+
     public init(createCollectionListUseCase: CreateCollectionListUseCase, setCollectionUseCase: SetCollectionUseCase) {
         self.createCollectionListUseCase = createCollectionListUseCase
         self.setCollectionUseCase = setCollectionUseCase
