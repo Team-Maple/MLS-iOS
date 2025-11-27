@@ -24,14 +24,12 @@ public class WithdrawUseCaseImpl: WithdrawUseCase {
                     self.tokenRepository.deleteToken(type: .fcmToken)
                 ]
 
-                if let error = results.compactMap({ result in
-                    if case let .failure(error) = result { return error }
-                    return nil
-                }).first {
-                    return .error(error)
-                } else {
-                    return .empty()
+                for result in results {
+                    if case .failure(let error) = result {
+                        return .error(error)
+                    }
                 }
+                return .empty()
             })
     }
 }

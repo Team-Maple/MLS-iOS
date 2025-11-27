@@ -18,16 +18,14 @@ public class OnBoardingInputViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let onBoardingNotificationFactory: OnBoardingNotificationFactory
-    private let dictionaryMainViewFactory: DictionaryMainViewFactory
     private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
 
     private var mainView = OnBoardingInputView()
 
-    init(onBoardingNotificationFactory: OnBoardingNotificationFactory, dictionaryMainViewFactory: DictionaryMainViewFactory, appCoordinator: AppCoordinatorProtocol) {
+    init(onBoardingNotificationFactory: OnBoardingNotificationFactory, appCoordinator: AppCoordinatorProtocol) {
         self.onBoardingNotificationFactory = onBoardingNotificationFactory
-        self.dictionaryMainViewFactory = dictionaryMainViewFactory
         self.appCoordinator = appCoordinator
         super.init()
     }

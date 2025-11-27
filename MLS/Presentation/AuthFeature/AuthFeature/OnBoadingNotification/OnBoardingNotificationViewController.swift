@@ -17,16 +17,14 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory
-    private let dictionaryMainViewFactory: DictionaryMainViewFactory
     private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
 
     private var mainView = OnBoardingNotificationView()
 
-    public init(onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory, dictionaryMainViewFactory: DictionaryMainViewFactory, appCoordinator: AppCoordinatorProtocol) {
+    public init(onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory, appCoordinator: AppCoordinatorProtocol) {
         self.onBoardingNotificationSheetFactory = onBoardingNotificationSheetFactory
-        self.dictionaryMainViewFactory = dictionaryMainViewFactory
         self.appCoordinator = appCoordinator
         super.init()
     }

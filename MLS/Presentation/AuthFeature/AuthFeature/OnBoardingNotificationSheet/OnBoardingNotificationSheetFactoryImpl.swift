@@ -8,24 +8,24 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
     private let openNotificationSettingUseCase: OpenNotificationSettingUseCase
     private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
     private let updateUserInfoUseCase: UpdateUserInfoUseCase
-    private let dictionaryMainViewFactory: DictionaryMainViewFactory
+    private let appCoordinator: () -> AppCoordinatorProtocol
 
     public init(
         checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase,
         openNotificationSettingUseCase: OpenNotificationSettingUseCase,
         updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
         updateUserInfoUseCase: UpdateUserInfoUseCase,
-        dictionaryMainViewFactory: DictionaryMainViewFactory
+        appCoordinator: @escaping () -> AppCoordinatorProtocol
     ) {
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.openNotificationSettingUseCase = openNotificationSettingUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
         self.updateUserInfoUseCase = updateUserInfoUseCase
-        self.dictionaryMainViewFactory = dictionaryMainViewFactory
+        self.appCoordinator = appCoordinator
     }
 
     public func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController & ModalPresentable {
-        let viewController = OnBoardingNotificationSheetViewController(dictionaryMainViewFactory: dictionaryMainViewFactory)
+        let viewController = OnBoardingNotificationSheetViewController(appCoordinator: appCoordinator())
         viewController.isBottomTabbarHidden = true
         viewController.reactor = OnBoardingNotificationSheetReactor(
             selectedLevel: selectedLevel,

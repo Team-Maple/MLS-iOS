@@ -18,13 +18,13 @@ public final class OnBoardingNotificationSheetViewController: BaseViewController
 
     // MARK: - Properties
 
-    private let dictionaryMainViewFactory: DictionaryMainViewFactory
+    private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
     private var mainView = OnBoardingNotificationSheetView()
 
-    init(dictionaryMainViewFactory: DictionaryMainViewFactory) {
-        self.dictionaryMainViewFactory = dictionaryMainViewFactory
+    init(appCoordinator: AppCoordinatorProtocol) {
+        self.appCoordinator = appCoordinator
         super.init()
     }
 }
@@ -112,10 +112,7 @@ extension OnBoardingNotificationSheetViewController {
                     case .dismiss:
                         owner.dismissCurrentModal()
                     case .home:
-                        let viewController = owner.dictionaryMainViewFactory.make()
-                        viewController.isBottomTabbarHidden = false
-                        let navigationController = UINavigationController(rootViewController: viewController)
-                        AppRouter.setRoot(navigationController)
+                        owner.appCoordinator.showMainTab()
                     case .setting:
                         guard let url = URL(string: UIApplication.openSettingsURLString),
                               UIApplication.shared.canOpenURL(url) else { return }
