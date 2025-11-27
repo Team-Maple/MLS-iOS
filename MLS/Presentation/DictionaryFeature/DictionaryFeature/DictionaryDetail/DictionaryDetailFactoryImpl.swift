@@ -9,7 +9,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let dictionaryDetailFactory: () -> DictionaryDetailFactory
     private let appCoordinator: () -> AppCoordinatorProtocol
-    
+
     private let dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase
     private let dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase
     private let dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase

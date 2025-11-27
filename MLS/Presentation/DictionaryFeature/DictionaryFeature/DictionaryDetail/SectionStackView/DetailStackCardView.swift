@@ -5,8 +5,8 @@ import DesignSystem
 import DomainInterface
 
 import RxCocoa
-import RxSwift
 import RxGesture
+import RxSwift
 import SnapKit
 
 final class DetailStackCardView: UIStackView {
@@ -24,7 +24,7 @@ final class DetailStackCardView: UIStackView {
 
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-    
+
     private let tapSubject = PublishSubject<Int>()
     var tap: Observable<Int> { tapSubject.asObservable() }
 

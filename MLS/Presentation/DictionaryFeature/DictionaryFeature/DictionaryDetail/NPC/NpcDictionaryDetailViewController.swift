@@ -93,12 +93,12 @@ extension NpcDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         questView.tap
             .map { Reactor.Action.questTapped(index: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         appearMapView.tap
             .map { Reactor.Action.mapTapped(index: $0) }
             .bind(to: reactor.action)

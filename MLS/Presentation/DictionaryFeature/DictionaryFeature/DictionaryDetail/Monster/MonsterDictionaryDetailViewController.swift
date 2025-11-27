@@ -125,7 +125,7 @@ extension MonsterDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped(.map) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         dropItemView.tap
             .map { Reactor.Action.itemTapped(index: $0) }
             .bind(to: reactor.action)
