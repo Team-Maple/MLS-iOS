@@ -170,7 +170,7 @@ extension ItemDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         monsterCardView.tap
             .map { Reactor.Action.dataTapped(index: $0) }
             .bind(to: reactor.action)

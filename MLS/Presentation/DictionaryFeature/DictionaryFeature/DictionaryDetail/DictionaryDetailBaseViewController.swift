@@ -33,7 +33,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     private let loginFactory: LoginFactory
     public let dictionaryDetailFactory: DictionaryDetailFactory
     private let appCoordinator: AppCoordinatorProtocol
-    
+
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
 

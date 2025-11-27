@@ -127,7 +127,7 @@ extension QuestDictionaryDetailViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         linkedQuestView.tap
             .map { Reactor.Action.questTapped(index: $0) }
             .bind(to: reactor.action)

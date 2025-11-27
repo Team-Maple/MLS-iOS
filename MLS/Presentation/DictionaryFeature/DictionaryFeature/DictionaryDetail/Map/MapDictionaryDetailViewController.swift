@@ -118,12 +118,12 @@ extension MapDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         appearMonsterView.tap
             .map { Reactor.Action.monsterTapped(index: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         appearNpcView.tap
             .map { Reactor.Action.npcTapped(index: $0) }
             .bind(to: reactor.action)
@@ -172,7 +172,7 @@ extension MapDictionaryDetailViewController {
             bookmarkId: reactor.state.map(\.mapDetailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)
-        
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
