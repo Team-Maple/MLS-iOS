@@ -113,6 +113,7 @@ extension OnBoardingNotificationSheetViewController {
                         owner.dismissCurrentModal()
                     case .home:
                         let viewController = owner.dictionaryMainViewFactory.make()
+                        viewController.isBottomTabbarHidden = false
                         let navigationController = UINavigationController(rootViewController: viewController)
                         AppRouter.setRoot(navigationController)
                     case .setting:

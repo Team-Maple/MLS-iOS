@@ -26,6 +26,7 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
 
     public func make(selectedLevel: Int, selectedJobID: Int) -> BaseViewController & ModalPresentable {
         let viewController = OnBoardingNotificationSheetViewController(dictionaryMainViewFactory: dictionaryMainViewFactory)
+        viewController.isBottomTabbarHidden = true
         viewController.reactor = OnBoardingNotificationSheetReactor(
             selectedLevel: selectedLevel,
             selectedJobID: selectedJobID,

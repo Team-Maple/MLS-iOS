@@ -28,23 +28,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication
-            .LaunchOptionsKey: Any]?
-    ) -> Bool {
+            .LaunchOptionsKey: Any]?) -> Bool
+    {
         // MARK: - UserNotification Set
-        FirebaseApp.configure()  // Firebase Set
-        Messaging.messaging().delegate = self  // 파이어베이스 Meesaging 설정
+        FirebaseApp.configure() // Firebase Set
+        Messaging.messaging().delegate = self // 파이어베이스 Meesaging 설정
 
-        UNUserNotificationCenter.current().delegate = self  // NotificationCenter Delegate
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]  // 필요한 알림 권한을 설정
+        UNUserNotificationCenter.current().delegate = self // NotificationCenter Delegate
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { _, _ in }
-        )
-        application.registerForRemoteNotifications()  // UNUserNotificationCenterDelegate를 구현한 메서드를 실행시킴
+            completionHandler: { _, _ in })
+        application.registerForRemoteNotifications() // UNUserNotificationCenterDelegate를 구현한 메서드를 실행시킴
 
         // MARK: - Modules Set
-        ImageLoader.shared.configure.diskCacheCountLimit = 10  // ImageLoader
-        FontManager.registerFonts()  // FontManager
+        ImageLoader.shared.configure.diskCacheCountLimit = 10 // ImageLoader
+        FontManager.registerFonts() // FontManager
 
         // MARK: - KakaoSDK Set
         let kakaoNativeAppKey: String =
@@ -58,8 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions
-    ) -> UISceneConfiguration {
+        options: UIScene.ConnectionOptions) -> UISceneConfiguration
+    {
         return UISceneConfiguration(
             name: "Default Configuration",
             sessionRole: connectingSceneSession.role)
@@ -67,8 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(
         _ application: UIApplication,
-        didDiscardSceneSessions sceneSessions: Set<UISceneSession>
-    ) {}
+        didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
 
 // MARK: - Notification Delegate, MessagingDelegate
@@ -78,21 +76,20 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (
             UNNotificationPresentationOptions
-        ) -> Void
-    ) {
+        ) -> Void)
+    {
         completionHandler([.list, .banner])
     }
 
     // 파이어베이스 MessagingDelegate 설정
     func messaging(
-        _ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?
-    ) {
+        _ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?)
+    {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
             object: nil,
-            userInfo: dataDict
-        )
+            userInfo: dataDict)
         let tokenUseCase = DIContainer.resolve(
             type: SaveTokenToLocalUseCase.self)
         let result = tokenUseCase.execute(
@@ -108,26 +105,35 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
 }
 
 // MARK: - registerDependencies
-extension AppDelegate {
-    fileprivate func registerDependencies() {
+private extension AppDelegate {
+    func registerDependencies() {
         registerProvider()
         registerRepository()
         registerUseCase()
         registerFactory()
+
+        DIContainer.register(type: AppCoordinatorProtocol.self) {
+            AppCoordinator(
+                window: nil,
+                dictionaryMainViewFactory: DIContainer.resolve(type: DictionaryMainViewFactory.self),
+                bookmarkMainFactory: DIContainer.resolve(type: BookmarkMainFactory.self),
+                myPageMainFactory: DIContainer.resolve(type: MyPageMainFactory.self),
+                loginFactory: DIContainer.resolve(type: LoginFactory.self))
+        }
     }
 
-    fileprivate func registerProvider() {
+    func registerProvider() {
         DIContainer.register(type: NetworkProvider.self) {
             NetworkProviderImpl()
         }
         DIContainer.register(
-            type: SocialAuthenticatableProvider.self, name: "kakao"
-        ) {
+            type: SocialAuthenticatableProvider.self, name: "kakao")
+        {
             KakaoLoginProviderImpl()
         }
         DIContainer.register(
-            type: SocialAuthenticatableProvider.self, name: "apple"
-        ) {
+            type: SocialAuthenticatableProvider.self, name: "apple")
+        {
             AppleLoginProviderImpl()
         }
         DIContainer.register(type: Interceptor.self) {
@@ -137,12 +143,11 @@ extension AppDelegate {
         }
     }
 
-    fileprivate func registerRepository() {
+    func registerRepository() {
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                interceptor: DIContainer.resolve(type: Interceptor.self)
-            )
+                interceptor: DIContainer.resolve(type: Interceptor.self))
         }
         DIContainer.register(type: TokenRepository.self) {
             KeyChainRepositoryImpl()
@@ -177,17 +182,17 @@ extension AppDelegate {
         }
     }
 
-    fileprivate func registerUseCase() {
+    func registerUseCase() {
         DIContainer.register(
-            type: FetchSocialCredentialUseCase.self, name: "kakao"
-        ) {
+            type: FetchSocialCredentialUseCase.self, name: "kakao")
+        {
             let provider = DIContainer.resolve(
                 type: SocialAuthenticatableProvider.self, name: "kakao")
             return SocialLoginUseCaseImpl(provider: provider)
         }
         DIContainer.register(
-            type: FetchSocialCredentialUseCase.self, name: "apple"
-        ) {
+            type: FetchSocialCredentialUseCase.self, name: "apple")
+        {
             let provider = DIContainer.resolve(
                 type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
@@ -256,8 +261,7 @@ extension AppDelegate {
             UpdateMarketingAgreementUseCaseImpl(
                 authRepository: DIContainer.resolve(
                     type: AuthAPIRepository.self),
-                tokenRepository: DIContainer.resolve(type: TokenRepository.self)
-            )
+                tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
             CheckNotificationPermissionUseCaseImpl()
@@ -274,8 +278,7 @@ extension AppDelegate {
             CheckLoginUseCaseImpl(
                 authRepository: DIContainer.resolve(
                     type: AuthAPIRepository.self),
-                tokenRepository: DIContainer.resolve(type: TokenRepository.self)
-            )
+                tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: FetchDictionaryAllListUseCase.self) {
             FetchDictionaryAllListUseCaseImpl(
@@ -449,8 +452,7 @@ extension AppDelegate {
         DIContainer.register(type: FetchProfileUseCase.self) {
             FetchProfileUseCaseImpl(
                 repository: DIContainer.resolve(type: AuthAPIRepository.self),
-                fetchJobUseCase: DIContainer.resolve(type: FetchJobUseCase.self)
-            )
+                fetchJobUseCase: DIContainer.resolve(type: FetchJobUseCase.self))
         }
         DIContainer.register(type: CheckNickNameUseCase.self) {
             CheckNickNameUseCaseImpl()
@@ -467,8 +469,7 @@ extension AppDelegate {
             WithdrawUseCaseImpl(
                 authRepository: DIContainer.resolve(
                     type: AuthAPIRepository.self),
-                tokenRepository: DIContainer.resolve(type: TokenRepository.self)
-            )
+                tokenRepository: DIContainer.resolve(type: TokenRepository.self))
         }
         DIContainer.register(type: FetchNoticesUseCase.self) {
             FetchNoticesUseCaseImpl(
@@ -527,7 +528,7 @@ extension AppDelegate {
         }
     }
 
-    fileprivate func registerFactory() {
+    func registerFactory() {
         DIContainer.register(type: ItemFilterBottomSheetFactory.self) {
             ItemFilterBottomSheetFactoryImpl()
         }
@@ -544,8 +545,7 @@ extension AppDelegate {
             BookmarkModalFactoryImpl(
                 addCollectionFactory: DIContainer.resolve(
                     type: AddCollectionFactory.self), fetchCollectionListUseCase: DIContainer.resolve(type: FetchCollectionListUseCase.self),
-                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
-            )
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self))
         }
         DIContainer.register(type: LoginFactory.self) {
             LoginFactoryImpl(
@@ -564,8 +564,7 @@ extension AppDelegate {
                 putFCMTokenUseCase: DIContainer.resolve(
                     type: PutFCMTokenUseCase.self),
                 fetchPlatformUseCase: DIContainer.resolve(
-                    type: FetchPlatformUseCase.self)
-            )
+                    type: FetchPlatformUseCase.self))
         }
         DIContainer.register(type: DictionaryDetailFactory.self) {
             DictionaryDetailFactoryImpl(
@@ -616,7 +615,7 @@ extension AppDelegate {
                 dictionaryQuestListItemUseCase: DIContainer.resolve(
                     type: FetchDictionaryQuestListUseCase.self),
                 dictionaryNpcListItemUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: FetchDictionaryNpcListUseCase.self),
                 dictionaryListItemUseCase: DIContainer.resolve(
                     type: FetchDictionaryMonsterListUseCase.self),
@@ -634,19 +633,17 @@ extension AppDelegate {
                     type: BookmarkModalFactory.self),
                 detailFactory: DIContainer.resolve(
                     type: DictionaryDetailFactory.self),
-                loginFactory: { DIContainer.resolve(type: LoginFactory.self) }
-            )
+                loginFactory: { DIContainer.resolve(type: LoginFactory.self) })
         }
         DIContainer.register(type: DictionarySearchResultFactory.self) {
             DictionarySearchResultFactoryImpl(
                 dictionaryListCountUseCase: DIContainer.resolve(
                     type: FetchDictionaryListCountUseCase.self),
                 dictionaryMainListFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionaryMainListFactory.self),
                 dictionarySearchListUseCase: DIContainer.resolve(
-                    type: FetchDictionarySearchListUseCase.self)
-            )
+                    type: FetchDictionarySearchListUseCase.self))
         }
         DIContainer.register(type: DictionarySearchFactory.self) {
             DictionarySearchFactoryImpl(
@@ -655,7 +652,7 @@ extension AppDelegate {
                 recentSearchAddUseCase: DIContainer.resolve(
                     type: RecentSearchAddUseCase.self),
                 searchResultFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionarySearchResultFactory.self),
                 recentSearchFetchUseCase: DIContainer.resolve(
                     type: RecentSearchFetchUseCase.self))
@@ -679,33 +676,31 @@ extension AppDelegate {
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             DictionaryMainViewFactoryImpl(
                 dictionaryMainListFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionaryMainListFactory.self),
                 searchFactory: DIContainer.resolve(
                     type: DictionarySearchFactory.self),
                 notificationFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionaryNotificationFactory.self),
                 checkLoginUseCase: DIContainer.resolve(
-                    type: CheckLoginUseCase.self)
-            )
+                    type: CheckLoginUseCase.self))
         }
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
             OnBoardingNotificationSheetFactoryImpl(
                 checkNotificationPermissionUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: CheckNotificationPermissionUseCase.self),
                 openNotificationSettingUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: OpenNotificationSettingUseCase.self),
                 updateNotificationAgreementUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: UpdateNotificationAgreementUseCase.self),
                 updateUserInfoUseCase: DIContainer.resolve(
                     type: UpdateUserInfoUseCase.self),
                 dictionaryMainViewFactory: DIContainer.resolve(
-                    type: DictionaryMainViewFactory.self)
-            )
+                    type: DictionaryMainViewFactory.self))
         }
         DIContainer.register(type: OnBoardingInputFactory.self) {
             OnBoardingInputFactoryImpl(
@@ -718,8 +713,13 @@ extension AppDelegate {
                 updateUserInfoUseCase: DIContainer.resolve(
                     type: UpdateUserInfoUseCase.self),
                 onBoardingNotificationFactory: DIContainer.resolve(
-                    type: OnBoardingNotificationFactory.self)
-            )
+                    type: OnBoardingNotificationFactory.self),
+                dictionaryMainViewFactory: DIContainer.resolve(
+                    type: DictionaryMainViewFactory.self
+                ),
+                appCoordinator: {
+                    DIContainer.resolve(type: AppCoordinatorProtocol.self)
+                })
         }
         DIContainer.register(type: OnBoardingQuestionFactory.self) {
             OnBoardingQuestionFactoryImpl(
@@ -740,35 +740,39 @@ extension AppDelegate {
                 fetchTokenUseCase: DIContainer.resolve(
                     type: FetchTokenFromLocalUseCase.self),
                 updateMarketingAgreementUseCase: DIContainer.resolve(
-                    type: UpdateMarketingAgreementUseCase.self)
-            )
+                    type: UpdateMarketingAgreementUseCase.self))
         }
         DIContainer.register(type: OnBoardingNotificationFactory.self) {
             OnBoardingNotificationFactoryImpl(
                 onBoardingNotificationSheetFactory: DIContainer.resolve(
-                    type: OnBoardingNotificationSheetFactory.self))
+                    type: OnBoardingNotificationSheetFactory.self),
+                dictionaryMainViewFactory: DIContainer.resolve(
+                    type: DictionaryMainViewFactory.self
+                ),
+                appCoordinator: { DIContainer.resolve(
+                    type: AppCoordinatorProtocol.self
+                ) })
         }
         DIContainer.register(type: BookmarkMainFactory.self) {
             BookmarkMainFactoryImpl(
                 setBookmarkUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
                 onBoardingFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: BookmarkOnBoardingFactory.self),
                 bookmarkListFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: BookmarkListFactory.self),
                 collectionListFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: CollectionListFactory.self),
                 searchFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer.resolve(
                     type: DictionaryNotificationFactory.self
-                )
-            )
+                ))
         }
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
             BookmarkOnBoardingFactoryImpl()
@@ -820,29 +824,28 @@ extension AppDelegate {
         DIContainer.register(type: CollectionDetailFactory.self) {
             CollectionDetailFactoryImpl(
                 bookmarkModalFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: BookmarkModalFactory.self),
                 collectionSettingFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: CollectionSettingFactory.self),
                 addCollectionFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: AddCollectionFactory.self),
                 collectionEditFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: CollectionEditFactory.self),
                 dictionaryDetailFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: DictionaryDetailFactory.self),
                 setBookmarkUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
                 fetchCollectionUseCase: DIContainer.resolve(
                     type: FetchCollectionUseCase.self),
                 deleteCollectionUseCase: DIContainer
                     .resolve(type: DeleteCollectionUseCase.self),
-                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self)
-            )
+                addCollectionAndBookmarkUseCase: DIContainer.resolve(type: AddCollectionAndBookmarkUseCase.self))
         }
         DIContainer.register(type: CollectionSettingFactory.self) {
             CollectionSettingFactoryImpl()
@@ -858,20 +861,19 @@ extension AppDelegate {
             MyPageMainFactoryImpl(
                 loginFactory: DIContainer.resolve(type: LoginFactory.self),
                 setProfileFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: SetProfileFactory.self),
                 customerSupportFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: CustomerSupportFactory.self),
                 notificationSettingFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: NotificationSettingFactory.self),
                 setCharacterFactory:
-                    DIContainer
+                DIContainer
                     .resolve(type: SetCharacterFactory.self),
                 fetchProfileUseCase: DIContainer.resolve(
-                    type: FetchProfileUseCase.self)
-            )
+                    type: FetchProfileUseCase.self))
         }
         DIContainer.register(type: CustomerSupportFactory.self) {
             CustomerSupportBaseViewFactoryImpl(
@@ -902,18 +904,17 @@ extension AppDelegate {
         DIContainer.register(type: SetCharacterFactory.self) {
             SetCharacterFactoryImpl(
                 checkEmptyUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
                 checkValidLevelUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: CheckValidLevelUseCase.self),
                 fetchJobListUseCase:
-                    DIContainer
+                DIContainer
                     .resolve(type: FetchJobListUseCase.self),
                 updateUserInfoUseCase:
-                    DIContainer
-                    .resolve(type: UpdateUserInfoUseCase.self)
-            )
+                DIContainer
+                    .resolve(type: UpdateUserInfoUseCase.self))
         }
         DIContainer.register(type: SelectImageFactory.self) {
             SelectImageFactoryImpl(

@@ -10,9 +10,9 @@ import MyPageFeatureInterface
 
 import RxSwift
 
-public final class AppCoordinator {
+public final class AppCoordinator: AppCoordinatorProtocol {
     // MARK: - Properties
-    private let window: UIWindow
+    public var window: UIWindow?
     private let dictionaryMainViewFactory: DictionaryMainViewFactory
     private let bookmarkMainFactory: BookmarkMainFactory
     private let myPageMainFactory: MyPageMainFactory
@@ -22,7 +22,7 @@ public final class AppCoordinator {
 
     // MARK: - Init
     public init(
-        window: UIWindow,
+        window: UIWindow?,
         dictionaryMainViewFactory: DictionaryMainViewFactory,
         bookmarkMainFactory: BookmarkMainFactory,
         myPageMainFactory: MyPageMainFactory,
@@ -64,7 +64,7 @@ public final class AppCoordinator {
 
     // MARK: - Private Helper
     private func setRoot(_ viewController: UIViewController) {
-        window.rootViewController = viewController
-        window.makeKeyAndVisible()
+        window?.rootViewController = viewController
+        window?.makeKeyAndVisible()
     }
 }

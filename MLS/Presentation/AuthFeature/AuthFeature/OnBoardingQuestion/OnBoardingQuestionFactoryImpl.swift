@@ -11,6 +11,7 @@ public struct OnBoardingQuestionFactoryImpl: OnBoardingQuestionFactory {
 
     public func make() -> BaseViewController {
         let viewController = OnBoardingQuestionViewController(factory: onBoardingInputFactory)
+        viewController.isBottomTabbarHidden = true
         viewController.reactor = OnBoardingQuestionReactor()
         return viewController
     }

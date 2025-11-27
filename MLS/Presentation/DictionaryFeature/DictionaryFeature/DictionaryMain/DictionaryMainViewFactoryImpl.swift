@@ -18,6 +18,7 @@ public final class DictionaryMainViewFactoryImpl: DictionaryMainViewFactory {
     public func make() -> BaseViewController {
         let reactor = DictionaryMainReactor(checkLoginUseCase: checkLoginUseCase)
         let viewController = DictionaryMainViewController(dictionaryMainListFactory: dictionaryMainListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory, reactor: reactor)
+        viewController.isBottomTabbarHidden = false
         viewController.reactor = reactor
         return viewController
     }
