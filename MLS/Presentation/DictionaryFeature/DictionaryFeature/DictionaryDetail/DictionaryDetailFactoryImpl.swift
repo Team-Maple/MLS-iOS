@@ -7,6 +7,8 @@ import DomainInterface
 public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let loginFactory: () -> LoginFactory
     private let bookmarkModalFactory: BookmarkModalFactory
+    private let appCoordinator: () -> AppCoordinatorProtocol
+    
     private let dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase
     private let dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase
     private let dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase
@@ -27,6 +29,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     public init(
         loginFactory: @escaping () -> LoginFactory,
         bookmarkModalFactory: BookmarkModalFactory,
+        appCoordinator: @escaping () -> AppCoordinatorProtocol,
         dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase,
         dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase,
         dictionaryDetailMapNpcUseCase: FetchDictionaryDetailMapNpcUseCase,
@@ -60,6 +63,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         self.dictionaryDetailMonsterMapUseCase = dictionaryDetailMonsterMapUseCase
         self.checkLoginUseCase = checkLoginUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
+        self.appCoordinator = appCoordinator
     }
 
     public func make(type: DictionaryType, id: Int) -> BaseViewController {
@@ -70,7 +74,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .collection:
             break
         case .item:
-            viewController = ItemDictionaryDetailViewController(type: .item, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
+            viewController = ItemDictionaryDetailViewController(type: .item, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), appCoordinator: appCoordinator())
             let reactor = ItemDictionaryDetailReactor(
                 dictionaryDetailItemUseCase: dictionaryDetailItemUseCase,
                 dictionaryDetailItemDropMonsterUseCase: dictionaryDetailItemDropMonsterUseCase,
@@ -82,7 +86,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .monster:
-            viewController = MonsterDictionaryDetailViewController(type: .monster, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
+            viewController = MonsterDictionaryDetailViewController(type: .monster, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), appCoordinator: appCoordinator())
             let reactor = MonsterDictionaryDetailReactor(
                 dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase,
                 dictionaryDetailMonsterDropItemUseCase: dictionaryDetailMonsterDropItemUseCase,
@@ -103,7 +107,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 setBookmarkUseCase: setBookmarkUseCase,
                 id: id
             )
-            viewController = MapDictionaryDetailViewController(type: .map, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
+            viewController = MapDictionaryDetailViewController(type: .map, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), appCoordinator: appCoordinator())
             if let viewController = viewController as? MapDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
@@ -116,12 +120,12 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 setBookmarkUseCase: setBookmarkUseCase,
                 id: id
             )
-            viewController = NpcDictionaryDetailViewController(type: .npc, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
+            viewController = NpcDictionaryDetailViewController(type: .npc, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), appCoordinator: appCoordinator())
             if let viewController = viewController as? NpcDictionaryDetailViewController {
                 viewController.reactor = reactor
             }
         case .quest:
-            viewController = QuestDictionaryDetailViewController(type: .quest, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory())
+            viewController = QuestDictionaryDetailViewController(type: .quest, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), appCoordinator: appCoordinator())
             let reactor = QuestDictionaryDetailReactor(
                 dictionaryDetailQuestUseCase: dictionaryDetailQuestUseCase,
                 dictionaryDetailQuestLinkedQuestUseCase: dictionaryDetailQuestLinkedQuestsUseCase,

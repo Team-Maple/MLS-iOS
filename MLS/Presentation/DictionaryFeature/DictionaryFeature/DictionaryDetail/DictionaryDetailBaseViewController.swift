@@ -30,16 +30,19 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
+    private let appCoordinator: AppCoordinatorProtocol
+    
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
 
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, appCoordinator: AppCoordinatorProtocol) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
+        self.appCoordinator = appCoordinator
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
         isBottomTabbarHidden = true
@@ -331,15 +334,24 @@ private extension DictionaryDetailBaseViewController {
 
     func bindBackButton() {
         mainView.backButton.rx.tap
-            .bind { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+
+        mainView.dictButton.rx.tap
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .bind { owner, _ in
+                owner.appCoordinator.showMainTab()
             }
             .disposed(by: disposeBag)
     }
 }
 
 extension DictionaryDetailBaseViewController {
-    // DictionaryDetailBaseViewController
     public func bindReportButton(providerId: Observable<Int>, itemName: Observable<String>) {
         mainView.reportButton.rx.tap
             .withLatestFrom(Observable.combineLatest(providerId, itemName))
