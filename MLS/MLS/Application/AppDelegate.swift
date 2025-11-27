@@ -28,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication
-            .LaunchOptionsKey: Any]?) -> Bool
-    {
+            .LaunchOptionsKey: Any]?) -> Bool {
         // MARK: - UserNotification Set
         FirebaseApp.configure() // Firebase Set
         Messaging.messaging().delegate = self // 파이어베이스 Meesaging 설정
@@ -57,8 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
-        options: UIScene.ConnectionOptions) -> UISceneConfiguration
-    {
+        options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(
             name: "Default Configuration",
             sessionRole: connectingSceneSession.role)
@@ -76,15 +74,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate, MessagingDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (
             UNNotificationPresentationOptions
-        ) -> Void)
-    {
+        ) -> Void) {
         completionHandler([.list, .banner])
     }
 
     // 파이어베이스 MessagingDelegate 설정
     func messaging(
-        _ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?)
-    {
+        _ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
             name: Notification.Name("FCMToken"),
@@ -127,13 +123,11 @@ private extension AppDelegate {
             NetworkProviderImpl()
         }
         DIContainer.register(
-            type: SocialAuthenticatableProvider.self, name: "kakao")
-        {
+            type: SocialAuthenticatableProvider.self, name: "kakao") {
             KakaoLoginProviderImpl()
         }
         DIContainer.register(
-            type: SocialAuthenticatableProvider.self, name: "apple")
-        {
+            type: SocialAuthenticatableProvider.self, name: "apple") {
             AppleLoginProviderImpl()
         }
         DIContainer.register(type: Interceptor.self) {
@@ -184,15 +178,13 @@ private extension AppDelegate {
 
     func registerUseCase() {
         DIContainer.register(
-            type: FetchSocialCredentialUseCase.self, name: "kakao")
-        {
+            type: FetchSocialCredentialUseCase.self, name: "kakao") {
             let provider = DIContainer.resolve(
                 type: SocialAuthenticatableProvider.self, name: "kakao")
             return SocialLoginUseCaseImpl(provider: provider)
         }
         DIContainer.register(
-            type: FetchSocialCredentialUseCase.self, name: "apple")
-        {
+            type: FetchSocialCredentialUseCase.self, name: "apple") {
             let provider = DIContainer.resolve(
                 type: SocialAuthenticatableProvider.self, name: "apple")
             return SocialLoginUseCaseImpl(provider: provider)
