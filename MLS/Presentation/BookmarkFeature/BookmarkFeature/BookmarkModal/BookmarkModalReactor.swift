@@ -59,11 +59,6 @@ public final class BookmarkModalReactor: Reactor {
                     collectionIds: currentState.selectedItems.map { $0.collectionId },
                     bookmarkIds: currentState.bookmarkIds
                 )
-                .do(onError: { error in
-                    if let error = error as? DomainHTTPError {
-                        print(error)
-                    }
-                })
                 .andThen(.just(.toNavigate(.dismissWithData)))
 
         case .backButtonTapped:
