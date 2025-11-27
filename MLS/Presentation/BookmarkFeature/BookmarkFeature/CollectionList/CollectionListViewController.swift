@@ -101,7 +101,7 @@ extension CollectionListViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.sortButton.rx.tap
             .map { .sortButtonTapped }
             .bind(to: reactor.action)

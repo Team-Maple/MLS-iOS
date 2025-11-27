@@ -1,8 +1,8 @@
-//import DomainInterface
+// import DomainInterface
 //
-//import RxSwift
+// import RxSwift
 //
-//public final class AddBookmarksToCollectionUseCaseImpl: AddBookmarksToCollectionUseCase {
+// public final class AddBookmarksToCollectionUseCaseImpl: AddBookmarksToCollectionUseCase {
 //    private let repository: CollectionAPIRepository
 //
 //    public init(repository: CollectionAPIRepository) {
@@ -12,4 +12,4 @@
 //    public func execute(collectionId: Int, bookmarkIds: [Int]) -> Completable {
 //        return repository.addBookmarksToCollection(collectionId: collectionId, bookmarkIds: bookmarkIds)
 //    }
-//}
+// }

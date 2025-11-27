@@ -1,5 +1,5 @@
-//import RxSwift
+// import RxSwift
 //
-//public protocol AddBookmarksToCollectionUseCase {
+// public protocol AddBookmarksToCollectionUseCase {
 //    func execute(collectionId: Int, bookmarkIds: [Int]) -> Completable
-//}
+// }

@@ -38,7 +38,6 @@ public final class CollectionListReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     private let fetchCollectionListUseCase: FetchCollectionListUseCase
-   
 
     public init(fetchCollectionListUseCase: FetchCollectionListUseCase) {
         self.fetchCollectionListUseCase = fetchCollectionListUseCase

@@ -57,12 +57,12 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
         let endPoint = CollectionEndPoint.setCollectionName(id: collectionId, body: SetCollectionRequestBody(name: name))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
-    
+
     public func deleteCollection(collectionId: Int) -> Completable {
         let endPoint = CollectionEndPoint.deleteCollection(id: collectionId)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
-    
+
     public func addCollectionAndBookmark(collectionIds: [Int], bookmarkIds: [Int]) -> Completable {
         let endPoint = CollectionEndPoint.addCollectionAndBookmark(body: AddCollectionAndBookmarkBody(collectionIds: collectionIds, bookmarkIds: bookmarkIds))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
@@ -73,7 +73,7 @@ private extension CollectionAPIRepositoryImpl {
     struct FetchCollectionListQuery: Encodable {
         let sort: String?
     }
-    
+
     struct CreateCollectionRequestDTO: Encodable {
         let name: String
     }
@@ -89,7 +89,7 @@ private extension CollectionAPIRepositoryImpl {
     struct SetCollectionRequestBody: Encodable {
         let name: String
     }
-    
+
     struct AddCollectionAndBookmarkBody: Encodable {
         let collectionIds: [Int]
         let bookmarkIds: [Int]
