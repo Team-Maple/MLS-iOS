@@ -125,6 +125,16 @@ extension MonsterDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped(.map) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        dropItemView.tap
+            .map { Reactor.Action.itemTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        appearMapView.tap
+            .map { Reactor.Action.mapTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
@@ -189,7 +199,10 @@ extension MonsterDictionaryDetailViewController {
                         owner.isBottomTabbarHidden = true
                     }
                     owner.tabBarController?.presentModal(viewController)
-                case .none:
+                case let .detail(type: type, id: id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                default:
                     break
                 }
             }

@@ -7,6 +7,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public enum Route {
         case none
         case filter(DictionaryType)
+        case detail(type: DictionaryType, id: Int)
     }
 
     // MARK: - Action
@@ -16,11 +17,13 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case selectFilter(SortType)
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
+        case mapTapped(index: Int)
+        case questTapped(index: Int)
     }
 
     // MARK: - Mutation
     public enum Mutation {
-        case showFilter
+        case toNavigate(Route)
         case setDetailData(DictionaryDetailNpcResponse)
         case setDetailMaps([DictionaryDetailMonsterMapResponse])
         case setDetailQuests([DictionaryDetailNpcQuestResponse])
@@ -78,7 +81,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.showFilter)
+            return .just(.toNavigate(.filter(currentState.type)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -129,6 +132,10 @@ public final class NpcDictionaryDetailReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .mapTapped(index: let index):
+            return .just(.toNavigate(.detail(type: .map, id: currentState.maps[index].mapId)))
+        case .questTapped(index: let index):
+            return .just(.toNavigate(.detail(type: .quest, id: currentState.quests[index].questId)))
         }
     }
 
@@ -136,8 +143,8 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .showFilter:
-            newState.route = .filter(newState.type)
+        case .toNavigate(let route):
+            newState.route = route
         case let .setDetailData(data):
             newState.npcDetailInfo = data
         case let .setDetailMaps(data):

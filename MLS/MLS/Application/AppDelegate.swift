@@ -571,6 +571,8 @@ private extension AppDelegate {
                 loginFactory: { DIContainer.resolve(type: LoginFactory.self) },
                 bookmarkModalFactory: DIContainer.resolve(
                     type: BookmarkModalFactory.self),
+                dictionaryDetailFactory: { DIContainer
+                    .resolve(type: DictionaryDetailFactory.self) },
                 appCoordinator: {
                     DIContainer.resolve(type: AppCoordinatorProtocol.self)
                 },

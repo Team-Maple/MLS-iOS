@@ -30,7 +30,7 @@ public final class DIContainer {
 
 private extension DIContainer {
     private func register<T>(type: T.Type, name: String?, object: @escaping () -> T) {
-//        serviceQueue.sync {
+        serviceQueue.sync {
             let key = ObjectIdentifier(type)
             var namedServices = services[key] ?? [:]
             // 같은 식별자로 이미 저장되어있는 객체가 있다면 fatalError
@@ -40,7 +40,7 @@ private extension DIContainer {
             // 문자열 식별자를 입력하지 않으면 default로 간주하여 저장
             namedServices[name ?? "default"] = { object() }
             services[key] = namedServices
-//        }
+        }
     }
 
     private func resolve<T>(type: T.Type, name: String?) -> T {

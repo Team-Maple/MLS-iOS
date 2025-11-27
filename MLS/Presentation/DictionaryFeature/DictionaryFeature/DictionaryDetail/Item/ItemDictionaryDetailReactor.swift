@@ -8,6 +8,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
     public enum Route {
         case none
         case filter(DictionaryType)
+        case detail(Int)
     }
 
     // MARK: Action
@@ -17,11 +18,12 @@ public final class ItemDictionaryDetailReactor: Reactor {
         case selectFilter(SortType)
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
+        case dataTapped(index: Int)
     }
 
     // MARK: Mutation
     public enum Mutation {
-        case showFilter
+        case toNavigate(Route)
         case setDetailData(DictionaryDetailItemResponse)
         case setDetailDropMonsterData([DictionaryDetailItemDropMonsterResponse])
         case setBookmark(DictionaryDetailItemResponse)
@@ -77,7 +79,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.showFilter)
+            return .just(.toNavigate(.filter(currentState.type)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -127,6 +129,9 @@ public final class ItemDictionaryDetailReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .dataTapped(let index):
+            guard let id = currentState.monsters[index].monsterId else { return .empty() }
+            return .just(.toNavigate(.detail(id)))
         }
     }
 
@@ -134,8 +139,6 @@ public final class ItemDictionaryDetailReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .showFilter:
-            newState.route = .filter(newState.type)
         case let .setDetailData(data):
             newState.itemDetailInfo = data
         case let .setDetailDropMonsterData(data):
@@ -146,6 +149,8 @@ public final class ItemDictionaryDetailReactor: Reactor {
             newState.lastDeletedBookmark = item
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
+        case .toNavigate(let route):
+            newState.route = route
         }
         return newState
     }

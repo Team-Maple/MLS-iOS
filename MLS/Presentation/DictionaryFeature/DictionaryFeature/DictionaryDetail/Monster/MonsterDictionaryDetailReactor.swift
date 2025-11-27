@@ -7,6 +7,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public enum Route {
         case none
         case filter(DictionaryType)
+        case detail(type: DictionaryType, id: Int)
     }
 
     public struct Info: Equatable {
@@ -21,11 +22,13 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case selectFilter(SortType)
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
+        case itemTapped(index: Int)
+        case mapTapped(index: Int)
     }
 
     // MARK: - Mutation
     public enum Mutation {
-        case showFilter(DictionaryType)
+        case toNavigate(Route)
         case setDetailData(DictionaryDetailMonsterResponse)
         case setDetailDropItemData([DictionaryDetailMonsterDropItemResponse])
         case setDetailMapData([DictionaryDetailMonsterMapResponse])
@@ -85,7 +88,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .filterButtonTapped(type):
-            return .just(.showFilter(type))
+            return .just(.toNavigate(.filter(type)))
 
         case .viewWillAppear:
             return .merge([
@@ -136,6 +139,10 @@ public final class MonsterDictionaryDetailReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .itemTapped(index: let index):
+            return .just(.toNavigate(.detail(type: .item, id: currentState.dropItems[index].itemId)))
+        case .mapTapped(index: let index):
+            return .just(.toNavigate(.detail(type: .map, id: currentState.spawnMaps[index].mapId)))
         }
     }
 
@@ -144,8 +151,8 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case let .showFilter(type):
-            newState.route = .filter(type)
+        case let .toNavigate(route):
+            newState.route = route
 
         case let .setDetailData(data):
             newState.monsterDetailInfo = data

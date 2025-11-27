@@ -93,6 +93,16 @@ extension NpcDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        questView.tap
+            .map { Reactor.Action.questTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        appearMapView.tap
+            .map { Reactor.Action.mapTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
@@ -114,7 +124,10 @@ extension NpcDictionaryDetailViewController {
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }
                     owner.tabBarController?.presentModal(viewController)
-                case .none:
+                case .detail(type: let type, id: let id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                default:
                     break
                 }
             }

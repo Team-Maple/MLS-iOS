@@ -4,6 +4,9 @@ import BaseFeature
 import DesignSystem
 import DomainInterface
 
+import RxCocoa
+import RxSwift
+import RxGesture
 import SnapKit
 
 final class DetailStackCardView: UIStackView {
@@ -19,7 +22,15 @@ final class DetailStackCardView: UIStackView {
         static let stackViewInset: UIEdgeInsets = .init(top: 12, left: 16, bottom: 0, right: 16)
     }
 
+    // MARK: - Properties
+    private let disposeBag = DisposeBag()
+    
+    private let tapSubject = PublishSubject<Int>()
+    var tap: Observable<Int> { tapSubject.asObservable() }
+
     // MARK: - Components
+    private var cardViews: [CardList] = []
+
     private let filterContainerView = UIView()
     // 몬스터 순서 필터 버튼
     public let filterButton: UIButton = {
@@ -115,6 +126,8 @@ extension DetailStackCardView {
         // type별 필터 유무
         setFilter(isHidden: input.type.sortFilter.isEmpty)
         let cardView = CardList()
+        cardViews.append(cardView)
+        let currentIndex = cardViews.count - 1
         let spacer = UIView()
 
         addArrangedSubview(cardView)
@@ -153,6 +166,12 @@ extension DetailStackCardView {
         default:
             break
         }
+
+        cardView.rx.tapGesture()
+            .when(.recognized)
+            .map { _ in currentIndex }
+            .bind(to: tapSubject)
+            .disposed(by: disposeBag)
     }
 
     func setFilter(isHidden: Bool) {
@@ -173,13 +192,13 @@ extension DetailStackCardView {
     }
 
     func reset() {
+        cardViews.removeAll()
         // 필터 뷰를 제외한 arrangedSubview만 제거
-        for subview in self.arrangedSubviews {
-
+        for subview in arrangedSubviews {
             if subview == filterContainerView { continue }
             if subview == spacer { continue }
 
-            self.removeArrangedSubview(subview)
+            removeArrangedSubview(subview)
             subview.removeFromSuperview()
         }
     }

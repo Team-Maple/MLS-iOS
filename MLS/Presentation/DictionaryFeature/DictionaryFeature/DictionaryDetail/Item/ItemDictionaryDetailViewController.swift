@@ -170,6 +170,11 @@ extension ItemDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        monsterCardView.tap
+            .map { Reactor.Action.dataTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
@@ -209,6 +214,9 @@ extension ItemDictionaryDetailViewController {
                     owner.tabBarController?.presentModal(viewController)
                 case .none:
                     break
+                case .detail(let id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
             .disposed(by: disposeBag)
