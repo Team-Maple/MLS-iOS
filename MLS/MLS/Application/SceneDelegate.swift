@@ -1,6 +1,7 @@
 import UIKit
 
 import AuthFeatureInterface
+import BaseFeature
 import BookmarkFeatureInterface
 import Core
 import DictionaryFeatureInterface
@@ -12,7 +13,7 @@ import RxSwift
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    var appCoordinator: AppCoordinator?
+    var appCoordinator: AppCoordinatorProtocol?
     var disposeBag = DisposeBag()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,18 +23,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         self.window = window
 
-        let dictionaryMainViewFactory: DictionaryMainViewFactory = DIContainer.resolve(type: DictionaryMainViewFactory.self)
-        let bookmarkMainFactory: BookmarkMainFactory = DIContainer.resolve(type: BookmarkMainFactory.self)
-        let myPageMainFactory: MyPageMainFactory = DIContainer.resolve(type: MyPageMainFactory.self)
-        let loginFactory: LoginFactory = DIContainer.resolve(type: LoginFactory.self)
-
-        let coordinator = AppCoordinator(
-            window: window,
-            dictionaryMainViewFactory: dictionaryMainViewFactory,
-            bookmarkMainFactory: bookmarkMainFactory,
-            myPageMainFactory: myPageMainFactory,
-            loginFactory: loginFactory
-        )
+        let coordinator = DIContainer.resolve(type: AppCoordinatorProtocol.self)
+        coordinator.window = window
         self.appCoordinator = coordinator
 
         startScene(coordinator: coordinator)
@@ -47,7 +38,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
 
-    private func startScene(coordinator: AppCoordinator) {
+    private func startScene(coordinator: AppCoordinatorProtocol) {
         let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
         let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
         let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
@@ -70,8 +61,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             coordinator.showLogin(exitRoute: .home)
                         }
                     },
-                    onError: { error in
-                        print(error)
+                    onError: { _ in
                         coordinator.showLogin(exitRoute: .home)
                     }
                 )

@@ -127,6 +127,11 @@ extension QuestDictionaryDetailViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        linkedQuestView.tap
+            .map { Reactor.Action.questTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
@@ -162,6 +167,21 @@ extension QuestDictionaryDetailViewController {
             bookmarkId: reactor.state.map(\.detailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)
+
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .detail(let id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: .quest, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
 

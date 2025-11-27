@@ -118,6 +118,16 @@ extension MapDictionaryDetailViewController {
             .map { Reactor.Action.filterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        appearMonsterView.tap
+            .map { Reactor.Action.monsterTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        appearNpcView.tap
+            .map { Reactor.Action.npcTapped(index: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     private func bindViewState(reactor: Reactor) {
@@ -162,5 +172,28 @@ extension MapDictionaryDetailViewController {
             bookmarkId: reactor.state.map(\.mapDetailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)
+
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .filter(let type):
+                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                        owner.selectedIndex = index
+                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
+                        reactor.action.onNext(.selectFilter(selectedFilter))
+                    }
+                    owner.tabBarController?.presentModal(viewController)
+                case .none:
+                    break
+                case .detail(let type, let id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }

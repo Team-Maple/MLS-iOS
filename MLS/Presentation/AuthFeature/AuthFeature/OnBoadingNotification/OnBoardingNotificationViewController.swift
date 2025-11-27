@@ -3,6 +3,7 @@ import UserNotifications
 
 import AuthFeatureInterface
 import BaseFeature
+import DictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa
@@ -16,13 +17,15 @@ public class OnBoardingNotificationViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory
+    private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
 
     private var mainView = OnBoardingNotificationView()
 
-    public init(onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory) {
+    public init(onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory, appCoordinator: AppCoordinatorProtocol) {
         self.onBoardingNotificationSheetFactory = onBoardingNotificationSheetFactory
+        self.appCoordinator = appCoordinator
         super.init()
     }
 
@@ -73,6 +76,11 @@ public extension OnBoardingNotificationViewController {
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.headerView.underlineTextButton.rx.tap
+            .map { Reactor.Action.skipButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -80,11 +88,14 @@ public extension OnBoardingNotificationViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .notificationAlert:
                     let viewController = owner.onBoardingNotificationSheetFactory.make(selectedLevel: reactor.currentState.selectedLevel, selectedJobID: reactor.currentState.selectedJobID)
                     owner.presentModal(viewController)
+                case .home:
+                    owner.appCoordinator.showMainTab()
                 default:
                     break
                 }

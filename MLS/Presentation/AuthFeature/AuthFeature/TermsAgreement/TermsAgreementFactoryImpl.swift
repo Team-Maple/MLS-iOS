@@ -29,6 +29,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
 
     public func make(credential: Credential, platform: LoginPlatform) -> BaseViewController {
         let viewController = TermsAgreementViewController(onBoardingQuestionFactory: onBoardingQuestionFactory)
+        viewController.isBottomTabbarHidden = true
         viewController.reactor = TermsAgreementReactor(
             credential: credential,
             socialPlatform: platform,

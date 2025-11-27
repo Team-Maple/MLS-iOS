@@ -3,14 +3,21 @@ import DomainInterface
 import ReactorKit
 
 public final class QuestDictionaryDetailReactor: Reactor {
-    // MARK: - Action / Mutation / State
+    public enum Route {
+        case none
+        case filter(DictionaryType)
+        case detail(id: Int)
+    }
+
     public enum Action {
         case viewWillAppear
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
+        case questTapped(index: Int)
     }
 
     public enum Mutation {
+        case toNavigate(Route)
         case setDetailData(DictionaryDetailQuestResponse)
         case setLinkedQuests(DictionaryDetailQuestLinkedQuestsResponse)
         case setLoginState(Bool)
@@ -18,6 +25,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
     }
 
     public struct State {
+        @Pulse var route: Route = .none
         var type: DictionaryType = .quest
         var id: Int
         var detailInfo: DictionaryDetailQuestResponse
@@ -113,6 +121,19 @@ public final class QuestDictionaryDetailReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case let .questTapped(index):
+            if let previous = currentState.linkedQuestInfo.previousQuests, !previous.isEmpty {
+                if index == 0, let questId = previous.first?.questId {
+                    return .just(.toNavigate(.detail(id: questId)))
+                } else if index == 1, let next = currentState.linkedQuestInfo.nextQuests?.first?.questId {
+                    return .just(.toNavigate(.detail(id: next)))
+                }
+            } else {
+                if let next = currentState.linkedQuestInfo.nextQuests, index == 0, let questId = next.first?.questId {
+                    return .just(.toNavigate(.detail(id: questId)))
+                }
+            }
+            return .empty()
         }
     }
 
@@ -127,6 +148,8 @@ public final class QuestDictionaryDetailReactor: Reactor {
             newState.isLogin = isLogin
         case let .setLastDeletedBookmark(data):
             newState.lastDeletedBookmark = data
+        case .toNavigate(let route):
+            newState.route = route
         }
         return newState
     }

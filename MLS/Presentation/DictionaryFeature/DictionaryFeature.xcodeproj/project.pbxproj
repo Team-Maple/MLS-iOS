@@ -56,6 +56,7 @@
 		77C755BA2E4B70C30081D80F /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */; };
 		77C755BB2E4B70C30081D80F /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77C755B72E4B70C30081D80F /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77C755C12E4B917F0081D80F /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 77C755C02E4B917F0081D80F /* RxKeyboard */; };
+		77C7F4E52ED88D14009559E1 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 77C7F4E42ED88D14009559E1 /* RxGesture */; };
 		77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C974722E376124007198DA /* BookmarkFeatureInterface.framework */; };
 		77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77C97DAA2E37D4AC007198DA /* AuthFeature.framework */; };
 		77DBD8BF2E1AD0C600529428 /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77DBD8BE2E1AD0C600529428 /* BookmarkFeatureInterface.framework */; };
@@ -190,6 +191,7 @@
 				081D9DC52DF80E15004F850D /* DomainInterface.framework in Frameworks */,
 				081D9DDA2DF80E7E004F850D /* ReactorKit in Frameworks */,
 				77C974732E376124007198DA /* BookmarkFeatureInterface.framework in Frameworks */,
+				77C7F4E52ED88D14009559E1 /* RxGesture in Frameworks */,
 				77FEEF1D2EC5B0870023197A /* AuthFeatureInterface.framework in Frameworks */,
 				081D9DD02DF80E5C004F850D /* RxCocoa in Frameworks */,
 				77C97DAB2E37D4AC007198DA /* AuthFeature.framework in Frameworks */,
@@ -339,6 +341,7 @@
 				081D9DD62DF80E69004F850D /* SnapKit */,
 				081D9DD92DF80E7E004F850D /* ReactorKit */,
 				772DC9962E55CA93005F92E3 /* RxKeyboard */,
+				77C7F4E42ED88D14009559E1 /* RxGesture */,
 			);
 			productName = DictionaryFeature;
 			productReference = 081D9C192DF80854004F850D /* DictionaryFeature.framework */;
@@ -435,6 +438,7 @@
 				081D9DD52DF80E69004F850D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				081D9DD82DF80E7E004F850D /* XCRemoteSwiftPackageReference "ReactorKit" */,
 				77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */,
+				77C7F4E32ED88D14009559E1 /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 081D9C1A2DF80854004F850D /* Products */;
@@ -962,6 +966,14 @@
 				minimumVersion = 2.0.1;
 			};
 		};
+		77C7F4E32ED88D14009559E1 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.4;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1024,6 +1036,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77C755BF2E4B917F0081D80F /* XCRemoteSwiftPackageReference "RxKeyboard" */;
 			productName = RxKeyboard;
+		};
+		77C7F4E42ED88D14009559E1 /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 77C7F4E32ED88D14009559E1 /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

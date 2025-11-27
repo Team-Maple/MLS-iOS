@@ -3,6 +3,7 @@ import UIKit
 import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
+import DictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa
@@ -17,13 +18,15 @@ public class OnBoardingInputViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
 
     private let onBoardingNotificationFactory: OnBoardingNotificationFactory
+    private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
 
     private var mainView = OnBoardingInputView()
 
-    init(onBoardingNotificationFactory: OnBoardingNotificationFactory) {
+    init(onBoardingNotificationFactory: OnBoardingNotificationFactory, appCoordinator: AppCoordinatorProtocol) {
         self.onBoardingNotificationFactory = onBoardingNotificationFactory
+        self.appCoordinator = appCoordinator
         super.init()
     }
 }
@@ -140,9 +143,7 @@ public extension OnBoardingInputViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .home:
-                    let controller = UIViewController()
-                    controller.view.backgroundColor = .green
-                    owner.navigationController?.pushViewController(controller, animated: true)
+                    owner.appCoordinator.showMainTab()
                 case .error:
                     let errorViewController = BaseErrorViewController()
                     owner.present(errorViewController, animated: true)

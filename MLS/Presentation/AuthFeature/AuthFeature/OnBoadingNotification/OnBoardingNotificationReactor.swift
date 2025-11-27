@@ -6,10 +6,12 @@ public final class OnBoardingNotificationReactor: Reactor {
     public enum Route {
         case none
         case notificationAlert
+        case home
     }
 
     public enum Action {
         case nextButtonTapped
+        case skipButtonTapped
     }
 
     public enum Mutation {
@@ -35,7 +37,9 @@ public final class OnBoardingNotificationReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .nextButtonTapped:
-            return Observable.just(.navigateTo(route: .notificationAlert))
+            return .just(.navigateTo(route: .notificationAlert))
+        case .skipButtonTapped:
+            return .just(.navigateTo(route: .home))
         }
     }
 

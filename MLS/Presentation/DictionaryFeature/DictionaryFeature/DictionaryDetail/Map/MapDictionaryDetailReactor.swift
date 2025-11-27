@@ -7,16 +7,20 @@ public final class MapDictionaryDetailReactor: Reactor {
     public enum Route {
         case none
         case filter(DictionaryType)
+        case detail(type: DictionaryType, id: Int)
     }
     public enum Action {
         case filterButtonTapped
         case viewWillAppear
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
+        case monsterTapped(index: Int)
+        case npcTapped(index: Int)
+        case selectFilter(SortType)
     }
 
     public enum Mutation {
-        case showFilter
+        case toNavigate(Route)
         case setDetailData(DictionaryDetailMapResponse)
         case setDetailSpawnMonsters([DictionaryDetailMapSpawnMonsterResponse])
         case setDetailNpc([DictionaryDetailMapNpcResponse])
@@ -81,7 +85,7 @@ public final class MapDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return Observable.just(.showFilter)
+            return Observable.just(.toNavigate(.filter(currentState.type)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -106,6 +110,9 @@ public final class MapDictionaryDetailReactor: Reactor {
                         .map { .setDetailData($0) }
                 )
             )
+        case let .selectFilter(type):
+//                return dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map { .setDetailSpawnMonsters($0) }
+            return .empty()
         case .undoLastDeletedBookmark:
             guard let lastDeleted = currentState.lastDeletedBookmark,
                   let mapId = lastDeleted.mapId else { return .empty() }
@@ -121,6 +128,12 @@ public final class MapDictionaryDetailReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
+        case .monsterTapped(index: let index):
+            guard let id = currentState.spawnMonsters[index].monsterId else { return .empty() }
+            return .just(.toNavigate(.detail(type: .monster, id: id)))
+        case .npcTapped(index: let index):
+            guard let id = currentState.npcs[index].npcId else { return .empty() }
+            return .just(.toNavigate(.detail(type: .npc, id: id)))
         }
     }
 
@@ -128,8 +141,8 @@ public final class MapDictionaryDetailReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .showFilter:
-            newState.route = .filter(newState.type)
+        case .toNavigate(let route):
+            newState.route = route
         case let .setDetailData(data):
             newState.mapDetailInfo = data
         case let .setDetailSpawnMonsters(data):

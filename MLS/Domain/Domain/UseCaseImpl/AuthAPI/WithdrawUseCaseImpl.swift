@@ -14,12 +14,22 @@ public class WithdrawUseCaseImpl: WithdrawUseCase {
     }
 
     public func execute() -> Completable {
-        switch tokenRepository.deleteToken(type: .accessToken) {
-        case .success:
-            return authRepository.withdraw()
-        case .failure(let error):
-            return .error(error)
-        }
+        return authRepository.withdraw()
+            .andThen(Completable.deferred { [weak self] in
+                guard let self = self else { return .empty() }
 
+                let results: [Result<Void, Error>] = [
+                    self.tokenRepository.deleteToken(type: .accessToken),
+                    self.tokenRepository.deleteToken(type: .refreshToken),
+                    self.tokenRepository.deleteToken(type: .fcmToken)
+                ]
+
+                for result in results {
+                    if case .failure(let error) = result {
+                        return .error(error)
+                    }
+                }
+                return .empty()
+            })
     }
 }

@@ -109,7 +109,7 @@ public final class SetProfileReactor: Reactor {
                 .andThen(.just(.toNavigate(.dismiss)))
         case .withdraw:
             return withdrawUseCase.execute()
-                .andThen(.empty())
+                .andThen(.just(.toNavigate(.dismiss)))
         case .viewWillAppear:
             return fetchProfileUseCase.execute()
                 .map { Mutation.setProfile($0)}
