@@ -56,8 +56,9 @@ private extension DictionarySearchViewController {
 
     func configureUI() {
         isBottomTabbarHidden = true
-        
+
         mainView.searchBar.searchDelegate = self
+        mainView.searchBar.textField.becomeFirstResponder()
 
         mainView.searchCollectionView.collectionViewLayout = createLayout()
         mainView.searchCollectionView.delegate = self
