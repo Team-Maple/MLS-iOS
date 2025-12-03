@@ -13,7 +13,6 @@ open class BaseListView: UIView {
         static let iconSize: CGFloat = 24
         static let stackViewSpacing: CGFloat = 12
         static let topMargin: CGFloat = 12
-        static let nonFilterTopMargin: CGFloat = 20
         static let cellSpacing: CGFloat = 10
         static let cellWidth: CGFloat = 343
         static let cellHeight: CGFloat = 104
@@ -80,8 +79,7 @@ private extension BaseListView {
     func setupConstraints(isFilterHidden: Bool) {
         if isFilterHidden {
             listCollectionView.snp.makeConstraints { make in
-                make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
-                make.horizontalEdges.bottom.equalToSuperview()
+                make.edges.equalToSuperview()
             }
         } else {
             filterStackView.snp.makeConstraints { make in
@@ -118,7 +116,7 @@ public extension BaseListView {
             if hasFilter {
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
             } else {
-                make.top.equalToSuperview().inset(Constant.nonFilterTopMargin)
+                make.top.equalToSuperview()
             }
             make.horizontalEdges.bottom.equalToSuperview()
         }

@@ -86,9 +86,10 @@ private extension BookmarkListViewController {
     }
 
     func createListLayout() -> UICollectionViewLayout {
+        guard let isHidden = reactor?.currentState.type.isBookmarkSortHidden else { return UICollectionViewLayout() }
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getDictionaryListLayout() }
+            .section { _ in layoutFactory.getDictionaryListLayout(isFilterHidden: isHidden) }
             .build()
         layout.register(Neutral300DividerView.self, forDecorationViewOfKind: Neutral300DividerView.identifier)
         return layout

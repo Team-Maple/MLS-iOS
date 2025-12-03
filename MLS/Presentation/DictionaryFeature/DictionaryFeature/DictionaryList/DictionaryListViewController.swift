@@ -41,8 +41,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.detailFactory = detailFactory
         self.loginFactory = loginFactory
-        self.mainView = DictionaryListView(
-            isFilterHidden: reactor.currentState.type.isSortHidden)
+        self.mainView = DictionaryListView(isFilterHidden: reactor.currentState.type.isSortHidden)
         super.init()
         self.reactor = reactor
     }
@@ -85,9 +84,10 @@ private extension DictionaryListViewController {
     }
 
     func createListLayout() -> UICollectionViewLayout {
+        guard let isHidden = reactor?.currentState.type.isSortHidden else { return UICollectionViewLayout() }
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getDictionaryListLayout() }
+            .section { _ in layoutFactory.getDictionaryListLayout(isFilterHidden: isHidden) }
             .build()
         layout.register(
             Neutral300DividerView.self,
