@@ -150,6 +150,8 @@ extension DictionaryDetailBaseViewController {
     }
 
     func makeTagsRow(_ tags: Effectiveness) {
+        mainView.tagsVerticalStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
         let maxWidth = UIScreen.main.bounds.width - DictionaryDetailBaseView.Constant.horizontalInset // 좌우 여백 고려 (16 * 2)
         let tagSpacing: CGFloat = DictionaryDetailBaseView.Constant.tagVerticalSpacing
 
