@@ -19,6 +19,7 @@ final class PinchMapView: UIView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bouncesZoom = true
+        scrollView.backgroundColor = .clearMLS
         return scrollView
     }()
 
@@ -26,7 +27,7 @@ final class PinchMapView: UIView {
         let view = UIImageView()
         view.clipsToBounds = true
         view.contentMode = .scaleAspectFit
-        view.backgroundColor = .textColor.withAlphaComponent(0.9)
+        view.backgroundColor = .clearMLS
         view.layer.opacity = 0.9
         return view
     }()
@@ -79,7 +80,7 @@ private extension PinchMapView {
     }
 
     func configureUI() {
-        backgroundColor = .clearMLS
+        backgroundColor = .textColor.withAlphaComponent(0.9)
     }
 }
 

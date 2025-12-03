@@ -159,7 +159,7 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
         }
 
         cell.inject(
-            type: .checkbox,
+            type: .bookmark,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.name,
@@ -167,6 +167,8 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
                 imageUrl: item.imageUrl ?? "",
                 isBookmarked: isSelected
             ),
+            indexPath: indexPath,
+            collectionView: collectionView,
             onBookmarkTapped: { [weak self] _ in
                 self?.reactor?.action.onNext(.itemTapped(indexPath.row))
             }

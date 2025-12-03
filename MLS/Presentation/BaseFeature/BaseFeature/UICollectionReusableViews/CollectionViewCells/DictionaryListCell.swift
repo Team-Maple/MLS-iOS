@@ -23,13 +23,11 @@ public final class DictionaryListCell: UICollectionViewCell {
         fatalError("\(#file), \(#function) Error")
     }
 
-    public override func prepareForReuse() {
+    override public func prepareForReuse() {
         super.prepareForReuse()
 
         onBookmarkTapped = nil
         cellView.onIconTapped = nil
-
-        cellView.setImage(image: UIImage(), backgroundColor: .clear)
         cellView.setMainText(text: "")
         cellView.setSubText(text: nil)
         cellView.setSelected(isSelected: false)
@@ -66,15 +64,27 @@ public extension DictionaryListCell {
         }
     }
 
-    func inject(type: CardList.CardListType, input: Input, onBookmarkTapped: @escaping (Bool) -> Void) {
+    func inject(
+        type: CardList.CardListType,
+        input: Input,
+        indexPath: IndexPath,
+        collectionView: UICollectionView,
+        onBookmarkTapped: @escaping (Bool) -> Void
+    ) {
         cellView.setType(type: type)
-        // URL이 유효할 때만 요청
+        cellView.setImage(image: UIImage(), backgroundColor: input.type.backgroundColor) // 초기화
+
         if let url = URL(string: input.imageUrl) {
-            ImageLoader.shared.loadImage(url: url) { image in
-                guard let image = image else { return }
-                self.cellView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+            ImageLoader.shared.loadImage(url: url) { [weak self] image in
+                guard let self = self else { return }
+                // ⚠️ 셀이 재사용된 경우, indexPath가 다르면 무시
+                if let currentIndex = collectionView.indexPath(for: self),
+                   currentIndex == indexPath {
+                    self.cellView.setImage(image: image ?? UIImage(), backgroundColor: input.type.backgroundColor)
+                }
             }
         }
+
         cellView.setMainText(text: input.mainText)
         cellView.setSubText(text: input.subText)
         cellView.setSelected(isSelected: input.isBookmarked)

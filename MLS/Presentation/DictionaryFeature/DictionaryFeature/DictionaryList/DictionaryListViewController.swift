@@ -209,7 +209,6 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         guard let state = reactor?.currentState,
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryListCell.identifier, for: indexPath) as? DictionaryListCell else { return UICollectionViewCell() }
         let item = state.listItems[indexPath.row]
-
         let subText: String? = [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
 
         cell.inject(
@@ -221,6 +220,8 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 imageUrl: item.imageUrl ?? "",
                 isBookmarked: item.bookmarkId != nil
             ),
+            indexPath: indexPath,
+            collectionView: collectionView,
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 

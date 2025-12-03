@@ -43,9 +43,9 @@ private extension MapDictionaryDetailViewController {
     func setUpMapView() {
         guard let reactor = reactor else { return }
 
-        mapInfoView.setUpMapView(imageUrl: reactor.currentState.mapDetailInfo.mapUrl)
         contentViews.append(mapInfoView)
         if let mapUrl = reactor.currentState.mapDetailInfo.mapUrl, !mapUrl.isEmpty {
+            mapInfoView.setUpMapView(imageUrl: reactor.currentState.mapDetailInfo.mapUrl)
             contentViews[0] = mapInfoView
         } else {
             contentViews[0] = DetailEmptyView(type: .mapInfo)
@@ -90,9 +90,11 @@ private extension MapDictionaryDetailViewController {
         mapInfoView.mapImageView.addGestureRecognizer(tapGesture)
 
         tapGesture.rx.event
-            .bind(onNext: { [weak self] _ in
-                guard let self else { return }
-                let viewController = PinchMapViewController(imageUrl: "")
+            .withUnretained(self)
+            .bind(onNext: { owner, _ in
+                guard let reactor = owner.reactor,
+                      let url = reactor.currentState.mapDetailInfo.mapUrl else { return }
+                let viewController = PinchMapViewController(imageUrl: url)
                 viewController.modalPresentationStyle = .overFullScreen
                 self.present(viewController, animated: true)
             })
