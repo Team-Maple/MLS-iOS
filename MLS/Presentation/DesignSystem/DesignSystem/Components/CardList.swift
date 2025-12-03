@@ -14,7 +14,7 @@ public final class CardList: UIView {
         var icon: UIImage? {
             switch self {
             case .bookmark:
-                return .bookmarkBorder
+                return .bookmarkBorderList
             case .checkbox:
                 return .checkSquare
             case .detailStack, .detailStackText, .detailStackBadge:
@@ -25,7 +25,7 @@ public final class CardList: UIView {
         var selectedIcon: UIImage? {
             switch self {
             case .bookmark:
-                return .bookmark
+                return .bookmarkList
             case .checkbox:
                 return .checkSquareFill
             case .detailStack, .detailStackText, .detailStackBadge:
