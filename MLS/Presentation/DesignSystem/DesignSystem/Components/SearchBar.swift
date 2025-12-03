@@ -2,8 +2,15 @@ import UIKit
 
 import SnapKit
 
+public protocol SearchBarDelegate: AnyObject {
+    func searchBarDidReturn(_ searchBar: SearchBar, text: String)
+}
+
 public final class SearchBar: UIView {
     // MARK: - Properties
+    public weak var searchDelegate: SearchBarDelegate?
+    
+    // MARK: - Components
     public let backButton: UIButton = {
         let button = UIButton(type: .system)
         let image = DesignSystemAsset.image(named: "arrowBack")?.withRenderingMode(.alwaysTemplate)
@@ -139,6 +146,8 @@ extension SearchBar: UITextFieldDelegate {
     }
 
     public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchDelegate?.searchBarDidReturn(self, text: textField.text ?? "")
+
         endEditing(true)
         clearButton.isHidden = true
         return true
