@@ -210,10 +210,8 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryListCell.identifier, for: indexPath) as? DictionaryListCell else { return UICollectionViewCell() }
         let item = state.listItems[indexPath.row]
 
-        var subText: String? {
-            [.item, .monster, .quest].contains(item.type)
-                ? item.level.map { "Lv. \($0)" } : nil
-        }
+        let subText: String? = [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
+
         cell.inject(
             type: .bookmark,
             input: DictionaryListCell.Input(
@@ -269,8 +267,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         buttonAction: {
                             DispatchQueue.main.async { [weak self] in
                                 guard let self = self,
-                                      let reactor = self.reactor,
-                                      let id = reactor.currentState.listItems[indexPath.row].bookmarkId else { return }
+                                      let id = item.bookmarkId else { return }
 
                                 let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
                                     if isAdd {

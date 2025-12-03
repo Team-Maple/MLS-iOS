@@ -210,9 +210,7 @@ public extension CardList {
     }
 
     func setSubText(text: String?) {
-        if let text = text {
-            subText = text
-        }
+        subText = text
     }
 
     func setImage(image: UIImage, backgroundColor: UIColor) {

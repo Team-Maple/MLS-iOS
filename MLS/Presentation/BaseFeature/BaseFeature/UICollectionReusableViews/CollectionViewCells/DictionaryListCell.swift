@@ -9,7 +9,6 @@ public final class DictionaryListCell: UICollectionViewCell {
 
     // MARK: - Components
     public let cellView = CardList()
-    private var imageDownloadTask: URLSessionDataTask?
 
     // MARK: - init
     override init(frame: CGRect) {
@@ -22,6 +21,18 @@ public final class DictionaryListCell: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
+    }
+
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+
+        onBookmarkTapped = nil
+        cellView.onIconTapped = nil
+
+        cellView.setImage(image: UIImage(), backgroundColor: .clear)
+        cellView.setMainText(text: "")
+        cellView.setSubText(text: nil)
+        cellView.setSelected(isSelected: false)
     }
 }
 
