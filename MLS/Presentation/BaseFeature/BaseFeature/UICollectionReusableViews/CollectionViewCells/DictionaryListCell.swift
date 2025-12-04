@@ -69,6 +69,7 @@ public extension DictionaryListCell {
         input: Input,
         indexPath: IndexPath,
         collectionView: UICollectionView,
+        isMap: Bool = false,
         onBookmarkTapped: @escaping (Bool) -> Void
     ) {
         cellView.setType(type: type)
@@ -80,7 +81,11 @@ public extension DictionaryListCell {
                 // ⚠️ 셀이 재사용된 경우, indexPath가 다르면 무시
                 if let currentIndex = collectionView.indexPath(for: self),
                    currentIndex == indexPath {
-                    self.cellView.setImage(image: image ?? UIImage(), backgroundColor: input.type.backgroundColor)
+                    if isMap {
+                        self.cellView.setMapImage(image: image ?? UIImage(), backgroundColor: input.type.backgroundColor)
+                    } else {
+                        self.cellView.setImage(image: image ?? UIImage(), backgroundColor: input.type.backgroundColor)
+                    }
                 }
             }
         }

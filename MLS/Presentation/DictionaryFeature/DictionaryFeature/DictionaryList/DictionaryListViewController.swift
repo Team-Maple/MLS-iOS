@@ -218,10 +218,11 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 mainText: item.name,
                 subText: subText,
                 imageUrl: item.imageUrl ?? "",
-                isBookmarked: item.bookmarkId != nil
+                isBookmarked: item.bookmarkId != nil,
             ),
             indexPath: indexPath,
             collectionView: collectionView,
+            isMap: item.type == .map,
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 

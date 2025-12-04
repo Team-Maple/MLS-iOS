@@ -251,6 +251,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
             ),
             indexPath: indexPath,
             collectionView: collectionView,
+            isMap: item.type == .map,
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 

@@ -44,6 +44,7 @@ public final class CardList: UIView {
         static let imageContentViewSize: CGFloat = 80
         static let stackViewSpacing: CGFloat = 4
         static let iconSize: CGFloat = 24
+        static let mapImageSize: CGFloat = 40
     }
 
     // MARK: - Properties
@@ -72,7 +73,7 @@ public final class CardList: UIView {
     public var onIconTapped: ((Bool) -> Void)?
 
     // MARK: - Components
-    private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
+    public let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
 
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
@@ -119,7 +120,6 @@ public final class CardList: UIView {
         let stack = UIStackView(arrangedSubviews: [dropTitleLabel, dropValueLabel])
         stack.axis = .vertical
         stack.alignment = .trailing
-        stack.spacing = 2
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
@@ -215,6 +215,10 @@ public extension CardList {
 
     func setImage(image: UIImage, backgroundColor: UIColor) {
         imageView.setImage(image: image, backgroundColor: backgroundColor)
+    }
+
+    func setMapImage(image: UIImage, backgroundColor: UIColor) {
+        imageView.setMapImage(image: image, backgroundColor: backgroundColor)
     }
 
     func setSelected(isSelected: Bool) {
