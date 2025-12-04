@@ -158,27 +158,30 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardLeadingInset)
-            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(-Constant.cardLeadingInset)
             make.centerY.equalToSuperview()
-        }
-
-        iconButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
-            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
-            make.size.equalTo(Constant.iconSize)
-        }
-
-        badge.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
-            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+            make.trailing.lessThanOrEqualToSuperview().inset(Constant.cardTrailingInset)
         }
 
         dropInfoStack.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+        }
+
+        badge.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+        }
+
+        iconButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+            make.size.equalTo(Constant.iconSize)
+        }
+
+        textLabelStackView.snp.makeConstraints { make in
+            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(-Constant.cardLeadingInset)
+            make.trailing.lessThanOrEqualTo(badge.snp.leading).offset(-Constant.cardLeadingInset)
+            make.trailing.lessThanOrEqualTo(iconButton.snp.leading).offset(-Constant.cardLeadingInset)
         }
     }
 
