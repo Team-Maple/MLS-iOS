@@ -92,6 +92,10 @@ private extension ItemDictionaryDetailViewController {
                     detailInfoView.addInfo(mainText: title, subText: subText)
                 }
             }
+
+            if let attackSpeed = equipmentStats.attackSpeed, let attackSpeedDetails = equipmentStats.attackSpeedDetails {
+                detailInfoView.addInfo(mainText: "공격속도", subText: "\(attackSpeed) (\(attackSpeedDetails))")
+            }
         }
 
         if let scrollDetail = infos.scrollDetail {
