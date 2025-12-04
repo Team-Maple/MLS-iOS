@@ -63,7 +63,7 @@ private extension MonsterDictionaryDetailViewController {
             for map in maps {
                 appearMapView.inject(input: DetailStackCardView
                     .Input(
-                        type: .appearMonsterWithText,
+                        type: .appearMapWithText,
                         imageUrl: map.iconUrl,
                         mainText: map.mapName,
                         subText: map.regionName,

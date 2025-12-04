@@ -43,4 +43,12 @@ public extension ItemImageView {
         imageView.image = image
         self.backgroundColor = backgroundColor
     }
+
+    func setMapImage(image: UIImage?, backgroundColor: UIColor) {
+        setImage(image: image, backgroundColor: backgroundColor)
+        imageView.snp.remakeConstraints { make in
+            make.center.equalToSuperview()
+            make.size.equalTo(40)
+        }
+    }
 }

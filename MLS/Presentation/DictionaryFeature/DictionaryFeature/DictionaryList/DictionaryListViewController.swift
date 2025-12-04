@@ -41,8 +41,7 @@ public final class DictionaryListViewController: BaseViewController, View {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.detailFactory = detailFactory
         self.loginFactory = loginFactory
-        self.mainView = DictionaryListView(
-            isFilterHidden: reactor.currentState.type.isSortHidden)
+        self.mainView = DictionaryListView(isFilterHidden: reactor.currentState.type.isSortHidden)
         super.init()
         self.reactor = reactor
     }
@@ -85,9 +84,10 @@ private extension DictionaryListViewController {
     }
 
     func createListLayout() -> UICollectionViewLayout {
+        guard let isHidden = reactor?.currentState.type.isSortHidden else { return UICollectionViewLayout() }
         let layoutFactory = LayoutFactory()
         let layout = CompositionalLayoutBuilder()
-            .section { _ in layoutFactory.getDictionaryListLayout() }
+            .section { _ in layoutFactory.getDictionaryListLayout(isFilterHidden: isHidden) }
             .build()
         layout.register(
             Neutral300DividerView.self,
@@ -209,11 +209,8 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         guard let state = reactor?.currentState,
               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryListCell.identifier, for: indexPath) as? DictionaryListCell else { return UICollectionViewCell() }
         let item = state.listItems[indexPath.row]
+        let subText: String? = [.item, .monster, .quest].contains(item.type) ? item.level.map { "Lv. \($0)" } : nil
 
-        var subText: String? {
-            [.item, .monster, .quest].contains(item.type)
-                ? item.level.map { "Lv. \($0)" } : nil
-        }
         cell.inject(
             type: .bookmark,
             input: DictionaryListCell.Input(
@@ -221,8 +218,11 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 mainText: item.name,
                 subText: subText,
                 imageUrl: item.imageUrl ?? "",
-                isBookmarked: item.bookmarkId != nil
+                isBookmarked: item.bookmarkId != nil,
             ),
+            indexPath: indexPath,
+            collectionView: collectionView,
+            isMap: item.type == .map,
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 
@@ -269,8 +269,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         buttonAction: {
                             DispatchQueue.main.async { [weak self] in
                                 guard let self = self,
-                                      let reactor = self.reactor,
-                                      let id = reactor.currentState.listItems[indexPath.row].bookmarkId else { return }
+                                      let id = item.bookmarkId else { return }
 
                                 let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
                                     if isAdd {

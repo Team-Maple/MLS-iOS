@@ -235,6 +235,8 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
                 imageUrl: item.imageUrl ?? "",
                 isBookmarked: true
             ),
+            indexPath: indexPath,
+            collectionView: collectionView,
             onBookmarkTapped: { [weak self] isSelected in
                 guard let self = self else { return }
 

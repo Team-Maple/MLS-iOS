@@ -57,6 +57,9 @@ private extension DictionarySearchViewController {
     func configureUI() {
         isBottomTabbarHidden = true
 
+        mainView.searchBar.searchDelegate = self
+        mainView.searchBar.textField.becomeFirstResponder()
+
         mainView.searchCollectionView.collectionViewLayout = createLayout()
         mainView.searchCollectionView.delegate = self
         mainView.searchCollectionView.dataSource = self
@@ -290,5 +293,11 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
         default:
             return UICollectionReusableView()
         }
+    }
+}
+
+extension DictionarySearchViewController: SearchBarDelegate {
+    public func searchBarDidReturn(_ searchBar: SearchBar, text: String) {
+        reactor?.action.onNext(.searchButtonTapped(text))
     }
 }

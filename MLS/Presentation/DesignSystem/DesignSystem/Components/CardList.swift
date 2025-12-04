@@ -14,7 +14,7 @@ public final class CardList: UIView {
         var icon: UIImage? {
             switch self {
             case .bookmark:
-                return .bookmarkBorder
+                return .bookmarkBorderList
             case .checkbox:
                 return .checkSquare
             case .detailStack, .detailStackText, .detailStackBadge:
@@ -25,7 +25,7 @@ public final class CardList: UIView {
         var selectedIcon: UIImage? {
             switch self {
             case .bookmark:
-                return .bookmark
+                return .bookmarkList
             case .checkbox:
                 return .checkSquareFill
             case .detailStack, .detailStackText, .detailStackBadge:
@@ -44,6 +44,7 @@ public final class CardList: UIView {
         static let imageContentViewSize: CGFloat = 80
         static let stackViewSpacing: CGFloat = 4
         static let iconSize: CGFloat = 24
+        static let mapImageSize: CGFloat = 40
     }
 
     // MARK: - Properties
@@ -72,7 +73,7 @@ public final class CardList: UIView {
     public var onIconTapped: ((Bool) -> Void)?
 
     // MARK: - Components
-    private let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
+    public let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
 
     private lazy var textLabelStackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [mainTextLabel, subTextLabel])
@@ -119,7 +120,6 @@ public final class CardList: UIView {
         let stack = UIStackView(arrangedSubviews: [dropTitleLabel, dropValueLabel])
         stack.axis = .vertical
         stack.alignment = .trailing
-        stack.spacing = 2
         stack.isHidden = true // 기본은 숨김
         return stack
     }()
@@ -158,8 +158,18 @@ private extension CardList {
 
         textLabelStackView.snp.makeConstraints { make in
             make.leading.equalTo(imageView.snp.trailing).offset(Constant.cardLeadingInset)
-            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(-Constant.cardLeadingInset)
             make.centerY.equalToSuperview()
+            make.trailing.lessThanOrEqualToSuperview().inset(Constant.cardTrailingInset)
+        }
+
+        dropInfoStack.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+        }
+
+        badge.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
 
         iconButton.snp.makeConstraints { make in
@@ -168,14 +178,10 @@ private extension CardList {
             make.size.equalTo(Constant.iconSize)
         }
 
-        badge.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
-        }
-
-        dropInfoStack.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
+        textLabelStackView.snp.makeConstraints { make in
+            make.trailing.lessThanOrEqualTo(dropInfoStack.snp.leading).offset(-Constant.cardLeadingInset)
+            make.trailing.lessThanOrEqualTo(badge.snp.leading).offset(-Constant.cardLeadingInset)
+            make.trailing.lessThanOrEqualTo(iconButton.snp.leading).offset(-Constant.cardLeadingInset)
         }
     }
 
@@ -210,13 +216,15 @@ public extension CardList {
     }
 
     func setSubText(text: String?) {
-        if let text = text {
-            subText = text
-        }
+        subText = text
     }
 
     func setImage(image: UIImage, backgroundColor: UIColor) {
         imageView.setImage(image: image, backgroundColor: backgroundColor)
+    }
+
+    func setMapImage(image: UIImage, backgroundColor: UIColor) {
+        imageView.setMapImage(image: image, backgroundColor: backgroundColor)
     }
 
     func setSelected(isSelected: Bool) {

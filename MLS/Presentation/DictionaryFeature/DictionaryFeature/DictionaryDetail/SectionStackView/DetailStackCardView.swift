@@ -1,13 +1,11 @@
-import UIKit
-
 import BaseFeature
 import DesignSystem
 import DomainInterface
-
 import RxCocoa
 import RxGesture
 import RxSwift
 import SnapKit
+import UIKit
 
 final class DetailStackCardView: UIStackView {
     // MARK: - Type
@@ -19,7 +17,12 @@ final class DetailStackCardView: UIStackView {
         static let filterContainerTopMargin: CGFloat = 12
         static let filterButtonTrailing: CGFloat = 8
         static let viewSpacing: CGFloat = 10
-        static let stackViewInset: UIEdgeInsets = .init(top: 12, left: 16, bottom: 0, right: 16)
+        static let stackViewInset: UIEdgeInsets = .init(
+            top: 12,
+            left: 16,
+            bottom: 0,
+            right: 16
+        )
     }
 
     // MARK: - Properties
@@ -35,8 +38,20 @@ final class DetailStackCardView: UIStackView {
     // 몬스터 순서 필터 버튼
     public let filterButton: UIButton = {
         let button = UIButton()
-        button.setAttributedTitle(.makeStyledString(font: .b_s_r, text: "드롭률 높은 순", color: .textColor), for: .normal)
-        button.setImage(DesignSystemAsset.image(named: "dropDown")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setAttributedTitle(
+            .makeStyledString(
+                font: .b_s_r,
+                text: "드롭률 높은 순",
+                color: .textColor
+            ),
+            for: .normal
+        )
+        button.setImage(
+            DesignSystemAsset.image(named: "dropDown")?.withRenderingMode(
+                .alwaysTemplate
+            ),
+            for: .normal
+        )
 
         button.tintColor = .textColor
         button.semanticContentAttribute = .forceRightToLeft
@@ -63,21 +78,23 @@ final class DetailStackCardView: UIStackView {
 }
 
 // MARK: - SetUp
-private extension DetailStackCardView {
-    func addViews() {
+extension DetailStackCardView {
+    fileprivate func addViews() {
         addArrangedSubview(filterContainerView)
         filterContainerView.addSubview(filterButton)
         addArrangedSubview(spacer)
     }
 
-    func setUpConstraints() {
+    fileprivate func setUpConstraints() {
         filterContainerView.snp.makeConstraints { make in
             make.height.equalTo(Constant.filterContainerHeight)
         }
 
         filterButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(Constant.filterButtonTrailing)
+            make.trailing.equalToSuperview().inset(
+                Constant.filterButtonTrailing
+            )
         }
 
         spacer.snp.makeConstraints { make in
@@ -85,7 +102,7 @@ private extension DetailStackCardView {
         }
     }
 
-    func configureUI() {
+    fileprivate func configureUI() {
         axis = .vertical
         alignment = .fill
         distribution = .fill
@@ -140,7 +157,17 @@ extension DetailStackCardView {
         cardView.setType(type: .detailStackText)
         ImageLoader.shared.loadImage(stringURL: input.imageUrl) { image in
             guard let image = image else { return }
-            cardView.setImage(image: image, backgroundColor: input.type.backgroundColor)
+            if input.type == .appearMap || input.type == .appearMapWithText {
+                cardView.setMapImage(
+                    image: image,
+                    backgroundColor: input.type.backgroundColor
+                )
+            } else {
+                cardView.setImage(
+                    image: image,
+                    backgroundColor: input.type.backgroundColor
+                )
+            }
         }
         cardView.mainText = input.mainText
         cardView.subText = input.subText
@@ -178,17 +205,33 @@ extension DetailStackCardView {
         filterContainerView.isHidden = isHidden
 
         spacer.snp.remakeConstraints { make in
-            make.height.equalTo(isHidden ? Constant.topSpacing : Constant.filterSpacing)
+            make.height.equalTo(
+                isHidden ? Constant.topSpacing : Constant.filterSpacing
+            )
         }
     }
 
     func selectFilter(selectedType: SortType) {
-        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: selectedType.rawValue, color: .primary700), for: .normal)
+        filterButton.setAttributedTitle(
+            .makeStyledString(
+                font: .b_s_r,
+                text: selectedType.rawValue,
+                color: .primary700
+            ),
+            for: .normal
+        )
         filterButton.tintColor = .primary700
     }
 
     func initFilter(firstFilter: SortType) {
-        filterButton.setAttributedTitle(.makeStyledString(font: .b_s_r, text: firstFilter.rawValue, color: .textColor), for: .normal)
+        filterButton.setAttributedTitle(
+            .makeStyledString(
+                font: .b_s_r,
+                text: firstFilter.rawValue,
+                color: .textColor
+            ),
+            for: .normal
+        )
     }
 
     func reset() {

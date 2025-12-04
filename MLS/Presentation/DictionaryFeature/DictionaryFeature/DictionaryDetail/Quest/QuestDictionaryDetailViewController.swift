@@ -22,7 +22,7 @@ private extension QuestDictionaryDetailViewController {
             imageUrl: reactor?.currentState.detailInfo.iconUrl,
             backgroundColor: type.backgroundColor,
             name: reactor?.currentState.detailInfo.nameKr ?? "이름 없음",
-            subText: "수락Lv.\(reactor?.currentState.detailInfo.minLevel ?? 0)"
+            subText: "수락 Lv.\(reactor?.currentState.detailInfo.minLevel ?? 0)"
         ))
     }
 

@@ -36,13 +36,13 @@ public class LayoutFactory {
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
 
-    public func getDictionaryListLayout() -> CompositionalSectionBuilder {
+    public func getDictionaryListLayout(isFilterHidden: Bool = true) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
             .group(.horizontal, width: .fractionalWidth(1.0), height: .absolute(104))
             .buildSection()
             .interGroupSpacing(10)
-            .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
+            .contentInsets(.init(top: isFilterHidden ? 20 : 0, leading: 16, bottom: 0, trailing: 16))
     }
 
     public func getTagChipLayout() -> CompositionalSectionBuilder {

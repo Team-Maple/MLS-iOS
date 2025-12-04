@@ -96,7 +96,7 @@ public final class DictionarySearchResultReactor: Reactor {
             .distinctUntilChanged() // 중복 keyword 방지
             .flatMap { [weak self] keyword -> Observable<Mutation> in
                 guard let self = self else { return .empty() }
-                let types = ["search", "monsters", "items", "npcs", "maps", "quests"]
+                let types = ["search", "monsters", "items", "maps", "npcs", "quests"]
                 let countObservables = types.map { type in
                     self.dictionarySearchCountUseCase.execute(type: type, keyword: keyword)
                         .map { $0.count ?? 0 }
