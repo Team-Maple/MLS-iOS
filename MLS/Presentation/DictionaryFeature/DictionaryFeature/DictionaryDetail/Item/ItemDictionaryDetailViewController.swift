@@ -37,7 +37,8 @@ private extension ItemDictionaryDetailViewController {
         detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
 
         if let npcPrice = infos.npcPrice {
-            detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice)메소")
+            let formattedPrice = NumberFormatter.localizedString(from: NSNumber(value: npcPrice), number: .decimal)
+            detailInfoView.addInfo(mainText: "상점판매가", subText: "\(formattedPrice) 메소")
         }
 
         if let availableJobs = infos.availableJobs {
