@@ -136,7 +136,8 @@ private extension ItemDictionaryDetailViewController {
 
     func setUpMonsterView() {
         guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+              let detailType = reactor.currentState.type.detailTypes.first,
+              let filter = detailType.sortFilter.first else { return }
         monsterCardView.initFilter(firstFilter: filter)
         let monsters = reactor.currentState.monsters
         monsterCardView.reset()
@@ -210,9 +211,10 @@ extension ItemDictionaryDetailViewController {
             .subscribe { owner, route in
                 switch route {
                 case .filter(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                    guard let option = type.detailTypes.first else { return }
+                    let viewController = owner.sortedFactory.make(sortedOptions: option.sortFilter, selectedIndex: owner.selectedIndex) { index in
                         owner.selectedIndex = index
-                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        let selectedFilter = option.sortFilter[index]
                         owner.monsterCardView.selectFilter(selectedType: selectedFilter)
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }

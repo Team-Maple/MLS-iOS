@@ -41,19 +41,23 @@ public enum DictionaryType: CaseIterable {
         }
     }
 
-    public var detailSortedFilter: [SortType] {
+    public var detailTypes: [DetailType] {
         switch self {
-        case .item, .monster:
+        case .item:
             return [
-                .mostDrop, .levelDESC, .levelASC
+                .dropMonsterWithText
+            ]
+        case .monster:
+            return [
+                .appearMap, .dropItemWithText
             ]
         case .map:
             return [
-                .mostAppear
+                .appearMonsterWithText, .appearNPC
             ]
         case .npc:
             return [
-                .levelLowest, .levelHighest
+                .quest
             ]
         default:
             return []

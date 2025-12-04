@@ -53,35 +53,35 @@ private extension MapDictionaryDetailViewController {
     }
 
     func setUpMonsterView() {
-        guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
-        appearMonsterView.initFilter(firstFilter: filter)
-
-        let monsters = reactor.currentState.spawnMonsters
-        contentViews.append(appearMonsterView)
-        if monsters.isEmpty {
-            contentViews[1] = DetailEmptyView(type: .appearMonsterWithText)
-        } else {
-            contentViews[1] = appearMonsterView
-            for monster in monsters {
-                appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)"))
-            }
-        }
+//        guard let reactor = reactor,
+//              let filter = reactor.currentState.type.detailTypes.first else { return }
+//        appearMonsterView.initFilter(firstFilter: filter)
+//
+//        let monsters = reactor.currentState.spawnMonsters
+//        contentViews.append(appearMonsterView)
+//        if monsters.isEmpty {
+//            contentViews[1] = DetailEmptyView(type: .appearMonsterWithText)
+//        } else {
+//            contentViews[1] = appearMonsterView
+//            for monster in monsters {
+//                appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)"))
+//            }
+//        }
     }
 
     func setUpNpcView() {
-        guard let reactor = reactor, let filter = reactor.currentState.type.detailSortedFilter.first else { return }
-        appearNpcView.initFilter(firstFilter: filter)
-        let npcs = reactor.currentState.npcs
-        contentViews.append(appearNpcView)
-        if npcs.isEmpty {
-            contentViews[2] = DetailEmptyView(type: .appearNPC)
-        } else {
-            contentViews[2] = appearNpcView
-            for npc in npcs {
-                appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: npc.iconUrl ?? "", mainText: npc.npcName))
-            }
-        }
+//        guard let reactor = reactor, let filter = reactor.currentState.type.detailTypes.first else { return }
+//        appearNpcView.initFilter(firstFilter: filter)
+//        let npcs = reactor.currentState.npcs
+//        contentViews.append(appearNpcView)
+//        if npcs.isEmpty {
+//            contentViews[2] = DetailEmptyView(type: .appearNPC)
+//        } else {
+//            contentViews[2] = appearNpcView
+//            for npc in npcs {
+//                appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: npc.iconUrl ?? "", mainText: npc.npcName))
+//            }
+//        }
     }
 
     func bindImageView() {
@@ -175,27 +175,27 @@ extension MapDictionaryDetailViewController {
         )
         .disposed(by: disposeBag)
 
-        rx.viewDidAppear
-            .take(1)
-            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
-            .withUnretained(self)
-            .subscribe { owner, route in
-                switch route {
-                case .filter(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
-                        owner.selectedIndex = index
-                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
-                        owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
-                        reactor.action.onNext(.selectFilter(selectedFilter))
-                    }
-                    owner.tabBarController?.presentModal(viewController)
-                case .none:
-                    break
-                case .detail(let type, let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                }
-            }
-            .disposed(by: disposeBag)
+//        rx.viewDidAppear
+//            .take(1)
+//            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+//            .withUnretained(self)
+//            .subscribe { owner, route in
+//                switch route {
+//                case .filter(let type):
+//                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailTypes, selectedIndex: owner.selectedIndex) { index in
+//                        owner.selectedIndex = index
+//                        let selectedFilter = reactor.currentState.type.detailTypes[index]
+//                        owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
+//                        reactor.action.onNext(.selectFilter(selectedFilter))
+//                    }
+//                    owner.tabBarController?.presentModal(viewController)
+//                case .none:
+//                    break
+//                case .detail(let type, let id):
+//                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+//                    owner.navigationController?.pushViewController(viewController, animated: true)
+//                }
+//            }
+//            .disposed(by: disposeBag)
     }
 }

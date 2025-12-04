@@ -50,8 +50,8 @@ private extension MonsterDictionaryDetailViewController {
 
     func setUpMapView() {
         guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
-        appearMapView.initFilter(firstFilter: filter)
+              let filter = reactor.currentState.type.detailTypes.first else { return }
+//        appearMapView.initFilter(firstFilter: filter)
 
         let maps = reactor.currentState.spawnMaps
         contentViews.append(appearMapView)
@@ -138,8 +138,8 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
-        dropItemView.selectFilter(selectedType: selectedFilter)
+//        let selectedFilter = reactor.currentState.type.detailTypes[selectedIndex]
+//        dropItemView.selectFilter(selectedType: selectedFilter)
 
         isBottomTabbarHidden = true
 
@@ -175,38 +175,38 @@ extension MonsterDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-        rx.viewDidAppear
-            .take(1)
-            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
-            .withUnretained(self)
-            .subscribe { owner, route in
-                switch route {
-                case .filter(let type):
-                    let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
-
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: selectedIndex) { index in
-                        if type == .item {
-                            owner.dropItemSelectedIndex = index
-                            let selectedFilter = type.detailSortedFilter[index]
-                            owner.dropItemView.selectFilter(selectedType: selectedFilter)
-                            reactor.action.onNext(.selectFilter(selectedFilter))
-
-                        } else if type == .map {
-                            owner.mapSelectedIntdex = index
-                            let selectedFilter = type.detailSortedFilter[index]
-                            owner.appearMapView.selectFilter(selectedType: selectedFilter)
-                        }
-                        owner.isBottomTabbarHidden = true
-                    }
-                    owner.tabBarController?.presentModal(viewController)
-                case let .detail(type: type, id: id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                default:
-                    break
-                }
-            }
-            .disposed(by: disposeBag)
+//        rx.viewDidAppear
+//            .take(1)
+//            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+//            .withUnretained(self)
+//            .subscribe { owner, route in
+//                switch route {
+//                case .filter(let type):
+//                    let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
+//
+//                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailTypes, selectedIndex: selectedIndex) { index in
+//                        if type == .item {
+//                            owner.dropItemSelectedIndex = index
+//                            let selectedFilter = type.detailTypes[index]
+//                            owner.dropItemView.selectFilter(selectedType: selectedFilter)
+//                            reactor.action.onNext(.selectFilter(selectedFilter))
+//
+//                        } else if type == .map {
+//                            owner.mapSelectedIntdex = index
+//                            let selectedFilter = type.detailTypes[index]
+//                            owner.appearMapView.selectFilter(selectedType: selectedFilter)
+//                        }
+//                        owner.isBottomTabbarHidden = true
+//                    }
+//                    owner.tabBarController?.presentModal(viewController)
+//                case let .detail(type: type, id: id):
+//                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+//                    owner.navigationController?.pushViewController(viewController, animated: true)
+//                default:
+//                    break
+//                }
+//            }
+//            .disposed(by: disposeBag)
 
         bindBookmarkButton(
             buttonTap: mainView.bookmarkButton.rx.tap,

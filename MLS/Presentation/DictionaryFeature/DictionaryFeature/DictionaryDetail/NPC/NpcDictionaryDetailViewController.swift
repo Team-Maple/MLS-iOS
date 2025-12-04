@@ -106,32 +106,32 @@ extension NpcDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
-        questView.selectFilter(selectedType: selectedFilter)
-        isBottomTabbarHidden = true
-
-        rx.viewDidAppear
-            .take(1)
-            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
-            .withUnretained(self)
-            .subscribe { owner, route in
-                switch route {
-                case .filter(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
-                        owner.selectedIndex = index
-                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
-                        owner.questView.selectFilter(selectedType: selectedFilter)
-                        reactor.action.onNext(.selectFilter(selectedFilter))
-                    }
-                    owner.tabBarController?.presentModal(viewController)
-                case .detail(type: let type, id: let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
-                    owner.navigationController?.pushViewController(viewController, animated: true)
-                default:
-                    break
-                }
-            }
-            .disposed(by: disposeBag)
+        let selectedFilter = reactor.currentState.type.detailTypes[selectedIndex]
+//        questView.selectFilter(selectedType: selectedFilter)
+//        isBottomTabbarHidden = true
+//
+//        rx.viewDidAppear
+//            .take(1)
+//            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+//            .withUnretained(self)
+//            .subscribe { owner, route in
+//                switch route {
+//                case .filter(let type):
+//                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailTypes, selectedIndex: owner.selectedIndex) { index in
+//                        owner.selectedIndex = index
+//                        let selectedFilter = reactor.currentState.type.detailTypes[index]
+//                        owner.questView.selectFilter(selectedType: selectedFilter)
+//                        reactor.action.onNext(.selectFilter(selectedFilter))
+//                    }
+//                    owner.tabBarController?.presentModal(viewController)
+//                case .detail(type: let type, id: let id):
+//                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+//                    owner.navigationController?.pushViewController(viewController, animated: true)
+//                default:
+//                    break
+//                }
+//            }
+//            .disposed(by: disposeBag)
 
         reactor.state.map(\.npcDetailInfo)
             .distinctUntilChanged()
