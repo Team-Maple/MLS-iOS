@@ -54,6 +54,15 @@ private extension DetailStackMapView {
 extension DetailStackMapView {
     func setUpMapView(imageUrl: String?) {
         ImageLoader.shared.loadImage(stringURL: imageUrl) { [weak self] image in
+            if image == DesignSystemAsset.image(named: "connectionError") {
+                self?.mapImageView.snp.remakeConstraints { make in
+                    make.size.equalTo(165)
+                }
+            } else {
+                self?.mapImageView.snp.remakeConstraints { make in
+                    make.height.equalTo(self?.mapImageView.snp.width ?? 0)
+                }
+            }
             self?.mapImageView.image = image
         }
     }

@@ -343,7 +343,7 @@ private extension DictionaryDetailBaseView {
 
         imageView.snp.makeConstraints { make in
             make.center.equalToSuperview()
-            make.size.equalTo(Constant.imageSize)
+            make.width.equalTo(imageContentView.snp.width).multipliedBy(0.42)
         }
 
         bookmarkContentView.snp.makeConstraints { make in
