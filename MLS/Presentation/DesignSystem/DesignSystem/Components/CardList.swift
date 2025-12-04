@@ -164,17 +164,20 @@ private extension CardList {
 
         iconButton.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
             make.size.equalTo(Constant.iconSize)
         }
 
         badge.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
 
         dropInfoStack.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
+            make.leading.equalTo(textLabelStackView.snp.trailing).offset(Constant.cardLeadingInset)
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
     }
