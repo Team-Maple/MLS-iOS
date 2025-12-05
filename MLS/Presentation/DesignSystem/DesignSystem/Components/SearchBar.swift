@@ -9,7 +9,7 @@ public protocol SearchBarDelegate: AnyObject {
 public final class SearchBar: UIView {
     // MARK: - Properties
     public weak var searchDelegate: SearchBarDelegate?
-    
+
     // MARK: - Components
     public let backButton: UIButton = {
         let button = UIButton(type: .system)
