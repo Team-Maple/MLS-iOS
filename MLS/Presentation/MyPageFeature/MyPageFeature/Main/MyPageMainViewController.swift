@@ -227,7 +227,11 @@ extension MyPageMainViewController: UICollectionViewDelegate, UICollectionViewDa
                 let item = reactor.currentState.menus[indexPath.section - 1][indexPath.row - 1]
                 switch item {
                 case .setCharacterInfo(let .some(profile)):
-                    cell.inject(input: MyPageListCell.Input(title: profile.jobName, isHeader: false, addLevel: profile.level))
+                    if let level = profile.level {
+                        cell.inject(input: MyPageListCell.Input(title: profile.jobName, isHeader: false, addLevel: profile.level))
+                    } else {
+                        cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
+                    }
                 default:
                     cell.inject(input: MyPageListCell.Input(title: item.description, isHeader: false))
                 }

@@ -45,6 +45,15 @@ public final class MyPageMainReactor: Reactor {
                 "약관 및 정책"
             }
         }
+
+        var requiresLogin: Bool {
+            switch self {
+            case .setAlarm, .setCharacterInfo:
+                return true
+            default:
+                return false
+            }
+        }
     }
 
     // MARK: - Route
@@ -109,7 +118,11 @@ public final class MyPageMainReactor: Reactor {
                 return .just(.toNavigate(.login))
             }
         case .menuItemTapped(let menu):
-            return .just(.toNavigate(menu.route))
+            if currentState.profile == nil, menu.requiresLogin {
+                return .just(.toNavigate(.login))
+            } else {
+                return .just(.toNavigate(menu.route))
+            }
         case .viewWillAppear:
             return fetchProfileUseCase.execute()
                 .map { .setProfile($0) }
