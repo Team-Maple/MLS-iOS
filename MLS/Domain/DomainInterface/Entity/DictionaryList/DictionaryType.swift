@@ -49,7 +49,7 @@ public enum DictionaryType: CaseIterable {
             ]
         case .monster:
             return [
-                .appearMap, .dropItemWithText
+                .appearMapWithText, .dropItemWithText
             ]
         case .map:
             return [

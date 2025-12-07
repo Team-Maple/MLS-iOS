@@ -6,11 +6,11 @@ public final class MapDictionaryDetailReactor: Reactor {
     // MARK: - Reactor
     public enum Route {
         case none
-        case filter(DictionaryType)
+        case filter([SortType])
         case detail(type: DictionaryType, id: Int)
     }
     public enum Action {
-        case filterButtonTapped
+        case monsterFilterButtonTapped
         case viewWillAppear
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
@@ -41,6 +41,9 @@ public final class MapDictionaryDetailReactor: Reactor {
         var spawnMonsters: [DictionaryDetailMapSpawnMonsterResponse]
         var npcs: [DictionaryDetailMapNpcResponse]
         var type: DictionaryType = .map
+        var monsterFilter: [SortType] {
+            type.detailTypes[0].sortFilter
+        }
         var id = 0
         var isLogin = false
         var lastDeletedBookmark: DictionaryDetailMapResponse?
@@ -84,13 +87,13 @@ public final class MapDictionaryDetailReactor: Reactor {
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .filterButtonTapped:
-            return Observable.just(.toNavigate(.filter(currentState.type)))
+        case .monsterFilterButtonTapped:
+            return Observable.just(.toNavigate(.filter(currentState.monsterFilter)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
                 dictionaryDetailMapUseCase.execute(id: currentState.id).map {.setDetailData($0)},
-                dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id).map {.setDetailSpawnMonsters($0)},
+                dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: nil).map {.setDetailSpawnMonsters($0)},
                 dictionaryDetailMapNpcUseCase.execute(id: currentState.id).map {.setDetailNpc($0)}
             ])
         case let .toggleBookmark(isSelected):
@@ -111,8 +114,7 @@ public final class MapDictionaryDetailReactor: Reactor {
                 )
             )
         case let .selectFilter(type):
-//                return dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map { .setDetailSpawnMonsters($0) }
-            return .empty()
+                return dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: ["maxSpawnCount", "asc"]).map { .setDetailSpawnMonsters($0) }
         case .undoLastDeletedBookmark:
             guard let lastDeleted = currentState.lastDeletedBookmark,
                   let mapId = lastDeleted.mapId else { return .empty() }

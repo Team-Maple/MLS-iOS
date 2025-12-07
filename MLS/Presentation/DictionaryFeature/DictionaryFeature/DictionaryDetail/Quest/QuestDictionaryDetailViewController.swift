@@ -98,17 +98,26 @@ private extension QuestDictionaryDetailViewController {
 
     func setUpQuestView() {
         guard let reactor = reactor else { return }
-        let quests = reactor.currentState.linkedQuestInfo
+        let quests = reactor.currentState.totalQuest
+
+        linkedQuestView.reset()
         contentViews.append(linkedQuestView)
-        if let previousQuests = quests.previousQuests, let nextQuests = quests.nextQuests {
-            if previousQuests.isEmpty, nextQuests.isEmpty {
-                contentViews[1] = DetailEmptyView(type: .quest)
-            } else {
-                contentViews[1] = linkedQuestView
-                for quest in previousQuests + nextQuests {
-                    linkedQuestView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: quest.iconUrl ?? "", mainText: quest.name, subText: "수락 Lv.\(quest.minLevel ?? 0)")
+
+        if quests.isEmpty {
+            contentViews[1] = DetailEmptyView(type: .quest)
+        } else {
+            contentViews[1] = linkedQuestView
+
+            for data in quests {
+                linkedQuestView.inject(
+                    input: DetailStackCardView.Input(
+                        type: .linkedQuest,
+                        imageUrl: data.quest.iconUrl ?? "",
+                        mainText: data.quest.name,
+                        subText: "수락 Lv.\(data.quest.minLevel ?? 0)",
+                        questType: data.type
                     )
-                }
+                )
             }
         }
     }
@@ -146,7 +155,7 @@ extension QuestDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-        reactor.state.map(\.linkedQuestInfo)
+        reactor.state.map(\.totalQuest)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .withUnretained(self)

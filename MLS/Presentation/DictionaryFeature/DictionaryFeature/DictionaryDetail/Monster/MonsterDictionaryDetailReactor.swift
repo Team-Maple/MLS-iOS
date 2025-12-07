@@ -6,7 +6,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     // MARK: - Type
     public enum Route {
         case none
-        case filter(DictionaryType)
+        case filter(type: DictionaryType, sort: [SortType])
         case detail(type: DictionaryType, id: Int)
     }
 
@@ -50,8 +50,15 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             evasionRate: 0, mesoDropAmount: nil, mesoDropRate: nil,
             typeEffectiveness: nil, bookmarkId: nil
         )
-        var dropItems = [DictionaryDetailMonsterDropItemResponse]()
         var spawnMaps = [DictionaryDetailMonsterMapResponse]()
+        var dropItems = [DictionaryDetailMonsterDropItemResponse]()
+        var mapFilter: [SortType] {
+            type.detailTypes[0].sortFilter
+        }
+
+        var itemFilter: [SortType] {
+            type.detailTypes[1].sortFilter
+        }
         var infos = [Info]()
         var isLogin = false
         var lastDeletedBookmark: DictionaryDetailMonsterResponse?
@@ -88,7 +95,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .filterButtonTapped(type):
-            return .just(.toNavigate(.filter(type)))
+            return .just(.toNavigate(.filter(type: type, sort: type == .map ? currentState.mapFilter : currentState.itemFilter)))
 
         case .viewWillAppear:
             return .merge([

@@ -3,6 +3,17 @@ import DomainInterface
 import ReactorKit
 
 public final class QuestDictionaryDetailReactor: Reactor {
+    enum QuestType {
+        case previous
+        case current
+        case next
+    }
+
+    struct QuestInfo: Equatable {
+        let quest: Quest
+        let type: QuestType
+    }
+
     public enum Route {
         case none
         case filter(DictionaryType)
@@ -30,6 +41,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
         var id: Int
         var detailInfo: DictionaryDetailQuestResponse
         var linkedQuestInfo: DictionaryDetailQuestLinkedQuestsResponse
+        var totalQuest: [QuestInfo]
         var isLogin = false
         var lastDeletedBookmark: DictionaryDetailQuestResponse?
     }
@@ -75,7 +87,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
                 allowedJobs: nil,
                 bookmarkId: nil
             ),
-            linkedQuestInfo: .init(previousQuests: nil, nextQuests: nil)
+            linkedQuestInfo: .init(previousQuests: nil, nextQuests: nil), totalQuest: []
         )
     }
 
@@ -122,18 +134,10 @@ public final class QuestDictionaryDetailReactor: Reactor {
                 ])
             )
         case let .questTapped(index):
-            if let previous = currentState.linkedQuestInfo.previousQuests, !previous.isEmpty {
-                if index == 0, let questId = previous.first?.questId {
-                    return .just(.toNavigate(.detail(id: questId)))
-                } else if index == 1, let next = currentState.linkedQuestInfo.nextQuests?.first?.questId {
-                    return .just(.toNavigate(.detail(id: next)))
-                }
-            } else {
-                if let next = currentState.linkedQuestInfo.nextQuests, index == 0, let questId = next.first?.questId {
-                    return .just(.toNavigate(.detail(id: questId)))
-                }
-            }
-            return .empty()
+            let tappedQuestInfo = currentState.totalQuest[index]
+            guard let id = tappedQuestInfo.quest.questId,
+                  tappedQuestInfo.type != .current else { return .empty() }
+            return .just(.toNavigate(.detail(id: id)))
         }
     }
 
@@ -142,15 +146,55 @@ public final class QuestDictionaryDetailReactor: Reactor {
         switch mutation {
         case let .setDetailData(data):
             newState.detailInfo = data
+            newState.totalQuest = mergeTotalQuests(
+                detailInfo: data,
+                linkedInfo: state.linkedQuestInfo
+            )
         case let .setLinkedQuests(data):
             newState.linkedQuestInfo = data
+            newState.totalQuest = mergeTotalQuests(
+                detailInfo: state.detailInfo,
+                linkedInfo: data
+            )
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
         case let .setLastDeletedBookmark(data):
             newState.lastDeletedBookmark = data
-        case .toNavigate(let route):
+        case let .toNavigate(route):
             newState.route = route
         }
         return newState
+    }
+}
+
+extension QuestDictionaryDetailReactor {
+    private func mergeTotalQuests(
+        detailInfo: DictionaryDetailQuestResponse,
+        linkedInfo: DictionaryDetailQuestLinkedQuestsResponse
+    ) -> [QuestInfo] {
+        var quests: [QuestInfo] = []
+
+        if let previous = linkedInfo.previousQuests {
+            let mapped = previous.map { QuestInfo(quest: $0, type: .previous) }
+            quests.append(contentsOf: mapped)
+        }
+
+        if let currentId = detailInfo.questId {
+            let currentQuest = Quest(
+                questId: currentId,
+                name: detailInfo.nameKr ?? "",
+                minLevel: detailInfo.minLevel,
+                maxLevel: detailInfo.maxLevel,
+                iconUrl: detailInfo.iconUrl
+            )
+            quests.append(QuestInfo(quest: currentQuest, type: .current))
+        }
+
+        if let next = linkedInfo.nextQuests {
+            let mapped = next.map { QuestInfo(quest: $0, type: .next) }
+            quests.append(contentsOf: mapped)
+        }
+
+        return quests
     }
 }

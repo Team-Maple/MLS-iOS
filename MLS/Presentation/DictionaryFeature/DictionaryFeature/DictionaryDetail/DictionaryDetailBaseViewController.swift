@@ -48,7 +48,6 @@ class DictionaryDetailBaseViewController: BaseViewController {
         self.dictionaryDetailFactory = dictionaryDetailFactory
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         super.init()
-        isBottomTabbarHidden = true
     }
 
     @available(*, unavailable)
@@ -140,9 +139,8 @@ extension DictionaryDetailBaseViewController {
                 guard let self = self, let image = image else { return }
                 self.mainView.imageView.image = image
             }
-
         } else {
-            mainView.imageView.image = nil // Clear image if no URL
+            mainView.imageView.image = nil
         }
         mainView.imageContentView.backgroundColor = input.backgroundColor
         mainView.nameLabel.attributedText = .makeStyledString(font: .sub_l_m, text: input.name, color: .textColor)

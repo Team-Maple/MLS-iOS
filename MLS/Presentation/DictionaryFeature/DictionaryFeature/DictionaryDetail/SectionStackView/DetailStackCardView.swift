@@ -119,8 +119,7 @@ extension DetailStackCardView {
         var subText: String?
         // 오른쪽 텍스트
         var additionalText: String?
-        // 퀘스트 판별을 위한 인덱스 0: preQuest, 1: currentQuest, 2: nextQuest
-        var questIndex: Int?
+        var questType: QuestDictionaryDetailReactor.QuestType?
 
         init(
             type: DetailType,
@@ -128,14 +127,14 @@ extension DetailStackCardView {
             mainText: String?,
             subText: String? = nil,
             additionalText: String? = nil,
-            questIndex: Int? = nil
+            questType: QuestDictionaryDetailReactor.QuestType? = nil
         ) {
             self.type = type
             self.imageUrl = imageUrl
             self.mainText = mainText
             self.subText = subText
             self.additionalText = additionalText
-            self.questIndex = questIndex
+            self.questType = questType
         }
     }
 
@@ -144,7 +143,6 @@ extension DetailStackCardView {
         setFilter(isHidden: input.type.sortFilter.isEmpty)
         let cardView = CardList()
         cardViews.append(cardView)
-        let currentIndex = cardViews.count - 1
         let spacer = UIView()
 
         addArrangedSubview(cardView)
@@ -182,10 +180,10 @@ extension DetailStackCardView {
         case .appearMap, .appearNPC, .quest:
             cardView.setType(type: .detailStack)
         case .linkedQuest:
-            switch input.questIndex {
-            case 0:
+            switch input.questType {
+            case .previous:
                 cardView.setType(type: .detailStackBadge(.preQuest))
-            case 1:
+            case .current:
                 cardView.setType(type: .detailStackBadge(.currentQuest))
             default:
                 cardView.setType(type: .detailStackBadge(.nextQuest))
@@ -196,7 +194,10 @@ extension DetailStackCardView {
 
         cardView.rx.tapGesture()
             .when(.recognized)
-            .map { _ in currentIndex }
+            .map { [weak self] _ -> Int in
+                guard let self = self else { return 0 }
+                return self.cardViews.firstIndex(of: cardView) ?? 0
+            }
             .bind(to: tapSubject)
             .disposed(by: disposeBag)
     }

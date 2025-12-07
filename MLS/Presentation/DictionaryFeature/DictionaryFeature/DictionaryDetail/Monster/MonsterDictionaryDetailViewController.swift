@@ -50,10 +50,12 @@ private extension MonsterDictionaryDetailViewController {
 
     func setUpMapView() {
         guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailTypes.first else { return }
-//        appearMapView.initFilter(firstFilter: filter)
+              let filter = reactor.currentState.mapFilter.first else { return }
+
+        appearMapView.initFilter(firstFilter: filter)
 
         let maps = reactor.currentState.spawnMaps
+        appearMapView.reset()
         contentViews.append(appearMapView)
         if maps.isEmpty {
             contentViews[1] = DetailEmptyView(type: .appearMap)
@@ -67,7 +69,13 @@ private extension MonsterDictionaryDetailViewController {
                         imageUrl: map.iconUrl,
                         mainText: map.mapName,
                         subText: map.regionName,
-                        additionalText: "\(map.maxSpawnCount ?? 0)마리"
+                        additionalText: {
+                            if let count = map.maxSpawnCount {
+                                return "\(count)마리"
+                            } else {
+                                return "??마리"
+                            }
+                        }()
                     )
                 )
             }
@@ -75,8 +83,12 @@ private extension MonsterDictionaryDetailViewController {
     }
 
     func setUpDropItemView() {
-        guard let reactor = reactor else { return }
+        guard let reactor = reactor,
+              let filter = reactor.currentState.itemFilter.first else { return }
+
+        dropItemView.initFilter(firstFilter: filter)
         let items = reactor.currentState.dropItems
+
         dropItemView.reset()
         contentViews.append(dropItemView)
         // 드롭아이템
@@ -138,11 +150,6 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-//        let selectedFilter = reactor.currentState.type.detailTypes[selectedIndex]
-//        dropItemView.selectFilter(selectedType: selectedFilter)
-
-        isBottomTabbarHidden = true
-
         reactor.state.map(\.monsterDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -175,38 +182,37 @@ extension MonsterDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-//        rx.viewDidAppear
-//            .take(1)
-//            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
-//            .withUnretained(self)
-//            .subscribe { owner, route in
-//                switch route {
-//                case .filter(let type):
-//                    let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
-//
-//                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailTypes, selectedIndex: selectedIndex) { index in
-//                        if type == .item {
-//                            owner.dropItemSelectedIndex = index
-//                            let selectedFilter = type.detailTypes[index]
-//                            owner.dropItemView.selectFilter(selectedType: selectedFilter)
-//                            reactor.action.onNext(.selectFilter(selectedFilter))
-//
-//                        } else if type == .map {
-//                            owner.mapSelectedIntdex = index
-//                            let selectedFilter = type.detailTypes[index]
-//                            owner.appearMapView.selectFilter(selectedType: selectedFilter)
-//                        }
-//                        owner.isBottomTabbarHidden = true
-//                    }
-//                    owner.tabBarController?.presentModal(viewController)
-//                case let .detail(type: type, id: id):
-//                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
-//                    owner.navigationController?.pushViewController(viewController, animated: true)
-//                default:
-//                    break
-//                }
-//            }
-//            .disposed(by: disposeBag)
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
+            .withUnretained(self)
+            .subscribe { owner, route in
+                switch route {
+                case .filter(let type, let sort):
+                    let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
+
+                    let viewController = owner.sortedFactory.make(sortedOptions: sort, selectedIndex: selectedIndex) { index in
+                        if type == .item {
+                            owner.dropItemSelectedIndex = index
+                            let selectedFilter = sort[index]
+                            owner.dropItemView.selectFilter(selectedType: selectedFilter)
+                            reactor.action.onNext(.selectFilter(selectedFilter))
+                        } else if type == .map {
+                            owner.mapSelectedIntdex = index
+                            let selectedFilter = sort[index]
+                            owner.appearMapView.selectFilter(selectedType: selectedFilter)
+                            reactor.action.onNext(.selectFilter(selectedFilter))
+                        }
+                    }
+                    owner.tabBarController?.presentModal(viewController, hideTabBar: true)
+                case let .detail(type: type, id: id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    owner.navigationController?.pushViewController(viewController, animated: true)
+                default:
+                    break
+                }
+            }
+            .disposed(by: disposeBag)
 
         bindBookmarkButton(
             buttonTap: mainView.bookmarkButton.rx.tap,

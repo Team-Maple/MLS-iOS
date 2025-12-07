@@ -218,7 +218,7 @@ extension ItemDictionaryDetailViewController {
                         owner.monsterCardView.selectFilter(selectedType: selectedFilter)
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }
-                    owner.tabBarController?.presentModal(viewController)
+                    owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case .none:
                     break
                 case .detail(let id):

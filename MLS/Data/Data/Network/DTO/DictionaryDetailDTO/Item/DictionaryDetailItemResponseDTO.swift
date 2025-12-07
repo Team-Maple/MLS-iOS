@@ -5,7 +5,7 @@ public struct DictionaryDetailItemResponseDTO: Decodable {
     public let nameKr: String?
     public let nameEn: String?
     public let descriptionText: String?
-    public let imgUrl: String?
+    public let itemImageUrl: String?
     public let npcPrice: Int?
     public let itemType: String?
     public let categoryHierachy: CategoryHierachy?
@@ -21,7 +21,7 @@ public struct DictionaryDetailItemResponseDTO: Decodable {
             nameKr: nameKr,
             nameEn: nameEn,
             descriptionText: descriptionText,
-            imgUrl: imgUrl,
+            imgUrl: itemImageUrl,
             npcPrice: npcPrice,
             itemType: itemType,
             categoryHierachy: categoryHierachy,

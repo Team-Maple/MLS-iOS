@@ -58,8 +58,8 @@ public enum DictionaryDetailEndPoint {
     }
 
     // Map 디테일 출현 몬스터
-    public static func fetchMapDetailSpawnMonster(id: Int) -> ResponsableEndPoint<[DictionaryDetailMapSpawnMonsterResponseDTO]> {
-        return .init(baseURL: base, path: "/api/v1/maps/\(id)/monsters", method: .GET)
+    public static func fetchMapDetailSpawnMonster(id: Int, sort: [String]?) -> ResponsableEndPoint<[DictionaryDetailMapSpawnMonsterResponseDTO]> {
+        return .init(baseURL: base, path: "/api/v1/maps/\(id)/monsters", method: .GET, query: ["sort": sort?.joined(separator: ",")])
     }
 
     // Map 디테일 출현 npc

@@ -26,7 +26,7 @@ public protocol DictionaryDetailAPIRepository {
     // Map 디테일 상세정보
     func fetchMapDetail(id: Int) -> Observable<DictionaryDetailMapResponse>
     // Map 디테일 출현 몬스터 정보
-    func fetchMapDetailSpawnMonster(id: Int) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]>
+    func fetchMapDetailSpawnMonster(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]>
     // Map 디테일 출현 Npc 정보
     func fetchMapDetailNpc(id: Int) -> Observable<[DictionaryDetailMapNpcResponse]>
 }

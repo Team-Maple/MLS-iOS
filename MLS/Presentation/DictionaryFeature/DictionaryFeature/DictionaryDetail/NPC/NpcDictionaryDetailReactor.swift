@@ -6,7 +6,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     // MARK: - Route
     public enum Route {
         case none
-        case filter(DictionaryType)
+        case filter([SortType])
         case detail(type: DictionaryType, id: Int)
     }
 
@@ -38,6 +38,9 @@ public final class NpcDictionaryDetailReactor: Reactor {
         var type: DictionaryType = .npc
         var maps: [DictionaryDetailMonsterMapResponse]
         var quests: [DictionaryDetailNpcQuestResponse]
+        var questFilter: [SortType] {
+            type.detailTypes[0].sortFilter
+        }
         var id: Int
         var isLogin = false
         var lastDeletedBookmark: DictionaryDetailNpcResponse?
@@ -81,7 +84,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.toNavigate(.filter(currentState.type)))
+            return .just(.toNavigate(.filter(currentState.questFilter)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },

@@ -69,8 +69,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
 
-    public func fetchMapDetailSpawnMonster(id: Int) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
-        let endPoint = DictionaryDetailEndPoint.fetchMapDetailSpawnMonster(id: id)
+    public func fetchMapDetailSpawnMonster(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
+        let endPoint = DictionaryDetailEndPoint.fetchMapDetailSpawnMonster(id: id, sort: sort)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
     }
 
