@@ -165,11 +165,11 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             newState.monsterDetailInfo = data
 
             var infos: [Info] = []
-            infos.append(.init(name: "HP", desc: "\(data.hp)"))
-            infos.append(.init(name: "MP", desc: "\(data.mp)"))
-            infos.append(.init(name: "EXP", desc: "\(data.exp)"))
-            infos.append(.init(name: "물리방어력", desc: "\(data.physicalDefense)"))
-            infos.append(.init(name: "마법방어력", desc: "\(data.magicDefense)"))
+            infos.append(.init(name: "HP", desc: "\(data.hp.formatted())"))
+            infos.append(.init(name: "MP", desc: "\(data.mp.formatted())"))
+            infos.append(.init(name: "EXP", desc: "\(data.exp.formatted())"))
+            infos.append(.init(name: "물리방어력", desc: "\(data.physicalDefense.formatted())"))
+            infos.append(.init(name: "마법방어력", desc: "\(data.magicDefense.formatted())"))
             newState.infos = infos
 
         case let .setDetailDropItemData(data):

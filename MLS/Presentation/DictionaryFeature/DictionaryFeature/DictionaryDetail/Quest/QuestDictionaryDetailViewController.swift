@@ -75,13 +75,13 @@ private extension QuestDictionaryDetailViewController {
 
             // 보상 추가 - 메소,경험치, 인기도
             if let meso = rewardInfos?.meso {
-                detailInfoView.addReward(mainText: DictionaryDetailText.meso, subText: "\(meso)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.meso, subText: "\(meso.formatted())")
             }
             if let exp = rewardInfos?.exp {
-                detailInfoView.addReward(mainText: DictionaryDetailText.exp, subText: "\(exp)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.exp, subText: "\(exp.formatted())")
             }
             if let pop = rewardInfos?.popularity {
-                detailInfoView.addReward(mainText: DictionaryDetailText.pop, subText: "\(pop)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.pop, subText: "\(pop.formatted())")
             }
             if let rewardItems = rewardItemInfos {
                 for info in rewardItems {

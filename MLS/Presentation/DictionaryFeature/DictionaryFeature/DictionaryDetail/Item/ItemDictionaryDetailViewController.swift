@@ -37,8 +37,7 @@ private extension ItemDictionaryDetailViewController {
         detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
 
         if let npcPrice = infos.npcPrice {
-            let formattedPrice = NumberFormatter.localizedString(from: NSNumber(value: npcPrice), number: .decimal)
-            detailInfoView.addInfo(mainText: "상점판매가", subText: "\(formattedPrice) 메소")
+            detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice.formatted()) 메소")
         }
 
         if let availableJobs = infos.availableJobs {
@@ -95,7 +94,7 @@ private extension ItemDictionaryDetailViewController {
             }
 
             if let attackSpeed = equipmentStats.attackSpeed, let attackSpeedDetails = equipmentStats.attackSpeedDetails {
-                detailInfoView.addInfo(mainText: "공격속도", subText: "\(attackSpeed) (\(attackSpeedDetails))")
+                detailInfoView.addInfo(mainText: "공격속도", subText: "\(attackSpeed.formatted()) (\(attackSpeedDetails))")
             }
         }
 
@@ -128,7 +127,7 @@ private extension ItemDictionaryDetailViewController {
             for (title, value) in scrollMappings {
                 if let value = value {
                     let sign = value >= 0 ? "+" : ""
-                    detailInfoView.addInfo(mainText: title, subText: "\(sign)\(value)")
+                    detailInfoView.addInfo(mainText: title, subText: "\(sign)\(value.formatted())")
                 }
             }
         }
@@ -247,7 +246,7 @@ extension ItemDictionaryDetailViewController {
 private extension ItemDictionaryDetailViewController {
     func formatStatText(base: Int, min: Int?, max: Int?) -> String {
         if let min = min, let max = max {
-            return "\(base) [\(min)-\(max)]"
+            return "\(base.formatted()) [\(min.formatted())-\(max.formatted())]"
         } else {
             return "\(base)"
         }
