@@ -17,7 +17,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
     public enum Route {
         case none
         case filter(DictionaryType)
-        case detail(id: Int)
+        case detail(type: DictionaryType, id: Int)
     }
 
     public enum Action {
@@ -25,6 +25,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
         case toggleBookmark(Bool)
         case undoLastDeletedBookmark
         case questTapped(index: Int)
+        case infoTapped(type: DictionaryType, id: Int)
     }
 
     public enum Mutation {
@@ -137,7 +138,9 @@ public final class QuestDictionaryDetailReactor: Reactor {
             let tappedQuestInfo = currentState.totalQuest[index]
             guard let id = tappedQuestInfo.quest.questId,
                   tappedQuestInfo.type != .current else { return .empty() }
-            return .just(.toNavigate(.detail(id: id)))
+            return .just(.toNavigate(.detail(type: .quest, id: id)))
+        case let .infoTapped(type: type, id: id):
+            return .just(.toNavigate(.detail(type: type, id: id)))
         }
     }
 

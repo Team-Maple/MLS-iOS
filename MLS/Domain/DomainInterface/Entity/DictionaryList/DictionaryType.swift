@@ -1,4 +1,4 @@
-public enum DictionaryType: CaseIterable {
+public enum DictionaryType: String, CaseIterable {
     case total
     case collection
     case item

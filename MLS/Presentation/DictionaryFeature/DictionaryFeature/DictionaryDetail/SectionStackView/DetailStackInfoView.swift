@@ -3,11 +3,11 @@ import UIKit
 import DesignSystem
 import DomainInterface
 
+import RxGesture
+import RxSwift
 import SnapKit
 
 final class DetailStackInfoView: UIStackView {
-    var onTap: (() -> Void)? // 외부에서 넘겨받을 콜백
-
     // MARK: - Type
     private enum Constant {
         static let descriptionCornerRadius: CGFloat = 16
@@ -20,6 +20,9 @@ final class DetailStackInfoView: UIStackView {
         static let detailInfoStackViewSpacing: CGFloat = 20
         static let titleLeadingInset: CGFloat = 16
     }
+
+    // MARK: - Properties
+    private let disposeBag = DisposeBag()
 
     // MARK: - Components
     // 상세정보 스택 뷰 속 설명 글
@@ -238,10 +241,13 @@ extension DetailStackInfoView {
 
             mainLabel.attributedText = .makeStyledUnderlinedString(font: .sub_m_sb, text: mainText)
             mainLabel.isUserInteractionEnabled = true
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-            mainLabel.addGestureRecognizer(tapGesture)
 
-            self.onTap = onTap // 저장해두기
+            mainLabel.rx.tapGesture()
+                .when(.recognized)
+                .bind { _ in
+                    onTap?()
+                }
+                .disposed(by: disposeBag)
 
             rowStackView.addArrangedSubview(clickableStack)
         } else {
@@ -269,9 +275,5 @@ extension DetailStackInfoView {
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalInset)
             make.height.equalTo(Constant.dividerHeight)
         }
-    }
-
-    @objc private func handleTap() {
-        onTap?()
     }
 }

@@ -41,13 +41,26 @@ private extension QuestDictionaryDetailViewController {
             if let requirements = detailInfos.requirements {
                 for requirement in requirements {
                     if let quantity = requirement.quantity {
-                        if let name = requirement.itemName ?? requirement.monsterName {
-                            detailInfoView.addCondition(
-                                mainText: name,
-                                subText: "\(quantity)",
-                                clickable: true,
-                                onTap: { self.presentAlert() }
-                            )
+                        if let name = requirement.itemName ?? requirement.monsterName,
+                           let type = DictionaryType(rawValue: requirement.requirementType ?? "") {
+
+                            if let id = type == .item ? requirement.itemId : requirement.monsterId {
+                                detailInfoView.addCondition(
+                                    mainText: name,
+                                    subText: "\(quantity)",
+                                    clickable: true,
+                                    onTap: { [weak reactor] in
+                                        reactor?.action.onNext(.infoTapped(type: type, id: id))
+                                    }
+                                )
+                            } else {
+                                detailInfoView.addCondition(
+                                    mainText: name,
+                                    subText: "\(quantity)",
+                                    clickable: false,
+                                    onTap: {}
+                                )
+                            }
                         }
                     }
                 }
@@ -184,31 +197,13 @@ extension QuestDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
-                case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .quest, id: id, bookmarkRelay: self.bookmarkRelay)
+                case let .detail(type, id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
             }
             .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - 임시Alert
-extension QuestDictionaryDetailViewController {
-    func presentAlert() {
-        let alert = UIAlertController(title: "알림", message: "페이지 이동Alert", preferredStyle: .alert)
-
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            print("확인 버튼 클릭됨")
-        }
-
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-
-        present(alert, animated: true)
     }
 }
