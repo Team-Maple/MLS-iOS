@@ -19,7 +19,7 @@ public class FilterLevelSectionView: UIView {
     private var isEdit = false
 
     let leftInputBox: InputBox = {
-        let box = InputBox(label: "범위", placeHodler: "0")
+        let box = InputBox(label: "범위", placeHodler: "1")
         box.textField.keyboardType = .numberPad
         return box
     }()
@@ -48,7 +48,7 @@ public class FilterLevelSectionView: UIView {
 
     private let lowerLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .b_s_r, text: "0", color: .neutral500)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "1", color: .neutral500)
         return label
     }()
 
@@ -66,8 +66,8 @@ public class FilterLevelSectionView: UIView {
 
     public var disposeBag = DisposeBag()
 
-    public init(initialLowerValue: CGFloat = 0, initialUpperValue: CGFloat = 200) {
-        self.slider = FilterSlider(minimumValue: 0, maximumValue: 200, initialLowerValue: initialLowerValue, initialUpperValue: initialUpperValue)
+    public init(initialLowerValue: CGFloat = 1, initialUpperValue: CGFloat = 200) {
+        self.slider = FilterSlider(minimumValue: 1, maximumValue: 200, initialLowerValue: initialLowerValue, initialUpperValue: initialUpperValue)
         super.init(frame: .zero)
         addViews()
         setupConstraints()
@@ -135,7 +135,7 @@ public extension FilterLevelSectionView {
             .subscribe { owner, value in
                 guard !owner.isEdit else { return }
                 let lowValue = Int(value)
-                owner.leftInputBox.textField.text = lowValue == 0 ? nil : "\(lowValue)"
+                owner.leftInputBox.textField.text = lowValue == 1 ? nil : "\(lowValue)"
             }
             .disposed(by: disposeBag)
 
@@ -156,7 +156,7 @@ public extension FilterLevelSectionView {
                 if let value = Double(text) {
                     owner.slider.lowerValue = value
                 } else {
-                    owner.slider.lowerValue = 0
+                    owner.slider.lowerValue = 1
                 }
             }
             .disposed(by: disposeBag)
@@ -181,7 +181,7 @@ public extension FilterLevelSectionView {
             .withUnretained(self)
             .debounce(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe { owner, _ in
-                if let leftValue = Double(owner.leftInputBox.textField.text ?? "0"), let rightValue = Double(owner.rightInputBox.textField.text ?? "200") {
+                if let leftValue = Double(owner.leftInputBox.textField.text ?? "1"), let rightValue = Double(owner.rightInputBox.textField.text ?? "200") {
                     if leftValue > rightValue {
                         owner.isEdit = true
                         owner.leftInputBox.textField.text = "\(Int(rightValue))"

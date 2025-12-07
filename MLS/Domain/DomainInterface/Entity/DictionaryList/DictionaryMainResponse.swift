@@ -1,7 +1,7 @@
 public struct DictionaryMainResponse {
     public let totalPages: Int
     public let totalElements: Int
-    public let contents: [DictionaryMainItemResponse]
+    public var contents: [DictionaryMainItemResponse]
 
     public init(totalPages: Int, totalElements: Int, contents: [DictionaryMainItemResponse]) {
         self.totalPages = totalPages

@@ -16,7 +16,7 @@ public final class MonsterFilterBottomSheetViewController: BaseViewController, M
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    var startLevel: CGFloat = 0
+    var startLevel: CGFloat = 1
     var endLevel: CGFloat = 200
 
     public lazy var mainView = MonsterFilterBottomSheetView(lowerLevel: startLevel, upperLevel: endLevel)
@@ -71,15 +71,24 @@ extension MonsterFilterBottomSheetViewController {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.clearButton.rx.tap
+            .map { Reactor.Action.clearButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
 
         mainView.applyButton.rx.tap
             .withUnretained(self)
             .compactMap { _, _ in
-                guard
-                    let startText = self.mainView.levelRangeView.leftInputBox.textField.text,
-                    let endText = self.mainView.levelRangeView.rightInputBox.textField.text,
-                    let start = Int(startText),
-                    let end = Int(endText)
+                let startText = (self.mainView.levelRangeView.leftInputBox.textField.text?.isEmpty == false)
+                    ? self.mainView.levelRangeView.leftInputBox.textField.text!
+                    : "1"
+
+                let endText = (self.mainView.levelRangeView.rightInputBox.textField.text?.isEmpty == false)
+                    ? self.mainView.levelRangeView.rightInputBox.textField.text!
+                    : "200"
+                guard let start = Int(startText),
+                      let end = Int(endText)
                 else {
                     return nil
                 }
@@ -101,6 +110,8 @@ extension MonsterFilterBottomSheetViewController {
                 case .dismissWithLevelRange(let start, let end):
                     owner.onFilterSelected?(start, end)
                     owner.dismissCurrentModal()
+                case .clear:
+                    owner.mainView.levelRangeView.slider.reset(lower: 1, upper: 200)
                 default:
                     break
                 }

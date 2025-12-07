@@ -24,6 +24,7 @@ public final class DictionaryListViewController: BaseViewController, View {
     private var selectedSortIndex = 0
     public let itemCountRelay = PublishRelay<Int>()
     private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
+    private var lastPagingTime: Date = .distantPast
 
     // MARK: - Components
     private var mainView: DictionaryListView
@@ -130,13 +131,11 @@ extension DictionaryListViewController {
                 guard let self = self else { return }
                 self.mainView.emptyView.isHidden = !items.isEmpty
                 self.mainView.listCollectionView.isHidden = items.isEmpty
-                // 보여줄 item이 없을 경우, 터치를 막는데 왜 막는건지?
-                // 몬스터나 아이템 탭에서 필터링을 하다가 item이 없을 경우, 필터 버튼도 터치가 안되서 계속 item 없음
-                // self?.mainView.isUserInteractionEnabled = !item.isEmpty
-                let collectionView = self.mainView.listCollectionView
 
-                let currentItems = collectionView.numberOfItems(inSection: 0)
-                if items.count == currentItems {
+                if self.reactor?.currentState.currentPage == 0 || self.reactor?.currentState.isBookmarkUpdateOnly != true {
+                    self.mainView.listCollectionView.reloadData()
+                } else {
+                    let collectionView = self.mainView.listCollectionView
                     for cell in collectionView.visibleCells {
                         if let indexPath = collectionView.indexPath(for: cell),
                            indexPath.item < items.count,
@@ -144,8 +143,6 @@ extension DictionaryListViewController {
                             cell.updateBookmarkState(isBookmarked: items[indexPath.item].bookmarkId != nil)
                         }
                     }
-                } else {
-                    collectionView.reloadData()
                 }
             })
             .disposed(by: disposeBag)
@@ -333,13 +330,17 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let now = Date()
+        guard now.timeIntervalSince(lastPagingTime) > 0.5 else { return }
+
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
 
         if offsetY > contentHeight - height - 100 {
-            reactor?.action.onNext(.setCurrentPage) // 페이지 올리고
-            reactor?.action.onNext(.fetchList) // 해당 페이지로 데이터 불러오기
+            lastPagingTime = now
+            reactor?.action.onNext(.setCurrentPage)
+            reactor?.action.onNext(.fetchList)
         }
     }
 }

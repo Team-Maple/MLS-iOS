@@ -283,3 +283,11 @@ public class FilterSlider: UIControl {
         return super.hitTest(point, with: event)
     }
 }
+
+public extension FilterSlider {
+    func reset(lower: CGFloat, upper: CGFloat) {
+        lowerValueRelay.accept(boundValue(lower, lower: minimumValue, upper: maximumValue))
+        upperValueRelay.accept(boundValue(upper, lower: minimumValue, upper: maximumValue))
+        animateUpdate()
+    }
+}
