@@ -206,7 +206,7 @@ extension MonsterDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case let .detail(type: type, id: id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -218,6 +218,7 @@ extension MonsterDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.monsterDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.monsterDetailInfo.monsterId },
             imageUrl: { $0.imageUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },

@@ -98,6 +98,9 @@ public extension DictionaryListCell {
             self?.onBookmarkTapped?(isSelected)
         }
     }
+    func updateBookmarkState(isBookmarked: Bool) {
+        cellView.setSelected(isSelected: isBookmarked)
+    }
 }
 
 public extension DictionaryItemType {

@@ -175,6 +175,7 @@ extension MapDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.mapDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.mapDetailInfo.mapId ?? 0 },
             imageUrl: { $0.mapUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
@@ -201,7 +202,7 @@ extension MapDictionaryDetailViewController {
                 case .none:
                     break
                 case .detail(let type, let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             }

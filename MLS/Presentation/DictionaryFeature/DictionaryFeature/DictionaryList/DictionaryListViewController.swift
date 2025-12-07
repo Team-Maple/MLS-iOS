@@ -23,6 +23,7 @@ public final class DictionaryListViewController: BaseViewController, View {
 
     private var selectedSortIndex = 0
     public let itemCountRelay = PublishRelay<Int>()
+    private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
 
     // MARK: - Components
     private var mainView: DictionaryListView
@@ -124,15 +125,28 @@ extension DictionaryListViewController {
             .disposed(by: disposeBag)
 
         reactor.state.map(\.listItems)
-            .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] item in
-                self?.mainView.listCollectionView.reloadData()
-                self?.mainView.emptyView.isHidden = !item.isEmpty
-                self?.mainView.listCollectionView.isHidden = item.isEmpty
+            .bind(onNext: { [weak self] items in
+                guard let self = self else { return }
+                self.mainView.emptyView.isHidden = !items.isEmpty
+                self.mainView.listCollectionView.isHidden = items.isEmpty
                 // 보여줄 item이 없을 경우, 터치를 막는데 왜 막는건지?
                 // 몬스터나 아이템 탭에서 필터링을 하다가 item이 없을 경우, 필터 버튼도 터치가 안되서 계속 item 없음
                 // self?.mainView.isUserInteractionEnabled = !item.isEmpty
+                let collectionView = self.mainView.listCollectionView
+
+                let currentItems = collectionView.numberOfItems(inSection: 0)
+                if items.count == currentItems {
+                    for cell in collectionView.visibleCells {
+                        if let indexPath = collectionView.indexPath(for: cell),
+                           indexPath.item < items.count,
+                           let cell = cell as? DictionaryListCell {
+                            cell.updateBookmarkState(isBookmarked: items[indexPath.item].bookmarkId != nil)
+                        }
+                    }
+                } else {
+                    collectionView.reloadData()
+                }
             })
             .disposed(by: disposeBag)
 
@@ -195,6 +209,13 @@ extension DictionaryListViewController {
                 owner.mainView.updateFilter(sortType: type.sortedFilter.first)
             })
             .disposed(by: disposeBag)
+
+        bookmarkChangeRelay
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { [weak self] id, isBookmarked in
+                self?.reactor?.action.onNext(.toggleBookmark(id, isBookmarked))
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -218,7 +239,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                 mainText: item.name,
                 subText: subText,
                 imageUrl: item.imageUrl ?? "",
-                isBookmarked: item.bookmarkId != nil,
+                isBookmarked: item.bookmarkId != nil
             ),
             indexPath: indexPath,
             collectionView: collectionView,
@@ -232,20 +253,17 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         ctaText: "로그인 하기",
                         cancelText: "취소",
                         ctaAction: {
-                            let viewController = self.loginFactory.make(
-                                exitRoute: .pop)
-                            self.navigationController?.pushViewController(
-                                viewController, animated: true
-                            )
+                            let vc = self.loginFactory.make(exitRoute: .pop)
+                            self.navigationController?.pushViewController(vc, animated: true)
                         },
                         cancelAction: nil
                     )
                     return
                 }
 
-                if item.bookmarkId != nil {
-                    self.reactor?.action.onNext(
-                        .toggleBookmark(item.id, isSelected))
+                self.reactor?.action.onNext(.toggleBookmark(item.id, isSelected))
+
+                if isSelected {
                     SnackBarFactory.createSnackBar(
                         type: .delete,
                         imageUrl: item.imageUrl,
@@ -253,13 +271,10 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         text: "아이템을 북마크에서 삭제했어요.",
                         buttonText: "되돌리기",
                         buttonAction: { [weak self] in
-                            self?.reactor?.action.onNext(
-                                .undoLastDeletedBookmark)
+                            self?.reactor?.action.onNext(.undoLastDeletedBookmark)
                         }
                     )
                 } else {
-                    self.reactor?.action.onNext(
-                        .toggleBookmark(item.id, isSelected))
                     SnackBarFactory.createSnackBar(
                         type: .normal,
                         imageUrl: item.imageUrl,
@@ -271,22 +286,20 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                                 guard let self = self,
                                       let id = item.bookmarkId else { return }
 
-                                let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
+                                let vc = self.bookmarkModalFactory.make(bookmarkIds: [id]) { isAdd in
                                     if isAdd {
                                         ToastFactory.createToast(
-                                            message:
-                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
                                         )
                                     }
-                                })
-
-                                viewController.modalPresentationStyle = .pageSheet
-                                if let sheet = viewController.sheetPresentationController {
+                                }
+                                vc.modalPresentationStyle = .pageSheet
+                                if let sheet = vc.sheetPresentationController {
                                     sheet.detents = [.medium(), .large()]
                                     sheet.prefersGrabberVisible = true
                                     sheet.preferredCornerRadius = 16
                                 }
-                                self.present(viewController, animated: true)
+                                self.present(vc, animated: true)
                             }
                         }
                     )
@@ -309,11 +322,11 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         switch reactor.currentState.type {
         case .total:
             guard let type = item.type.toDictionaryType else { return }
-            viewController = detailFactory.make(type: type, id: item.id)
+            viewController = detailFactory.make(type: type, id: item.id, bookmarkRelay: bookmarkChangeRelay)
         default:
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(
-                type: reactor.currentState.type, id: item.id
+                type: reactor.currentState.type, id: item.id, bookmarkRelay: bookmarkChangeRelay
             )
         }
         navigationController?.pushViewController(viewController, animated: true)

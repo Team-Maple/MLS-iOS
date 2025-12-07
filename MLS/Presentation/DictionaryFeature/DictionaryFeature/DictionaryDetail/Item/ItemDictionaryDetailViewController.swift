@@ -222,7 +222,7 @@ extension ItemDictionaryDetailViewController {
                 case .none:
                     break
                 case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
@@ -232,6 +232,7 @@ extension ItemDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.itemDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.itemDetailInfo.itemId ?? 0 },
             imageUrl: { $0.imgUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },

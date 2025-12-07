@@ -16,6 +16,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     private var didSelectInitialTab = false
     var selectedIndex = 0
+    var bookmarkRelay: PublishRelay<(Int, Bool)>?
 
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
     public var contentViews: [UIView] = [] {
@@ -40,13 +41,14 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, appCoordinator: AppCoordinatorProtocol) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, appCoordinator: AppCoordinatorProtocol, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.appCoordinator = appCoordinator
         self.dictionaryDetailFactory = dictionaryDetailFactory
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
+        self.bookmarkRelay = bookmarkRelay
         super.init()
     }
 
@@ -237,11 +239,6 @@ extension DictionaryDetailBaseViewController {
         }
     }
 
-    // 북마크 버튼 클릭 시
-    func updateBookmarkButton(isBookmarked: Bool) {
-        // TODO: 북마크 버튼 누르면 이벤트 발생
-    }
-
     func didSelectMenuTab(index: Int) {
         // 인덱스 유효성 검사
         guard index < contentViews.count else { return }
@@ -257,6 +254,7 @@ extension DictionaryDetailBaseViewController {
         buttonTap: ControlEvent<Void>,
         currentItem: Observable<T>,
         isLogin: @escaping () -> Bool,
+        id: @escaping (T) -> Int,
         imageUrl: @escaping (T) -> String?,
         backgroundColor: UIColor,
         isBookmarked: @escaping (T) -> Bool,
@@ -282,9 +280,12 @@ extension DictionaryDetailBaseViewController {
                     )
                     return
                 }
+                
+                let itemId = id(item)
 
                 if isBookmarked(item) {
                     toggleBookmark(true)
+                    self.bookmarkRelay?.accept((itemId, false))
                     SnackBarFactory.createSnackBar(
                         type: .delete,
                         imageUrl: imageUrl(item),
@@ -295,6 +296,7 @@ extension DictionaryDetailBaseViewController {
                     )
                 } else {
                     toggleBookmark(false)
+                    self.bookmarkRelay?.accept((itemId, true))
                     SnackBarFactory.createSnackBar(
                         type: .normal,
                         imageUrl: imageUrl(item),

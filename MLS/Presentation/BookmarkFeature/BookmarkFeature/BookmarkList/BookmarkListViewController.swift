@@ -7,6 +7,7 @@ import DesignSystem
 import DictionaryFeatureInterface
 
 import ReactorKit
+import RxCocoa
 import RxSwift
 
 public final class BookmarkListViewController: BaseViewController, View {
@@ -178,7 +179,7 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil)
                     owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
                     let viewcontroller = owner.loginFactory.make(exitRoute: .pop)

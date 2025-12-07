@@ -168,6 +168,7 @@ extension QuestDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.detailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.detailInfo.questId ?? 0 },
             imageUrl: { $0.iconUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
@@ -184,7 +185,7 @@ extension QuestDictionaryDetailViewController {
             .subscribe { owner, route in
                 switch route {
                 case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .quest, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: .quest, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

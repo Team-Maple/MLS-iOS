@@ -127,7 +127,7 @@ extension NpcDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case .detail(type: let type, id: let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -167,6 +167,7 @@ extension NpcDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.npcDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.npcDetailInfo.npcId },
             imageUrl: { $0.iconUrlDetail },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
