@@ -15,16 +15,16 @@ public class AddFolderCell: UICollectionViewCell {
     }
 
     // MARK: - Components
-    private lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = Constant.radius
-        button.backgroundColor = .primary100
+    private lazy var addIconView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Constant.radius
+        view.backgroundColor = .primary100
 
-        button.addSubview(iconView)
+        view.addSubview(iconView)
         iconView.snp.makeConstraints { make in
-            make.center.equalTo(button).inset(Constant.iconInset)
+            make.center.equalTo(view).inset(Constant.iconInset)
         }
-        return button
+        return view
     }()
 
     private let iconView: UIImageView = {
@@ -61,19 +61,19 @@ public class AddFolderCell: UICollectionViewCell {
 // MARK: - SetUp
 private extension AddFolderCell {
     func addViews() {
-        contentView.addSubview(addButton)
+        contentView.addSubview(addIconView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(divider)
     }
 
     func setupConstraints() {
-        addButton.snp.makeConstraints { make in
+        addIconView.snp.makeConstraints { make in
             make.leading.verticalEdges.equalToSuperview().inset(Constant.margin)
             make.size.equalTo(Constant.buttonSize)
         }
 
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(addButton.snp.trailing).offset(Constant.margin)
+            make.leading.equalTo(addIconView.snp.trailing).offset(Constant.margin)
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(Constant.margin)
         }
