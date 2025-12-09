@@ -28,7 +28,7 @@ public final class BookmarkListViewController: BaseViewController, View {
 
     // MARK: - Components
     private var mainView: BookmarkListView
-    private var emptyView = BookmarkEmptyView()
+    private var emptyView = DataEmptyView(type: .bookmark)
 
     public init(
         reactor: BookmarkListReactor,
@@ -137,7 +137,8 @@ extension BookmarkListViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, _ in
+            .bind(onNext: { owner, items in
+                owner.mainView.checkEmptyData(isEmpty: items.isEmpty)
                 owner.mainView.listCollectionView.reloadData()
             })
             .disposed(by: disposeBag)
@@ -205,16 +206,6 @@ extension BookmarkListViewController {
             .bind(onNext: { owner, type in
                 owner.mainView.updateBookmarkFilter(type: type)
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
-            })
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .map(\.viewState)
-            .distinctUntilChanged()
-            .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, state in
-                owner.mainView.updateView(state: state)
             })
             .disposed(by: disposeBag)
     }

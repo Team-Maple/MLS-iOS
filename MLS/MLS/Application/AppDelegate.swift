@@ -996,9 +996,10 @@ extension AppDelegate {
         }
         DIContainer.register(type: BookmarkMainFactory.self) {
             BookmarkMainFactoryImpl(
-                setBookmarkUseCase:
-                    DIContainer
+                setBookmarkUseCase: DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
+                checkLoginUseCase: DIContainer
+                    .resolve(type: CheckLoginUseCase.self),
                 onBoardingFactory:
                     DIContainer
                     .resolve(type: BookmarkOnBoardingFactory.self),
@@ -1013,7 +1014,7 @@ extension AppDelegate {
                     .resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer.resolve(
                     type: DictionaryNotificationFactory.self
-                )
+                ), loginFactory: DIContainer.resolve(type: LoginFactory.self)
             )
         }
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {

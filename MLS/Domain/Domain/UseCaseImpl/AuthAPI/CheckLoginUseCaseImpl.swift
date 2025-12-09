@@ -1,10 +1,22 @@
 import DomainInterface
 
+import RxRelay
 import RxSwift
 
-public class CheckLoginUseCaseImpl: CheckLoginUseCase {
+public final class CheckLoginUseCaseImpl: CheckLoginUseCase {
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
+    private let disposeBag = DisposeBag()
+
+    private let loginCheckRelay = PublishRelay<Void>()
+    private lazy var sharedLoginCheck: Observable<Bool> = {
+        loginCheckRelay
+            .flatMapLatest { [weak self] _ -> Observable<Bool> in
+                guard let self else { return .just(false) }
+                return self.executeInternal()
+            }
+            .share(replay: 1, scope: .forever)
+    }()
 
     public init(authRepository: AuthAPIRepository, tokenRepository: TokenRepository) {
         self.authRepository = authRepository
@@ -12,8 +24,18 @@ public class CheckLoginUseCaseImpl: CheckLoginUseCase {
     }
 
     public func execute() -> Observable<Bool> {
+        return Observable.deferred { [weak self] in
+            guard let self else { return .just(false) }
+            self.loginCheckRelay.accept(())
+            return self.sharedLoginCheck
+        }
+    }
+
+    private func executeInternal() -> Observable<Bool> {
         switch tokenRepository.fetchToken(type: .refreshToken) {
         case .success(let token):
+            guard !token.isEmpty else { return .just(false) }
+
             return authRepository.reissueToken(refreshToken: token)
                 .map { [weak self] response in
                     guard let self else { return false }
@@ -35,8 +57,7 @@ public class CheckLoginUseCaseImpl: CheckLoginUseCase {
                     return .just(false)
                 }
 
-        case .failure(let error):
-            print("refreshToken 불러오기 실패:", error.localizedDescription)
+        case .failure:
             return .just(false)
         }
     }

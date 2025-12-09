@@ -194,13 +194,14 @@ extension DictionaryListViewController {
         // 기존 bookmarkChangeRelay 사용 대신
         reactor.state.map(\.listItems)
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] items in
-                guard let self = self else { return }
-                let collectionView = self.mainView.listCollectionView
-                self.mainView.emptyView.isHidden = !items.isEmpty
-                self.mainView.listCollectionView.isHidden = items.isEmpty
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind { owner, items in
+                let collectionView = owner.mainView.listCollectionView
+                owner.mainView.checkEmptyData(isEmpty: items.isEmpty)
 
-                if self.reactor?.currentState.currentPage == 0, !self.reactor!.currentState.isBookmarkUpdateOnly {
+                guard let reactor = owner.reactor else { return }
+                if reactor.currentState.currentPage == 0, !reactor.currentState.isBookmarkUpdateOnly {
                     collectionView.reloadData()
                 } else {
                     let startIndex = collectionView.numberOfItems(inSection: 0)

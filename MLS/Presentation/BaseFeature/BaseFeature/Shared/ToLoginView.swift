@@ -4,7 +4,7 @@ import DesignSystem
 
 import SnapKit
 
-final class BookmarkEmptyView: UIView {
+public final class ToLoginView: UIView {
     // MARK: - Type
     enum Constant {
         static let imageSize: CGFloat = 220
@@ -21,7 +21,7 @@ final class BookmarkEmptyView: UIView {
     public let button = CommonButton()
 
     // MARK: - Init
-    init() {
+    public init() {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
@@ -35,7 +35,7 @@ final class BookmarkEmptyView: UIView {
 }
 
 // MARK: - SetUp
-private extension BookmarkEmptyView {
+private extension ToLoginView {
     func addViews() {
         addSubview(imageView)
         addSubview(mainLabel)
@@ -45,13 +45,13 @@ private extension BookmarkEmptyView {
 
     func setupConstraints() {
         imageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
             make.centerX.equalToSuperview()
             make.size.equalTo(Constant.imageSize)
         }
 
         mainLabel.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom)
+            make.centerY.equalToSuperview()
             make.horizontalEdges.equalToSuperview()
         }
 
@@ -62,29 +62,25 @@ private extension BookmarkEmptyView {
 
         button.snp.makeConstraints { make in
             make.top.equalTo(subLabel.snp.bottom).offset(Constant.buttonSpacing)
-            make.centerX.bottom.equalToSuperview()
+            make.centerX.equalToSuperview()
             make.width.equalTo(Constant.buttonWidth)
         }
     }
 
     func configureUI() {
         backgroundColor = .neutral100
-    }
-}
-
-extension BookmarkEmptyView {
-    func setLabel(isLogin: Bool) {
         imageView.image = DesignSystemAsset.image(named: "noShowList")
         mainLabel.attributedText = .makeStyledString(
             font: .h_xl_b,
-            text: isLogin ? "아직 아무것도 없어요!" : "북마크는 로그인 후 이용 가능해요!"
+            text: "북마크는 로그인 후 이용 가능해요!"
         )
 
         subLabel.attributedText = .makeStyledString(
             font: .cp_s_r,
-            text: isLogin ? "북마크해서 추가해보세요." : "자주 보는 정보, 검색 없이 바로 확인 할 수 있어요."
+            text: "자주 보는 정보, 검색 없이 바로 확인 할 수 있어요.",
+            color: .neutral600
         )
 
-        button.updateTitle(title: isLogin ? "북마크하러 가기" : "로그인하러 가기")
+        button.updateTitle(title: "로그인하러 가기")
     }
 }
