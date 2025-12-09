@@ -978,8 +978,9 @@ extension AppDelegate {
             BookmarkMainFactoryImpl(
                 setBookmarkUseCase: DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
-                fetchProfileUseCase: DIContainer
-                    .resolve(type: FetchProfileUseCase.self),
+//                fetchProfileUseCase: DIContainer
+//                    .resolve(type: FetchProfileUseCase.self),
+                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
                 onBoardingFactory:
                     DIContainer
                     .resolve(type: BookmarkOnBoardingFactory.self),
@@ -1024,8 +1025,8 @@ extension AppDelegate {
                 setBookmarkUseCase: DIContainer.resolve(
                     type: SetBookmarkUseCase.self
                 ),
-                checkLoginUseCase: DIContainer.resolve(
-                    type: CheckLoginUseCase.self
+                fetchProfileUseCase: DIContainer.resolve(
+                    type: FetchProfileUseCase.self
                 ),
                 fetchBookmarkUseCase: DIContainer.resolve(
                     type: FetchBookmarkUseCase.self

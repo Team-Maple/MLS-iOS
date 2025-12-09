@@ -57,19 +57,10 @@ private extension BookmarkMainView {
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalToSuperview()
             }
-        }
-    }
-}
 
-// MARK: - Public Update
-extension BookmarkMainView {
-    public func updateLoginState(isLogin: Bool) {
-        // 기존 서브뷰 제거
-        [tabCollectionView, pageViewController.view, emptyView].forEach { $0.removeFromSuperview() }
-
-        if isLogin {
             addSubview(tabCollectionView)
             addSubview(pageViewController.view)
+            addSubview(emptyView)
 
             tabCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
@@ -82,13 +73,29 @@ extension BookmarkMainView {
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide)
                 make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
             }
-        } else {
-            addSubview(emptyView)
+
             emptyView.snp.makeConstraints { make in
                 make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.equalToSuperview()
                 make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
             }
+
+            tabCollectionView.isHidden = true
+            pageViewController.view.isHidden = true
+            emptyView.isHidden = false
         }
+    }
+}
+
+// MARK: - Public Update
+extension BookmarkMainView {
+    public func updateLoginState(isLogin: Bool) {
+        tabCollectionView.isHidden = !isLogin
+        pageViewController.view.isHidden = !isLogin
+
+        emptyView.isHidden = isLogin
+
+        tabCollectionView.isUserInteractionEnabled = isLogin
+        pageViewController.view.isUserInteractionEnabled = isLogin
     }
 }

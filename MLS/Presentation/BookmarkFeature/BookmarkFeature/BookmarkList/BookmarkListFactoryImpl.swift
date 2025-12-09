@@ -14,7 +14,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let collectionEditFactory: CollectionEditFactory
 
     private let setBookmarkUseCase: SetBookmarkUseCase
-    private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchProfileUseCase: FetchProfileUseCase
     private let fetchBookmarkUseCase: FetchBookmarkUseCase
     private let fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase
     private let fetchItemBookmarkUseCase: FetchItemBookmarkUseCase
@@ -32,7 +32,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         dictionaryDetailFactory: DictionaryDetailFactory,
         collectionEditFactory: CollectionEditFactory,
         setBookmarkUseCase: SetBookmarkUseCase,
-        checkLoginUseCase: CheckLoginUseCase,
+        fetchProfileUseCase: FetchProfileUseCase,
         fetchBookmarkUseCase: FetchBookmarkUseCase,
         fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase,
         fetchItemBookmarkUseCase: FetchItemBookmarkUseCase,
@@ -49,7 +49,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
         self.dictionaryDetailFactory = dictionaryDetailFactory
         self.collectionEditFactory = collectionEditFactory
         self.setBookmarkUseCase = setBookmarkUseCase
-        self.checkLoginUseCase = checkLoginUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
         self.fetchBookmarkUseCase = fetchBookmarkUseCase
         self.fetchNPCBookmarkUseCase = fetchNPCBookmarkUseCase
         self.fetchMonsterBookmarkUseCase = fetchMonsterBookmarkUseCase
@@ -62,7 +62,7 @@ public final class BookmarkListFactoryImpl: BookmarkListFactory {
     public func make(type: DictionaryType, listType: DictionaryMainViewType) -> BaseViewController {
         let reactor = BookmarkListReactor(
             type: type,
-            checkLoginUseCase: checkLoginUseCase,
+            fetchProfileUseCase: fetchProfileUseCase,
             setBookmarkUseCase: setBookmarkUseCase,
             fetchBookmarkUseCase: fetchBookmarkUseCase,
             fetchMonsterBookmarkUseCase: fetchMonsterBookmarkUseCase,

@@ -35,23 +35,27 @@ public final class BookmarkMainReactor: Reactor {
 
     // MARK: - Properties
     private let setBookmarkUseCase: SetBookmarkUseCase
-    private let fetchProfileUseCase: FetchProfileUseCase
+//    private let fetchProfileUseCase: FetchProfileUseCase
+    private let checkLoginUseCase: CheckLoginUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(setBookmarkUseCase: SetBookmarkUseCase, fetchProfileUseCase: FetchProfileUseCase) {
+    public init(setBookmarkUseCase: SetBookmarkUseCase, checkLoginUseCase: CheckLoginUseCase /*fetchProfileUseCase: FetchProfileUseCase*/) {
         self.initialState = State(route: .none)
         self.setBookmarkUseCase = setBookmarkUseCase
-        self.fetchProfileUseCase = fetchProfileUseCase
+//        self.fetchProfileUseCase = fetchProfileUseCase
+        self.checkLoginUseCase = checkLoginUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchProfileUseCase.execute()
-                .map { .setLogin($0 != nil) }
+//            return fetchProfileUseCase.execute()
+//                .map { .setLogin($0 != nil) }
+            return checkLoginUseCase.execute()
+                .map { .setLogin($0) }
         case .searchButtonTapped:
             return Observable.just(.navigateTo(.search))
         case .notificationButtonTapped:

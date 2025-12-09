@@ -107,4 +107,23 @@ public enum DictionaryType: String, CaseIterable {
             return nil
         }
     }
+
+    public var tabIndex: Int {
+        switch self {
+        case .total:
+            0
+        case .collection:
+            0
+        case .item:
+            1
+        case .monster:
+            2
+        case .map:
+            3
+        case .npc:
+            4
+        case .quest:
+            5
+        }
+    }
 }

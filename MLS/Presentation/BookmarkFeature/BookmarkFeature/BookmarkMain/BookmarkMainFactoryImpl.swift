@@ -6,7 +6,8 @@ import DomainInterface
 
 public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
     private let setBookmarkUseCase: SetBookmarkUseCase
-    private let fetchProfileUseCase: FetchProfileUseCase
+//    private let fetchProfileUseCase: FetchProfileUseCase
+    private let checkLoginUseCase: CheckLoginUseCase
 
     private let onBoardingFactory: BookmarkOnBoardingFactory
     private let bookmarkListFactory: BookmarkListFactory
@@ -17,7 +18,8 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
 
     public init(
         setBookmarkUseCase: SetBookmarkUseCase,
-        fetchProfileUseCase: FetchProfileUseCase,
+//        fetchProfileUseCase: FetchProfileUseCase,
+        checkLoginUseCase: CheckLoginUseCase,
         onBoardingFactory: BookmarkOnBoardingFactory,
         bookmarkListFactory: BookmarkListFactory,
         collectionListFactory: CollectionListFactory,
@@ -26,7 +28,8 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
         loginFactory: LoginFactory
     ) {
         self.setBookmarkUseCase = setBookmarkUseCase
-        self.fetchProfileUseCase = fetchProfileUseCase
+//        self.fetchProfileUseCase = fetchProfileUseCase
+        self.checkLoginUseCase = checkLoginUseCase
         self.onBoardingFactory = onBoardingFactory
         self.bookmarkListFactory = bookmarkListFactory
         self.collectionListFactory = collectionListFactory
@@ -37,7 +40,7 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
 
     public func make() -> BaseViewController {
         let reactor = BookmarkMainReactor(
-            setBookmarkUseCase: setBookmarkUseCase, fetchProfileUseCase: fetchProfileUseCase
+            setBookmarkUseCase: setBookmarkUseCase, /*fetchProfileUseCase: fetchProfileUseCase*/checkLoginUseCase: checkLoginUseCase
         )
         let viewController = BookmarkMainViewController(
             onBoardingFactory: onBoardingFactory,

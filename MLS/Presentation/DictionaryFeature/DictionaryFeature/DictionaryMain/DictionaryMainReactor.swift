@@ -15,11 +15,13 @@ public final class DictionaryMainReactor: Reactor {
         case viewWillAppear
         case searchButtonTapped
         case notificationButtonTapped
+        case changeTab(Int)
     }
 
     public enum Mutation {
         case navigateTo(Route)
         case setLogin(Bool)
+        case setCurrentTab(Int)
     }
 
     public struct State {
@@ -29,6 +31,7 @@ public final class DictionaryMainReactor: Reactor {
             return type.pageTabList.map { $0.title }
         }
         var isLogin = false
+        var currentPageIndex = 0
     }
 
     // MARK: - properties
@@ -53,6 +56,8 @@ public final class DictionaryMainReactor: Reactor {
             return .just(.navigateTo(.search))
         case .notificationButtonTapped:
             return .just(.navigateTo(currentState.isLogin ? .notification : .login))
+        case let .changeTab(index):
+            return .just(.setCurrentTab(index))
         }
     }
 
@@ -64,6 +69,8 @@ public final class DictionaryMainReactor: Reactor {
             newState.route = route
         case let .setLogin(isLogin):
             newState.isLogin = isLogin
+        case let .setCurrentTab(index):
+            newState.currentPageIndex = index
         }
 
         return newState

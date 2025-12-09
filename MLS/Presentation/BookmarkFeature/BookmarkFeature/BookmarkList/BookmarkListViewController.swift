@@ -189,6 +189,7 @@ extension BookmarkListViewController {
                 case .dictionary:
                     if let tabBarController = owner.tabBarController as? BottomTabBarController {
                         tabBarController.selectTab(index: 0)
+                        DictionaryTabRegistry.changeTab(index: reactor.currentState.type.tabIndex)
                     }
                 case .edit:
                     let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.items)

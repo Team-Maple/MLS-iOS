@@ -75,7 +75,7 @@ public final class BookmarkListReactor: Reactor {
     public var initialState: State
 
     // MARK: - UseCases
-    private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchProfileUseCase: FetchProfileUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
 
     private let fetchTotalBookmarkUseCase: FetchBookmarkUseCase
@@ -91,7 +91,7 @@ public final class BookmarkListReactor: Reactor {
     // MARK: - Init
     public init(
         type: DictionaryType,
-        checkLoginUseCase: CheckLoginUseCase,
+        fetchProfileUseCase: FetchProfileUseCase,
         setBookmarkUseCase: SetBookmarkUseCase,
         fetchBookmarkUseCase: FetchBookmarkUseCase,
         fetchMonsterBookmarkUseCase: FetchMonsterBookmarkUseCase,
@@ -102,7 +102,7 @@ public final class BookmarkListReactor: Reactor {
         parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     ) {
         self.initialState = State(route: .none, type: type, isLogin: false)
-        self.checkLoginUseCase = checkLoginUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchTotalBookmarkUseCase = fetchBookmarkUseCase
         self.fetchMonsterBookmarkUseCase = fetchMonsterBookmarkUseCase
@@ -117,10 +117,10 @@ public final class BookmarkListReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return checkLoginUseCase.execute()
-                .flatMap { [weak self] isLoggedIn -> Observable<Mutation> in
+            return fetchProfileUseCase.execute()
+                .flatMap { [weak self] profile -> Observable<Mutation> in
                     guard let self = self else { return .empty() }
-                    if !isLoggedIn {
+                    if profile == nil {
                         return .just(.setLoginState(false))
                     } else {
                         return Observable.concat([
