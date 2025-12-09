@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
 import DictionaryFeatureInterface
@@ -20,6 +21,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
 
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory
+    private let loginFactory: LoginFactory
 
     private var viewControllers: [UIViewController]
 
@@ -31,6 +33,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
         dictionaryMainListFactory: DictionaryMainListFactory,
         searchFactory: DictionarySearchFactory,
         notificationFactory: DictionaryNotificationFactory,
+        loginFactory: LoginFactory,
         reactor: DictionaryMainReactor
     ) {
         let type = reactor.currentState.type
@@ -38,6 +41,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
         self.viewControllers = type.pageTabList.map { dictionaryMainListFactory.make(type: $0, listType: type, keyword: "") }
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
+        self.loginFactory = loginFactory
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -120,6 +124,11 @@ public extension DictionaryMainViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { .viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.headerView.firstIconButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)
@@ -134,9 +143,9 @@ public extension DictionaryMainViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
-            .withUnretained(self)
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .observe(on: MainScheduler.instance)
+            .withUnretained(self)
             .subscribe { (owner, route) in
                 switch route {
                 case .search:
@@ -144,6 +153,9 @@ public extension DictionaryMainViewController {
                     owner.navigationController?.pushViewController(controller, animated: true)
                 case .notification:
                     let controller = owner.notificationFactory.make()
+                    owner.navigationController?.pushViewController(controller, animated: true)
+                case .login:
+                    let controller = owner.loginFactory.make(exitRoute: .pop, onLoginCompleted: nil)
                     owner.navigationController?.pushViewController(controller, animated: true)
                 default:
                     break

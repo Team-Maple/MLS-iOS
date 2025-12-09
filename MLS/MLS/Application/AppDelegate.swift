@@ -32,14 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK: - UserNotification Set
         FirebaseApp.configure()  // Firebase Set
         Messaging.messaging().delegate = self  // 파이어베이스 Meesaging 설정
-
         UNUserNotificationCenter.current().delegate = self  // NotificationCenter Delegate
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]  // 필요한 알림 권한을 설정
-        UNUserNotificationCenter.current().requestAuthorization(
-            options: authOptions,
-            completionHandler: { _, _ in }
-        )
-        application.registerForRemoteNotifications()  // UNUserNotificationCenterDelegate를 구현한 메서드를 실행시킴
 
         // MARK: - Modules Set
         ImageLoader.shared.configure.diskCacheCountLimit = 10  // ImageLoader
@@ -883,31 +876,18 @@ extension AppDelegate {
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             DictionaryNotificationFactoryImpl(
-                notificationSettingFactory: DIContainer.resolve(
-                    type: NotificationSettingFactory.self
-                ),
-                fetchAllAlarmUseCase: DIContainer.resolve(
-                    type: FetchAllAlarmUseCase.self
-                ),
-                fetchProfileUseCase: DIContainer.resolve(
-                    type: FetchProfileUseCase.self
-                )
+                notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self),
+                fetchAllAlarmUseCase: DIContainer.resolve(type: FetchAllAlarmUseCase.self),
+                fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
             )
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             DictionaryMainViewFactoryImpl(
-                dictionaryMainListFactory:
-                    DIContainer
-                    .resolve(type: DictionaryMainListFactory.self),
-                searchFactory: DIContainer.resolve(
-                    type: DictionarySearchFactory.self
-                ),
-                notificationFactory:
-                    DIContainer
-                    .resolve(type: DictionaryNotificationFactory.self),
-                checkLoginUseCase: DIContainer.resolve(
-                    type: CheckLoginUseCase.self
-                )
+                dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self),
+                searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
+                notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self),
+                loginFactory: DIContainer.resolve(type: LoginFactory.self),
+                fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
             )
         }
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
@@ -998,8 +978,8 @@ extension AppDelegate {
             BookmarkMainFactoryImpl(
                 setBookmarkUseCase: DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
-                checkLoginUseCase: DIContainer
-                    .resolve(type: CheckLoginUseCase.self),
+                fetchProfileUseCase: DIContainer
+                    .resolve(type: FetchProfileUseCase.self),
                 onBoardingFactory:
                     DIContainer
                     .resolve(type: BookmarkOnBoardingFactory.self),

@@ -61,7 +61,15 @@ extension OnBoardingNotificationSheetViewController {
     func bindUserActions(reactor: Reactor) {
         rx.viewWillAppear
             .take(1)
+            .do(onNext: { [weak self] _ in
+                self?.checkNotificationAuthorization()
+            })
             .map { _ in Reactor.Action.viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
+            .map { _ in Reactor.Action.appWillEnterForeground }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -123,5 +131,27 @@ extension OnBoardingNotificationSheetViewController {
                 }
             }
             .disposed(by: disposeBag)
+    }
+}
+
+// MARK: - Notification Authorization
+private extension OnBoardingNotificationSheetViewController {
+    func checkNotificationAuthorization() {
+        guard let reactor = reactor else { return }
+
+        NotificationPermissionManager.shared.getStatus { status in
+            switch status {
+            case .authorized, .provisional:
+                reactor.action.onNext(.updateAuthorization(true))
+            case .denied:
+                reactor.action.onNext(.updateAuthorization(false))
+            case .notDetermined:
+                NotificationPermissionManager.shared.requestIfNeeded { granted in
+                    reactor.action.onNext(.updateAuthorization(granted))
+                }
+            default:
+                reactor.action.onNext(.updateAuthorization(false))
+            }
+        }
     }
 }

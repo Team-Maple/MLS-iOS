@@ -20,12 +20,15 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
         case cancelButtonTapped
         case applyButtonTapped
         case skipButtonTapped
+        case updateAuthorization(Bool)
+        case appWillEnterForeground
     }
 
     public enum Mutation {
         case navigateTo(route: Route)
         case setLocalNotification(Bool)
         case setRemoteNotification(Bool)
+        case setAuthorized(Bool)
     }
 
     public struct State {
@@ -64,7 +67,7 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewWillAppear:
+        case .viewWillAppear, .appWillEnterForeground:
             return checkNotificationPermissionUseCase.execute()
                 .asObservable()
                 .map { .setLocalNotification($0) }
@@ -86,6 +89,8 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
             return .just(.navigateTo(route: .dismiss))
         case .skipButtonTapped:
             return .just(.navigateTo(route: .home))
+        case .updateAuthorization(let authorized):
+            return .just(.setAuthorized(authorized))
         }
     }
 
@@ -99,6 +104,8 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
             newState.isAgreeLocalNotification = isAgree
         case .setRemoteNotification(let isAgree):
             newState.isAgreeRemoteNotification = isAgree
+        case let .setAuthorized(isAuthorized):
+            newState.isAgreeLocalNotification = isAuthorized
         }
 
         return newState

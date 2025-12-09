@@ -107,7 +107,7 @@ public extension DictionaryNotificationViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .setting:
-                    guard let reactor = owner.reactor,
+                    guard let reactor = owner.reactor ,
                           let profile = reactor.currentState.profile else { return }
                     let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -124,7 +124,8 @@ public extension DictionaryNotificationViewController {
             .subscribe { owner, _ in
                 owner.mainView.notificationCollectionView.reloadData()
             }
-            .disposed(by: disposeBag)    }
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Delegate

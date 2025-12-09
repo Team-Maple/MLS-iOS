@@ -17,6 +17,7 @@ public final class NotificationSettingReactor: Reactor {
         case noticeViewSwitch(Bool)
         case patchNoteViewSwitch(Bool)
         case pushGuideViewTapped
+        case updateAuthorization(Bool)
     }
 
     public enum Mutation {
@@ -44,9 +45,7 @@ public final class NotificationSettingReactor: Reactor {
     init(checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
          isAgreeEventNotification: Bool,
          isAgreeNoticeNotification: Bool,
-         isAgreePatchNoteNotification: Bool
-
-    ) {
+         isAgreePatchNoteNotification: Bool) {
         self.initialState = .init(isAgreeEventNotification: isAgreeEventNotification, isAgreeNoticeNotification: isAgreeNoticeNotification, isAgreePatchNoteNotification: isAgreePatchNoteNotification)
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
         self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
@@ -71,6 +70,8 @@ public final class NotificationSettingReactor: Reactor {
                 .andThen(.just(.setPatchNoteNotification(isAgree)))
         case .pushGuideViewTapped:
             return .just(.toNavigate(.setting))
+        case .updateAuthorization(let authorized):
+            return .just(.setAuthorized(authorized))
         }
     }
 
