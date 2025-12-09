@@ -280,7 +280,7 @@ extension DictionaryDetailBaseViewController {
                     )
                     return
                 }
-                
+
                 let itemId = id(item)
 
                 if isBookmarked(item) {

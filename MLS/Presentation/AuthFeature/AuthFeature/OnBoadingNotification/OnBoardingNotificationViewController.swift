@@ -76,7 +76,7 @@ public extension OnBoardingNotificationViewController {
             .map { Reactor.Action.nextButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.headerView.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)

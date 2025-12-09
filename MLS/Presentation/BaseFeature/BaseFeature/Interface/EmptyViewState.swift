@@ -1,5 +1,5 @@
 //
-//public enum ViewType: Equatable {
+// public enum ViewType: Equatable {
 //    case dictionary(ViewState)
 //    case bookmark(ViewState)
 //    
@@ -54,4 +54,4 @@
 //            return nil
 //        }
 //    }
-//}
+// }
