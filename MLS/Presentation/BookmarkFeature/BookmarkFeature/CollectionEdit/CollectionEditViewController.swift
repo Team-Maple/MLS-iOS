@@ -163,7 +163,7 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
         }
 
         cell.inject(
-            type: .bookmark,
+            type: .checkbox,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.name,
