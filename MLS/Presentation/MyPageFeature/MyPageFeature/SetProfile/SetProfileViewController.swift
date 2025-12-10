@@ -136,15 +136,24 @@ extension SetProfileViewController {
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, profile in
-                owner.mainView.setName(name: profile.nickname)
                 owner.mainView.setImage(imageUrl: profile.profileUrl)
                 owner.mainView.setPlatform(platform: profile.platform)
+            })
+            .disposed(by: disposeBag)
+        
+        reactor.state
+            .compactMap(\.nickName)
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, nickname in
+                owner.mainView.setName(name: nickname)
             })
             .disposed(by: disposeBag)
 
         reactor.state
             .filter(\.isEditingNickName)
-            .compactMap(\.profile?.nickname)
+            .compactMap(\.nickName)
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)

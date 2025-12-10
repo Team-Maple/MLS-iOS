@@ -46,6 +46,7 @@ public final class SetProfileReactor: Reactor {
         var isShowError = false
         var isEditingNickName = false
         var profile: MyPageResponse?
+        var nickName = ""
     }
 
     // MARK: - Properties
@@ -74,7 +75,7 @@ public final class SetProfileReactor: Reactor {
         case .inputNickName(let nickName):
             return checkNickNameUseCase.execute(nickName: nickName)
                 .map { isValid in
-                    [.setNickName(nickName), .showError(isValid)]
+                    [.setNickName(nickName), .showError(!isValid)]
                 }
                 .flatMap { Observable.from($0) }
         case .beginEditingNickName:
@@ -89,14 +90,17 @@ public final class SetProfileReactor: Reactor {
         case .editButtonTapped:
             switch currentState.setProfileState {
             case .edit:
-                guard let profile = currentState.profile else { return .empty() }
-                return updateNickNameUseCase.execute(nickName: profile.nickname)
-                    .flatMap { profile in
-                        Observable.concat([
-                            .just(.setProfile(profile)),
-                            .just(.completeEditting)
-                        ])
-                    }
+                if currentState.isShowError {
+                    return .empty()
+                } else {
+                    return updateNickNameUseCase.execute(nickName: currentState.nickName)
+                        .flatMap { profile in
+                            Observable.concat([
+                                .just(.setProfile(profile)),
+                                .just(.completeEditting)
+                            ])
+                        }
+                }
             case .normal:
                 return .just(.beginEditting)
             }
@@ -135,8 +139,9 @@ public final class SetProfileReactor: Reactor {
             newState.route = .dismissWithUpdate
         case .setProfile(let profile):
             newState.profile = profile
-        case .setNickName(let nickName):
-            newState.profile?.nickname = nickName
+            newState.nickName = profile?.nickname ?? ""
+        case .setNickName(let nickname):
+            newState.nickName = nickname
         }
 
         return newState
