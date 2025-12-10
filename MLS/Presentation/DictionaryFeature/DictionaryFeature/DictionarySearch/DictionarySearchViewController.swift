@@ -63,6 +63,7 @@ private extension DictionarySearchViewController {
         mainView.searchCollectionView.collectionViewLayout = createLayout()
         mainView.searchCollectionView.delegate = self
         mainView.searchCollectionView.dataSource = self
+        mainView.searchCollectionView.register(EmptyRecentCell.self, forCellWithReuseIdentifier: EmptyRecentCell.identifier)
         mainView.searchCollectionView.register(TagChipCell.self, forCellWithReuseIdentifier: TagChipCell.identifier)
         mainView.searchCollectionView.register(PopularResultCell.self, forCellWithReuseIdentifier: PopularResultCell.identifier)
         mainView.searchCollectionView.register(
@@ -81,9 +82,7 @@ private extension DictionarySearchViewController {
         let layoutFactory = LayoutFactory()
 
         let layout = UICollectionViewCompositionalLayout { [weak self] sectionIndex, _ in
-            guard let self = self,
-                  let reactor = self.reactor
-            else {
+            guard self != nil else {
                 return NSCollectionLayoutSection(
                     group: NSCollectionLayoutGroup.vertical(
                         layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(1)),
@@ -92,24 +91,15 @@ private extension DictionarySearchViewController {
                 )
             }
 
-            if reactor.currentState.hasRecent {
-                switch sectionIndex {
-                case 0:
-                    return layoutFactory.getTagChipLayout().build()
-                case 1:
-                    return layoutFactory.getDecorationSection().build()
-                case 2:
-                    return layoutFactory.getPopularResultLayout(hasRecent: true).build()
-                default:
-                    return nil
-                }
-            } else {
-                switch sectionIndex {
-                case 0:
-                    return layoutFactory.getPopularResultLayout(hasRecent: false).build()
-                default:
-                    return nil
-                }
+            switch sectionIndex {
+            case 0:
+                return layoutFactory.getTagChipLayout().build()
+            case 1:
+                return layoutFactory.getDecorationSection().build()
+            case 2:
+                return layoutFactory.getPopularResultLayout().build()
+            default:
+                return nil
             }
         }
 
@@ -157,7 +147,6 @@ extension DictionarySearchViewController {
 
     func bindViewState(reactor: Reactor) {
         reactor.state.map { $0.recentResult }
-            .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, _ in
@@ -192,28 +181,20 @@ extension DictionarySearchViewController {
 // MARK: - Delegate
 extension DictionarySearchViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return reactor?.currentState.hasRecent == true ? 3 : 1
+        return 3
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let reactor = reactor else { return 0 }
 
-        if reactor.currentState.hasRecent {
-            switch section {
-            case 0:
-                return reactor.currentState.recentResult.count
-            case 2:
-                return true ? 0 : reactor.currentState.popularResult.count // TODO: 인기검색어는 추후에
-            default:
-                return 0
-            }
-        } else {
-            switch section {
-            case 0:
-                return true ? 0 : reactor.currentState.popularResult.count // TODO: 인기검색어는 추후에
-            default:
-                return 0
-            }
+        switch section {
+        case 0:
+            let recentResult = reactor.currentState.recentResult
+            return recentResult.count == 0 ? 1 : recentResult.count
+        case 2:
+            return true ? 0 : reactor.currentState.popularResult.count // TODO: 인기검색어는 추후에
+        default:
+            return 0
         }
     }
 
@@ -222,10 +203,13 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
 
         let section = indexPath.section
 
-        if reactor.currentState.hasRecent {
-            switch section {
-            case 0:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as! TagChipCell
+        switch section {
+        case 0:
+            if reactor.currentState.recentResult.isEmpty {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmptyRecentCell.identifier, for: indexPath) as? EmptyRecentCell else { return UICollectionViewCell() }
+                return cell
+            } else {
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TagChipCell.identifier, for: indexPath) as? TagChipCell else { return UICollectionViewCell() }
                 let item = reactor.currentState.recentResult[indexPath.row]
                 cell.inject(title: item, style: .search)
 
@@ -240,27 +224,15 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
                     .disposed(by: cell.disposeBag)
 
                 return cell
-
-            case 2:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
-                let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item.name, rank: item.rank))
-                return cell
-
-            default:
-                return UICollectionViewCell()
             }
-        } else {
-            switch section {
-            case 0:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
-                let item = reactor.currentState.popularResult[indexPath.item]
-                cell.inject(input: .init(text: item.name, rank: item.rank))
-                return cell
+        case 2:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PopularResultCell.identifier, for: indexPath) as! PopularResultCell
+            let item = reactor.currentState.popularResult[indexPath.item]
+            cell.inject(input: .init(text: item.name, rank: item.rank))
+            return cell
 
-            default:
-                return UICollectionViewCell()
-            }
+        default:
+            return UICollectionViewCell()
         }
     }
 
@@ -269,10 +241,8 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
         viewForSupplementaryElementOfKind kind: String,
         at indexPath: IndexPath
     ) -> UICollectionReusableView {
-        guard let reactor = reactor else { return UICollectionReusableView() }
-
         switch indexPath.section {
-        case 0 where reactor.currentState.hasRecent:
+        case 0:
             let view = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: RecentSearchHeaderView.identifier,
@@ -280,16 +250,14 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             ) as! RecentSearchHeaderView
             return view
 
-        case reactor.currentState.hasRecent ? 2 : 0:
+        case 2:
             let view = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: PopularSearchHeaderView.identifier,
                 for: indexPath
             ) as! PopularSearchHeaderView
             // TODO: 인기검색어 추후에
-            // view.inject(mainText: "인기 검색어", subText: "업데이트 일자", hasRecent: reactor.currentState.hasRecent)
             return view
-
         default:
             return UICollectionReusableView()
         }
