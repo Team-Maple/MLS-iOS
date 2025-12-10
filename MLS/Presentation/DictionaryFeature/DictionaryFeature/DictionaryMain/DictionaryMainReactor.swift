@@ -21,7 +21,7 @@ public final class DictionaryMainReactor: Reactor {
     public enum Mutation {
         case navigateTo(Route)
         case setLogin(Bool)
-        case setCurrentTab(Int)
+        case setCurrentTab(oldIndex: Int, newIndex: Int)
     }
 
     public struct State {
@@ -32,6 +32,7 @@ public final class DictionaryMainReactor: Reactor {
         }
         var isLogin = false
         var currentPageIndex = 0
+        var oldPageIndex = 0
     }
 
     // MARK: - properties
@@ -57,7 +58,8 @@ public final class DictionaryMainReactor: Reactor {
         case .notificationButtonTapped:
             return .just(.navigateTo(currentState.isLogin ? .notification : .login))
         case let .changeTab(index):
-            return .just(.setCurrentTab(index))
+            let oldIndex = currentState.currentPageIndex
+            return .just(.setCurrentTab(oldIndex: oldIndex, newIndex: index))
         }
     }
 
@@ -69,8 +71,9 @@ public final class DictionaryMainReactor: Reactor {
             newState.route = route
         case let .setLogin(isLogin):
             newState.isLogin = isLogin
-        case let .setCurrentTab(index):
-            newState.currentPageIndex = index
+        case let .setCurrentTab(oldIndex, newIndex):
+            newState.oldPageIndex = oldIndex
+            newState.currentPageIndex = newIndex
         }
 
         return newState

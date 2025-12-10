@@ -116,22 +116,19 @@ private extension DictionaryMainViewController {
         }
     }
 
-    func moveToTab(index: Int) {
-        guard index < viewControllers.count,
-              let reactor = reactor else { return }
-
-        let oldIndex = reactor.currentState.currentPageIndex
-        let direction: UIPageViewController.NavigationDirection = index > oldIndex ? .forward : .reverse
+    func moveToTab(oldIndex: Int, newIndex: Int) {
+        guard newIndex < viewControllers.count else { return }
+        let direction: UIPageViewController.NavigationDirection = newIndex > oldIndex ? .forward : .reverse
 
         mainView.pageViewController.setViewControllers(
-            [viewControllers[index]],
+            [viewControllers[newIndex]],
             direction: direction,
             animated: true,
             completion: nil
         )
 
         mainView.tabCollectionView.selectItem(
-            at: IndexPath(item: index, section: 0),
+            at: IndexPath(item: newIndex, section: 0),
             animated: true,
             scrollPosition: .centeredHorizontally
         )
@@ -193,7 +190,8 @@ public extension DictionaryMainViewController {
             .skip(1)
             .withUnretained(self)
             .subscribe(onNext: { owner, newIndex in
-                owner.moveToTab(index: newIndex)
+                let oldIndex = reactor.currentState.oldPageIndex
+                owner.moveToTab(oldIndex: oldIndex, newIndex: newIndex)
             })
             .disposed(by: disposeBag)
     }
