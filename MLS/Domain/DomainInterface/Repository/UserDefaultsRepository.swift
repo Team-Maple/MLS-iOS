@@ -7,4 +7,7 @@ public protocol UserDefaultsRepository {
 
     func fetchPlatform() -> Observable<LoginPlatform?>
     func savePlatform(platform: LoginPlatform) -> Completable
+    
+    func fetchBookmark() -> Observable<Bool>
+    func saveBookmark() -> Completable
 }

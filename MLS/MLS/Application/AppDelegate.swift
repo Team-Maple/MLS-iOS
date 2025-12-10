@@ -636,9 +636,6 @@ extension AppDelegate {
                 )
             )
         }
-        //        DIContainer.register(type: AddCollectionsToBookmarkUseCase.self) {
-        //            AddCollectionsToBookmarkUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
-        //        }
         DIContainer.register(type: SetCollectionUseCase.self) {
             SetCollectionUseCaseImpl(
                 repository: DIContainer.resolve(
@@ -653,15 +650,15 @@ extension AppDelegate {
                 )
             )
         }
-        //        DIContainer.register(type: AddBookmarksToCollectionUseCase.self) {
-        //            AddBookmarksToCollectionUseCaseImpl(repository: DIContainer.resolve(type: CollectionAPIRepository.self))
-        //        }
         DIContainer.register(type: AddCollectionAndBookmarkUseCase.self) {
             AddCollectionAndBookmarkUseCaseImpl(
                 repository: DIContainer.resolve(
                     type: CollectionAPIRepository.self
                 )
             )
+        }
+        DIContainer.register(type: FetchVisitBookmarkUseCase.self) {
+            FetchVisitBookmarkUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
         }
     }
 
@@ -978,9 +975,10 @@ extension AppDelegate {
             BookmarkMainFactoryImpl(
                 setBookmarkUseCase: DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
-//                fetchProfileUseCase: DIContainer
-//                    .resolve(type: FetchProfileUseCase.self),
-                checkLoginUseCase: DIContainer.resolve(type: CheckLoginUseCase.self),
+                checkLoginUseCase: DIContainer
+                    .resolve(type: CheckLoginUseCase.self),
+                fetchVisitBookmarkUseCase: DIContainer
+                    .resolve(type: FetchVisitBookmarkUseCase.self),
                 onBoardingFactory:
                     DIContainer
                     .resolve(type: BookmarkOnBoardingFactory.self),

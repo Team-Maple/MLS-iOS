@@ -6,8 +6,8 @@ import DomainInterface
 
 public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
     private let setBookmarkUseCase: SetBookmarkUseCase
-//    private let fetchProfileUseCase: FetchProfileUseCase
     private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase
 
     private let onBoardingFactory: BookmarkOnBoardingFactory
     private let bookmarkListFactory: BookmarkListFactory
@@ -18,8 +18,8 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
 
     public init(
         setBookmarkUseCase: SetBookmarkUseCase,
-//        fetchProfileUseCase: FetchProfileUseCase,
         checkLoginUseCase: CheckLoginUseCase,
+        fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase,
         onBoardingFactory: BookmarkOnBoardingFactory,
         bookmarkListFactory: BookmarkListFactory,
         collectionListFactory: CollectionListFactory,
@@ -28,8 +28,8 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
         loginFactory: LoginFactory
     ) {
         self.setBookmarkUseCase = setBookmarkUseCase
-//        self.fetchProfileUseCase = fetchProfileUseCase
         self.checkLoginUseCase = checkLoginUseCase
+        self.fetchVisitBookmarkUseCase = fetchVisitBookmarkUseCase
         self.onBoardingFactory = onBoardingFactory
         self.bookmarkListFactory = bookmarkListFactory
         self.collectionListFactory = collectionListFactory
@@ -40,7 +40,7 @@ public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
 
     public func make() -> BaseViewController {
         let reactor = BookmarkMainReactor(
-            setBookmarkUseCase: setBookmarkUseCase, /*fetchProfileUseCase: fetchProfileUseCase*/checkLoginUseCase: checkLoginUseCase
+            setBookmarkUseCase: setBookmarkUseCase, checkLoginUseCase: checkLoginUseCase, fetchVisitBookmarkUseCase: fetchVisitBookmarkUseCase
         )
         let viewController = BookmarkMainViewController(
             onBoardingFactory: onBoardingFactory,

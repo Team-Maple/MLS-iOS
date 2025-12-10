@@ -30,32 +30,40 @@ public final class BookmarkMainReactor: Reactor {
         var sections: [String] {
             return type.pageTabList.map { $0.title }
         }
+
         var isLogin = false
     }
 
     // MARK: - Properties
     private let setBookmarkUseCase: SetBookmarkUseCase
-//    private let fetchProfileUseCase: FetchProfileUseCase
     private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase
 
     public var initialState: State
 
     private let disposeBag = DisposeBag()
 
-    public init(setBookmarkUseCase: SetBookmarkUseCase, checkLoginUseCase: CheckLoginUseCase /*fetchProfileUseCase: FetchProfileUseCase*/) {
+    public init(setBookmarkUseCase: SetBookmarkUseCase, checkLoginUseCase: CheckLoginUseCase, fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase) {
         self.initialState = State(route: .none)
         self.setBookmarkUseCase = setBookmarkUseCase
-//        self.fetchProfileUseCase = fetchProfileUseCase
         self.checkLoginUseCase = checkLoginUseCase
+        self.fetchVisitBookmarkUseCase = fetchVisitBookmarkUseCase
     }
 
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-//            return fetchProfileUseCase.execute()
-//                .map { .setLogin($0 != nil) }
-            return checkLoginUseCase.execute()
-                .map { .setLogin($0) }
+            let onboardingMutation = fetchVisitBookmarkUseCase.execute()
+                .flatMap { hasVisited -> Observable<Mutation> in
+                    if hasVisited {
+                        return .empty()
+                    } else {
+                        return .just(.navigateTo(.onBoarding))
+                    }
+                }
+            let loginMutation = checkLoginUseCase.execute()
+                .map { Mutation.setLogin($0) }
+            return .concat([onboardingMutation, loginMutation])
         case .searchButtonTapped:
             return Observable.just(.navigateTo(.search))
         case .notificationButtonTapped:
@@ -68,7 +76,7 @@ public final class BookmarkMainReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .navigateTo(let route):
+        case let .navigateTo(route):
             newState.route = route
         case let .setLogin(isLogin):
             newState.isLogin = isLogin
