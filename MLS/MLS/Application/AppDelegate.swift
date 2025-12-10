@@ -18,9 +18,9 @@ import Firebase
 import KakaoSDKCommon
 import MyPageFeature
 import MyPageFeatureInterface
-import os
 import UIKit
 import UserNotifications
+import os
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -397,7 +397,8 @@ extension AppDelegate {
                 )
             )
         }
-        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self) {
+        DIContainer.register(type: FetchDictionaryDetailMonsterMapUseCase.self)
+        {
             FetchDictionaryDetailMonsterMapUseCaseImpl(
                 repository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self
@@ -658,7 +659,11 @@ extension AppDelegate {
             )
         }
         DIContainer.register(type: FetchVisitBookmarkUseCase.self) {
-            FetchVisitBookmarkUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+            FetchVisitBookmarkUseCaseImpl(
+                repository: DIContainer.resolve(
+                    type: UserDefaultsRepository.self
+                )
+            )
         }
     }
 
@@ -735,6 +740,9 @@ extension AppDelegate {
                     DIContainer
                         .resolve(type: DictionaryDetailFactory.self)
                 },
+                detailOnBoardingFactory: DIContainer.resolve(
+                    type: DetailOnBoardingFactory.self
+                ),
                 appCoordinator: {
                     DIContainer.resolve(type: AppCoordinatorProtocol.self)
                 },
@@ -873,18 +881,32 @@ extension AppDelegate {
         }
         DIContainer.register(type: DictionaryNotificationFactory.self) {
             DictionaryNotificationFactoryImpl(
-                notificationSettingFactory: DIContainer.resolve(type: NotificationSettingFactory.self),
-                fetchAllAlarmUseCase: DIContainer.resolve(type: FetchAllAlarmUseCase.self),
-                fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
+                notificationSettingFactory: DIContainer.resolve(
+                    type: NotificationSettingFactory.self
+                ),
+                fetchAllAlarmUseCase: DIContainer.resolve(
+                    type: FetchAllAlarmUseCase.self
+                ),
+                fetchProfileUseCase: DIContainer.resolve(
+                    type: FetchProfileUseCase.self
+                )
             )
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
             DictionaryMainViewFactoryImpl(
-                dictionaryMainListFactory: DIContainer.resolve(type: DictionaryMainListFactory.self),
-                searchFactory: DIContainer.resolve(type: DictionarySearchFactory.self),
-                notificationFactory: DIContainer.resolve(type: DictionaryNotificationFactory.self),
+                dictionaryMainListFactory: DIContainer.resolve(
+                    type: DictionaryMainListFactory.self
+                ),
+                searchFactory: DIContainer.resolve(
+                    type: DictionarySearchFactory.self
+                ),
+                notificationFactory: DIContainer.resolve(
+                    type: DictionaryNotificationFactory.self
+                ),
                 loginFactory: DIContainer.resolve(type: LoginFactory.self),
-                fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
+                fetchProfileUseCase: DIContainer.resolve(
+                    type: FetchProfileUseCase.self
+                )
             )
         }
         DIContainer.register(type: OnBoardingNotificationSheetFactory.self) {
@@ -973,11 +995,14 @@ extension AppDelegate {
         }
         DIContainer.register(type: BookmarkMainFactory.self) {
             BookmarkMainFactoryImpl(
-                setBookmarkUseCase: DIContainer
+                setBookmarkUseCase:
+                    DIContainer
                     .resolve(type: SetBookmarkUseCase.self),
-                checkLoginUseCase: DIContainer
+                checkLoginUseCase:
+                    DIContainer
                     .resolve(type: CheckLoginUseCase.self),
-                fetchVisitBookmarkUseCase: DIContainer
+                fetchVisitBookmarkUseCase:
+                    DIContainer
                     .resolve(type: FetchVisitBookmarkUseCase.self),
                 onBoardingFactory:
                     DIContainer
@@ -993,7 +1018,8 @@ extension AppDelegate {
                     .resolve(type: DictionarySearchFactory.self),
                 notificationFactory: DIContainer.resolve(
                     type: DictionaryNotificationFactory.self
-                ), loginFactory: DIContainer.resolve(type: LoginFactory.self)
+                ),
+                loginFactory: DIContainer.resolve(type: LoginFactory.self)
             )
         }
         DIContainer.register(type: BookmarkOnBoardingFactory.self) {
@@ -1188,6 +1214,9 @@ extension AppDelegate {
                     type: UpdateProfileImageUseCase.self
                 )
             )
+        }
+        DIContainer.register(type: DetailOnBoardingFactory.self) {
+            DetailOnBoardingFactoryImpl()
         }
     }
 }

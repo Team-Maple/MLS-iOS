@@ -10,6 +10,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let loginFactory: () -> LoginFactory
     private let bookmarkModalFactory: BookmarkModalFactory
     private let dictionaryDetailFactory: () -> DictionaryDetailFactory
+    private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: () -> AppCoordinatorProtocol
 
     private let dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase
@@ -33,6 +34,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         loginFactory: @escaping () -> LoginFactory,
         bookmarkModalFactory: BookmarkModalFactory,
         dictionaryDetailFactory: @escaping () -> DictionaryDetailFactory,
+        detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: @escaping () -> AppCoordinatorProtocol,
         dictionaryDetailMapUseCase: FetchDictionaryDetailMapUseCase,
         dictionaryDetailMapSpawnMonsterUseCase: FetchDictionaryDetailMapSpawnMonsterUseCase,
@@ -52,6 +54,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     ) {
         self.loginFactory = loginFactory
         self.bookmarkModalFactory = bookmarkModalFactory
+        self.detailOnBoardingFactory = detailOnBoardingFactory
         self.dictionaryDetailMapUseCase = dictionaryDetailMapUseCase
         self.dictionaryDetailMapSpawnMonsterUseCase = dictionaryDetailMapSpawnMonsterUseCase
         self.dictionaryDetailMapNpcUseCase = dictionaryDetailMapNpcUseCase
@@ -79,7 +82,15 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         case .collection:
             break
         case .item:
-            viewController = ItemDictionaryDetailViewController(type: .item, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), dictionaryDetailFactory: dictionaryDetailFactory(), appCoordinator: appCoordinator(), bookmarkRelay: bookmarkRelay)
+            viewController = ItemDictionaryDetailViewController(
+                type: .item,
+                bookmarkModalFactory: bookmarkModalFactory,
+                loginFactory: loginFactory(),
+                dictionaryDetailFactory: dictionaryDetailFactory(),
+                detailOnBoardingFactory: detailOnBoardingFactory,
+                appCoordinator: appCoordinator(),
+                bookmarkRelay: bookmarkRelay
+            )
             let reactor = ItemDictionaryDetailReactor(
                 dictionaryDetailItemUseCase: dictionaryDetailItemUseCase,
                 dictionaryDetailItemDropMonsterUseCase: dictionaryDetailItemDropMonsterUseCase,
@@ -91,7 +102,15 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .monster:
-            viewController = MonsterDictionaryDetailViewController(type: .monster, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), dictionaryDetailFactory: dictionaryDetailFactory(), appCoordinator: appCoordinator(), bookmarkRelay: bookmarkRelay)
+            viewController = MonsterDictionaryDetailViewController(
+                type: .monster,
+                bookmarkModalFactory: bookmarkModalFactory,
+                loginFactory: loginFactory(),
+                dictionaryDetailFactory: dictionaryDetailFactory(),
+                detailOnBoardingFactory: detailOnBoardingFactory,
+                appCoordinator: appCoordinator(),
+                bookmarkRelay: bookmarkRelay
+            )
             let reactor = MonsterDictionaryDetailReactor(
                 dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase,
                 dictionaryDetailMonsterDropItemUseCase: dictionaryDetailMonsterDropItemUseCase,
@@ -104,7 +123,15 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .map:
-            viewController = MapDictionaryDetailViewController(type: .map, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), dictionaryDetailFactory: dictionaryDetailFactory(), appCoordinator: appCoordinator(), bookmarkRelay: bookmarkRelay)
+            viewController = MapDictionaryDetailViewController(
+                type: .map,
+                bookmarkModalFactory: bookmarkModalFactory,
+                loginFactory: loginFactory(),
+                dictionaryDetailFactory: dictionaryDetailFactory(),
+                detailOnBoardingFactory: detailOnBoardingFactory,
+                appCoordinator: appCoordinator(),
+                bookmarkRelay: bookmarkRelay
+            )
             let reactor = MapDictionaryDetailReactor(
                 dictionaryDetailMapUseCase: dictionaryDetailMapUseCase,
                 dictionaryDetailMapSpawnMonsterUseCase: dictionaryDetailMapSpawnMonsterUseCase,
@@ -117,7 +144,15 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .npc:
-            viewController = NpcDictionaryDetailViewController(type: .npc, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), dictionaryDetailFactory: dictionaryDetailFactory(), appCoordinator: appCoordinator(), bookmarkRelay: bookmarkRelay)
+            viewController = NpcDictionaryDetailViewController(
+                type: .npc,
+                bookmarkModalFactory: bookmarkModalFactory,
+                loginFactory: loginFactory(),
+                dictionaryDetailFactory: dictionaryDetailFactory(),
+                detailOnBoardingFactory: detailOnBoardingFactory,
+                appCoordinator: appCoordinator(),
+                bookmarkRelay: bookmarkRelay
+            )
             let reactor = NpcDictionaryDetailReactor(
                 dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase,
                 dictionaryDetailNpcQuestUseCase: dictionaryDetailNpcQuestUseCase,
@@ -130,7 +165,15 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 viewController.reactor = reactor
             }
         case .quest:
-            viewController = QuestDictionaryDetailViewController(type: .quest, bookmarkModalFactory: bookmarkModalFactory, loginFactory: loginFactory(), dictionaryDetailFactory: dictionaryDetailFactory(), appCoordinator: appCoordinator(), bookmarkRelay: bookmarkRelay)
+            viewController = QuestDictionaryDetailViewController(
+                type: .quest,
+                bookmarkModalFactory: bookmarkModalFactory,
+                loginFactory: loginFactory(),
+                dictionaryDetailFactory: dictionaryDetailFactory(),
+                detailOnBoardingFactory: detailOnBoardingFactory,
+                appCoordinator: appCoordinator(),
+                bookmarkRelay: bookmarkRelay
+            )
             let reactor = QuestDictionaryDetailReactor(
                 dictionaryDetailQuestUseCase: dictionaryDetailQuestUseCase,
                 dictionaryDetailQuestLinkedQuestUseCase: dictionaryDetailQuestLinkedQuestsUseCase,

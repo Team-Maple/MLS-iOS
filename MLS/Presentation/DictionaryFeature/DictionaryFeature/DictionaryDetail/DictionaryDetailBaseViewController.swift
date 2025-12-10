@@ -33,6 +33,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     private let bookmarkModalFactory: BookmarkModalFactory
     private let loginFactory: LoginFactory
     public let dictionaryDetailFactory: DictionaryDetailFactory
+    private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: AppCoordinatorProtocol
 
     // MARK: - Components
@@ -41,12 +42,13 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, appCoordinator: AppCoordinatorProtocol, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, detailOnBoardingFactory: DetailOnBoardingFactory, appCoordinator: AppCoordinatorProtocol, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.appCoordinator = appCoordinator
         self.dictionaryDetailFactory = dictionaryDetailFactory
+        self.detailOnBoardingFactory = detailOnBoardingFactory
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         self.bookmarkRelay = bookmarkRelay
         super.init()
@@ -65,6 +67,10 @@ class DictionaryDetailBaseViewController: BaseViewController {
         configureUI()
         bind() // 액션 바인딩
         setupMenu(type.detailTypes)
+        let vc = detailOnBoardingFactory.make()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
     }
 
     override func viewDidLayoutSubviews() {

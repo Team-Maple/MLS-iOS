@@ -44,7 +44,6 @@ class DictionaryDetailBaseView: UIView {
     /// header에 들어가 컴포넌트들 담을 컨테이너 뷰
     public let headerView: UIView = {
         let view = UIView()
-
         return view
     }()
 
