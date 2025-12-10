@@ -140,7 +140,7 @@ extension SetProfileViewController {
                 owner.mainView.setPlatform(platform: profile.platform)
             })
             .disposed(by: disposeBag)
-        
+
         reactor.state
             .compactMap(\.nickName)
             .distinctUntilChanged()
