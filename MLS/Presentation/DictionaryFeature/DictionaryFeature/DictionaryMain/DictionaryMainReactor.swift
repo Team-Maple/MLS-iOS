@@ -53,6 +53,7 @@ public final class DictionaryMainReactor: Reactor {
         case .viewWillAppear:
             return fetchProfileUseCase.execute()
                 .map { .setLogin($0 != nil) }
+                .catchAndReturn(.setLogin(false))
         case .searchButtonTapped:
             return .just(.navigateTo(.search))
         case .notificationButtonTapped:

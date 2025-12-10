@@ -127,15 +127,15 @@ private extension FilterLevelSectionView {
         }
     }
 }
-public extension FilterLevelSectionView {
 
+public extension FilterLevelSectionView {
     func bind() {
         slider.lowerValueObservable
             .withUnretained(self)
             .subscribe { owner, value in
                 guard !owner.isEdit else { return }
                 let lowValue = Int(value)
-                owner.leftInputBox.textField.text = lowValue == 1 ? nil : "\(lowValue)"
+                owner.leftInputBox.textField.text = value == owner.slider.minimumValue ? "1" : "\(lowValue)"
             }
             .disposed(by: disposeBag)
 
@@ -144,7 +144,7 @@ public extension FilterLevelSectionView {
             .subscribe { owner, value in
                 guard !owner.isEdit else { return }
                 let upperValue = Int(value)
-                owner.rightInputBox.textField.text = upperValue == 200 ? nil : "\(upperValue)"
+                owner.rightInputBox.textField.text = value == owner.slider.minimumValue ? "200" : "\(upperValue)"
             }
             .disposed(by: disposeBag)
 
@@ -152,11 +152,9 @@ public extension FilterLevelSectionView {
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { owner, text in
-                guard !owner.isEdit else { return }
+                guard !owner.isEdit, !text.isEmpty else { return }
                 if let value = Double(text) {
                     owner.slider.lowerValue = value
-                } else {
-                    owner.slider.lowerValue = 1
                 }
             }
             .disposed(by: disposeBag)
@@ -165,11 +163,9 @@ public extension FilterLevelSectionView {
             .debounce(.milliseconds(100), scheduler: MainScheduler.instance)
             .withUnretained(self)
             .subscribe { owner, text in
-                guard !owner.isEdit else { return }
+                guard !owner.isEdit, !text.isEmpty else { return }
                 if let value = Double(text) {
                     owner.slider.upperValue = value
-                } else {
-                    owner.slider.upperValue = 200
                 }
             }
             .disposed(by: disposeBag)

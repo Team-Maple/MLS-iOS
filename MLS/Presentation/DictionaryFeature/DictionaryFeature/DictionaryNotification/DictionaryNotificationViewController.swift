@@ -14,6 +14,8 @@ public final class DictionaryNotificationViewController: BaseViewController, Vie
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    
+    private var lastPagingTime: Date = .distantPast
 
     private var notificationSettingFactory: NotificationSettingFactory
 
@@ -57,7 +59,6 @@ private extension DictionaryNotificationViewController {
     func configureUI() {
         isBottomTabbarHidden = true
         guard let reactor = reactor else { return }
-        mainView.setEmpty(isEmpty: reactor.currentState.profile?.noticeAgreement == false)
 
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self
@@ -107,7 +108,7 @@ public extension DictionaryNotificationViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .setting:
-                    guard let reactor = owner.reactor ,
+                    guard let reactor = owner.reactor,
                           let profile = reactor.currentState.profile else { return }
                     let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
@@ -123,6 +124,17 @@ public extension DictionaryNotificationViewController {
             .observe(on: MainScheduler.instance)
             .subscribe { owner, _ in
                 owner.mainView.notificationCollectionView.reloadData()
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .compactMap { $0.profile }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .subscribe { owner, profile in
+                let isEmpty = profile.noticeAgreement == false && profile.eventAgreement == false && profile.patchNoteAgreement == false
+                owner.mainView.setEmpty(isEmpty: isEmpty)
             }
             .disposed(by: disposeBag)
     }
@@ -141,5 +153,20 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         let item = reactor.currentState.notifications[indexPath.row]
         cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.changeKoreanDate(), isChecked: item.alreadyRead))
         return cell
+    }
+
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let now = Date()
+        guard now.timeIntervalSince(lastPagingTime) > 0.5 else { return }
+
+        guard let reactor = reactor else { return }
+
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+        let frameHeight = scrollView.frame.size.height
+
+        if offsetY > contentHeight - frameHeight - 100 {
+            reactor.action.onNext(.loadMore)
+        }
     }
 }
