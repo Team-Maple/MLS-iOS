@@ -10,4 +10,7 @@ public protocol UserDefaultsRepository {
     
     func fetchBookmark() -> Observable<Bool>
     func saveBookmark() -> Completable
+    
+    func fetchDictionaryDetail() -> Observable<Bool>
+    func saveDictionaryDetail() -> Completable
 }

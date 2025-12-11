@@ -35,6 +35,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
     public let dictionaryDetailFactory: DictionaryDetailFactory
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: AppCoordinatorProtocol
+    
+    private let fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase
 
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
@@ -42,13 +44,14 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, detailOnBoardingFactory: DetailOnBoardingFactory, appCoordinator: AppCoordinatorProtocol, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
+    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, detailOnBoardingFactory: DetailOnBoardingFactory, appCoordinator: AppCoordinatorProtocol, fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.appCoordinator = appCoordinator
         self.dictionaryDetailFactory = dictionaryDetailFactory
         self.detailOnBoardingFactory = detailOnBoardingFactory
+        self.fetchVisitBookmarkUseCase = fetchVisitBookmarkUseCase
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         self.bookmarkRelay = bookmarkRelay
         super.init()
@@ -334,6 +337,20 @@ extension DictionaryDetailBaseViewController {
                     )
                 }
             }
+    }
+    
+    func checkVisited() {
+        fetchVisitBookmarkUseCase.execute()
+            .withUnretained(self)
+            .subscribe{ owner, isVisit in
+                if !isVisit {
+                    let viewController = owner.detailOnBoardingFactory.make()
+                    viewController.modalPresentationStyle = .overFullScreen
+                    viewController.modalTransitionStyle = .crossDissolve
+                    owner.present(viewController, animated: true)
+                }
+            }
+            .disposed(by: disposeBag)
     }
 }
 
