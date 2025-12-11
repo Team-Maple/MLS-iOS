@@ -35,6 +35,7 @@ private extension QuestDictionaryDetailViewController {
 
         contentViews.append(detailInfoView)
         // 뭘로 빈페이지 보여줄지 정하지..
+        detailInfoView.reset()
         if !(detailInfos.startNpcName == nil) {
             contentViews.append(detailInfoView)
             // 완료조건 추가

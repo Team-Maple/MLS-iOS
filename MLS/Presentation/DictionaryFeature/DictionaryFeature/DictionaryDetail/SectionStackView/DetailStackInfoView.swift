@@ -211,6 +211,23 @@ extension DetailStackInfoView {
     func addInfo(mainText: String, subText: String) {
         addInfoRow(to: infoStackView, mainText: mainText, subText: subText)
     }
+    
+    /// 현재 표시 중인 모든 스택뷰 내용을 초기화
+    func reset() {
+        infoStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+
+        detailInfoStackView.arrangedSubviews
+            .filter { $0 !== detailInfoTitleLabelView }
+            .forEach { $0.removeFromSuperview() }
+
+        completeConditionStackView.arrangedSubviews
+            .filter { $0 !== completeConditionTitleLabelView }
+            .forEach { $0.removeFromSuperview() }
+
+        rewardStackView.arrangedSubviews
+            .filter { $0 !== rewardTitleLabelView }
+            .forEach { $0.removeFromSuperview() }
+    }
 
     private func addInfoRow(
         to stackView: UIStackView,
