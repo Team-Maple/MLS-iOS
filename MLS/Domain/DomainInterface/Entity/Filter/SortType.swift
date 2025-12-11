@@ -22,6 +22,10 @@ public enum SortType: String {
             return "level"
         case .expASC, .expDESC:
             return "exp"
+        case .mostAppear:
+            return "maxSpawnCount"
+        case .mostDrop:
+            return "dropRate"
         default:
             return ""
         }
@@ -30,9 +34,9 @@ public enum SortType: String {
     public var direction: String {
         switch self {
         case .expASC, .levelASC, .korean:
-            return "ASC"
-        case .expDESC, .levelDESC:
-            return "DESC"
+            return "asc"
+        case .expDESC, .levelDESC, .mostDrop, .mostAppear:
+            return "desc"
         default:
             return ""
         }

@@ -93,14 +93,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
                 dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: nil).map { .setDetailQuests($0) }
             ])
         case let .selectFilter(type):
-            switch type {
-            case .levelHighest:
-                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["maxLevel", "desc"]).map { .setDetailQuests($0) }
-            case .levelLowest:
-                return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: ["minLevel", "asc"]).map { .setDetailQuests($0) }
-            default:
-                return .empty()
-            }
+            return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailQuests($0) }
 
         case let .toggleBookmark(isSelected):
             let npcId = currentState.npcDetailInfo.npcId

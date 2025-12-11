@@ -87,16 +87,8 @@ public final class ItemDictionaryDetailReactor: Reactor {
                 dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: nil).map { .setDetailDropMonsterData($0) }
             ])
         case let .selectFilter(type):
-            switch type {
-            case .mostDrop:
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["dropRate", "desc"]).map { .setDetailDropMonsterData($0) }
-            case .levelDESC:
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map { .setDetailDropMonsterData($0) }
-            case .levelASC:
-                return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map { .setDetailDropMonsterData($0) }
-            default:
-                return .empty()
-            }
+            return dictionaryDetailItemDropMonsterUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailDropMonsterData($0) }
+
         case let .toggleBookmark(isSelected):
             guard let itemId = currentState.itemDetailInfo.itemId else { return .empty() }
 

@@ -106,16 +106,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             ])
 
         case let .selectFilter(type):
-            switch type {
-            case .levelDESC: // 레벨 높은 순
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map { .setDetailDropItemData($0) }
-            case .levelASC: // 레벨 낮은 순
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map { .setDetailDropItemData($0) }
-            case .mostDrop:
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: nil).map { .setDetailDropItemData($0) }
-            default:
-                return .empty()
-            }
+            return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailDropItemData($0) }
 
         case let .toggleBookmark(isSelected):
             let monsterId = currentState.monsterDetailInfo.monsterId

@@ -114,7 +114,7 @@ public final class MapDictionaryDetailReactor: Reactor {
                 )
             )
         case let .selectFilter(type):
-                return dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: ["maxSpawnCount", "asc"]).map { .setDetailSpawnMonsters($0) }
+            return dictionaryDetailMapSpawnMonsterUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailSpawnMonsters($0) }
         case .undoLastDeletedBookmark:
             guard let lastDeleted = currentState.lastDeletedBookmark,
                   let mapId = lastDeleted.mapId else { return .empty() }

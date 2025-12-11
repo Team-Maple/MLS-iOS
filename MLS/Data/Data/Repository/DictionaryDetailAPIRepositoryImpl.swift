@@ -18,8 +18,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
 
-    public func fetchMonsterDetailDropItem(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
-        let endPoint = DictionaryDetailEndPoint.fetchMonsterDetailDropItem(id: id, sort: sort)
+    public func fetchMonsterDetailDropItem(id: Int, sort: String?) -> Observable<[DictionaryDetailMonsterDropItemResponse]> {
+        let endPoint = DictionaryDetailEndPoint.fetchMonsterDetailDropItem(id: id, query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map {$0.toDomain()}}
     }
 
@@ -33,8 +33,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
 
-    public func fetchNpcDetailQuest(id: Int, sort: [String]?) -> Observable<[DictionaryDetailNpcQuestResponse]> {
-        let endPoint = DictionaryDetailEndPoint.fetchNpcDetailQuest(id: id, sort: sort)
+    public func fetchNpcDetailQuest(id: Int, sort: String?) -> Observable<[DictionaryDetailNpcQuestResponse]> {
+        let endPoint = DictionaryDetailEndPoint.fetchNpcDetailQuest(id: id, query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
 
     }
@@ -49,8 +49,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
 
-    public func fetchItemDetailDropMonster(id: Int, sort: [String]?) -> Observable<[DictionaryDetailItemDropMonsterResponse]> {
-        let endPoint = DictionaryDetailEndPoint.fetchItemDetailDropMonster(id: id, sort: sort)
+    public func fetchItemDetailDropMonster(id: Int, sort: String?) -> Observable<[DictionaryDetailItemDropMonsterResponse]> {
+        let endPoint = DictionaryDetailEndPoint.fetchItemDetailDropMonster(id: id, query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain() } }
     }
 
@@ -69,8 +69,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toDomain() }
     }
 
-    public func fetchMapDetailSpawnMonster(id: Int, sort: [String]?) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
-        let endPoint = DictionaryDetailEndPoint.fetchMapDetailSpawnMonster(id: id, sort: sort)
+    public func fetchMapDetailSpawnMonster(id: Int, sort: String?) -> Observable<[DictionaryDetailMapSpawnMonsterResponse]> {
+        let endPoint = DictionaryDetailEndPoint.fetchMapDetailSpawnMonster(id: id, query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.map {$0.toDomain()} }
     }
 
@@ -78,4 +78,8 @@ public final class DictionaryDetailAPIRepositoryImpl: DictionaryDetailAPIReposit
         let endPoint = DictionaryDetailEndPoint.fetchMapDetailNpc(id: id)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map {$0.map {$0.toDomain()}}
     }
+}
+
+struct SortQuery: Encodable {
+    let sort: String?
 }
