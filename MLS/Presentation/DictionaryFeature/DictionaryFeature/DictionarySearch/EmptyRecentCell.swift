@@ -24,7 +24,7 @@ private extension EmptyRecentCell {
     func addViews() {
         contentView.addSubview(label)
     }
-    
+
     func setUpConstraints() {
         label.snp.makeConstraints {
             $0.edges.equalToSuperview()

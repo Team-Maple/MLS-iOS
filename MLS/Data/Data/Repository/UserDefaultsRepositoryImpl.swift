@@ -69,7 +69,7 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
-    
+
     public func fetchBookmark() -> Observable<Bool> {
         return Observable.create { observer in
             let hasVisited = UserDefaults.standard.bool(forKey: self.bookmarkkey)
@@ -86,7 +86,7 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
-    
+
     public func fetchDictionaryDetail() -> Observable<Bool> {
         return Observable.create { observer in
             let hasVisited = UserDefaults.standard.bool(forKey: self.dictionaryDetailkey)

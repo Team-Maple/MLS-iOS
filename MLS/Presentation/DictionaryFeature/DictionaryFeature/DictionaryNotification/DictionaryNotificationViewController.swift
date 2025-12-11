@@ -14,7 +14,7 @@ public final class DictionaryNotificationViewController: BaseViewController, Vie
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private var lastPagingTime: Date = .distantPast
 
     private var notificationSettingFactory: NotificationSettingFactory

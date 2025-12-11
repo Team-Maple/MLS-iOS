@@ -348,7 +348,7 @@ extension DictionaryDetailBaseViewController {
     func checkVisited() {
         fetchVisitBookmarkUseCase.execute()
             .withUnretained(self)
-            .subscribe{ owner, isVisit in
+            .subscribe { owner, isVisit in
                 if !isVisit {
                     let viewController = owner.detailOnBoardingFactory.make()
                     viewController.modalPresentationStyle = .overFullScreen
