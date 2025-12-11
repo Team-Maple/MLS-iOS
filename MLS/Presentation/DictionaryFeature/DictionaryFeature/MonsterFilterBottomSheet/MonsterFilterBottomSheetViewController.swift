@@ -71,7 +71,7 @@ extension MonsterFilterBottomSheetViewController {
             .map { Reactor.Action.cancelButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.clearButton.rx.tap
             .map { Reactor.Action.clearButtonTapped }
             .bind(to: reactor.action)

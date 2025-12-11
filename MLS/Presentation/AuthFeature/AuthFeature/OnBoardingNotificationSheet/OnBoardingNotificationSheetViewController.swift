@@ -67,7 +67,7 @@ extension OnBoardingNotificationSheetViewController {
             .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
             .map { _ in Reactor.Action.appWillEnterForeground }
             .bind(to: reactor.action)

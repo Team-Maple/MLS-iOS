@@ -16,7 +16,7 @@ public final class NotificationPermissionManager {
     public func requestIfNeeded(
         application: UIApplication = .shared,
         completion: ((Bool) -> Void)? = nil
-    ) -> Void {
+    ) {
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { settings in
             switch settings.authorizationStatus {
