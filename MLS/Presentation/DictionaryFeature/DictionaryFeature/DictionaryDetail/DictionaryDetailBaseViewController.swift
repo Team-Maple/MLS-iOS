@@ -79,10 +79,6 @@ class DictionaryDetailBaseViewController: BaseViewController {
         configureUI()
         bind() // 액션 바인딩
         setupMenu(type.detailTypes)
-        let vc = detailOnBoardingFactory.make()
-        vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
     }
 
     override func viewDidLayoutSubviews() {
@@ -111,6 +107,7 @@ private extension DictionaryDetailBaseViewController {
 
     func configureUI() {
         mainView.scrollView.delegate = self
+        checkVisited()
     }
 }
 
@@ -298,7 +295,7 @@ extension DictionaryDetailBaseViewController {
                     )
                     return
                 }
-                
+
                 let itemId = id(item)
 
                 if isBookmarked(item) {
@@ -347,7 +344,7 @@ extension DictionaryDetailBaseViewController {
                 }
             }
     }
-    
+
     func checkVisited() {
         fetchVisitBookmarkUseCase.execute()
             .withUnretained(self)
@@ -400,7 +397,7 @@ extension DictionaryDetailBaseViewController {
                     ctaText: "건의하기",
                     cancelText: "취소",
                     ctaAction: { [weak self] in
-                        guard let self = self else { return }
+                        guard self != nil else { return }
                         if let url = URL(string: urlString) {
                             UIApplication.shared.open(url)
                         }

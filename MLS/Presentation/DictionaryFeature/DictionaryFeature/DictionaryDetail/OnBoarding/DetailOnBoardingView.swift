@@ -12,10 +12,9 @@ class DetailOnBoardingView: UIView {
         static let trailingMargin: CGFloat = 8
         static let iconSize: CGFloat = 36
         static let contentViewSize: CGFloat = 44
-        static let arrowSize: CGFloat = 28
+        static let arrowSize: CGFloat = 48
         static let arrowTrailing: CGFloat = 28
-        static let firstArrowMargin: CGFloat = 10
-        static let secondArrowMargin: CGFloat = 15
+        static let arrowMargin: CGFloat = 6
         static let alertHeight: CGFloat = 220
         static let alertWidth: CGFloat = 328
         static let buttonWitdh: CGFloat = 96
@@ -146,7 +145,7 @@ private extension DetailOnBoardingView {
     func setupConstraints() {
         iconContentView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalTo(firstArrow.snp.trailing).offset(Constant.firstArrowMargin)
+            make.leading.equalTo(firstArrow.snp.trailing)
             make.trailing.equalToSuperview().inset(Constant.trailingMargin)
             make.size.equalTo(Constant.contentViewSize)
         }
@@ -157,7 +156,7 @@ private extension DetailOnBoardingView {
         }
 
         firstLabel.snp.makeConstraints { make in
-            make.top.equalTo(firstArrow.snp.bottom).offset(Constant.firstArrowMargin)
+            make.top.equalTo(firstArrow.snp.bottom)
             make.trailing.equalToSuperview().inset(Constant.trailingMargin)
         }
 
@@ -168,13 +167,13 @@ private extension DetailOnBoardingView {
         }
 
         secondArrow.snp.makeConstraints { make in
-            make.top.equalTo(alertView.snp.bottom).offset(Constant.secondArrowMargin)
+            make.top.equalTo(alertView.snp.bottom).offset(Constant.arrowMargin)
             make.centerX.equalTo(firstLabel)
             make.size.equalTo(Constant.arrowSize)
         }
 
         secondLabel.snp.makeConstraints { make in
-            make.top.equalTo(secondArrow.snp.bottom).offset(Constant.secondArrowMargin)
+            make.top.equalTo(secondArrow.snp.bottom).offset(Constant.arrowMargin)
             make.trailing.equalTo(secondArrow.snp.trailing).offset(Constant.arrowTrailing)
         }
 
