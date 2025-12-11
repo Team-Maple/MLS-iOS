@@ -790,6 +790,9 @@ extension AppDelegate {
                 ),
                 setBookmarkUseCase: DIContainer.resolve(
                     type: SetBookmarkUseCase.self
+                ),
+                fetchVisitBookmarkUseCase: DIContainer.resolve(
+                    type: FetchVisitBookmarkUseCase.self
                 )
             )
         }
@@ -1157,6 +1160,8 @@ extension AppDelegate {
         }
         DIContainer.register(type: CustomerSupportFactory.self) {
             CustomerSupportBaseViewFactoryImpl(
+                policyFactory: DIContainer.resolve(
+                    type: PolicyFactory.self),
                 fetchNoticesUseCase: DIContainer.resolve(
                     type: FetchNoticesUseCase.self
                 ),
@@ -1217,6 +1222,9 @@ extension AppDelegate {
         }
         DIContainer.register(type: DetailOnBoardingFactory.self) {
             DetailOnBoardingFactoryImpl()
+        }
+        DIContainer.register(type: PolicyFactory.self) {
+            PolicyFactoryImpl()
         }
     }
 }

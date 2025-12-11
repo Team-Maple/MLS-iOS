@@ -35,7 +35,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     public let dictionaryDetailFactory: DictionaryDetailFactory
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: AppCoordinatorProtocol
-    
+
     private let fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase
 
     // MARK: - Components
@@ -44,7 +44,16 @@ class DictionaryDetailBaseViewController: BaseViewController {
     // 타입설정
     public var type: DictionaryItemType
 
-    public init(type: DictionaryItemType, bookmarkModalFactory: BookmarkModalFactory, loginFactory: LoginFactory, dictionaryDetailFactory: DictionaryDetailFactory, detailOnBoardingFactory: DetailOnBoardingFactory, appCoordinator: AppCoordinatorProtocol, fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase, bookmarkRelay: PublishRelay<(Int, Bool)>?) {
+    public init(
+        type: DictionaryItemType,
+        bookmarkModalFactory: BookmarkModalFactory,
+        loginFactory: LoginFactory,
+        dictionaryDetailFactory: DictionaryDetailFactory,
+        detailOnBoardingFactory: DetailOnBoardingFactory,
+        appCoordinator: AppCoordinatorProtocol,
+        fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase,
+        bookmarkRelay: PublishRelay<(Int, Bool)>?
+    ) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
