@@ -3,6 +3,7 @@ import Foundation
 public enum PolicyType: CaseIterable {
     case service
     case privacy
+    case openSource
 
     public var title: String {
         switch self {
@@ -10,15 +11,19 @@ public enum PolicyType: CaseIterable {
             "서비스 이용약관"
         case .privacy:
             "개인정보 처리방침"
+        case .openSource:
+            "오픈소스 라이선스"
         }
     }
 
     public var fileName: String {
         switch self {
         case .service:
-            return "TermsOfService.txt"
+            "TermsOfService.txt"
         case .privacy:
-            return "PrivacyPolicy.txt"
+            "PrivacyPolicy.txt"
+        case .openSource:
+            ""
         }
     }
 

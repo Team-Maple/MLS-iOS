@@ -119,6 +119,11 @@ extension CustomerSupportBaseViewController {
             case 1:
                 guard let viewController = policyFactory?.make(type: .service) else { return }
                 navigationController?.pushViewController(viewController, animated: true)
+            case 2:
+                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             default:
                 break
             }
