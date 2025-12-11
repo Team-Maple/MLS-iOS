@@ -16,6 +16,7 @@ public final class MyPageMainCell: UICollectionViewCell {
         static let buttonHeight: CGFloat = 44
         static let horizontalInset: CGFloat = 16
         static let verticalInset: CGFloat = 20
+        static let radius: CGFloat = 42
     }
 
     // MARK: - Properties
@@ -27,7 +28,7 @@ public final class MyPageMainCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = Constant.imageSize / 2
+        imageView.layer.cornerRadius = Constant.radius
         return imageView
     }()
 
