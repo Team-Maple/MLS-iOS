@@ -146,12 +146,16 @@ extension AppDelegate {
         ) {
             AppleLoginProviderImpl()
         }
-        DIContainer.register(type: Interceptor.self) {
+        DIContainer.register(type: Interceptor.self, name: "tokenInterceptor") {
             TokenInterceptor(
                 fetchTokenUseCase: DIContainer.resolve(
                     type: FetchTokenFromLocalUseCase.self
                 )
             )
+        }
+
+        DIContainer.register(type: Interceptor.self, name: "authInterceptor") {
+            AuthInterceptor(tokenRepository: DIContainer.resolve(type: TokenRepository.self), authRepository: { DIContainer.resolve(type: AuthAPIRepository.self) })
         }
     }
 
@@ -159,7 +163,8 @@ extension AppDelegate {
         DIContainer.register(type: AuthAPIRepository.self) {
             AuthAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                interceptor: DIContainer.resolve(type: Interceptor.self)
+                tokenInterceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor"),
+                authInterceptor: DIContainer.resolve(type: Interceptor.self, name: "authInterceptor")
             )
         }
         DIContainer.register(type: TokenRepository.self) {
@@ -168,19 +173,19 @@ extension AppDelegate {
         DIContainer.register(type: DictionaryDetailAPIRepository.self) {
             DictionaryDetailAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                tokenInterceptor: DIContainer.resolve(type: Interceptor.self)
+                tokenInterceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
         }
         DIContainer.register(type: DictionaryListAPIRepository.self) {
             DictionaryListAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                tokenInterceptor: DIContainer.resolve(type: Interceptor.self)
+                tokenInterceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
         }
         DIContainer.register(type: BookmarkRepository.self) {
             BookmarkRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                interceptor: DIContainer.resolve(type: Interceptor.self)
+                interceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
         }
         DIContainer.register(type: UserDefaultsRepository.self) {
@@ -189,13 +194,13 @@ extension AppDelegate {
         DIContainer.register(type: AlarmAPIRepository.self) {
             AlarmAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                interceptor: DIContainer.resolve(type: Interceptor.self)
+                interceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
         }
         DIContainer.register(type: CollectionAPIRepository.self) {
             CollectionAPIRepositoryImpl(
                 provider: DIContainer.resolve(type: NetworkProvider.self),
-                tokenInterceptor: DIContainer.resolve(type: Interceptor.self)
+                tokenInterceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
         }
     }
