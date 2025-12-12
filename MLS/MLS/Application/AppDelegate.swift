@@ -280,7 +280,7 @@ extension AppDelegate {
         }
         DIContainer.register(type: ReissueUseCase.self) {
             ReissueUseCaseImpl(
-                repository: DIContainer.resolve(type: AuthAPIRepository.self)
+                repository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self)
             )
         }
         DIContainer.register(type: PutFCMTokenUseCase.self) {
@@ -669,6 +669,9 @@ extension AppDelegate {
                 )
             )
         }
+        DIContainer.register(type: FetchVisitDictionaryDetailUseCase.self) {
+            FetchVisitDictionaryDetailUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self))
+        }
     }
 
     fileprivate func registerFactory() {
@@ -795,8 +798,8 @@ extension AppDelegate {
                 setBookmarkUseCase: DIContainer.resolve(
                     type: SetBookmarkUseCase.self
                 ),
-                fetchVisitBookmarkUseCase: DIContainer.resolve(
-                    type: FetchVisitBookmarkUseCase.self
+                fetchVisitDictionaryDetailUseCase: DIContainer.resolve(
+                    type: FetchVisitDictionaryDetailUseCase.self
                 )
             )
         }

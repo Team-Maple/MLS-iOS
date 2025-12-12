@@ -129,28 +129,39 @@ private extension NetworkProviderImpl {
     ///   - response: 상태코드를 포함한 통신 응답
     ///   - error: 통신간에 발생한 에러
     /// - Returns: 유효성검사 결과에 따른 데이터와 에러
-    func checkValidation(data: Data?, response: URLResponse?, error: Error?, interceptor: Interceptor?) -> Result<Data?, NetworkError> {
-        if let interceptor = interceptor {
-            if interceptor.retry(data: data, response: response, error: error) {
-                return .failure(.retry)
-            }
-        }
+    func checkValidation(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?,
+        interceptor: Interceptor?
+    ) -> Result<Data?, NetworkError> {
+
+        // 1️⃣ 네트워크 레벨 에러 먼저 체크
         if let error {
             if let urlError = error as? URLError, urlError.code == .unsupportedURL {
-                return .failure(NetworkError.urlRequest(error))
+                return .failure(.urlRequest(error))
             }
-            return .failure(NetworkError.network(error))
+            return .failure(.network(error))
         }
 
+        // 2️⃣ HTTP 응답 객체 확인
         guard let httpResponse = response as? HTTPURLResponse else {
-            return .failure(NetworkError.httpError)
+            return .failure(.httpError)
         }
 
+        // 3️⃣ 상태 코드 기반 검사
         guard (200 ... 299).contains(httpResponse.statusCode) else {
+            // ❗️여기서만 인터셉터 개입
+            if let interceptor = interceptor,
+               interceptor.retry(data: data, response: response, error: error) {
+                return .failure(.retry)
+            }
+
             let errorMessage = data.flatMap { String(data: $0, encoding: .utf8) } ?? "Unknown"
-            return .failure(NetworkError.statusError(httpResponse.statusCode, errorMessage))
+            return .failure(.statusError(httpResponse.statusCode, errorMessage))
         }
 
+        // ✅ 성공 응답
         return .success(data)
     }
 }

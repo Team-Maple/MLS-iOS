@@ -41,25 +41,16 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func startScene(coordinator: AppCoordinatorProtocol) {
         let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
         let reissueUseCase = DIContainer.resolve(type: ReissueUseCase.self)
-        let saveTokenUseCase = DIContainer.resolve(type: SaveTokenToLocalUseCase.self)
 
         let fetchResult = fetchTokenUseCase.execute(type: .refreshToken)
 
         switch fetchResult {
         case .success(let refreshToken):
-            // ✅ refreshToken 존재 → accessToken 재발급 시도
             reissueUseCase.execute(refreshToken: refreshToken)
                 .observe(on: MainScheduler.instance)
                 .subscribe(
-                    onNext: { response in
-                        let accessSave = saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
-                        let refreshSave = saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-
-                        if case .success = accessSave, case .success = refreshSave {
-                            coordinator.showMainTab()
-                        } else {
-                            coordinator.showLogin(exitRoute: .home)
-                        }
+                    onNext: { _ in
+                        coordinator.showMainTab()
                     },
                     onError: { _ in
                         coordinator.showLogin(exitRoute: .home)
@@ -68,7 +59,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 .disposed(by: disposeBag)
 
         case .failure:
-            // ✅ refreshToken 없으면 바로 로그인으로
             coordinator.showLogin(exitRoute: .home)
         }
     }

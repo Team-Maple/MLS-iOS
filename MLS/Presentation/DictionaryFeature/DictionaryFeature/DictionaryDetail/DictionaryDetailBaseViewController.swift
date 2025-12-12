@@ -36,7 +36,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: AppCoordinatorProtocol
 
-    private let fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase
+    private let fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase
 
     // MARK: - Components
     public var mainView = DictionaryDetailBaseView()
@@ -51,7 +51,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         dictionaryDetailFactory: DictionaryDetailFactory,
         detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: AppCoordinatorProtocol,
-        fetchVisitBookmarkUseCase: FetchVisitBookmarkUseCase,
+        fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase,
         bookmarkRelay: PublishRelay<(Int, Bool)>?
     ) {
         self.type = type
@@ -60,7 +60,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         self.appCoordinator = appCoordinator
         self.dictionaryDetailFactory = dictionaryDetailFactory
         self.detailOnBoardingFactory = detailOnBoardingFactory
-        self.fetchVisitBookmarkUseCase = fetchVisitBookmarkUseCase
+        self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         self.bookmarkRelay = bookmarkRelay
         super.init()
@@ -346,7 +346,7 @@ extension DictionaryDetailBaseViewController {
     }
 
     func checkVisited() {
-        fetchVisitBookmarkUseCase.execute()
+        fetchVisitDictionaryDetailUseCase.execute()
             .withUnretained(self)
             .subscribe { owner, isVisit in
                 if !isVisit {
