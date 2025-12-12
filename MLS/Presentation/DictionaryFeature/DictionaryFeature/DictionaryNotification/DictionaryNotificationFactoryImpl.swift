@@ -5,6 +5,7 @@ import MyPageFeatureInterface
 
 public final class DictionaryNotificationFactoryImpl: DictionaryNotificationFactory {
     private let notificationSettingFactory: NotificationSettingFactory
+
     private let fetchAllAlarmUseCase: FetchAllAlarmUseCase
     private let fetchProfileUseCase: FetchProfileUseCase
 

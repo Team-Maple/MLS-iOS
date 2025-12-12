@@ -1,9 +1,8 @@
-import UIKit
-
+import BaseFeature
 import DesignSystem
 import DomainInterface
-
 import SnapKit
+import UIKit
 
 final class BookmarkMainView: UIView {
     enum Constant {
@@ -14,7 +13,6 @@ final class BookmarkMainView: UIView {
 
     // MARK: - Components
     public let headerView = Header(style: .main, title: "북마크")
-
     public let searchBar = SearchBar()
 
     public let tabCollectionView: UICollectionView = {
@@ -29,11 +27,12 @@ final class BookmarkMainView: UIView {
         navigationOrientation: .horizontal
     )
 
+    public let emptyView = ToLoginView()
+
     // MARK: - Init
     public init(type: DictionaryMainViewType) {
         super.init(frame: .zero)
-        addViews(type: type)
-        setupConstraints(type: type)
+        setupBaseLayout(type: type)
     }
 
     @available(*, unavailable)
@@ -42,43 +41,26 @@ final class BookmarkMainView: UIView {
     }
 }
 
-// MARK: - SetUp
+// MARK: - Base Layout
 private extension BookmarkMainView {
-    func addViews(type: DictionaryMainViewType) {
+    func setupBaseLayout(type: DictionaryMainViewType) {
         switch type {
         case .search:
             addSubview(searchBar)
-        default:
-            addSubview(headerView)
-        }
-        addSubview(tabCollectionView)
-        addSubview(pageViewController.view)
-    }
-
-    func setupConstraints(type: DictionaryMainViewType) {
-        switch type {
-        case .search:
             searchBar.snp.makeConstraints { make in
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalToSuperview()
             }
-
-            tabCollectionView.snp.makeConstraints { make in
-                make.top.equalTo(searchBar.snp.bottom).offset(Constant.topMargin)
-                make.horizontalEdges.equalToSuperview()
-                make.height.equalTo(Constant.pageTabHeight)
-            }
-
-            pageViewController.view.snp.makeConstraints { make in
-                make.top.equalTo(tabCollectionView.snp.bottom)
-                make.horizontalEdges.equalTo(safeAreaLayoutGuide)
-                make.bottom.equalToSuperview()
-            }
         default:
+            addSubview(headerView)
             headerView.snp.makeConstraints { make in
                 make.top.equalTo(safeAreaLayoutGuide)
                 make.horizontalEdges.equalToSuperview()
             }
+
+            addSubview(tabCollectionView)
+            addSubview(pageViewController.view)
+            addSubview(emptyView)
 
             tabCollectionView.snp.makeConstraints { make in
                 make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
@@ -91,6 +73,29 @@ private extension BookmarkMainView {
                 make.horizontalEdges.equalTo(safeAreaLayoutGuide)
                 make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
             }
+
+            emptyView.snp.makeConstraints { make in
+                make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
+                make.horizontalEdges.equalToSuperview()
+                make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
+            }
+
+            tabCollectionView.isHidden = true
+            pageViewController.view.isHidden = true
+            emptyView.isHidden = false
         }
+    }
+}
+
+// MARK: - Public Update
+extension BookmarkMainView {
+    public func updateLoginState(isLogin: Bool) {
+        tabCollectionView.isHidden = !isLogin
+        pageViewController.view.isHidden = !isLogin
+
+        emptyView.isHidden = isLogin
+
+        tabCollectionView.isUserInteractionEnabled = isLogin
+        pageViewController.view.isUserInteractionEnabled = isLogin
     }
 }

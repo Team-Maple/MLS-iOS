@@ -1,7 +1,7 @@
 public struct DictionaryMainResponse {
     public let totalPages: Int
     public let totalElements: Int
-    public let contents: [DictionaryMainItemResponse]
+    public var contents: [DictionaryMainItemResponse]
 
     public init(totalPages: Int, totalElements: Int, contents: [DictionaryMainItemResponse]) {
         self.totalPages = totalPages
@@ -16,7 +16,7 @@ public struct DictionaryMainItemResponse: Equatable {
     public let imageUrl: String?
     public let level: Int?
     public let type: DictionaryItemType
-    public let bookmarkId: Int?
+    public var bookmarkId: Int?
 
     public init(id: Int, name: String, imageUrl: String?, level: Int?, type: DictionaryItemType, bookmarkId: Int?) {
         self.id = id

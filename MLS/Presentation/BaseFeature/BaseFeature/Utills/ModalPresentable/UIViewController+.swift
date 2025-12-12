@@ -1,9 +1,11 @@
 import UIKit
 
 import DesignSystem
+
 import SnapKit
 
 private var modalWrapperKey: UInt8 = 0
+private var modalHideTabBarKey: UInt8 = 0
 
 public extension UIViewController {
 
@@ -12,17 +14,46 @@ public extension UIViewController {
         set { objc_setAssociatedObject(self, &modalWrapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 
+    private var modalHideTabBar: Bool {
+        get { (objc_getAssociatedObject(self, &modalHideTabBarKey) as? Bool) ?? false }
+        set { objc_setAssociatedObject(self, &modalHideTabBarKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
     /// 커스텀 모달 프레젠트
-    func presentModal(_ viewController: UIViewController & ModalPresentable) {
+    /// - Parameters:
+    ///   - viewController: 표시할 모달 뷰컨
+    ///   - hideTabBar: 탭바를 숨길지 여부 (기본값: true)
+    func presentModal(
+        _ viewController: UIViewController & ModalPresentable,
+        hideTabBar: Bool = false
+    ) {
         let wrapper = ModalWrapperView(contentViewController: viewController, parent: self)
+
+        // 이전 상태 초기화
+        modalHideTabBar = false
         modalWrapperView = wrapper
+
+        // 새 설정 적용
+        modalHideTabBar = hideTabBar
+
         view.addSubview(wrapper)
         wrapper.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
+        // 필요 시 탭바 숨김
+        if hideTabBar, let tabBarController = findTabBarController() {
+            tabBarController.setHidden(hidden: true, animated: false)
+        }
+
         // present 애니메이션
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.85, initialSpringVelocity: 0.8, options: [.curveEaseOut]) {
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            usingSpringWithDamping: 0.85,
+            initialSpringVelocity: 0.8,
+            options: [.curveEaseOut]
+        ) {
             wrapper.dimView.alpha = 1
             wrapper.containerView.transform = .identity
             DispatchQueue.main.async {
@@ -36,16 +67,38 @@ public extension UIViewController {
     @objc internal func dismissCurrentModal() {
         guard let wrapper = modalWrapperView else { return }
 
-        wrapper.animateDismiss {
-            if let contentVC = wrapper.containerView.subviews.compactMap({ $0.next as? UIViewController }).first {
-                contentVC.willMove(toParent: nil)
-                contentVC.view.removeFromSuperview()
-                contentVC.removeFromParent()
-            }
+        let shouldKeepHidden = modalHideTabBar
+        let tabBarController = findTabBarController()
 
+        if shouldKeepHidden, let tabBarController {
+            tabBarController.setHidden(hidden: true, animated: false)
+        }
+
+        UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut]) {
+            wrapper.dimView.alpha = 0
+            wrapper.containerView.transform = CGAffineTransform(translationX: 0, y: 300)
+        } completion: { _ in
             wrapper.removeFromSuperview()
             self.modalWrapperView = nil
+
+            // false인 경우 복원
+            if !shouldKeepHidden, let tabBarController {
+                tabBarController.setHidden(hidden: false, animated: false)
+            }
+
+            self.modalHideTabBar = false
         }
+    }
+
+    private func findTabBarController() -> BottomTabBarController? {
+        var parentVC: UIViewController? = self
+        while let current = parentVC {
+            if let tabBarController = current as? BottomTabBarController {
+                return tabBarController
+            }
+            parentVC = current.parent
+        }
+        return nil
     }
 }
 

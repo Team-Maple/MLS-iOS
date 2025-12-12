@@ -54,9 +54,10 @@ private extension MapDictionaryDetailViewController {
 
     func setUpMonsterView() {
         guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+              let filter = reactor.currentState.monsterFilter.first else { return }
         appearMonsterView.initFilter(firstFilter: filter)
 
+        appearMonsterView.reset()
         let monsters = reactor.currentState.spawnMonsters
         contentViews.append(appearMonsterView)
         if monsters.isEmpty {
@@ -64,15 +65,22 @@ private extension MapDictionaryDetailViewController {
         } else {
             contentViews[1] = appearMonsterView
             for monster in monsters {
-                appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)"))
+                appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)", additionalText: {
+                    if let count = monster.maxSpawnCount {
+                        return "\(count)마리"
+                    } else {
+                        return "??마리"
+                    }
+                }()))
             }
         }
     }
 
     func setUpNpcView() {
-        guard let reactor = reactor, let filter = reactor.currentState.type.detailSortedFilter.first else { return }
-        appearNpcView.initFilter(firstFilter: filter)
+        guard let reactor = reactor else { return }
+
         let npcs = reactor.currentState.npcs
+        appearNpcView.reset()
         contentViews.append(appearNpcView)
         if npcs.isEmpty {
             contentViews[2] = DetailEmptyView(type: .appearNPC)
@@ -96,6 +104,7 @@ private extension MapDictionaryDetailViewController {
                       let url = reactor.currentState.mapDetailInfo.mapUrl else { return }
                 let viewController = PinchMapViewController(imageUrl: url)
                 viewController.modalPresentationStyle = .overFullScreen
+                owner.isBottomTabbarHidden = true
                 self.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
@@ -117,7 +126,7 @@ extension MapDictionaryDetailViewController {
             .disposed(by: disposeBag)
 
         appearMonsterView.filterButton.rx.tap
-            .map { Reactor.Action.filterButtonTapped }
+            .map { Reactor.Action.monsterFilterButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -166,6 +175,7 @@ extension MapDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.mapDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.mapDetailInfo.mapId ?? 0 },
             imageUrl: { $0.mapUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
@@ -181,18 +191,18 @@ extension MapDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
-                case .filter(let type):
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: owner.selectedIndex) { index in
+                case .filter(let sort):
+                    let viewController = owner.sortedFactory.make(sortedOptions: sort, selectedIndex: owner.selectedIndex) { index in
                         owner.selectedIndex = index
-                        let selectedFilter = reactor.currentState.type.detailSortedFilter[index]
+                        let selectedFilter = reactor.currentState.monsterFilter[index]
                         owner.appearMonsterView.selectFilter(selectedType: selectedFilter)
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }
-                    owner.tabBarController?.presentModal(viewController)
+                    owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case .none:
                     break
                 case .detail(let type, let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             }

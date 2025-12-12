@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import DesignSystem
 import DictionaryFeatureInterface
@@ -9,17 +10,18 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 
-public final class DictionaryMainViewController: BaseViewController, View {
+public final class DictionaryMainViewController: BaseViewController, View, DictionaryTabControllable {
     public typealias Reactor = DictionaryMainReactor
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
     private let initialIndex: Int
-    private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
+//    private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
 
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory
+    private let loginFactory: LoginFactory
 
     private var viewControllers: [UIViewController]
 
@@ -31,6 +33,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
         dictionaryMainListFactory: DictionaryMainListFactory,
         searchFactory: DictionarySearchFactory,
         notificationFactory: DictionaryNotificationFactory,
+        loginFactory: LoginFactory,
         reactor: DictionaryMainReactor
     ) {
         let type = reactor.currentState.type
@@ -38,6 +41,7 @@ public final class DictionaryMainViewController: BaseViewController, View {
         self.viewControllers = type.pageTabList.map { dictionaryMainListFactory.make(type: $0, listType: type, keyword: "") }
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
+        self.loginFactory = loginFactory
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -57,6 +61,7 @@ public extension DictionaryMainViewController {
         setupConstraints()
         configureUI()
         setInitialIndex()
+        DictionaryTabRegistry.register(controller: self)
     }
 }
 
@@ -110,6 +115,26 @@ private extension DictionaryMainViewController {
             self?.underLineController.setInitialIndicator()
         }
     }
+
+    func moveToTab(oldIndex: Int, newIndex: Int) {
+        guard newIndex < viewControllers.count else { return }
+        let direction: UIPageViewController.NavigationDirection = newIndex > oldIndex ? .forward : .reverse
+
+        mainView.pageViewController.setViewControllers(
+            [viewControllers[newIndex]],
+            direction: direction,
+            animated: true,
+            completion: nil
+        )
+
+        mainView.tabCollectionView.selectItem(
+            at: IndexPath(item: newIndex, section: 0),
+            animated: true,
+            scrollPosition: .centeredHorizontally
+        )
+
+        underLineController.animateIndicatorToSelectedItem()
+    }
 }
 
 // MARK: - Bind
@@ -120,6 +145,11 @@ public extension DictionaryMainViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        rx.viewWillAppear
+            .map { .viewWillAppear }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.headerView.firstIconButton.rx.tap
             .map { Reactor.Action.searchButtonTapped }
             .bind(to: reactor.action)
@@ -134,10 +164,10 @@ public extension DictionaryMainViewController {
     func bindViewState(reactor: Reactor) {
         rx.viewDidAppear
             .take(1)
-            .flatMapLatest { _ in return reactor.pulse(\.$route) }
-            .withUnretained(self)
+            .flatMapLatest { _ in reactor.pulse(\.$route) }
             .observe(on: MainScheduler.instance)
-            .subscribe { (owner, route) in
+            .withUnretained(self)
+            .subscribe { owner, route in
                 switch route {
                 case .search:
                     let controller = owner.searchFactory.make()
@@ -145,11 +175,31 @@ public extension DictionaryMainViewController {
                 case .notification:
                     let controller = owner.notificationFactory.make()
                     owner.navigationController?.pushViewController(controller, animated: true)
+                case .login:
+                    let controller = owner.loginFactory.make(exitRoute: .pop, onLoginCompleted: nil)
+                    owner.navigationController?.pushViewController(controller, animated: true)
                 default:
                     break
                 }
             }
             .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.currentPageIndex)
+            .distinctUntilChanged()
+            .skip(1)
+            .withUnretained(self)
+            .subscribe(onNext: { owner, newIndex in
+                let oldIndex = reactor.currentState.oldPageIndex
+                owner.moveToTab(oldIndex: oldIndex, newIndex: newIndex)
+            })
+            .disposed(by: disposeBag)
+    }
+}
+
+public extension DictionaryMainViewController {
+    func changeTab(index: Int) {
+        reactor?.action.onNext(.changeTab(index))
     }
 }
 
@@ -170,9 +220,7 @@ extension DictionaryMainViewController: UIPageViewControllerDataSource, UIPageVi
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
            let newIndex = viewControllers.firstIndex(of: visibleViewController) {
-            currentPageIndex.accept(newIndex)
-            mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-            underLineController.animateIndicatorToSelectedItem()
+            reactor?.action.onNext(.changeTab(newIndex))
         }
     }
 }
@@ -191,26 +239,15 @@ extension DictionaryMainViewController: UICollectionViewDataSource, UICollection
         }
         let title = reactor.currentState.sections[indexPath.row]
         cell.inject(title: title)
-        cell.isSelected = indexPath.row == currentPageIndex.value
+        cell.isSelected = indexPath.row == reactor.currentState.currentPageIndex
         return cell
     }
 
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let newIndex = indexPath.row
-        let oldIndex = currentPageIndex.value
-
+        guard let oldIndex = reactor?.currentState.currentPageIndex else { return }
         guard newIndex != oldIndex else { return }
 
-        let direction: UIPageViewController.NavigationDirection = newIndex > oldIndex ? .forward : .reverse
-
-        mainView.pageViewController.setViewControllers(
-            [viewControllers[newIndex]],
-            direction: direction,
-            animated: true,
-            completion: nil
-        )
-
-        currentPageIndex.accept(newIndex)
-        underLineController.animateIndicatorToSelectedItem()
+        reactor?.action.onNext(.changeTab(newIndex))
     }
 }

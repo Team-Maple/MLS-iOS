@@ -7,10 +7,12 @@ import RxSwift
 public class AuthAPIRepositoryImpl: AuthAPIRepository {
     private let provider: NetworkProvider
     private let tokenInterceptor: Interceptor
+    private let authInterceptor: Interceptor
 
-    public init(provider: NetworkProvider, interceptor: Interceptor) {
+    public init(provider: NetworkProvider, tokenInterceptor: Interceptor, authInterceptor: Interceptor) {
         self.provider = provider
-        self.tokenInterceptor = interceptor
+        self.tokenInterceptor = tokenInterceptor
+        self.authInterceptor = authInterceptor
     }
 
     public func fetchProfile() -> Observable<MyPageResponse?> {
@@ -21,7 +23,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithKakao(credential: credential)
-        return provider.requestData(endPoint: endpoint, interceptor: nil)
+        return provider.requestData(endPoint: endpoint, interceptor: authInterceptor)
             .map { $0.toLoginDomain() }
             .catch { error in
                 if case NetworkError.statusError(let code, _) = error, code == 404 {
@@ -34,7 +36,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {
         let endpoint = AuthEndPoint.loginWithApple(credential: credential)
-        return provider.requestData(endPoint: endpoint, interceptor: nil)
+        return provider.requestData(endPoint: endpoint, interceptor: authInterceptor)
             .map { $0.toLoginDomain() }
             .catch { error in
                 if case NetworkError.statusError(let code, _) = error, code == 404 {
@@ -76,7 +78,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor).map { $0.toLoginDomain() }
+        return provider.requestData(endPoint: endPoint, interceptor: authInterceptor).map { $0.toLoginDomain() }
     }
 
     public func fcmToken(credential: String, fcmToken: String?) -> Completable {

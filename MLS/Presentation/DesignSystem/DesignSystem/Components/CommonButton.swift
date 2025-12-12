@@ -175,4 +175,19 @@ public extension CommonButton {
         }
         configureUI()
     }
+
+    func updateTitleColor(color: UIColor, for state: UIControl.State = .normal) {
+        var config = configuration ?? UIButton.Configuration.plain()
+
+        if var attributedTitle = config.attributedTitle {
+            var container = AttributeContainer()
+            container.foregroundColor = color
+            attributedTitle.mergeAttributes(container, mergePolicy: .keepNew)
+            config.attributedTitle = attributedTitle
+        } else if let title = title(for: state) {
+            config.attributedTitle = AttributedString(title, attributes: AttributeContainer([.foregroundColor: color]))
+        }
+
+        configuration = config
+    }
 }

@@ -33,7 +33,7 @@ public final class TabBarUnderlineController {
 
     // MARK: - Initialization
 
-    public init() { }
+    public init() {}
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
@@ -66,7 +66,6 @@ private extension TabBarUnderlineController {
 // MARK: - Public Interface
 
 public extension TabBarUnderlineController {
-
     /// 컬렉션 뷰에 인디케이터 컨트롤러 연결
     func configure(with collectionView: UICollectionView) {
         self.collectionView = collectionView
@@ -125,5 +124,21 @@ public extension TabBarUnderlineController {
             height: 2
         )
         selectionIndicatorView.frame = targetFrame
+    }
+
+    func setHidden(hidden: Bool, animated: Bool = false) {
+        let alpha: CGFloat = hidden ? 0 : 1
+        if animated {
+            UIView.animate(withDuration: 0.25) {
+                self.selectionIndicatorView.alpha = alpha
+                self.bottomUnderlineView.alpha = alpha
+            }
+        } else {
+            selectionIndicatorView.alpha = alpha
+            bottomUnderlineView.alpha = alpha
+        }
+
+        selectionIndicatorView.isHidden = hidden
+        bottomUnderlineView.isHidden = hidden
     }
 }

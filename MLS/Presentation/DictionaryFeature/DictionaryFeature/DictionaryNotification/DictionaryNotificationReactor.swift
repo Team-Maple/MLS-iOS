@@ -52,6 +52,8 @@ public final class DictionaryNotificationReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return .concat([
+                fetchProfileUseCase.execute()
+                    .map { .setProfile($0) },
                 .just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: nil, pageSize: 20)
                     .map { paged in

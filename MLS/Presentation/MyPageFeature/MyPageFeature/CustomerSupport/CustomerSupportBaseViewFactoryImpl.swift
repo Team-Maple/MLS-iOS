@@ -3,13 +3,23 @@ import DomainInterface
 import MyPageFeatureInterface
 
 public final class CustomerSupportBaseViewFactoryImpl: CustomerSupportFactory {
+    private let policyFactory: PolicyFactory
+
     private let fetchNoticesUseCase: FetchNoticesUseCase
     private let fetchOngoingEventsUseCase: FetchOngoingEventsUseCase
     private let fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase
     private let fetchPatchNotesUseCase: FetchPatchNotesUseCase
     private let setReadUseCase: SetReadUseCase
 
-    public init(fetchNoticesUseCase: FetchNoticesUseCase, fetchOngoingEventsUseCase: FetchOngoingEventsUseCase, fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase, fetchPatchNotesUseCase: FetchPatchNotesUseCase, setReadUseCase: SetReadUseCase) {
+    public init(
+        policyFactory: PolicyFactory,
+        fetchNoticesUseCase: FetchNoticesUseCase,
+        fetchOngoingEventsUseCase: FetchOngoingEventsUseCase,
+        fetchOutdatedEventsUseCase: FetchOutdatedEventsUseCase,
+        fetchPatchNotesUseCase: FetchPatchNotesUseCase,
+        setReadUseCase: SetReadUseCase
+    ) {
+        self.policyFactory = policyFactory
         self.fetchNoticesUseCase = fetchNoticesUseCase
         self.fetchOngoingEventsUseCase = fetchOngoingEventsUseCase
         self.fetchOutdatedEventsUseCase = fetchOutdatedEventsUseCase
@@ -37,7 +47,7 @@ public final class CustomerSupportBaseViewFactoryImpl: CustomerSupportFactory {
                 viewController.reactor = PatchNoteReactor(fetchPatchNotesUseCase: fetchPatchNotesUseCase, setReadUseCase: setReadUseCase)
             }
         case .terms:
-            viewController  = TermsViewController(type: .terms)
+            viewController  = TermsViewController(type: .terms, policyFactory: policyFactory)
             if let viewController = viewController as? TermsViewController {
 
             }

@@ -15,7 +15,7 @@ public final class BookmarkOnBoardingView: UIView {
             switch self {
             case .first:
                 return .init(
-                    imageName: "bookmarkList",
+                    imageName: "onBoardingBookmark",
                     title: "내가 찜한 정보, 한곳에!",
                     description: "아이템, 몬스터, 맵, NPC, 퀘스트를\n북마크하면 자동으로 여기에 모여요.",
                     isBackButtonHidden: true,
@@ -151,7 +151,7 @@ public extension BookmarkOnBoardingView {
         guard let content = type.content else { return }
         imageView.image = DesignSystemAsset.image(named: content.imageName)
         titleLabel.attributedText = .makeStyledString(font: .h_xxxl_b, text: content.title)
-        descLabel.attributedText = .makeStyledString(font: .b_m_r, text: content.description)
+        descLabel.attributedText = .makeStyledString(font: .b_m_r, text: content.description, color: .neutral700)
         nextButton.updateTitle(title: content.buttonTitle)
         backButton.isHidden = content.isBackButtonHidden
         stepIndicator.selectIndicator(index: type.rawValue)

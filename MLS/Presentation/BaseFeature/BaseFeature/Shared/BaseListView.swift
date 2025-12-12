@@ -25,7 +25,7 @@ open class BaseListView: UIView {
     public let listCollectionView: UICollectionView
     public let sortButton: UIButton
     public let filterButton: UIButton
-    public let emptyView: UIView
+    public let emptyView: DataEmptyView
 
     private lazy var filterStackView: UIStackView = {
         var subviews: [UIView] = []
@@ -48,7 +48,7 @@ open class BaseListView: UIView {
     public init(editButton: UIButton? = nil,
                 sortButton: UIButton,
                 filterButton: UIButton,
-                emptyView: UIView,
+                emptyView: DataEmptyView,
                 isFilterHidden: Bool) {
         self.editButton = editButton
         self.sortButton = sortButton
@@ -81,6 +81,10 @@ private extension BaseListView {
             listCollectionView.snp.makeConstraints { make in
                 make.edges.equalToSuperview()
             }
+
+            emptyView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
         } else {
             filterStackView.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
@@ -92,11 +96,11 @@ private extension BaseListView {
                 make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
                 make.horizontalEdges.bottom.equalToSuperview()
             }
-        }
 
-        emptyView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(-Constant.bottomInset)
+            emptyView.snp.makeConstraints { make in
+                make.top.equalTo(filterStackView.snp.bottom).offset(Constant.topMargin)
+                make.horizontalEdges.bottom.equalToSuperview()
+            }
         }
     }
 
@@ -169,7 +173,6 @@ public extension BaseListView {
 
     func checkEmptyData(isEmpty: Bool) {
         emptyView.isHidden = !isEmpty
-        filterStackView.isHidden = isEmpty
         listCollectionView.isHidden = isEmpty
     }
 }

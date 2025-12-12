@@ -1,5 +1,6 @@
 import UIKit
 
+import AuthFeatureInterface
 import BaseFeature
 import BookmarkFeatureInterface
 import DictionaryFeatureInterface
@@ -21,6 +22,7 @@ public final class BookmarkMainViewController: BaseViewController, View {
     private var onBoardingFactory: BookmarkOnBoardingFactory
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory
+    private let loginFactory: LoginFactory
 
     private var viewControllers: [UIViewController]
 
@@ -34,6 +36,7 @@ public final class BookmarkMainViewController: BaseViewController, View {
         collectionListFactory: CollectionListFactory,
         searchFactory: DictionarySearchFactory,
         notificationFactory: DictionaryNotificationFactory,
+        loginFactory: LoginFactory,
         reactor: BookmarkMainReactor
     ) {
         let type = reactor.currentState.type
@@ -48,6 +51,7 @@ public final class BookmarkMainViewController: BaseViewController, View {
         self.onBoardingFactory = onBoardingFactory
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
+        self.loginFactory = loginFactory
         self.initialIndex = initialIndex
         super.init()
         self.reactor = reactor
@@ -130,8 +134,8 @@ public extension BookmarkMainViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
-        rx.viewDidAppear
-            .map { _ in Reactor.Action.viewDidAppear }
+        rx.viewWillAppear
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -142,6 +146,11 @@ public extension BookmarkMainViewController {
 
         mainView.headerView.secondIconButton.rx.tap
             .map { Reactor.Action.notificationButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.emptyView.button.rx.tap
+            .map { Reactor.Action.loginButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -162,20 +171,26 @@ public extension BookmarkMainViewController {
                 case .onBoarding:
                     let viewController = owner.onBoardingFactory.make()
                     viewController.modalPresentationStyle = .fullScreen
-
-                    viewController.rx.deallocated
-                        .take(1)
-                        .subscribe(onNext: {
-                            reactor.action.onNext(.dismissOnboarding)
-                        })
-                        .disposed(by: owner.disposeBag)
-
                     owner.present(viewController, animated: true)
+                case .login:
+                    let controller = owner.loginFactory.make(exitRoute: .pop, onLoginCompleted: nil)
+                    owner.navigationController?.pushViewController(controller, animated: true)
                 default:
                     break
                 }
             }
             .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isLogin }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind { owner, isLogin in
+                owner.mainView.updateLoginState(isLogin: isLogin)
+                owner.underLineController.setHidden(hidden: true)
+            }
+            .disposed(by: disposeBag)
+
     }
 }
 

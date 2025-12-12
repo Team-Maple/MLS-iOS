@@ -35,19 +35,33 @@ private extension QuestDictionaryDetailViewController {
 
         contentViews.append(detailInfoView)
         // 뭘로 빈페이지 보여줄지 정하지..
+        detailInfoView.reset()
         if !(detailInfos.startNpcName == nil) {
             contentViews.append(detailInfoView)
             // 완료조건 추가
             if let requirements = detailInfos.requirements {
                 for requirement in requirements {
                     if let quantity = requirement.quantity {
-                        if let name = requirement.itemName ?? requirement.monsterName {
-                            detailInfoView.addCondition(
-                                mainText: name,
-                                subText: "\(quantity)",
-                                clickable: true,
-                                onTap: { self.presentAlert() }
-                            )
+                        if let name = requirement.itemName ?? requirement.monsterName,
+                           let type = DictionaryType(rawValue: requirement.requirementType ?? "") {
+
+                            if let id = type == .item ? requirement.itemId : requirement.monsterId {
+                                detailInfoView.addCondition(
+                                    mainText: name,
+                                    subText: "\(quantity)",
+                                    clickable: true,
+                                    onTap: { [weak reactor] in
+                                        reactor?.action.onNext(.infoTapped(type: type, id: id))
+                                    }
+                                )
+                            } else {
+                                detailInfoView.addCondition(
+                                    mainText: name,
+                                    subText: "\(quantity)",
+                                    clickable: false,
+                                    onTap: {}
+                                )
+                            }
                         }
                     }
                 }
@@ -75,13 +89,13 @@ private extension QuestDictionaryDetailViewController {
 
             // 보상 추가 - 메소,경험치, 인기도
             if let meso = rewardInfos?.meso {
-                detailInfoView.addReward(mainText: DictionaryDetailText.meso, subText: "\(meso)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.meso, subText: "\(meso.formatted())")
             }
             if let exp = rewardInfos?.exp {
-                detailInfoView.addReward(mainText: DictionaryDetailText.exp, subText: "\(exp)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.exp, subText: "\(exp.formatted())")
             }
             if let pop = rewardInfos?.popularity {
-                detailInfoView.addReward(mainText: DictionaryDetailText.pop, subText: "\(pop)")
+                detailInfoView.addReward(mainText: DictionaryDetailText.pop, subText: "\(pop.formatted())")
             }
             if let rewardItems = rewardItemInfos {
                 for info in rewardItems {
@@ -98,17 +112,26 @@ private extension QuestDictionaryDetailViewController {
 
     func setUpQuestView() {
         guard let reactor = reactor else { return }
-        let quests = reactor.currentState.linkedQuestInfo
+        let quests = reactor.currentState.totalQuest
+
+        linkedQuestView.reset()
         contentViews.append(linkedQuestView)
-        if let previousQuests = quests.previousQuests, let nextQuests = quests.nextQuests {
-            if previousQuests.isEmpty, nextQuests.isEmpty {
-                contentViews[1] = DetailEmptyView(type: .quest)
-            } else {
-                contentViews[1] = linkedQuestView
-                for quest in previousQuests + nextQuests {
-                    linkedQuestView.inject(input: DetailStackCardView.Input(type: .linkedQuest, imageUrl: quest.iconUrl ?? "", mainText: quest.name, subText: "수락 Lv.\(quest.minLevel ?? 0)")
+
+        if quests.isEmpty {
+            contentViews[1] = DetailEmptyView(type: .quest)
+        } else {
+            contentViews[1] = linkedQuestView
+
+            for data in quests {
+                linkedQuestView.inject(
+                    input: DetailStackCardView.Input(
+                        type: .linkedQuest,
+                        imageUrl: data.quest.iconUrl ?? "",
+                        mainText: data.quest.name,
+                        subText: "수락 Lv.\(data.quest.minLevel ?? 0)",
+                        questType: data.type
                     )
-                }
+                )
             }
         }
     }
@@ -146,7 +169,7 @@ extension QuestDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-        reactor.state.map(\.linkedQuestInfo)
+        reactor.state.map(\.totalQuest)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
@@ -159,6 +182,7 @@ extension QuestDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.detailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.detailInfo.questId ?? 0 },
             imageUrl: { $0.iconUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
@@ -174,31 +198,13 @@ extension QuestDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
-                case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .quest, id: id)
+                case let .detail(type, id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
             }
             .disposed(by: disposeBag)
-    }
-}
-
-// MARK: - 임시Alert
-extension QuestDictionaryDetailViewController {
-    func presentAlert() {
-        let alert = UIAlertController(title: "알림", message: "페이지 이동Alert", preferredStyle: .alert)
-
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            print("확인 버튼 클릭됨")
-        }
-
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-
-        present(alert, animated: true)
     }
 }

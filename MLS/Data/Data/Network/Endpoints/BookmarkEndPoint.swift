@@ -3,7 +3,7 @@ import DomainInterface
 public enum BookmarkEndPoint {
     static let base = "https://api.mapleland.kro.kr"
 
-    public static func setBookmark(body: Encodable) -> EndPoint {
+    public static func setBookmark(body: Encodable) -> ResponsableEndPoint<[BookmarkDTO]> {
         .init(
             baseURL: base,
             path: "/api/v1/bookmarks",
@@ -12,7 +12,7 @@ public enum BookmarkEndPoint {
         )
     }
 
-    public static func deleteBookmark(bookmarkId: Int) -> EndPoint {
+    public static func deleteBookmark(bookmarkId: Int) -> ResponsableEndPoint<[BookmarkDTO]> {
         .init(
             baseURL: base,
             path: "/api/v1/bookmarks/\(bookmarkId)",

@@ -1,4 +1,4 @@
-public enum DictionaryType: CaseIterable {
+public enum DictionaryType: String, CaseIterable {
     case total
     case collection
     case item
@@ -41,19 +41,23 @@ public enum DictionaryType: CaseIterable {
         }
     }
 
-    public var detailSortedFilter: [SortType] {
+    public var detailTypes: [DetailType] {
         switch self {
-        case .item, .monster:
+        case .item:
             return [
-                .mostDrop, .levelDESC, .levelASC
+                .dropMonsterWithText
+            ]
+        case .monster:
+            return [
+                .appearMapWithText, .dropItemWithText
             ]
         case .map:
             return [
-                .mostAppear
+                .appearMonsterWithText, .appearNPC
             ]
         case .npc:
             return [
-                .levelLowest, .levelHighest
+                .quest
             ]
         default:
             return []
@@ -101,6 +105,25 @@ public enum DictionaryType: CaseIterable {
             return .quest
         default:
             return nil
+        }
+    }
+
+    public var tabIndex: Int {
+        switch self {
+        case .total:
+            0
+        case .collection:
+            0
+        case .item:
+            1
+        case .monster:
+            2
+        case .map:
+            3
+        case .npc:
+            4
+        case .quest:
+            5
         }
     }
 }

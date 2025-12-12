@@ -127,7 +127,11 @@ extension CollectionEditViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .collcectionList:
-                    let viewController = owner.bookmarkModalFactory.make(bookmarkIds: reactor.currentState.selectedItems.map { $0.bookmarkId })
+                    let viewController = owner.bookmarkModalFactory.make(bookmarkIds: reactor.currentState.selectedItems.map { $0.bookmarkId }) { isSave in
+                        if isSave {
+                            owner.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
                     owner.present(viewController, animated: true)
                 default:
                     break
@@ -159,7 +163,7 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
         }
 
         cell.inject(
-            type: .bookmark,
+            type: .checkbox,
             input: DictionaryListCell.Input(
                 type: item.type,
                 mainText: item.name,

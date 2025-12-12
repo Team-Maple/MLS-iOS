@@ -1,8 +1,9 @@
 import DomainInterface
 
+import RxRelay
 import RxSwift
 
-public class CheckLoginUseCaseImpl: CheckLoginUseCase {
+public final class CheckLoginUseCaseImpl: CheckLoginUseCase {
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
 
@@ -14,6 +15,8 @@ public class CheckLoginUseCaseImpl: CheckLoginUseCase {
     public func execute() -> Observable<Bool> {
         switch tokenRepository.fetchToken(type: .refreshToken) {
         case .success(let token):
+            guard !token.isEmpty else { return .just(false) }
+
             return authRepository.reissueToken(refreshToken: token)
                 .map { [weak self] response in
                     guard let self else { return false }
@@ -35,8 +38,7 @@ public class CheckLoginUseCaseImpl: CheckLoginUseCase {
                     return .just(false)
                 }
 
-        case .failure(let error):
-            print("refreshToken 불러오기 실패:", error.localizedDescription)
+        case .failure:
             return .just(false)
         }
     }

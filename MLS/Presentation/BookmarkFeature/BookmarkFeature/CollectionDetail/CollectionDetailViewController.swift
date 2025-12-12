@@ -197,7 +197,7 @@ extension CollectionDetailViewController {
                     })
                     owner.presentModal(viewController)
                 case .detail(let type, let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

@@ -1,3 +1,4 @@
+import AuthFeatureInterface
 import BaseFeature
 import DictionaryFeatureInterface
 import DomainInterface
@@ -6,18 +7,20 @@ public final class DictionaryMainViewFactoryImpl: DictionaryMainViewFactory {
     private let dictionaryMainListFactory: DictionaryMainListFactory
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory
-    private let checkLoginUseCase: CheckLoginUseCase
+    private let loginFactory: LoginFactory
+    private let fetchProfileUseCase: FetchProfileUseCase
 
-    public init(dictionaryMainListFactory: DictionaryMainListFactory, searchFactory: DictionarySearchFactory, notificationFactory: DictionaryNotificationFactory, checkLoginUseCase: CheckLoginUseCase) {
+    public init(dictionaryMainListFactory: DictionaryMainListFactory, searchFactory: DictionarySearchFactory, notificationFactory: DictionaryNotificationFactory, loginFactory: LoginFactory, fetchProfileUseCase: FetchProfileUseCase) {
         self.dictionaryMainListFactory = dictionaryMainListFactory
         self.searchFactory = searchFactory
         self.notificationFactory = notificationFactory
-        self.checkLoginUseCase = checkLoginUseCase
+        self.loginFactory = loginFactory
+        self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     public func make() -> BaseViewController {
-        let reactor = DictionaryMainReactor(checkLoginUseCase: checkLoginUseCase)
-        let viewController = DictionaryMainViewController(dictionaryMainListFactory: dictionaryMainListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory, reactor: reactor)
+        let reactor = DictionaryMainReactor(fetchProfileUseCase: fetchProfileUseCase)
+        let viewController = DictionaryMainViewController(dictionaryMainListFactory: dictionaryMainListFactory, searchFactory: searchFactory, notificationFactory: notificationFactory, loginFactory: loginFactory, reactor: reactor, )
         viewController.isBottomTabbarHidden = false
         viewController.reactor = reactor
         return viewController

@@ -1,8 +1,11 @@
+import BaseFeature
 import DomainInterface
+
 import ReactorKit
 import RxSwift
 
-open class DictionaryListReactor: Reactor {
+public final class DictionaryListReactor: Reactor {
+
     // MARK: - Route
     public enum Route {
         case none
@@ -12,7 +15,6 @@ open class DictionaryListReactor: Reactor {
 
     // MARK: - Action
     public enum Action {
-        case toggleBookmark(Int, Bool)
         case viewWillAppear
         case sortButtonTapped
         case filterButtonTapped
@@ -21,15 +23,13 @@ open class DictionaryListReactor: Reactor {
         case itemFilterOptionSelected([(String, String)])
         case setCurrentPage
         case fetchList
-        case fetchListFilter
         case undoLastDeletedBookmark
+        case toggleBookmark(id: Int, isSelected: Bool)
     }
 
     // MARK: - Mutation
     public enum Mutation {
-        case setListItem(DictionaryMainResponse)
-        case setFilterMonsterItem(DictionaryMainResponse)
-        case setFilterItemsItem(DictionaryMainResponse)
+        case setListItem(DictionaryMainResponse, updateBookmarkOnly: Bool = false)
         case showSortFilter
         case showFilter
         case setSort(String)
@@ -40,6 +40,8 @@ open class DictionaryListReactor: Reactor {
         case setLastDeletedBookmark(DictionaryMainItemResponse?)
         case setJobId([Int])
         case setCategoryId([Int])
+        case updateBookmarkState(id: Int, isSelected: Bool)
+        case updateBookmarkStates([Int: Bool]) // 새 Mutation: 여러 북마크 반영
     }
 
     // MARK: - State
@@ -60,6 +62,7 @@ open class DictionaryListReactor: Reactor {
 
         var isLogin: Bool
         var lastDeletedBookmark: DictionaryMainItemResponse?
+        var isBookmarkUpdateOnly: Bool = false
     }
 
     public var initialState: State
@@ -108,55 +111,91 @@ open class DictionaryListReactor: Reactor {
         switch action {
         case .viewWillAppear:
             return handleViewWillAppear()
-
-        case let .toggleBookmark(id, isSelected):
-            return handleToggleBookmark(id: id, isSelected: isSelected)
-
         case .sortButtonTapped:
             return .just(.showSortFilter)
-
         case .filterButtonTapped:
             return .just(.showFilter)
-
         case let .sortOptionSelected(sort):
             return handleSortOptionSelected(sort: sort)
-
         case let .filterOptionSelected(startLevel, endLevel):
             return handleFilterOptionSelected(startLevel: startLevel, endLevel: endLevel)
-
         case .setCurrentPage:
             return .just(.setCurrentPage)
-
         case .fetchList:
-            return fetchList(
-                sort: currentState.sort,
-                startLevel: currentState.startLevel,
-                endLevel: currentState.endLevel
-            )
-
-        case .fetchListFilter:
-            return fetchList(
-                sort: currentState.sort,
-                startLevel: currentState.startLevel ?? 1,
-                endLevel: currentState.endLevel ?? 200,
-                isFilter: true
-            )
-
+            return fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
         case .undoLastDeletedBookmark:
             return handleUndoLastDeletedBookmark()
-
-        case .itemFilterOptionSelected(let results):
+        case let .toggleBookmark(id, isSelected):
+            return handleToggleBookmark(id: id, isSelected: isSelected)
+        case let .itemFilterOptionSelected(results):
             return handleItemFilterOptionSelected(results: results)
         }
     }
 
-    // MARK: - Fetch
-    private func fetchList(
-        sort: String?,
-        startLevel: Int?,
-        endLevel: Int?,
-        isFilter: Bool = false
-    ) -> Observable<Mutation> {
+    // MARK: - Reduce
+    public func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+        switch mutation {
+        case .showSortFilter:
+            newState.route = .sort(newState.type)
+        case .showFilter:
+            newState.route = .filter(newState.type)
+        case let .setListItem(items, updateBookmarkOnly):
+            newState.isBookmarkUpdateOnly = updateBookmarkOnly
+            newState.totalCounts = items.totalElements
+            if updateBookmarkOnly {
+                newState.listItems = newState.listItems.map { item in
+                    if let updated = items.contents.first(where: { $0.id == item.id }) {
+                        var copy = item
+                        copy.bookmarkId = updated.bookmarkId ?? item.bookmarkId
+                        return copy
+                    } else { return item }
+                }
+            } else {
+                if newState.currentPage == 0 {
+                    newState.listItems = items.contents
+                } else {
+                    let existingIds = Set(newState.listItems.map { $0.id })
+                    let newItems = items.contents.filter { !existingIds.contains($0.id) }
+                    newState.listItems.append(contentsOf: newItems)
+                }
+            }
+        case let .setSort(sort):
+            newState.sort = sort
+        case let .setFilter(startLevel, endLevel):
+            newState.startLevel = startLevel
+            newState.endLevel = endLevel
+        case .setCurrentPage:
+            newState.currentPage += 1
+        case .initPage:
+            newState.currentPage = 0
+        case let .setLastDeletedBookmark(item):
+            newState.lastDeletedBookmark = item
+        case let .setLoginState(isLogin):
+            newState.isLogin = isLogin
+        case let .setJobId(id):
+            newState.jobId = id
+        case let .setCategoryId(id):
+            newState.categoryIds = id
+        case let .updateBookmarkState(id, isSelected):
+            if let index = newState.listItems.firstIndex(where: { $0.id == id }) {
+                newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
+            }
+        case let .updateBookmarkStates(dict):
+            for index in 0..<newState.listItems.count {
+                if let isSelected = dict[newState.listItems[index].id] {
+                    newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
+                }
+            }
+        }
+        return newState
+    }
+}
+
+// MARK: - Methods
+private extension DictionaryListReactor {
+
+    func fetchList(sort: String?, startLevel: Int?, endLevel: Int?, updateBookmarkOnly: Bool = false) -> Observable<Mutation> {
         let response: Observable<DictionaryMainResponse>
 
         switch currentState.type {
@@ -172,7 +211,6 @@ open class DictionaryListReactor: Reactor {
                     maxLevel: endLevel
                 )
             )
-
         case .item:
             response = dictionaryItemListUseCase.execute(
                 keyword: currentState.keyword ?? "",
@@ -184,7 +222,6 @@ open class DictionaryListReactor: Reactor {
                 size: 20,
                 sort: sort
             )
-
         case .map:
             response = dictionaryMapListUseCase.execute(
                 keyword: currentState.keyword ?? "",
@@ -192,7 +229,6 @@ open class DictionaryListReactor: Reactor {
                 size: 20,
                 sort: sort ?? "ASC"
             )
-
         case .npc:
             response = dictionaryNpcListUseCase.execute(
                 keyword: currentState.keyword ?? "",
@@ -200,7 +236,6 @@ open class DictionaryListReactor: Reactor {
                 size: 20,
                 sort: sort ?? "ASC"
             )
-
         case .quest:
             response = dictionaryQuestListUseCase.execute(
                 keyword: currentState.keyword ?? "",
@@ -208,108 +243,73 @@ open class DictionaryListReactor: Reactor {
                 size: 20,
                 sort: sort ?? "ASC"
             )
-
         case .total:
             response = dictionaryAllListUseCase.execute(
                 keyword: currentState.keyword ?? "",
                 page: currentState.currentPage
             )
-
         default:
             return .empty()
         }
 
-        return response.map { res in
-            if isFilter {
-                switch self.currentState.type {
-                case .monster:
-                    return .setFilterMonsterItem(res)
-                case .item:
-                    return .setFilterItemsItem(res)
-                default:
-                    return .setListItem(res)
+        return response.map { response in
+            if updateBookmarkOnly {
+                let merged = self.currentState.listItems.map { item in
+                    if let updated = response.contents.first(where: { $0.id == item.id }) {
+                        var copy = item
+                        copy.bookmarkId = updated.bookmarkId ?? item.bookmarkId
+                        return copy
+                    } else { return item }
                 }
+                var newResponse = response
+                newResponse.contents = merged
+                return .setListItem(newResponse, updateBookmarkOnly: true)
             } else {
-                return .setListItem(res)
+                return .setListItem(response)
             }
         }
     }
 
-    // MARK: - Reduce
-    public func reduce(state: State, mutation: Mutation) -> State {
-        var newState = state
-        switch mutation {
-        case let .setFilterMonsterItem(items),
-             let .setFilterItemsItem(items):
-            newState.listItems = items.contents
-        case .showSortFilter:
-            newState.route = .sort(newState.type)
-        case .showFilter:
-            newState.route = .filter(newState.type)
-        case let .setListItem(items):
-            newState.totalCounts = items.totalElements
-            if newState.currentPage == 0 {
-                newState.listItems = items.contents
-            } else {
-                newState.listItems.append(contentsOf: items.contents)
-            }
-        case let .setSort(sort):
-            newState.sort = sort
-        case let .setFilter(startLevel, endLevel):
-            newState.startLevel = startLevel
-            newState.endLevel = endLevel
-        case .setCurrentPage:
-            newState.currentPage += 1
-        case .initPage:
-            newState.currentPage = 0
-        case let .setLastDeletedBookmark(item):
-            newState.lastDeletedBookmark = item
-        case let .setLoginState(isLogin):
-            newState.isLogin = isLogin
-        case .setJobId(let id):
-            newState.jobId = id
-        case .setCategoryId(let id):
-            newState.categoryIds = id
-        }
-        return newState
-    }
-}
-
-// MARK: - Methods
-private extension DictionaryListReactor {
     func handleViewWillAppear() -> Observable<Mutation> {
         let loginState = checkLoginUseCase.execute()
             .map { Mutation.setLoginState($0) }
-
-        let fetchMutation = fetchList(
-            sort: currentState.sort,
-            startLevel: currentState.startLevel,
-            endLevel: currentState.endLevel
-        )
-
+        let fetchMutation = fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
         return .merge([loginState, fetchMutation])
     }
 
     func handleToggleBookmark(id: Int, isSelected: Bool) -> Observable<Mutation> {
-        guard let bookmarkItem = currentState.listItems.first(where: { $0.id == id }) else { return .empty() }
-        let bookmarkId = bookmarkItem.bookmarkId ?? 0
+        guard let index = currentState.listItems.firstIndex(where: { $0.id == id }) else { return .empty() }
+        let targetItem = currentState.listItems[index]
 
-        let saveDeletedMutation: Observable<Mutation> = isSelected
-            ? .just(.setLastDeletedBookmark(bookmarkItem))
-            : .just(.setLastDeletedBookmark(nil))
+        let optimistic: Observable<Mutation>
 
-        return saveDeletedMutation.concat(
-            setBookmarkUseCase.execute(
-                bookmarkId: isSelected ? bookmarkId : id,
-                isBookmark: isSelected ? .delete : .set(bookmarkItem.type)
-            )
-            .andThen(
-                Observable.concat([
-                    .just(.initPage),
-                    fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
-                ])
-            )
+        if isSelected {
+            // 삭제되는 경우, undo를 위해 lastDeletedBookmark 저장
+            optimistic = Observable.concat([
+                // UI 반영
+                .just(.updateBookmarkState(id: id, isSelected: false)),
+                // undo 저장
+                .just(.setLastDeletedBookmark(targetItem))
+            ])
+        } else {
+            // 북마크 추가
+            optimistic = .just(.updateBookmarkState(id: id, isSelected: true))
+        }
+
+        // 서버 호출 + bookmark 확정
+        let api = setBookmarkUseCase.execute(
+            bookmarkId: isSelected ? targetItem.bookmarkId ?? targetItem.id : targetItem.id,
+            isBookmark: isSelected ? .delete : .set(targetItem.type)
         )
+        .andThen(fetchList(
+            sort: currentState.sort,
+            startLevel: currentState.startLevel,
+            endLevel: currentState.endLevel,
+            updateBookmarkOnly: true
+        ))
+        .observe(on: MainScheduler.asyncInstance)
+
+        return .concat([optimistic, api])
     }
 
     func handleSortOptionSelected(sort: SortType) -> Observable<Mutation> {
@@ -317,6 +317,10 @@ private extension DictionaryListReactor {
             .just(.setSort(sort.sortParameter)),
             .just(.initPage)
         ])
+        .concat(Observable.deferred { [weak self] in
+            guard let self = self else { return .empty() }
+            return self.fetchList(sort: self.currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
+        })
     }
 
     func handleFilterOptionSelected(startLevel: Int?, endLevel: Int?) -> Observable<Mutation> {
@@ -326,28 +330,24 @@ private extension DictionaryListReactor {
         ])
         .concat(Observable.deferred { [weak self] in
             guard let self = self else { return .empty() }
-            return self.fetchList(
-                sort: self.currentState.sort,
-                startLevel: startLevel,
-                endLevel: endLevel,
-                isFilter: true
-            )
+            return self.fetchList(sort: self.currentState.sort, startLevel: startLevel, endLevel: endLevel)
         })
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
         guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
-        return setBookmarkUseCase.execute(
+
+        let optimistic = Observable.just(Mutation.updateBookmarkState(id: lastDeleted.id, isSelected: true))
+            .observe(on: MainScheduler.asyncInstance)
+
+        let apiCall = setBookmarkUseCase.execute(
             bookmarkId: lastDeleted.id,
             isBookmark: .set(lastDeleted.type)
         )
-        .andThen(
-            Observable.concat([
-                .just(.initPage),
-                fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel),
-                .just(.setLastDeletedBookmark(nil))
-            ])
-        )
+        .andThen(Observable.just(Mutation.setLastDeletedBookmark(nil)))
+        .observe(on: MainScheduler.asyncInstance)
+
+        return .concat([optimistic, apiCall])
     }
 
     func handleItemFilterOptionSelected(results: [(String, String)]) -> Observable<Mutation> {
@@ -360,12 +360,7 @@ private extension DictionaryListReactor {
         ])
         .concat(Observable.deferred { [weak self] in
             guard let self = self else { return .empty() }
-            return self.fetchList(
-                sort: self.currentState.sort,
-                startLevel: self.currentState.startLevel,
-                endLevel: self.currentState.endLevel,
-                isFilter: true
-            )
+            return self.fetchList(sort: self.currentState.sort, startLevel: self.currentState.startLevel, endLevel: self.currentState.endLevel)
         })
     }
 }

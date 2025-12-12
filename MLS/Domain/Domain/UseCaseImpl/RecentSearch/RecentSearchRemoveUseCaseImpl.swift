@@ -4,7 +4,6 @@ import Foundation
 import RxSwift
 
 public class RecentSearchRemoveUseCaseImpl: RecentSearchRemoveUseCase {
-    private let key = "recentSearch"
     var repository: UserDefaultsRepository
     public init(repository: UserDefaultsRepository) {
         self.repository = repository

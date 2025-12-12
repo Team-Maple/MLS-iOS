@@ -33,10 +33,6 @@ public final class DictionarySearchReactor: Reactor {
     public struct State {
         @Pulse var route: Route
         var recentResult: [String]
-        var hasRecent: Bool {
-            !recentResult.isEmpty
-        }
-
         let popularResult: [PopularItem]
     }
 

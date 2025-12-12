@@ -47,7 +47,6 @@ public final class CollectionEditReactor: Reactor {
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
         case .addCollectionButtonTapped:
-            // 체크한 북마크를 selectedCollections에 추가하고 route를 .collectionList로
             return .just(.navigateTo(.collcectionList))
         case .completeButtonTapped:
             // 선택된 북마크들을 선택된 컬렉션들에 저장

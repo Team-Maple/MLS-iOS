@@ -6,7 +6,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     // MARK: - Type
     public enum Route {
         case none
-        case filter(DictionaryType)
+        case filter(type: DictionaryType, sort: [SortType])
         case detail(type: DictionaryType, id: Int)
     }
 
@@ -50,8 +50,15 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             evasionRate: 0, mesoDropAmount: nil, mesoDropRate: nil,
             typeEffectiveness: nil, bookmarkId: nil
         )
-        var dropItems = [DictionaryDetailMonsterDropItemResponse]()
         var spawnMaps = [DictionaryDetailMonsterMapResponse]()
+        var dropItems = [DictionaryDetailMonsterDropItemResponse]()
+        var mapFilter: [SortType] {
+            type.detailTypes[0].sortFilter
+        }
+
+        var itemFilter: [SortType] {
+            type.detailTypes[1].sortFilter
+        }
         var infos = [Info]()
         var isLogin = false
         var lastDeletedBookmark: DictionaryDetailMonsterResponse?
@@ -88,7 +95,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .filterButtonTapped(type):
-            return .just(.toNavigate(.filter(type)))
+            return .just(.toNavigate(.filter(type: type, sort: type == .map ? currentState.mapFilter : currentState.itemFilter)))
 
         case .viewWillAppear:
             return .merge([
@@ -99,16 +106,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             ])
 
         case let .selectFilter(type):
-            switch type {
-            case .levelDESC: // 레벨 높은 순
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level", "desc"]).map { .setDetailDropItemData($0) }
-            case .levelASC: // 레벨 낮은 순
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: ["level", "asc"]).map { .setDetailDropItemData($0) }
-            case .mostDrop:
-                return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: nil).map { .setDetailDropItemData($0) }
-            default:
-                return .empty()
-            }
+            return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailDropItemData($0) }
 
         case let .toggleBookmark(isSelected):
             let monsterId = currentState.monsterDetailInfo.monsterId
@@ -158,11 +156,11 @@ public final class MonsterDictionaryDetailReactor: Reactor {
             newState.monsterDetailInfo = data
 
             var infos: [Info] = []
-            infos.append(.init(name: "HP", desc: "\(data.hp)"))
-            infos.append(.init(name: "MP", desc: "\(data.mp)"))
-            infos.append(.init(name: "EXP", desc: "\(data.exp)"))
-            infos.append(.init(name: "물리방어력", desc: "\(data.physicalDefense)"))
-            infos.append(.init(name: "마법방어력", desc: "\(data.magicDefense)"))
+            infos.append(.init(name: "HP", desc: "\(data.hp.formatted())"))
+            infos.append(.init(name: "MP", desc: "\(data.mp.formatted())"))
+            infos.append(.init(name: "EXP", desc: "\(data.exp.formatted())"))
+            infos.append(.init(name: "물리방어력", desc: "\(data.physicalDefense.formatted())"))
+            infos.append(.init(name: "마법방어력", desc: "\(data.magicDefense.formatted())"))
             newState.infos = infos
 
         case let .setDetailDropItemData(data):

@@ -3,13 +3,14 @@ import UIKit
 import BaseFeature
 import DesignSystem
 import DomainInterface
+import MyPageFeatureInterface
 
 import RxCocoa
 import RxGesture
 import RxSwift
 /*
-**부모 뷰컨이 될 것 같음**
- */
+ **부모 뷰컨이 될 것 같음**
+  */
 class CustomerSupportBaseViewController: BaseViewController {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
@@ -19,13 +20,23 @@ class CustomerSupportBaseViewController: BaseViewController {
     public var urlStrings: [String] = []
     var onItemTapped: ((Int) -> Void)?
 
+    private let policyFactory: PolicyFactory?
+
     // MARK: - Components
     public var mainView = CustomerSupportBaseView()
     public var type: CustomerSupportType
 
     public init(type: CustomerSupportType) {
         self.type = type
+        self.policyFactory = nil
+        super.init()
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
+    }
+
+    public init(type: CustomerSupportType, policyFactory: PolicyFactory) {
+        self.type = type
+        mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
+        self.policyFactory = policyFactory
         super.init()
     }
 
@@ -56,7 +67,6 @@ class CustomerSupportBaseViewController: BaseViewController {
                     self?.handleItemTap(index: index)
                 })
                 .disposed(by: disposeBag)
-
         }
     }
 
@@ -90,8 +100,8 @@ extension CustomerSupportBaseViewController {
         }
     }
 }
-extension CustomerSupportBaseViewController {
 
+extension CustomerSupportBaseViewController {
     func handleItemTap(index: Int) {
         // 원하는 URL 열기 또는 네비게이션 처리
         switch type {
@@ -100,11 +110,23 @@ extension CustomerSupportBaseViewController {
             guard index < urlStrings.count else { return }
             let url = urlStrings[index]
             let webViewController = WebViewController(urlString: url)
-//            navigationController?.pushViewController(webViewController, animated: true)
             present(webViewController, animated: true)
         case .terms:
-            let viewController = TermsDetailViewController()
-            navigationController?.pushViewController(viewController, animated: true)
+            switch index {
+            case 0:
+                guard let viewController = policyFactory?.make(type: .service) else { return }
+                navigationController?.pushViewController(viewController, animated: true)
+            case 1:
+                guard let viewController = policyFactory?.make(type: .service) else { return }
+                navigationController?.pushViewController(viewController, animated: true)
+            case 2:
+                guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+                if UIApplication.shared.canOpenURL(url) {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            default:
+                break
+            }
         }
     }
 

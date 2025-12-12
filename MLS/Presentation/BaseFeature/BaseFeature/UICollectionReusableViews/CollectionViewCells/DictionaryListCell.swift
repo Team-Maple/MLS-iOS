@@ -78,7 +78,7 @@ public extension DictionaryListCell {
         if let url = URL(string: input.imageUrl) {
             ImageLoader.shared.loadImage(url: url) { [weak self] image in
                 guard let self = self else { return }
-                // ⚠️ 셀이 재사용된 경우, indexPath가 다르면 무시
+                // 셀이 재사용된 경우, indexPath가 다르면 무시
                 if let currentIndex = collectionView.indexPath(for: self),
                    currentIndex == indexPath {
                     if isMap {
@@ -97,6 +97,9 @@ public extension DictionaryListCell {
         cellView.onIconTapped = { [weak self] isSelected in
             self?.onBookmarkTapped?(isSelected)
         }
+    }
+    func updateBookmarkState(isBookmarked: Bool) {
+        cellView.setSelected(isSelected: isBookmarked)
     }
 }
 

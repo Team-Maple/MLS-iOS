@@ -14,7 +14,6 @@ final class NotificationSettingView: UIView {
         static let iconInset: CGFloat = 10
         static let buttonSize: CGFloat = 44
         static let topMargin: CGFloat = 20
-//        static let horizontalMargin: CGFloat = 16
     }
 
     // MARK: - Components

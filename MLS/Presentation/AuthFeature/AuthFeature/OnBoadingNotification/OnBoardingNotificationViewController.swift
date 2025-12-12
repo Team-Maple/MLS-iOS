@@ -77,6 +77,11 @@ public extension OnBoardingNotificationViewController {
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
+        mainView.headerView.leftButton.rx.tap
+            .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
         mainView.headerView.underlineTextButton.rx.tap
             .map { Reactor.Action.skipButtonTapped }
             .bind(to: reactor.action)
@@ -93,9 +98,11 @@ public extension OnBoardingNotificationViewController {
                 switch route {
                 case .notificationAlert:
                     let viewController = owner.onBoardingNotificationSheetFactory.make(selectedLevel: reactor.currentState.selectedLevel, selectedJobID: reactor.currentState.selectedJobID)
-                    owner.presentModal(viewController)
+                    owner.presentModal(viewController, hideTabBar: true)
                 case .home:
                     owner.appCoordinator.showMainTab()
+                case .pop:
+                    owner.navigationController?.popViewController(animated: true)
                 default:
                     break
                 }

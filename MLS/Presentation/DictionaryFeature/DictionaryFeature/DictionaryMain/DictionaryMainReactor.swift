@@ -12,12 +12,16 @@ public final class DictionaryMainReactor: Reactor {
     }
 
     public enum Action {
+        case viewWillAppear
         case searchButtonTapped
         case notificationButtonTapped
+        case changeTab(Int)
     }
 
     public enum Mutation {
         case navigateTo(Route)
+        case setLogin(Bool)
+        case setCurrentTab(oldIndex: Int, newIndex: Int)
     }
 
     public struct State {
@@ -26,34 +30,37 @@ public final class DictionaryMainReactor: Reactor {
         var sections: [String] {
             return type.pageTabList.map { $0.title }
         }
+        var isLogin = false
+        var currentPageIndex = 0
+        var oldPageIndex = 0
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
 
-    private let checkLoginUseCase: CheckLoginUseCase
+    private let fetchProfileUseCase: FetchProfileUseCase
 
     // MARK: - init
-    public init(checkLoginUseCase: CheckLoginUseCase) {
+    public init(fetchProfileUseCase: FetchProfileUseCase) {
         self.initialState = State()
-        self.checkLoginUseCase = checkLoginUseCase
+        self.fetchProfileUseCase = fetchProfileUseCase
     }
 
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .viewWillAppear:
+            return fetchProfileUseCase.execute()
+                .map { .setLogin($0 != nil) }
+                .catchAndReturn(.setLogin(false))
         case .searchButtonTapped:
-            return Observable.just(.navigateTo(.search))
+            return .just(.navigateTo(.search))
         case .notificationButtonTapped:
-            return checkLoginUseCase.execute()
-                .map { isLogin in
-                    if isLogin {
-                        return .navigateTo(.notification)
-                    } else {
-                        return .navigateTo(.login)
-                    }
-                }
+            return .just(.navigateTo(currentState.isLogin ? .notification : .login))
+        case let .changeTab(index):
+            let oldIndex = currentState.currentPageIndex
+            return .just(.setCurrentTab(oldIndex: oldIndex, newIndex: index))
         }
     }
 
@@ -63,6 +70,11 @@ public final class DictionaryMainReactor: Reactor {
         switch mutation {
         case .navigateTo(let route):
             newState.route = route
+        case let .setLogin(isLogin):
+            newState.isLogin = isLogin
+        case let .setCurrentTab(oldIndex, newIndex):
+            newState.oldPageIndex = oldIndex
+            newState.currentPageIndex = newIndex
         }
 
         return newState

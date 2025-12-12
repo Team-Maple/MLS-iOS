@@ -9,7 +9,7 @@ public extension UIColor {
     static let primary50 = UIColor(hexCode: "FFE6D8")
     static let primary25 = UIColor(hexCode: "FFF1E9")
 
-    static let secondary = UIColor(hexCode: "FF9B56")
+    static let secondary = UIColor(hexCode: "FFAA00")
     static let textColor = UIColor(hexCode: "1D1D1F")
 
     static let neutral900 = UIColor(hexCode: "313131")

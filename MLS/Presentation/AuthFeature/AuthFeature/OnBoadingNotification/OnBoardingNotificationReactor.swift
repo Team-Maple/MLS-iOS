@@ -6,12 +6,14 @@ public final class OnBoardingNotificationReactor: Reactor {
     public enum Route {
         case none
         case notificationAlert
+        case pop
         case home
     }
 
     public enum Action {
         case nextButtonTapped
         case skipButtonTapped
+        case backButtonTapped
     }
 
     public enum Mutation {
@@ -40,6 +42,8 @@ public final class OnBoardingNotificationReactor: Reactor {
             return .just(.navigateTo(route: .notificationAlert))
         case .skipButtonTapped:
             return .just(.navigateTo(route: .home))
+        case .backButtonTapped:
+            return .just(.navigateTo(route: .pop))
         }
     }
 

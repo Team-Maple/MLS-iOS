@@ -6,6 +6,8 @@ import RxSwift
 public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
     private let recentSearchkey = "recentSearch"
     private let platformKey = "platformKey"
+    private let bookmarkkey = "bookmark"
+    private let dictionaryDetailkey = "dictionaryDetailkey"
 
     public init() {}
 
@@ -63,6 +65,40 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
     public func savePlatform(platform: LoginPlatform) -> Completable {
         return Completable.create { completable in
             UserDefaults.standard.set(platform.rawValue, forKey: self.platformKey)
+            completable(.completed)
+            return Disposables.create()
+        }
+    }
+
+    public func fetchBookmark() -> Observable<Bool> {
+        return Observable.create { observer in
+            let hasVisited = UserDefaults.standard.bool(forKey: self.bookmarkkey)
+            observer.onNext(hasVisited)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+
+    public func saveBookmark() -> Completable {
+        return Completable.create { completable in
+            UserDefaults.standard.set(true, forKey: self.bookmarkkey)
+            completable(.completed)
+            return Disposables.create()
+        }
+    }
+
+    public func fetchDictionaryDetail() -> Observable<Bool> {
+        return Observable.create { observer in
+            let hasVisited = UserDefaults.standard.bool(forKey: self.dictionaryDetailkey)
+            observer.onNext(hasVisited)
+            observer.onCompleted()
+            return Disposables.create()
+        }
+    }
+
+    public func saveDictionaryDetail() -> Completable {
+        return Completable.create { completable in
+            UserDefaults.standard.set(true, forKey: self.dictionaryDetailkey)
             completable(.completed)
             return Disposables.create()
         }

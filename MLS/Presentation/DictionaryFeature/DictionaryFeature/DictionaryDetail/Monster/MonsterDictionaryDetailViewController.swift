@@ -50,10 +50,12 @@ private extension MonsterDictionaryDetailViewController {
 
     func setUpMapView() {
         guard let reactor = reactor,
-              let filter = reactor.currentState.type.detailSortedFilter.first else { return }
+              let filter = reactor.currentState.mapFilter.first else { return }
+
         appearMapView.initFilter(firstFilter: filter)
 
         let maps = reactor.currentState.spawnMaps
+        appearMapView.reset()
         contentViews.append(appearMapView)
         if maps.isEmpty {
             contentViews[1] = DetailEmptyView(type: .appearMap)
@@ -67,7 +69,13 @@ private extension MonsterDictionaryDetailViewController {
                         imageUrl: map.iconUrl,
                         mainText: map.mapName,
                         subText: map.regionName,
-                        additionalText: "\(map.maxSpawnCount ?? 0)마리"
+                        additionalText: {
+                            if let count = map.maxSpawnCount {
+                                return "\(count)마리"
+                            } else {
+                                return "??마리"
+                            }
+                        }()
                     )
                 )
             }
@@ -75,8 +83,12 @@ private extension MonsterDictionaryDetailViewController {
     }
 
     func setUpDropItemView() {
-        guard let reactor = reactor else { return }
+        guard let reactor = reactor,
+              let filter = reactor.currentState.itemFilter.first else { return }
+
+        dropItemView.initFilter(firstFilter: filter)
         let items = reactor.currentState.dropItems
+
         dropItemView.reset()
         contentViews.append(dropItemView)
         // 드롭아이템
@@ -138,11 +150,6 @@ extension MonsterDictionaryDetailViewController {
     }
 
     private func bindViewState(reactor: Reactor) {
-        let selectedFilter = reactor.currentState.type.detailSortedFilter[selectedIndex]
-        dropItemView.selectFilter(selectedType: selectedFilter)
-
-        isBottomTabbarHidden = true
-
         reactor.state.map(\.monsterDetailInfo)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
@@ -181,26 +188,25 @@ extension MonsterDictionaryDetailViewController {
             .withUnretained(self)
             .subscribe { owner, route in
                 switch route {
-                case .filter(let type):
+                case .filter(let type, let sort):
                     let selectedIndex = (type == .item) ? owner.dropItemSelectedIndex : owner.mapSelectedIntdex
 
-                    let viewController = owner.sortedFactory.make(sortedOptions: type.detailSortedFilter, selectedIndex: selectedIndex) { index in
+                    let viewController = owner.sortedFactory.make(sortedOptions: sort, selectedIndex: selectedIndex) { index in
                         if type == .item {
                             owner.dropItemSelectedIndex = index
-                            let selectedFilter = type.detailSortedFilter[index]
+                            let selectedFilter = sort[index]
                             owner.dropItemView.selectFilter(selectedType: selectedFilter)
                             reactor.action.onNext(.selectFilter(selectedFilter))
-
                         } else if type == .map {
                             owner.mapSelectedIntdex = index
-                            let selectedFilter = type.detailSortedFilter[index]
+                            let selectedFilter = sort[index]
                             owner.appearMapView.selectFilter(selectedType: selectedFilter)
+                            reactor.action.onNext(.selectFilter(selectedFilter))
                         }
-                        owner.isBottomTabbarHidden = true
                     }
-                    owner.tabBarController?.presentModal(viewController)
+                    owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case let .detail(type: type, id: id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -212,6 +218,7 @@ extension MonsterDictionaryDetailViewController {
             buttonTap: mainView.bookmarkButton.rx.tap,
             currentItem: reactor.state.map { $0.monsterDetailInfo },
             isLogin: { reactor.currentState.isLogin },
+            id: { _ in reactor.currentState.monsterDetailInfo.monsterId },
             imageUrl: { $0.imageUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },

@@ -6,6 +6,7 @@ import RxSwift
 
 public class TokenInterceptor: Interceptor {
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
+
     public init(fetchTokenUseCase: FetchTokenFromLocalUseCase) {
         self.fetchTokenUseCase = fetchTokenUseCase
     }

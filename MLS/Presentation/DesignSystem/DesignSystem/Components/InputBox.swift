@@ -12,7 +12,11 @@ public final class InputBox: UIStackView {
 
     // MARK: - Components
     public let label = UILabel()
-    public let textField = UITextField()
+    public let textField: UITextField = {
+        let textField = UITextField()
+        textField.clearButtonMode = .whileEditing
+        return textField
+    }()
 
     public lazy var borderView: UIView = {
         let view = UIView()
@@ -24,7 +28,8 @@ public final class InputBox: UIStackView {
 
         textField.snp.makeConstraints { make in
             make.verticalEdges.equalToSuperview().inset(16)
-            make.horizontalEdges.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.equalToSuperview().inset(10)
         }
         return view
     }()
