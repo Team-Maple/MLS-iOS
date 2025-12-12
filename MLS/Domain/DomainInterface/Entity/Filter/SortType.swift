@@ -16,6 +16,8 @@ public enum SortType: String {
     // 정렬 키 - 이름, 레벨, 경험치
     public var sortKey: String {
         switch self {
+        case .latest:
+            return "createdAt"
         case .korean:
             return "name"
         case .levelASC, .levelDESC:
@@ -35,7 +37,7 @@ public enum SortType: String {
         switch self {
         case .expASC, .levelASC, .korean:
             return "asc"
-        case .expDESC, .levelDESC, .mostDrop, .mostAppear:
+        case .expDESC, .levelDESC, .mostDrop, .mostAppear, .latest:
             return "desc"
         default:
             return ""

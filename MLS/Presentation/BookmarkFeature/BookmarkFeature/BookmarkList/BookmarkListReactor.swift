@@ -159,7 +159,7 @@ public final class BookmarkListReactor: Reactor {
         case let .sortOptionSelected(sort):
             return Observable.concat([
                 .just(.setSort(sort)),
-                fetchList()
+                fetchList(sort: sort)
             ])
 
         case let .filterOptionSelected(startLevel, endLevel):
@@ -180,7 +180,7 @@ public final class BookmarkListReactor: Reactor {
                     .just(.setLastDeletedBookmark(nil))
                 ])
             )
-        case .dataTapped(let index):
+        case let .dataTapped(index):
             let item = currentState.items[index]
             guard let type = item.type.toDictionaryType else { return .empty() }
             return .just(.toNavagate(.detail(type, item.originalId)))
@@ -192,34 +192,34 @@ public final class BookmarkListReactor: Reactor {
             }
         case .editButtonTapped:
             return .just(.toNavagate(.edit))
-        case .itemFilterOptionSelected(let results):
+        case let .itemFilterOptionSelected(results):
             let criteria = parseItemFilterResultUseCase.execute(results: results)
 
-              return .concat([
-                  .just(.setJobId(criteria.jobIds)),
-                  .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
-                  .just(.setCategoryId(criteria.categoryIds))
-              ])
-              .concat(Observable.deferred { [weak self] in
-                  guard let self = self else { return .empty() }
-                  return self.fetchList()
-              })
+            return .concat([
+                .just(.setJobId(criteria.jobIds)),
+                .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
+                .just(.setCategoryId(criteria.categoryIds))
+            ])
+            .concat(Observable.deferred { [weak self] in
+                guard let self = self else { return .empty() }
+                return self.fetchList()
+            })
         }
     }
 
     // MARK: - Fetch List
-    private func fetchList() -> Observable<Mutation> {
+    private func fetchList(sort: SortType? = nil) -> Observable<Mutation> {
         switch currentState.type {
         case .total:
             return fetchTotalBookmarkUseCase.execute(
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .monster:
             return fetchMonsterBookmarkUseCase.execute(
                 minLevel: currentState.startLevel ?? 1,
                 maxLevel: currentState.endLevel ?? 200,
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .item:
@@ -228,19 +228,19 @@ public final class BookmarkListReactor: Reactor {
                 minLevel: currentState.startLevel,
                 maxLevel: currentState.endLevel,
                 categoryIds: nil,
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .npc:
-            return fetchNPCBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchNPCBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         case .quest:
-            return fetchQuestBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchQuestBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         case .map:
-            return fetchMapBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchMapBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         default:
@@ -264,11 +264,11 @@ public final class BookmarkListReactor: Reactor {
             newState.endLevel = end
         case let .setLastDeletedBookmark(item):
             newState.lastDeletedBookmark = item
-        case .toNavagate(let route):
+        case let .toNavagate(route):
             newState.route = route
-        case .setJobId(let ids):
+        case let .setJobId(ids):
             newState.jobId = ids
-        case .setCategoryId(let ids):
+        case let .setCategoryId(ids):
             newState.categoryIds = ids
         }
 
