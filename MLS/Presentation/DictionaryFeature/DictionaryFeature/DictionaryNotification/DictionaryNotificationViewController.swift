@@ -58,7 +58,6 @@ private extension DictionaryNotificationViewController {
 
     func configureUI() {
         isBottomTabbarHidden = true
-        guard let reactor = reactor else { return }
 
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self
@@ -128,13 +127,12 @@ public extension DictionaryNotificationViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .compactMap { $0.profile }
+            .map { $0.permission }
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe { owner, profile in
-                let isEmpty = profile.noticeAgreement == false && profile.eventAgreement == false && profile.patchNoteAgreement == false
-                owner.mainView.setEmpty(isEmpty: isEmpty)
+            .subscribe { owner, permission in
+                owner.mainView.setEmpty(hasPermission: permission)
             }
             .disposed(by: disposeBag)
     }

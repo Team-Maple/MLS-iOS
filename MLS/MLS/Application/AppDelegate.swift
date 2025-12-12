@@ -899,7 +899,7 @@ extension AppDelegate {
                 ),
                 fetchProfileUseCase: DIContainer.resolve(
                     type: FetchProfileUseCase.self
-                )
+                ), checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self)
             )
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
