@@ -18,6 +18,9 @@ final class LoginView: UIView {
         static let buttonCenterXInset: CGFloat = buttonLogoImageLeadingInset + buttonLogoImageSize
         static let labelHeight: CGFloat = 28
         static let subTitleBottomSpacing: CGFloat = -25
+        static let recentLogoWidth: CGFloat = 82
+        static let recentLogoHeight: CGFloat = 30
+        static let recentLogoInset: CGFloat = 8
     }
 
     // MARK: - Properties
@@ -93,6 +96,12 @@ final class LoginView: UIView {
         return label
     }()
 
+    private let recentLoginImageView: UIImageView = {
+        let view = UIImageView(image: DesignSystemAsset.image(named: "recentLoginLogo"))
+        view.isHidden = true
+        return view
+    }()
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
@@ -113,6 +122,7 @@ private extension LoginView {
     func addViews() {
         addSubview(loginImageView)
         addSubview(buttonStackView)
+        addSubview(recentLoginImageView)
 
         buttonStackView.addArrangedSubview(kakaoLoginButton)
         buttonStackView.addArrangedSubview(appleLoginButton)
@@ -197,12 +207,29 @@ extension LoginView {
                 make.centerX.equalToSuperview()
                 make.height.equalTo(Constant.labelHeight)
             }
+
+            recentLoginImageView.isHidden = false
+
+            recentLoginImageView.snp.remakeConstraints { make in
+                switch loginPlatform {
+                case .apple:
+                    make.leading.equalTo(appleLoginButton).offset(Constant.recentLogoInset)
+                    make.bottom.equalTo(appleLoginButton.snp.top).offset(Constant.recentLogoInset)
+                case .kakao:
+                    make.leading.equalTo(kakaoLoginButton).offset(Constant.recentLogoInset)
+                    make.bottom.equalTo(kakaoLoginButton.snp.top).offset(Constant.recentLogoInset)
+                default:
+                    break
+                }
+                make.width.equalTo(Constant.recentLogoWidth)
+                make.height.equalTo(Constant.recentLogoHeight)
+            }
         case nil:
             buttonStackView.addArrangedSubview(guestLoginButton)
             guestLoginButton.snp.remakeConstraints { make in
                 make.height.equalTo(Constant.buttonHeight)
             }
-
+            recentLoginImageView.isHidden = true
         }
 
         setNeedsLayout()

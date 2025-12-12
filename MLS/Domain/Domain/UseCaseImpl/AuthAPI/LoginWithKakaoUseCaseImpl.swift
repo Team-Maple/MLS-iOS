@@ -15,7 +15,6 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         self.userDefaultsRepository = userDefaultsRepository
     }
 
-    // 로그인할때 토큰 저장 필요
     public func execute(credential: Credential) -> Observable<LoginResponse> {
         return authRepository.loginWithKakao(credential: credential)
             .flatMap { response -> Observable<LoginResponse> in
@@ -23,7 +22,6 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
                 let savePlatform = self.userDefaultsRepository.savePlatform(platform: .kakao)
 
-                // ✅ 모든 저장 결과 확인
                 switch (saveAccess, saveRefresh) {
                 case (.success, .success):
                     return savePlatform.andThen(Observable.just(response))
