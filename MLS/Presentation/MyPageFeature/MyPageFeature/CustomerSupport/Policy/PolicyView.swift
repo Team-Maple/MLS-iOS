@@ -15,7 +15,13 @@ final class PolicyView: UIView {
 
     private let titleLabel = UILabel()
 
-    private let contentTextView = UITextView()
+    private let contentTextView: UITextView = {
+        let view = UITextView()
+        view.isScrollEnabled = true
+        view.isEditable = false
+        view.isSelectable = false
+        return view
+    }()
 
     // MARK: - Init
     init(type: PolicyType) {
@@ -61,6 +67,20 @@ private extension PolicyView {
         headerView.addButton.isHidden = true
         headerView.setTitle(title: type.title)
         titleLabel.attributedText = .makeStyledString(font: .h_xxxl_sb, text: "메랜사 \(type.title)", alignment: .left)
-        contentTextView.attributedText = .makeStyledString(font: .b_s_r, text: type.content, alignment: .left)
+
+        let paragraphStyle = NSMutableParagraphStyle()
+           paragraphStyle.lineBreakMode = .byWordWrapping
+           paragraphStyle.alignment = .left
+
+           let attrString = NSAttributedString(
+               string: type.content,
+               attributes: [
+                .font: UIFont.b_s_r ?? .systemFont(ofSize: 12),
+                   .foregroundColor: UIColor.textColor,
+                   .paragraphStyle: paragraphStyle
+               ]
+           )
+
+           contentTextView.attributedText = attrString
     }
 }
