@@ -58,6 +58,13 @@ private extension LoginViewController {
 
     func configureUI() {
         view.backgroundColor = .systemBackground
+        
+        if let navigationController = navigationController,
+           navigationController.viewControllers.count > 1 {
+            mainView.header.leftButton.isHidden = false
+        } else {
+            mainView.header.leftButton.isHidden = true
+        }
     }
 }
 
@@ -115,6 +122,11 @@ public extension LoginViewController {
             .map { Reactor.Action.guestLoginButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        mainView.header.leftButton.rx.tap
+            .map { Reactor.Action.backButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
@@ -138,13 +150,15 @@ public extension LoginViewController {
                 case .termsAgreements(let credential, let platform):
                     let controller = owner.termsAgreementsFactory.make(credential: credential, platform: platform)
                     owner.navigationController?.pushViewController(controller, animated: true)
-                case .dismiss:
+                case .home:
                     owner.routeToHome.accept(())
                 case .error:
                     DispatchQueue.main.async {
                         let controller = BaseErrorViewController()
                         owner.present(controller, animated: true)
                     }
+                case .dismiss:
+                    owner.navigationController?.popViewController(animated: true)
                 default:
                     break
                 }

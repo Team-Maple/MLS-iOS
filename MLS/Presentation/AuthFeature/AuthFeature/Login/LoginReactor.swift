@@ -9,6 +9,7 @@ public final class LoginReactor: Reactor {
         case none
         case termsAgreements(credential: Credential, platform: LoginPlatform)
         case error
+        case home
         case dismiss
     }
 
@@ -18,6 +19,7 @@ public final class LoginReactor: Reactor {
         case kakaoLoginButtonTapped
         case appleLoginButtonTapped
         case guestLoginButtonTapped
+        case backButtonTapped
     }
 
     public enum Mutation {
@@ -72,6 +74,8 @@ public final class LoginReactor: Reactor {
         case .appleLoginButtonTapped:
             return handleAppleLogin()
         case .guestLoginButtonTapped:
+            return .just(.navigateTo(route: .home))
+        case .backButtonTapped:
             return .just(.navigateTo(route: .dismiss))
         }
     }
@@ -103,7 +107,7 @@ private extension LoginReactor {
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
                                     return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
-                                        .andThen(.just(.navigateTo(route: .dismiss)))
+                                        .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
                                     return .just(.navigateTo(route: .termsAgreements(
@@ -140,7 +144,7 @@ private extension LoginReactor {
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
                                     return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
-                                        .andThen(.just(.navigateTo(route: .dismiss)))
+                                        .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
                                     return .just(.navigateTo(route: .termsAgreements(

@@ -21,6 +21,8 @@ final class LoginView: UIView {
     }
 
     // MARK: - Properties
+    public let header = NavigationBar(type: .arrowLeft)
+
     private let loginImageView: UIImageView = {
         let image = DesignSystemAsset.image(named: "Login_KV_img")
         let view = UIImageView(image: image)
@@ -119,9 +121,15 @@ private extension LoginView {
         kakaoLoginButton.addSubview(kakaoLoginLabel)
         appleLoginButton.addSubview(appleLogoImageView)
         appleLoginButton.addSubview(appleLoginLabel)
+
+        addSubview(header)
     }
 
     func setupConstraints() {
+        header.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
+        }
+
         loginImageView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(UIScreen.main.bounds.width * 1.49)
