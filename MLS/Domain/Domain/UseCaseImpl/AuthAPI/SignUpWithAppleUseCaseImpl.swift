@@ -25,7 +25,7 @@ public final class SignUpWithAppleUseCaseImpl: SignUpWithAppleUseCase {
         fcmToken: String?
     ) -> Observable<SignUpResponse> {
         return authRepository
-            .signUpWithKakao(credential: credential, isMarketingAgreement: isMarketingAgreement, fcmToken: fcmToken)
+            .signUpWithApple(credential: credential, isMarketingAgreement: isMarketingAgreement, fcmToken: fcmToken)
             .flatMap { response -> Observable<SignUpResponse> in
                 let saveAccess = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
