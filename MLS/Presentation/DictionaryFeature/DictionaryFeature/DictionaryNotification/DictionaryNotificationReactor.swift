@@ -60,7 +60,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case .viewWillAppear:
             let profileStream: Observable<Mutation> = fetchProfileUseCase.execute()
                 .map { Mutation.setProfile($0) }
-            
+
             let notificationStream: Observable<Mutation> = Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: nil, pageSize: 20)
@@ -69,17 +69,17 @@ public final class DictionaryNotificationReactor: Reactor {
                     },
                 Observable<Mutation>.just(.setLoading(false))
             ])
-            
+
             let permissionStream: Observable<Mutation> = checkNotificationPermissionUseCase.execute()
                 .asObservable()
                 .map { Mutation.setPermission($0) }
-            
+
             return Observable.merge(profileStream, notificationStream, permissionStream)
-            
+
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
             let cursor = currentState.notifications.last?.date
-            
+
             return Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: cursor, pageSize: 20)
@@ -88,16 +88,16 @@ public final class DictionaryNotificationReactor: Reactor {
                     },
                 Observable<Mutation>.just(.setLoading(false))
             ])
-            
+
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
-            
+
         case .settingButtonTapped:
             return .just(.navigateTo(.setting))
-            
+
         case let .notificationTapped(index):
             let notification = currentState.notifications[index]
-            
+
             return setReadUseCase.execute(alarmLink: notification.link)
                 .andThen(
                     Observable.concat([

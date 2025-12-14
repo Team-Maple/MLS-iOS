@@ -281,7 +281,7 @@ private extension DictionaryListReactor {
         let fetchMutation: Observable<Mutation>
 
         if currentState.isFirstFetch {
-            let _ = Mutation.setFirstFetch(false)
+            _ = Mutation.setFirstFetch(false)
             fetchMutation = fetchList(
                 sort: currentState.sort,
                 startLevel: currentState.startLevel,

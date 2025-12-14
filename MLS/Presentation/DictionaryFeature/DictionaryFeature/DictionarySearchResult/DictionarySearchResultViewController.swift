@@ -119,7 +119,7 @@ private extension DictionarySearchResultViewController {
     func configureUI() {
         mainView.searchBar.searchDelegate = self
         mainView.searchBar.textField.becomeFirstResponder()
-        
+
         mainView.pageViewController.delegate = self
         mainView.pageViewController.dataSource = self
         configureTabCollectionView()
