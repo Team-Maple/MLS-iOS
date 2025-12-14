@@ -1,5 +1,5 @@
-import Foundation
 import DomainInterface
+import Foundation
 import RxSwift
 
 public final class SignUpWithKakaoUseCaseImpl: SignUpWithKakaoUseCase {

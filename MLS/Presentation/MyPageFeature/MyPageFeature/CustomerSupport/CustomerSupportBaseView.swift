@@ -267,7 +267,7 @@ extension CustomerSupportBaseView {
         menuContainerView.isHidden = hidden
     }
 
-    func setEmpty (text: String) {
+    func setEmpty(text: String) {
         let label = UILabel()
         label.attributedText = .makeStyledString(font: .b_m_r, text: text, color: .neutral700, alignment: .left)
         let view = UIView()

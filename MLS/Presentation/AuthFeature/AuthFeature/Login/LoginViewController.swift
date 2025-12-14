@@ -58,7 +58,7 @@ private extension LoginViewController {
 
     func configureUI() {
         view.backgroundColor = .systemBackground
-        
+
         if let navigationController = navigationController,
            navigationController.viewControllers.count > 1 {
             mainView.header.leftButton.isHidden = false
@@ -122,7 +122,7 @@ public extension LoginViewController {
             .map { Reactor.Action.guestLoginButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         mainView.header.leftButton.rx.tap
             .map { Reactor.Action.backButtonTapped }
             .bind(to: reactor.action)
