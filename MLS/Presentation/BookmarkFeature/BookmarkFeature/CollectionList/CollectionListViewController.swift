@@ -120,6 +120,7 @@ extension CollectionListViewController {
                     let viewController = owner.detailFactory.make(collection: collection, onMoveToMain: {
                         if let tabBarController = owner.tabBarController as? BottomTabBarController {
                             tabBarController.selectTab(index: 0)
+                            DictionaryTabRegistry.changeTab(index: 0)
                         }
                     })
                     owner.tabBarController?.navigationController?.pushViewController(viewController, animated: true)
