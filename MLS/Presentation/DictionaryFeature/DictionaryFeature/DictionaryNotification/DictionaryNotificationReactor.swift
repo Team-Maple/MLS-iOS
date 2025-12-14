@@ -120,16 +120,16 @@ public final class DictionaryNotificationReactor: Reactor {
                 newState.notifications.append(contentsOf: newItems)
             }
             newState.hasMore = hasMore
-            
+
         case let .setLoading(isLoading):
             newState.isLoading = isLoading
-            
+
         case let .setProfile(profile):
             newState.profile = profile
-            
+
         case let .navigateTo(route):
             newState.route = route
-            
+
         case let .setPermission(granted):
             newState.permission = granted
         case let .checkAlarm(link):

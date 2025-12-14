@@ -11,7 +11,7 @@ public class RecentSearchAddUseCaseImpl: RecentSearchAddUseCase {
     }
 
     public func add(keyword: String) -> Completable {
+        guard !keyword.isEmpty else { return .empty() }
         return repository.addRecentSearch(keyword: keyword)
     }
-
 }
