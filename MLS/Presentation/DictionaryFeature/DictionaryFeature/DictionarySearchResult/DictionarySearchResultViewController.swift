@@ -44,7 +44,6 @@ public final class DictionarySearchResultViewController: BaseViewController, Vie
     @MainActor required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }
 
 // MARK: - Life Cycle
@@ -54,8 +53,8 @@ public extension DictionarySearchResultViewController {
         addViews()
         setupConstraints()
         configureUI()
-
     }
+
     override func viewDidAppear(_ animated: Bool) {
         guard !didSetInitialIndex else { return }
         didSetInitialIndex = true
@@ -73,7 +72,7 @@ public extension DictionarySearchResultViewController {
         }
 
         // 새로운 viewControllers 생성
-        self.viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type, keyword: keyword) }
+        viewControllers = type.pageTabList.map { dictionaryListFactory.make(type: $0, listType: type, keyword: keyword) }
 
         // PageViewController에 첫 번째 뷰컨트롤러 설정
         if !viewControllers.isEmpty {
@@ -99,7 +98,6 @@ public extension DictionarySearchResultViewController {
             }
         }
     }
-
 }
 
 // MARK: - SetUp
@@ -197,17 +195,23 @@ public extension DictionarySearchResultViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .compactMap { $0.keyword }
+            .map(\.keyword)
+            .filter { $0 != nil }
+            .map { $0! }
             .distinctUntilChanged()
             .skip(1)
             .observe(on: MainScheduler.instance)
             .bind(with: self) { owner, newKeyword in
-                owner.updateViewControllers(keyword: newKeyword)
+                if newKeyword.isOnlyKorean(), newKeyword != "" {
+                    GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
+                } else {
+                    owner.updateViewControllers(keyword: newKeyword)
+                }
             }
             .disposed(by: disposeBag)
 
         rx.viewWillAppear
-            .map {_ in Reactor.Action.viewWillAppear }
+            .map { _ in Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
@@ -238,7 +242,8 @@ extension DictionarySearchResultViewController: UIPageViewControllerDataSource, 
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
-           let newIndex = viewControllers.firstIndex(of: visibleViewController) {
+           let newIndex = viewControllers.firstIndex(of: visibleViewController)
+        {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             underLineController.animateIndicatorToSelectedItem()

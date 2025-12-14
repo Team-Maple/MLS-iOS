@@ -2,8 +2,10 @@ import Foundation
 
 extension String {
     public func isOnlyKorean() -> Bool {
-        let initialConsonants = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ"
-        return self.allSatisfy { initialConsonants.contains($0) }
+        return !self.isEmpty && self.allSatisfy { char in
+            guard let scalar = char.unicodeScalars.first else { return false }
+            return !(0xAC00...0xD7A3).contains(scalar.value)
+        }
     }
 
     public func toDisplayDateString() -> String {
