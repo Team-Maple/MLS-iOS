@@ -273,7 +273,6 @@ extension DictionaryDetailBaseViewController {
         imageUrl: @escaping (T) -> String?,
         backgroundColor: UIColor,
         isBookmarked: @escaping (T) -> Bool,
-        toggleBookmark: @escaping (Bool) -> Void,
         undoLastDeleted: @escaping () -> Void,
         bookmarkId: Observable<Int?>
     ) -> Disposable {
@@ -299,8 +298,8 @@ extension DictionaryDetailBaseViewController {
                 let itemId = id(item)
 
                 if isBookmarked(item) {
-                    toggleBookmark(true)
-                    self.bookmarkRelay?.accept((itemId, false))
+                    mainView.setBookmark(isBookmarked: false)
+                    self.bookmarkRelay?.accept((itemId, true))
                     SnackBarFactory.createSnackBar(
                         type: .delete,
                         imageUrl: imageUrl(item),
@@ -310,8 +309,8 @@ extension DictionaryDetailBaseViewController {
                         buttonAction: { undoLastDeleted() }
                     )
                 } else {
-                    toggleBookmark(false)
-                    self.bookmarkRelay?.accept((itemId, true))
+                    mainView.setBookmark(isBookmarked: true)
+                    self.bookmarkRelay?.accept((itemId, false))
                     SnackBarFactory.createSnackBar(
                         type: .normal,
                         imageUrl: imageUrl(item),

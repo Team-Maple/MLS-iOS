@@ -35,7 +35,7 @@ public struct AlarmResponseDTO: Decodable {
         public let type: String
         public let title: String
         public let link: String
-        public let date: [Int]
+        public let date: String
     }
 
     public struct AllContent: Decodable {

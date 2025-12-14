@@ -18,6 +18,8 @@ final class CustomerSupportBaseView: UIView {
         static let textWidth: CGFloat = 300
         static let viewHeight: CGFloat = 86
         static let dateTopMargin: CGFloat = 4
+        static let emptyLabelHeight: CGFloat = 86
+        static let emptyLabelInset: CGFloat = 16
 
         static let menuTabBarButtonInset: NSDirectionalEdgeInsets = .init(top: 9, leading: 4, bottom: 9, trailing: 4)
         static let menuTabBarHorizontalInset: UIEdgeInsets = .init(top: 0, left: 16, bottom: 0, right: 16)
@@ -63,11 +65,13 @@ final class CustomerSupportBaseView: UIView {
         stackView.layoutMargins = Constant.menuTabBarHorizontalInset
         return stackView
     }()
+
     let bottomLineView: UIView = {
         let view = UIView()
         view.backgroundColor = .neutral300
         return view
     }()
+
     // 메뉴 스택뷰 왼쪽 정렬을 위해서
     let emptyView = UIView()
 
@@ -76,6 +80,7 @@ final class CustomerSupportBaseView: UIView {
         let scrollView = UIScrollView()
         return scrollView
     }()
+
     // 아이템 담을 스택 뷰
     let detailItemStackView: UIStackView = {
         let stackView = UIStackView()
@@ -102,7 +107,6 @@ final class CustomerSupportBaseView: UIView {
 
 // MARK: - SetUp
 private extension CustomerSupportBaseView {
-
     func addViews() {
         [backButton, titleLabel].forEach { headerView.addSubview($0) }
         [headerView, menuContainerView, scrollView].forEach { addSubview($0) }
@@ -133,7 +137,6 @@ private extension CustomerSupportBaseView {
             make.top.equalTo(headerView.snp.bottom).offset(Constant.topMargin)
             make.width.equalToSuperview()
             make.height.equalTo(Constant.menuStackViewHeight)
-
         }
         menuStackView.snp.makeConstraints { make in
             make.width.equalToSuperview()
@@ -161,6 +164,7 @@ private extension CustomerSupportBaseView {
         }
     }
 }
+
 extension CustomerSupportBaseView {
     func createMenuButton(title: String, tag: Int) -> UIButton {
         let config = setupConfig()
@@ -211,7 +215,7 @@ extension CustomerSupportBaseView {
         view.snp.makeConstraints { make in
             make.height.equalTo(Constant.viewHeight)
         }
-        if let dateText = dateText {
+        if dateText != nil {
             title.snp.makeConstraints { make in
                 make.top.equalToSuperview().inset(Constant.topMargin)
                 // 임의 너비 설정
@@ -257,8 +261,26 @@ extension CustomerSupportBaseView {
         }
         setMenuHidden(true) // menuContainer뷰 숨기기
     }
+
     // menuContainerView Encapsulation
     func setMenuHidden(_ hidden: Bool) {
-          menuContainerView.isHidden = hidden
-      }
+        menuContainerView.isHidden = hidden
+    }
+
+    func setEmpty (text: String) {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .b_m_r, text: text, color: .neutral700, alignment: .left)
+        let view = UIView()
+
+        view.addSubview(label)
+
+        view.snp.makeConstraints { make in
+            make.height.equalTo(Constant.emptyLabelHeight)
+        }
+        label.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.emptyLabelInset)
+            make.centerY.equalToSuperview()
+        }
+        detailItemStackView.addArrangedSubview(view)
+    }
 }

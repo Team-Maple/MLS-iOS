@@ -149,7 +149,7 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         guard let reactor = reactor else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryNotificationCell.identifier, for: indexPath) as? DictionaryNotificationCell else { return UICollectionViewCell() }
         let item = reactor.currentState.notifications[indexPath.row]
-        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.changeKoreanDate(), isChecked: item.alreadyRead))
+        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.toDisplayDateString(), isChecked: item.alreadyRead))
         return cell
     }
 

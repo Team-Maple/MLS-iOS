@@ -236,7 +236,6 @@ extension ItemDictionaryDetailViewController {
             imageUrl: { $0.imgUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
-            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
             undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
             bookmarkId: reactor.state.map(\.itemDetailInfo.bookmarkId)
         )

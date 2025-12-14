@@ -42,6 +42,7 @@ public final class DictionaryListReactor: Reactor {
         case setCategoryId([Int])
         case updateBookmarkState(id: Int, isSelected: Bool)
         case updateBookmarkStates([Int: Bool]) // 새 Mutation: 여러 북마크 반영
+        case setFirstFetch(Bool)
     }
 
     // MARK: - State
@@ -62,7 +63,8 @@ public final class DictionaryListReactor: Reactor {
 
         var isLogin: Bool
         var lastDeletedBookmark: DictionaryMainItemResponse?
-        var isBookmarkUpdateOnly: Bool = false
+        var isBookmarkUpdateOnly = false
+        var isFirstFetch = true
     }
 
     public var initialState: State
@@ -187,6 +189,8 @@ public final class DictionaryListReactor: Reactor {
                     newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
                 }
             }
+        case let .setFirstFetch(isFirstFetch):
+            newState.isFirstFetch = isFirstFetch
         }
         return newState
     }
@@ -273,7 +277,25 @@ private extension DictionaryListReactor {
     func handleViewWillAppear() -> Observable<Mutation> {
         let loginState = checkLoginUseCase.execute()
             .map { Mutation.setLoginState($0) }
-        let fetchMutation = fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
+
+        let fetchMutation: Observable<Mutation>
+
+        if currentState.isFirstFetch {
+            let _ = Mutation.setFirstFetch(false)
+            fetchMutation = fetchList(
+                sort: currentState.sort,
+                startLevel: currentState.startLevel,
+                endLevel: currentState.endLevel
+            )
+        } else {
+            fetchMutation = fetchList(
+                sort: currentState.sort,
+                startLevel: currentState.startLevel,
+                endLevel: currentState.endLevel,
+                updateBookmarkOnly: true
+            )
+        }
+
         return .merge([loginState, fetchMutation])
     }
 

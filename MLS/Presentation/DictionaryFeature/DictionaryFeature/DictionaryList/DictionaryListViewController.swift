@@ -191,7 +191,6 @@ extension DictionaryListViewController {
             })
             .disposed(by: disposeBag)
 
-        // 기존 bookmarkChangeRelay 사용 대신
         reactor.state.map(\.listItems)
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
@@ -218,7 +217,7 @@ extension DictionaryListViewController {
                            indexPath.item < items.count,
                            let cell = cell as? DictionaryListCell {
                             let item = items[indexPath.item]
-                            cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil)
+                            cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil && item.bookmarkId != -1)
                         }
                     }
                 }

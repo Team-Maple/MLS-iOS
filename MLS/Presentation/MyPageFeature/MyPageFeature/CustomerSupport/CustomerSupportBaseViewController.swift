@@ -55,7 +55,7 @@ class CustomerSupportBaseViewController: BaseViewController {
 
     func createDetailItem(items: [AlarmResponse]) {
         for (index, item) in items.enumerated() {
-            let view = mainView.createDetailItem(titleText: item.title, dateText: item.date.changeKoreanDate())
+            let view = mainView.createDetailItem(titleText: item.title, dateText: item.date.toDisplayDateString())
             view.tag = index
             urlStrings.append(item.link)
 

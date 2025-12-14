@@ -33,7 +33,7 @@ public final class AuthInterceptor: Interceptor {
                 let repo = authRepository()
                 repo.reissueToken(refreshToken: refreshToken)
                     .subscribe(onNext: { _ in
-                        print("✅ reissue 완료 (저장은 UseCase 쪽에서 처리)")
+                        print("✅ reissue 완료")
                     }, onError: { error in
                         print("❌ reissue 실패: \(error)")
                     })
