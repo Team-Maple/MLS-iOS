@@ -320,35 +320,32 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         imageUrl: item.imageUrl,
                         imageBackgroundColor: item.type.backgroundColor,
                         text: "아이템을 북마크에 추가했어요.",
-                        buttonText: "",
-                        buttonAction: {}
-                        // 임시 비활성화
-//                        buttonText: "컬렉션 추가",
-//                        buttonAction: {
-//                            self.reactor?.state.map(\.listItems)
-//                                .compactMap { list in
-//                                    list.first(where: { $0.id == item.id })?.bookmarkId
-//                                }
-//                                .take(1)
-//                                .observe(on: MainScheduler.instance)
-//                                .subscribe(onNext: { bookmarkId in
-//                                    let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
-//                                        if isAdd {
-//                                            ToastFactory.createToast(
-//                                                message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-//                                            )
-//                                        }
-//                                    }
-//                                    vc.modalPresentationStyle = .pageSheet
-//                                    if let sheet = vc.sheetPresentationController {
-//                                        sheet.detents = [.medium(), .large()]
-//                                        sheet.prefersGrabberVisible = true
-//                                        sheet.preferredCornerRadius = 16
-//                                    }
-//                                    self.present(vc, animated: true)
-//                                })
-//                                .disposed(by: self.disposeBag)
-//                        }
+                        buttonText: "컬렉션 추가",
+                        buttonAction: {
+                            self.reactor?.state.map(\.listItems)
+                                .compactMap { list in
+                                    list.first(where: { $0.id == item.id })?.bookmarkId
+                                }
+                                .take(1)
+                                .observe(on: MainScheduler.instance)
+                                .subscribe(onNext: { bookmarkId in
+                                    let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+                                        if isAdd {
+                                            ToastFactory.createToast(
+                                                message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                            )
+                                        }
+                                    }
+                                    vc.modalPresentationStyle = .pageSheet
+                                    if let sheet = vc.sheetPresentationController {
+                                        sheet.detents = [.medium(), .large()]
+                                        sheet.prefersGrabberVisible = true
+                                        sheet.preferredCornerRadius = 16
+                                    }
+                                    self.present(vc, animated: true)
+                                })
+                                .disposed(by: self.disposeBag)
+                        }
                     )
                 }
             }
