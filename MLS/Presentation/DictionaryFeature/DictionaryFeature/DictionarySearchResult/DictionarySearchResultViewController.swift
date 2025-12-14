@@ -1,6 +1,7 @@
 import UIKit
 
 import BaseFeature
+import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
 
@@ -116,6 +117,9 @@ private extension DictionarySearchResultViewController {
     }
 
     func configureUI() {
+        mainView.searchBar.searchDelegate = self
+        mainView.searchBar.textField.becomeFirstResponder()
+        
         mainView.pageViewController.delegate = self
         mainView.pageViewController.dataSource = self
         configureTabCollectionView()
@@ -242,8 +246,7 @@ extension DictionarySearchResultViewController: UIPageViewControllerDataSource, 
 
     public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if completed, let visibleViewController = pageViewController.viewControllers?.first,
-           let newIndex = viewControllers.firstIndex(of: visibleViewController)
-        {
+           let newIndex = viewControllers.firstIndex(of: visibleViewController) {
             currentPageIndex.accept(newIndex)
             mainView.tabCollectionView.selectItem(at: IndexPath(item: newIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
             underLineController.animateIndicatorToSelectedItem()
@@ -287,5 +290,11 @@ extension DictionarySearchResultViewController: UICollectionViewDataSource, UICo
 
         currentPageIndex.accept(newIndex)
         underLineController.animateIndicatorToSelectedItem()
+    }
+}
+
+extension DictionarySearchResultViewController: SearchBarDelegate {
+    public func searchBarDidReturn(_ searchBar: SearchBar, text: String) {
+        reactor?.action.onNext(.searchButtonTapped(text))
     }
 }
