@@ -222,7 +222,7 @@ extension ItemDictionaryDetailViewController {
                 case .none:
                     break
                 case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: self.bookmarkRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: owner.bookmarkRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
@@ -236,7 +236,7 @@ extension ItemDictionaryDetailViewController {
             imageUrl: { $0.imgUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
+//            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
             bookmarkId: reactor.state.map(\.itemDetailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)

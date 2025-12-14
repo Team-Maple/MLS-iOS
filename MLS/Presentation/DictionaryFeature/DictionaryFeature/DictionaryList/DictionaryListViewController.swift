@@ -24,6 +24,8 @@ public final class DictionaryListViewController: BaseViewController, View {
     private var selectedSortIndex = 0
     public let itemCountRelay = PublishRelay<Int>()
     private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
+    private var undoRelay = PublishRelay<Int>()
+    private var addCollectionRelay = PublishRelay<Int>()
     private var lastPagingTime: Date = .distantPast
 
     // MARK: - Components
@@ -185,14 +187,45 @@ extension DictionaryListViewController {
             .disposed(by: disposeBag)
 
         bookmarkChangeRelay
+            .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] id, isBookmarked in
-                self?.reactor?.action.onNext(.toggleBookmark(id: id, isSelected: isBookmarked))
+            .bind(onNext: { owner, bookmarkData in
+                let (id, isBookmarked) = bookmarkData
+                owner.reactor?.action.onNext(.toggleBookmark(id: id, isSelected: isBookmarked))
+            })
+            .disposed(by: disposeBag)
+
+        undoRelay
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.reactor?.action.onNext(.undoLastDeletedBookmark)
+            })
+            .disposed(by: disposeBag)
+
+        addCollectionRelay
+            .withUnretained(self)
+            .subscribe(onNext: { owner, originId in
+                let items = reactor.currentState.listItems
+                guard let index = items.firstIndex(where: { $0.id == originId }),
+                      let bookmarkId = items[index].bookmarkId else { return }
+                let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+                    if isAdd {
+                        ToastFactory.createToast(
+                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                        )
+                    }
+                }
+                vc.modalPresentationStyle = .pageSheet
+                if let sheet = vc.sheetPresentationController {
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                    sheet.preferredCornerRadius = 16
+                }
+                owner.present(vc, animated: true)
             })
             .disposed(by: disposeBag)
 
         reactor.state.map(\.listItems)
-            .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
             .bind { owner, items in
@@ -217,7 +250,7 @@ extension DictionaryListViewController {
                            indexPath.item < items.count,
                            let cell = cell as? DictionaryListCell {
                             let item = items[indexPath.item]
-                            cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil && item.bookmarkId != -1)
+                            cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil)
                         }
                     }
                 }
@@ -287,32 +320,35 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
                         imageUrl: item.imageUrl,
                         imageBackgroundColor: item.type.backgroundColor,
                         text: "아이템을 북마크에 추가했어요.",
-                        buttonText: "컬렉션 추가",
-                        buttonAction: {
-                            self.reactor?.state.map(\.listItems)
-                                .compactMap { list in
-                                    list.first(where: { $0.id == item.id })?.bookmarkId
-                                }
-                                .take(1)
-                                .observe(on: MainScheduler.instance)
-                                .subscribe(onNext: { bookmarkId in
-                                    let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
-                                        if isAdd {
-                                            ToastFactory.createToast(
-                                                message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                            )
-                                        }
-                                    }
-                                    vc.modalPresentationStyle = .pageSheet
-                                    if let sheet = vc.sheetPresentationController {
-                                        sheet.detents = [.medium(), .large()]
-                                        sheet.prefersGrabberVisible = true
-                                        sheet.preferredCornerRadius = 16
-                                    }
-                                    self.present(vc, animated: true)
-                                })
-                                .disposed(by: self.disposeBag)
-                        }
+                        buttonText: "",
+                        buttonAction: {}
+                        // 임시 비활성화
+//                        buttonText: "컬렉션 추가",
+//                        buttonAction: {
+//                            self.reactor?.state.map(\.listItems)
+//                                .compactMap { list in
+//                                    list.first(where: { $0.id == item.id })?.bookmarkId
+//                                }
+//                                .take(1)
+//                                .observe(on: MainScheduler.instance)
+//                                .subscribe(onNext: { bookmarkId in
+//                                    let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+//                                        if isAdd {
+//                                            ToastFactory.createToast(
+//                                                message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+//                                            )
+//                                        }
+//                                    }
+//                                    vc.modalPresentationStyle = .pageSheet
+//                                    if let sheet = vc.sheetPresentationController {
+//                                        sheet.detents = [.medium(), .large()]
+//                                        sheet.prefersGrabberVisible = true
+//                                        sheet.preferredCornerRadius = 16
+//                                    }
+//                                    self.present(vc, animated: true)
+//                                })
+//                                .disposed(by: self.disposeBag)
+//                        }
                     )
                 }
             }
@@ -331,11 +367,11 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         switch reactor.currentState.type {
         case .total:
             guard let type = item.type.toDictionaryType else { return }
-            viewController = detailFactory.make(type: type, id: item.id, bookmarkRelay: bookmarkChangeRelay)
+            viewController = detailFactory.make(type: type, id: item.id, bookmarkRelay: bookmarkChangeRelay, undoRelay: undoRelay, addCollectionRelay: addCollectionRelay)
         default:
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(
-                type: reactor.currentState.type, id: item.id, bookmarkRelay: bookmarkChangeRelay
+                type: reactor.currentState.type, id: item.id, bookmarkRelay: bookmarkChangeRelay, undoRelay: undoRelay, addCollectionRelay: addCollectionRelay
             )
         }
         navigationController?.pushViewController(viewController, animated: true)

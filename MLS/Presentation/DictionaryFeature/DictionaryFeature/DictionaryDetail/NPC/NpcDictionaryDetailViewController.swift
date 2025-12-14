@@ -127,7 +127,7 @@ extension NpcDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case .detail(type: let type, id: let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -171,7 +171,7 @@ extension NpcDictionaryDetailViewController {
             imageUrl: { $0.iconUrlDetail },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
+//            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
             bookmarkId: reactor.state.map(\.npcDetailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)

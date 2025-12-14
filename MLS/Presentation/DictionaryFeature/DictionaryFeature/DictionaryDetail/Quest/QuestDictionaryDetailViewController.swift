@@ -186,7 +186,7 @@ extension QuestDictionaryDetailViewController {
             imageUrl: { $0.iconUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
+//            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
             bookmarkId: reactor.state.map(\.detailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)
@@ -198,7 +198,7 @@ extension QuestDictionaryDetailViewController {
             .subscribe { owner, route in
                 switch route {
                 case let .detail(type, id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break

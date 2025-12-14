@@ -482,6 +482,7 @@ extension DictionaryDetailBaseView {
     }
 
     func setBookmark(isBookmarked: Bool) {
+        bookmarkButton.isSelected = isBookmarked
         bookmarkButton.setImage(DesignSystemAsset.image(named: isBookmarked ? "bookmark" : "bookmarkGrayBorder"), for: .normal)
     }
 }

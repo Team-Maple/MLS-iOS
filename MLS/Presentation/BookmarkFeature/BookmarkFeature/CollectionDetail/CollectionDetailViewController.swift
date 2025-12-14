@@ -16,6 +16,8 @@ public final class CollectionDetailViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
+    private var undoRelay = PublishRelay<Int>()
+
     private let bookmarkModalFactory: BookmarkModalFactory
     private let collectionSettingFactory: CollectionSettingFactory
     private let addCollectionFactory: AddCollectionFactory
@@ -197,12 +199,18 @@ extension CollectionDetailViewController {
                     })
                     owner.presentModal(viewController)
                 case .detail(let type, let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil, undoRelay: self.undoRelay, addCollectionRelay: nil)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
                 }
             }
+            .disposed(by: disposeBag)
+
+        undoRelay
+            .subscribe(onNext: { [weak self] _ in
+                self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+            })
             .disposed(by: disposeBag)
     }
 }

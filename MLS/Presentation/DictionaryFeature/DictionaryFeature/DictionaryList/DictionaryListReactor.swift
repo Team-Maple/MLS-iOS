@@ -5,7 +5,6 @@ import ReactorKit
 import RxSwift
 
 public final class DictionaryListReactor: Reactor {
-
     // MARK: - Route
     public enum Route {
         case none
@@ -184,7 +183,7 @@ public final class DictionaryListReactor: Reactor {
                 newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
             }
         case let .updateBookmarkStates(dict):
-            for index in 0..<newState.listItems.count {
+            for index in 0 ..< newState.listItems.count {
                 if let isSelected = dict[newState.listItems[index].id] {
                     newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
                 }
@@ -198,7 +197,6 @@ public final class DictionaryListReactor: Reactor {
 
 // MARK: - Methods
 private extension DictionaryListReactor {
-
     func fetchList(sort: String?, startLevel: Int?, endLevel: Int?, updateBookmarkOnly: Bool = false) -> Observable<Mutation> {
         let response: Observable<DictionaryMainResponse>
 
@@ -256,22 +254,7 @@ private extension DictionaryListReactor {
             return .empty()
         }
 
-        return response.map { response in
-            if updateBookmarkOnly {
-                let merged = self.currentState.listItems.map { item in
-                    if let updated = response.contents.first(where: { $0.id == item.id }) {
-                        var copy = item
-                        copy.bookmarkId = updated.bookmarkId ?? item.bookmarkId
-                        return copy
-                    } else { return item }
-                }
-                var newResponse = response
-                newResponse.contents = merged
-                return .setListItem(newResponse, updateBookmarkOnly: true)
-            } else {
-                return .setListItem(response)
-            }
-        }
+        return response.map { .setListItem($0, updateBookmarkOnly: updateBookmarkOnly) }
     }
 
     func handleViewWillAppear() -> Observable<Mutation> {
@@ -281,12 +264,13 @@ private extension DictionaryListReactor {
         let fetchMutation: Observable<Mutation>
 
         if currentState.isFirstFetch {
-            let _ = Mutation.setFirstFetch(false)
-            fetchMutation = fetchList(
+            let firstFetch = Observable.just(Mutation.setFirstFetch(false))
+            let fetch = fetchList(
                 sort: currentState.sort,
                 startLevel: currentState.startLevel,
                 endLevel: currentState.endLevel
             )
+            fetchMutation = .concat([firstFetch, fetch])
         } else {
             fetchMutation = fetchList(
                 sort: currentState.sort,

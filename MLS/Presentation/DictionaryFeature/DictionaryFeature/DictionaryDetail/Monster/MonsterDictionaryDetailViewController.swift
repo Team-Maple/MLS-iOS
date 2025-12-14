@@ -206,7 +206,7 @@ extension MonsterDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case let .detail(type: type, id: id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -222,7 +222,7 @@ extension MonsterDictionaryDetailViewController {
             imageUrl: { $0.imageUrl },
             backgroundColor: type.backgroundColor,
             isBookmarked: { $0.bookmarkId != nil },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
+//            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
             bookmarkId: reactor.state.map(\.monsterDetailInfo.bookmarkId)
         )
         .disposed(by: disposeBag)

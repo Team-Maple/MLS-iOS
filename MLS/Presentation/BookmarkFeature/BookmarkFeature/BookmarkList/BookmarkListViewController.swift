@@ -15,6 +15,10 @@ public final class BookmarkListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+    
+    private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
+    private var undoRelay = PublishRelay<Int>()
+    private var addCollectionRelay = PublishRelay<Int>()
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
@@ -180,7 +184,7 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkChangeRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
                     owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
                     let viewcontroller = owner.loginFactory.make(exitRoute: .pop)
@@ -207,6 +211,45 @@ extension BookmarkListViewController {
             .bind(onNext: { owner, type in
                 owner.mainView.updateBookmarkFilter(type: type)
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
+            })
+            .disposed(by: disposeBag)
+
+        bookmarkChangeRelay
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, bookmarkData in
+                let (id, isBookmarked) = bookmarkData
+                owner.reactor?.action.onNext(.toggleBookmark(id, isBookmarked))
+            })
+            .disposed(by: disposeBag)
+
+        undoRelay
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.reactor?.action.onNext(.undoLastDeletedBookmark)
+            })
+            .disposed(by: disposeBag)
+
+        addCollectionRelay
+            .withUnretained(self)
+            .subscribe(onNext: { owner, originId in
+                let items = reactor.currentState.items
+                guard let index = items.firstIndex(where: { $0.originalId == originId }) else { return }
+                      let bookmarkId = items[index].bookmarkId
+                let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+                    if isAdd {
+                        ToastFactory.createToast(
+                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                        )
+                    }
+                }
+                vc.modalPresentationStyle = .pageSheet
+                if let sheet = vc.sheetPresentationController {
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                    sheet.preferredCornerRadius = 16
+                }
+                owner.present(vc, animated: true)
             })
             .disposed(by: disposeBag)
     }
