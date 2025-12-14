@@ -187,7 +187,7 @@ public extension BookmarkMainViewController {
             .observe(on: MainScheduler.instance)
             .bind { owner, isLogin in
                 owner.mainView.updateLoginState(isLogin: isLogin)
-                owner.underLineController.setHidden(hidden: true)
+                owner.underLineController.setHidden(hidden: !isLogin)
             }
             .disposed(by: disposeBag)
 
