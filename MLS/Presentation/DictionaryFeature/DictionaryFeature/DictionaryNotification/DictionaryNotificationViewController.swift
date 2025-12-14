@@ -102,6 +102,7 @@ public extension DictionaryNotificationViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
@@ -111,6 +112,9 @@ public extension DictionaryNotificationViewController {
                           let profile = reactor.currentState.profile else { return }
                     let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case let .notification(url):
+                    let webViewController = WebViewController(urlString: url)
+                    owner.present(webViewController, animated: true)
                 default:
                     break
                 }
@@ -151,6 +155,11 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         let item = reactor.currentState.notifications[indexPath.row]
         cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.toDisplayDateString(), isChecked: item.alreadyRead))
         return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let reactor = reactor else { return }
+        reactor.action.onNext(.notificationTapped(index: indexPath.row))
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

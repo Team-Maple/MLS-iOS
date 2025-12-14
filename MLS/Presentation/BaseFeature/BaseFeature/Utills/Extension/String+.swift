@@ -7,8 +7,10 @@ extension String {
     }
 
     public func toDisplayDateString() -> String {
-        let inputFormatter = ISO8601DateFormatter()
-        inputFormatter.formatOptions = [.withInternetDateTime]
+        let inputFormatter = DateFormatter()
+        inputFormatter.locale = Locale(identifier: "ko_KR")
+        inputFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")
+        inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
 
         guard let date = inputFormatter.date(from: self) else { return self }
 

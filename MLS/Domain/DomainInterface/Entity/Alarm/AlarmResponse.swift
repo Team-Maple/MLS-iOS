@@ -19,7 +19,7 @@ public struct AllAlarmResponse: Equatable {
     public let title: String
     public let link: String
     public let date: String
-    public let alreadyRead: Bool
+    public var alreadyRead: Bool
 
     public init(type: String, title: String, link: String, date: String, alreadyRead: Bool) {
         self.type = type

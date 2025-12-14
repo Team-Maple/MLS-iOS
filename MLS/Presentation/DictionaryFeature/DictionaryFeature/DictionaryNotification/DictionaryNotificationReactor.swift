@@ -8,7 +8,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case none
         case dismiss
         case setting
-        case notification(String)
+        case notification(url: String)
     }
 
     public enum Action {
@@ -16,7 +16,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case loadMore
         case backButtonTapped
         case settingButtonTapped
-        case notificationTapped(String)
+        case notificationTapped(index: Int)
     }
 
     public enum Mutation {
@@ -25,6 +25,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case setProfile(MyPageResponse?)
         case navigateTo(Route)
         case setPermission(Bool)
+        case checkAlarm(link: String)
     }
 
     public struct State {
@@ -42,13 +43,15 @@ public final class DictionaryNotificationReactor: Reactor {
     private let fetchAllAlarmUseCase: FetchAllAlarmUseCase
     private let fetchProfileUseCase: FetchProfileUseCase
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
+    private let setReadUseCase: SetReadUseCase
 
     // MARK: - Init
-    public init(fetchAllAlarmUseCase: FetchAllAlarmUseCase, fetchProfileUseCase: FetchProfileUseCase, checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase) {
+    public init(fetchAllAlarmUseCase: FetchAllAlarmUseCase, fetchProfileUseCase: FetchProfileUseCase, checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase, setReadUseCase: SetReadUseCase) {
         self.initialState = State()
         self.fetchAllAlarmUseCase = fetchAllAlarmUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
         self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
+        self.setReadUseCase = setReadUseCase
     }
 
     // MARK: - Mutate
@@ -57,7 +60,7 @@ public final class DictionaryNotificationReactor: Reactor {
         case .viewWillAppear:
             let profileStream: Observable<Mutation> = fetchProfileUseCase.execute()
                 .map { Mutation.setProfile($0) }
-
+            
             let notificationStream: Observable<Mutation> = Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: nil, pageSize: 20)
@@ -66,17 +69,17 @@ public final class DictionaryNotificationReactor: Reactor {
                     },
                 Observable<Mutation>.just(.setLoading(false))
             ])
-
+            
             let permissionStream: Observable<Mutation> = checkNotificationPermissionUseCase.execute()
                 .asObservable()
                 .map { Mutation.setPermission($0) }
-
+            
             return Observable.merge(profileStream, notificationStream, permissionStream)
-
+            
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
             let cursor = currentState.notifications.last?.date
-
+            
             return Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
                 fetchAllAlarmUseCase.execute(cursor: cursor, pageSize: 20)
@@ -85,15 +88,23 @@ public final class DictionaryNotificationReactor: Reactor {
                     },
                 Observable<Mutation>.just(.setLoading(false))
             ])
-
+            
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
-
+            
         case .settingButtonTapped:
             return .just(.navigateTo(.setting))
-
-        case .notificationTapped(let notification):
-            return .just(.navigateTo(.notification(notification)))
+            
+        case let .notificationTapped(index):
+            let notification = currentState.notifications[index]
+            
+            return setReadUseCase.execute(alarmLink: notification.link)
+                .andThen(
+                    Observable.concat([
+                        .just(.checkAlarm(link: notification.link)),
+                        .just(.navigateTo(.notification(url: notification.link)))
+                    ])
+                )
         }
     }
 
@@ -109,18 +120,22 @@ public final class DictionaryNotificationReactor: Reactor {
                 newState.notifications.append(contentsOf: newItems)
             }
             newState.hasMore = hasMore
-
+            
         case let .setLoading(isLoading):
             newState.isLoading = isLoading
-
+            
         case let .setProfile(profile):
             newState.profile = profile
-
+            
         case let .navigateTo(route):
             newState.route = route
-
+            
         case let .setPermission(granted):
             newState.permission = granted
+        case let .checkAlarm(link):
+            if let index = newState.notifications.firstIndex(where: { $0.link == link }) {
+                newState.notifications[index].alreadyRead = true
+            }
         }
 
         return newState

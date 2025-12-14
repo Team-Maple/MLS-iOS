@@ -914,7 +914,9 @@ private extension AppDelegate {
                 ),
                 fetchProfileUseCase: DIContainer.resolve(
                     type: FetchProfileUseCase.self
-                ), checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self)
+                ), checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self),
+                setReadUseCase: DIContainer.resolve(
+                    type: SetReadUseCase.self)
             )
         }
         DIContainer.register(type: DictionaryMainViewFactory.self) {
