@@ -15,7 +15,7 @@ public final class BookmarkListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
-    
+
     private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
     private var undoRelay = PublishRelay<Int>()
     private var addCollectionRelay = PublishRelay<Int>()

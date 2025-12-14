@@ -352,7 +352,7 @@ extension DictionaryDetailBaseViewController {
 //                }
 //            }
 //    }
-    
+
     func bindBookmarkButton<T>(
         buttonTap: ControlEvent<Void>,
         currentItem: Observable<T>,
@@ -367,7 +367,7 @@ extension DictionaryDetailBaseViewController {
         buttonTap
             .withLatestFrom(Observable.combineLatest(currentItem, bookmarkId))
             .observe(on: MainScheduler.instance)
-            .bind { [weak self] item, bookmarkId in
+            .bind { [weak self] item, _ in
                 guard let self else { return }
                 guard isLogin() else {
                     GuideAlertFactory.show(
