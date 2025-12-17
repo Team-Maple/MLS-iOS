@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DictionaryFeatureInterface
 import DomainInterface
@@ -20,7 +21,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
     private var appearMapView = DetailStackCardView()
     private var dropItemView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-    
+
     override func toggleBookmark() {
         reactor?.action.onNext(.toggleBookmark)
     }
@@ -29,7 +30,7 @@ class MonsterDictionaryDetailViewController: DictionaryDetailBaseViewController,
         guard let reactor = reactor else { return false }
         return reactor.currentState.isLogin
     }
-    
+
     override func undoBookmark() {
         reactor?.action.onNext(.undoLastDeletedBookmark)
     }
@@ -199,6 +200,7 @@ extension MonsterDictionaryDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .filter(let type, let sort):
@@ -221,6 +223,8 @@ extension MonsterDictionaryDetailViewController {
                 case let .detail(type: type, id: id):
                     let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }

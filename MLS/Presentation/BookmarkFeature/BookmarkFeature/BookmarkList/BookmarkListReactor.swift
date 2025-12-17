@@ -13,6 +13,7 @@ public final class BookmarkListReactor: Reactor {
         case dictionary
         case login
         case edit
+        case bookmarkError
     }
 
     public enum UIEvent {
@@ -53,7 +54,7 @@ public final class BookmarkListReactor: Reactor {
         case setSort(SortType)
         case setFilter(start: Int?, end: Int?)
         case setLastDeletedBookmark(BookmarkResponse?)
-        case toNavagate(Route)
+        case navigatTo(Route)
         case setJobId([Int])
         case setCategoryId([Int])
         case setEvent(UIEvent)
@@ -145,10 +146,10 @@ public final class BookmarkListReactor: Reactor {
             return handleTogle(id: id)
 
         case .sortButtonTapped:
-            return .just(.toNavagate(.sort(currentState.type)))
+            return .just(.navigatTo(.sort(currentState.type)))
 
         case .filterButtonTapped:
-            return .just(.toNavagate(.filter(currentState.type)))
+            return .just(.navigatTo(.filter(currentState.type)))
 
         case .fetchList:
             guard currentState.isLogin else { return .empty() }
@@ -172,15 +173,15 @@ public final class BookmarkListReactor: Reactor {
         case let .dataTapped(index):
             let item = currentState.items[index]
             guard let type = item.type.toDictionaryType else { return .empty() }
-            return .just(.toNavagate(.detail(type, item.originalId)))
+            return .just(.navigatTo(.detail(type, item.originalId)))
         case .emptyButtonTapped:
             if currentState.viewState == .logout {
-                return .just(.toNavagate(.login))
+                return .just(.navigatTo(.login))
             } else {
-                return .just(.toNavagate(.dictionary))
+                return .just(.navigatTo(.dictionary))
             }
         case .editButtonTapped:
-            return .just(.toNavagate(.edit))
+            return .just(.navigatTo(.edit))
         case let .itemFilterOptionSelected(results):
             let criteria = parseItemFilterResultUseCase.execute(results: results)
 
@@ -255,7 +256,7 @@ public final class BookmarkListReactor: Reactor {
             newState.endLevel = end
         case let .setLastDeletedBookmark(item):
             newState.lastDeletedBookmark = item
-        case let .toNavagate(route):
+        case let .navigatTo(route):
             newState.route = route
         case let .setJobId(ids):
             newState.jobId = ids
@@ -288,6 +289,9 @@ private extension BookmarkListReactor {
                     self.fetchList()
                 ])
             }
+            .catch { _ in
+                .just(.navigatTo(.bookmarkError))
+            }
     }
 
     func handleUndo() -> Observable<Mutation> {
@@ -307,6 +311,9 @@ private extension BookmarkListReactor {
                 .from([lastItem, eventMutation]),
                 self.fetchList()
             ])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
         }
     }
 }

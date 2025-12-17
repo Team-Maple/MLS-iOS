@@ -656,8 +656,8 @@ private extension AppDelegate {
                 )
             )
         }
-        DIContainer.register(type: SetCollectionUseCase.self) {
-            SetCollectionUseCaseImpl(
+        DIContainer.register(type: UpdateCollectionUseCase.self) {
+            UpdateCollectionUseCaseImpl(
                 repository: DIContainer.resolve(
                     type: CollectionAPIRepository.self
                 )
@@ -705,7 +705,7 @@ private extension AppDelegate {
                     type: CreateCollectionListUseCase.self
                 ),
                 setCollectionUseCase: DIContainer.resolve(
-                    type: SetCollectionUseCase.self
+                    type: UpdateCollectionUseCase.self
                 )
             )
         }

@@ -396,7 +396,7 @@ extension DictionaryDetailBaseViewController {
     private func presentCollectionModal(bookmarkId: Int) {
         let viewController = bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
             if isAdd {
-                ToastFactory.createToast(message: "컬렉션에 추가되었어요.")
+                ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
             }
         }
         viewController.modalPresentationStyle = .pageSheet

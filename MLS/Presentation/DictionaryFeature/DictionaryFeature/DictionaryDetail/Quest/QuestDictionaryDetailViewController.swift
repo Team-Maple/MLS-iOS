@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DomainInterface
 
@@ -195,11 +196,14 @@ extension QuestDictionaryDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case let .detail(type, id):
                     let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }

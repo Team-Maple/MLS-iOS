@@ -31,7 +31,7 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
             .map { $0.toDomain() }
     }
 
-    public func setCollectionName(collectionId: Int, name: String) -> Completable {
+    public func updateCollectionName(collectionId: Int, name: String) -> Completable {
         let endPoint = CollectionEndPoint.setCollectionName(id: collectionId, body: SetCollectionRequestBody(name: name))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }

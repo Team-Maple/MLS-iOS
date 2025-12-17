@@ -18,6 +18,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
         case none
         case filter(DictionaryType)
         case detail(type: DictionaryType, id: Int)
+        case bookmarkError
     }
 
     public enum UIEvent {
@@ -36,7 +37,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
     }
 
     public enum Mutation {
-        case toNavigate(Route)
+        case navigatTo(Route)
         case setDetailData(DictionaryDetailQuestResponse)
         case setLinkedQuests(DictionaryDetailQuestLinkedQuestsResponse)
         case setLoginState(Bool)
@@ -120,10 +121,10 @@ public final class QuestDictionaryDetailReactor: Reactor {
             let tappedQuestInfo = currentState.totalQuest[index]
             guard let id = tappedQuestInfo.quest.questId,
                   tappedQuestInfo.type != .current else { return .empty() }
-            return .just(.toNavigate(.detail(type: .quest, id: id)))
+            return .just(.navigatTo(.detail(type: .quest, id: id)))
 
         case let .infoTapped(type: type, id: id):
-            return .just(.toNavigate(.detail(type: type, id: id)))
+            return .just(.navigatTo(.detail(type: type, id: id)))
         }
     }
 
@@ -146,7 +147,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
             newState.isLogin = isLogin
         case let .setLastDeletedBookmark(data):
             newState.lastDeletedBookmark = data
-        case let .toNavigate(route):
+        case let .navigatTo(route):
             newState.route = route
         case let .setEvent(event):
             newState.event = event
@@ -207,6 +208,9 @@ private extension QuestDictionaryDetailReactor {
 
             return .concat([eventMutation, refresh])
         }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
@@ -226,6 +230,9 @@ private extension QuestDictionaryDetailReactor {
                 .map { Mutation.setDetailData($0) }
 
             return .concat([eventMutation, refresh])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
         }
     }
 }

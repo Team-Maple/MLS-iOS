@@ -10,6 +10,7 @@ public final class DictionaryListReactor: Reactor {
         case none
         case sort(DictionaryType)
         case filter(DictionaryType)
+        case bookmarkError
     }
 
     public enum UIEvent {
@@ -38,9 +39,8 @@ public final class DictionaryListReactor: Reactor {
 
     // MARK: - Mutation
     public enum Mutation {
+        case navigatTo(Route)
         case setListItem(DictionaryMainResponse, updateBookmarkOnly: Bool = false)
-        case showSortFilter
-        case showFilter
         case setSort(String)
         case setFilter(start: Int?, end: Int?)
         case setCurrentPage
@@ -124,9 +124,9 @@ public final class DictionaryListReactor: Reactor {
         case .viewWillAppear:
             return handleViewWillAppear()
         case .sortButtonTapped:
-            return .just(.showSortFilter)
+            return .just(.navigatTo(.sort(currentState.type)))
         case .filterButtonTapped:
-            return .just(.showFilter)
+            return .just(.navigatTo(.filter(currentState.type)))
         case let .sortOptionSelected(sort):
             return handleSortOptionSelected(sort: sort)
         case let .filterOptionSelected(startLevel, endLevel):
@@ -152,10 +152,8 @@ public final class DictionaryListReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .showSortFilter:
-            newState.route = .sort(newState.type)
-        case .showFilter:
-            newState.route = .filter(newState.type)
+        case let .navigatTo(route):
+            newState.route = route
         case let .setListItem(items, updateBookmarkOnly):
             newState.isBookmarkUpdateOnly = updateBookmarkOnly
             newState.totalCounts = items.totalElements
@@ -315,6 +313,9 @@ private extension DictionaryListReactor {
             let updateMutation = Mutation.updateBookmarkId(id: id, newBookmarkId: newBookmarkId)
             return .from([lastItem, updateMutation, eventMutation])
         }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 
     func handleUpdateBookmark(id: Int, newBookmarkId: Int?) -> Observable<Mutation> {
@@ -366,6 +367,9 @@ private extension DictionaryListReactor {
 
             let updateMutation = Mutation.updateBookmarkId(id: lastDeleted.id, newBookmarkId: newBookmarkId)
             return .from([lastItem, updateMutation, eventMutation])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
         }
     }
 

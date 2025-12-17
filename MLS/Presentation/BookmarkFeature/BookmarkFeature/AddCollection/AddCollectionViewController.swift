@@ -183,6 +183,10 @@ extension AddCollectionViewController {
                     owner.dismissWithAnimation(withData: true) {
                         owner.dismiss(animated: false)
                     }
+                case .updateError:
+                    ToastFactory.createToast(message: "컬렉션 수정에 실패했어요. 다시 시도해주세요.")
+                case .createError:
+                    ToastFactory.createToast(message: "컬렉션 생성에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }

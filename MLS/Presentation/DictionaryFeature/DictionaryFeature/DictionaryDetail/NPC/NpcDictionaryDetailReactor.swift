@@ -8,6 +8,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case none
         case filter([SortType])
         case detail(type: DictionaryType, id: Int)
+        case bookmarkError
     }
     
     public enum UIEvent {
@@ -30,7 +31,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
 
     // MARK: - Mutation
     public enum Mutation {
-        case toNavigate(Route)
+        case navigatTo(Route)
         case setDetailData(DictionaryDetailNpcResponse)
         case setDetailMaps([DictionaryDetailMonsterMapResponse])
         case setDetailQuests([DictionaryDetailNpcQuestResponse])
@@ -93,7 +94,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.toNavigate(.filter(currentState.questFilter)))
+            return .just(.navigatTo(.filter(currentState.questFilter)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -111,10 +112,10 @@ public final class NpcDictionaryDetailReactor: Reactor {
             return handleUndoLastDeletedBookmark()
 
         case .mapTapped(index: let index):
-            return .just(.toNavigate(.detail(type: .map, id: currentState.maps[index].mapId)))
+            return .just(.navigatTo(.detail(type: .map, id: currentState.maps[index].mapId)))
 
         case .questTapped(index: let index):
-            return .just(.toNavigate(.detail(type: .quest, id: currentState.quests[index].questId)))
+            return .just(.navigatTo(.detail(type: .quest, id: currentState.quests[index].questId)))
         }
     }
 
@@ -122,7 +123,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .toNavigate(let route):
+        case .navigatTo(let route):
             newState.route = route
         case let .setDetailData(data):
             newState.npcDetailInfo = data
@@ -163,6 +164,9 @@ private extension NpcDictionaryDetailReactor {
 
             return .concat([eventMutation, refresh])
         }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
@@ -182,6 +186,9 @@ private extension NpcDictionaryDetailReactor {
                 .map { Mutation.setDetailData($0) }
 
             return .concat([eventMutation, refresh])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
         }
     }
 }

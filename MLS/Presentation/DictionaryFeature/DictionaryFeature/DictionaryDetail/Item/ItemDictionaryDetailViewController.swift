@@ -221,6 +221,7 @@ extension ItemDictionaryDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case let .filter(type):
@@ -232,11 +233,13 @@ extension ItemDictionaryDetailViewController {
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
-                case .none:
-                    break
                 case let .detail(id):
                     let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
+                default:
+                    break
                 }
             }
             .disposed(by: disposeBag)

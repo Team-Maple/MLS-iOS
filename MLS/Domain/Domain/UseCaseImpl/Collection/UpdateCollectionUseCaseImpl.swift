@@ -2,7 +2,7 @@ import DomainInterface
 
 import RxSwift
 
-public final class SetCollectionUseCaseImpl: SetCollectionUseCase {
+public final class UpdateCollectionUseCaseImpl: UpdateCollectionUseCase {
     private let repository: CollectionAPIRepository
 
     public init(repository: CollectionAPIRepository) {
@@ -10,6 +10,6 @@ public final class SetCollectionUseCaseImpl: SetCollectionUseCase {
     }
 
     public func execute(collectionId: Int, name: String) -> Completable {
-        return repository.setCollectionName(collectionId: collectionId, name: name)
+        return repository.updateCollectionName(collectionId: collectionId, name: name)
     }
 }

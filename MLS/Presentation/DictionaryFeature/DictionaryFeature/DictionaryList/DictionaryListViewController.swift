@@ -151,6 +151,7 @@ extension DictionaryListViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe(onNext: { owner, route in
                 switch route {
                 case .sort(let type):
@@ -191,6 +192,8 @@ extension DictionaryListViewController {
                     default:
                         break
                     }
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }
@@ -333,7 +336,8 @@ extension DictionaryListViewController {
             for cell in collectionView.visibleCells {
                 if let indexPath = collectionView.indexPath(for: cell),
                    indexPath.item < items.count,
-                   let cell = cell as? DictionaryListCell {
+                   let cell = cell as? DictionaryListCell
+                {
                     let item = items[indexPath.item]
                     cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil)
                 }
@@ -394,7 +398,8 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         default:
             // 단일 타입일 경우 리액터 타입에 따라 처리
             viewController = detailFactory.make(
-                type: reactor.currentState.type, id: item.id, bookmarkRelay: bookmarkChangeRelay, loginRelay: loginRelay)
+                type: reactor.currentState.type, id: item.id, bookmarkRelay: bookmarkChangeRelay, loginRelay: loginRelay
+            )
         }
         navigationController?.pushViewController(viewController, animated: true)
     }

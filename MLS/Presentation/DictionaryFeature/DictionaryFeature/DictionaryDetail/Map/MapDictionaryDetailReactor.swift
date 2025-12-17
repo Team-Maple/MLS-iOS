@@ -8,6 +8,7 @@ public final class MapDictionaryDetailReactor: Reactor {
         case none
         case filter([SortType])
         case detail(type: DictionaryType, id: Int)
+        case bookmarkError
     }
     
     public enum UIEvent {
@@ -28,7 +29,7 @@ public final class MapDictionaryDetailReactor: Reactor {
     }
 
     public enum Mutation {
-        case toNavigate(Route)
+        case navigatTo(Route)
         case setDetailData(DictionaryDetailMapResponse)
         case setDetailSpawnMonsters([DictionaryDetailMapSpawnMonsterResponse])
         case setDetailNpc([DictionaryDetailMapNpcResponse])
@@ -98,7 +99,7 @@ public final class MapDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .monsterFilterButtonTapped:
-            return Observable.just(.toNavigate(.filter(currentState.monsterFilter)))
+            return Observable.just(.navigatTo(.filter(currentState.monsterFilter)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -118,10 +119,10 @@ public final class MapDictionaryDetailReactor: Reactor {
         case .monsterTapped(index: let index):
             guard let id = currentState.spawnMonsters[index].monsterId else { return .empty() }
 
-            return .just(.toNavigate(.detail(type: .monster, id: id)))
+            return .just(.navigatTo(.detail(type: .monster, id: id)))
         case .npcTapped(index: let index):
             guard let id = currentState.npcs[index].npcId else { return .empty() }
-            return .just(.toNavigate(.detail(type: .npc, id: id)))
+            return .just(.navigatTo(.detail(type: .npc, id: id)))
         }
     }
 
@@ -129,7 +130,7 @@ public final class MapDictionaryDetailReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .toNavigate(let route):
+        case .navigatTo(let route):
             newState.route = route
         case let .setDetailData(data):
             newState.mapDetailInfo = data
@@ -172,6 +173,9 @@ private extension MapDictionaryDetailReactor {
 
             return .concat([eventMutation, refresh])
         }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
@@ -191,6 +195,9 @@ private extension MapDictionaryDetailReactor {
                 .map { Mutation.setDetailData($0) }
 
             return .concat([eventMutation, refresh])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
         }
     }
 }
