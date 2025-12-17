@@ -78,7 +78,7 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
-        return provider.requestData(endPoint: endPoint, interceptor: authInterceptor).map { $0.toLoginDomain() }
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
     }
 
     public func fcmToken(fcmToken: String?) -> Completable {

@@ -1,5 +1,5 @@
 public struct DictionaryDetailQuestResponse: Equatable {
-    public let questId: Int?
+    public let questId: Int
     public let titlePrefix: String?
     public let nameKr: String?
     public let nameEn: String?
@@ -16,10 +16,10 @@ public struct DictionaryDetailQuestResponse: Equatable {
     public let rewardItems: [RewardItem]?
     public let requirements: [Requirements]?
     public let allowedJobs: [AllowedJob]?
-    public let bookmarkId: Int?
+    public var bookmarkId: Int?
 
     public init(
-        questId: Int?,
+        questId: Int,
         titlePrefix: String?,
         nameKr: String?,
         nameEn: String?,

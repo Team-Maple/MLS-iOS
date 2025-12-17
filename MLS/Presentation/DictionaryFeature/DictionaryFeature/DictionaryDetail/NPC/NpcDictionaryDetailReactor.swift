@@ -9,13 +9,20 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case filter([SortType])
         case detail(type: DictionaryType, id: Int)
     }
+    
+    public enum UIEvent {
+        case none
+        case add(DictionaryDetailNpcResponse)
+        case delete(DictionaryDetailNpcResponse)
+        case undo
+    }
 
     // MARK: - Action
     public enum Action {
         case filterButtonTapped
         case viewWillAppear
         case selectFilter(SortType)
-        case toggleBookmark(Bool)
+        case toggleBookmark
         case undoLastDeletedBookmark
         case mapTapped(index: Int)
         case questTapped(index: Int)
@@ -29,10 +36,12 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case setDetailQuests([DictionaryDetailNpcQuestResponse])
         case setLoginState(Bool)
         case setLastDeletedBookmark(DictionaryDetailNpcResponse?)
+        case setEvent(UIEvent)
     }
 
     // MARK: - State
     public struct State {
+        @Pulse var event: UIEvent = .none
         @Pulse var route: Route = .none
         var npcDetailInfo: DictionaryDetailNpcResponse
         var type: DictionaryType = .npc
@@ -95,41 +104,15 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case let .selectFilter(type):
             return dictionaryDetailNpcQuestUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailQuests($0) }
 
-        case let .toggleBookmark(isSelected):
-            let npcId = currentState.npcDetailInfo.npcId
-
-            let saveDeleted: Observable<Mutation> = isSelected
-                ? .just(.setLastDeletedBookmark(currentState.npcDetailInfo))
-                : .just(.setLastDeletedBookmark(nil))
-
-            return saveDeleted.concat(
-                setBookmarkUseCase.execute(
-                    bookmarkId: currentState.npcDetailInfo.bookmarkId ?? npcId,
-                    isBookmark: isSelected ? .delete : .set(.npc)
-                )
-                .andThen(
-                    dictionaryDetailNpcUseCase.execute(id: currentState.id)
-                        .map { .setDetailData($0) }
-                )
-            )
+        case .toggleBookmark:
+           return handleToggleBookmark()
 
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
-            let npcId = lastDeleted.npcId
+            return handleUndoLastDeletedBookmark()
 
-            return setBookmarkUseCase.execute(
-                bookmarkId: npcId,
-                isBookmark: .set(.npc)
-            )
-            .andThen(
-                Observable.concat([
-                    dictionaryDetailNpcUseCase.execute(id: currentState.id)
-                        .map { .setDetailData($0) },
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
         case .mapTapped(index: let index):
             return .just(.toNavigate(.detail(type: .map, id: currentState.maps[index].mapId)))
+
         case .questTapped(index: let index):
             return .just(.toNavigate(.detail(type: .quest, id: currentState.quests[index].questId)))
         }
@@ -151,7 +134,54 @@ public final class NpcDictionaryDetailReactor: Reactor {
             newState.isLogin = isLogin
         case let .setLastDeletedBookmark(map):
             newState.lastDeletedBookmark = map
+        case let .setEvent(event):
+            newState.event = event
         }
         return newState
+    }
+}
+
+private extension NpcDictionaryDetailReactor {
+    func handleToggleBookmark() -> Observable<Mutation> {
+        var npc = currentState.npcDetailInfo
+        let isSelected = npc.bookmarkId != nil
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: isSelected ? npc.bookmarkId ?? npc.npcId : npc.npcId,
+            isBookmark: isSelected ? .delete : .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            npc.bookmarkId = newBookmarkId
+            let event: UIEvent = isSelected ? .delete(npc) : .add(npc)
+            let eventMutation = Observable.just(Mutation.setEvent(event))
+
+            let refresh = self.dictionaryDetailNpcUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
+    }
+
+    func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
+        var npc = currentState.npcDetailInfo
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: npc.npcId,
+            isBookmark: .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            npc.bookmarkId = newBookmarkId
+            let eventMutation = Observable.just(Mutation.setEvent(.add(npc)))
+            let refresh = self.dictionaryDetailNpcUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
     }
 }

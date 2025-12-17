@@ -14,6 +14,7 @@ public final class AuthInterceptor: Interceptor {
     public func adapt(_ request: URLRequest) -> URLRequest {
         var request = request
         if case .success(let token) = tokenRepository.fetchToken(type: .accessToken) {
+            print("accessToken: \(token)")
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         return request

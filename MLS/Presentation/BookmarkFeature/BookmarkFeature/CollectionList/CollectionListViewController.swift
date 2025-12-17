@@ -16,8 +16,6 @@ public final class CollectionListViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
     private var selectedSortIndex = 0
 
-//    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
-
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
     private let sortedBottomSheetFactory: SortedBottomSheetFactory

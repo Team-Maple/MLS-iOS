@@ -46,6 +46,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         switch fetchResult {
         case .success(let refreshToken):
+            print("refreshToken: \(refreshToken)")
             reissueUseCase.execute(refreshToken: refreshToken)
                 .observe(on: MainScheduler.instance)
                 .subscribe(

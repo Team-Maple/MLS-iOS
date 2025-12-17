@@ -15,6 +15,19 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     private var appearMapView = DetailStackCardView()
     private var questView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
+    
+    override func toggleBookmark() {
+        reactor?.action.onNext(.toggleBookmark)
+    }
+
+    override func checkLogin() -> Bool {
+        guard let reactor = reactor else { return false }
+        return reactor.currentState.isLogin
+    }
+    
+    override func undoBookmark() {
+        reactor?.action.onNext(.undoLastDeletedBookmark)
+    }
 }
 
 // MARK: - SetUp
@@ -127,7 +140,7 @@ extension NpcDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case .detail(type: let type, id: let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 default:
                     break
@@ -163,17 +176,25 @@ extension NpcDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-        bindBookmarkButton(
-            buttonTap: mainView.bookmarkButton.rx.tap,
-            currentItem: reactor.state.map { $0.npcDetailInfo },
-            isLogin: { reactor.currentState.isLogin },
-            id: { _ in reactor.currentState.npcDetailInfo.npcId },
-            imageUrl: { $0.iconUrlDetail },
-            backgroundColor: type.backgroundColor,
-            isBookmarked: { $0.bookmarkId != nil },
-//            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
-            bookmarkId: reactor.state.map(\.npcDetailInfo.bookmarkId)
-        )
-        .disposed(by: disposeBag)
+        reactor.pulse(\.$event)
+            .bind(onNext: { [weak self] event in
+                switch event {
+                case let .add(item):
+                    self?.presentAddSnackBar(
+                        bookmarkId: item.bookmarkId,
+                        imageUrl: item.iconUrlDetail,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.npcId, item.bookmarkId))
+                case let .delete(item):
+                    self?.presentDeleteSnackBar(
+                        imageUrl: item.iconUrlDetail,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.npcId, item.bookmarkId))
+                default: break
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }

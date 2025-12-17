@@ -10,10 +10,6 @@ public protocol CollectionAPIRepository {
     // 컬렉션 상세 조회
     func fetchCollectionUseCase(id: Int) -> Observable<[BookmarkResponse]>
 
-//    func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable
-
-//    func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable
-
     func setCollectionName(collectionId: Int, name: String) -> Completable
 
     func deleteCollection(collectionId: Int) -> Completable

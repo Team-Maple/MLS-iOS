@@ -9,10 +9,12 @@ public final class SetBookmarkUseCaseImpl: SetBookmarkUseCase {
         self.repository = repository
     }
 
-    public func execute(bookmarkId: Int, isBookmark: IsBookmark) -> Completable {
+    public func execute(bookmarkId: Int, isBookmark: IsBookmark) -> Observable<Int?> {
         switch isBookmark {
         case .set(let type):
-            return repository.setBookmark(bookmarkId: bookmarkId, type: type)
+            return repository
+                .setBookmark(bookmarkId: bookmarkId, type: type)
+                .map { Optional($0) }
         case .delete:
             return repository.deleteBookmark(bookmarkId: bookmarkId)
         }

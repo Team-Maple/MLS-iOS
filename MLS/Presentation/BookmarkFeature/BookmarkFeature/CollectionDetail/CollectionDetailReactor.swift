@@ -73,13 +73,14 @@ public final class CollectionDetailReactor: Reactor {
                     : .just(.setLastDeletedBookmark(nil))
 
             return saveDeletedMutation
-                .concat(
-                    setBookmarkUseCase.execute(
-                        bookmarkId: isSelected ? bookmarkItem.bookmarkId : id,
-                        isBookmark: isSelected ? .delete : .set(bookmarkItem.type)
-                    )
-                    .andThen(fetchCollectionUseCase.execute(id: currentState.collection.collectionId).map { .setItems($0) })
-                )
+//                .concat(
+//                    setBookmarkUseCase.execute(
+//                        bookmarkId: isSelected ? bookmarkItem.bookmarkId : id,
+//                        isBookmark: isSelected ? .delete : .set(bookmarkItem.type)
+//                    )
+//                    .andThen(fetchCollectionUseCase.execute(id: currentState.collection.collectionId).map { .setItems($0) })
+//                )
+            return .empty()
         case .backButtonTapped:
             return .just(.navigateTo(.dismiss))
         case .editButtonTapped:
@@ -96,21 +97,22 @@ public final class CollectionDetailReactor: Reactor {
         case .changeName(let name):
             return .just(.setName(name))
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark,
-            let lastDeletedBookmarkId = currentState.lastDeletedBookmark?.bookmarkId else { return .empty() }
-            return setBookmarkUseCase.execute(
-                bookmarkId: lastDeleted.originalId,
-                isBookmark: .set(lastDeleted.type)
-            )
-            // 북마크 다시 설정시 이전 collection을 전부 추적해야하고 새로 바뀐 북마크ID가 필요하여 현재는 원할하게 동작하지 않음
-            .andThen(addCollectionAndBookmarkUseCase.execute(collectionIds: [currentState.collection.collectionId], bookmarkIds: [lastDeletedBookmarkId]))
-            .andThen(
-                Observable.concat([
-                    fetchCollectionUseCase.execute(id: currentState.collection.collectionId)
-                        .map { .setItems($0) },
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
+//            guard let lastDeleted = currentState.lastDeletedBookmark,
+//            let lastDeletedBookmarkId = currentState.lastDeletedBookmark?.bookmarkId else { return .empty() }
+//            return setBookmarkUseCase.execute(
+//                bookmarkId: lastDeleted.originalId,
+//                isBookmark: .set(lastDeleted.type)
+//            )
+//            // 북마크 다시 설정시 이전 collection을 전부 추적해야하고 새로 바뀐 북마크ID가 필요하여 현재는 원할하게 동작하지 않음
+//            .andThen(addCollectionAndBookmarkUseCase.execute(collectionIds: [currentState.collection.collectionId], bookmarkIds: [lastDeletedBookmarkId]))
+//            .andThen(
+//                Observable.concat([
+//                    fetchCollectionUseCase.execute(id: currentState.collection.collectionId)
+//                        .map { .setItems($0) },
+//                    .just(.setLastDeletedBookmark(nil))
+//                ])
+//            )
+            return .empty()
         case .dataTapped(let index):
             let item = currentState.collection.recentBookmarks[index]
             guard let type = item.type.toDictionaryType else { return .empty() }

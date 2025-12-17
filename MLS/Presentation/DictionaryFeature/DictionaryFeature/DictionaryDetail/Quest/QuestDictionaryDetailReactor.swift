@@ -20,9 +20,16 @@ public final class QuestDictionaryDetailReactor: Reactor {
         case detail(type: DictionaryType, id: Int)
     }
 
+    public enum UIEvent {
+        case none
+        case add(DictionaryDetailQuestResponse)
+        case delete(DictionaryDetailQuestResponse)
+        case undo
+    }
+
     public enum Action {
         case viewWillAppear
-        case toggleBookmark(Bool)
+        case toggleBookmark
         case undoLastDeletedBookmark
         case questTapped(index: Int)
         case infoTapped(type: DictionaryType, id: Int)
@@ -34,9 +41,11 @@ public final class QuestDictionaryDetailReactor: Reactor {
         case setLinkedQuests(DictionaryDetailQuestLinkedQuestsResponse)
         case setLoginState(Bool)
         case setLastDeletedBookmark(DictionaryDetailQuestResponse?)
+        case setEvent(UIEvent)
     }
 
     public struct State {
+        @Pulse var event: UIEvent = .none
         @Pulse var route: Route = .none
         var type: DictionaryType = .quest
         var id: Int
@@ -69,7 +78,7 @@ public final class QuestDictionaryDetailReactor: Reactor {
         self.initialState = .init(
             id: id,
             detailInfo: .init(
-                questId: nil,
+                questId: 0,
                 titlePrefix: nil,
                 nameKr: nil,
                 nameEn: nil,
@@ -101,44 +110,18 @@ public final class QuestDictionaryDetailReactor: Reactor {
                 dictionaryDetailQuestLinkedQuestUseCase.execute(id: currentState.id).map { .setLinkedQuests($0) }
             ])
 
-        case let .toggleBookmark(isSelected):
-            guard let questId = currentState.detailInfo.questId else { return .empty() }
-
-            let saveDeleted: Observable<Mutation> = isSelected
-                ? .just(.setLastDeletedBookmark(currentState.detailInfo))
-                : .just(.setLastDeletedBookmark(nil))
-
-            return saveDeleted.concat(
-                setBookmarkUseCase.execute(
-                    bookmarkId: currentState.detailInfo.bookmarkId ?? questId,
-                    isBookmark: isSelected ? .delete : .set(.quest)
-                )
-                .andThen(
-                    dictionaryDetailQuestUseCase.execute(id: currentState.id)
-                        .map { .setDetailData($0) }
-                )
-            )
+        case .toggleBookmark:
+            return handleToggleBookmark()
 
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark,
-                  let questId = lastDeleted.questId else { return .empty() }
+            return handleUndoLastDeletedBookmark()
 
-            return setBookmarkUseCase.execute(
-                bookmarkId: questId,
-                isBookmark: .set(.quest)
-            )
-            .andThen(
-                Observable.concat([
-                    dictionaryDetailQuestUseCase.execute(id: currentState.id)
-                        .map { .setDetailData($0) },
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
         case let .questTapped(index):
             let tappedQuestInfo = currentState.totalQuest[index]
             guard let id = tappedQuestInfo.quest.questId,
                   tappedQuestInfo.type != .current else { return .empty() }
             return .just(.toNavigate(.detail(type: .quest, id: id)))
+
         case let .infoTapped(type: type, id: id):
             return .just(.toNavigate(.detail(type: type, id: id)))
         }
@@ -165,6 +148,8 @@ public final class QuestDictionaryDetailReactor: Reactor {
             newState.lastDeletedBookmark = data
         case let .toNavigate(route):
             newState.route = route
+        case let .setEvent(event):
+            newState.event = event
         }
         return newState
     }
@@ -182,16 +167,14 @@ extension QuestDictionaryDetailReactor {
             quests.append(contentsOf: mapped)
         }
 
-        if let currentId = detailInfo.questId {
-            let currentQuest = Quest(
-                questId: currentId,
-                name: detailInfo.nameKr ?? "",
-                minLevel: detailInfo.minLevel,
-                maxLevel: detailInfo.maxLevel,
-                iconUrl: detailInfo.iconUrl
-            )
-            quests.append(QuestInfo(quest: currentQuest, type: .current))
-        }
+        let currentQuest = Quest(
+            questId: detailInfo.questId,
+            name: detailInfo.nameKr ?? "",
+            minLevel: detailInfo.minLevel,
+            maxLevel: detailInfo.maxLevel,
+            iconUrl: detailInfo.iconUrl
+        )
+        quests.append(QuestInfo(quest: currentQuest, type: .current))
 
         if let next = linkedInfo.nextQuests {
             let mapped = next.map { QuestInfo(quest: $0, type: .next) }
@@ -199,5 +182,50 @@ extension QuestDictionaryDetailReactor {
         }
 
         return quests
+    }
+}
+
+private extension QuestDictionaryDetailReactor {
+    func handleToggleBookmark() -> Observable<Mutation> {
+        var quest = currentState.detailInfo
+        let isSelected = quest.bookmarkId != nil
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: isSelected ? quest.bookmarkId ?? quest.questId : quest.questId,
+            isBookmark: isSelected ? .delete : .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            quest.bookmarkId = newBookmarkId
+            let event: UIEvent = isSelected ? .delete(quest) : .add(quest)
+            let eventMutation = Observable.just(Mutation.setEvent(event))
+
+            let refresh = self.dictionaryDetailQuestUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
+    }
+
+    func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
+        var quest = currentState.detailInfo
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: quest.questId,
+            isBookmark: .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            quest.bookmarkId = newBookmarkId
+            let eventMutation = Observable.just(Mutation.setEvent(.add(quest)))
+            let refresh = self.dictionaryDetailQuestUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
     }
 }

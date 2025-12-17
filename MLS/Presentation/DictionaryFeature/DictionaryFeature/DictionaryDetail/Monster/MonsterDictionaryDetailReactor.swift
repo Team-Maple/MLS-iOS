@@ -14,13 +14,20 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var name: String
         var desc: String
     }
+    
+    public enum UIEvent {
+        case none
+        case add(DictionaryDetailMonsterResponse)
+        case delete(DictionaryDetailMonsterResponse)
+        case undo
+    }
 
     // MARK: - Action
     public enum Action {
         case filterButtonTapped(DictionaryType)
         case viewWillAppear
         case selectFilter(SortType)
-        case toggleBookmark(Bool)
+        case toggleBookmark
         case undoLastDeletedBookmark
         case itemTapped(index: Int)
         case mapTapped(index: Int)
@@ -35,10 +42,12 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case setBookmark(DictionaryDetailMonsterResponse)
         case setLastDeletedBookmark(DictionaryDetailMonsterResponse?)
         case setLoginState(Bool)
+        case setEvent(UIEvent)
     }
 
     // MARK: - State
     public struct State {
+        @Pulse var event: UIEvent = .none
         @Pulse var route: Route = .none
         var type: DictionaryType = .monster
         var id = 0
@@ -108,37 +117,15 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case let .selectFilter(type):
             return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailDropItemData($0) }
 
-        case let .toggleBookmark(isSelected):
-            let monsterId = currentState.monsterDetailInfo.monsterId
-
-            let saveDeleted: Observable<Mutation> = isSelected
-                ? .just(.setLastDeletedBookmark(currentState.monsterDetailInfo))
-                : .just(.setLastDeletedBookmark(nil))
-
-            return saveDeleted.concat(
-                setBookmarkUseCase.execute(
-                    bookmarkId: currentState.monsterDetailInfo.bookmarkId ?? monsterId,
-                    isBookmark: isSelected ? .delete : .set(.monster)
-                )
-                .andThen(dictionaryDetailMonsterUseCase.execute(id: currentState.id).map { .setDetailData($0) })
-            )
+        case .toggleBookmark:
+           return handleToggleBookmark()
 
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
-            let monsterId = lastDeleted.monsterId
+            return handleUndoLastDeletedBookmark()
 
-            return setBookmarkUseCase.execute(
-                bookmarkId: monsterId,
-                isBookmark: .set(.monster)
-            )
-            .andThen(
-                Observable.concat([
-                    dictionaryDetailMonsterUseCase.execute(id: currentState.id).map { .setDetailData($0) },
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
         case .itemTapped(index: let index):
             return .just(.toNavigate(.detail(type: .item, id: currentState.dropItems[index].itemId)))
+
         case .mapTapped(index: let index):
             return .just(.toNavigate(.detail(type: .map, id: currentState.spawnMaps[index].mapId)))
         }
@@ -177,8 +164,55 @@ public final class MonsterDictionaryDetailReactor: Reactor {
 
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
+        case let .setEvent(event):
+            newState.event = event
         }
 
         return newState
+    }
+}
+
+private extension MonsterDictionaryDetailReactor {
+    func handleToggleBookmark() -> Observable<Mutation> {
+        var monster = currentState.monsterDetailInfo
+        let isSelected = monster.bookmarkId != nil
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: isSelected ? monster.bookmarkId ?? monster.monsterId : monster.monsterId,
+            isBookmark: isSelected ? .delete : .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            monster.bookmarkId = newBookmarkId
+            let event: UIEvent = isSelected ? .delete(monster) : .add(monster)
+            let eventMutation = Observable.just(Mutation.setEvent(event))
+
+            let refresh = self.dictionaryDetailMonsterUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
+    }
+
+    func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
+        var monster = currentState.monsterDetailInfo
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: monster.monsterId,
+            isBookmark: .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            monster.bookmarkId = newBookmarkId
+            let eventMutation = Observable.just(Mutation.setEvent(.add(monster)))
+            let refresh = self.dictionaryDetailMonsterUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
     }
 }

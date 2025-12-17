@@ -5,6 +5,7 @@ import BaseFeature
 import BookmarkFeatureInterface
 import DesignSystem
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -16,8 +17,8 @@ public final class BookmarkListViewController: BaseViewController, View {
     // MARK: - Properties
     public var disposeBag = DisposeBag()
 
-    private let bookmarkChangeRelay = PublishRelay<(Int, Bool)>()
-    private var undoRelay = PublishRelay<Int>()
+    private let bookmarkChangeRelay = PublishRelay<(id: Int, newBookmarkId: Int?)>()
+    private var undoRelay = PublishRelay<Void>()
     private var addCollectionRelay = PublishRelay<Int>()
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
@@ -184,7 +185,7 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkChangeRelay, undoRelay: owner.undoRelay, addCollectionRelay: owner.addCollectionRelay)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkChangeRelay, loginRelay: nil)
                     owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
                     let viewcontroller = owner.loginFactory.make(exitRoute: .pop)
@@ -214,45 +215,89 @@ extension BookmarkListViewController {
             })
             .disposed(by: disposeBag)
 
-        bookmarkChangeRelay
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$uiEvent) }
             .withUnretained(self)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, bookmarkData in
-                let (id, isBookmarked) = bookmarkData
-                owner.reactor?.action.onNext(.toggleBookmark(id, isBookmarked))
-            })
-            .disposed(by: disposeBag)
-
-        undoRelay
-            .withUnretained(self)
-            .subscribe(onNext: { owner, _ in
-                owner.reactor?.action.onNext(.undoLastDeletedBookmark)
-            })
-            .disposed(by: disposeBag)
-
-        addCollectionRelay
-            .withUnretained(self)
-            .subscribe(onNext: { owner, originId in
-                let items = reactor.currentState.items
-                guard let index = items.firstIndex(where: { $0.originalId == originId }) else { return }
-                      let bookmarkId = items[index].bookmarkId
-                let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
-                    if isAdd {
-                        ToastFactory.createToast(
-                            message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                        )
-                    }
+            .subscribe(onNext: { owner, event in
+                switch event {
+                case .add(let item):
+                    owner.presentAddSnackBar(item: item)
+                case .delete(let item):
+                    owner.presentDeleteSnackBar(item: item)
+                case .login:
+                    owner.presentLoginGuide()
+                default:
+                    break
                 }
-                vc.modalPresentationStyle = .pageSheet
-                if let sheet = vc.sheetPresentationController {
-                    sheet.detents = [.medium(), .large()]
-                    sheet.prefersGrabberVisible = true
-                    sheet.preferredCornerRadius = 16
-                }
-                owner.present(vc, animated: true)
             })
             .disposed(by: disposeBag)
     }
+
+    private func presentAddSnackBar(item: BookmarkResponse) {
+        SnackBarFactory.createSnackBar(
+            type: .normal,
+            imageUrl: item.imageUrl,
+            imageBackgroundColor: item.type.backgroundColor,
+            text: "아이템을 북마크에 추가했어요.",
+            buttonText: "컬렉션 추가",
+            buttonAction: { [weak self] in
+                self?.reactor?.state.map(\.items)
+                    .compactMap { items in
+                        items.first(where: { $0.originalId == item.originalId })?.bookmarkId
+                    }
+                    .take(1)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] bookmarkId in
+                        guard let self else { return }
+                        let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+                            if isAdd {
+                                ToastFactory.createToast(
+                                    message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                )
+                            }
+                        }
+                        vc.modalPresentationStyle = .pageSheet
+                        if let sheet = vc.sheetPresentationController {
+                            sheet.detents = [.medium(), .large()]
+                            sheet.prefersGrabberVisible = true
+                            sheet.preferredCornerRadius = 16
+                        }
+                        self.present(vc, animated: true)
+                    })
+                    .disposed(by: self?.disposeBag ?? DisposeBag())
+            }
+        )
+    }
+
+    private func presentDeleteSnackBar(item: BookmarkResponse) {
+        SnackBarFactory.createSnackBar(
+            type: .delete,
+            imageUrl: item.imageUrl,
+            imageBackgroundColor: item.type.backgroundColor,
+            text: "아이템을 북마크에서 삭제했어요.",
+            buttonText: "되돌리기",
+            buttonAction: { [weak self] in
+                self?.undoRelay.accept(())
+                self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+            }
+        )
+    }
+
+    private func presentLoginGuide() {
+        GuideAlertFactory.show(
+            mainText: "북마크를 하려면 로그인이 필요해요.",
+            ctaText: "로그인 하기",
+            cancelText: "취소",
+            ctaAction: { [weak self] in
+                guard let self else { return }
+                let vc = self.loginFactory.make(exitRoute: .pop)
+                self.navigationController?.pushViewController(vc, animated: true)
+            },
+            cancelAction: nil
+        )
+    }
+
 }
 
 // MARK: - Delegate
@@ -289,35 +334,12 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
             collectionView: collectionView,
             isMap: item.type == .map,
             onBookmarkTapped: { [weak self] isSelected in
-                guard let self = self else { return }
-
-                // 로그인 상태 확인
+                guard let self else { return }
                 guard state.isLogin else {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            let viewController = self.loginFactory.make(exitRoute: .pop)
-                            self.navigationController?.pushViewController(viewController, animated: true)
-                        },
-                        cancelAction: nil
-                    )
+                    self.reactor?.action.onNext(.showLogin)
                     return
                 }
-
-                self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
-
-                SnackBarFactory.createSnackBar(
-                    type: .delete,
-                    imageUrl: item.imageUrl,
-                    imageBackgroundColor: item.type.backgroundColor,
-                    text: "아이템을 북마크에서 삭제했어요.",
-                    buttonText: "되돌리기",
-                    buttonAction: { [weak self] in
-                        self?.reactor?.action.onNext(.undoLastDeletedBookmark)
-                    }
-                )
+                self.reactor?.action.onNext(.toggleBookmark(item.originalId))
             }
         )
 

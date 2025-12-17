@@ -13,14 +13,16 @@ public class BookmarkRepositoryImpl: BookmarkRepository {
         self.tokenInterceptor = interceptor
     }
 
-    public func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Completable {
+    public func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Observable<Int> {
         let endPoint = BookmarkEndPoint.setBookmark(body: SetBookmarkQuery(bookmarkType: type.rawValue, resourceId: bookmarkId))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+            .map { $0.toDomain() }
     }
 
-    public func deleteBookmark(bookmarkId: Int) -> Completable {
+    public func deleteBookmark(bookmarkId: Int) -> Observable<Int?> {
         let endPoint = BookmarkEndPoint.deleteBookmark(bookmarkId: bookmarkId)
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+            .map { $0.toBookmarkDomain() }
     }
 
     public func fetchBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
