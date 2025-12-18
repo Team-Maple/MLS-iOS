@@ -16,7 +16,7 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
     private var appearMapView = DetailStackCardView()
     private var questView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
-    
+
     override func toggleBookmark() {
         reactor?.action.onNext(.toggleBookmark)
     }
@@ -25,7 +25,7 @@ final class NpcDictionaryDetailViewController: DictionaryDetailBaseViewControlle
         guard let reactor = reactor else { return false }
         return reactor.currentState.isLogin
     }
-    
+
     override func undoBookmark() {
         reactor?.action.onNext(.undoLastDeletedBookmark)
     }

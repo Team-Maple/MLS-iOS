@@ -73,7 +73,7 @@ public final class AddCollectionModalReactor: Reactor {
             if currentState.collection == nil {
                 return createCollectionListUseCase.execute(name: trimmed)
                     .andThen(.just(.toNavigate(.dismissWithData)))
-                    .catch { error in
+                    .catch { _ in
                         return .just(.toNavigate(.createError))
                     }
             } else {
@@ -83,7 +83,7 @@ public final class AddCollectionModalReactor: Reactor {
                     name: trimmed
                 )
                 .andThen(.just(.toNavigate(.dismissWithData)))
-                .catch { error in
+                .catch { _ in
                     return .just(.toNavigate(.updateError))
                 }
             }

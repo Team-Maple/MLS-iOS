@@ -10,7 +10,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
         case detail(type: DictionaryType, id: Int)
         case bookmarkError
     }
-    
+
     public enum UIEvent {
         case none
         case add(DictionaryDetailNpcResponse)

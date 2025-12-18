@@ -336,8 +336,7 @@ extension DictionaryListViewController {
             for cell in collectionView.visibleCells {
                 if let indexPath = collectionView.indexPath(for: cell),
                    indexPath.item < items.count,
-                   let cell = cell as? DictionaryListCell
-                {
+                   let cell = cell as? DictionaryListCell {
                     let item = items[indexPath.item]
                     cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil)
                 }

@@ -101,7 +101,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
     open func checkLogin() -> Bool? {
         return nil
     }
-    
+
     open func undoBookmark() {
         assertionFailure("Subclass should override undoBookmark()")
     }

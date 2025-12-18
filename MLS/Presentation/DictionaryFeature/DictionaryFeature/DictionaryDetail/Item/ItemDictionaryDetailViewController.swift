@@ -23,7 +23,7 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
         guard let reactor = reactor else { return false }
         return reactor.currentState.isLogin
     }
-    
+
     override func undoBookmark() {
         reactor?.action.onNext(.undoLastDeletedBookmark)
     }

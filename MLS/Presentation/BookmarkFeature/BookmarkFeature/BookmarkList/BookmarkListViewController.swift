@@ -336,7 +336,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
             indexPath: indexPath,
             collectionView: collectionView,
             isMap: item.type == .map,
-            onBookmarkTapped: { [weak self] isSelected in
+            onBookmarkTapped: { [weak self] _ in
                 guard let self else { return }
                 guard state.isLogin else {
                     self.reactor?.action.onNext(.showLogin)

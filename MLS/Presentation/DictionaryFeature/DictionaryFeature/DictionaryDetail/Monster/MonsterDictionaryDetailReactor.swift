@@ -15,7 +15,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var name: String
         var desc: String
     }
-    
+
     public enum UIEvent {
         case none
         case add(DictionaryDetailMonsterResponse)
