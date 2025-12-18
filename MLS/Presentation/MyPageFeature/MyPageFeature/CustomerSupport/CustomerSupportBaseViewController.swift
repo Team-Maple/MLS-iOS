@@ -19,6 +19,7 @@ class CustomerSupportBaseViewController: BaseViewController {
     public var currentTabIndex: Int?
     public var urlStrings: [String] = []
     var onItemTapped: ((Int) -> Void)?
+    var onLoadMore: (() -> Void)?
 
     private let policyFactory: PolicyFactory?
 
@@ -51,6 +52,7 @@ class CustomerSupportBaseViewController: BaseViewController {
         addViews()
         setupConstaraints()
         bindBackButton()
+        bindScrollPagination()
     }
 
     func createDetailItem(items: [AlarmResponse]) {
@@ -134,6 +136,24 @@ extension CustomerSupportBaseViewController {
         mainView.backButton.rx.tap
             .bind { [weak self] in
                 self?.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func bindScrollPagination() {
+        mainView.scrollView.rx.contentOffset
+            .throttle(.milliseconds(300), scheduler: MainScheduler.instance)
+            .map { [weak self] offset -> Bool in
+                guard let self = self else { return false }
+                let contentHeight = self.mainView.scrollView.contentSize.height
+                let height = self.mainView.scrollView.frame.size.height
+                let offsetY = offset.y
+                return offsetY > contentHeight - height - 100
+            }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .bind { [weak self] _ in
+                self?.onLoadMore?()
             }
             .disposed(by: disposeBag)
     }

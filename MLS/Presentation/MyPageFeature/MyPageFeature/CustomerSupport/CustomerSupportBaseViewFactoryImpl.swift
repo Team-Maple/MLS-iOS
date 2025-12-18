@@ -48,9 +48,6 @@ public final class CustomerSupportBaseViewFactoryImpl: CustomerSupportFactory {
             }
         case .terms:
             viewController  = TermsViewController(type: .terms, policyFactory: policyFactory)
-            if let viewController = viewController as? TermsViewController {
-
-            }
         }
 
         viewController.isBottomTabbarHidden = true

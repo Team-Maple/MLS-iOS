@@ -17,6 +17,10 @@ final class EventViewController: CustomerSupportBaseViewController, View {
         onItemTapped = { [weak self] itemIndex in
             self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
+
+        onLoadMore = { [weak self] in
+            self?.reactor?.action.onNext(.loadMore)
+        }
     }
 
     // MARK: - Setup
