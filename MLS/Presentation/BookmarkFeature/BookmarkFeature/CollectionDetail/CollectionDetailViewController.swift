@@ -237,22 +237,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
             ),
             indexPath: indexPath,
             collectionView: collectionView,
-            onBookmarkTapped: { [weak self] isSelected in
-                guard let self = self else { return }
-
-                self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
-
-                SnackBarFactory.createSnackBar(
-                    type: .delete,
-                    imageUrl: item.imageUrl,
-                    imageBackgroundColor: item.type.backgroundColor,
-                    text: "아이템을 북마크에서 삭제했어요.",
-                    buttonText: "되돌리기",
-                    buttonAction: { [weak self] in
-                        self?.reactor?.action.onNext(.undoLastDeletedBookmark)
-                    }
-                )
-            }
+            onBookmarkTapped: { _ in }
         )
         return cell
     }
