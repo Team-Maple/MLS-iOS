@@ -2,9 +2,9 @@ import Foundation
 
 extension String {
     public func isOnlyKorean() -> Bool {
-        return !self.isEmpty && self.allSatisfy { char in
+        return !self.contains { char in
             guard let scalar = char.unicodeScalars.first else { return false }
-            return !(0xAC00...0xD7A3).contains(scalar.value)
+            return (0x3131...0x3163).contains(scalar.value)
         }
     }
 

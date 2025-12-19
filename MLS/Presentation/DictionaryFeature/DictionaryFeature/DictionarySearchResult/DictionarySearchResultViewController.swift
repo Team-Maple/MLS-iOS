@@ -207,7 +207,7 @@ public extension DictionarySearchResultViewController {
             .skip(1)
             .observe(on: MainScheduler.instance)
             .bind(with: self) { owner, newKeyword in
-                if newKeyword.isOnlyKorean(), newKeyword != "" {
+                if !newKeyword.isOnlyKorean() {
                     GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
                 } else {
                     owner.updateViewControllers(keyword: newKeyword)
