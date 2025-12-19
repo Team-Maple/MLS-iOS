@@ -31,11 +31,16 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
                     fcmToken = token
                 }
 
-                if let fcmToken {
-                    _ = self.authRepository.fcmToken(fcmToken: fcmToken)
+                let fcmUpdate = if let fcmToken {
+                    self.authRepository.fcmToken(fcmToken: fcmToken)
+                        .catch { error in
+                            print("FCM token update failed: \(error)")
+                            return .empty()
+                        }
+                } else {
+                    Completable.empty()
                 }
-
-                return savePlatform.andThen(Observable.just(response))
+                return fcmUpdate.andThen(savePlatform).andThen(Observable.just(response))
             }
             .catch { error in
                 Observable.error(error)
