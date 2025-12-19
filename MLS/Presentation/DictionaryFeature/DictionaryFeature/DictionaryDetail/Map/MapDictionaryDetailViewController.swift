@@ -22,7 +22,7 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
         super.viewDidLoad()
         bindImageView()
     }
-    
+
     override func toggleBookmark() {
         reactor?.action.onNext(.toggleBookmark)
     }
@@ -31,7 +31,7 @@ final class MapDictionaryDetailViewController: DictionaryDetailBaseViewControlle
         guard let reactor = reactor else { return false }
         return reactor.currentState.isLogin
     }
-    
+
     override func undoBookmark() {
         reactor?.action.onNext(.undoLastDeletedBookmark)
     }
@@ -209,7 +209,7 @@ extension MapDictionaryDetailViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
+
         reactor.pulse(\.$event)
             .bind(onNext: { [weak self] event in
                 switch event {

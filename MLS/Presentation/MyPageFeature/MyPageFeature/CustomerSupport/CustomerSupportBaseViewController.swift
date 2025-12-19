@@ -139,7 +139,7 @@ extension CustomerSupportBaseViewController {
             }
             .disposed(by: disposeBag)
     }
-    
+
     func bindScrollPagination() {
         mainView.scrollView.rx.contentOffset
             .throttle(.milliseconds(300), scheduler: MainScheduler.instance)

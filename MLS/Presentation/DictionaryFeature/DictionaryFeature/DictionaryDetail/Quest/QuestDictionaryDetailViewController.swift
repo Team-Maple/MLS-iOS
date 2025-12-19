@@ -22,7 +22,7 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
         guard let reactor = reactor else { return false }
         return reactor.currentState.isLogin
     }
-    
+
     override func undoBookmark() {
         reactor?.action.onNext(.undoLastDeletedBookmark)
     }
