@@ -12,7 +12,6 @@ public final class NotificationPermissionManager {
         }
     }
 
-    @discardableResult
     public func requestIfNeeded(
         application: UIApplication = .shared,
         completion: ((Bool) -> Void)? = nil
@@ -49,7 +48,7 @@ public final class NotificationPermissionManager {
                 print("🚫 알림 권한 거부 상태입니다. 설정에서 변경해야 함")
                 completion?(false)
 
-            @unknown default:
+            default:
                 completion?(false)
             }
         }

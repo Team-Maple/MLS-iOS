@@ -237,7 +237,7 @@ extension CollectionDetailViewController: UICollectionViewDelegate, UICollection
             ),
             indexPath: indexPath,
             collectionView: collectionView,
-            onBookmarkTapped: { _ in }
+            onBookmarkTapped: { }
         )
         return cell
     }

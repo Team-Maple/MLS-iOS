@@ -5,7 +5,7 @@ import DomainInterface
 
 public final class DictionaryListCell: UICollectionViewCell {
     // MARK: - Properties
-    private var onBookmarkTapped: ((Bool) -> Void)?
+    private var onBookmarkTapped: (() -> Void)?
 
     // MARK: - Components
     public let cellView = CardList()
@@ -70,7 +70,7 @@ public extension DictionaryListCell {
         indexPath: IndexPath,
         collectionView: UICollectionView,
         isMap: Bool = false,
-        onBookmarkTapped: @escaping (Bool) -> Void
+        onBookmarkTapped: @escaping () -> Void
     ) {
         cellView.setType(type: type)
         cellView.setImage(image: UIImage(), backgroundColor: input.type.backgroundColor) // 초기화
@@ -94,8 +94,8 @@ public extension DictionaryListCell {
         cellView.setSubText(text: input.subText)
         cellView.setSelected(isSelected: input.isBookmarked)
         self.onBookmarkTapped = onBookmarkTapped
-        cellView.onIconTapped = { [weak self] isSelected in
-            self?.onBookmarkTapped?(isSelected)
+        cellView.onIconTapped = { [weak self] in
+            self?.onBookmarkTapped?()
         }
     }
     func updateBookmarkState(isBookmarked: Bool) {

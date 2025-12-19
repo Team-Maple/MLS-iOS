@@ -10,14 +10,14 @@ public final class MapDictionaryDetailReactor: Reactor {
         case detail(type: DictionaryType, id: Int)
         case bookmarkError
     }
-    
+
     public enum UIEvent {
         case none
         case add(DictionaryDetailMapResponse)
         case delete(DictionaryDetailMapResponse)
         case undo
     }
-    
+
     public enum Action {
         case monsterFilterButtonTapped
         case viewWillAppear

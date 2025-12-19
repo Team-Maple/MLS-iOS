@@ -15,8 +15,6 @@ public final class CollectionEditReactor: Reactor {
     public enum Action {
         case backButtonTapped
         case addCollectionButtonTapped
-        case completeButtonTapped
-        case dismissAddCollection([CollectionResponse])
         case itemTapped(Int)
     }
 
@@ -48,12 +46,6 @@ public final class CollectionEditReactor: Reactor {
             return .just(.navigateTo(.dismiss))
         case .addCollectionButtonTapped:
             return .just(.navigateTo(.collcectionList))
-        case .completeButtonTapped:
-            // 선택된 북마크들을 선택된 컬렉션들에 저장
-            return .empty()
-        case .dismissAddCollection(let collections):
-            // addCollection에서 선택된 컬렉션 목록 저장
-            return .empty()
         case .itemTapped(let index):
             let item = currentState.bookmarks[index]
             var newItems = currentState.selectedItems

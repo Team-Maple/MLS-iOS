@@ -336,8 +336,7 @@ extension DictionaryListViewController {
             for cell in collectionView.visibleCells {
                 if let indexPath = collectionView.indexPath(for: cell),
                    indexPath.item < items.count,
-                   let cell = cell as? DictionaryListCell
-                {
+                   let cell = cell as? DictionaryListCell {
                     let item = items[indexPath.item]
                     cell.updateBookmarkState(isBookmarked: item.bookmarkId != nil)
                 }
@@ -371,7 +370,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             indexPath: indexPath,
             collectionView: collectionView,
             isMap: item.type == .map,
-            onBookmarkTapped: { [weak self] _ in
+            onBookmarkTapped: { [weak self] in
                 guard let self else { return }
                 guard state.isLogin else {
                     self.reactor?.action.onNext(.showLogin)

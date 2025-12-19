@@ -53,7 +53,13 @@ public final class CollectionDetailReactor: Reactor {
 
     private let disposeBag = DisposeBag()
 
-    public init(collection: CollectionResponse, setBookmarkUseCase: SetBookmarkUseCase, fetchCollectionUseCase: FetchCollectionUseCase, deleteCollectionUseCase: DeleteCollectionUseCase, addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase) {
+    public init(
+        collection: CollectionResponse,
+        setBookmarkUseCase: SetBookmarkUseCase,
+        fetchCollectionUseCase: FetchCollectionUseCase,
+        deleteCollectionUseCase: DeleteCollectionUseCase,
+        addCollectionAndBookmarkUseCase: AddCollectionAndBookmarkUseCase
+    ) {
         self.initialState = State(route: .none, collection: collection)
         self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchCollectionUseCase = fetchCollectionUseCase

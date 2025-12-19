@@ -22,16 +22,16 @@ public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
                 let saveAccess = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
                 let savePlatform = self.userDefaultsRepository.savePlatform(platform: .apple)
-                
+
                 guard case (.success, .success) = (saveAccess, saveRefresh) else {
                     return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))
                 }
-                
+
                 var fcmToken: String?
                 if case .success(let token) = self.tokenRepository.fetchToken(type: .fcmToken) {
                     fcmToken = token
                 }
-                
+
                 let fcmUpdate = if let fcmToken {
                     self.authRepository.fcmToken(fcmToken: fcmToken)
                         .catch { error in
