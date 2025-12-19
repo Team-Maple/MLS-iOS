@@ -28,16 +28,18 @@ public final class NetworkProviderImpl: NetworkProvider {
                     print("✅ requestData: 응답 수신")
 
                     if let data = data {
-//                        print("📦 requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
-                        print("📦 requestData: 응답 데이터 있음")
+                        print("📦 requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
                         do {
                             let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
-//                            print("🎯 requestData: 디코딩 성공 - \(decoded)")
-                            print("🎯 requestData: 디코딩 성공")
+                            print("🎯 requestData: 디코딩 성공 - \(decoded)")
                             if let decodedData = decoded.data {
                                 observer.onNext(decodedData)
                             } else {
-                                observer.onNext(EmptyResponseDTO() as! T.Response)
+                                if T.Response.self == EmptyResponseDTO.self {
+                                    observer.onNext(EmptyResponseDTO() as! T.Response)
+                                } else {
+                                    observer.onError(NetworkError.invalidResponse)
+                                }
                             }
                             observer.onCompleted()
                         } catch {
