@@ -17,6 +17,10 @@ final class EventViewController: CustomerSupportBaseViewController, View {
         onItemTapped = { [weak self] itemIndex in
             self?.reactor?.action.onNext(.itemTapped(itemIndex))
         }
+
+        onLoadMore = { [weak self] in
+            self?.reactor?.action.onNext(.loadMore)
+        }
     }
 
     // MARK: - Setup
@@ -66,7 +70,12 @@ extension EventViewController {
                     self.mainView.detailItemStackView.removeArrangedSubview(subview)
                     subview.removeFromSuperview()
                 }
-                self.createDetailItem(items: items)
+                let eventType = reactor.currentState.selectedIndex == 0 ? "진행중인" : "종료된"
+                if items.isEmpty {
+                    self.mainView.setEmpty(text: "\(eventType) 이벤트가 없습니다.")
+                } else {
+                    self.createDetailItem(items: items)
+                }
             }
             .disposed(by: disposeBag)
     }

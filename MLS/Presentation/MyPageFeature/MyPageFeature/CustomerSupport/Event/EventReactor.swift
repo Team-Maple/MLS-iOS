@@ -44,12 +44,21 @@ public final class EventReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .selectTab(index):
+            let fetchObservable = (index == 0
+                ? fetchOngoingEventsUseCase.execute(cursor: nil, pageSize: 20)
+                : fetchOutdatedEventsUseCase.execute(cursor: nil, pageSize: 20))
+                .map { paged -> Mutation in
+                    .setAlarms(paged.items, hasMore: paged.hasMore, reset: true)
+                }
+                .catch { error -> Observable<Mutation> in
+                    print("Fetch error: \(error)")
+                    return .just(.setLoading(false))
+                }
+
             return .concat([
                 .just(.setIndex(index)),
-                .just(.setLoading(true)), (index == 0 ? fetchOngoingEventsUseCase.execute(cursor: nil, pageSize: 20) : fetchOutdatedEventsUseCase.execute(cursor: nil, pageSize: 20))
-                    .map { paged in
-                        .setAlarms(paged.items, hasMore: paged.hasMore, reset: true)
-                    },
+                .just(.setLoading(true)),
+                fetchObservable,
                 .just(.setLoading(false))
             ])
 
@@ -65,7 +74,7 @@ public final class EventReactor: Reactor {
                     },
                 .just(.setLoading(false))
             ])
-        case .itemTapped(let index):
+        case let .itemTapped(index):
             return setReadUseCase.execute(alarmLink: currentState.alarms[index].link)
                 .andThen(.empty())
         }

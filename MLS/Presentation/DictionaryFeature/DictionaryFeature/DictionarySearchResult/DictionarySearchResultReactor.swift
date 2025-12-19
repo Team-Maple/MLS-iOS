@@ -41,12 +41,14 @@ public final class DictionarySearchResultReactor: Reactor {
     // MARK: - UseCases
     private let dictionarySearchUseCase: FetchDictionarySearchListUseCase
     private let dictionarySearchCountUseCase: FetchDictionaryListCountUseCase
+    private let recentSearchAddUseCase: RecentSearchAddUseCase
 
     // MARK: - init
-    public init(keyword: String?, dictionarySearchUseCase: FetchDictionarySearchListUseCase, dictionarySearchCountUseCase: FetchDictionaryListCountUseCase) {
+    public init(keyword: String?, dictionarySearchUseCase: FetchDictionarySearchListUseCase, dictionarySearchCountUseCase: FetchDictionaryListCountUseCase, recentSearchAddUseCase: RecentSearchAddUseCase) {
         self.initialState = State(keyword: keyword)
         self.dictionarySearchUseCase = dictionarySearchUseCase
         self.dictionarySearchCountUseCase = dictionarySearchCountUseCase
+        self.recentSearchAddUseCase = recentSearchAddUseCase
     }
 
     // MARK: - Reactor Methods
@@ -67,8 +69,8 @@ public final class DictionarySearchResultReactor: Reactor {
         // 검색 결과 화면에서 재검색 시
         case .searchButtonTapped(let keyword):
             let keyword = keyword ?? ""
-
-            return Observable.just(.setKeyword(keyword))
+            return recentSearchAddUseCase.add(keyword: keyword)
+                .andThen(.just(.setKeyword(keyword)))
         }
     }
 

@@ -14,6 +14,19 @@ final class ItemDictionaryDetailViewController: DictionaryDetailBaseViewControll
     private let detailInfoView = DetailStackInfoView(type: .item)
     private let monsterCardView = DetailStackCardView()
     private let sortedFactory: SortedBottomSheetFactory = SortedBottomSheetFactoryImpl()
+
+    override func toggleBookmark() {
+        reactor?.action.onNext(.toggleBookmark)
+    }
+
+    override func checkLogin() -> Bool {
+        guard let reactor = reactor else { return false }
+        return reactor.currentState.isLogin
+    }
+
+    override func undoBookmark() {
+        reactor?.action.onNext(.undoLastDeletedBookmark)
+    }
 }
 
 // MARK: - Populate Data
@@ -161,7 +174,7 @@ extension ItemDictionaryDetailViewController {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
         bindReportButton(
-            providerId: reactor.state.map { $0.itemDetailInfo.itemId ?? 0 },
+            providerId: reactor.state.map { $0.itemDetailInfo.itemId },
             itemName: reactor.state.map { $0.itemDetailInfo.nameKr ?? "" }
         )
     }
@@ -208,9 +221,10 @@ extension ItemDictionaryDetailViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) } // 값이 바뀔때만 이벤트 받음
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
-                case .filter(let type):
+                case let .filter(type):
                     guard let option = type.detailTypes.first else { return }
                     let viewController = owner.sortedFactory.make(sortedOptions: option.sortFilter, selectedIndex: owner.selectedIndex) { index in
                         owner.selectedIndex = index
@@ -219,28 +233,37 @@ extension ItemDictionaryDetailViewController {
                         reactor.action.onNext(.selectFilter(selectedFilter))
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
-                case .none:
-                    break
-                case .detail(let id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: self.bookmarkRelay)
+                case let .detail(id):
+                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
+                default:
+                    break
                 }
             }
             .disposed(by: disposeBag)
 
-        bindBookmarkButton(
-            buttonTap: mainView.bookmarkButton.rx.tap,
-            currentItem: reactor.state.map { $0.itemDetailInfo },
-            isLogin: { reactor.currentState.isLogin },
-            id: { _ in reactor.currentState.itemDetailInfo.itemId ?? 0 },
-            imageUrl: { $0.imgUrl },
-            backgroundColor: type.backgroundColor,
-            isBookmarked: { $0.bookmarkId != nil },
-            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
-            bookmarkId: reactor.state.map(\.itemDetailInfo.bookmarkId)
-        )
-        .disposed(by: disposeBag)
+        reactor.pulse(\.$event)
+            .bind(onNext: { [weak self] event in
+                switch event {
+                case let .add(item):
+                    self?.presentAddSnackBar(
+                        bookmarkId: item.bookmarkId,
+                        imageUrl: item.imgUrl,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.itemId, item.bookmarkId))
+                case let .delete(item):
+                    self?.presentDeleteSnackBar(
+                        imageUrl: item.imgUrl,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.itemId, item.bookmarkId))
+                default: break
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 

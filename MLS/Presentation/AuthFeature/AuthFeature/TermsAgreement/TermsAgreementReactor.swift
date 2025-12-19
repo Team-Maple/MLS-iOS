@@ -52,7 +52,6 @@ public final class TermsAgreementReactor: Reactor {
     private let socialPlatform: LoginPlatform
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
-    private let saveTokenUseCase: SaveTokenToLocalUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
     private let updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
 
@@ -62,7 +61,6 @@ public final class TermsAgreementReactor: Reactor {
         socialPlatform: LoginPlatform,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        saveTokenUseCase: SaveTokenToLocalUseCase,
         fetchTokenUseCase: FetchTokenFromLocalUseCase,
         updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
     ) {
@@ -70,7 +68,6 @@ public final class TermsAgreementReactor: Reactor {
         self.socialPlatform = socialPlatform
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
-        self.saveTokenUseCase = saveTokenUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
         self.updateMarketingAgreementUseCase = updateMarketingAgreementUseCase
         self.initialState = State()
@@ -97,40 +94,25 @@ public final class TermsAgreementReactor: Reactor {
             }
             return .just(.setAgreeState(type: type, isOn: isOn))
         case .bottomButtonTapped:
-            var fcmToken: String?
-
-            UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
-                guard let self else { return }
-                switch settings.authorizationStatus {
-                case .authorized, .provisional, .ephemeral:
-                    if case .success(let token) = fetchTokenUseCase.execute(type: .fcmToken) {
-                        fcmToken = token
-                    }
-                default:
-                    fcmToken = nil
+            let fcmToken: String? = {
+                if case .success(let token) = fetchTokenUseCase.execute(type: .fcmToken) {
+                    return token
+                } else {
+                    return nil
                 }
-            }
+            }()
 
             switch socialPlatform {
             case .kakao:
-                return signUpWithKakaoUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
-                    .withUnretained(self)
-                    .map { owner, response in
-                        let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
-                        let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
-                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
-                    }
+                return signUpWithKakaoUseCase
+                    .execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
+                    .map { _ in .navigateTo(route: .onBoarding) }
                     .catchAndReturn(.navigateTo(route: .error))
+
             case .apple:
-                return signUpWithAppleUseCase.execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
-                    .withUnretained(self)
-                    .map { owner, response in
-                        let accessTokenResult = owner.saveTokenUseCase.execute(type: .accessToken, value: response.accessToken)
-                        let refreshTokenResult = owner.saveTokenUseCase.execute(type: .refreshToken, value: response.refreshToken)
-                        let isTokenSaveSuccess = owner.isTokenSaveSuccess(access: accessTokenResult, refresh: refreshTokenResult)
-                        return isTokenSaveSuccess ? .navigateTo(route: .onBoarding) : .navigateTo(route: .error)
-                    }
+                return signUpWithAppleUseCase
+                    .execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
+                    .map { _ in .navigateTo(route: .onBoarding) }
                     .catchAndReturn(.navigateTo(route: .error))
             }
 
@@ -169,12 +151,5 @@ public final class TermsAgreementReactor: Reactor {
         newState.isTotalAgree = allRequiredAgreed && newState.isMarketingAgree
 
         return newState
-    }
-
-    private func isTokenSaveSuccess(access: Result<Void, Error>, refresh: Result<Void, Error>) -> Bool {
-        if case .success = access, case .success = refresh {
-            return true
-        }
-        return false
     }
 }

@@ -13,32 +13,32 @@ public class AlarmAPIRepositoryImpl: AlarmAPIRepository {
         self.tokenInterceptor = interceptor
     }
 
-    public func fetchPatchNotes(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchPatchNotes(query: AlarmQuery(cursor: cursor, pageSize: 999/*pageSize*/))
+    public func fetchPatchNotes(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        let endpoint = AlarmEndPoint.fetchPatchNotes(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
 
-    public func fetchNotices(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchNotices(query: AlarmQuery(cursor: cursor, pageSize: 999/*pageSize*/))
+    public func fetchNotices(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        let endpoint = AlarmEndPoint.fetchNotices(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
 
-    public func fetchOutdatedEvents(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchOutdatedEvents(query: AlarmQuery(cursor: cursor, pageSize: 999/*pageSize*/))
+    public func fetchOutdatedEvents(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        let endpoint = AlarmEndPoint.fetchOutdatedEvents(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
 
-    public func fetchOngoingEvents(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchOngoingEvents(query: AlarmQuery(cursor: cursor, pageSize: 999/*pageSize*/))
+    public func fetchOngoingEvents(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        let endpoint = AlarmEndPoint.fetchOngoingEvents(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAlarmDomain() }
     }
 
-    public func fetchAll(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
-        let endpoint = AlarmEndPoint.fetchAll(query: AlarmQuery(cursor: cursor, pageSize: 999/*pageSize*/))
+    public func fetchAll(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
+        let endpoint = AlarmEndPoint.fetchAll(query: AlarmQuery(cursor: cursor, pageSize: pageSize))
         return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
             .map { $0.toAllAlarmDomain() }
     }
@@ -52,7 +52,7 @@ public class AlarmAPIRepositoryImpl: AlarmAPIRepository {
 
 private extension AlarmAPIRepositoryImpl {
     struct AlarmQuery: Encodable {
-        let cursor: [Int]?
+        let cursor: String?
         let pageSize: Int
     }
 

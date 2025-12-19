@@ -8,6 +8,8 @@ public final class AddCollectionModalReactor: Reactor {
     public enum Route {
         case dismiss
         case dismissWithData
+        case createError
+        case updateError
     }
 
     // MARK: - Action
@@ -38,10 +40,10 @@ public final class AddCollectionModalReactor: Reactor {
     public var initialState = State(collection: nil)
 
     private let createCollectionListUseCase: CreateCollectionListUseCase
-    private let setCollectionUseCase: SetCollectionUseCase
+    private let setCollectionUseCase: UpdateCollectionUseCase
 
     // MARK: - Init
-    public init(collection: CollectionResponse?, createCollectionListUseCase: CreateCollectionListUseCase, setCollectionUseCase: SetCollectionUseCase) {
+    public init(collection: CollectionResponse?, createCollectionListUseCase: CreateCollectionListUseCase, setCollectionUseCase: UpdateCollectionUseCase) {
         self.initialState = State(collection: collection, inputText: collection?.name)
         self.createCollectionListUseCase = createCollectionListUseCase
         self.setCollectionUseCase = setCollectionUseCase
@@ -71,6 +73,9 @@ public final class AddCollectionModalReactor: Reactor {
             if currentState.collection == nil {
                 return createCollectionListUseCase.execute(name: trimmed)
                     .andThen(.just(.toNavigate(.dismissWithData)))
+                    .catch { _ in
+                        return .just(.toNavigate(.createError))
+                    }
             } else {
                 guard let id = currentState.collection?.collectionId else { return .empty() }
                 return setCollectionUseCase.execute(
@@ -78,6 +83,9 @@ public final class AddCollectionModalReactor: Reactor {
                     name: trimmed
                 )
                 .andThen(.just(.toNavigate(.dismissWithData)))
+                .catch { _ in
+                    return .just(.toNavigate(.updateError))
+                }
             }
         }
     }

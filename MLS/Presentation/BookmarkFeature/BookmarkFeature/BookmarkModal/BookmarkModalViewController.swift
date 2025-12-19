@@ -138,6 +138,8 @@ extension BookmarkModalViewController {
                         .disposed(by: owner.disposeBag)
 
                     owner.present(viewController, animated: true)
+                case .collectionError:
+                    ToastFactory.createToast(message: "컬렉션 저장에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }

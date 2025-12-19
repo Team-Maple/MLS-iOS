@@ -1,5 +1,5 @@
 import RxSwift
 
-public protocol SetCollectionUseCase {
+public protocol UpdateCollectionUseCase {
     func execute(collectionId: Int, name: String) -> Completable
 }

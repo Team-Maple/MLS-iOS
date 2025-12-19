@@ -4,9 +4,9 @@ public struct AlarmResponse: Equatable {
     public let type: String
     public let title: String
     public let link: String
-    public let date: [Int]
+    public let date: String
 
-    public init(type: String, title: String, link: String, date: [Int]) {
+    public init(type: String, title: String, link: String, date: String) {
         self.type = type
         self.title = title
         self.link = link
@@ -18,10 +18,10 @@ public struct AllAlarmResponse: Equatable {
     public let type: String
     public let title: String
     public let link: String
-    public let date: [Int]
-    public let alreadyRead: Bool
+    public let date: String
+    public var alreadyRead: Bool
 
-    public init(type: String, title: String, link: String, date: [Int], alreadyRead: Bool) {
+    public init(type: String, title: String, link: String, date: String, alreadyRead: Bool) {
         self.type = type
         self.title = title
         self.link = link

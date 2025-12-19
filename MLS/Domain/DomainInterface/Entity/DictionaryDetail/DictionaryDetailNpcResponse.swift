@@ -3,7 +3,7 @@ public struct DictionaryDetailNpcResponse: Equatable {
     public let nameKr: String
     public let nameEn: String
     public let iconUrlDetail: String?
-    public let bookmarkId: Int?
+    public var bookmarkId: Int?
 
     public init(npcId: Int, nameKr: String, nameEn: String, iconUrlDetail: String?, bookmarkId: Int?) {
         self.npcId = npcId

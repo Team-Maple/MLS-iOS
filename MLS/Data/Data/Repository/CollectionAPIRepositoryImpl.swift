@@ -31,29 +31,7 @@ public class CollectionAPIRepositoryImpl: CollectionAPIRepository {
             .map { $0.toDomain() }
     }
 
-//    public func addBookmarksToCollection(collectionId: Int, bookmarkIds: [Int]) -> Completable {
-//        let endPoint = CollectionEndPoint.addBookmarksToCollection(id: collectionId, body: AddBookmarkRequestBody(bookmarkIds: bookmarkIds))
-//        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-//            .catch { error in
-//                if let netErr = error as? NetworkError {
-//                    switch netErr {
-//                    case let .statusError(code, body):
-//                        return .error(DomainHTTPError.httpStatus(code: code, message: body))
-//                    default:
-//                        return .error(DomainHTTPError.unknown)
-//                    }
-//                } else {
-//                    return .error(DomainHTTPError.unknown)
-//                }
-//            }
-//    }
-//
-//    public func addCollectionsToBookmark(bookmarkId: Int, collectionIds: [Int]) -> Completable {
-//        let endPoint = CollectionEndPoint.addCollectionsToBookmark(id: bookmarkId, body: AddCollectionRequestBody(collectionIds: collectionIds))
-//        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-//    }
-
-    public func setCollectionName(collectionId: Int, name: String) -> Completable {
+    public func updateCollectionName(collectionId: Int, name: String) -> Completable {
         let endPoint = CollectionEndPoint.setCollectionName(id: collectionId, body: SetCollectionRequestBody(name: name))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }

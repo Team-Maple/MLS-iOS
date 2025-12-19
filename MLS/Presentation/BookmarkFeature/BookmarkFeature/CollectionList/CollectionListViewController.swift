@@ -16,8 +16,6 @@ public final class CollectionListViewController: BaseViewController, View {
     public var disposeBag = DisposeBag()
     private var selectedSortIndex = 0
 
-//    public var onDismissWithMessage: ((CollectionResponse?) -> Void)?
-
     private let addCollectionFactory: AddCollectionFactory
     private let detailFactory: CollectionDetailFactory
     private let sortedBottomSheetFactory: SortedBottomSheetFactory
@@ -120,6 +118,7 @@ extension CollectionListViewController {
                     let viewController = owner.detailFactory.make(collection: collection, onMoveToMain: {
                         if let tabBarController = owner.tabBarController as? BottomTabBarController {
                             tabBarController.selectTab(index: 0)
+                            DictionaryTabRegistry.changeTab(index: 0)
                         }
                     })
                     owner.tabBarController?.navigationController?.pushViewController(viewController, animated: true)

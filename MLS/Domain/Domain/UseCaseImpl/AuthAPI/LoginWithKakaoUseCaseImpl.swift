@@ -15,7 +15,6 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         self.userDefaultsRepository = userDefaultsRepository
     }
 
-    // 로그인할때 토큰 저장 필요
     public func execute(credential: Credential) -> Observable<LoginResponse> {
         return authRepository.loginWithKakao(credential: credential)
             .flatMap { response -> Observable<LoginResponse> in
@@ -23,15 +22,25 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
                 let savePlatform = self.userDefaultsRepository.savePlatform(platform: .kakao)
 
-                // ✅ 모든 저장 결과 확인
-                switch (saveAccess, saveRefresh) {
-                case (.success, .success):
-                    return savePlatform.andThen(Observable.just(response))
-                default:
-                    return Observable.error(
-                        TokenRepositoryError.dataConversionError(message: "Failed to save tokens")
-                    )
+                guard case (.success, .success) = (saveAccess, saveRefresh) else {
+                    return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))
                 }
+
+                var fcmToken: String?
+                if case .success(let token) = self.tokenRepository.fetchToken(type: .fcmToken) {
+                    fcmToken = token
+                }
+
+                let fcmUpdate = if let fcmToken {
+                    self.authRepository.fcmToken(fcmToken: fcmToken)
+                        .catch { error in
+                            print("FCM token update failed: \(error)")
+                            return .empty()
+                        }
+                } else {
+                    Completable.empty()
+                }
+                return fcmUpdate.andThen(savePlatform).andThen(Observable.just(response))
             }
             .catch { error in
                 Observable.error(error)

@@ -17,7 +17,7 @@ public final class BottomTabBarController: UITabBarController {
     public init(viewControllers: [UIViewController], initialIndex: Int = 0) {
         tabItems = [
             TabItem(title: "도감", icon: .dictionary),
-            TabItem(title: "북마크", icon: .bookmark),
+            TabItem(title: "북마크", icon: .bookmarkList),
             TabItem(title: "MY", icon: .mypage)
         ]
         customTabBar = BottomTabBar(tabItems: tabItems, selectedIndex: initialIndex)

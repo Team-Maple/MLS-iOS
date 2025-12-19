@@ -138,6 +138,7 @@ extension SetProfileViewController {
             .bind(onNext: { owner, profile in
                 owner.mainView.setImage(imageUrl: profile.profileUrl)
                 owner.mainView.setPlatform(platform: profile.platform)
+                owner.mainView.nickNameInputBox.textField.text = profile.nickname
             })
             .disposed(by: disposeBag)
 

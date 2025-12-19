@@ -70,7 +70,7 @@ public final class CardList: UIView {
         }
     }
 
-    public var onIconTapped: ((Bool) -> Void)?
+    public var onIconTapped: (() -> Void)?
 
     // MARK: - Components
     public let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
@@ -193,7 +193,7 @@ private extension CardList {
     func bindButton() {
         iconButton.addAction(UIAction(handler: { [weak self] _ in
             guard let self = self else { return }
-            self.onIconTapped?(self.isIconSelected)
+            self.onIconTapped?()
         }), for: .touchUpInside)
     }
 

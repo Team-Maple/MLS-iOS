@@ -173,7 +173,7 @@ extension CollectionEditViewController: UICollectionViewDelegate, UICollectionVi
             ),
             indexPath: indexPath,
             collectionView: collectionView,
-            onBookmarkTapped: { [weak self] _ in
+            onBookmarkTapped: { [weak self] in
                 self?.reactor?.action.onNext(.itemTapped(indexPath.row))
             }
         )

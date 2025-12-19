@@ -77,7 +77,7 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
     }
 
-    public func make(type: DictionaryType, id: Int, bookmarkRelay: PublishRelay<(Int, Bool)>?) -> BaseViewController {
+    public func make(type: DictionaryType, id: Int, bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?, loginRelay: PublishRelay<Void>?) -> BaseViewController {
         var viewController = BaseViewController()
         switch type {
         case .total:
@@ -92,7 +92,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 dictionaryDetailFactory: dictionaryDetailFactory(),
                 detailOnBoardingFactory: detailOnBoardingFactory,
                 appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
-                bookmarkRelay: bookmarkRelay
+                bookmarkRelay: bookmarkRelay,
+                loginRelay: loginRelay
             )
             let reactor = ItemDictionaryDetailReactor(
                 dictionaryDetailItemUseCase: dictionaryDetailItemUseCase,
@@ -112,7 +113,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 dictionaryDetailFactory: dictionaryDetailFactory(),
                 detailOnBoardingFactory: detailOnBoardingFactory,
                 appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
-                bookmarkRelay: bookmarkRelay
+                bookmarkRelay: bookmarkRelay,
+                loginRelay: loginRelay
             )
             let reactor = MonsterDictionaryDetailReactor(
                 dictionaryDetailMonsterUseCase: dictionaryDetailMonsterUseCase,
@@ -133,7 +135,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 dictionaryDetailFactory: dictionaryDetailFactory(),
                 detailOnBoardingFactory: detailOnBoardingFactory,
                 appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
-                bookmarkRelay: bookmarkRelay
+                bookmarkRelay: bookmarkRelay,
+                loginRelay: loginRelay
             )
             let reactor = MapDictionaryDetailReactor(
                 dictionaryDetailMapUseCase: dictionaryDetailMapUseCase,
@@ -154,7 +157,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 dictionaryDetailFactory: dictionaryDetailFactory(),
                 detailOnBoardingFactory: detailOnBoardingFactory,
                 appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
-                bookmarkRelay: bookmarkRelay
+                bookmarkRelay: bookmarkRelay,
+                loginRelay: loginRelay
             )
             let reactor = NpcDictionaryDetailReactor(
                 dictionaryDetailNpcUseCase: dictionaryDetailNpcUseCase,
@@ -175,7 +179,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
                 dictionaryDetailFactory: dictionaryDetailFactory(),
                 detailOnBoardingFactory: detailOnBoardingFactory,
                 appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
-                bookmarkRelay: bookmarkRelay
+                bookmarkRelay: bookmarkRelay,
+                loginRelay: loginRelay
             )
             let reactor = QuestDictionaryDetailReactor(
                 dictionaryDetailQuestUseCase: dictionaryDetailQuestUseCase,

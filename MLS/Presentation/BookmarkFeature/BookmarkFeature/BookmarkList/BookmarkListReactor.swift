@@ -13,6 +13,15 @@ public final class BookmarkListReactor: Reactor {
         case dictionary
         case login
         case edit
+        case bookmarkError
+    }
+
+    public enum UIEvent {
+        case none
+        case add(BookmarkResponse)
+        case delete(BookmarkResponse)
+        case undo
+        case login
     }
 
     enum ViewState: Equatable {
@@ -24,7 +33,7 @@ public final class BookmarkListReactor: Reactor {
     // MARK: - Action
     public enum Action {
         case viewWillAppear
-        case toggleBookmark(Int, Bool)
+        case toggleBookmark(Int)
         case sortButtonTapped
         case filterButtonTapped
         case editButtonTapped
@@ -35,6 +44,7 @@ public final class BookmarkListReactor: Reactor {
         case dataTapped(Int)
         case emptyButtonTapped
         case itemFilterOptionSelected([(String, String)])
+        case showLogin
     }
 
     // MARK: - Mutation
@@ -44,13 +54,15 @@ public final class BookmarkListReactor: Reactor {
         case setSort(SortType)
         case setFilter(start: Int?, end: Int?)
         case setLastDeletedBookmark(BookmarkResponse?)
-        case toNavagate(Route)
+        case navigatTo(Route)
         case setJobId([Int])
         case setCategoryId([Int])
+        case setEvent(UIEvent)
     }
 
     // MARK: - State
     public struct State {
+        @Pulse var uiEvent: UIEvent = .none
         @Pulse var route: Route
         var items: [BookmarkResponse] = []
         var type: DictionaryType
@@ -130,27 +142,14 @@ public final class BookmarkListReactor: Reactor {
                     }
                 }
 
-        case let .toggleBookmark(id, isSelected):
-            guard let bookmarkItem = currentState.items.first(where: { $0.originalId == id }) else { return .empty() }
-
-            let saveDeletedMutation: Observable<Mutation> =
-                isSelected ? .just(.setLastDeletedBookmark(bookmarkItem))
-                    : .just(.setLastDeletedBookmark(nil))
-
-            return saveDeletedMutation
-                .concat(
-                    setBookmarkUseCase.execute(
-                        bookmarkId: isSelected ? bookmarkItem.bookmarkId : id,
-                        isBookmark: isSelected ? .delete : .set(bookmarkItem.type)
-                    )
-                    .andThen(fetchList())
-                )
+        case let .toggleBookmark(id):
+            return handleTogle(id: id)
 
         case .sortButtonTapped:
-            return .just(.toNavagate(.sort(currentState.type)))
+            return .just(.navigatTo(.sort(currentState.type)))
 
         case .filterButtonTapped:
-            return .just(.toNavagate(.filter(currentState.type)))
+            return .just(.navigatTo(.filter(currentState.type)))
 
         case .fetchList:
             guard currentState.isLogin else { return .empty() }
@@ -159,7 +158,7 @@ public final class BookmarkListReactor: Reactor {
         case let .sortOptionSelected(sort):
             return Observable.concat([
                 .just(.setSort(sort)),
-                fetchList()
+                fetchList(sort: sort)
             ])
 
         case let .filterOptionSelected(startLevel, endLevel):
@@ -169,57 +168,50 @@ public final class BookmarkListReactor: Reactor {
             ])
 
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
-            return setBookmarkUseCase.execute(
-                bookmarkId: lastDeleted.originalId,
-                isBookmark: .set(lastDeleted.type)
-            )
-            .andThen(
-                Observable.concat([
-                    fetchList(),
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
-        case .dataTapped(let index):
+            return handleUndo()
+
+        case let .dataTapped(index):
             let item = currentState.items[index]
             guard let type = item.type.toDictionaryType else { return .empty() }
-            return .just(.toNavagate(.detail(type, item.originalId)))
+            return .just(.navigatTo(.detail(type, item.originalId)))
         case .emptyButtonTapped:
             if currentState.viewState == .logout {
-                return .just(.toNavagate(.login))
+                return .just(.navigatTo(.login))
             } else {
-                return .just(.toNavagate(.dictionary))
+                return .just(.navigatTo(.dictionary))
             }
         case .editButtonTapped:
-            return .just(.toNavagate(.edit))
-        case .itemFilterOptionSelected(let results):
+            return .just(.navigatTo(.edit))
+        case let .itemFilterOptionSelected(results):
             let criteria = parseItemFilterResultUseCase.execute(results: results)
 
-              return .concat([
-                  .just(.setJobId(criteria.jobIds)),
-                  .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
-                  .just(.setCategoryId(criteria.categoryIds))
-              ])
-              .concat(Observable.deferred { [weak self] in
-                  guard let self = self else { return .empty() }
-                  return self.fetchList()
-              })
+            return .concat([
+                .just(.setJobId(criteria.jobIds)),
+                .just(.setFilter(start: criteria.startLevel, end: criteria.endLevel)),
+                .just(.setCategoryId(criteria.categoryIds))
+            ])
+            .concat(Observable.deferred { [weak self] in
+                guard let self = self else { return .empty() }
+                return self.fetchList()
+            })
+        case .showLogin:
+            return .just(.setEvent(.login))
         }
     }
 
     // MARK: - Fetch List
-    private func fetchList() -> Observable<Mutation> {
+    private func fetchList(sort: SortType? = nil) -> Observable<Mutation> {
         switch currentState.type {
         case .total:
             return fetchTotalBookmarkUseCase.execute(
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .monster:
             return fetchMonsterBookmarkUseCase.execute(
                 minLevel: currentState.startLevel ?? 1,
                 maxLevel: currentState.endLevel ?? 200,
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .item:
@@ -228,19 +220,19 @@ public final class BookmarkListReactor: Reactor {
                 minLevel: currentState.startLevel,
                 maxLevel: currentState.endLevel,
                 categoryIds: nil,
-                sort: currentState.sort
+                sort: sort ?? currentState.sort
             ).map { .setItems($0) }
 
         case .npc:
-            return fetchNPCBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchNPCBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         case .quest:
-            return fetchQuestBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchQuestBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         case .map:
-            return fetchMapBookmarkUseCase.execute(sort: currentState.sort)
+            return fetchMapBookmarkUseCase.execute(sort: sort ?? currentState.sort)
                 .map { .setItems($0) }
 
         default:
@@ -264,14 +256,64 @@ public final class BookmarkListReactor: Reactor {
             newState.endLevel = end
         case let .setLastDeletedBookmark(item):
             newState.lastDeletedBookmark = item
-        case .toNavagate(let route):
+        case let .navigatTo(route):
             newState.route = route
-        case .setJobId(let ids):
+        case let .setJobId(ids):
             newState.jobId = ids
-        case .setCategoryId(let ids):
+        case let .setCategoryId(ids):
             newState.categoryIds = ids
+        case let .setEvent(event):
+            newState.uiEvent = event
         }
 
         return newState
+    }
+}
+
+private extension BookmarkListReactor {
+    func handleTogle(id: Int) -> Observable<Mutation> {
+        guard let index = currentState.items.firstIndex(where: { $0.originalId == id }) else {
+            return .empty()
+        }
+
+        let targetItem = currentState.items[index]
+
+        return setBookmarkUseCase.execute(bookmarkId: targetItem.bookmarkId, isBookmark: .delete)
+            .flatMap { _ -> Observable<Mutation> in
+                let lastItem = Mutation.setLastDeletedBookmark(targetItem)
+
+                let eventMutation = Mutation.setEvent(.delete(targetItem))
+
+                return Observable.concat([
+                    .from([lastItem, eventMutation]),
+                    self.fetchList()
+                ])
+            }
+            .catch { _ in
+                .just(.navigatTo(.bookmarkError))
+            }
+    }
+
+    func handleUndo() -> Observable<Mutation> {
+        guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: lastDeleted.originalId,
+            isBookmark: .set(lastDeleted.type)
+        )
+        .flatMap { _ -> Observable<Mutation> in
+            let lastItem = Mutation.setLastDeletedBookmark(nil)
+
+            let event: UIEvent = .add(lastDeleted)
+            let eventMutation = Mutation.setEvent(event)
+
+            return Observable.concat([
+                .from([lastItem, eventMutation]),
+                self.fetchList()
+            ])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 }

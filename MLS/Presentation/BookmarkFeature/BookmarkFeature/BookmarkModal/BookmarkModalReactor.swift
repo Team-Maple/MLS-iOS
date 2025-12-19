@@ -10,6 +10,7 @@ public final class BookmarkModalReactor: Reactor {
         case dismiss
         case dismissWithData
         case addCollection
+        case collectionError
     }
 
     public enum Action {
@@ -22,7 +23,7 @@ public final class BookmarkModalReactor: Reactor {
     }
 
     public enum Mutation {
-        case toNavigate(Route)
+        case navigatTo(Route)
         case checkCollection([CollectionResponse])
         case setCollection([CollectionResponse])
     }
@@ -59,13 +60,16 @@ public final class BookmarkModalReactor: Reactor {
                     collectionIds: currentState.selectedItems.map { $0.collectionId },
                     bookmarkIds: currentState.bookmarkIds
                 )
-                .andThen(.just(.toNavigate(.dismissWithData)))
+                .andThen(.just(.navigatTo(.dismissWithData)))
+                .catch { _ in
+                    .just(.navigatTo(.collectionError))
+                }
 
         case .backButtonTapped:
-            return .just(.toNavigate(.dismiss))
+            return .just(.navigatTo(.dismiss))
 
         case .addCollectionTapped:
-            return .just(.toNavigate(.addCollection))
+            return .just(.navigatTo(.addCollection))
 
         case .selectItem(let id):
             var newItems = currentState.selectedItems
@@ -81,7 +85,7 @@ public final class BookmarkModalReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .toNavigate(let route):
+        case .navigatTo(let route):
             newState.route = route
         case .checkCollection(let collections):
             newState.selectedItems = collections

@@ -1,11 +1,11 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController {
+public final class WebViewController: UIViewController {
     private let urlString: String
     private let webView = WKWebView()
 
-    init(urlString: String) {
+    public init(urlString: String) {
         self.urlString = urlString
         super.init(nibName: nil, bundle: nil)
     }
@@ -14,11 +14,11 @@ class WebViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func loadView() {
+    public override func loadView() {
         self.view = webView
     }
 
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         if let url = URL(string: urlString) {
             webView.load(URLRequest(url: url))

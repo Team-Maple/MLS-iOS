@@ -16,7 +16,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     private var didSelectInitialTab = false
     var selectedIndex = 0
-    var bookmarkRelay: PublishRelay<(Int, Bool)>?
+    var bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?
+    var loginRelay: PublishRelay<Void>?
 
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
     public var contentViews: [UIView] = [] {
@@ -30,8 +31,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
 
-    private let bookmarkModalFactory: BookmarkModalFactory
-    private let loginFactory: LoginFactory
+    let bookmarkModalFactory: BookmarkModalFactory
+    let loginFactory: LoginFactory
     public let dictionaryDetailFactory: DictionaryDetailFactory
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: AppCoordinatorProtocol
@@ -52,7 +53,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
         detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: AppCoordinatorProtocol,
         fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase,
-        bookmarkRelay: PublishRelay<(Int, Bool)>?
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
     ) {
         self.type = type
         self.bookmarkModalFactory = bookmarkModalFactory
@@ -63,6 +65,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)
         self.bookmarkRelay = bookmarkRelay
+        self.loginRelay = loginRelay
         super.init()
     }
 
@@ -89,6 +92,18 @@ class DictionaryDetailBaseViewController: BaseViewController {
             didSelectMenuTab(index: 0)
             didSelectInitialTab = true
         }
+    }
+
+    open func toggleBookmark() {
+        assertionFailure("Subclass should override toggleBookmark()")
+    }
+
+    open func checkLogin() -> Bool? {
+        return nil
+    }
+
+    open func undoBookmark() {
+        assertionFailure("Subclass should override undoBookmark()")
     }
 }
 
@@ -265,86 +280,6 @@ extension DictionaryDetailBaseViewController {
         currentTabIndex = index
     }
 
-    func bindBookmarkButton<T>(
-        buttonTap: ControlEvent<Void>,
-        currentItem: Observable<T>,
-        isLogin: @escaping () -> Bool,
-        id: @escaping (T) -> Int,
-        imageUrl: @escaping (T) -> String?,
-        backgroundColor: UIColor,
-        isBookmarked: @escaping (T) -> Bool,
-        toggleBookmark: @escaping (Bool) -> Void,
-        undoLastDeleted: @escaping () -> Void,
-        bookmarkId: Observable<Int?>
-    ) -> Disposable {
-        buttonTap
-            .withLatestFrom(Observable.combineLatest(currentItem, bookmarkId))
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] item, bookmarkId in
-                guard let self else { return }
-                guard isLogin() else {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            let viewController = self.loginFactory.make(exitRoute: .pop)
-                            self.navigationController?.pushViewController(viewController, animated: true)
-                        },
-                        cancelAction: nil
-                    )
-                    return
-                }
-
-                let itemId = id(item)
-
-                if isBookmarked(item) {
-                    toggleBookmark(true)
-                    self.bookmarkRelay?.accept((itemId, false))
-                    SnackBarFactory.createSnackBar(
-                        type: .delete,
-                        imageUrl: imageUrl(item),
-                        imageBackgroundColor: backgroundColor,
-                        text: "아이템을 북마크에서 삭제했어요.",
-                        buttonText: "되돌리기",
-                        buttonAction: { undoLastDeleted() }
-                    )
-                } else {
-                    toggleBookmark(false)
-                    self.bookmarkRelay?.accept((itemId, true))
-                    SnackBarFactory.createSnackBar(
-                        type: .normal,
-                        imageUrl: imageUrl(item),
-                        imageBackgroundColor: backgroundColor,
-                        text: "아이템을 북마크에 추가했어요.",
-                        buttonText: "컬렉션 추가",
-                        buttonAction: { [weak self] in
-                            guard let self,
-                                  let id = bookmarkId else { return }
-                            let viewController = self.bookmarkModalFactory.make(bookmarkIds: [id], onComplete: { isAdd in
-                                if isAdd {
-                                    DispatchQueue.main.async {
-                                        ToastFactory.createToast(
-                                            message:
-                                            "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
-                                        )
-                                    }
-                                }
-                            })
-
-                            viewController.modalPresentationStyle = .pageSheet
-                            if let sheet = viewController.sheetPresentationController {
-                                sheet.detents = [.medium(), .large()]
-                                sheet.prefersGrabberVisible = true
-                                sheet.preferredCornerRadius = 16
-                            }
-                            self.present(viewController, animated: true)
-                        }
-                    )
-                }
-            }
-    }
-
     func checkVisited() {
         fetchVisitDictionaryDetailUseCase.execute()
             .withUnretained(self)
@@ -382,6 +317,13 @@ private extension DictionaryDetailBaseViewController {
                 owner.appCoordinator.showMainTab()
             }
             .disposed(by: disposeBag)
+
+        mainView.bookmarkButton.rx.tap
+            .withUnretained(self)
+            .subscribe(onNext: { owner, _ in
+                owner.handleBookmarkTapped()
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -406,5 +348,77 @@ extension DictionaryDetailBaseViewController {
                 )
             }
             .disposed(by: disposeBag)
+    }
+}
+
+extension DictionaryDetailBaseViewController {
+    func handleBookmarkTapped() {
+        guard let isLogin = checkLogin() else { return }
+
+        if !isLogin {
+            presentLoginGuide()
+            loginRelay?.accept(())
+            return
+        }
+
+        toggleBookmark()
+    }
+}
+
+extension DictionaryDetailBaseViewController {
+    func presentAddSnackBar(bookmarkId: Int?, imageUrl: String?, background: UIColor) {
+        guard let bookmarkId else { return }
+        SnackBarFactory.createSnackBar(
+            type: .normal,
+            imageUrl: imageUrl,
+            imageBackgroundColor: background,
+            text: "아이템을 북마크에 추가했어요.",
+            buttonText: "컬렉션 추가",
+            buttonAction: { [weak self] in
+                self?.presentCollectionModal(bookmarkId: bookmarkId)
+            }
+        )
+    }
+
+    func presentDeleteSnackBar(imageUrl: String?, background: UIColor) {
+        SnackBarFactory.createSnackBar(
+            type: .delete,
+            imageUrl: imageUrl,
+            imageBackgroundColor: background,
+            text: "아이템을 북마크에서 삭제했어요.",
+            buttonText: "되돌리기",
+            buttonAction: { [weak self] in
+                self?.undoBookmark()
+            }
+        )
+    }
+
+    private func presentCollectionModal(bookmarkId: Int) {
+        let viewController = bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+            if isAdd {
+                ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")
+            }
+        }
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium(), .large()]
+            sheet.prefersGrabberVisible = true
+            sheet.preferredCornerRadius = 16
+        }
+        self.present(viewController, animated: true)
+    }
+
+    func presentLoginGuide() {
+        GuideAlertFactory.show(
+            mainText: "북마크를 하려면 로그인이 필요해요.",
+            ctaText: "로그인 하기",
+            cancelText: "취소",
+            ctaAction: { [weak self] in
+                guard let self else { return }
+                let vc = self.loginFactory.make(exitRoute: .pop)
+                self.navigationController?.pushViewController(vc, animated: true)
+            },
+            cancelAction: nil
+        )
     }
 }
