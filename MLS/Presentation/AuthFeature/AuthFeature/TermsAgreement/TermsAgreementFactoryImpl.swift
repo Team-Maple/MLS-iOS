@@ -7,7 +7,6 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
 
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
-    private let saveTokenUseCase: SaveTokenToLocalUseCase
     private let fetchTokenUseCase: FetchTokenFromLocalUseCase
     private let updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
 
@@ -15,14 +14,12 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
         onBoardingQuestionFactory: OnBoardingQuestionFactory,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        saveTokenUseCase: SaveTokenToLocalUseCase,
         fetchTokenUseCase: FetchTokenFromLocalUseCase,
         updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
     ) {
         self.onBoardingQuestionFactory = onBoardingQuestionFactory
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
-        self.saveTokenUseCase = saveTokenUseCase
         self.fetchTokenUseCase = fetchTokenUseCase
         self.updateMarketingAgreementUseCase = updateMarketingAgreementUseCase
     }
@@ -35,7 +32,6 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
             socialPlatform: platform,
             signUpWithKakaoUseCase: signUpWithKakaoUseCase,
             signUpWithAppleUseCase: signUpWithAppleUseCase,
-            saveTokenUseCase: saveTokenUseCase,
             fetchTokenUseCase: fetchTokenUseCase, updateMarketingAgreementUseCase: updateMarketingAgreementUseCase
         )
         return viewController

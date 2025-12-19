@@ -1,5 +1,6 @@
 import UIKit
 
+import BaseFeature
 import DesignSystem
 import DomainInterface
 
@@ -12,6 +13,19 @@ final class QuestDictionaryDetailViewController: DictionaryDetailBaseViewControl
     // MARK: - Components
     private var detailInfoView = DetailStackInfoView(type: .quest)
     private var linkedQuestView = DetailStackCardView()
+
+    override func toggleBookmark() {
+        reactor?.action.onNext(.toggleBookmark)
+    }
+
+    override func checkLogin() -> Bool {
+        guard let reactor = reactor else { return false }
+        return reactor.currentState.isLogin
+    }
+
+    override func undoBookmark() {
+        reactor?.action.onNext(.undoLastDeletedBookmark)
+    }
 }
 
 // MARK: - Populate Data
@@ -142,7 +156,7 @@ extension QuestDictionaryDetailViewController {
     public func bind(reactor: Reactor) {
         bindUserAction(reactor: reactor)
         bindViewState(reactor: reactor)
-        bindReportButton(providerId: reactor.state.map { $0.detailInfo.questId ?? 0 }, itemName: reactor.state.map { $0.detailInfo.nameKr ?? "" })
+        bindReportButton(providerId: reactor.state.map { $0.detailInfo.questId }, itemName: reactor.state.map { $0.detailInfo.nameKr ?? "" })
     }
 
     private func bindUserAction(reactor: Reactor) {
@@ -178,33 +192,43 @@ extension QuestDictionaryDetailViewController {
             })
             .disposed(by: disposeBag)
 
-        bindBookmarkButton(
-            buttonTap: mainView.bookmarkButton.rx.tap,
-            currentItem: reactor.state.map { $0.detailInfo },
-            isLogin: { reactor.currentState.isLogin },
-            id: { _ in reactor.currentState.detailInfo.questId ?? 0 },
-            imageUrl: { $0.iconUrl },
-            backgroundColor: type.backgroundColor,
-            isBookmarked: { $0.bookmarkId != nil },
-            toggleBookmark: { isDeleting in reactor.action.onNext(.toggleBookmark(isDeleting)) },
-            undoLastDeleted: { reactor.action.onNext(.undoLastDeletedBookmark) },
-            bookmarkId: reactor.state.map(\.detailInfo.bookmarkId)
-        )
-        .disposed(by: disposeBag)
-
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case let .detail(type, id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: self.bookmarkRelay)
+                    let viewController = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }
             }
+            .disposed(by: disposeBag)
+
+        reactor.pulse(\.$event)
+            .bind(onNext: { [weak self] event in
+                switch event {
+                case let .add(item):
+                    self?.presentAddSnackBar(
+                        bookmarkId: item.bookmarkId,
+                        imageUrl: item.iconUrl,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.questId, item.bookmarkId))
+                case let .delete(item):
+                    self?.presentDeleteSnackBar(
+                        imageUrl: item.iconUrl,
+                        background: DictionaryItemType.item.backgroundColor
+                    )
+                    self?.bookmarkRelay?.accept((item.questId, item.bookmarkId))
+                default: break
+                }
+            })
             .disposed(by: disposeBag)
     }
 }

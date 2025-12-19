@@ -83,9 +83,9 @@ private extension DictionaryNotificationView {
 }
 
 public extension DictionaryNotificationView {
-    func setEmpty(isEmpty: Bool) {
-        emptyView.isHidden = !isEmpty
-        titleLabel.isHidden = isEmpty
-        notificationCollectionView.isHidden = isEmpty
+    func setEmpty(hasPermission: Bool) {
+        emptyView.isHidden = hasPermission
+        titleLabel.isHidden = !hasPermission
+        notificationCollectionView.isHidden = !hasPermission
     }
 }

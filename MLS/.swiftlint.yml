@@ -7,8 +7,8 @@ line_length:
   error: 300
 
 function_body_length:
-    warning: 80
-    error: 120
+    warning: 100
+    error: 150
 
 disabled_rules:
   - force_cast

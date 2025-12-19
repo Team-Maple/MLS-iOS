@@ -1,6 +1,5 @@
 import AuthFeatureInterface
 import BaseFeature
-import DictionaryFeatureInterface
 
 public struct OnBoardingNotificationFactoryImpl: OnBoardingNotificationFactory {
     private let onBoardingNotificationSheetFactory: OnBoardingNotificationSheetFactory

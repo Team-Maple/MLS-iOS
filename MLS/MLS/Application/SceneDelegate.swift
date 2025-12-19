@@ -25,18 +25,18 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let coordinator = DIContainer.resolve(type: AppCoordinatorProtocol.self)
         coordinator.window = window
-        self.appCoordinator = coordinator
+        appCoordinator = coordinator
 
         startScene(coordinator: coordinator)
     }
 
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-            if let url = URLContexts.first?.url {
-                if AuthApi.isKakaoTalkLoginUrl(url) {
-                    _ = AuthController.handleOpenUrl(url: url)
-                }
+        if let url = URLContexts.first?.url {
+            if AuthApi.isKakaoTalkLoginUrl(url) {
+                _ = AuthController.handleOpenUrl(url: url)
             }
         }
+    }
 
     private func startScene(coordinator: AppCoordinatorProtocol) {
         let fetchTokenUseCase = DIContainer.resolve(type: FetchTokenFromLocalUseCase.self)
@@ -46,6 +46,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         switch fetchResult {
         case .success(let refreshToken):
+            #if DEBUG
+            print("refreshToken: \(refreshToken)")
+            #endif
             reissueUseCase.execute(refreshToken: refreshToken)
                 .observe(on: MainScheduler.instance)
                 .subscribe(

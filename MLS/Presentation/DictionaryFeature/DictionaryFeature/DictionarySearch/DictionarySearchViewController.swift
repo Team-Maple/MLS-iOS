@@ -117,7 +117,6 @@ extension DictionarySearchViewController {
 
     func bindUserActions(reactor: Reactor) {
         rx.viewWillAppear
-            .take(1)
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
@@ -163,7 +162,7 @@ extension DictionarySearchViewController {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
                 case .search(let keyword):
-                    if keyword.isOnlyKorean(), keyword != "" {
+                    if !keyword.isOnlyKorean() {
                         GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
                     } else {
                         owner.mainView.searchBar.textField.text = ""

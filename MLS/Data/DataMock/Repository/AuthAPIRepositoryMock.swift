@@ -36,7 +36,7 @@ public class AuthAPIRepositoryMock: AuthAPIRepository {
         return Observable.just(.init(accessToken: "testToken", refreshToken: "testToken"))
     }
 
-    public func fcmToken(credential: String, fcmToken: String?) -> Completable {
+    public func fcmToken(fcmToken: String?) -> Completable {
         return .empty()
     }
 

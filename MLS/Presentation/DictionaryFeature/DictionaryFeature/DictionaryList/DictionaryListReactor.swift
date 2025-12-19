@@ -5,12 +5,20 @@ import ReactorKit
 import RxSwift
 
 public final class DictionaryListReactor: Reactor {
-
-    // MARK: - Route
+    // MARK: - Type
     public enum Route {
         case none
         case sort(DictionaryType)
         case filter(DictionaryType)
+        case bookmarkError
+    }
+
+    public enum UIEvent {
+        case none
+        case add(DictionaryMainItemResponse)
+        case delete(DictionaryMainItemResponse)
+        case undo
+        case login
     }
 
     // MARK: - Action
@@ -24,14 +32,15 @@ public final class DictionaryListReactor: Reactor {
         case setCurrentPage
         case fetchList
         case undoLastDeletedBookmark
-        case toggleBookmark(id: Int, isSelected: Bool)
+        case toggleBookmark(id: Int)
+        case showLogin
+        case updateBookmark(id: Int, newBookmarkId: Int?)
     }
 
     // MARK: - Mutation
     public enum Mutation {
+        case navigatTo(Route)
         case setListItem(DictionaryMainResponse, updateBookmarkOnly: Bool = false)
-        case showSortFilter
-        case showFilter
         case setSort(String)
         case setFilter(start: Int?, end: Int?)
         case setCurrentPage
@@ -40,12 +49,14 @@ public final class DictionaryListReactor: Reactor {
         case setLastDeletedBookmark(DictionaryMainItemResponse?)
         case setJobId([Int])
         case setCategoryId([Int])
-        case updateBookmarkState(id: Int, isSelected: Bool)
-        case updateBookmarkStates([Int: Bool]) // 새 Mutation: 여러 북마크 반영
+        case updateBookmarkId(id: Int, newBookmarkId: Int?)
+        case setFirstFetch(Bool)
+        case setEvent(UIEvent)
     }
 
     // MARK: - State
     public struct State {
+        @Pulse var uiEvent: UIEvent = .none
         @Pulse var route: Route
         public var listItems: [DictionaryMainItemResponse] = []
         public var type: DictionaryType
@@ -62,7 +73,8 @@ public final class DictionaryListReactor: Reactor {
 
         var isLogin: Bool
         var lastDeletedBookmark: DictionaryMainItemResponse?
-        var isBookmarkUpdateOnly: Bool = false
+        var isBookmarkUpdateOnly = false
+        var isFirstFetch = true
     }
 
     public var initialState: State
@@ -112,9 +124,9 @@ public final class DictionaryListReactor: Reactor {
         case .viewWillAppear:
             return handleViewWillAppear()
         case .sortButtonTapped:
-            return .just(.showSortFilter)
+            return .just(.navigatTo(.sort(currentState.type)))
         case .filterButtonTapped:
-            return .just(.showFilter)
+            return .just(.navigatTo(.filter(currentState.type)))
         case let .sortOptionSelected(sort):
             return handleSortOptionSelected(sort: sort)
         case let .filterOptionSelected(startLevel, endLevel):
@@ -125,10 +137,14 @@ public final class DictionaryListReactor: Reactor {
             return fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
         case .undoLastDeletedBookmark:
             return handleUndoLastDeletedBookmark()
-        case let .toggleBookmark(id, isSelected):
-            return handleToggleBookmark(id: id, isSelected: isSelected)
+        case let .toggleBookmark(id):
+            return handleToggleBookmark(id: id)
         case let .itemFilterOptionSelected(results):
             return handleItemFilterOptionSelected(results: results)
+        case .showLogin:
+            return .just(.setEvent(.login))
+        case let .updateBookmark(id, newBookmarkId):
+            return handleUpdateBookmark(id: id, newBookmarkId: newBookmarkId)
         }
     }
 
@@ -136,10 +152,8 @@ public final class DictionaryListReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .showSortFilter:
-            newState.route = .sort(newState.type)
-        case .showFilter:
-            newState.route = .filter(newState.type)
+        case let .navigatTo(route):
+            newState.route = route
         case let .setListItem(items, updateBookmarkOnly):
             newState.isBookmarkUpdateOnly = updateBookmarkOnly
             newState.totalCounts = items.totalElements
@@ -147,7 +161,7 @@ public final class DictionaryListReactor: Reactor {
                 newState.listItems = newState.listItems.map { item in
                     if let updated = items.contents.first(where: { $0.id == item.id }) {
                         var copy = item
-                        copy.bookmarkId = updated.bookmarkId ?? item.bookmarkId
+                        copy.bookmarkId = updated.bookmarkId
                         return copy
                     } else { return item }
                 }
@@ -177,16 +191,14 @@ public final class DictionaryListReactor: Reactor {
             newState.jobId = id
         case let .setCategoryId(id):
             newState.categoryIds = id
-        case let .updateBookmarkState(id, isSelected):
+        case let .setFirstFetch(isFirstFetch):
+            newState.isFirstFetch = isFirstFetch
+        case let .updateBookmarkId(id, newBookmarkId):
             if let index = newState.listItems.firstIndex(where: { $0.id == id }) {
-                newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
+                newState.listItems[index].bookmarkId = newBookmarkId
             }
-        case let .updateBookmarkStates(dict):
-            for index in 0..<newState.listItems.count {
-                if let isSelected = dict[newState.listItems[index].id] {
-                    newState.listItems[index].bookmarkId = isSelected ? (newState.listItems[index].bookmarkId ?? -1) : nil
-                }
-            }
+        case let .setEvent(event):
+            newState.uiEvent = event
         }
         return newState
     }
@@ -194,7 +206,6 @@ public final class DictionaryListReactor: Reactor {
 
 // MARK: - Methods
 private extension DictionaryListReactor {
-
     func fetchList(sort: String?, startLevel: Int?, endLevel: Int?, updateBookmarkOnly: Bool = false) -> Observable<Mutation> {
         let response: Observable<DictionaryMainResponse>
 
@@ -252,64 +263,71 @@ private extension DictionaryListReactor {
             return .empty()
         }
 
-        return response.map { response in
-            if updateBookmarkOnly {
-                let merged = self.currentState.listItems.map { item in
-                    if let updated = response.contents.first(where: { $0.id == item.id }) {
-                        var copy = item
-                        copy.bookmarkId = updated.bookmarkId ?? item.bookmarkId
-                        return copy
-                    } else { return item }
-                }
-                var newResponse = response
-                newResponse.contents = merged
-                return .setListItem(newResponse, updateBookmarkOnly: true)
-            } else {
-                return .setListItem(response)
-            }
-        }
+        return response.map { .setListItem($0, updateBookmarkOnly: updateBookmarkOnly) }
     }
 
     func handleViewWillAppear() -> Observable<Mutation> {
         let loginState = checkLoginUseCase.execute()
             .map { Mutation.setLoginState($0) }
-        let fetchMutation = fetchList(sort: currentState.sort, startLevel: currentState.startLevel, endLevel: currentState.endLevel)
+
+        let fetchMutation: Observable<Mutation>
+
+        if currentState.isFirstFetch {
+            let firstFetch = Observable.just(Mutation.setFirstFetch(false))
+            let fetch = fetchList(
+                sort: currentState.sort,
+                startLevel: currentState.startLevel,
+                endLevel: currentState.endLevel
+            )
+            fetchMutation = .concat([firstFetch, fetch])
+        } else {
+            fetchMutation = fetchList(
+                sort: currentState.sort,
+                startLevel: currentState.startLevel,
+                endLevel: currentState.endLevel,
+                updateBookmarkOnly: true
+            )
+        }
+
         return .merge([loginState, fetchMutation])
     }
 
-    func handleToggleBookmark(id: Int, isSelected: Bool) -> Observable<Mutation> {
-        guard let index = currentState.listItems.firstIndex(where: { $0.id == id }) else { return .empty() }
-        let targetItem = currentState.listItems[index]
-
-        let optimistic: Observable<Mutation>
-
-        if isSelected {
-            // 삭제되는 경우, undo를 위해 lastDeletedBookmark 저장
-            optimistic = Observable.concat([
-                // UI 반영
-                .just(.updateBookmarkState(id: id, isSelected: false)),
-                // undo 저장
-                .just(.setLastDeletedBookmark(targetItem))
-            ])
-        } else {
-            // 북마크 추가
-            optimistic = .just(.updateBookmarkState(id: id, isSelected: true))
+    func handleToggleBookmark(id: Int) -> Observable<Mutation> {
+        guard let index = currentState.listItems.firstIndex(where: { $0.id == id }) else {
+            return .empty()
         }
 
-        // 서버 호출 + bookmark 확정
-        let api = setBookmarkUseCase.execute(
+        let targetItem = currentState.listItems[index]
+        let isSelected = targetItem.bookmarkId != nil
+
+        return setBookmarkUseCase.execute(
             bookmarkId: isSelected ? targetItem.bookmarkId ?? targetItem.id : targetItem.id,
             isBookmark: isSelected ? .delete : .set(targetItem.type)
         )
-        .andThen(fetchList(
-            sort: currentState.sort,
-            startLevel: currentState.startLevel,
-            endLevel: currentState.endLevel,
-            updateBookmarkOnly: true
-        ))
-        .observe(on: MainScheduler.asyncInstance)
+        .flatMap { newBookmarkId -> Observable<Mutation> in
+            let lastItem = Mutation.setLastDeletedBookmark(targetItem)
 
-        return .concat([optimistic, api])
+            let event: UIEvent = isSelected ? .delete(targetItem) : .add(targetItem)
+            let eventMutation = Mutation.setEvent(event)
+
+            let updateMutation = Mutation.updateBookmarkId(id: id, newBookmarkId: newBookmarkId)
+            return .from([lastItem, updateMutation, eventMutation])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
+    }
+
+    func handleUpdateBookmark(id: Int, newBookmarkId: Int?) -> Observable<Mutation> {
+        guard let index = currentState.listItems.firstIndex(where: { $0.id == id }) else {
+            return .empty()
+        }
+
+        guard currentState.listItems[index].bookmarkId != newBookmarkId else {
+            return .empty()
+        }
+
+        return .just(.updateBookmarkId(id: id, newBookmarkId: newBookmarkId))
     }
 
     func handleSortOptionSelected(sort: SortType) -> Observable<Mutation> {
@@ -337,17 +355,22 @@ private extension DictionaryListReactor {
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
         guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
 
-        let optimistic = Observable.just(Mutation.updateBookmarkState(id: lastDeleted.id, isSelected: true))
-            .observe(on: MainScheduler.asyncInstance)
-
-        let apiCall = setBookmarkUseCase.execute(
+        return setBookmarkUseCase.execute(
             bookmarkId: lastDeleted.id,
             isBookmark: .set(lastDeleted.type)
         )
-        .andThen(Observable.just(Mutation.setLastDeletedBookmark(nil)))
-        .observe(on: MainScheduler.asyncInstance)
+        .flatMap { newBookmarkId -> Observable<Mutation> in
+            let lastItem = Mutation.setLastDeletedBookmark(nil)
 
-        return .concat([optimistic, apiCall])
+            let event: UIEvent = .add(lastDeleted)
+            let eventMutation = Mutation.setEvent(event)
+
+            let updateMutation = Mutation.updateBookmarkId(id: lastDeleted.id, newBookmarkId: newBookmarkId)
+            return .from([lastItem, updateMutation, eventMutation])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 
     func handleItemFilterOptionSelected(results: [(String, String)]) -> Observable<Mutation> {

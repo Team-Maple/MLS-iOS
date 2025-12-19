@@ -11,7 +11,7 @@ public class FetchPatchNotesUseCaseImpl: FetchPatchNotesUseCase {
         self.repository = repository
     }
 
-    public func execute(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+    public func execute(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
         return repository.fetchPatchNotes(cursor: cursor, pageSize: pageSize)
     }
 }

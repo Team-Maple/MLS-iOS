@@ -18,13 +18,24 @@ public class LogoutUseCaseImpl: LogoutUseCase {
                 return Disposables.create()
             }
 
-            switch self.repository.deleteToken(type: .accessToken) {
-            case .success:
-                completable(.completed)
-            case .failure(let error):
-                completable(.error(error))
+            let deleteAccess = self.repository.deleteToken(type: .accessToken)
+            let deleteRefresh = self.repository.deleteToken(type: .refreshToken)
+
+            guard case .success = deleteAccess, case .success = deleteRefresh else {
+                completable(.error(NSError(domain: "LogoutError", code: -1, userInfo: nil)))
+                return Disposables.create()
             }
 
+            var fcmToken: String?
+            if case .success(let token) = self.repository.fetchToken(type: .fcmToken) {
+                fcmToken = token
+            }
+
+            if fcmToken != nil {
+                _ = self.repository.deleteToken(type: .fcmToken)
+            }
+
+            completable(.completed)
             return Disposables.create()
         }
     }

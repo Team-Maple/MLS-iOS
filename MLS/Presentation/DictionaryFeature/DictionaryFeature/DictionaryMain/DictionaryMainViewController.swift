@@ -17,7 +17,6 @@ public final class DictionaryMainViewController: BaseViewController, View, Dicti
     public var disposeBag = DisposeBag()
 
     private let initialIndex: Int
-//    private lazy var currentPageIndex = BehaviorRelay<Int>(value: initialIndex)
 
     private let searchFactory: DictionarySearchFactory
     private let notificationFactory: DictionaryNotificationFactory

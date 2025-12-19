@@ -1,5 +1,5 @@
 import RxSwift
 
 public protocol PutFCMTokenUseCase {
-    func execute(credential: String, fcmToken: String?) -> Completable
+    func execute(fcmToken: String?) -> Completable
 }

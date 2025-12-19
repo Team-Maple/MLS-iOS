@@ -19,7 +19,7 @@ public struct DictionaryDetailMonsterResponse: Equatable {
     public let mesoDropAmount: Int?
     public let mesoDropRate: Int?
     public let typeEffectiveness: Effectiveness?
-    public let bookmarkId: Int?
+    public var bookmarkId: Int?
 
     public init(
         monsterId: Int,

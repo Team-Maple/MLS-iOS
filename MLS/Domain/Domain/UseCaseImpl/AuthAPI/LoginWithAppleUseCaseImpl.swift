@@ -23,14 +23,25 @@ public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
                 let savePlatform = self.userDefaultsRepository.savePlatform(platform: .apple)
 
-                switch (saveAccess, saveRefresh) {
-                case (.success, .success):
-                    return savePlatform.andThen(Observable.just(response))
-                default:
-                    return Observable.error(
-                        TokenRepositoryError.dataConversionError(message: "Failed to save tokens")
-                    )
+                guard case (.success, .success) = (saveAccess, saveRefresh) else {
+                    return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))
                 }
+
+                var fcmToken: String?
+                if case .success(let token) = self.tokenRepository.fetchToken(type: .fcmToken) {
+                    fcmToken = token
+                }
+
+                let fcmUpdate = if let fcmToken {
+                    self.authRepository.fcmToken(fcmToken: fcmToken)
+                        .catch { error in
+                            print("FCM token update failed: \(error)")
+                            return .empty()
+                        }
+                } else {
+                    Completable.empty()
+                }
+                return fcmUpdate.andThen(savePlatform).andThen(Observable.just(response))
             }
             .catch { error in
                 Observable.error(error)

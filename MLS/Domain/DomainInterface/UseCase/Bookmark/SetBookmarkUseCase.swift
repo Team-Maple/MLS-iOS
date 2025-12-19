@@ -1,7 +1,7 @@
 import RxSwift
 
 public protocol SetBookmarkUseCase {
-    func execute(bookmarkId: Int, isBookmark: IsBookmark) -> Completable
+    func execute(bookmarkId: Int, isBookmark: IsBookmark) -> Observable<Int?>
 }
 
 public enum IsBookmark {

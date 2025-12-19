@@ -1,5 +1,5 @@
 public struct DictionaryDetailMapResponse: Equatable {
-    public let mapId: Int?
+    public let mapId: Int
     public let nameKr: String?
     public let nameEn: String?
     public let regionName: String?
@@ -7,9 +7,9 @@ public struct DictionaryDetailMapResponse: Equatable {
     public let topRegionName: String?
     public let mapUrl: String?
     public let iconUrl: String?
-    public let bookmarkId: Int?
+    public var bookmarkId: Int?
 
-    public init(mapId: Int?, nameKr: String?, nameEn: String?, regionName: String?, detailName: String?, topRegionName: String?, mapUrl: String?, iconUrl: String?, bookmarkId: Int?) {
+    public init(mapId: Int, nameKr: String?, nameEn: String?, regionName: String?, detailName: String?, topRegionName: String?, mapUrl: String?, iconUrl: String?, bookmarkId: Int?) {
         self.mapId = mapId
         self.nameKr = nameKr
         self.nameEn = nameEn

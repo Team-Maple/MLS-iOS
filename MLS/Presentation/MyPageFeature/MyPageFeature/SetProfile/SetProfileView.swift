@@ -248,9 +248,9 @@ public final class SetProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override var inputAccessoryView: UIView? {
-        return errorMessageContentView
-    }
+//    public override var inputAccessoryView: UIView? {
+//        return errorMessageContentView
+//    }
 
     public override var canBecomeFirstResponder: Bool {
         return true
@@ -316,6 +316,7 @@ private extension SetProfileView {
     func configureUI() {
         backgroundColor = .whiteMLS
         cancelTextView.delegate = self
+        nickNameInputBox.textField.inputAccessoryView = errorMessageContentView
     }
 
     func bindImageGesture() {

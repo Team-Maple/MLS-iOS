@@ -3,9 +3,9 @@ import Foundation
 import RxSwift
 
 public protocol BookmarkRepository {
-    func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Completable
+    func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Observable<Int>
 
-    func deleteBookmark(bookmarkId: Int) -> Completable
+    func deleteBookmark(bookmarkId: Int) -> Observable<Int?>
 
     func fetchBookmark(sort: String?) -> Observable<[BookmarkResponse]>
 

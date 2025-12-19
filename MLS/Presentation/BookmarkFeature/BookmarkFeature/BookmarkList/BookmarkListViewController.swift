@@ -5,6 +5,7 @@ import BaseFeature
 import BookmarkFeatureInterface
 import DesignSystem
 import DictionaryFeatureInterface
+import DomainInterface
 
 import ReactorKit
 import RxCocoa
@@ -15,6 +16,10 @@ public final class BookmarkListViewController: BaseViewController, View {
 
     // MARK: - Properties
     public var disposeBag = DisposeBag()
+
+    private let bookmarkChangeRelay = PublishRelay<(id: Int, newBookmarkId: Int?)>()
+    private var undoRelay = PublishRelay<Void>()
+    private var addCollectionRelay = PublishRelay<Int>()
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory
     private let monsterFilterFactory: MonsterFilterBottomSheetFactory
@@ -147,6 +152,7 @@ extension BookmarkListViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .sort(let type):
@@ -180,7 +186,7 @@ extension BookmarkListViewController {
                         break
                     }
                 case .detail(let type, let id):
-                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: nil)
+                    let viewcontroller = owner.dictionaryDetailFactory.make(type: type, id: id, bookmarkRelay: owner.bookmarkChangeRelay, loginRelay: nil)
                     owner.navigationController?.pushViewController(viewcontroller, animated: true)
                 case .login:
                     let viewcontroller = owner.loginFactory.make(exitRoute: .pop)
@@ -194,6 +200,8 @@ extension BookmarkListViewController {
                 case .edit:
                     let viewController = owner.collectionEditFactory.make(bookmarks: reactor.currentState.items)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case .bookmarkError:
+                    ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")
                 default:
                     break
                 }
@@ -209,7 +217,90 @@ extension BookmarkListViewController {
                 owner.mainView.updateFilter(sortType: type.bookmarkSortedFilter.first)
             })
             .disposed(by: disposeBag)
+
+        rx.viewDidAppear
+            .take(1)
+            .flatMapLatest { _ in reactor.pulse(\.$uiEvent) }
+            .withUnretained(self)
+            .subscribe(onNext: { owner, event in
+                switch event {
+                case .add(let item):
+                    owner.presentAddSnackBar(item: item)
+                case .delete(let item):
+                    owner.presentDeleteSnackBar(item: item)
+                case .login:
+                    owner.presentLoginGuide()
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
     }
+
+    private func presentAddSnackBar(item: BookmarkResponse) {
+        SnackBarFactory.createSnackBar(
+            type: .normal,
+            imageUrl: item.imageUrl,
+            imageBackgroundColor: item.type.backgroundColor,
+            text: "아이템을 북마크에 추가했어요.",
+            buttonText: "컬렉션 추가",
+            buttonAction: { [weak self] in
+                self?.reactor?.state.map(\.items)
+                    .compactMap { items in
+                        items.first(where: { $0.originalId == item.originalId })?.bookmarkId
+                    }
+                    .take(1)
+                    .observe(on: MainScheduler.instance)
+                    .subscribe(onNext: { [weak self] bookmarkId in
+                        guard let self else { return }
+                        let vc = self.bookmarkModalFactory.make(bookmarkIds: [bookmarkId]) { isAdd in
+                            if isAdd {
+                                ToastFactory.createToast(
+                                    message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요."
+                                )
+                            }
+                        }
+                        vc.modalPresentationStyle = .pageSheet
+                        if let sheet = vc.sheetPresentationController {
+                            sheet.detents = [.medium(), .large()]
+                            sheet.prefersGrabberVisible = true
+                            sheet.preferredCornerRadius = 16
+                        }
+                        self.present(vc, animated: true)
+                    })
+                    .disposed(by: self?.disposeBag ?? DisposeBag())
+            }
+        )
+    }
+
+    private func presentDeleteSnackBar(item: BookmarkResponse) {
+        SnackBarFactory.createSnackBar(
+            type: .delete,
+            imageUrl: item.imageUrl,
+            imageBackgroundColor: item.type.backgroundColor,
+            text: "아이템을 북마크에서 삭제했어요.",
+            buttonText: "되돌리기",
+            buttonAction: { [weak self] in
+                self?.undoRelay.accept(())
+                self?.reactor?.action.onNext(.undoLastDeletedBookmark)
+            }
+        )
+    }
+
+    private func presentLoginGuide() {
+        GuideAlertFactory.show(
+            mainText: "북마크를 하려면 로그인이 필요해요.",
+            ctaText: "로그인 하기",
+            cancelText: "취소",
+            ctaAction: { [weak self] in
+                guard let self else { return }
+                let vc = self.loginFactory.make(exitRoute: .pop)
+                self.navigationController?.pushViewController(vc, animated: true)
+            },
+            cancelAction: nil
+        )
+    }
+
 }
 
 // MARK: - Delegate
@@ -245,36 +336,14 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
             indexPath: indexPath,
             collectionView: collectionView,
             isMap: item.type == .map,
-            onBookmarkTapped: { [weak self] isSelected in
-                guard let self = self else { return }
 
-                // 로그인 상태 확인
+            onBookmarkTapped: { [weak self] in
+                guard let self else { return }
                 guard state.isLogin else {
-                    GuideAlertFactory.show(
-                        mainText: "북마크를 하려면 로그인이 필요해요.",
-                        ctaText: "로그인 하기",
-                        cancelText: "취소",
-                        ctaAction: {
-                            let viewController = self.loginFactory.make(exitRoute: .pop)
-                            self.navigationController?.pushViewController(viewController, animated: true)
-                        },
-                        cancelAction: nil
-                    )
+                    self.reactor?.action.onNext(.showLogin)
                     return
                 }
-
-                self.reactor?.action.onNext(.toggleBookmark(item.originalId, isSelected))
-
-                SnackBarFactory.createSnackBar(
-                    type: .delete,
-                    imageUrl: item.imageUrl,
-                    imageBackgroundColor: item.type.backgroundColor,
-                    text: "아이템을 북마크에서 삭제했어요.",
-                    buttonText: "되돌리기",
-                    buttonAction: { [weak self] in
-                        self?.reactor?.action.onNext(.undoLastDeletedBookmark)
-                    }
-                )
+                self.reactor?.action.onNext(.toggleBookmark(item.originalId))
             }
         )
 

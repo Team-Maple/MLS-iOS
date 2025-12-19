@@ -58,7 +58,6 @@ private extension DictionaryNotificationViewController {
 
     func configureUI() {
         isBottomTabbarHidden = true
-        guard let reactor = reactor else { return }
 
         mainView.notificationCollectionView.delegate = self
         mainView.notificationCollectionView.dataSource = self
@@ -103,6 +102,7 @@ public extension DictionaryNotificationViewController {
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }
             .withUnretained(self)
+            .observe(on: MainScheduler.instance)
             .subscribe { owner, route in
                 switch route {
                 case .dismiss:
@@ -112,6 +112,9 @@ public extension DictionaryNotificationViewController {
                           let profile = reactor.currentState.profile else { return }
                     let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
+                case let .notification(url):
+                    let webViewController = WebViewController(urlString: url)
+                    owner.present(webViewController, animated: true)
                 default:
                     break
                 }
@@ -128,13 +131,12 @@ public extension DictionaryNotificationViewController {
             .disposed(by: disposeBag)
 
         reactor.state
-            .compactMap { $0.profile }
+            .map { $0.permission }
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .subscribe { owner, profile in
-                let isEmpty = profile.noticeAgreement == false && profile.eventAgreement == false && profile.patchNoteAgreement == false
-                owner.mainView.setEmpty(isEmpty: isEmpty)
+            .subscribe { owner, permission in
+                owner.mainView.setEmpty(hasPermission: permission)
             }
             .disposed(by: disposeBag)
     }
@@ -151,8 +153,13 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         guard let reactor = reactor else { return UICollectionViewCell() }
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DictionaryNotificationCell.identifier, for: indexPath) as? DictionaryNotificationCell else { return UICollectionViewCell() }
         let item = reactor.currentState.notifications[indexPath.row]
-        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.changeKoreanDate(), isChecked: item.alreadyRead))
+        cell.inject(input: DictionaryNotificationCell.Input(title: item.title, subTitle: item.date.toDisplayDateString(), isChecked: item.alreadyRead))
         return cell
+    }
+
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let reactor = reactor else { return }
+        reactor.action.onNext(.notificationTapped(index: indexPath.row))
     }
 
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {

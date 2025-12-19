@@ -20,8 +20,7 @@ public class WithdrawUseCaseImpl: WithdrawUseCase {
 
                 let results: [Result<Void, Error>] = [
                     self.tokenRepository.deleteToken(type: .accessToken),
-                    self.tokenRepository.deleteToken(type: .refreshToken),
-                    self.tokenRepository.deleteToken(type: .fcmToken)
+                    self.tokenRepository.deleteToken(type: .refreshToken)
                 ]
 
                 for result in results {

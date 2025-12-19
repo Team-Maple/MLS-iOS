@@ -32,7 +32,15 @@ public final class NetworkProviderImpl: NetworkProvider {
                         do {
                             let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
                             print("🎯 requestData: 디코딩 성공 - \(decoded)")
-                            observer.onNext(decoded.data!)
+                            if let decodedData = decoded.data {
+                                observer.onNext(decodedData)
+                            } else {
+                                if T.Response.self == EmptyResponseDTO.self {
+                                    observer.onNext(EmptyResponseDTO() as! T.Response)
+                                } else {
+                                    observer.onError(NetworkError.invalidResponse)
+                                }
+                            }
                             observer.onCompleted()
                         } catch {
                             print("❌ requestData: 디코딩 실패 - \(error)")
@@ -115,6 +123,7 @@ private extension NetworkProviderImpl {
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
+                    print("API 통신에러 \(error)")
                 }
             }
             task.resume()

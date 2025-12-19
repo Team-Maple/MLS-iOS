@@ -14,6 +14,9 @@ public final class AuthInterceptor: Interceptor {
     public func adapt(_ request: URLRequest) -> URLRequest {
         var request = request
         if case .success(let token) = tokenRepository.fetchToken(type: .accessToken) {
+            #if DEBUG
+            print("accessToken: \(token)")
+            #endif
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
         return request
@@ -33,7 +36,7 @@ public final class AuthInterceptor: Interceptor {
                 let repo = authRepository()
                 repo.reissueToken(refreshToken: refreshToken)
                     .subscribe(onNext: { _ in
-                        print("✅ reissue 완료 (저장은 UseCase 쪽에서 처리)")
+                        print("✅ reissue 완료")
                     }, onError: { error in
                         print("❌ reissue 실패: \(error)")
                     })

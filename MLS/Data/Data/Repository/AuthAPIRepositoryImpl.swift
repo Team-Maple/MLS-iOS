@@ -78,12 +78,12 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
 
     public func reissueToken(refreshToken: String) -> Observable<LoginResponse> {
         let endPoint = AuthEndPoint.reIssueToken(refreshToken: refreshToken)
-        return provider.requestData(endPoint: endPoint, interceptor: authInterceptor).map { $0.toLoginDomain() }
+        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toLoginDomain() }
     }
 
-    public func fcmToken(credential: String, fcmToken: String?) -> Completable {
-        let endPoint = AuthEndPoint.fcmToken(credential: credential, body: FCMTokenBody(fcmToken: fcmToken))
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
+    public func fcmToken(fcmToken: String?) -> Completable {
+        let endPoint = AuthEndPoint.fcmToken(body: FCMTokenBody(fcmToken: fcmToken))
+        return provider.requestData(endPoint: endPoint, interceptor: authInterceptor)
     }
 
     public func fetchJobList() -> Observable<JobListResponse> {

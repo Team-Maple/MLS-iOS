@@ -4,5 +4,5 @@ import DomainInterface
 import RxCocoa
 
 public protocol DictionaryDetailFactory {
-    func make(type: DictionaryType, id: Int, bookmarkRelay: PublishRelay<(Int, Bool)>?) -> BaseViewController
+    func make(type: DictionaryType, id: Int, bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?, loginRelay: PublishRelay<Void>?) -> BaseViewController
 }

@@ -11,7 +11,7 @@ public class PutFCMTokenUseCaseImpl: PutFCMTokenUseCase {
         self.repository = repository
     }
 
-    public func execute(credential: String, fcmToken: String?) -> Completable {
-        return repository.fcmToken(credential: credential, fcmToken: fcmToken)
+    public func execute(fcmToken: String?) -> Completable {
+        return repository.fcmToken(fcmToken: fcmToken)
     }
 }

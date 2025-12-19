@@ -1,5 +1,5 @@
 import RxSwift
 
 public protocol FetchOngoingEventsUseCase {
-    func execute(cursor: [Int]?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>>
+    func execute(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>>
 }

@@ -8,6 +8,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case none
         case filter(type: DictionaryType, sort: [SortType])
         case detail(type: DictionaryType, id: Int)
+        case bookmarkError
     }
 
     public struct Info: Equatable {
@@ -15,12 +16,19 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var desc: String
     }
 
+    public enum UIEvent {
+        case none
+        case add(DictionaryDetailMonsterResponse)
+        case delete(DictionaryDetailMonsterResponse)
+        case undo
+    }
+
     // MARK: - Action
     public enum Action {
         case filterButtonTapped(DictionaryType)
         case viewWillAppear
         case selectFilter(SortType)
-        case toggleBookmark(Bool)
+        case toggleBookmark
         case undoLastDeletedBookmark
         case itemTapped(index: Int)
         case mapTapped(index: Int)
@@ -28,17 +36,19 @@ public final class MonsterDictionaryDetailReactor: Reactor {
 
     // MARK: - Mutation
     public enum Mutation {
-        case toNavigate(Route)
+        case navigatTo(Route)
         case setDetailData(DictionaryDetailMonsterResponse)
         case setDetailDropItemData([DictionaryDetailMonsterDropItemResponse])
         case setDetailMapData([DictionaryDetailMonsterMapResponse])
         case setBookmark(DictionaryDetailMonsterResponse)
         case setLastDeletedBookmark(DictionaryDetailMonsterResponse?)
         case setLoginState(Bool)
+        case setEvent(UIEvent)
     }
 
     // MARK: - State
     public struct State {
+        @Pulse var event: UIEvent = .none
         @Pulse var route: Route = .none
         var type: DictionaryType = .monster
         var id = 0
@@ -95,7 +105,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .filterButtonTapped(type):
-            return .just(.toNavigate(.filter(type: type, sort: type == .map ? currentState.mapFilter : currentState.itemFilter)))
+            return .just(.navigatTo(.filter(type: type, sort: type == .map ? currentState.mapFilter : currentState.itemFilter)))
 
         case .viewWillAppear:
             return .merge([
@@ -108,39 +118,17 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case let .selectFilter(type):
             return dictionaryDetailMonsterDropItemUseCase.execute(id: currentState.id, sort: type.sortParameter).map { .setDetailDropItemData($0) }
 
-        case let .toggleBookmark(isSelected):
-            let monsterId = currentState.monsterDetailInfo.monsterId
-
-            let saveDeleted: Observable<Mutation> = isSelected
-                ? .just(.setLastDeletedBookmark(currentState.monsterDetailInfo))
-                : .just(.setLastDeletedBookmark(nil))
-
-            return saveDeleted.concat(
-                setBookmarkUseCase.execute(
-                    bookmarkId: currentState.monsterDetailInfo.bookmarkId ?? monsterId,
-                    isBookmark: isSelected ? .delete : .set(.monster)
-                )
-                .andThen(dictionaryDetailMonsterUseCase.execute(id: currentState.id).map { .setDetailData($0) })
-            )
+        case .toggleBookmark:
+           return handleToggleBookmark()
 
         case .undoLastDeletedBookmark:
-            guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
-            let monsterId = lastDeleted.monsterId
+            return handleUndoLastDeletedBookmark()
 
-            return setBookmarkUseCase.execute(
-                bookmarkId: monsterId,
-                isBookmark: .set(.monster)
-            )
-            .andThen(
-                Observable.concat([
-                    dictionaryDetailMonsterUseCase.execute(id: currentState.id).map { .setDetailData($0) },
-                    .just(.setLastDeletedBookmark(nil))
-                ])
-            )
         case .itemTapped(index: let index):
-            return .just(.toNavigate(.detail(type: .item, id: currentState.dropItems[index].itemId)))
+            return .just(.navigatTo(.detail(type: .item, id: currentState.dropItems[index].itemId)))
+
         case .mapTapped(index: let index):
-            return .just(.toNavigate(.detail(type: .map, id: currentState.spawnMaps[index].mapId)))
+            return .just(.navigatTo(.detail(type: .map, id: currentState.spawnMaps[index].mapId)))
         }
     }
 
@@ -149,7 +137,7 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case let .toNavigate(route):
+        case let .navigatTo(route):
             newState.route = route
 
         case let .setDetailData(data):
@@ -177,8 +165,61 @@ public final class MonsterDictionaryDetailReactor: Reactor {
 
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
+        case let .setEvent(event):
+            newState.event = event
         }
 
         return newState
+    }
+}
+
+private extension MonsterDictionaryDetailReactor {
+    func handleToggleBookmark() -> Observable<Mutation> {
+        var monster = currentState.monsterDetailInfo
+        let isSelected = monster.bookmarkId != nil
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: isSelected ? monster.bookmarkId ?? monster.monsterId : monster.monsterId,
+            isBookmark: isSelected ? .delete : .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            monster.bookmarkId = newBookmarkId
+            let event: UIEvent = isSelected ? .delete(monster) : .add(monster)
+            let eventMutation = Observable.just(Mutation.setEvent(event))
+
+            let refresh = self.dictionaryDetailMonsterUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
+    }
+
+    func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
+        var monster = currentState.monsterDetailInfo
+        guard let type = currentState.type.toItemType else { return .empty() }
+
+        return setBookmarkUseCase.execute(
+            bookmarkId: monster.monsterId,
+            isBookmark: .set(type)
+        )
+        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+            guard let self else { return .empty() }
+
+            monster.bookmarkId = newBookmarkId
+            let eventMutation = Observable.just(Mutation.setEvent(.add(monster)))
+            let refresh = self.dictionaryDetailMonsterUseCase.execute(id: self.currentState.id)
+                .map { Mutation.setDetailData($0) }
+
+            return .concat([eventMutation, refresh])
+        }
+        .catch { _ in
+            .just(.navigatTo(.bookmarkError))
+        }
     }
 }
