@@ -221,10 +221,12 @@ private extension ItemFilterBottomSheetViewController {
             case .level:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as! FilterLevelSectionCell
                 guard let reactor = self.reactor else { return UICollectionViewCell() }
-                let rowValue = cell.levelSectionView.slider.lowerValueObservable.map { Int($0) }
-                let highValue = cell.levelSectionView.slider.upperValueObservable.map { Int($0) }
-                Observable.combineLatest(rowValue, highValue)
-                    .map { low, high in Reactor.Action.changeLevelRange(low: low, high: high) }
+                let lowValue = cell.levelSectionView.slider.lowerValueObservable
+                let highValue = cell.levelSectionView.slider.upperValueObservable
+                Observable.combineLatest(lowValue, highValue)
+                    .map { low, high in
+                        return Reactor.Action.changeLevelRange(low: low.map { Int($0)}, high: high.map { Int($0)})
+                    }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
 
@@ -571,7 +573,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                     return reactor.currentState.etcItems[indexPath.row]
                 case .level:
                     let range = reactor.currentState.levelRange
-                    return "\(range.low) ~ \(range.high)"
+                    return "\(range.low ?? 0) ~ \(range.high ?? 200)"
                 default:
                     return ""
                 }

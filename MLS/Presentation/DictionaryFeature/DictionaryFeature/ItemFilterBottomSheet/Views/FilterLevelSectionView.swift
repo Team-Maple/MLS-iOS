@@ -19,7 +19,7 @@ public class FilterLevelSectionView: UIView {
     private var isEdit = false
 
     let leftInputBox: InputBox = {
-        let box = InputBox(label: "범위", placeHodler: "1")
+        let box = InputBox(label: "범위", placeHodler: "0")
         box.textField.keyboardType = .numberPad
         return box
     }()
@@ -48,7 +48,7 @@ public class FilterLevelSectionView: UIView {
 
     private let lowerLabel: UILabel = {
         let label = UILabel()
-        label.attributedText = .makeStyledString(font: .b_s_r, text: "1", color: .neutral500)
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "0", color: .neutral500)
         return label
     }()
 
@@ -66,8 +66,8 @@ public class FilterLevelSectionView: UIView {
 
     public var disposeBag = DisposeBag()
 
-    public init(initialLowerValue: CGFloat = 1, initialUpperValue: CGFloat = 200) {
-        self.slider = FilterSlider(minimumValue: 1, maximumValue: 200, initialLowerValue: initialLowerValue, initialUpperValue: initialUpperValue)
+    public init(initialLowerValue: CGFloat = 0, initialUpperValue: CGFloat = 200) {
+        self.slider = FilterSlider(minimumValue: 0, maximumValue: 200, initialLowerValue: initialLowerValue, initialUpperValue: initialUpperValue)
         super.init(frame: .zero)
         addViews()
         setupConstraints()
@@ -134,8 +134,8 @@ public extension FilterLevelSectionView {
             .withUnretained(self)
             .subscribe { owner, value in
                 guard !owner.isEdit else { return }
-                let lowValue = Int(value)
-                owner.leftInputBox.textField.text = value == owner.slider.minimumValue ? "1" : "\(lowValue)"
+                let lowValue = Int(value ?? 0)
+                owner.leftInputBox.textField.text = value == owner.slider.minimumValue ? nil : "\(lowValue)"
             }
             .disposed(by: disposeBag)
 
@@ -143,8 +143,8 @@ public extension FilterLevelSectionView {
             .withUnretained(self)
             .subscribe { owner, value in
                 guard !owner.isEdit else { return }
-                let upperValue = Int(value)
-                owner.rightInputBox.textField.text = value == owner.slider.minimumValue ? "200" : "\(upperValue)"
+                let upperValue = Int(value ?? 200)
+                owner.rightInputBox.textField.text = value == owner.slider.maximumValue ? nil : "\(upperValue)"
             }
             .disposed(by: disposeBag)
 
