@@ -58,7 +58,7 @@ public final class ItemFilterBottomSheetViewController: BaseViewController, View
 
     enum FilterItem: Hashable {
         case job(String)
-        case level
+        case level(low: Int?, upper: Int?)
         case weapons(String)
         case projectiles(String)
         case armors(String)
@@ -218,8 +218,9 @@ private extension ItemFilterBottomSheetViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as! CheckBoxButtonListSmallCell
                 cell.inject(title: title)
                 return cell
-            case .level:
+            case .level(let low, let upper):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as! FilterLevelSectionCell
+                cell.inject(input: .init(lowValue: low, highValue: upper))
                 guard let reactor = self.reactor else { return UICollectionViewCell() }
                 let lowValue = cell.levelSectionView.slider.lowerValueObservable
                 let highValue = cell.levelSectionView.slider.upperValueObservable
@@ -264,7 +265,13 @@ private extension ItemFilterBottomSheetViewController {
 
         // 섹션별 아이템 추가
         snapshot.appendItems(reactor.currentState.jobs.map { .job($0) }, toSection: .job)
-        snapshot.appendItems([.level], toSection: .level)
+        snapshot.appendItems(
+            [.level(
+                low: reactor.currentState.levelRange.low,
+                upper: reactor.currentState.levelRange.high
+            )],
+            toSection: .level
+        )
         snapshot.appendItems(reactor.currentState.weapons.map { .weapons($0) }, toSection: .weapons)
         snapshot.appendItems(reactor.currentState.projectiles.map { .projectiles($0) }, toSection: .projectiles)
         snapshot.appendItems(reactor.currentState.armors.map { .armors($0) }, toSection: .armors)

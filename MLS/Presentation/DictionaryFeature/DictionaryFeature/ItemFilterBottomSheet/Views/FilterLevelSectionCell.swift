@@ -45,3 +45,15 @@ private extension FilterLevelSectionCell {
         }
     }
 }
+
+extension FilterLevelSectionCell {
+    struct Input {
+        let lowValue: Int?
+        let highValue: Int?
+    }
+
+    func inject(input: Input) {
+        levelSectionView.slider.lowerValue = input.lowValue.map { CGFloat($0) }
+        levelSectionView.slider.upperValue = input.highValue.map { CGFloat($0) }
+    }
+}
