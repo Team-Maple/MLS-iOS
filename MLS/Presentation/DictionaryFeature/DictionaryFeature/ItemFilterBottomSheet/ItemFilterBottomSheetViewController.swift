@@ -414,6 +414,10 @@ extension ItemFilterBottomSheetViewController {
                 // Reactor에 액션 전달
                 owner.reactor?.action.onNext(.resetFilters)
 
+                if let cell = owner.mainView.contentCollectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? FilterLevelSectionCell {
+                    cell.levelSectionView.slider.lowerValue = 0
+                    cell.levelSectionView.slider.upperValue = 200
+                }
                 // UI에서 직접 deselect
                 owner.mainView.contentCollectionView.indexPathsForSelectedItems?.forEach {
                     owner.mainView.contentCollectionView.deselectItem(at: $0, animated: false)
@@ -596,7 +600,6 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                         if let cell = owner.mainView.contentCollectionView.cellForItem(at: deselectedIndex) as? FilterLevelSectionCell {
                             cell.levelSectionView.slider.lowerValue = 0
                             cell.levelSectionView.slider.upperValue = 200
-                            owner.reactor?.action.onNext(.changeLevelRange(low: 0, high: 200))
                         }
                         owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                     case .weaponScrolls, .armorsScrolls, .etcScrolls:

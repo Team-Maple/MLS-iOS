@@ -150,7 +150,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
             newState.levelRange = (low, high)
         case .resetFilters:
             newState.selectedItemIndexes = []
-            newState.levelRange = (0, 200)
+            newState.levelRange = (nil, nil)
             newState.scrollCategories = ["무기 주문서", "방어구 주문서", "기타 주문서"]
             newState.weaponScrolls = []
             newState.armorScrolls = []
