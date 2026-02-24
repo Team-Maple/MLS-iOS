@@ -22,9 +22,9 @@ class DictionaryDetailBaseViewController: BaseViewController {
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
     public var contentViews: [UIView] = [] {
         didSet {
-            if let index = currentTabIndex {
-                mainView.setTabView(index: index, contentViews: contentViews)
-            }
+            let index = currentTabIndex ?? 0
+            guard index < contentViews.count else { return }
+            mainView.setTabView(index: index, contentViews: contentViews)
         }
     }
 
