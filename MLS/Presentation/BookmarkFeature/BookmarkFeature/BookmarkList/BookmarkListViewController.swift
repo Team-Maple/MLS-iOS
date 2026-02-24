@@ -339,7 +339,7 @@ extension BookmarkListViewController: UICollectionViewDelegate, UICollectionView
 
             onBookmarkTapped: { [weak self] in
                 guard let self else { return }
-                guard state.isLogin else {
+                guard self.reactor?.currentState.isLogin == true else {
                     self.reactor?.action.onNext(.showLogin)
                     return
                 }

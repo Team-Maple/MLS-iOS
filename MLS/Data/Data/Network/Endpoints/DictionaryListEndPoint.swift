@@ -47,7 +47,7 @@ public enum DictionaryListEndPoint {
         let joinedCategoryIds = categoryIds?.map(String.init).joined(separator: ",")
         let joinedJobIds = jobId?.map(String.init).joined(separator: ",")
 
-        let query = DictionaryListQuery(keyword: keyword, page: page ?? 0, size: size ?? 20, sort: sort, minLevel: minLevel ?? 1, maxLevel: maxLevel ?? 200, jobIds: joinedJobIds, categoryIds: joinedCategoryIds)
+        let query = DictionaryListQuery(keyword: keyword, page: page ?? 0, size: size ?? 20, sort: sort, minLevel: minLevel, maxLevel: maxLevel, jobIds: joinedJobIds, categoryIds: joinedCategoryIds)
         return .init(baseURL: base, path: "/api/v1/items", method: .GET, query: query
         )
     }

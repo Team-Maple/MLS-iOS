@@ -372,7 +372,7 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
             isMap: item.type == .map,
             onBookmarkTapped: { [weak self] in
                 guard let self else { return }
-                guard state.isLogin else {
+                guard self.reactor?.currentState.isLogin == true else {
                     self.reactor?.action.onNext(.showLogin)
                     return
                 }
@@ -418,3 +418,4 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
     }
 }
+

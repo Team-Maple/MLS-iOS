@@ -49,6 +49,21 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
+    
+    public func removeAllSearch() -> Completable {
+        return Completable.create { completable in
+            var current = UserDefaults.standard.stringArray(forKey: self.recentSearchkey) ?? []
+
+            // 해당 키워드 제거
+            current.removeAll()
+
+            // 다시 저장
+            UserDefaults.standard.set(current, forKey: self.recentSearchkey)
+
+            completable(.completed)
+            return Disposables.create()
+        }
+    }
 
     public func fetchPlatform() -> Observable<LoginPlatform?> {
         return Observable.create { observer in
