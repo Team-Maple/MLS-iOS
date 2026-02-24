@@ -249,7 +249,7 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
             ) as? RecentSearchHeaderView else { return UICollectionViewCell() }
 
             guard let reactor = reactor else { return UICollectionViewCell() }
-            
+
             view.deleteButton.rx.tap
                 .map { Reactor.Action.deleteAllButtonTapped }
                 .bind(to: reactor.action)

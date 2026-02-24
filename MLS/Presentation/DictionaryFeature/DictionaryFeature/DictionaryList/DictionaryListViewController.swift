@@ -418,4 +418,3 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         }
     }
 }
-

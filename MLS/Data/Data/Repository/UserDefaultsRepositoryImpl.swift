@@ -49,7 +49,7 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
-    
+
     public func removeAllSearch() -> Completable {
         return Completable.create { completable in
             var current = UserDefaults.standard.stringArray(forKey: self.recentSearchkey) ?? []
