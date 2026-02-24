@@ -242,11 +242,19 @@ extension DictionarySearchViewController: UICollectionViewDelegate, UICollection
     ) -> UICollectionReusableView {
         switch indexPath.section {
         case 0:
-            let view = collectionView.dequeueReusableSupplementaryView(
+            guard let view = collectionView.dequeueReusableSupplementaryView(
                 ofKind: kind,
                 withReuseIdentifier: RecentSearchHeaderView.identifier,
                 for: indexPath
-            ) as! RecentSearchHeaderView
+            ) as? RecentSearchHeaderView else { return UICollectionViewCell() }
+
+            guard let reactor = reactor else { return UICollectionViewCell() }
+
+            view.deleteButton.rx.tap
+                .map { Reactor.Action.deleteAllButtonTapped }
+                .bind(to: reactor.action)
+                .disposed(by: disposeBag)
+
             return view
 
         case 2:
