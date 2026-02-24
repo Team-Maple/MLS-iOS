@@ -16,7 +16,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         case closeButtonTapped
         case filterSelected(indexPath: IndexPath)
         case filterDeselected(indexPath: IndexPath)
-        case changeLevelRange(low: Int, high: Int)
+        case changeLevelRange(low: Int?, high: Int?)
         case applyButtonTapped([(String, String)])
         case resetFilters
     }
@@ -26,7 +26,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         case setScrolls(selectedIndex: Int?)
         case appendSelectedItem(indexPath: IndexPath)
         case removeSelectedItem(indexPath: IndexPath)
-        case setLevelRange(low: Int, high: Int)
+        case setLevelRange(low: Int?, high: Int?)
         case resetFilters
     }
 
@@ -47,7 +47,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
         var etcItems: [String] = ["마스터리북", "스킬북", "소비", "설치", "이동수단"]
         var selectedScrollIndexes: Int?
         var selectedItemIndexes: [IndexPath] = []
-        var levelRange: (low: Int, high: Int) = (1, 200)
+        var levelRange: (low: Int?, high: Int?) = (nil, nil)
         @Pulse var route: Route = .none
     }
 
@@ -150,7 +150,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
             newState.levelRange = (low, high)
         case .resetFilters:
             newState.selectedItemIndexes = []
-            newState.levelRange = (0, 200)
+            newState.levelRange = (nil, nil)
             newState.scrollCategories = ["무기 주문서", "방어구 주문서", "기타 주문서"]
             newState.weaponScrolls = []
             newState.armorScrolls = []

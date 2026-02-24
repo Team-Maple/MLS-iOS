@@ -22,8 +22,8 @@ public class FilterSlider: UIControl {
     // MARK: - Value Relays
     private let minimumValueRelay = BehaviorRelay<CGFloat>(value: 0)
     private let maximumValueRelay = BehaviorRelay<CGFloat>(value: 200)
-    private let lowerValueRelay = BehaviorRelay<CGFloat>(value: 0)
-    private let upperValueRelay = BehaviorRelay<CGFloat>(value: 200)
+    private let lowerValueRelay = BehaviorRelay<CGFloat?>(value: nil)
+    private let upperValueRelay = BehaviorRelay<CGFloat?>(value: nil)
 
     // MARK: - Public properties
     public var minimumValue: CGFloat {
@@ -36,14 +36,14 @@ public class FilterSlider: UIControl {
         set { maximumValueRelay.accept(newValue) }
     }
 
-    public var lowerValue: CGFloat {
+    public var lowerValue: CGFloat? {
         get { lowerValueRelay.value }
-        set { lowerValueRelay.accept(boundValue(newValue, lower: minimumValue, upper: maximumValue)) }
+        set { lowerValueRelay.accept(boundValue(newValue ?? minimumValue, lower: minimumValue, upper: maximumValue)) }
     }
 
-    public var upperValue: CGFloat {
+    public var upperValue: CGFloat? {
         get { upperValueRelay.value }
-        set { upperValueRelay.accept(boundValue(newValue, lower: minimumValue, upper: maximumValue)) }
+        set { upperValueRelay.accept(boundValue(newValue ?? maximumValue, lower: minimumValue, upper: maximumValue)) }
     }
 
     public let isThumbTracking: BehaviorRelay<Bool> = .init(value: false)
@@ -51,8 +51,8 @@ public class FilterSlider: UIControl {
     // MARK: - Observables
     public var minimumValueObservable: Observable<CGFloat> { minimumValueRelay.asObservable() }
     public var maximumValueObservable: Observable<CGFloat> { maximumValueRelay.asObservable() }
-    public var lowerValueObservable: Observable<CGFloat> { lowerValueRelay.asObservable() }
-    public var upperValueObservable: Observable<CGFloat> { upperValueRelay.asObservable() }
+    public var lowerValueObservable: Observable<CGFloat?> { lowerValueRelay.asObservable() }
+    public var upperValueObservable: Observable<CGFloat?> { upperValueRelay.asObservable() }
 
     // MARK: - UI Elements
     private let trackView = UIView()
@@ -151,8 +151,8 @@ public class FilterSlider: UIControl {
         Observable.combineLatest(minimumValueRelay, maximumValueRelay)
             .subscribe(onNext: { [weak self] minVal, maxVal in
                 guard let self = self else { return }
-                let clampedLower = self.boundValue(self.lowerValueRelay.value, lower: minVal, upper: maxVal)
-                let clampedUpper = self.boundValue(self.upperValueRelay.value, lower: minVal, upper: maxVal)
+                let clampedLower = self.boundValue(self.lowerValueRelay.value ?? self.minimumValue, lower: minVal, upper: maxVal)
+                let clampedUpper = self.boundValue(self.upperValueRelay.value ?? self.maximumValue, lower: minVal, upper: maxVal)
                 if clampedLower != self.lowerValueRelay.value {
                     self.lowerValueRelay.accept(clampedLower)
                 }
@@ -186,8 +186,8 @@ public class FilterSlider: UIControl {
     }
 
     private func updateTrackAndThumb(animated: Bool) {
-        let lowerX = position(for: lowerValueRelay.value)
-        let upperX = position(for: upperValueRelay.value)
+        let lowerX = position(for: lowerValueRelay.value ?? minimumValue)
+        let upperX = position(for: upperValueRelay.value ?? maximumValue)
 
         lowerThumbCenterX?.update(offset: lowerX - bounds.midX)
         upperThumbCenterX?.update(offset: upperX - bounds.midX)
@@ -238,8 +238,8 @@ public class FilterSlider: UIControl {
         let deltaValue = (maximumValue - minimumValue) * deltaLocation / (bounds.width - Constant.thumbSize)
         previousLocation = location
 
-        var newLower = lowerValueRelay.value
-        var newUpper = upperValueRelay.value
+        var newLower = lowerValueRelay.value ?? minimumValue
+        var newUpper = upperValueRelay.value ?? maximumValue
 
         switch activeThumb {
         case .lower:
