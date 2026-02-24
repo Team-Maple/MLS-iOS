@@ -5,7 +5,7 @@ import UIKit
 public final class RecentSearchHeaderView: UICollectionReusableView {
     // MARK: - Components
     private let titleLabel = UILabel()
-    private let deleteButton = UIButton()
+    public let deleteButton = UIButton()
     private let spacer = UIView()
 
     // MARK: - Init

@@ -58,7 +58,7 @@ public final class ItemFilterBottomSheetViewController: BaseViewController, View
 
     enum FilterItem: Hashable {
         case job(String)
-        case level
+        case level(low: Int?, upper: Int?)
         case weapons(String)
         case projectiles(String)
         case armors(String)
@@ -218,13 +218,16 @@ private extension ItemFilterBottomSheetViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CheckBoxButtonListSmallCell.identifier, for: indexPath) as! CheckBoxButtonListSmallCell
                 cell.inject(title: title)
                 return cell
-            case .level:
+            case .level(let low, let upper):
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FilterLevelSectionCell.identifier, for: indexPath) as! FilterLevelSectionCell
+                cell.inject(input: .init(lowValue: low, highValue: upper))
                 guard let reactor = self.reactor else { return UICollectionViewCell() }
-                let rowValue = cell.levelSectionView.slider.lowerValueObservable.map { Int($0) }
-                let highValue = cell.levelSectionView.slider.upperValueObservable.map { Int($0) }
-                Observable.combineLatest(rowValue, highValue)
-                    .map { low, high in Reactor.Action.changeLevelRange(low: low, high: high) }
+                let lowValue = cell.levelSectionView.slider.lowerValueObservable
+                let highValue = cell.levelSectionView.slider.upperValueObservable
+                Observable.combineLatest(lowValue, highValue)
+                    .map { low, high in
+                        return Reactor.Action.changeLevelRange(low: low.map { Int($0)}, high: high.map { Int($0)})
+                    }
                     .bind(to: reactor.action)
                     .disposed(by: cell.disposeBag)
 
@@ -262,7 +265,13 @@ private extension ItemFilterBottomSheetViewController {
 
         // 섹션별 아이템 추가
         snapshot.appendItems(reactor.currentState.jobs.map { .job($0) }, toSection: .job)
-        snapshot.appendItems([.level], toSection: .level)
+        snapshot.appendItems(
+            [.level(
+                low: reactor.currentState.levelRange.low,
+                upper: reactor.currentState.levelRange.high
+            )],
+            toSection: .level
+        )
         snapshot.appendItems(reactor.currentState.weapons.map { .weapons($0) }, toSection: .weapons)
         snapshot.appendItems(reactor.currentState.projectiles.map { .projectiles($0) }, toSection: .projectiles)
         snapshot.appendItems(reactor.currentState.armors.map { .armors($0) }, toSection: .armors)
@@ -405,6 +414,10 @@ extension ItemFilterBottomSheetViewController {
                 // Reactor에 액션 전달
                 owner.reactor?.action.onNext(.resetFilters)
 
+                if let cell = owner.mainView.contentCollectionView.cellForItem(at: IndexPath(row: 0, section: 1)) as? FilterLevelSectionCell {
+                    cell.levelSectionView.slider.lowerValue = 0
+                    cell.levelSectionView.slider.upperValue = 200
+                }
                 // UI에서 직접 deselect
                 owner.mainView.contentCollectionView.indexPathsForSelectedItems?.forEach {
                     owner.mainView.contentCollectionView.deselectItem(at: $0, animated: false)
@@ -571,7 +584,7 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                     return reactor.currentState.etcItems[indexPath.row]
                 case .level:
                     let range = reactor.currentState.levelRange
-                    return "\(range.low) ~ \(range.high)"
+                    return "\(range.low ?? 0) ~ \(range.high ?? 200)"
                 default:
                     return ""
                 }
@@ -587,7 +600,6 @@ extension ItemFilterBottomSheetViewController: UICollectionViewDataSource {
                         if let cell = owner.mainView.contentCollectionView.cellForItem(at: deselectedIndex) as? FilterLevelSectionCell {
                             cell.levelSectionView.slider.lowerValue = 0
                             cell.levelSectionView.slider.upperValue = 200
-                            owner.reactor?.action.onNext(.changeLevelRange(low: 0, high: 200))
                         }
                         owner.reactor?.action.onNext(.filterDeselected(indexPath: deselectedIndex))
                     case .weaponScrolls, .armorsScrolls, .etcScrolls:

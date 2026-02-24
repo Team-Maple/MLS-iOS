@@ -20,12 +20,14 @@ public final class DictionarySearchReactor: Reactor {
         case backButtonTapped
         case searchButtonTapped(String)
         case cancelRecentButtonTapped(String)
+        case deleteAllButtonTapped
         case recentButtonTapped(String)
     }
 
     public enum Mutation {
         case navigateTo(Route)
         case deleteItem(String)
+        case deleteAllItems
         case addRecentItem(String)
         case setRecentList([String])
     }
@@ -106,6 +108,9 @@ public final class DictionarySearchReactor: Reactor {
                 .andThen(.just(.deleteItem(keyword)))
         case .recentButtonTapped(let keyword):
             return Observable.just(.navigateTo(.search(keyword)))
+        case .deleteAllButtonTapped:
+            return recentSearchRemoveUseCase.removeAll()
+                .andThen(.just(.deleteAllItems))
         }
     }
 
@@ -121,6 +126,8 @@ public final class DictionarySearchReactor: Reactor {
             newState.recentResult.insert(name, at: 0) // 맨 앞에 최근 검색어 추가
         case .deleteItem(let name):
             newState.recentResult = state.recentResult.filter { $0 != name }
+        case .deleteAllItems:
+            newState.recentResult = []
         }
 
         return newState

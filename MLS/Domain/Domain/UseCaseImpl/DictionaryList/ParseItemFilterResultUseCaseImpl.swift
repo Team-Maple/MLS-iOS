@@ -34,7 +34,9 @@ public final class ParseItemFilterResultUseCaseImpl: ParseItemFilterResultUseCas
                 }
             case "레벨":
                 let levelText = value.replacingOccurrences(of: "레벨", with: "").trimmingCharacters(in: .whitespaces)
-                let parts = levelText.split(separator: "~").map { $0.trimmingCharacters(in: .whitespaces) }
+                let parts = levelText.split(separator: "~")
+                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .map { $0.filter { $0.isNumber } }
                 if let low = Int(parts.first ?? ""), let high = Int(parts.last ?? "") {
                     criteria.startLevel = low
                     criteria.endLevel = high

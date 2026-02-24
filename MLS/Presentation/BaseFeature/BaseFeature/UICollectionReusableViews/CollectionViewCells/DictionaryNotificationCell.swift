@@ -84,6 +84,6 @@ public extension DictionaryNotificationCell {
         subTitleLabel.attributedText = .makeStyledString(font: .b_s_r, text: input.subTitle, color: input.isChecked ? .neutral500 : .neutral700, alignment: .left)
         backgroundColor = input.isChecked ? .neutral100 : .clearMLS
         layer.cornerRadius = input.isChecked ? Constant.radius : 0
-        checkIcon.isHidden = !input.isChecked
+        checkIcon.isHidden = input.isChecked
     }
 }
