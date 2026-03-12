@@ -1,4 +1,5 @@
 # 메이플랜드사전
+<img width="1188" height="432" alt="image" src="https://github.com/user-attachments/assets/f1ec6377-d9fb-441d-8080-4db3ece15179" />
 
 <p align="center">
   <a href="https://apps.apple.com/us/app/%EB%A9%94%EC%9D%B4%ED%94%8C%EB%9E%9C%EB%93%9C%EC%82%AC%EC%A0%84/id6477212894">
@@ -82,32 +83,3 @@ KAKAO_NATIVE_APP_KEY = YOUR_KAKAO_APP_KEY
 
 본 앱은 메이플랜드의 공식 앱이 아니며, Nexon 및 관련 회사와 제휴 또는 연관되어 있지 않은 비공식 팬메이드 정보 앱입니다.
 게임 내 명칭 및 콘텐츠의 저작권은 각 권리자에게 있습니다.
-
----
-
-## Convention
-
-### Tag
-| Tag     | Description                                                   |
-|---------|---------------------------------------------------------------|
-| feat    | 새로운 기능을 추가                                            |
-| fix     | 버그 수정, 잔잔바리 수정, 병합 시 충돌 해결                  |
-| style   | 코드 스타일 수정, 컨벤션 적용                                 |
-| refactor| 프로덕션 코드 리팩토링, 파일 삭제, 네이밍 수정 및 폴더링     |
-| docs    | 문서 수정, 필요한 주석 추가 및 변경                           |
-| add     | 파일 추가                                                    |
-| test    | 테스트 코드 추가                                              |
-| chore   | 빌드 설정, 프로젝트 설정 등 “로직에 영향 없는” 변경          |
-| remove  | 파일 삭제                                                    |
-
-### Branch
-```
-태그/#이슈번호-작업-이름
-ex) feat/#32-home-some-...
-```
-
-### Commit
-```
-태그/이슈번호: 커밋 내용
-ex) feat/#12: ViewController 이동 동작 구현
-```
