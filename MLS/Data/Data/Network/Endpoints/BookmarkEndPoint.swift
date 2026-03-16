@@ -1,7 +1,7 @@
 import DomainInterface
 
 public enum BookmarkEndPoint {
-    static let base = "https://api.mapleland.kro.kr"
+    static let base = "https://mapleland.2megabytes.me"
 
     public static func setBookmark(body: Encodable) -> ResponsableEndPoint<SetBookmarkDTO> {
         .init(

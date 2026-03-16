@@ -4,7 +4,7 @@ import UIKit
 import DomainInterface
 
 public enum DictionaryDetailEndPoint {
-    static let base = "https://api.mapleland.kro.kr"
+    static let base = "https://mapleland.2megabytes.me"
 
     // 몬스터 디테일 상세정보
     public static func fetchMonsterDetail(id: Int) -> ResponsableEndPoint<DictionaryDetailMonsterResponseDTO> {

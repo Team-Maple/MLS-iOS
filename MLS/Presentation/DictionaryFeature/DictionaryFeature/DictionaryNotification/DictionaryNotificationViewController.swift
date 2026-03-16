@@ -113,8 +113,9 @@ public extension DictionaryNotificationViewController {
                     let viewController = owner.notificationSettingFactory.make(isAgreeEventNotification: profile.eventAgreement, isAgreeNoticeNotification: profile.noticeAgreement, isAgreePatchNoteNotification: profile.patchNoteAgreement)
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case let .notification(url):
-                    let webViewController = WebViewController(urlString: url)
-                    owner.present(webViewController, animated: true)
+                    if let webViewController = WebViewController.make(urlString: url) {
+                        owner.present(webViewController, animated: true)
+                    }
                 default:
                     break
                 }
