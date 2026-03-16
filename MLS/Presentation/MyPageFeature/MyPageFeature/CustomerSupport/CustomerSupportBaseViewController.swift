@@ -111,8 +111,9 @@ extension CustomerSupportBaseViewController {
             onItemTapped?(index)
             guard index < urlStrings.count else { return }
             let url = urlStrings[index]
-            let webViewController = WebViewController(urlString: url)
-            present(webViewController, animated: true)
+            if let webViewController = WebViewController.make(urlString: url) {
+                present(webViewController, animated: true)
+            }
         case .terms:
             switch index {
             case 0:
