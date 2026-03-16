@@ -1,5 +1,5 @@
-import UIKit
 import SafariServices
+import UIKit
 
 public final class WebViewController {
 
