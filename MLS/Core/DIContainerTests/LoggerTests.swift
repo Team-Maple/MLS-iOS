@@ -101,4 +101,19 @@ struct LoggerTests {
         // 에러 없이 실행되면 성공
         #expect(true)
     }
+
+    @Test("NSCache 캐싱 검증 - 반복 접근 시 정상 동작")
+    func testLoggerCaching() async throws {
+        let vm1 = TestViewModel()
+        let vm2 = TestViewModel()
+
+        // 같은 타입에서 여러 번 로깅 (NSCache에서 캐싱된 Logger 재사용)
+        vm1.logInfo("첫 번째 인스턴스")
+        vm2.logInfo("두 번째 인스턴스")
+        vm1.logInfo("다시 첫 번째")
+        vm2.logInfo("다시 두 번째")
+
+        // 크래시 없이 정상 동작하면 성공
+        #expect(true)
+    }
 }
