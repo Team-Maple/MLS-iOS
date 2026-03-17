@@ -26,31 +26,31 @@ public extension Loggable {
     /// - Parameter message: 로그 메시지
     func logDebug(_ message: String) {
         #if DEBUG
-        Self.logger.debug("Debug: \(message)")
+        Self.logger.debug("\(message)")
         #endif
     }
 
     /// 정보성 로그
     /// - Parameter message: 로그 메시지
     func logInfo(_ message: String) {
-        Self.logger.notice("Info: \(message)")
+        Self.logger.notice("\(message)")
     }
 
     /// 경고 로그 (비정상적이지만 처리 가능한 상황)
     /// - Parameter message: 로그 메시지
     func logWarning(_ message: String) {
-        Self.logger.warning("Warning: \(message)")
+        Self.logger.warning("\(message)")
     }
 
     /// 에러 로그
     /// - Parameter message: 로그 메시지
     func logError(_ message: String) {
-        Self.logger.error("Error: \(message)")
+        Self.logger.error("\(message)")
     }
 
     /// 치명적 에러 로그 (앱 크래시 직전 상황)
     /// - Parameter message: 로그 메시지
     func logCritical(_ message: String) {
-        Self.logger.critical("Critical: \(message)")
+        Self.logger.critical("\(message)")
     }
 }
