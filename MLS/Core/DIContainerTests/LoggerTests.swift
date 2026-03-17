@@ -1,5 +1,5 @@
-import Testing
 @testable import Core
+import Testing
 
 struct TestViewModel: Loggable {
     func testLogs() {

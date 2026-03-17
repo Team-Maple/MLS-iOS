@@ -3,13 +3,6 @@ import XCTest
 @testable import Core
 
 class DIContainerTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-    }
-
-    override func tearDown() {
-        super.tearDown()
-    }
 
     /// 객체 등록 및 가져오기 테스트
     func testRegisterAndResolve() {
