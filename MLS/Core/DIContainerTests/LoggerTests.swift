@@ -4,7 +4,7 @@ import Testing
 struct TestViewModel: Loggable {
     func testLogs() {
         logDebug("Debug 로그 테스트")
-        logInfo("Info 로그 테스트")
+        logNotice("Notice 로그 테스트")
         logWarning("Warning 로그 테스트")
         logError("Error 로그 테스트")
         logCritical("Critical 로그 테스트")
@@ -14,7 +14,7 @@ struct TestViewModel: Loggable {
 class TestManager: Loggable {
     func testLogs() {
         logDebug("Debug 로그 (class)")
-        logInfo("Info 로그 (class)")
+        logNotice("Notice 로그 (class)")
         logWarning("Warning 로그 (class)")
         logError("Error 로그 (class)")
         logCritical("Critical 로그 (class)")
@@ -74,7 +74,7 @@ struct LoggerTests {
             for i in 0..<100 {
                 group.addTask {
                     let vm = TestViewModel()
-                    vm.logInfo("동시 로그 \(i)")
+                    vm.logNotice("동시 로그 \(i)")
                 }
             }
         }
@@ -108,10 +108,10 @@ struct LoggerTests {
         let vm2 = TestViewModel()
 
         // 같은 타입에서 여러 번 로깅 (NSCache에서 캐싱된 Logger 재사용)
-        vm1.logInfo("첫 번째 인스턴스")
-        vm2.logInfo("두 번째 인스턴스")
-        vm1.logInfo("다시 첫 번째")
-        vm2.logInfo("다시 두 번째")
+        vm1.logNotice("첫 번째 인스턴스")
+        vm2.logNotice("두 번째 인스턴스")
+        vm1.logNotice("다시 첫 번째")
+        vm2.logNotice("다시 두 번째")
 
         // 크래시 없이 정상 동작하면 성공
         #expect(true)

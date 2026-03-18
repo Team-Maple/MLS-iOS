@@ -23,16 +23,16 @@ public extension Loggable {
     }
 
     /// 디버그 로그 (Debug 빌드에서만 출력)
-    /// - Parameter message: 로그 메시지
+    /// - Parameter message: 로그 메시지 (.private로 보호되어 민감 정보도 안전하게 로깅)
     func logDebug(_ message: String) {
         #if DEBUG
-        Self.logger.debug("\(message)")
+        Self.logger.debug("\(message, privacy: .private)")
         #endif
     }
 
-    /// 정보성 로그
+    /// 정보성 로그 (Notice 레벨)
     /// - Parameter message: 로그 메시지
-    func logInfo(_ message: String) {
+    func logNotice(_ message: String) {
         Self.logger.notice("\(message)")
     }
 
