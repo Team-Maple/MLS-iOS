@@ -35,7 +35,4 @@
    <FileRef
       location = "group:Core/Core.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:MLSShared/MLSShared.xcodeproj">
-   </FileRef>
 </Workspace>
