@@ -26,7 +26,7 @@ internal struct CacheData {
     }
 }
 
-internal final class DiskStorage {
+internal final class DiskStorage: @unchecked Sendable {
     // 싱글톤 인스턴스
     static let shared = DiskStorage()
 

@@ -14,6 +14,7 @@ public final class CompositionalLayoutBuilder {
         return self
     }
 
+    @MainActor
     public func build() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { index, _ in
             guard index < self.sections.count else { return nil }

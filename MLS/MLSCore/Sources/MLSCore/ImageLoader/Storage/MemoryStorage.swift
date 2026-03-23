@@ -22,7 +22,7 @@ internal class StorageData: NSObject {
 }
 
 /// 메모리 캐시를 관리하는 클래스
-internal final class MemoryStorage {
+internal final class MemoryStorage: @unchecked Sendable {
 
     /// 싱글톤 인스턴스
     static let shared = MemoryStorage()
