@@ -11,7 +11,7 @@ let package = Package(
         .library(
             name: "MLSCore",
             targets: ["MLSCore"]
-        ),
+        )
     ],
     dependencies: [
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0")
@@ -30,6 +30,6 @@ let package = Package(
         .testTarget(
             name: "MLSCoreTests",
             dependencies: ["MLSCore"]
-        ),
+        )
     ]
 )
