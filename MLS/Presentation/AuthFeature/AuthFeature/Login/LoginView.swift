@@ -67,7 +67,7 @@ final class LoginView: UIView {
     }()
 
     private let appleLogoImageView: UIImageView = {
-        let image = DesignSystemAsset.image(named: "AppleLogo")
+        let image = DesignSystemAsset.image(named: "appleLogo")
         let view = UIImageView(image: image)
         view.contentMode = .scaleAspectFit
         return view
