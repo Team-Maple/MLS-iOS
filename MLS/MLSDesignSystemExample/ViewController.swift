@@ -1,6 +1,6 @@
 import UIKit
 
-import DesignSystem
+import MLSDesignSystem
 
 import RxCocoa
 import RxSwift
@@ -12,7 +12,6 @@ class ViewController: UIViewController {
         return view
     }()
 
-    // TabBar위치 정해지면 DesignSystem 의존성 제거 예정
     let bottomTabBarViewController = BottomTabBarController(viewControllers: [
         CheckBoxButtonTestViewController(),
         NavigationBarTestViewController(),

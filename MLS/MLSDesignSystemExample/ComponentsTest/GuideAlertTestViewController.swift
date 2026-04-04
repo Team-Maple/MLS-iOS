@@ -77,28 +77,28 @@ private extension GuideAlertTestViewController {
         oneButton.rx.tap
             .withUnretained(self)
             .subscribe { _, _ in
-//                GuideAlertFactory.show(mainText: "버튼 하나", ctaText: "확인", ctaAction: {})
+                GuideAlertFactory.show(mainText: "버튼 하나", ctaText: "확인", ctaAction: {})
             }
             .disposed(by: disposeBag)
 
         twoButton.rx.tap
             .withUnretained(self)
             .subscribe { _, _ in
-//                GuideAlertFactory.show(mainText: "버튼 두개", ctaText: "확인", cancelText: "취소", ctaAction: {})
+                GuideAlertFactory.show(mainText: "버튼 두개", ctaText: "확인", cancelText: "취소", ctaAction: {})
             }
             .disposed(by: disposeBag)
 
         logoutButton.rx.tap
             .withUnretained(self)
             .subscribe { _, _ in
-//                GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
+                GuideAlertFactory.showAuthAlert(type: .logout, ctaAction: {})
             }
             .disposed(by: disposeBag)
 
         withdrawButton.rx.tap
             .withUnretained(self)
             .subscribe { _, _ in
-//                GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
+                GuideAlertFactory.showAuthAlert(type: .withdraw, ctaAction: {})
             }
             .disposed(by: disposeBag)
     }
