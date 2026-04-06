@@ -26,7 +26,9 @@ final class AppStoreService {
             throw AppStoreError.invalidResponse
         }
 
-        let lookupResponse = try JSONDecoder().decode(AppStoreLookupResponse.self, from: data)
+        guard let lookupResponse = try? JSONDecoder().decode(AppStoreLookupResponse.self, from: data) else {
+            throw AppStoreError.parsingError
+        }
 
         guard let result = lookupResponse.results.first,
               let version = Version(versionString: result.version) else {
