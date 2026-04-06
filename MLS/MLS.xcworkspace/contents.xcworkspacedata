@@ -36,6 +36,9 @@
       location = "group:Core/Core.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:MLSAppFeature">
+   </FileRef>
+   <FileRef
       location = "group:MLSCore">
    </FileRef>
 </Workspace>
