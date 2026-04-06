@@ -16,7 +16,6 @@ final class UserDefaultsDataSource {
     func saveSkipVersion(_ version: Version, skippedAt date: Date) {
         userDefaults.set(version.versionString, forKey: versionKey)
         userDefaults.set(date.timeIntervalSince1970, forKey: dateKey)
-        userDefaults.synchronize()
     }
 
     /// 저장된 스킵 버전을 조회합니다
@@ -38,6 +37,5 @@ final class UserDefaultsDataSource {
     func clearSkipInfo() {
         userDefaults.removeObject(forKey: versionKey)
         userDefaults.removeObject(forKey: dateKey)
-        userDefaults.synchronize()
     }
 }
