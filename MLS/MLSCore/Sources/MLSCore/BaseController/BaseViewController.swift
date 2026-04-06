@@ -8,13 +8,6 @@ import RxSwift
 open class BaseViewController: UIViewController {
     private let disposeBag = DisposeBag()
 
-    
-    open var isBottomTabbarHidden: Bool = false {
-        didSet {
-            setBottomTabBarHidden(isBottomTabbarHidden, animated: false)
-        }
-    }
-
     public init() {
         super.init(nibName: nil, bundle: nil)
         os_log("➕init: \(String(describing: self))")
@@ -35,11 +28,6 @@ extension BaseViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-    }
-
-    override open func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setBottomTabBarHidden(isBottomTabbarHidden, animated: animated)
     }
 }
 
