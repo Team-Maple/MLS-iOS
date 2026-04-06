@@ -4,7 +4,7 @@ import MLSAppFeatureInterface
 
 /// 업데이트 스킵 정보를 관리하는 Repository 구현체
 public final class UpdateSkipRepository: UpdateSkipRepositoryProtocol, @unchecked Sendable {
-    nonisolated(unsafe) private let localDataSource: UserDefaultsDataSource
+    private let localDataSource: UserDefaultsDataSource
     private let skipDuration: TimeInterval
 
     /// UpdateSkipRepository 초기화
