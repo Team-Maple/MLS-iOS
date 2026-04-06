@@ -21,7 +21,7 @@ let package = Package(
         .library(
             name: "MLSAppFeatureTesting",
             targets: ["MLSAppFeatureTesting"]
-        ),
+        )
     ],
     targets: [
         // Interface 모듈 (도메인 모델 및 프로토콜)
@@ -47,6 +47,6 @@ let package = Package(
                 "MLSAppFeatureInterface",
                 "MLSAppFeatureTesting"
             ]
-        ),
+        )
     ]
 )
