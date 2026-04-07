@@ -148,7 +148,6 @@
 		77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E260402EEABEC40059E889 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = MLS/Resource/Settings.bundle; sourceTree = "<group>"; };
 		77EB18D52DED9256004FB380 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		77FA68752F72C6D80064B6EB /* MLSDesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MLSDesignSystem; path = Presentation/MLSDesignSystem; sourceTree = "<group>"; };
 		77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSDesignSystemExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -325,7 +324,6 @@
 		087D3EDF2DA7972C002F924D = {
 			isa = PBXGroup;
 			children = (
-				77FA68752F72C6D80064B6EB /* MLSDesignSystem */,
 				77E260402EEABEC40059E889 /* Settings.bundle */,
 				77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */,
 				085A7F742DAF99570046663F /* .swiftlint.yml */,

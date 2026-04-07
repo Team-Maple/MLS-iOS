@@ -38,4 +38,7 @@
    <FileRef
       location = "group:MLSCore">
    </FileRef>
+   <FileRef
+      location = "group:Presentation/MLSDesignSystem">
+   </FileRef>
 </Workspace>
