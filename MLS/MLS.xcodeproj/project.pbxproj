@@ -51,10 +51,16 @@
 		779A490E2E1AD26700ABDE4F /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		779A49102E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; };
 		779A49112E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77A293312F79989200845081 /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77A293302F79989200845081 /* DesignSystem.framework */; };
+		77A293322F79989200845081 /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A293302F79989200845081 /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77B1F9952EE06A4E00AE4B4D /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 77B1F9942EE06A4E00AE4B4D /* RxGesture */; };
 		77E260412EEABEC40059E889 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 77E260402EEABEC40059E889 /* Settings.bundle */; };
 		77EB18D62DED9256004FB380 /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; };
 		77EB18D72DED9256004FB380 /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB18D52DED9256004FB380 /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		77FA68B82F72C9C10064B6EB /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68B72F72C9C10064B6EB /* RxCocoa */; };
+		77FA68BA2F72C9C10064B6EB /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68B92F72C9C10064B6EB /* RxSwift */; };
+		77FA68BC2F72C9C70064B6EB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68BB2F72C9C70064B6EB /* SnapKit */; };
+		77FA68BE2F72CA490064B6EB /* MLSDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68BD2F72CA490064B6EB /* MLSDesignSystem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +101,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		77A293332F79989200845081 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				77A293322F79989200845081 /* DesignSystem.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -127,9 +144,12 @@
 		7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MyPageFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A490C2E1AD26700ABDE4F /* BookmarkFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		779A490F2E1AD26D00ABDE4F /* BookmarkFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BookmarkFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77A293302F79989200845081 /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MLSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E260402EEABEC40059E889 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = MLS/Resource/Settings.bundle; sourceTree = "<group>"; };
 		77EB18D52DED9256004FB380 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		77FA68752F72C6D80064B6EB /* MLSDesignSystem */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = MLSDesignSystem; path = Presentation/MLSDesignSystem; sourceTree = "<group>"; };
+		77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSDesignSystemExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -139,6 +159,13 @@
 				Resource/Info.plist,
 			);
 			target = 087D3EE72DA7972C002F924D /* MLS */;
+		};
+		77FA688B2F72C7380064B6EB /* Exceptions for "MLSDesignSystemExample" folder in "MLSDesignSystemExample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 77FA68792F72C7360064B6EB /* MLSDesignSystemExample */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -154,6 +181,14 @@
 		77BEB0412DBA84B0002FFCFC /* MLSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = MLSTests;
+			sourceTree = "<group>";
+		};
+		77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				77FA688B2F72C7380064B6EB /* Exceptions for "MLSDesignSystemExample" folder in "MLSDesignSystemExample" target */,
+			);
+			path = MLSDesignSystemExample;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -198,6 +233,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77FA68772F72C7360064B6EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77FA68BC2F72C9C70064B6EB /* SnapKit in Frameworks */,
+				77FA68BA2F72C9C10064B6EB /* RxSwift in Frameworks */,
+				77A293312F79989200845081 /* DesignSystem.framework in Frameworks */,
+				77FA68BE2F72CA490064B6EB /* MLSDesignSystem in Frameworks */,
+				77FA68B82F72C9C10064B6EB /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +296,7 @@
 		084A25312DB93A5400C395C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77A293302F79989200845081 /* DesignSystem.framework */,
 				7777F7062E9EAC0D00F53D68 /* MyPageFeature.framework */,
 				7777F7072E9EAC0D00F53D68 /* MyPageFeatureInterface.framework */,
 				7777F7002E9EAB8400F53D68 /* BookmarkFeature.framework */,
@@ -277,11 +325,13 @@
 		087D3EDF2DA7972C002F924D = {
 			isa = PBXGroup;
 			children = (
+				77FA68752F72C6D80064B6EB /* MLSDesignSystem */,
 				77E260402EEABEC40059E889 /* Settings.bundle */,
 				77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */,
 				085A7F742DAF99570046663F /* .swiftlint.yml */,
 				087D3EEA2DA7972C002F924D /* MLS */,
 				77BEB0412DBA84B0002FFCFC /* MLSTests */,
+				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
@@ -292,6 +342,7 @@
 			children = (
 				087D3EE82DA7972C002F924D /* MLS.app */,
 				77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */,
+				77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -357,6 +408,33 @@
 			productReference = 77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		77FA68792F72C7360064B6EB /* MLSDesignSystemExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77FA688C2F72C7380064B6EB /* Build configuration list for PBXNativeTarget "MLSDesignSystemExample" */;
+			buildPhases = (
+				77FA68762F72C7360064B6EB /* Sources */,
+				77FA68772F72C7360064B6EB /* Frameworks */,
+				77FA68782F72C7360064B6EB /* Resources */,
+				77A293332F79989200845081 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
+			);
+			name = MLSDesignSystemExample;
+			packageProductDependencies = (
+				77FA68B72F72C9C10064B6EB /* RxCocoa */,
+				77FA68B92F72C9C10064B6EB /* RxSwift */,
+				77FA68BB2F72C9C70064B6EB /* SnapKit */,
+				77FA68BD2F72CA490064B6EB /* MLSDesignSystem */,
+			);
+			productName = MLSDesignSystemExample;
+			productReference = 77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -364,7 +442,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1620;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					087D3EE72DA7972C002F924D = {
@@ -373,6 +451,9 @@
 					77BEB03F2DBA84B0002FFCFC = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 087D3EE72DA7972C002F924D;
+					};
+					77FA68792F72C7360064B6EB = {
+						CreatedOnToolsVersion = 26.1.1;
 					};
 				};
 			};
@@ -427,6 +508,7 @@
 			targets = (
 				087D3EE72DA7972C002F924D /* MLS */,
 				77BEB03F2DBA84B0002FFCFC /* MLSTests */,
+				77FA68792F72C7360064B6EB /* MLSDesignSystemExample */,
 			);
 		};
 /* End PBXProject section */
@@ -443,6 +525,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77BEB03E2DBA84B0002FFCFC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77FA68782F72C7360064B6EB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -481,6 +570,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77BEB03C2DBA84B0002FFCFC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77FA68762F72C7360064B6EB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -737,6 +833,78 @@
 			};
 			name = Release;
 		};
+		77FA688D2F72C7380064B6EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSDesignSystemExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSDesignSystemExample.MLSDesignSystemExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		77FA688E2F72C7380064B6EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSDesignSystemExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSDesignSystemExample.MLSDesignSystemExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -763,6 +931,15 @@
 			buildConfigurations = (
 				77BEB0462DBA84B0002FFCFC /* Debug */,
 				77BEB0472DBA84B0002FFCFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77FA688C2F72C7380064B6EB /* Build configuration list for PBXNativeTarget "MLSDesignSystemExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77FA688D2F72C7380064B6EB /* Debug */,
+				77FA688E2F72C7380064B6EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -883,6 +1060,25 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 77B1F9932EE06A4E00AE4B4D /* XCRemoteSwiftPackageReference "RxGesture" */;
 			productName = RxGesture;
+		};
+		77FA68B72F72C9C10064B6EB /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED49202DCFDE9C002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		77FA68B92F72C9C10064B6EB /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED49202DCFDE9C002C21A2 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		77FA68BB2F72C9C70064B6EB /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08ED4DAF2DCFE098002C21A2 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		77FA68BD2F72CA490064B6EB /* MLSDesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSDesignSystem;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
