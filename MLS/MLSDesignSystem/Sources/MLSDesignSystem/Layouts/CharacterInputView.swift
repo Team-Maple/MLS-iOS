@@ -92,7 +92,7 @@ private extension CharacterInputView {
     func configureUI(title: String? = nil) {
         inputBox.textField.delegate = self
         errorMessage.isHidden = true
-        
+
         descriptionLabel.attributedText = .makeStyledString(font: .h_xxl_b, text: title ?? "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
     }
 

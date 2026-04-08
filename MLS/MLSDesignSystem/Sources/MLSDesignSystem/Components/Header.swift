@@ -20,9 +20,9 @@ public final class Header: UIStackView {
         var icons: [UIImage] {
             switch self {
             case .main:
-                return [DesignSystemAsset.image(named: "search"), DesignSystemAsset.image(named: "bell")].compactMap{ $0 }
+                return [DesignSystemAsset.image(named: "search"), DesignSystemAsset.image(named: "bell")].compactMap { $0 }
             case .filter:
-                return [DesignSystemAsset.image(named: "largeX")].compactMap{ $0 }
+                return [DesignSystemAsset.image(named: "largeX")].compactMap { $0 }
             }
         }
     }
