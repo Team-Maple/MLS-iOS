@@ -1,18 +1,16 @@
 // swift-tools-version: 6.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
 import PackageDescription
 
 let package = Package(
     name: "MLSAuthFeature",
     platforms: [.iOS(.v15)],
     products: [
-        // Interface: 외부 인터페이스와 모델을 제공하는 모듈
+        // Interface: Presentation 팩토리 프로토콜
         .library(
             name: "MLSAuthFeatureInterface",
             targets: ["MLSAuthFeatureInterface"]
         ),
-        // Feature: 실제 기능이 구현된 모듈
+        // Feature: Presentation + Domain + Data 구현체
         .library(
             name: "MLSAuthFeature",
             targets: ["MLSAuthFeature"]
@@ -21,23 +19,46 @@ let package = Package(
         .library(
             name: "MLSAuthFeatureTesting",
             targets: ["MLSAuthFeatureTesting"]
-        )
+        ),
+    ],
+    dependencies: [
+        .package(path: "../MLSCore"),
+        .package(path: "../MLSDesignSystem"),
+        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
+        .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.22.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
     ],
     targets: [
-        // Interface 모듈 (도메인 모델 및 프로토콜)
+        // Interface 모듈 (Presentation 팩토리 프로토콜)
         .target(
             name: "MLSAuthFeatureInterface",
-            dependencies: []
+            dependencies: [
+                .product(name: "MLSCore", package: "MLSCore"),
+                .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "RxSwift", package: "RxSwift"),
+            ]
         ),
-        // Feature 모듈 (실제 구현)
+        // Feature 모듈 (Presentation + Domain + Data 구현체)
         .target(
             name: "MLSAuthFeature",
-            dependencies: ["MLSAuthFeatureInterface"]
+            dependencies: [
+                "MLSAuthFeatureInterface",
+                .product(name: "MLSCore", package: "MLSCore"),
+                .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "ReactorKit", package: "ReactorKit"),
+                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxKeyboard", package: "RxKeyboard"),
+                .product(name: "KakaoSDKAuth", package: "kakao-ios-sdk"),
+                .product(name: "KakaoSDKUser", package: "kakao-ios-sdk"),
+            ]
         ),
         // Testing 모듈 (Mock 객체)
         .target(
             name: "MLSAuthFeatureTesting",
-            dependencies: ["MLSAuthFeatureInterface"]
+            dependencies: [
+                "MLSAuthFeatureInterface",
+            ]
         ),
         // Tests 모듈
         .testTarget(
@@ -45,8 +66,8 @@ let package = Package(
             dependencies: [
                 "MLSAuthFeature",
                 "MLSAuthFeatureInterface",
-                "MLSAuthFeatureTesting"
+                "MLSAuthFeatureTesting",
             ]
-        )
+        ),
     ]
 )

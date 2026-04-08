@@ -1,6 +1,6 @@
 import UIKit
 
-import DesignSystem
+import MLSDesignSystem
 
 /// 온보딩 화면에서 사용하기 위한 헤더(타이틀 버튼 포함)를 가진 뷰
 public class OnBoardingBaseView: UIView {

@@ -1,7 +1,7 @@
 import UIKit
 
-import BaseFeature
-import DesignSystem
+import MLSCore
+import MLSDesignSystem
 
 import RxCocoa
 import RxSwift

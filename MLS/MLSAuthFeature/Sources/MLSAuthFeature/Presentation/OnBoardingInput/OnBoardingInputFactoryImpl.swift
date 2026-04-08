@@ -1,7 +1,7 @@
-import AuthFeatureInterface
-import BaseFeature
-import DictionaryFeatureInterface
-import DomainInterface
+import MLSAuthFeatureInterface
+import MLSCore
+
+
 
 public struct OnBoardingInputFactoryImpl: OnBoardingInputFactory {
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase

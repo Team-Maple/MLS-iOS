@@ -1,9 +1,9 @@
 import UIKit
 import UserNotifications
 
-import AuthFeatureInterface
-import BaseFeature
-import DictionaryFeatureInterface
+import MLSAuthFeatureInterface
+import MLSCore
+
 
 import ReactorKit
 import RxCocoa

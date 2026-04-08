@@ -1,7 +1,7 @@
-import AuthFeatureInterface
-import BaseFeature
-import DictionaryFeatureInterface
-import DomainInterface
+import MLSAuthFeatureInterface
+import MLSCore
+
+
 
 public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationSheetFactory {
     private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase

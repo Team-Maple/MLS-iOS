@@ -1,5 +1,5 @@
-import AuthFeatureInterface
-import BaseFeature
+import MLSAuthFeatureInterface
+import MLSCore
 
 public struct OnBoardingQuestionFactoryImpl: OnBoardingQuestionFactory {
 

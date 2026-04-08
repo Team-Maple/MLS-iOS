@@ -1,7 +1,7 @@
 import UIKit
 
-import DesignSystem
-import DomainInterface
+import MLSDesignSystem
+
 
 import SnapKit
 

@@ -1,8 +1,8 @@
 import UIKit
 
-import BaseFeature
-import DesignSystem
-import DictionaryFeatureInterface
+import MLSCore
+import MLSDesignSystem
+
 
 import ReactorKit
 import RxCocoa

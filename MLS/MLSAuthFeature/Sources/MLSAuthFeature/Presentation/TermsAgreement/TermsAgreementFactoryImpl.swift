@@ -1,6 +1,6 @@
-import AuthFeatureInterface
-import BaseFeature
-import DomainInterface
+import MLSAuthFeatureInterface
+import MLSCore
+
 
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
