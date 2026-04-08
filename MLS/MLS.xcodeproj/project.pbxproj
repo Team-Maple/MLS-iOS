@@ -135,6 +135,7 @@
 		087D3EE82DA7972C002F924D /* MLS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSAuthFeatureExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = KakaoConfig.xcconfig; sourceTree = "<group>"; };
@@ -159,6 +160,13 @@
 			);
 			target = 087D3EE72DA7972C002F924D /* MLS */;
 		};
+		08F7A9362F86745D00EF5C06 /* Exceptions for "MLSAuthFeatureExample" folder in "MLSAuthFeatureExample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */;
+		};
 		77FA688B2F72C7380064B6EB /* Exceptions for "MLSDesignSystemExample" folder in "MLSDesignSystemExample" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -175,6 +183,14 @@
 				087D3EFA2DA7972D002F924D /* Exceptions for "MLS" folder in "MLS" target */,
 			);
 			path = MLS;
+			sourceTree = "<group>";
+		};
+		08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				08F7A9362F86745D00EF5C06 /* Exceptions for "MLSAuthFeatureExample" folder in "MLSAuthFeatureExample" target */,
+			);
+			path = MLSAuthFeatureExample;
 			sourceTree = "<group>";
 		};
 		77BEB0412DBA84B0002FFCFC /* MLSTests */ = {
@@ -225,6 +241,13 @@
 				08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */,
 				08ED4DB12DCFE098002C21A2 /* SnapKit in Frameworks */,
 				77EB18D62DED9256004FB380 /* AuthFeature.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7A9202F86745C00EF5C06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +353,7 @@
 				087D3EEA2DA7972C002F924D /* MLS */,
 				77BEB0412DBA84B0002FFCFC /* MLSTests */,
 				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
+				08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
@@ -341,6 +365,7 @@
 				087D3EE82DA7972C002F924D /* MLS.app */,
 				77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */,
 				77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */,
+				08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -381,6 +406,28 @@
 			);
 			productName = MLS;
 			productReference = 087D3EE82DA7972C002F924D /* MLS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08F7A9372F86745D00EF5C06 /* Build configuration list for PBXNativeTarget "MLSAuthFeatureExample" */;
+			buildPhases = (
+				08F7A91F2F86745C00EF5C06 /* Sources */,
+				08F7A9202F86745C00EF5C06 /* Frameworks */,
+				08F7A9212F86745C00EF5C06 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */,
+			);
+			name = MLSAuthFeatureExample;
+			packageProductDependencies = (
+			);
+			productName = MLSAuthFeatureExample;
+			productReference = 08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		77BEB03F2DBA84B0002FFCFC /* MLSTests */ = {
@@ -446,6 +493,9 @@
 					087D3EE72DA7972C002F924D = {
 						CreatedOnToolsVersion = 16.2;
 					};
+					08F7A9222F86745C00EF5C06 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
 					77BEB03F2DBA84B0002FFCFC = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 087D3EE72DA7972C002F924D;
@@ -507,6 +557,7 @@
 				087D3EE72DA7972C002F924D /* MLS */,
 				77BEB03F2DBA84B0002FFCFC /* MLSTests */,
 				77FA68792F72C7360064B6EB /* MLSDesignSystemExample */,
+				08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */,
 			);
 		};
 /* End PBXProject section */
@@ -519,6 +570,13 @@
 				77E260412EEABEC40059E889 /* Settings.bundle in Resources */,
 				77660AD22DD0D361007A4EF3 /* KakaoConfig.xcconfig in Resources */,
 				085A7F752DAF99570046663F /* .swiftlint.yml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7A9212F86745C00EF5C06 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +619,13 @@
 
 /* Begin PBXSourcesBuildPhase section */
 		087D3EE42DA7972C002F924D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7A91F2F86745C00EF5C06 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -795,6 +860,72 @@
 			};
 			name = Release;
 		};
+		08F7A9342F86745D00EF5C06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSAuthFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSAuthFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08F7A9352F86745D00EF5C06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSAuthFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLSAuthFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		77BEB0462DBA84B0002FFCFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -920,6 +1051,15 @@
 			buildConfigurations = (
 				087D3EFC2DA7972D002F924D /* Debug */,
 				087D3EFD2DA7972D002F924D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		08F7A9372F86745D00EF5C06 /* Build configuration list for PBXNativeTarget "MLSAuthFeatureExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08F7A9342F86745D00EF5C06 /* Debug */,
+				08F7A9352F86745D00EF5C06 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
