@@ -7,49 +7,41 @@ public final class TagChip: UIButton {
     public enum TagChipStyle {
         case normal
         case search
+        case text
 
         var borderWidth: CGFloat {
             switch self {
-            case .normal:
-                return 0
-            case .search:
-                return 1
+            case .normal, .text: return 0
+            case .search: return 1
             }
         }
 
         var borderColor: CGColor {
             switch self {
-            case .normal:
-                return UIColor.clearMLS.cgColor
-            case .search:
-                return UIColor.neutral300.cgColor
+            case .normal, .text: return UIColor.clearMLS.cgColor
+            case .search: return UIColor.neutral300.cgColor
             }
         }
 
         var fontColor: UIColor {
             switch self {
-            case .normal:
-                return .primary700
-            case .search:
-                return .textColor
+            case .normal, .text: return .primary700
+            case .search: return .textColor
             }
         }
 
         var backgroundColor: UIColor {
             switch self {
-            case .normal:
-                return .primary50
-            case .search:
-                return .clearMLS
+            case .normal, .text: return .primary50
+            case .search: return .clearMLS
             }
         }
 
         var radius: CGFloat {
             switch self {
-            case .normal:
-                return 16
-            case .search:
-                return 8
+            case .normal: return 16
+            case .text: return 12
+            case .search: return 8
             }
         }
 
@@ -57,8 +49,24 @@ public final class TagChip: UIButton {
             switch self {
             case .normal:
                 return .init(top: 4, leading: 12, bottom: 4, trailing: 8)
+            case .text:
+                return .init(top: 4, leading: 12, bottom: 4, trailing: 12)
             case .search:
                 return .init(top: 4, leading: 10, bottom: 4, trailing: 10)
+            }
+        }
+
+        var font: UIFont? {
+            switch self {
+            case .text: return .cp_s_sb
+            case .normal, .search: return .cp_s_r
+            }
+        }
+
+        var isHiddenButton: Bool {
+            switch self {
+            case .normal, .search: return false
+            case .text: return true
             }
         }
     }
@@ -70,26 +78,21 @@ public final class TagChip: UIButton {
 
     // MARK: - Properties
     public var style: TagChipStyle {
-        didSet {
-            updateUI()
-        }
+        didSet { updateUI() }
     }
 
     public var text: String? {
-        didSet {
-            updateUI()
-        }
+        didSet { updateUI() }
     }
 
-    public let mainTitleLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
+    public let mainTitleLabel = UILabel()
 
     public let cancelButton: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
+
+    private var cancelButtonWidthConstraint: Constraint?
 
     // MARK: - init
     public init(style: TagChipStyle, text: String?) {
@@ -97,48 +100,63 @@ public final class TagChip: UIButton {
         self.text = text
         super.init(frame: .zero)
 
-        setupConstraints()
+        setupLayout()
         configureUI()
+        updateUI()
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("\(#file), \(#function) Error")
+        fatalError()
     }
 }
 
-// MARK: - SetUp
 private extension TagChip {
-    func setupConstraints() {
+    func setupLayout() {
         addSubview(mainTitleLabel)
         addSubview(cancelButton)
+
         snp.makeConstraints { make in
             make.height.equalTo(Constant.height)
         }
+
         mainTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(style.contentInsets.leading)
             make.centerY.equalToSuperview()
+            make.trailing.lessThanOrEqualTo(cancelButton.snp.leading).offset(-4)
         }
+
         cancelButton.snp.makeConstraints { make in
-            make.leading.equalTo(mainTitleLabel.snp.trailing)
-            make.verticalEdges.equalToSuperview().inset(style.contentInsets.top)
-            make.size.equalTo(24)
             make.trailing.equalToSuperview().inset(style.contentInsets.trailing)
+            make.centerY.equalToSuperview()
+            cancelButtonWidthConstraint = make.width.equalTo(Constant.imageSize).constraint
+            make.height.equalTo(Constant.imageSize)
         }
     }
 
     func configureUI() {
-        let image = DesignSystemAsset.image(named: "smallX").withRenderingMode(.alwaysTemplate)
+        let image = DesignSystemAsset.image(named: "smallX")
+            .withRenderingMode(.alwaysTemplate)
         cancelButton.setImage(image, for: .normal)
-        cancelButton.tintColor = style.fontColor
     }
 
     func updateUI() {
         backgroundColor = style.backgroundColor
-        mainTitleLabel.attributedText = .makeStyledString(font: .cp_s_r, text: text, color: style.fontColor)
+
+        mainTitleLabel.attributedText = .makeStyledString(
+            font: style.font,
+            text: text,
+            color: style.fontColor
+        )
+
         layer.borderColor = style.borderColor
         layer.borderWidth = style.borderWidth
         layer.cornerRadius = style.radius
+
         cancelButton.tintColor = style.fontColor
+
+        let hidden = style.isHiddenButton
+        cancelButton.isHidden = hidden
+        cancelButtonWidthConstraint?.update(offset: hidden ? 0 : Constant.imageSize)
     }
 }

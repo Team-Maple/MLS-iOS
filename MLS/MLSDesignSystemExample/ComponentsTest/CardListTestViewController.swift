@@ -111,6 +111,7 @@ private extension CardListTestViewController {
 
     func configureUI() {
         view.backgroundColor = .systemBackground
+        self.cardList.setType(type: CardList.CardListType.recommended(rank: 1))
         self.cardList.setImage(image: DesignSystemAsset.image(named: "testImage"), backgroundColor: .listMap)
     }
 
