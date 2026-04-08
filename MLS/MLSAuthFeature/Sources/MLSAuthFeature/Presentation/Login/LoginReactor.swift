@@ -1,6 +1,7 @@
 
 import NotificationCenter
 
+import MLSAuthFeatureInterface
 import ReactorKit
 import RxSwift
 

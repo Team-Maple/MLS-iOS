@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public class OnBoardingNotificationViewController: BaseViewController, View {
+public class OnBoardingNotificationViewController: BaseViewController, @preconcurrency View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingNotificationReactor
 

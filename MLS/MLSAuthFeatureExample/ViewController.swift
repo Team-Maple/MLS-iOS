@@ -1,19 +1,4 @@
-//
-//  ViewController.swift
-//  MLSAuthFeatureExample
-//
-//  Created by SeoJunYoung on 4/8/26.
-//
-
 import UIKit
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .red
-    }
-
-
-}
-
+// SceneDelegate에서 직접 LoginViewController를 띄우기 때문에 사용하지 않습니다.
+class ViewController: UIViewController {}

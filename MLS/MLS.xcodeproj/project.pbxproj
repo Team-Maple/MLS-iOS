@@ -30,6 +30,8 @@
 		08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49292DCFDED4002C21A2 /* RxRelay */; };
 		08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED492B2DCFDED4002C21A2 /* RxSwift */; };
 		08ED4DB12DCFE098002C21A2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED4DB02DCFE098002C21A2 /* SnapKit */; };
+		08F7AA012F86745C00EF5C06 /* MLSAuthFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7AA022F86745C00EF5C06 /* MLSAuthFeature */; };
+		08F7AA032F86745C00EF5C06 /* MLSAuthFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7AA042F86745C00EF5C06 /* MLSAuthFeatureInterface */; };
 		770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 770ADB1E2E433EDA00270506 /* RxKeyboard */; };
 		772199F22E0E7EC800A7B58C /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; };
 		772199F32E0E7EC800A7B58C /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -248,6 +250,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F7AA012F86745C00EF5C06 /* MLSAuthFeature in Frameworks */,
+				08F7AA032F86745C00EF5C06 /* MLSAuthFeatureInterface in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,6 +429,8 @@
 			);
 			name = MLSAuthFeatureExample;
 			packageProductDependencies = (
+				08F7AA022F86745C00EF5C06 /* MLSAuthFeature */,
+				08F7AA042F86745C00EF5C06 /* MLSAuthFeatureInterface */,
 			);
 			productName = MLSAuthFeatureExample;
 			productReference = 08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */;
@@ -1173,6 +1179,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 08ED4DAF2DCFE098002C21A2 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		08F7AA022F86745C00EF5C06 /* MLSAuthFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSAuthFeature;
+		};
+		08F7AA042F86745C00EF5C06 /* MLSAuthFeatureInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSAuthFeatureInterface;
 		};
 		770ADB1E2E433EDA00270506 /* RxKeyboard */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -2,13 +2,14 @@ import UIKit
 
 import MLSAuthFeatureInterface
 import MLSCore
+import MLSDesignSystem
 
 import ReactorKit
 import RxCocoa
 import RxSwift
 import SnapKit
 
-public class TermsAgreementViewController: BaseViewController, View {
+public class TermsAgreementViewController: BaseViewController, @preconcurrency View {
     public typealias Reactor = TermsAgreementReactor
 
     // MARK: - Properties

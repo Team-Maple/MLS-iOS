@@ -7,6 +7,8 @@ import RxSwift
 open class BaseViewController: UIViewController {
     private let disposeBag = DisposeBag()
 
+    public var isBottomTabbarHidden: Bool = false
+
     public init() {
         super.init(nibName: nil, bundle: nil)
         os_log("➕init: \(String(describing: self))")

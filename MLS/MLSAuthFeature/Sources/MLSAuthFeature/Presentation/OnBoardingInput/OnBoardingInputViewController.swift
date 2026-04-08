@@ -11,7 +11,7 @@ import RxKeyboard
 import RxSwift
 import SnapKit
 
-public class OnBoardingInputViewController: BaseViewController, View {
+public class OnBoardingInputViewController: BaseViewController, @preconcurrency View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingInputReactor
 

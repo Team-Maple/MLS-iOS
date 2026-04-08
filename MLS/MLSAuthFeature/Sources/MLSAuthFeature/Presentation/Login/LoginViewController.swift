@@ -2,13 +2,14 @@ import UIKit
 
 import MLSAuthFeatureInterface
 import MLSCore
+import MLSDesignSystem
 
 import ReactorKit
 import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class LoginViewController: BaseViewController, View {
+public final class LoginViewController: BaseViewController, @preconcurrency View {
     public typealias Reactor = LoginReactor
 
     // MARK: - Properties

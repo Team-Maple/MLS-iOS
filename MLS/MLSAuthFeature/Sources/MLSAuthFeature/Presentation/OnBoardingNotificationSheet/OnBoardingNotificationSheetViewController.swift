@@ -1,5 +1,6 @@
 import UIKit
 
+import MLSAuthFeatureInterface
 import MLSCore
 import MLSDesignSystem
 
@@ -9,7 +10,7 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
-public final class OnBoardingNotificationSheetViewController: BaseViewController, ModalPresentable, View {
+public final class OnBoardingNotificationSheetViewController: BaseViewController, @preconcurrency ModalPresentable, @preconcurrency View {
     public var modalHeight: CGFloat?
 
     public typealias Reactor = OnBoardingNotificationSheetReactor

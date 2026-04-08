@@ -5,7 +5,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import RxSwift
 
-public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider {
+public final class KakaoLoginProviderImpl: SocialAuthenticatableProvider, @unchecked Sendable {
     public init() {}
 
     public func getCredential() -> Observable<Credential> {

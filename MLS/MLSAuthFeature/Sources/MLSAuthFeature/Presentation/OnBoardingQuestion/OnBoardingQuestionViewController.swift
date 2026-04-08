@@ -2,13 +2,14 @@ import UIKit
 
 import MLSAuthFeatureInterface
 import MLSCore
+import MLSDesignSystem
 
 import ReactorKit
 import RxCocoa
 import RxSwift
 import SnapKit
 
-public class OnBoardingQuestionViewController: BaseViewController, View {
+public class OnBoardingQuestionViewController: BaseViewController, @preconcurrency View {
     // MARK: - Properties
     public typealias Reactor = OnBoardingQuestionReactor
 
@@ -84,7 +85,7 @@ public extension OnBoardingQuestionViewController {
 
     func bindViewState(reactor: Reactor) {
         reactor.pulse(\.$isShowToast)
-            .subscribe { isShowToast in
+            .subscribe(onNext: { isShowToast in
                 if isShowToast {
                     let currentDate = Date()
                     let dateFormatter = DateFormatter()
@@ -92,7 +93,7 @@ public extension OnBoardingQuestionViewController {
                     let formattedDate = dateFormatter.string(from: currentDate)
                     ToastFactory.createToast(message: "\(formattedDate) 약관에 동의했어요.")
                 }
-            }
+            })
             .disposed(by: disposeBag)
 
         rx.viewDidAppear
