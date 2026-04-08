@@ -1,6 +1,6 @@
 import UIKit
 import MLSAuthFeature
-import MLSAuthFeatureInterface
+import MLSAuthFeatureTesting
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol {
 

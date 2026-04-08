@@ -1,21 +1,23 @@
 import MLSAuthFeature
 
-final class MockTokenRepository: TokenRepository {
+public final class MockTokenRepository: TokenRepository {
     private var storage: [String: String] = [:]
 
-    func fetchToken(type: TokenType) -> Result<String, Error> {
+    public init() {}
+
+    public func fetchToken(type: TokenType) -> Result<String, Error> {
         if let value = storage[type.rawValue] {
             return .success(value)
         }
         return .failure(TokenRepositoryError.noValueFound(message: "\(type.rawValue) not found"))
     }
 
-    func saveToken(type: TokenType, value: String) -> Result<Void, Error> {
+    public func saveToken(type: TokenType, value: String) -> Result<Void, Error> {
         storage[type.rawValue] = value
         return .success(())
     }
 
-    func deleteToken(type: TokenType) -> Result<Void, Error> {
+    public func deleteToken(type: TokenType) -> Result<Void, Error> {
         storage[type.rawValue] = nil
         return .success(())
     }
