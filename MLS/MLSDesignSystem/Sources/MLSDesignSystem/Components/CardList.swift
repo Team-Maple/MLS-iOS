@@ -14,7 +14,7 @@ public final class CardList: UIView {
 
         var icon: UIImage? {
             switch self {
-            case .bookmark, .recommended(_):
+            case .bookmark, .recommended:
                 return DesignSystemAsset.image(named: "bookmarkBorderList")
             case .checkbox:
                 return DesignSystemAsset.image(named: "checkSquare")
@@ -25,7 +25,7 @@ public final class CardList: UIView {
 
         var selectedIcon: UIImage? {
             switch self {
-            case .bookmark, .recommended(_):
+            case .bookmark, .recommended:
                 return DesignSystemAsset.image(named: "bookmarkList")
             case .checkbox:
                 return DesignSystemAsset.image(named: "checkSquareFill")
@@ -78,7 +78,7 @@ public final class CardList: UIView {
     public let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
 
     private lazy var textLabelStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [rankTag ,mainTextLabel, subTextLabel])
+        let view = UIStackView(arrangedSubviews: [rankTag, mainTextLabel, subTextLabel])
         view.axis = .vertical
         view.spacing = Constant.stackViewSpacing
         view.alignment = .leading
@@ -128,7 +128,7 @@ public final class CardList: UIView {
     }()
 
     private let badge = Badge(style: .currentQuest)
-    
+
     private let rankTag = TagChip(style: .text, text: "순위")
 
     public init() {
@@ -176,7 +176,7 @@ private extension CardList {
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
-        
+
         rankTag.snp.makeConstraints { make in
             make.height.equalTo(Constant.tagHeight)
         }
