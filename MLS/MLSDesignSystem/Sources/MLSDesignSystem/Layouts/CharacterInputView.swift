@@ -4,6 +4,20 @@ import RxCocoa
 import RxSwift
 import SnapKit
 
+public enum CharacterViewType {
+    case normal
+    case recommend
+    
+    var title: String {
+        switch self {
+        case .normal:
+            "현재 레벨과 직업을\n입력해주세요."
+        case .recommend:
+            "사냥터 추천을 위해\n현재 레벨과 직업을 입력해주세요."
+        }
+    }
+}
+
 open class CharacterInputView: UIView {
     // MARK: - Type
     public enum Constant {
@@ -40,11 +54,11 @@ open class CharacterInputView: UIView {
     public let nextButton = CommonButton(style: .normal, title: "다음", disabledTitle: "다음")
 
     // MARK: - init
-    public init(title: String? = nil) {
+    public init(type: CharacterViewType = .normal) {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
-        configureUI(title: title)
+        configureUI(type: type)
         setGesture()
     }
 
@@ -89,11 +103,11 @@ private extension CharacterInputView {
         }
     }
 
-    func configureUI(title: String? = nil) {
+    func configureUI(type: CharacterViewType) {
         inputBox.textField.delegate = self
         errorMessage.isHidden = true
 
-        descriptionLabel.attributedText = .makeStyledString(font: .h_xxl_b, text: title ?? "현재 레벨과 직업을\n입력해주세요.", alignment: .left)
+        descriptionLabel.attributedText = .makeStyledString(font: .h_xxl_b, text: type.title, alignment: .left)
     }
 
     /// inputBox를 제외한 영역 선택시 키보드 제거
