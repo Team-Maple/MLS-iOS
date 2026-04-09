@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         BadgeTestController(),
         DictionaryDetailViewTestController(),
         TextButtonTestViewController(),
-        TooltipTestViewController(),
+        TooltipTestViewController()
     ]
 
     override func viewDidLoad() {

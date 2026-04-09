@@ -16,13 +16,13 @@ public enum TooltipFactory {
     }
 
     private static var currentTooltip: TooltipView?
-    
+
     /// 전체 터치 dismiss용 overlay
     private static var overlayView: TooltipOverlayView?
 }
 
 public extension TooltipFactory {
-    
+
     /// Tooltip 노출 메소드
     static func show(
         text: String,
@@ -94,7 +94,7 @@ public extension TooltipFactory {
             tooltip.alpha = 1
         }
     }
-    
+
     /// 툴팁 제거
     static func dismiss() {
         currentTooltip?.removeFromSuperview()

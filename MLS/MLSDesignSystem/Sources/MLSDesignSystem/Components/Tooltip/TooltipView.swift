@@ -19,7 +19,7 @@ final class TooltipView: UIView {
 
     // MARK: - Properties
     private let tooltipPosition: TooltipPosition
-    
+
     // MARK: - Components
     private let label = UILabel()
 
@@ -47,7 +47,7 @@ private extension TooltipView {
 
     func setupConstraints() {
         switch tooltipPosition {
-            
+
         /// 툴팁이 아래에 위치
         case .bottomLeading, .bottomTrailing:
             label.snp.makeConstraints { make in

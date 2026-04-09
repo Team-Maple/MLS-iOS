@@ -7,7 +7,7 @@ import SnapKit
 public enum CharacterViewType {
     case normal
     case recommend
-    
+
     var title: String {
         switch self {
         case .normal:
