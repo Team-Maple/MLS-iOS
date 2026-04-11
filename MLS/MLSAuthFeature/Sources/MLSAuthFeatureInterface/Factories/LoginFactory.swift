@@ -1,10 +1,5 @@
 import MLSCore
 
-public enum LoginExitRoute {
-    case home
-    case pop
-}
-
 public protocol LoginFactory {
     func make(exitRoute: LoginExitRoute, onLoginCompleted: (() -> Void)?) -> BaseViewController
 }
