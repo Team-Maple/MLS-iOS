@@ -7,29 +7,20 @@ public struct LoginFactoryImpl: LoginFactory {
     private let termsAgreementsFactory: TermsAgreementFactory
     private let appleProvider: SocialCredentialProvider
     private let kakaoProvider: SocialCredentialProvider
-    private let loginWithAppleUseCase: LoginWithAppleUseCase
-    private let loginWithKakaoUseCase: LoginWithKakaoUseCase
-    private let tokenRepository: TokenRepository
-    private let authRepository: AuthAPIRepository
+    private let socialLoginUseCase: SocialLoginUseCase
     private let userDefaultsRepository: UserDefaultsRepository
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
         appleProvider: SocialCredentialProvider,
         kakaoProvider: SocialCredentialProvider,
-        loginWithAppleUseCase: LoginWithAppleUseCase,
-        loginWithKakaoUseCase: LoginWithKakaoUseCase,
-        tokenRepository: TokenRepository,
-        authRepository: AuthAPIRepository,
+        socialLoginUseCase: SocialLoginUseCase,
         userDefaultsRepository: UserDefaultsRepository
     ) {
         self.termsAgreementsFactory = termsAgreementsFactory
         self.appleProvider = appleProvider
         self.kakaoProvider = kakaoProvider
-        self.loginWithAppleUseCase = loginWithAppleUseCase
-        self.loginWithKakaoUseCase = loginWithKakaoUseCase
-        self.tokenRepository = tokenRepository
-        self.authRepository = authRepository
+        self.socialLoginUseCase = socialLoginUseCase
         self.userDefaultsRepository = userDefaultsRepository
     }
 
@@ -40,10 +31,7 @@ public struct LoginFactoryImpl: LoginFactory {
         viewController.reactor = LoginReactor(
             appleProvider: appleProvider,
             kakaoProvider: kakaoProvider,
-            loginWithAppleUseCase: loginWithAppleUseCase,
-            loginWithKakaoUseCase: loginWithKakaoUseCase,
-            tokenRepository: tokenRepository,
-            authRepository: authRepository,
+            socialLoginUseCase: socialLoginUseCase,
             userDefaultsRepository: userDefaultsRepository
         )
 

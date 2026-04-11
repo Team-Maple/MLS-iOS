@@ -2,7 +2,7 @@ import MLSAuthFeatureInterface
 
 import RxSwift
 
-public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
+public final class SocialLoginUseCaseImpl: SocialLoginUseCase {
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
     private let userDefaultsRepository: UserDefaultsRepository
@@ -17,12 +17,20 @@ public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
         self.userDefaultsRepository = userDefaultsRepository
     }
 
-    public func execute(credential: Credential) -> Observable<LoginResponse> {
-        return authRepository.loginWithKakao(credential: credential)
+    public func execute(credential: Credential, platform: LoginPlatform) -> Observable<LoginResponse> {
+        let loginObservable: Observable<LoginResponse>
+        switch platform {
+        case .apple:
+            loginObservable = authRepository.loginWithApple(credential: credential)
+        case .kakao:
+            loginObservable = authRepository.loginWithKakao(credential: credential)
+        }
+
+        return loginObservable
             .flatMap { response -> Observable<LoginResponse> in
                 let saveAccess = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
-                let savePlatform = self.userDefaultsRepository.savePlatform(platform: .kakao)
+                let savePlatform = self.userDefaultsRepository.savePlatform(platform: platform)
 
                 guard case (.success, .success) = (saveAccess, saveRefresh) else {
                     return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))

@@ -53,18 +53,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
             ),
             appleProvider: appleProvider,
             kakaoProvider: kakaoProvider,
-            loginWithAppleUseCase: LoginWithAppleUseCaseImpl(
+            socialLoginUseCase: SocialLoginUseCaseImpl(
                 authRepository: authRepository,
                 tokenRepository: tokenRepository,
                 userDefaultsRepository: userDefaultsRepository
             ),
-            loginWithKakaoUseCase: LoginWithKakaoUseCaseImpl(
-                authRepository: authRepository,
-                tokenRepository: tokenRepository,
-                userDefaultsRepository: userDefaultsRepository
-            ),
-            tokenRepository: tokenRepository,
-            authRepository: authRepository,
             userDefaultsRepository: userDefaultsRepository
         )
 
@@ -94,12 +87,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
 
         return TermsAgreementFactoryImpl(
             onBoardingQuestionFactory: onBoardingQuestionFactory,
-            signUpWithKakaoUseCase: SignUpWithKakaoUseCaseImpl(
-                authRepository: authRepository,
-                tokenRepository: tokenRepository,
-                userDefaultsRepository: userDefaultsRepository
-            ),
-            signUpWithAppleUseCase: SignUpWithAppleUseCaseImpl(
+            socialSignUpUseCase: SocialSignUpUseCaseImpl(
                 authRepository: authRepository,
                 tokenRepository: tokenRepository,
                 userDefaultsRepository: userDefaultsRepository

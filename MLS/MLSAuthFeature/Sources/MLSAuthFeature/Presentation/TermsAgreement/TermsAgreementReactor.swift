@@ -49,22 +49,19 @@ public final class TermsAgreementReactor: Reactor {
     var disposeBag = DisposeBag()
     private let credential: Credential
     private let socialPlatform: LoginPlatform
-    private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
-    private let signUpWithAppleUseCase: SignUpWithAppleUseCase
+    private let socialSignUpUseCase: SocialSignUpUseCase
     private let tokenRepository: TokenRepository
 
     // MARK: - init
     public init(
         credential: Credential,
         socialPlatform: LoginPlatform,
-        signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
-        signUpWithAppleUseCase: SignUpWithAppleUseCase,
+        socialSignUpUseCase: SocialSignUpUseCase,
         tokenRepository: TokenRepository
     ) {
         self.credential = credential
         self.socialPlatform = socialPlatform
-        self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
-        self.signUpWithAppleUseCase = signUpWithAppleUseCase
+        self.socialSignUpUseCase = socialSignUpUseCase
         self.tokenRepository = tokenRepository
         self.initialState = State()
     }
@@ -98,19 +95,10 @@ public final class TermsAgreementReactor: Reactor {
                 }
             }()
 
-            switch socialPlatform {
-            case .kakao:
-                return signUpWithKakaoUseCase
-                    .execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
-                    .map { _ in .navigateTo(route: .onBoarding) }
-                    .catchAndReturn(.navigateTo(route: .error))
-
-            case .apple:
-                return signUpWithAppleUseCase
-                    .execute(credential: credential, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
-                    .map { _ in .navigateTo(route: .onBoarding) }
-                    .catchAndReturn(.navigateTo(route: .error))
-            }
+            return socialSignUpUseCase
+                .execute(credential: credential, platform: socialPlatform, isMarketingAgreement: currentState.isMarketingAgree, fcmToken: fcmToken)
+                .map { _ in .navigateTo(route: .onBoarding) }
+                .catchAndReturn(.navigateTo(route: .error))
 
         case .navigateTo(let route):
             return .just(.navigateTo(route: route))

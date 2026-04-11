@@ -3,20 +3,16 @@ import MLSCore
 
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
-
-    private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
-    private let signUpWithAppleUseCase: SignUpWithAppleUseCase
+    private let socialSignUpUseCase: SocialSignUpUseCase
     private let tokenRepository: TokenRepository
 
     public init(
         onBoardingQuestionFactory: OnBoardingQuestionFactory,
-        signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
-        signUpWithAppleUseCase: SignUpWithAppleUseCase,
+        socialSignUpUseCase: SocialSignUpUseCase,
         tokenRepository: TokenRepository
     ) {
         self.onBoardingQuestionFactory = onBoardingQuestionFactory
-        self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
-        self.signUpWithAppleUseCase = signUpWithAppleUseCase
+        self.socialSignUpUseCase = socialSignUpUseCase
         self.tokenRepository = tokenRepository
     }
 
@@ -26,8 +22,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
         viewController.reactor = TermsAgreementReactor(
             credential: credential,
             socialPlatform: platform,
-            signUpWithKakaoUseCase: signUpWithKakaoUseCase,
-            signUpWithAppleUseCase: signUpWithAppleUseCase,
+            socialSignUpUseCase: socialSignUpUseCase,
             tokenRepository: tokenRepository
         )
         return viewController
