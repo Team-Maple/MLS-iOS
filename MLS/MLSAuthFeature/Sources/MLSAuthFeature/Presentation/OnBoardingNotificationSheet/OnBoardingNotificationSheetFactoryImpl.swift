@@ -2,26 +2,15 @@ import MLSAuthFeatureInterface
 import MLSCore
 import MLSDesignSystem
 
-
-
 public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationSheetFactory {
-    private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
-    private let openNotificationSettingUseCase: OpenNotificationSettingUseCase
-    private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
-    private let updateUserInfoUseCase: UpdateUserInfoUseCase
+    private let authRepository: AuthAPIRepository
     private let appCoordinator: () -> AppCoordinatorProtocol
 
     public init(
-        checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase,
-        openNotificationSettingUseCase: OpenNotificationSettingUseCase,
-        updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
-        updateUserInfoUseCase: UpdateUserInfoUseCase,
+        authRepository: AuthAPIRepository,
         appCoordinator: @escaping () -> AppCoordinatorProtocol
     ) {
-        self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
-        self.openNotificationSettingUseCase = openNotificationSettingUseCase
-        self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
-        self.updateUserInfoUseCase = updateUserInfoUseCase
+        self.authRepository = authRepository
         self.appCoordinator = appCoordinator
     }
 
@@ -31,10 +20,7 @@ public struct OnBoardingNotificationSheetFactoryImpl: OnBoardingNotificationShee
         viewController.reactor = OnBoardingNotificationSheetReactor(
             selectedLevel: selectedLevel,
             selectedJobID: selectedJobID,
-            checkNotificationPermissionUseCase: checkNotificationPermissionUseCase,
-            openNotificationSettingUseCase: openNotificationSettingUseCase,
-            updateNotificationAgreementUseCase: updateNotificationAgreementUseCase,
-            updateUserInfoUseCase: updateUserInfoUseCase
+            authRepository: authRepository
         )
         return viewController
     }

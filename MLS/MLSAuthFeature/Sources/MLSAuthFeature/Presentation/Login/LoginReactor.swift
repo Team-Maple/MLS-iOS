@@ -1,8 +1,8 @@
-
-import NotificationCenter
+import UserNotifications
 
 import MLSAuthFeatureInterface
 import ReactorKit
+
 import RxSwift
 
 public final class LoginReactor: Reactor {
@@ -36,31 +36,31 @@ public final class LoginReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    private let fetchAppleCredentialUseCase: FetchSocialCredentialUseCase
-    private let fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase
+    private let appleProvider: SocialAuthenticatableProvider
+    private let kakaoProvider: SocialAuthenticatableProvider
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
-    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
-    private let putFCMTokenUseCase: PutFCMTokenUseCase
-    private let fetchPlatformUseCase: FetchPlatformUseCase
+    private let tokenRepository: TokenRepository
+    private let authRepository: AuthAPIRepository
+    private let userDefaultsRepository: UserDefaultsRepository
 
     // MARK: - init
     public init(
-        fetchAppleCredentialUseCase: FetchSocialCredentialUseCase,
-        fetchKakaoCredentialUseCase: FetchSocialCredentialUseCase,
+        appleProvider: SocialAuthenticatableProvider,
+        kakaoProvider: SocialAuthenticatableProvider,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        putFCMTokenUseCase: PutFCMTokenUseCase,
-        fetchPlatformUseCase: FetchPlatformUseCase
+        tokenRepository: TokenRepository,
+        authRepository: AuthAPIRepository,
+        userDefaultsRepository: UserDefaultsRepository
     ) {
-        self.fetchAppleCredentialUseCase = fetchAppleCredentialUseCase
-        self.fetchKakaoCredentialUseCase = fetchKakaoCredentialUseCase
+        self.appleProvider = appleProvider
+        self.kakaoProvider = kakaoProvider
         self.loginWithAppleUseCase = loginWithAppleUseCase
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
-        self.fetchTokenUseCase = fetchTokenUseCase
-        self.putFCMTokenUseCase = putFCMTokenUseCase
-        self.fetchPlatformUseCase = fetchPlatformUseCase
+        self.tokenRepository = tokenRepository
+        self.authRepository = authRepository
+        self.userDefaultsRepository = userDefaultsRepository
         self.initialState = State()
     }
 
@@ -68,7 +68,7 @@ public final class LoginReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchPlatformUseCase.execute()
+            return userDefaultsRepository.fetchPlatform()
                 .map { Mutation.setRelogin($0) }
         case .kakaoLoginButtonTapped:
             return handleKakaoLogin()
@@ -100,14 +100,14 @@ private extension LoginReactor {
             .withUnretained(self)
             .flatMap { owner, fcmToken in
                 // 1. 카카오 로그인 자격 증명 가져오기
-                owner.fetchKakaoCredentialUseCase.execute()
+                owner.kakaoProvider.getCredential()
                     .flatMap { credential in
                         // 2. 자격 증명을 바탕으로 로그인 요청
                         owner.loginWithKakaoUseCase.execute(credential: credential)
                             .flatMap { response -> Observable<Mutation> in
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
-                                    return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
+                                    return owner.authRepository.fcmToken(fcmToken: fcmToken)
                                         .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
@@ -137,14 +137,14 @@ private extension LoginReactor {
             .withUnretained(self)
             .flatMap { owner, fcmToken in
                 // 1. 애플 로그인 자격 증명 가져오기
-                owner.fetchAppleCredentialUseCase.execute()
+                owner.appleProvider.getCredential()
                     .flatMap { credential in
                         // 2. 자격 증명을 바탕으로 로그인 요청
                         owner.loginWithAppleUseCase.execute(credential: credential)
                             .flatMap { response -> Observable<Mutation> in
                                 if response.isRegister {
                                     // 3. 회원가입된 유저면 FCM 토큰 등록 후 홈으로 이동
-                                    return owner.putFCMTokenUseCase.execute(fcmToken: fcmToken)
+                                    return owner.authRepository.fcmToken(fcmToken: fcmToken)
                                         .andThen(.just(.navigateTo(route: .home)))
                                 } else {
                                     // 4. 미가입 유저면 약관 동의 화면으로 이동
@@ -180,7 +180,7 @@ private extension LoginReactor {
             UNUserNotificationCenter.current().getNotificationSettings { settings in
                 switch settings.authorizationStatus {
                 case .authorized, .provisional, .ephemeral:
-                    let result = self.fetchTokenUseCase.execute(type: .fcmToken)
+                    let result = self.tokenRepository.fetchToken(type: .fcmToken)
                     switch result {
                     case .success(let token): observer.onNext(token)
                     case .failure: observer.onNext(nil)

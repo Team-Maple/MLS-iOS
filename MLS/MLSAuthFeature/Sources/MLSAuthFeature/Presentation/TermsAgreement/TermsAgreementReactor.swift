@@ -1,7 +1,5 @@
-
-import NotificationCenter
-
 import MLSAuthFeatureInterface
+
 import ReactorKit
 import RxSwift
 
@@ -53,8 +51,7 @@ public final class TermsAgreementReactor: Reactor {
     private let socialPlatform: LoginPlatform
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
-    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
-    private let updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
+    private let tokenRepository: TokenRepository
 
     // MARK: - init
     public init(
@@ -62,15 +59,13 @@ public final class TermsAgreementReactor: Reactor {
         socialPlatform: LoginPlatform,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
+        tokenRepository: TokenRepository
     ) {
         self.credential = credential
         self.socialPlatform = socialPlatform
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
-        self.fetchTokenUseCase = fetchTokenUseCase
-        self.updateMarketingAgreementUseCase = updateMarketingAgreementUseCase
+        self.tokenRepository = tokenRepository
         self.initialState = State()
     }
 
@@ -96,7 +91,7 @@ public final class TermsAgreementReactor: Reactor {
             return .just(.setAgreeState(type: type, isOn: isOn))
         case .bottomButtonTapped:
             let fcmToken: String? = {
-                if case .success(let token) = fetchTokenUseCase.execute(type: .fcmToken) {
+                if case .success(let token) = tokenRepository.fetchToken(type: .fcmToken) {
                     return token
                 } else {
                     return nil

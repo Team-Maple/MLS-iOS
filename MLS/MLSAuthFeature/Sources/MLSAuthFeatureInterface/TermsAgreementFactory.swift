@@ -1,4 +1,3 @@
-
 import MLSCore
 
 public protocol TermsAgreementFactory {

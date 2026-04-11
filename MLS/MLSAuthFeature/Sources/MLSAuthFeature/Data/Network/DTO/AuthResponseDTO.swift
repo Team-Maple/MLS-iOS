@@ -1,5 +1,3 @@
-
-
 public struct AuthResponseDTO: Decodable {
     public let accessToken: String
     public let refreshToken: String

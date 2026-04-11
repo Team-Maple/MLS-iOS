@@ -1,4 +1,5 @@
 import MLSAuthFeature
+import MLSAuthFeatureInterface
 
 public final class MockTokenRepository: TokenRepository {
     private var storage: [String: String] = [:]

@@ -1,7 +1,7 @@
-import AuthenticationServices
-import Foundation
 import UIKit
 
+import MLSAuthFeatureInterface
+import AuthenticationServices
 
 import RxSwift
 

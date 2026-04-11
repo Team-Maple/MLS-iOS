@@ -1,4 +1,5 @@
-
+import UIKit
+import UserNotifications
 
 import ReactorKit
 import RxCocoa
@@ -43,42 +44,42 @@ public final class OnBoardingNotificationSheetReactor: Reactor {
     public var initialState: State
     var disposeBag = DisposeBag()
 
-    private let checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase
-    private let openNotificationSettingUseCase: OpenNotificationSettingUseCase
-    private let updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase
-    private let updateUserInfoUseCase: UpdateUserInfoUseCase
+    private let authRepository: AuthAPIRepository
 
     // MARK: - init
     public init(
         selectedLevel: Int,
         selectedJobID: Int,
-        checkNotificationPermissionUseCase: CheckNotificationPermissionUseCase,
-        openNotificationSettingUseCase: OpenNotificationSettingUseCase,
-        updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCase,
-        updateUserInfoUseCase: UpdateUserInfoUseCase
+        authRepository: AuthAPIRepository
     ) {
         self.initialState = State(selectedLevel: selectedLevel, selectedJobID: selectedJobID)
-        self.checkNotificationPermissionUseCase = checkNotificationPermissionUseCase
-        self.openNotificationSettingUseCase = openNotificationSettingUseCase
-        self.updateNotificationAgreementUseCase = updateNotificationAgreementUseCase
-        self.updateUserInfoUseCase = updateUserInfoUseCase
+        self.authRepository = authRepository
     }
 
     // MARK: - Reactor Methods
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear, .appWillEnterForeground:
-            return checkNotificationPermissionUseCase.execute()
-                .asObservable()
-                .map { .setLocalNotification($0) }
+            return Single<Bool>.create { single in
+                UNUserNotificationCenter.current().getNotificationSettings { settings in
+                    let isAuthorized = settings.authorizationStatus == .authorized
+                        || settings.authorizationStatus == .provisional
+                    single(.success(isAuthorized))
+                }
+                return Disposables.create()
+            }
+            .asObservable()
+            .map { .setLocalNotification($0) }
         case .toggleSwitchButton(let isAgree):
             return .just(.setRemoteNotification(isAgree))
         case .setButtonTapped:
-            openNotificationSettingUseCase.execute()
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url)
+            }
             return .just(.navigateTo(route: .setting))
         case .applyButtonTapped:
-            return updateUserInfoUseCase.execute(level: currentState.selectedLevel, selectedJobID: currentState.selectedJobID)
-                .andThen(updateNotificationAgreementUseCase.execute(
+            return authRepository.updateUserInfo(level: currentState.selectedLevel, selectedJobID: currentState.selectedJobID)
+                .andThen(authRepository.updateNotificationAgreement(
                     noticeAgreement: true,
                     patchNoteAgreement: true,
                     eventAgreement: true

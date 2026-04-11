@@ -1,5 +1,7 @@
 import Foundation
 
+import MLSAuthFeatureInterface
+
 import RxSwift
 
 public protocol SocialAuthenticatableProvider {

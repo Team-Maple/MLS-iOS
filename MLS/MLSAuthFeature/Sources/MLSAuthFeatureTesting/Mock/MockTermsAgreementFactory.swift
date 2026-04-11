@@ -1,5 +1,5 @@
-import UIKit
 import MLSAuthFeature
+import MLSAuthFeatureInterface
 import MLSCore
 
 public final class MockTermsAgreementFactory: TermsAgreementFactory {

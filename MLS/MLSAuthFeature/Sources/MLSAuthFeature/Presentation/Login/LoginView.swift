@@ -1,7 +1,7 @@
 import UIKit
 
+import MLSAuthFeatureInterface
 import MLSDesignSystem
-
 
 import SnapKit
 

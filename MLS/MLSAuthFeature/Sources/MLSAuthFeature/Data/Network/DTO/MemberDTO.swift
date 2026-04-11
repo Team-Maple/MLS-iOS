@@ -1,5 +1,3 @@
-
-
 public struct MemberDTO: Decodable {
     public let id: String
     public let provider: String
@@ -12,18 +10,4 @@ public struct MemberDTO: Decodable {
     public let jobId: Int?
     public let level: Int?
     public let profileImageUrl: String
-
-    func toMyPageDomain() -> MyPageResponse {
-        return .init(
-            nickname: nickname,
-            jobId: jobId,
-            jobName: "",
-            level: level,
-            profileUrl: profileImageUrl,
-            platform: provider == "APPLE" ? .apple : .kakao,
-            noticeAgreement: noticeAgreement,
-            patchNoteAgreement: patchNoteAgreement,
-            eventAgreement: eventAgreement
-        )
-    }
 }

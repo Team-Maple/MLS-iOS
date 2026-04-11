@@ -1,37 +1,36 @@
 import MLSAuthFeatureInterface
 import MLSCore
 
-
 import RxSwift
 
 public struct LoginFactoryImpl: LoginFactory {
     private let termsAgreementsFactory: TermsAgreementFactory
-    private let appleLoginUseCase: FetchSocialCredentialUseCase
-    private let kakaoLoginUseCase: FetchSocialCredentialUseCase
+    private let appleProvider: SocialAuthenticatableProvider
+    private let kakaoProvider: SocialAuthenticatableProvider
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
-    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
-    private let putFCMTokenUseCase: PutFCMTokenUseCase
-    private let fetchPlatformUseCase: FetchPlatformUseCase
+    private let tokenRepository: TokenRepository
+    private let authRepository: AuthAPIRepository
+    private let userDefaultsRepository: UserDefaultsRepository
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
-        appleLoginUseCase: FetchSocialCredentialUseCase,
-        kakaoLoginUseCase: FetchSocialCredentialUseCase,
+        appleProvider: SocialAuthenticatableProvider,
+        kakaoProvider: SocialAuthenticatableProvider,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        putFCMTokenUseCase: PutFCMTokenUseCase,
-        fetchPlatformUseCase: FetchPlatformUseCase
+        tokenRepository: TokenRepository,
+        authRepository: AuthAPIRepository,
+        userDefaultsRepository: UserDefaultsRepository
     ) {
         self.termsAgreementsFactory = termsAgreementsFactory
-        self.appleLoginUseCase = appleLoginUseCase
-        self.kakaoLoginUseCase = kakaoLoginUseCase
+        self.appleProvider = appleProvider
+        self.kakaoProvider = kakaoProvider
         self.loginWithAppleUseCase = loginWithAppleUseCase
         self.loginWithKakaoUseCase = loginWithKakaoUseCase
-        self.fetchTokenUseCase = fetchTokenUseCase
-        self.putFCMTokenUseCase = putFCMTokenUseCase
-        self.fetchPlatformUseCase = fetchPlatformUseCase
+        self.tokenRepository = tokenRepository
+        self.authRepository = authRepository
+        self.userDefaultsRepository = userDefaultsRepository
     }
 
     public func make(exitRoute: LoginExitRoute, onLoginCompleted: (() -> Void)?) -> BaseViewController {
@@ -39,13 +38,13 @@ public struct LoginFactoryImpl: LoginFactory {
         viewController.isBottomTabbarHidden = true
 
         viewController.reactor = LoginReactor(
-            fetchAppleCredentialUseCase: appleLoginUseCase,
-            fetchKakaoCredentialUseCase: kakaoLoginUseCase,
+            appleProvider: appleProvider,
+            kakaoProvider: kakaoProvider,
             loginWithAppleUseCase: loginWithAppleUseCase,
             loginWithKakaoUseCase: loginWithKakaoUseCase,
-            fetchTokenUseCase: fetchTokenUseCase,
-            putFCMTokenUseCase: putFCMTokenUseCase,
-            fetchPlatformUseCase: fetchPlatformUseCase
+            tokenRepository: tokenRepository,
+            authRepository: authRepository,
+            userDefaultsRepository: userDefaultsRepository
         )
 
         viewController.routeToHome

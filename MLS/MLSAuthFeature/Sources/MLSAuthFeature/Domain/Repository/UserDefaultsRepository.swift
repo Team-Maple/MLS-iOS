@@ -1,3 +1,5 @@
+import MLSAuthFeatureInterface
+
 import RxSwift
 
 public protocol UserDefaultsRepository {

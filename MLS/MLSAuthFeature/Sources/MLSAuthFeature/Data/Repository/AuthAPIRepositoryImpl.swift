@@ -1,7 +1,8 @@
 import Foundation
 
-
+import MLSAuthFeatureInterface
 import MLSCore
+
 import RxSwift
 
 public class AuthAPIRepositoryImpl: AuthAPIRepository {
@@ -13,12 +14,6 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         self.provider = provider
         self.tokenInterceptor = tokenInterceptor
         self.authInterceptor = authInterceptor
-    }
-
-    public func fetchProfile() -> Observable<MyPageResponse?> {
-        let endpoint = AuthEndPoint.fetchProfile()
-        return provider.requestData(endPoint: endpoint, interceptor: tokenInterceptor)
-            .map { $0.toMyPageDomain() }
     }
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
@@ -91,21 +86,8 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
         return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
     }
 
-    public func fetchJob(jobId: String) -> Observable<Job> {
-        let endPoint = AuthEndPoint.fetchJob(jobId: jobId)
-        return provider.requestData(endPoint: endPoint, interceptor: nil).map { $0.toDomain() }
-    }
-
     public func updateUserInfo(level: Int, selectedJobID: Int) -> Completable {
         let endPoint = AuthEndPoint.updateCharacterInfo(body: UpdateInfoBody(level: level, jobId: selectedJobID))
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-    }
-
-    public func updateMarketingAgreement(credential: String, isMarketingAgreement: Bool) -> Completable {
-        let endPoint = AuthEndPoint.updateMarketingAgreement(
-            credential: credential,
-            body: MarketingAgreementBody(marketingAgreement: isMarketingAgreement)
-        )
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 
@@ -117,17 +99,6 @@ public class AuthAPIRepositoryImpl: AuthAPIRepository {
                 eventAgreement: eventAgreement
             )
         )
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-    }
-
-    public func updateNickName(nickName: String) -> Observable<MyPageResponse> {
-        let endPoint = AuthEndPoint.updateNickName(body: NickNameBody(nickname: nickName))
-        return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
-            .map { $0.toMyPageDomain() }
-    }
-
-    public func updateProfileImage(url: String) -> Completable {
-        let endPoint = AuthEndPoint.updateProfileImage(body: UpdateProfileImageBody(profileImageUrl: url))
         return provider.requestData(endPoint: endPoint, interceptor: tokenInterceptor)
     }
 }
@@ -153,26 +124,14 @@ private extension AuthAPIRepositoryImpl {
         let fcmToken: String?
     }
 
-    struct MarketingAgreementBody: Encodable {
-        let marketingAgreement: Bool
-    }
-
     struct NotificationAgreementBody: Encodable {
         let noticeAgreement: Bool
         let patchNoteAgreement: Bool
         let eventAgreement: Bool
     }
 
-    struct NickNameBody: Encodable {
-        let nickname: String
-    }
-
     struct UpdateInfoBody: Encodable {
         let level: Int
         let jobId: Int
-    }
-
-    struct UpdateProfileImageBody: Encodable {
-        let profileImageUrl: String
     }
 }

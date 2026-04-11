@@ -1,4 +1,3 @@
-
 import RxSwift
 
 public class CheckEmptyLevelAndRoleUseCaseImpl: CheckEmptyLevelAndRoleUseCase {

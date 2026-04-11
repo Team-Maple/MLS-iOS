@@ -1,5 +1,7 @@
 import UIKit
+
 import MLSAuthFeature
+import MLSAuthFeatureInterface
 import MLSAuthFeatureTesting
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol {
@@ -49,8 +51,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
                 tokenRepository: tokenRepository,
                 userDefaultsRepository: userDefaultsRepository
             ),
-            appleLoginUseCase: SocialLoginUseCaseImpl(provider: appleProvider),
-            kakaoLoginUseCase: SocialLoginUseCaseImpl(provider: kakaoProvider),
+            appleProvider: appleProvider,
+            kakaoProvider: kakaoProvider,
             loginWithAppleUseCase: LoginWithAppleUseCaseImpl(
                 authRepository: authRepository,
                 tokenRepository: tokenRepository,
@@ -61,9 +63,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
                 tokenRepository: tokenRepository,
                 userDefaultsRepository: userDefaultsRepository
             ),
-            fetchTokenUseCase: FetchTokenFromLocalUseCaseImpl(repository: tokenRepository),
-            putFCMTokenUseCase: PutFCMTokenUseCaseImpl(repository: authRepository),
-            fetchPlatformUseCase: FetchPlatformUseCaseImpl(repository: userDefaultsRepository)
+            tokenRepository: tokenRepository,
+            authRepository: authRepository,
+            userDefaultsRepository: userDefaultsRepository
         )
 
         return factory.make(exitRoute: .home, onLoginCompleted: { [weak self] in
@@ -79,11 +81,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
         let onBoardingInputFactory = OnBoardingInputFactoryImpl(
             checkEmptyUseCase: CheckEmptyLevelAndRoleUseCaseImpl(),
             checkValidLevelUseCase: CheckValidLevelUseCaseImpl(),
-            fetchJobListUseCase: FetchJobListUseCaseImpl(repository: authRepository),
-            updateUserInfoUseCase: UpdateUserInfoUseCaseImpl(repository: authRepository),
+            authRepository: authRepository,
             onBoardingNotificationFactory: makeOnBoardingNotificationFactory(
-                authRepository: authRepository,
-                tokenRepository: tokenRepository
+                authRepository: authRepository
             ),
             appCoordinator: { [weak self] in self! }
         )
@@ -104,20 +104,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
                 tokenRepository: tokenRepository,
                 userDefaultsRepository: userDefaultsRepository
             ),
-            fetchTokenUseCase: FetchTokenFromLocalUseCaseImpl(repository: tokenRepository),
-            updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCaseImpl(repository: authRepository)
+            tokenRepository: tokenRepository
         )
     }
 
     private func makeOnBoardingNotificationFactory(
-        authRepository: AuthAPIRepository,
-        tokenRepository: TokenRepository
+        authRepository: AuthAPIRepository
     ) -> OnBoardingNotificationFactory {
         let sheetFactory = OnBoardingNotificationSheetFactoryImpl(
-            checkNotificationPermissionUseCase: CheckNotificationPermissionUseCaseImpl(),
-            openNotificationSettingUseCase: OpenNotificationSettingUseCaseImpl(),
-            updateNotificationAgreementUseCase: UpdateNotificationAgreementUseCaseImpl(repository: authRepository),
-            updateUserInfoUseCase: UpdateUserInfoUseCaseImpl(repository: authRepository),
+            authRepository: authRepository,
             appCoordinator: { [weak self] in self! }
         )
 

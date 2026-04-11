@@ -1,4 +1,4 @@
-
+import MLSAuthFeatureInterface
 
 public struct AppleCredential: Credential {
     public let token: String

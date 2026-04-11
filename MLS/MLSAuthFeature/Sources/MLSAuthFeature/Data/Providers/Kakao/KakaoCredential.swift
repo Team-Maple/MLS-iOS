@@ -1,4 +1,4 @@
-
+import MLSAuthFeatureInterface
 
 public struct KakaoCredential: Credential {
     public let token: String

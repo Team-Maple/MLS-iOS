@@ -1,27 +1,23 @@
 import MLSAuthFeatureInterface
 import MLSCore
 
-
 public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
     private let onBoardingQuestionFactory: OnBoardingQuestionFactory
 
     private let signUpWithKakaoUseCase: SignUpWithKakaoUseCase
     private let signUpWithAppleUseCase: SignUpWithAppleUseCase
-    private let fetchTokenUseCase: FetchTokenFromLocalUseCase
-    private let updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
+    private let tokenRepository: TokenRepository
 
     public init(
         onBoardingQuestionFactory: OnBoardingQuestionFactory,
         signUpWithKakaoUseCase: SignUpWithKakaoUseCase,
         signUpWithAppleUseCase: SignUpWithAppleUseCase,
-        fetchTokenUseCase: FetchTokenFromLocalUseCase,
-        updateMarketingAgreementUseCase: UpdateMarketingAgreementUseCase
+        tokenRepository: TokenRepository
     ) {
         self.onBoardingQuestionFactory = onBoardingQuestionFactory
         self.signUpWithKakaoUseCase = signUpWithKakaoUseCase
         self.signUpWithAppleUseCase = signUpWithAppleUseCase
-        self.fetchTokenUseCase = fetchTokenUseCase
-        self.updateMarketingAgreementUseCase = updateMarketingAgreementUseCase
+        self.tokenRepository = tokenRepository
     }
 
     public func make(credential: Credential, platform: LoginPlatform) -> BaseViewController {
@@ -32,7 +28,7 @@ public struct TermsAgreementFactoryImpl: TermsAgreementFactory {
             socialPlatform: platform,
             signUpWithKakaoUseCase: signUpWithKakaoUseCase,
             signUpWithAppleUseCase: signUpWithAppleUseCase,
-            fetchTokenUseCase: fetchTokenUseCase, updateMarketingAgreementUseCase: updateMarketingAgreementUseCase
+            tokenRepository: tokenRepository
         )
         return viewController
     }

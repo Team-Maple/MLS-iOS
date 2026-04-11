@@ -1,5 +1,3 @@
-
-
 import ReactorKit
 import RxSwift
 
@@ -47,17 +45,17 @@ public final class OnBoardingInputReactor: Reactor {
 
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
-    private let fetchJobListUseCase: FetchJobListUseCase
+    private let authRepository: AuthAPIRepository
 
     // MARK: - init
     public init(
         checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
         checkValidLevelUseCase: CheckValidLevelUseCase,
-        fetchJobListUseCase: FetchJobListUseCase
+        authRepository: AuthAPIRepository
     ) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
-        self.fetchJobListUseCase = fetchJobListUseCase
+        self.authRepository = authRepository
         self.initialState = State()
     }
 
@@ -65,7 +63,7 @@ public final class OnBoardingInputReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchJobListUseCase.execute()
+            return authRepository.fetchJobList()
                 .map { response in
                     .setJobList(jobList: response.jobList)
                 }

@@ -1,4 +1,6 @@
 import MLSAuthFeature
+import MLSAuthFeatureInterface
+
 import RxSwift
 
 public final class MockUserDefaultsRepository: UserDefaultsRepository {
