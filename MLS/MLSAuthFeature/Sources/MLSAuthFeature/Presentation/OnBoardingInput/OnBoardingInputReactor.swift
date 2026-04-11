@@ -77,18 +77,16 @@ public final class OnBoardingInputReactor: Reactor {
         case .nextButtonTapped:
                return Observable.just(.navigateTo(route: .notification))
         case .inputLevel(let level):
-            let changeLevel = Observable.just(Mutation.setLevel(level))
-            let validateJob = checkEmptyUseCase.execute(level: level, job: currentState.job?.name)
-                .map(Mutation.setButtonEnabled)
-            let validateLevel = checkValidLevelUseCase.execute(level: level)
-                .map(Mutation.setLevelValid)
-            return .merge(changeLevel, validateJob, validateLevel)
+            let isButtonEnabled = checkEmptyUseCase.execute(level: level, job: currentState.job?.name)
+            let isLevelValid = checkValidLevelUseCase.execute(level: level)
+            return .of(
+                .setLevel(level),
+                .setButtonEnabled(isButtonEnabled),
+                .setLevelValid(isLevelValid)
+            )
         case .inputRole(let job):
-            return checkEmptyUseCase.execute(level: currentState.level, job: job?.name)
-                .map { isValid in
-                    [.setRole(job), .setButtonEnabled(isValid)]
-                }
-                .flatMap { Observable.from($0) }
+            let isButtonEnabled = checkEmptyUseCase.execute(level: currentState.level, job: job?.name)
+            return .of(.setRole(job), .setButtonEnabled(isButtonEnabled))
         }
     }
 

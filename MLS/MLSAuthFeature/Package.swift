@@ -75,7 +75,9 @@ let package = Package(
                 "MLSAuthFeature",
                 "MLSAuthFeatureInterface",
                 "MLSAuthFeatureTesting",
-            ]
+                .product(name: "RxBlocking", package: "RxSwift"),
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
         ),
     ]
 )
