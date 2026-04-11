@@ -1,4 +1,3 @@
-import MLSAuthFeature
 import MLSAuthFeatureInterface
 
 public final class MockTokenRepository: TokenRepository {

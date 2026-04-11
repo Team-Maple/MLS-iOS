@@ -63,7 +63,7 @@ let package = Package(
         .target(
             name: "MLSAuthFeatureTesting",
             dependencies: [
-                "MLSAuthFeature",
+                "MLSAuthFeatureInterface",
                 .product(name: "RxSwift", package: "RxSwift"),
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]

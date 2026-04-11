@@ -1,6 +1,4 @@
-import MLSAuthFeatureInterface
-
-public struct AppleCredential: Credential {
+public struct Credential {
     public let token: String
     public let providerID: String
 

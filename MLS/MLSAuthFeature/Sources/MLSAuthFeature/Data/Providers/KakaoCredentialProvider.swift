@@ -48,7 +48,7 @@ public final class KakaoCredentialProvider: SocialCredentialProvider, @unchecked
                 }
 
                 let id = user?.id ?? 0
-                let credential = KakaoCredential(token: accessToken, providerID: String(id))
+                let credential = Credential(token: accessToken, providerID: String(id))
                 observer.onNext(credential)
                 observer.onCompleted()
             }

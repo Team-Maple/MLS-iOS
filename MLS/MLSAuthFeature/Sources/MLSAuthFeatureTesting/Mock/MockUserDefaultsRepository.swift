@@ -1,4 +1,3 @@
-import MLSAuthFeature
 import MLSAuthFeatureInterface
 
 import RxSwift

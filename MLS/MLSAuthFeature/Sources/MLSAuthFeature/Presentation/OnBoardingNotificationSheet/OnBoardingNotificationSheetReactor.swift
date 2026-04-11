@@ -1,6 +1,8 @@
 import UIKit
 import UserNotifications
 
+import MLSAuthFeatureInterface
+
 import ReactorKit
 import RxCocoa
 import RxSwift

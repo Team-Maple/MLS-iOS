@@ -42,8 +42,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, AppCoordinatorProtocol 
         let userDefaultsRepository = MockUserDefaultsRepository()
         let authRepository = MockAuthAPIRepository()
 
-        let appleProvider = AppleCredentialProvider()
-        let kakaoProvider = KakaoCredentialProvider()
+        let appleProvider = MockAppleCredentialProvider()
+        let kakaoProvider = MockKakaoCredentialProvider()
 
         let factory = LoginFactoryImpl(
             termsAgreementsFactory: makeTermsAgreementFactory(

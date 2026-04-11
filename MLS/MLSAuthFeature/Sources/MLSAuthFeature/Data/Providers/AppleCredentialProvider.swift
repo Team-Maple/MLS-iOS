@@ -49,7 +49,7 @@ extension AppleCredentialProvider: ASAuthorizationControllerPresentationContextP
             return
         }
 
-        let credential = AppleCredential(token: idToken, providerID: authCode)
+        let credential = Credential(token: idToken, providerID: authCode)
         authServiceResponse.onNext(credential)
         authServiceResponse.onCompleted()
     }

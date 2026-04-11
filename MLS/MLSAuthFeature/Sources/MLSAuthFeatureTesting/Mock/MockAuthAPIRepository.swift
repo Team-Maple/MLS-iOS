@@ -1,4 +1,3 @@
-import MLSAuthFeature
 import MLSAuthFeatureInterface
 
 import RxSwift
@@ -8,7 +7,7 @@ public final class MockAuthAPIRepository: AuthAPIRepository {
     public init() {}
 
     public func loginWithKakao(credential: Credential) -> Observable<LoginResponse> {
-        return .just(LoginResponse(isRegister: true, accessToken: "mock_access", refreshToken: "mock_refresh"))
+        return .just(LoginResponse(isRegister: false, accessToken: "mock_access", refreshToken: "mock_refresh"))
     }
 
     public func loginWithApple(credential: Credential) -> Observable<LoginResponse> {

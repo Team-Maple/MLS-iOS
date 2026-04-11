@@ -1,3 +1,5 @@
+import MLSAuthFeatureInterface
+
 public struct JobsDTO: Decodable {
     public let jobId: Int
     public let jobName: String
