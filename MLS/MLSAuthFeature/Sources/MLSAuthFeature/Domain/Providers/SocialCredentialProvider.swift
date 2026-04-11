@@ -2,6 +2,6 @@ import MLSAuthFeatureInterface
 
 import RxSwift
 
-public protocol SocialAuthenticatableProvider {
+public protocol SocialCredentialProvider {
     func getCredential() -> Observable<Credential>
 }

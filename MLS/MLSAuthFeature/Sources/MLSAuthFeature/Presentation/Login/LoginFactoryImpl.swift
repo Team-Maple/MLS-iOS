@@ -5,8 +5,8 @@ import RxSwift
 
 public struct LoginFactoryImpl: LoginFactory {
     private let termsAgreementsFactory: TermsAgreementFactory
-    private let appleProvider: SocialAuthenticatableProvider
-    private let kakaoProvider: SocialAuthenticatableProvider
+    private let appleProvider: SocialCredentialProvider
+    private let kakaoProvider: SocialCredentialProvider
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
     private let tokenRepository: TokenRepository
@@ -15,8 +15,8 @@ public struct LoginFactoryImpl: LoginFactory {
 
     public init(
         termsAgreementsFactory: TermsAgreementFactory,
-        appleProvider: SocialAuthenticatableProvider,
-        kakaoProvider: SocialAuthenticatableProvider,
+        appleProvider: SocialCredentialProvider,
+        kakaoProvider: SocialCredentialProvider,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
         tokenRepository: TokenRepository,

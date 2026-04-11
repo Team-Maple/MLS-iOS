@@ -5,7 +5,7 @@ import MLSAuthFeatureInterface
 
 import RxSwift
 
-public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvider {
+public final class AppleCredentialProvider: NSObject, SocialCredentialProvider {
     override public init() {}
 
     private var authServiceResponse = PublishSubject<Credential>()
@@ -27,7 +27,7 @@ public final class AppleLoginProviderImpl: NSObject, SocialAuthenticatableProvid
     }
 }
 
-extension AppleLoginProviderImpl: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
+extension AppleCredentialProvider: ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
     public func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         let scenes = UIApplication.shared.connectedScenes
         let windowScene = scenes.first as? UIWindowScene

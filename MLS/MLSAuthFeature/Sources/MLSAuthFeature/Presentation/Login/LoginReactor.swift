@@ -36,8 +36,8 @@ public final class LoginReactor: Reactor {
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
-    private let appleProvider: SocialAuthenticatableProvider
-    private let kakaoProvider: SocialAuthenticatableProvider
+    private let appleProvider: SocialCredentialProvider
+    private let kakaoProvider: SocialCredentialProvider
     private let loginWithAppleUseCase: LoginWithAppleUseCase
     private let loginWithKakaoUseCase: LoginWithKakaoUseCase
     private let tokenRepository: TokenRepository
@@ -46,8 +46,8 @@ public final class LoginReactor: Reactor {
 
     // MARK: - init
     public init(
-        appleProvider: SocialAuthenticatableProvider,
-        kakaoProvider: SocialAuthenticatableProvider,
+        appleProvider: SocialCredentialProvider,
+        kakaoProvider: SocialCredentialProvider,
         loginWithAppleUseCase: LoginWithAppleUseCase,
         loginWithKakaoUseCase: LoginWithKakaoUseCase,
         tokenRepository: TokenRepository,
