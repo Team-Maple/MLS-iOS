@@ -1,5 +1,3 @@
-import Foundation
-
 public struct SignUpResponse {
     public var accessToken: String
     public var refreshToken: String

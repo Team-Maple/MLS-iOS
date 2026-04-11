@@ -1,5 +1,3 @@
-import Foundation
-
 public struct LoginResponse {
     public var isRegister: Bool
     public var accessToken: String

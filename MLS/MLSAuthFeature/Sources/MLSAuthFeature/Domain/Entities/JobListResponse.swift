@@ -1,5 +1,3 @@
-import Foundation
-
 public struct JobListResponse {
     public var jobList: [Job]
 

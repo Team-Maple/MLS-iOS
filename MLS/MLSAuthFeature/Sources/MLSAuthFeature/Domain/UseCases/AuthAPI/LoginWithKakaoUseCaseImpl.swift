@@ -1,10 +1,8 @@
-import Foundation
-
 import MLSAuthFeatureInterface
 
 import RxSwift
 
-public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
+public class LoginWithKakaoUseCaseImpl: LoginWithKakaoUseCase {
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
     private let userDefaultsRepository: UserDefaultsRepository
@@ -20,11 +18,11 @@ public class LoginWithAppleUseCaseImpl: LoginWithAppleUseCase {
     }
 
     public func execute(credential: Credential) -> Observable<LoginResponse> {
-        return authRepository.loginWithApple(credential: credential)
+        return authRepository.loginWithKakao(credential: credential)
             .flatMap { response -> Observable<LoginResponse> in
                 let saveAccess = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
                 let saveRefresh = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
-                let savePlatform = self.userDefaultsRepository.savePlatform(platform: .apple)
+                let savePlatform = self.userDefaultsRepository.savePlatform(platform: .kakao)
 
                 guard case (.success, .success) = (saveAccess, saveRefresh) else {
                     return Observable.error(TokenRepositoryError.dataConversionError(message: "Failed to save tokens"))
