@@ -75,4 +75,3 @@ private func makeSUT(
         userDefaultsRepository: userDefaultsRepository
     )
 }
-

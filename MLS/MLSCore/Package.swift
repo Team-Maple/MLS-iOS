@@ -15,7 +15,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
-        .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,7 +26,7 @@ let package = Package(
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
                 .product(name: "RxRelay", package: "RxSwift"),
-                .product(name: "RxKeyboard", package: "RxKeyboard"),
+                .product(name: "RxKeyboard", package: "RxKeyboard")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),

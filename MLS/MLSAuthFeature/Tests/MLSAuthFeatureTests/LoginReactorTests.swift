@@ -117,4 +117,3 @@ private func makeSUT(error: Error) -> LoginReactor {
         userDefaultsRepository: MockUserDefaultsRepository()
     )
 }
-

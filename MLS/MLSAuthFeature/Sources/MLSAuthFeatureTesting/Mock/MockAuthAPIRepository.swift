@@ -30,7 +30,7 @@ public final class MockAuthAPIRepository: AuthAPIRepository {
             Job(name: "마법사", id: 2),
             Job(name: "궁수", id: 3),
             Job(name: "도적", id: 4),
-            Job(name: "해적", id: 5),
+            Job(name: "해적", id: 5)
         ]))
     }
 

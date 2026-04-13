@@ -19,7 +19,7 @@ let package = Package(
         .library(
             name: "MLSAuthFeatureTesting",
             targets: ["MLSAuthFeatureTesting"]
-        ),
+        )
     ],
     dependencies: [
         .package(path: "../MLSCore"),
@@ -28,7 +28,7 @@ let package = Package(
         .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.22.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
-        .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1"),
+        .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1")
     ],
     targets: [
         // Interface 모듈 (Presentation 팩토리 프로토콜)
@@ -37,7 +37,7 @@ let package = Package(
             dependencies: [
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
-                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxSwift", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
@@ -55,7 +55,7 @@ let package = Package(
                 .product(name: "RxKeyboard", package: "RxKeyboard"),
                 .product(name: "KakaoSDKAuth", package: "kakao-ios-sdk"),
                 .product(name: "KakaoSDKUser", package: "kakao-ios-sdk"),
-                .product(name: "SnapKit", package: "SnapKit"),
+                .product(name: "SnapKit", package: "SnapKit")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
@@ -64,7 +64,7 @@ let package = Package(
             name: "MLSAuthFeatureTesting",
             dependencies: [
                 "MLSAuthFeatureInterface",
-                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxSwift", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]
         ),
@@ -75,9 +75,9 @@ let package = Package(
                 "MLSAuthFeature",
                 "MLSAuthFeatureInterface",
                 "MLSAuthFeatureTesting",
-                .product(name: "RxBlocking", package: "RxSwift"),
+                .product(name: "RxBlocking", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]
-        ),
+        )
     ]
 )

@@ -100,4 +100,3 @@ private func makeSUT() -> TermsAgreementReactor {
         tokenRepository: MockTokenRepository()
     )
 }
-
