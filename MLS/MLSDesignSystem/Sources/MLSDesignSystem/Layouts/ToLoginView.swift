@@ -5,7 +5,7 @@ import SnapKit
 public enum LoginViewType {
     case bookmark
     case recommend
-    
+
     var mainText: String {
         switch self {
         case .bookmark:
@@ -14,7 +14,7 @@ public enum LoginViewType {
             "로그인하면 추천 기능이 열려요!"
         }
     }
-    
+
     var subText: String {
         switch self {
         case .bookmark:

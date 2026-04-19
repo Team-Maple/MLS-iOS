@@ -10,26 +10,25 @@ final class TooltipTestViewController: UIViewController {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
-    
+
     let button1 = {
         let button = UIButton(type: .system)
         button.setTitle("우상단 버튼입니다", for: .normal)
         return button
     }()
-    
+
     let button2 = {
         let button = UIButton(type: .system)
         button.setTitle("좌상단", for: .normal)
         return button
     }()
-    
-    
+
     let button3 = {
         let button = UIButton(type: .system)
         button.setTitle("우하단", for: .normal)
         return button
     }()
-    
+
     let button4 = {
         let button = UIButton(type: .system)
         button.setTitle("좌하단", for: .normal)
@@ -71,23 +70,23 @@ private extension TooltipTestViewController {
         button1.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
-        
+
         button2.snp.makeConstraints { make in
             make.top.equalTo(button1.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
-        
+
         button3.snp.makeConstraints { make in
             make.top.equalTo(button2.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
-        
+
         button4.snp.makeConstraints { make in
             make.top.equalTo(button3.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
-    
+
     func bind() {
         button1.rx.tap
             .withUnretained(self)
@@ -96,7 +95,7 @@ private extension TooltipTestViewController {
                 )
             }
             .disposed(by: disposeBag)
-        
+
         button2.rx.tap
             .withUnretained(self)
             .subscribe { owner, _ in
@@ -104,7 +103,7 @@ private extension TooltipTestViewController {
                 )
             }
             .disposed(by: disposeBag)
-        
+
         button3.rx.tap
             .withUnretained(self)
             .subscribe { owner, _ in
@@ -112,7 +111,7 @@ private extension TooltipTestViewController {
                 )
             }
             .disposed(by: disposeBag)
-        
+
         button4.rx.tap
             .withUnretained(self)
             .subscribe { owner, _ in
