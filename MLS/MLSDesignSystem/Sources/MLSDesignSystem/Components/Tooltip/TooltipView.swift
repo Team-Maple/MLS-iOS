@@ -13,13 +13,15 @@ public enum TooltipPosition {
 private enum Constants {
     static let arrowSize = CGSize(width: 16, height: 10)
     static let cornerRadius: CGFloat = 16
+    static let arrowInset: CGFloat = 28 /// arrow는 툴팁 내부에서 고정 위치
 }
 
 final class TooltipView: UIView {
 
     // MARK: - Properties
     private let tooltipPosition: TooltipPosition
-    
+    private let shapeLayer = CAShapeLayer()
+
     // MARK: - Components
     private let label = UILabel()
 
@@ -71,6 +73,8 @@ private extension TooltipView {
 
         label.attributedText = .makeStyledString(font: .b_s_r, text: text)
         label.numberOfLines = 0
+        
+        layer.insertSublayer(shapeLayer, at: 0)
     }
 }
 
@@ -105,16 +109,13 @@ extension TooltipView {
             cornerRadius: Constants.cornerRadius
         )
 
-        /// arrow는 툴팁 내부에서 고정 위치
-        let arrowInset: CGFloat = 28
-
         let arrowX: CGFloat
         switch tooltipPosition {
         case .topLeading, .bottomLeading:
-            arrowX = arrowInset
+            arrowX = Constants.arrowInset
 
         case .topTrailing, .bottomTrailing:
-            arrowX = bubbleRect.width - arrowInset
+            arrowX = bubbleRect.width - Constants.arrowInset
         }
 
         let arrowPath = UIBezierPath()
@@ -132,12 +133,8 @@ extension TooltipView {
         arrowPath.close()
         bubblePath.append(arrowPath)
 
-        let shapeLayer = CAShapeLayer()
+        shapeLayer.frame = bounds
         shapeLayer.path = bubblePath.cgPath
         shapeLayer.fillColor = UIColor.whiteMLS.cgColor
-
-        /// 기존 shapeLayer 제거 후 다시 추가
-        layer.sublayers?.removeAll(where: { $0 is CAShapeLayer })
-        layer.insertSublayer(shapeLayer, at: 0)
     }
 }
