@@ -36,11 +36,14 @@
       location = "group:Core/Core.xcodeproj">
    </FileRef>
    <FileRef
-    location = "group:MLSDesignSystem">
-  </FileRef>
-  <FileRef
-    location = "group:MLSAppFeature">
-  </FileRef>
+      location = "group:MLSDesignSystem">
+   </FileRef>
+   <FileRef
+      location = "group:MLSAppFeature">
+   </FileRef>
+   <FileRef
+      location = "group:MLSAuthFeature">
+   </FileRef>
    <FileRef
       location = "group:MLSCore">
    </FileRef>

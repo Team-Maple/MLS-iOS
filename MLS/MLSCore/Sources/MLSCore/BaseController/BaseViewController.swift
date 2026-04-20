@@ -4,12 +4,14 @@ import UIKit
 import RxKeyboard
 import RxSwift
 
-open class BaseViewController: UIViewController {
+open class BaseViewController: UIViewController, Loggable {
     private let disposeBag = DisposeBag()
+
+    public var isBottomTabbarHidden: Bool = false
 
     public init() {
         super.init(nibName: nil, bundle: nil)
-        os_log("➕init: \(String(describing: self))")
+        logDebug("init \(String(describing: self))")
     }
 
     @available(*, unavailable)
@@ -18,7 +20,7 @@ open class BaseViewController: UIViewController {
     }
 
     deinit {
-        os_log("➖deinit: \(String(describing: self))")
+        logDebug("deinit: \(String(describing: self))")
     }
 }
 
