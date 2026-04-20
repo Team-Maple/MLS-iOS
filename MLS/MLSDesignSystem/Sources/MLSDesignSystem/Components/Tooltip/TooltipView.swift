@@ -73,7 +73,7 @@ private extension TooltipView {
 
         label.attributedText = .makeStyledString(font: .b_s_r, text: text)
         label.numberOfLines = 0
-        
+
         layer.insertSublayer(shapeLayer, at: 0)
     }
 }
