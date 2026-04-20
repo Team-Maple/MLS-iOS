@@ -2,6 +2,29 @@ import UIKit
 
 import SnapKit
 
+public enum LoginViewType {
+    case bookmark
+    case recommend
+
+    var mainText: String {
+        switch self {
+        case .bookmark:
+            "북마크는 로그인 후 이용 가능해요!"
+        case .recommend:
+            "로그인하면 추천 기능이 열려요!"
+        }
+    }
+
+    var subText: String {
+        switch self {
+        case .bookmark:
+            "자주 보는 정보, 검색 없이 바로 확인 할 수 있어요"
+        case .recommend:
+            "내 레벨과 직업에 맞춰\n사냥터를 추천받을 수 있어요"
+        }
+    }
+}
+
 public final class ToLoginView: UIView {
     // MARK: - Type
     enum Constant {
@@ -19,11 +42,11 @@ public final class ToLoginView: UIView {
     public let button = CommonButton()
 
     // MARK: - Init
-    public init(mainText: String, subText: String, buttonText: String? = nil) {
+    public init(type: LoginViewType) {
         super.init(frame: .zero)
         addViews()
         setupConstraints()
-        configureUI(mainText: mainText, subText: subText, buttonText: buttonText)
+        configureUI(type: type)
     }
 
     @available(*, unavailable)
@@ -65,20 +88,20 @@ private extension ToLoginView {
         }
     }
 
-    func configureUI(mainText: String, subText: String, buttonText: String? = nil) {
+    func configureUI(type: LoginViewType) {
         backgroundColor = .neutral100
         imageView.image = DesignSystemAsset.image(named: "noShowList")
         mainLabel.attributedText = .makeStyledString(
             font: .h_xl_b,
-            text: mainText
+            text: type.mainText
         )
 
         subLabel.attributedText = .makeStyledString(
             font: .cp_s_r,
-            text: subText,
+            text: type.subText,
             color: .neutral600
         )
 
-        button.updateTitle(title: buttonText ?? "로그인하러 가기")
+        button.updateTitle(title: "로그인하러 가기")
     }
 }

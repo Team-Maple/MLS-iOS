@@ -8,7 +8,7 @@ public struct TabItem {
     var icon: UIImage
 }
 
-public final class BottomTabBar: UIStackView {
+internal final class BottomTabBar: UIStackView {
     // MARK: - Type
     private enum Constant {
         static let height: CGFloat = 64

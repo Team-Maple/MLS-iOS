@@ -4,7 +4,7 @@ import RxSwift
 import SnapKit
 
 @MainActor
-public final class ToastFactory {
+public enum ToastFactory {
 
     // MARK: - Properties
 
