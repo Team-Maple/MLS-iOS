@@ -1,26 +1,23 @@
 import UIKit
 
 import RxCocoa
+import RxGesture
 import RxSwift
 
-final class TooltipOverlayView: UIView {
+internal final class TooltipOverlayView: UIView {
     // MARK: - Properties
     private let disposeBag = DisposeBag()
-
-    var onDismiss: (() -> Void)?
+    let dismiss = PublishRelay<Void>()
 
     // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
 
-        let tapGesture = UITapGestureRecognizer()
-        addGestureRecognizer(tapGesture)
-
-        tapGesture.rx.event
-            .bind { [weak self] _ in
-                self?.onDismiss?()
-            }
+        rx.tapGesture()
+            .when(.recognized)
+            .map { _ in }
+            .bind(to: dismiss)
             .disposed(by: disposeBag)
     }
 

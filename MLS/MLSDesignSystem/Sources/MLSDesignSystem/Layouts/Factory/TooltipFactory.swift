@@ -6,6 +6,7 @@ import SnapKit
 @MainActor
 public enum TooltipFactory {
     // MARK: - Properties
+    private static let disposeBag = DisposeBag()
 
     /// 현재 디바이스 최상단 Window를 지정
     static var window: UIWindow? {
@@ -42,9 +43,11 @@ public extension TooltipFactory {
         overlay.addSubview(tooltip)
         currentTooltip = tooltip
 
-        overlay.onDismiss = {
-            dismiss()
-        }
+        overlay.dismiss
+            .bind { _ in
+                dismiss()
+            }
+            .disposed(by: disposeBag)
 
         let frame = anchorView.convert(anchorView.bounds, to: window)
 

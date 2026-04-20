@@ -2,7 +2,7 @@ import UIKit
 
 import SnapKit
 
-public final class TabButton: UIButton {
+internal final class TabButton: UIButton {
     // MARK: - Type
     private enum Constant {
         static let spacing: CGFloat = 4

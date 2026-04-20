@@ -17,7 +17,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1"),
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.9.1")
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.9.1"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxGesture.git", from: "4.0.4")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -28,7 +29,8 @@ let package = Package(
                 .product(name: "SnapKit", package: "SnapKit"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
-                .product(name: "RxRelay", package: "RxSwift")
+                .product(name: "RxRelay", package: "RxSwift"),
+                .product(name: "RxGesture", package: "RxGesture") // 추가
             ],
             resources: [
                 .process("Resources")
