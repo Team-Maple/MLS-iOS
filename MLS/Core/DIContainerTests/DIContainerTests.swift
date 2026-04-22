@@ -1,19 +1,8 @@
 import XCTest
 
 @testable import Core
-@testable import Data
-@testable import DomainInterface
 
 class DIContainerTests: XCTestCase {
-    override func setUp() {
-        super.setUp()
-        DIContainer.resetForTesting()
-    }
-
-    override func tearDown() {
-        DIContainer.resetForTesting()
-        super.tearDown()
-    }
 
     /// 객체 등록 및 가져오기 테스트
     func testRegisterAndResolve() {
@@ -119,19 +108,6 @@ extension DIContainerTests {
     class AnotherServiceX: AnotherService {
         func execute() -> String {
             return "AnotherServiceX"
-        }
-    }
-}
-
-// 테스트를 위한 서비스 초기화 함수
-extension DIContainer {
-    public static func resetForTesting() {
-        shared.resetForTesting()
-    }
-
-    private func resetForTesting() {
-        serviceQueue.sync {
-            services.removeAll()
         }
     }
 }

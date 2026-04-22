@@ -6,7 +6,7 @@ public enum AlarmEndPoint {
     public static func fetchPatchNotes(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/list/patch-notes",
+            path: "/api/v2/alrim/list/patch-notes",
             method: .GET,
             query: query
         )
@@ -15,7 +15,7 @@ public enum AlarmEndPoint {
     public static func fetchNotices(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/list/notices",
+            path: "/api/v2/alrim/list/notices",
             method: .GET,
             query: query
         )
@@ -24,7 +24,7 @@ public enum AlarmEndPoint {
     public static func fetchOutdatedEvents(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/list/events/outdated",
+            path: "/api/v2/alrim/list/events/outdated",
             method: .GET,
             query: query
         )
@@ -33,7 +33,7 @@ public enum AlarmEndPoint {
     public static func fetchOngoingEvents(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/list/events/ongoing",
+            path: "/api/v2/alrim/list/events/ongoing",
             method: .GET,
             query: query
         )
@@ -42,7 +42,7 @@ public enum AlarmEndPoint {
     public static func fetchAll(query: Encodable) -> ResponsableEndPoint<AlarmResponseDTO> {
         .init(
             baseURL: base,
-            path: "/api/v1/alrim/all",
+            path: "/api/v2/alrim/all",
             method: .GET,
             query: query
         )

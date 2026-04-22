@@ -11,7 +11,7 @@ public class FetchAllAlarmUseCaseImpl: FetchAllAlarmUseCase {
         self.repository = repository
     }
 
-    public func execute(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
-        return repository.fetchAll(cursor: cursor, pageSize: pageSize)
+    public func execute(id: Int?, pageSize: Int) -> Observable<PagedEntity<AllAlarmResponse>> {
+        return repository.fetchAll(cursor: id, pageSize: pageSize)
     }
 }

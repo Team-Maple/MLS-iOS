@@ -32,6 +32,7 @@ public struct AlarmResponseDTO: Decodable {
     }
 
     public struct NormalContent: Decodable {
+        public let id: Int
         public let type: String
         public let title: String
         public let link: String
@@ -50,6 +51,7 @@ public extension AlarmResponseDTO {
             switch content {
             case .normal(let normal):
                 return AlarmResponse(
+                    id: normal.id,
                     type: normal.type,
                     title: normal.title,
                     link: normal.link,
@@ -57,6 +59,7 @@ public extension AlarmResponseDTO {
                 )
             case .all(let all):
                 return AlarmResponse(
+                    id: all.alrim.id,
                     type: all.alrim.type,
                     title: all.alrim.title,
                     link: all.alrim.link,
@@ -72,6 +75,7 @@ public extension AlarmResponseDTO {
             switch content {
             case .all(let all):
                 return AllAlarmResponse(
+                    id: all.alrim.id,
                     type: all.alrim.type,
                     title: all.alrim.title,
                     link: all.alrim.link,

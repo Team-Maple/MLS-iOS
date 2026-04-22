@@ -42,7 +42,7 @@ public final class AnnouncementReactor: Reactor {
         case .viewWillAppear:
             return .concat([
                 .just(.setLoading(true)),
-                fetchNoticesUseCase.execute(cursor: nil, pageSize: 20)
+                fetchNoticesUseCase.execute(id: nil, pageSize: 20)
                     .map { paged in
                         .setAlarms(paged.items, hasMore: paged.hasMore, reset: true)
                     },
@@ -50,10 +50,10 @@ public final class AnnouncementReactor: Reactor {
             ])
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
-            let lastCursor = currentState.alarms.last?.date
+            let lastCursor = currentState.alarms.last?.id
             return .concat([
                 .just(.setLoading(true)),
-                fetchNoticesUseCase.execute(cursor: lastCursor, pageSize: 20)
+                fetchNoticesUseCase.execute(id: lastCursor, pageSize: 20)
                     .map { paged in
                         .setAlarms(paged.items, hasMore: paged.hasMore, reset: false)
                     },

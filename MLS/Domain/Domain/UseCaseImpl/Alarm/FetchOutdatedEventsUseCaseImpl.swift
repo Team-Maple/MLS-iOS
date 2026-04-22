@@ -11,7 +11,7 @@ public class FetchOutdatedEventsUseCaseImpl: FetchOutdatedEventsUseCase {
         self.repository = repository
     }
 
-    public func execute(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        return repository.fetchOutdatedEvents(cursor: cursor, pageSize: pageSize)
+    public func execute(id: Int?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        return repository.fetchOutdatedEvents(cursor: id, pageSize: pageSize)
     }
 }
