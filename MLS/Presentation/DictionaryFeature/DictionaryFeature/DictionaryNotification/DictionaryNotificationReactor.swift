@@ -63,7 +63,7 @@ public final class DictionaryNotificationReactor: Reactor {
 
             let notificationStream: Observable<Mutation> = Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
-                fetchAllAlarmUseCase.execute(cursor: nil, pageSize: 20)
+                fetchAllAlarmUseCase.execute(id: nil, pageSize: 20)
                     .map { paged in
                         Mutation.setNotifications(paged.items, hasMore: paged.hasMore, reset: true)
                     },
@@ -78,11 +78,11 @@ public final class DictionaryNotificationReactor: Reactor {
 
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
-            let cursor = currentState.notifications.last?.date
+            let cursor = currentState.notifications.last?.id
 
             return Observable.concat([
                 Observable<Mutation>.just(.setLoading(true)),
-                fetchAllAlarmUseCase.execute(cursor: cursor, pageSize: 20)
+                fetchAllAlarmUseCase.execute(id: cursor, pageSize: 20)
                     .map { paged in
                         Mutation.setNotifications(paged.items, hasMore: paged.hasMore, reset: false)
                     },
