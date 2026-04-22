@@ -45,8 +45,8 @@ public final class EventReactor: Reactor {
         switch action {
         case let .selectTab(index):
             let fetchObservable = (index == 0
-                ? fetchOngoingEventsUseCase.execute(cursor: nil, pageSize: 20)
-                : fetchOutdatedEventsUseCase.execute(cursor: nil, pageSize: 20))
+                ? fetchOngoingEventsUseCase.execute(id: nil, pageSize: 20)
+                : fetchOutdatedEventsUseCase.execute(id: nil, pageSize: 20))
                 .map { paged -> Mutation in
                     .setAlarms(paged.items, hasMore: paged.hasMore, reset: true)
                 }
@@ -64,11 +64,11 @@ public final class EventReactor: Reactor {
 
         case .loadMore:
             guard currentState.hasMore, !currentState.isLoading else { return .empty() }
-            let lastCursor = currentState.alarms.last?.date
+            let lastCursor = currentState.alarms.last?.id
 
             return .concat([
                 .just(.setLoading(true)),
-                (currentState.selectedIndex == 0 ? fetchOngoingEventsUseCase.execute(cursor: lastCursor, pageSize: 20) : fetchOutdatedEventsUseCase.execute(cursor: lastCursor, pageSize: 20))
+                (currentState.selectedIndex == 0 ? fetchOngoingEventsUseCase.execute(id: lastCursor, pageSize: 20) : fetchOutdatedEventsUseCase.execute(id: lastCursor, pageSize: 20))
                     .map { paged in
                         .setAlarms(paged.items, hasMore: paged.hasMore, reset: false)
                     },

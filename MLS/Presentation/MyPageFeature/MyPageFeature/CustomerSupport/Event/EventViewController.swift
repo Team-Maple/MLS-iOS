@@ -32,8 +32,6 @@ final class EventViewController: CustomerSupportBaseViewController, View {
         mainView.menuStackView.addArrangedSubview(endedButton)
         mainView.setupSpacerView()
 
-        reactor?.action.onNext(.selectTab(0))
-
         guard let reactor = reactor else { return }
         mainView.menuStackView.arrangedSubviews
             .compactMap { $0 as? UIButton }
@@ -49,6 +47,7 @@ final class EventViewController: CustomerSupportBaseViewController, View {
 // MARK: - Bind
 extension EventViewController {
     func bind(reactor: Reactor) {
+        reactor.action.onNext(.selectTab(0))
         bindViewState(reactor: reactor)
     }
 
