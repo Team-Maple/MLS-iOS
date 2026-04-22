@@ -1,5 +1,5 @@
-import BaseFeature
 import AuthFeatureInterface
+import BaseFeature
 
 public final class MockLoginFactory: LoginFactory {
     public func make(exitRoute: LoginExitRoute, onLoginCompleted: (() -> Void)?) -> BaseViewController {

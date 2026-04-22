@@ -56,7 +56,7 @@ private extension AppDelegate {
     }
 
     func registerUseCase() {
-        ///테스트 코드에 맞게 등록
+        /// 테스트 코드에 맞게 등록
 //        DIContainer.register(type: CheckNickNameUseCase.self) {
 //            CheckNickNameUseCaseImpl()
 //        }
