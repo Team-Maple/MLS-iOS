@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         ])
 
         let notiView = BottomTabBarController(viewControllers: [
-            DIContainer.resolve(type: NotificationSettingFactory.self).make()
+            DIContainer.resolve(type: NotificationSettingFactory.self).make(isAgreeEventNotification: false, isAgreeNoticeNotification: false, isAgreePatchNoteNotification: false)
         ])
 
         mainView.title = "마이페이지 메인"

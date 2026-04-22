@@ -50,8 +50,12 @@ extension PatchNoteViewController {
             .distinctUntilChanged()
             .withUnretained(self)
             .observe(on: MainScheduler.instance)
-            .bind(onNext: { owner, _ in
-                owner.createDetailItem(items: reactor.currentState.alarms)
+            .bind(onNext: { owner, alarms in
+                owner.mainView.detailItemStackView.arrangedSubviews.forEach {
+                    owner.mainView.detailItemStackView.removeArrangedSubview($0)
+                    $0.removeFromSuperview()
+                }
+                owner.createDetailItem(items: alarms)
             })
             .disposed(by: disposeBag)
     }

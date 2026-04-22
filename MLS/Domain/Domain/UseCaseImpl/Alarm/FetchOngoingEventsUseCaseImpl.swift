@@ -11,7 +11,7 @@ public class FetchOngoingEventsUseCaseImpl: FetchOngoingEventsUseCase {
         self.repository = repository
     }
 
-    public func execute(cursor: String?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
-        return repository.fetchOngoingEvents(cursor: cursor, pageSize: pageSize)
+    public func execute(id: Int?, pageSize: Int) -> Observable<PagedEntity<AlarmResponse>> {
+        return repository.fetchOngoingEvents(cursor: id, pageSize: pageSize)
     }
 }
