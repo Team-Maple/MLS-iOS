@@ -45,6 +45,9 @@
       location = "group:MLSAuthFeature">
    </FileRef>
    <FileRef
+      location = "group:MLSRecommendationFeature">
+   </FileRef>
+   <FileRef
       location = "group:MLSCore">
    </FileRef>
 </Workspace>

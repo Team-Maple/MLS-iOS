@@ -1,0 +1,11 @@
+import MLSRecommendationFeatureInterface
+import MLSCore
+
+public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
+
+    public init() {}
+
+    public func make() -> BaseViewController {
+        return RecommendationMainViewController()
+    }
+}
