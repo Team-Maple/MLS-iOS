@@ -13,7 +13,7 @@ internal final class RecommendationProfileView: UIStackView {
         static let verticalStackViewSpacing: CGFloat = 18
         static let horizontalStackViewSpacing: CGFloat = 12
     }
-    
+
     // MARK: - Properties
     internal let profileImageView: UIImageView = .init()
     internal let nicknameLabel: UILabel = .init()
@@ -24,20 +24,21 @@ internal final class RecommendationProfileView: UIStackView {
         button.setAttributedTitle(.makeStyledUnderlinedString(font: .korFont(style: .regular, size: 14), text: "수정하기"), for: .normal)
         return button
     }()
-    
+
     // MARK: - StackView
     private let verticalStackView: UIStackView = .init()
     private let horizontalStackView: UIStackView = .init()
-    
+
     // MARK: - init
     internal init() {
         super.init(frame: .zero)
-        
+
         addViews()
         setupConstraints()
         configureUI()
     }
-    
+
+    @available(*, unavailable)
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -49,12 +50,12 @@ private extension RecommendationProfileView {
         horizontalStackView.addArrangedSubview(jobLabel)
         horizontalStackView.addArrangedSubview(levelBadge)
         horizontalStackView.addArrangedSubview(editButton)
-        
+
         verticalStackView.addArrangedSubview(nicknameLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
-        
-        self.addArrangedSubview(profileImageView)
-        self.addArrangedSubview(verticalStackView)
+
+        addArrangedSubview(profileImageView)
+        addArrangedSubview(verticalStackView)
     }
 
     func setupConstraints() {
@@ -65,19 +66,19 @@ private extension RecommendationProfileView {
 
     func configureUI() {
         profileImageView.backgroundColor = .red
-        self.distribution = .fill
-        self.alignment = .center
-        self.spacing = Constant.outerStackViewSpacing
-        
+        alignment = .center
+        spacing = Constant.outerStackViewSpacing
+
         verticalStackView.axis = .vertical
         verticalStackView.alignment = .leading
         verticalStackView.spacing = Constant.verticalStackViewSpacing
-        
+
         horizontalStackView.alignment = .center
         horizontalStackView.spacing = Constant.horizontalStackViewSpacing
     }
 }
 
+// MARK: - Configure
 internal extension RecommendationProfileView {
     func configure(imageURL: String?, nickName: String, job: String, level: Int) {
         ImageLoader.shared.loadImage(stringURL: imageURL) { [weak self] image in
