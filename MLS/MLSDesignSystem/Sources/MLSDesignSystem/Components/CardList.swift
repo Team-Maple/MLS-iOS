@@ -263,7 +263,7 @@ public extension CardList {
             rankTag.isHidden = true
             badge.update(style: type)
         case .recommended(let rank):
-            iconButton.isHidden = true
+            iconButton.isHidden = false
             dropInfoStack.isHidden = true
             subTextLabel.isHidden = true
             badge.isHidden = true
