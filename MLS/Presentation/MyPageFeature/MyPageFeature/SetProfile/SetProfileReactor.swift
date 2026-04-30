@@ -4,7 +4,7 @@ import ReactorKit
 
 public final class SetProfileReactor: Reactor {
     // MARK: - Route
-    public enum Route {
+    public enum Route: Equatable {
         case none
         case dismiss
         case dismissWithUpdate
@@ -28,7 +28,7 @@ public final class SetProfileReactor: Reactor {
     }
 
     // MARK: - Mutation
-    public enum Mutation {
+    public enum Mutation: Equatable {
         case toNavigate(Route)
         case setNickName(String)
         case setProfile(MyPageResponse?)

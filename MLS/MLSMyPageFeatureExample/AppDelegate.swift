@@ -4,16 +4,12 @@ import UIKit
 
 import MLSCore
 import MLSDesignSystem
-import MLSMyPageFeature
-import MLSMyPageFeatureInterface
-import MLSMyPageFeatureTesting
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ImageLoader.shared.configure.diskCacheCountLimit = 10
         FontManager.registerFonts()
-//        registerDependencies()
 
         let center = UNUserNotificationCenter.current()
         center.delegate = self
@@ -46,118 +42,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
 }
-
-//private extension AppDelegate {
-//    func registerDependencies() {
-//        registerUseCase()
-//        registerFactory()
-//    }
-//
-//    func registerUseCase() {
-//        DIContainer.register(type: CheckNickNameUseCase.self) {
-//            CheckNickNameUseCaseImpl()
-//        }
-//        DIContainer.register(type: CheckEmptyLevelAndRoleUseCase.self) {
-//            CheckEmptyLevelAndRoleUseCaseImpl()
-//        }
-//        DIContainer.register(type: CheckValidLevelUseCase.self) {
-//            CheckValidLevelUseCaseImpl()
-//        }
-//        DIContainer.register(type: FetchJobListUseCase.self) {
-//            FetchJobListUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: UpdateUserInfoUseCase.self) {
-//            UpdateUserInfoUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: UpdateNickNameUseCase.self) {
-//            UpdateNickNameUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: LogoutUseCase.self) {
-//            LogoutUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
-//        }
-//        DIContainer.register(type: WithdrawUseCase.self) {
-//            WithdrawUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self), tokenRepository: DIContainer.resolve(type: TokenRepository.self))
-//        }
-//        DIContainer.register(type: FetchTokenFromLocalUseCase.self) {
-//            FetchTokenFromLocalUseCaseImpl(repository: DIContainer.resolve(type: TokenRepository.self))
-//        }
-//        DIContainer.register(type: FetchNoticesUseCase.self) {
-//            FetchNoticesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
-//        }
-//        DIContainer.register(type: FetchOngoingEventsUseCase.self) {
-//            FetchOngoingEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
-//        }
-//        DIContainer.register(type: FetchOutdatedEventsUseCase.self) {
-//            FetchOutdatedEventsUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
-//        }
-//        DIContainer.register(type: FetchPatchNotesUseCase.self) {
-//            FetchPatchNotesUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
-//        }
-//        DIContainer.register(type: SetReadUseCase.self) {
-//            SetReadUseCaseImpl(repository: DIContainer.resolve(type: AlarmAPIRepository.self))
-//        }
-//        DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
-//            CheckNotificationPermissionUseCaseImpl()
-//        }
-//        DIContainer.register(type: UpdateNotificationAgreementUseCase.self) {
-//            UpdateNotificationAgreementUseCaseImpl(authRepository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: UpdateProfileImageUseCase.self) {
-//            UpdateProfileImageUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: FetchJobUseCase.self) {
-//            FetchJobUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self))
-//        }
-//        DIContainer.register(type: FetchProfileUseCase.self) {
-//            FetchProfileUseCaseImpl(repository: DIContainer.resolve(type: AuthAPIRepository.self), fetchJobUseCase: DIContainer.resolve(type: FetchJobUseCase.self))
-//        }
-//    }
-//
-//    func registerFactory() {
-//        DIContainer.register(type: SelectImageFactory.self) {
-//            SelectImageFactoryImpl(updateProfileImageUseCase: DIContainer.resolve(type: UpdateProfileImageUseCase.self))
-//        }
-//
-//        DIContainer.register(type: SetProfileFactory.self) {
-//            SetProfileFactoryImpl(selectImageFactory: DIContainer.resolve(type: SelectImageFactory.self), checkNickNameUseCase: DIContainer.resolve(type: CheckNickNameUseCase.self), updateNickNameUseCase: DIContainer.resolve(type: UpdateNickNameUseCase.self), logoutUseCase: DIContainer.resolve(type: LogoutUseCase.self), withdrawUseCase: DIContainer.resolve(type: WithdrawUseCase.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self))
-//        }
-//
-//        DIContainer.register(type: SetCharacterFactory.self) {
-//            SetCharacterFactoryImpl(
-//                checkEmptyUseCase: DIContainer
-//                    .resolve(type: CheckEmptyLevelAndRoleUseCase.self),
-//                checkValidLevelUseCase: DIContainer
-//                    .resolve(type: CheckValidLevelUseCase.self),
-//                fetchJobListUseCase: DIContainer
-//                    .resolve(type: FetchJobListUseCase.self),
-//                updateUserInfoUseCase: DIContainer
-//                    .resolve(type: UpdateUserInfoUseCase.self)
-//            )
-//        }
-//
-//        DIContainer.register(type: MyPageMainFactory.self) {
-//            MyPageMainFactoryImpl(
-//                loginFactory: DIContainer.resolve(type: LoginFactory.self), setProfileFactory: DIContainer
-//                    .resolve(type: SetProfileFactory.self),
-//                customerSupportFactory: DIContainer
-//                    .resolve(type: CustomerSupportFactory.self),
-//                notificationSettingFactory: DIContainer
-//                    .resolve(type: NotificationSettingFactory.self),
-//                setCharacterFactory: DIContainer
-//                    .resolve(type: SetCharacterFactory.self), fetchProfileUseCase: DIContainer.resolve(type: FetchProfileUseCase.self)
-//            )
-//        }
-//
-//        DIContainer.register(type: CustomerSupportFactory.self) {
-//            CustomerSupportBaseViewFactoryImpl(policyFactory: DIContainer.resolve(type: PolicyFactory.self), fetchNoticesUseCase: DIContainer.resolve(type: FetchNoticesUseCase.self), fetchOngoingEventsUseCase: DIContainer.resolve(type: FetchOngoingEventsUseCase.self), fetchOutdatedEventsUseCase: DIContainer.resolve(type: FetchOutdatedEventsUseCase.self), fetchPatchNotesUseCase: DIContainer.resolve(type: FetchPatchNotesUseCase.self), setReadUseCase: DIContainer.resolve(type: SetReadUseCase.self))
-//        }
-//
-//        DIContainer.register(type: NotificationSettingFactory.self) {
-//            NotificationSettingFactoryImpl(checkNotificationPermissionUseCase: DIContainer.resolve(type: CheckNotificationPermissionUseCase.self), updateNotificationAgreementUseCase: DIContainer.resolve(type: UpdateNotificationAgreementUseCase.self))
-//        }
-//
-//        DIContainer.register(type: LoginFactory.self) {
-//            MockLoginFactory()
-//        }
-//    }
-//}

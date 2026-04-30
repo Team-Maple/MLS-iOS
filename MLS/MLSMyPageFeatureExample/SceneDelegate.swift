@@ -26,6 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let authRepository = MockAuthAPIRepository()
         let tokenRepository = MockTokenRepository()
         let alarmRepository = MockAlarmRepository()
+        let notificationRepository = NotificationPermissionRepositoryImpl()
 
         let fetchProfileUseCase = FetchProfileUseCaseImpl(repository: myPageRepository)
 
@@ -44,7 +45,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         )
 
         let notificationSettingFactory = NotificationSettingFactoryImpl(
-            checkNotificationPermissionUseCase: CheckNotificationPermissionUseCaseImpl(),
+            notificationRepository: notificationRepository,
             authRepository: authRepository
         )
 
