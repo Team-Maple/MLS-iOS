@@ -1,8 +1,8 @@
 import UIKit
 
+import MLSAuthFeatureInterface
 import MLSCore
 import MLSDesignSystem
-import MLSAuthFeatureInterface
 
 import RxCocoa
 import RxSwift

@@ -25,13 +25,13 @@ struct CheckNickNameUseCaseTests {
         let result = try sut.execute(nickName: "메이플").toBlocking().first()
         #expect(result == true)
     }
-    
+
     @Test("nickName에 특수문자가 포함이면 false")
     func validName_returnsFalse() throws {
         let result = try sut.execute(nickName: "*메이플").toBlocking().first()
         #expect(result == false)
     }
-    
+
     @Test("nickName에 공백이 포함이면 false")
     func blankName_returnsFalse() throws {
         let result = try sut.execute(nickName: "메이 플").toBlocking().first()
@@ -48,7 +48,7 @@ struct CheckValidLevelUseCaseTests {
         let result = sut.execute(level: 1)
         #expect(result == true)
     }
-    
+
     @Test("level이 200이면 true")
     func maximumLevel_returnsTrue() {
         let result = sut.execute(level: 200)
@@ -60,13 +60,13 @@ struct CheckValidLevelUseCaseTests {
         let result = sut.execute(level: 0)
         #expect(result == false)
     }
-    
+
     @Test("level이 201이면 false")
     func outOfRangeUpperLevel_returnsFalse() {
         let result = sut.execute(level: 201)
         #expect(result == false)
     }
-    
+
     @Test("level이 nil이면 nil")
     func nilLevel_returnsFalse() {
         let result = sut.execute(level: nil)

@@ -5,9 +5,9 @@ import Testing
 import MLSMyPageFeatureInterface
 import MLSMyPageFeatureTesting
 
-import RxSwift
-import RxBlocking
 import ReactorKit
+import RxBlocking
+import RxSwift
 
 @Suite("CustomerSupportReactorTests")
 struct CustomerSupportReactorTests {
@@ -48,7 +48,7 @@ struct CustomerSupportReactorTests {
             #expect(Bool(false), "Expected setIndex")
         }
     }
-   
+
     // MARK: - 공통
     @Test("reset = true로 업데이트면 alarm 교체")
     func setAlarms_replacesItems() {

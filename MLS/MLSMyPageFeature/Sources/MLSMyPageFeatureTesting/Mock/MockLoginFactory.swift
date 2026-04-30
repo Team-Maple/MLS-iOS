@@ -7,6 +7,6 @@ public final class MockLoginFactory: LoginFactory {
         viewcontroller.view.backgroundColor = .redMLS
         return viewcontroller
     }
-    
+
     public init() {}
 }
