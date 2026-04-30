@@ -1,5 +1,5 @@
-import MLSRecommendationFeatureInterface
 import MLSCore
+import MLSRecommendationFeatureInterface
 
 public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
 
