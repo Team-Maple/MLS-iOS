@@ -39,6 +39,7 @@ struct CheckNickNameUseCaseTests {
     }
 }
 
+
 @Suite("CheckValidLevelUseCaseTests")
 struct CheckValidLevelUseCaseTests {
     private let sut = CheckValidLevelUseCaseImpl()

@@ -1,14 +1,25 @@
 import Foundation
 
-extension String {
-    public func isOnlyKorean() -> Bool {
-        return !self.contains { char in
-            guard let scalar = char.unicodeScalars.first else { return false }
-            return (0x3131...0x3163).contains(scalar.value)
-        }
+public extension String {
+    func isOnlyKorean() -> Bool {
+        return !self.isEmpty &&
+            self.allSatisfy { char in
+                char.unicodeScalars.allSatisfy { scalar in
+                    switch scalar.value {
+                    case 0x30...0x39:
+                        return true
+                    case 0xac00...0xd7a3:
+                        return true
+                    case 0x3131...0x3163:
+                        return true
+                    default:
+                        return false
+                    }
+                }
+            }
     }
 
-    public func toDisplayDateString() -> String {
+    func toDisplayDateString() -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.locale = Locale(identifier: "ko_KR")
         inputFormatter.timeZone = TimeZone(identifier: "Asia/Seoul")

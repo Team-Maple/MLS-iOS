@@ -37,7 +37,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 12, leading: 16, bottom: 32, trailing: 16))
     }
 
-    public func getDictionaryListLayout(isFilterHidden: Bool = true) -> CompositionalSectionBuilder {
+    public static func getDictionaryListLayout(isFilterHidden: Bool = true) -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
             .group(.horizontal, width: .fractionalWidth(1.0), height: .absolute(104))
@@ -46,7 +46,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: isFilterHidden ? 20 : 0, leading: 16, bottom: 0, trailing: 16))
     }
 
-    public func getTagChipLayout() -> CompositionalSectionBuilder {
+    public static func getTagChipLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .estimated(70), height: .estimated(32))
             .group(.horizontal, width: .estimated(70), height: .estimated(32))
@@ -57,7 +57,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 24, leading: 16, bottom: 24, trailing: 16))
     }
 
-    public func getDecorationSection() -> CompositionalSectionBuilder {
+    public static func getDecorationSection() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(1))
             .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(10))
@@ -66,7 +66,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 5, leading: 0, bottom: 5, trailing: 0))
     }
 
-    public func getPopularResultLayout() -> CompositionalSectionBuilder {
+    public static func getPopularResultLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .estimated(40))
             .group(.horizontal, width: .fractionalWidth(1.0), height: .estimated(40), count: 2)
@@ -84,7 +84,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 
-    public func getCollectionModalLayout() -> CompositionalSectionBuilder {
+    public static func getCollectionModalLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(72))
             .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(72))
@@ -92,7 +92,7 @@ public class LayoutFactory {
             .interGroupSpacing(1)
     }
 
-    public func getCollectionListLayout() -> CompositionalSectionBuilder {
+    public static func getCollectionListLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(96))
             .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(96))
@@ -101,7 +101,7 @@ public class LayoutFactory {
             .contentInsets(.init(top: 0, leading: 16, bottom: 0, trailing: 16))
     }
 
-    public func getCollectionListEditLayout() -> CompositionalSectionBuilder {
+    public static func getCollectionListEditLayout() -> CompositionalSectionBuilder {
         return CompositionalSectionBuilder()
             .item(width: .fractionalWidth(1.0), height: .absolute(104))
             .group(.vertical, width: .fractionalWidth(1.0), height: .absolute(104))
