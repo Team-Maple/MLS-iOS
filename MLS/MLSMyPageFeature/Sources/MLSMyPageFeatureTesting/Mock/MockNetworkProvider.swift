@@ -12,12 +12,10 @@ public final class MockNetworkProvider: NetworkProvider {
     public var receivedInterceptor: Interceptor?
     public var receivedEndPoint: Any?
 
-
     public var responseResult: Any?
     public var responseError: Error?
 
     public var completableResult: Completable = .empty()
-
 
     public func requestData<T: Responsable & Requestable>(
         endPoint: T,

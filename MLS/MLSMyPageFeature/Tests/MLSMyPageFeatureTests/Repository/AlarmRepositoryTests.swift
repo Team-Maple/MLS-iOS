@@ -30,7 +30,7 @@ struct AlarmAPIRepositoryImplTests {
                     link: "https://example.com/2",
                     date: "2026-04-02"
                 )
-            ),
+            )
         ],
         hasMore: true
     )
@@ -60,7 +60,7 @@ struct AlarmAPIRepositoryImplTests {
                     ),
                     alreadyRead: false
                 )
-            ),
+            )
         ],
         hasMore: false
     )

@@ -6,9 +6,9 @@ import MLSAuthFeatureTesting
 import MLSMyPageFeatureInterface
 import MLSMyPageFeatureTesting
 
-import RxSwift
-import RxBlocking
 import ReactorKit
+import RxBlocking
+import RxSwift
 
 @Suite("SetProfileReactorTests")
 struct SetProfileReactorTests {

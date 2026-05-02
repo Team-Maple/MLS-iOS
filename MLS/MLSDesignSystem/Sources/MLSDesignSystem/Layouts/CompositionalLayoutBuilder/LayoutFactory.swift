@@ -1,6 +1,6 @@
 import UIKit
 
-@MainActor 
+@MainActor
 public class LayoutFactory {
     public init() {}
 

@@ -6,7 +6,7 @@ import RxSwift
 
 public final class MockNotificationPermissionRepository: NotificationPermissionRepository {
     public var fetchAuthorizationStatusResult = false
-    
+
     public init() {}
 
     public func fetchAuthorizationStatus() -> Single<Bool> {

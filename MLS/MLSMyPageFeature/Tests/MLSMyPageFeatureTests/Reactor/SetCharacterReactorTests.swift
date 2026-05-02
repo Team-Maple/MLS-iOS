@@ -20,7 +20,7 @@ struct SetCharacterReactorTests {
     @Test("viewWillAppear에서 jobList 불러오기")
     func viewWillAppear_setsJobList() throws {
         let reactor = makeSUT()
-        
+
         let mutation = try reactor
             .mutate(action: .viewWillAppear)
             .toBlocking()
@@ -38,7 +38,7 @@ struct SetCharacterReactorTests {
     @Test("backButton 클릭하면 dismiss")
     func backButtonTapped_routesDismiss() throws {
         let reactor = makeSUT()
-        
+
         let mutation = try reactor
             .mutate(action: .backButtonTapped)
             .toBlocking()
@@ -55,7 +55,7 @@ struct SetCharacterReactorTests {
     @Test("레벨 200 입력하면 level/buttonEnabled 활성화")
     func inputLevel_emitsThreeMutations() throws {
         let reactor = makeSUT()
-        
+
         reactor.isStubEnabled = true
         reactor.stub.state.value.job = testJob
 
@@ -91,7 +91,7 @@ struct SetCharacterReactorTests {
     @Test("job 입력하면 role/buttonEnabled 활성화")
     func inputRole_emitsTwoMutations() throws {
         let reactor = makeSUT()
-        
+
         reactor.isStubEnabled = true
         reactor.stub.state.value.level = 200
 
@@ -120,7 +120,7 @@ struct SetCharacterReactorTests {
     @Test("입력값 없이 applyButton 클릭하면 error 방출")
     func applyButtonTapped_empty_routesError() throws {
         let reactor = makeSUT()
-        
+
         let mutation = try reactor
             .mutate(action: .applyButtonTapped)
             .toBlocking()
@@ -137,7 +137,7 @@ struct SetCharacterReactorTests {
     @Test("유효한 값 입력 후 applyButton 클릭하면 dismissWithSave")
     func applyButtonTapped_valid_routesDismissWithSave() throws {
         let reactor = makeSUT()
-        
+
         reactor.isStubEnabled = true
         reactor.stub.state.value.level = 200
         reactor.stub.state.value.job = testJob

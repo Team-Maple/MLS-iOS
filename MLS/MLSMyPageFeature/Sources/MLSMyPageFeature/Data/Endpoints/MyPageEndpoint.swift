@@ -12,7 +12,6 @@ public enum MyPageEndpoint {
         )
     }
 
-
     public static func fetchJob(jobId: String) -> ResponsableEndPoint<JobsDTO> {
         .init(
             baseURL: base,
@@ -20,7 +19,7 @@ public enum MyPageEndpoint {
             method: .GET
         )
     }
-    
+
     public static func updateNickName(body: Encodable) -> ResponsableEndPoint<MemberDTO> {
         .init(
             baseURL: base,
