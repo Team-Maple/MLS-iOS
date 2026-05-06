@@ -56,9 +56,31 @@ extension RecommendationMainViewController {
     }
 
     func bindUserActions(reactor: Reactor) {
+        mainView.informationButton.rx.tap
+            .map { Reactor.Action.informationButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
 
     func bindViewState(reactor: Reactor) {
+        reactor.state
+            .observe(on: MainScheduler.instance)
+            .map { $0.informationButtonIsOn }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { owner, toolTipIsOn in
+                if toolTipIsOn {
+                    TooltipFactory.show(
+                        text: "같은 레벨·직업 유저들이 자주 언급한 \n사냥터를 기반으로 추천해요.",
+                        anchorView: owner.mainView.informationButton,
+                        tooltipPosition: .topTrailing
+                    )
+                } else {
+                    TooltipFactory.dismiss()
+                }
+            }
+            .disposed(by: disposeBag)
+        
     }
 }
 

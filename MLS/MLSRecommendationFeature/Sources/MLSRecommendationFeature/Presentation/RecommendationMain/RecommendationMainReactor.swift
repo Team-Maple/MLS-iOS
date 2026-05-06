@@ -5,11 +5,17 @@ import RxSwift
 final class RecommendationMainReactor: Reactor {
 
     // MARK: - Reactor
-    enum Action { }
+    enum Action {
+        case informationButtonTapped
+    }
 
-    enum Mutation { }
+    enum Mutation {
+        case informationButtonToggle
+    }
 
-    struct State { }
+    struct State {
+        var informationButtonIsOn: Bool = false
+    }
 
     // MARK: - properties
     var initialState: State
@@ -22,14 +28,19 @@ final class RecommendationMainReactor: Reactor {
 
     // MARK: - Reactor Methods
     func mutate(action: Action) -> Observable<Mutation> {
-        switch action { }
+        switch action {
+        case .informationButtonTapped:
+            return .just(.informationButtonToggle)
+        }
     }
 
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
 
-        switch mutation { }
-
+        switch mutation {
+        case .informationButtonToggle:
+            newState.informationButtonIsOn.toggle()
+        }
         return newState
     }
 }

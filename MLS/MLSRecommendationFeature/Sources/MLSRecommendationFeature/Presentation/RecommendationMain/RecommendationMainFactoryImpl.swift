@@ -6,6 +6,8 @@ public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
     public init() {}
 
     public func make() -> BaseViewController {
-        return RecommendationMainViewController()
+        let vc = RecommendationMainViewController()
+        vc.reactor = RecommendationMainReactor()
+        return vc
     }
 }
