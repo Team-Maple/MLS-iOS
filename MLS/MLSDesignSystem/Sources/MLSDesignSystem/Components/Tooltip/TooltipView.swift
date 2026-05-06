@@ -29,6 +29,7 @@ final class TooltipView: UIView {
     init(text: String, tooltipPosition: TooltipPosition) {
         self.tooltipPosition = tooltipPosition
         super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
         addViews()
         setupConstraints()
         configureUI(text: text)

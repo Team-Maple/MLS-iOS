@@ -51,10 +51,6 @@ public extension TooltipFactory {
 
         let frame = anchorView.convert(anchorView.bounds, to: window)
 
-        tooltip.frame.origin = CGPoint(x: 0, y: 0)
-        tooltip.setNeedsLayout()
-        tooltip.layoutIfNeeded()
-
         let tooltipSize = tooltip.systemLayoutSizeFitting(
             UIView.layoutFittingCompressedSize
         )
@@ -84,12 +80,10 @@ public extension TooltipFactory {
             y = frame.maxY + 8
         }
 
-        tooltip.frame = CGRect(
-            x: x,
-            y: y,
-            width: tooltipSize.width,
-            height: tooltipSize.height
-        )
+        tooltip.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(x)
+            make.top.equalToSuperview().offset(y)
+        }
 
         tooltip.alpha = 0
         UIView.animate(withDuration: 0.25) {
