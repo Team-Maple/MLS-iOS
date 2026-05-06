@@ -33,6 +33,9 @@
 		08F7AA012F86745C00EF5C06 /* MLSAuthFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7AA022F86745C00EF5C06 /* MLSAuthFeature */; };
 		08F7AA032F86745C00EF5C06 /* MLSAuthFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7AA042F86745C00EF5C06 /* MLSAuthFeatureInterface */; };
 		08F7AA052F86745C00EF5C06 /* MLSAuthFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7AA062F86745C00EF5C06 /* MLSAuthFeatureTesting */; };
+		08F7DC802F9DEA8100EF5C06 /* MLSRecommendationFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7DC812F9DEA8100EF5C06 /* MLSRecommendationFeature */; };
+		08F7DC822F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7DC832F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface */; };
+		08F7DC842F9DEA8100EF5C06 /* MLSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 08F7DC852F9DEA8100EF5C06 /* MLSCore */; };
 		770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */ = {isa = PBXBuildFile; productRef = 770ADB1E2E433EDA00270506 /* RxKeyboard */; };
 		772199F22E0E7EC800A7B58C /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; };
 		772199F32E0E7EC800A7B58C /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -139,6 +142,7 @@
 		08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08DA58A92E1E5BEB009097A6 /* DictionaryFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DictionaryFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSAuthFeatureExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSRecommendationFeatureExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		772199F12E0E7EC800A7B58C /* AuthFeatureInterface.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeatureInterface.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7721A5032E0EE7AE00A7B58C /* BaseFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BaseFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = KakaoConfig.xcconfig; sourceTree = "<group>"; };
@@ -170,6 +174,13 @@
 			);
 			target = 08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */;
 		};
+		08F7DC722F9DEA8100EF5C06 /* Exceptions for "MLSRecommendationFeatureExample" folder in "MLSRecommendationFeatureExample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 08F7DC602F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */;
+		};
 		77FA688B2F72C7380064B6EB /* Exceptions for "MLSDesignSystemExample" folder in "MLSDesignSystemExample" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -194,6 +205,14 @@
 				08F7A9362F86745D00EF5C06 /* Exceptions for "MLSAuthFeatureExample" folder in "MLSAuthFeatureExample" target */,
 			);
 			path = MLSAuthFeatureExample;
+			sourceTree = "<group>";
+		};
+		08F7DC622F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				08F7DC722F9DEA8100EF5C06 /* Exceptions for "MLSRecommendationFeatureExample" folder in "MLSRecommendationFeatureExample" target */,
+			);
+			path = MLSRecommendationFeatureExample;
 			sourceTree = "<group>";
 		};
 		77BEB0412DBA84B0002FFCFC /* MLSTests */ = {
@@ -254,6 +273,16 @@
 				08F7AA012F86745C00EF5C06 /* MLSAuthFeature in Frameworks */,
 				08F7AA032F86745C00EF5C06 /* MLSAuthFeatureInterface in Frameworks */,
 				08F7AA052F86745C00EF5C06 /* MLSAuthFeatureTesting in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7DC5E2F9DEA8000EF5C06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08F7DC802F9DEA8100EF5C06 /* MLSRecommendationFeature in Frameworks */,
+				08F7DC822F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface in Frameworks */,
+				08F7DC842F9DEA8100EF5C06 /* MLSCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +389,7 @@
 				77BEB0412DBA84B0002FFCFC /* MLSTests */,
 				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
 				08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */,
+				08F7DC622F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
@@ -372,6 +402,7 @@
 				77BEB0402DBA84B0002FFCFC /* MLSTests.xctest */,
 				77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */,
 				08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */,
+				08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -437,6 +468,31 @@
 			);
 			productName = MLSAuthFeatureExample;
 			productReference = 08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		08F7DC602F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 08F7DC732F9DEA8100EF5C06 /* Build configuration list for PBXNativeTarget "MLSRecommendationFeatureExample" */;
+			buildPhases = (
+				08F7DC5D2F9DEA8000EF5C06 /* Sources */,
+				08F7DC5E2F9DEA8000EF5C06 /* Frameworks */,
+				08F7DC5F2F9DEA8000EF5C06 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				08F7DC622F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
+			);
+			name = MLSRecommendationFeatureExample;
+			packageProductDependencies = (
+				08F7DC812F9DEA8100EF5C06 /* MLSRecommendationFeature */,
+				08F7DC832F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface */,
+				08F7DC852F9DEA8100EF5C06 /* MLSCore */,
+			);
+			productName = MLSRecommendationFeatureExample;
+			productReference = 08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		77BEB03F2DBA84B0002FFCFC /* MLSTests */ = {
@@ -505,6 +561,9 @@
 					08F7A9222F86745C00EF5C06 = {
 						CreatedOnToolsVersion = 26.1.1;
 					};
+					08F7DC602F9DEA8000EF5C06 = {
+						CreatedOnToolsVersion = 26.1.1;
+					};
 					77BEB03F2DBA84B0002FFCFC = {
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = 087D3EE72DA7972C002F924D;
@@ -567,6 +626,7 @@
 				77BEB03F2DBA84B0002FFCFC /* MLSTests */,
 				77FA68792F72C7360064B6EB /* MLSDesignSystemExample */,
 				08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */,
+				08F7DC602F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
 			);
 		};
 /* End PBXProject section */
@@ -583,6 +643,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		08F7A9212F86745C00EF5C06 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7DC5F2F9DEA8000EF5C06 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -635,6 +702,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		08F7A91F2F86745C00EF5C06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		08F7DC5D2F9DEA8000EF5C06 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -937,6 +1011,82 @@
 			};
 			name = Release;
 		};
+		08F7DC742F9DEA8100EF5C06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSRecommendationFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.RecommendationFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSRecommendationFeatureProvisioningProfileDev;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		08F7DC752F9DEA8100EF5C06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSRecommendationFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.RecommendationFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = MLSRecommendationFeatureProvisioningProfile;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		77BEB0462DBA84B0002FFCFC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1081,6 +1231,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		08F7DC732F9DEA8100EF5C06 /* Build configuration list for PBXNativeTarget "MLSRecommendationFeatureExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				08F7DC742F9DEA8100EF5C06 /* Debug */,
+				08F7DC752F9DEA8100EF5C06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		77BEB0482DBA84B0002FFCFC /* Build configuration list for PBXNativeTarget "MLSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1202,6 +1361,18 @@
 		08F7AA062F86745C00EF5C06 /* MLSAuthFeatureTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MLSAuthFeatureTesting;
+		};
+		08F7DC812F9DEA8100EF5C06 /* MLSRecommendationFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSRecommendationFeature;
+		};
+		08F7DC832F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSRecommendationFeatureInterface;
+		};
+		08F7DC852F9DEA8100EF5C06 /* MLSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSCore;
 		};
 		770ADB1E2E433EDA00270506 /* RxKeyboard */ = {
 			isa = XCSwiftPackageProductDependency;

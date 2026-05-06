@@ -1,0 +1,12 @@
+//
+//  ViewController.swift
+//  MLSRecommendationFeatureExample
+//
+//  Created by SeoJunYoung on 4/26/26.
+//
+
+import UIKit
+
+class ViewController: UIViewController {
+
+}
