@@ -1,4 +1,4 @@
-import DomainInterface
+import MLSMyPageFeatureInterface
 
 import ReactorKit
 
@@ -53,18 +53,18 @@ public final class SetProfileReactor: Reactor {
     public var initialState = State(setProfileState: .normal)
 
     private let checkNickNameUseCase: CheckNickNameUseCase
-    private let updateNickNameUseCase: UpdateNickNameUseCase
     private let logoutUseCase: LogoutUseCase
     private let withdrawUseCase: WithdrawUseCase
     private let fetchProfileUseCase: FetchProfileUseCase
+    private let myPageRepository: MyPageRepository
 
     // MARK: - Init
-    public init(checkNickNameUseCase: CheckNickNameUseCase, updateNickNameUseCase: UpdateNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase, fetchProfileUseCase: FetchProfileUseCase) {
+    public init(checkNickNameUseCase: CheckNickNameUseCase, logoutUseCase: LogoutUseCase, withdrawUseCase: WithdrawUseCase, fetchProfileUseCase: FetchProfileUseCase, myPageRepository: MyPageRepository) {
         self.checkNickNameUseCase = checkNickNameUseCase
-        self.updateNickNameUseCase = updateNickNameUseCase
         self.logoutUseCase = logoutUseCase
         self.withdrawUseCase = withdrawUseCase
         self.fetchProfileUseCase = fetchProfileUseCase
+        self.myPageRepository = myPageRepository
     }
 
     // MARK: - Mutate
@@ -93,7 +93,7 @@ public final class SetProfileReactor: Reactor {
                 if currentState.isShowError {
                     return .empty()
                 } else {
-                    return updateNickNameUseCase.execute(nickName: currentState.nickName)
+                    return myPageRepository.updateNickName(nickName: currentState.nickName)
                         .flatMap { profile in
                             Observable.concat([
                                 .just(.setProfile(profile)),
