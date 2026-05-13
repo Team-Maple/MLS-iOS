@@ -38,7 +38,7 @@ private extension RecommendationMainViewController {
 
     func setupConstraints() {
         mainView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
 
@@ -54,13 +54,16 @@ extension RecommendationMainViewController {
     func bind(reactor: Reactor) {
         bindUserActions(reactor: reactor)
         bindViewState(reactor: reactor)
-
-        reactor.action.onNext(.viewDidLoad)
     }
 
     func bindUserActions(reactor: Reactor) {
         mainView.informationButton.rx.tap
             .map { Reactor.Action.informationButtonTapped }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        rx.viewWillAppear
+            .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
     }
@@ -136,7 +139,7 @@ extension RecommendationMainViewController: UICollectionViewDelegate, UICollecti
         }
 
         cell.cardView.setMainText(text: map.nameKr)
-        cell.cardView.setType(type: .recommended(rank: map.score))
+        cell.cardView.setType(type: .recommended(rank: indexPath.row + 1))
         cell.cardView.isIconSelected = map.isBookmarked
 
         ImageLoader.shared.loadImage(stringURL: map.iconUrl) { image in

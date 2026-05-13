@@ -14,13 +14,14 @@ public final class BottomTabBarController: UITabBarController {
     private let customTabBar: BottomTabBar
 
     // MARK: - Init
-    public init(viewControllers: [UIViewController], initialIndex: Int = 0) {
-        tabItems = [
+    public init(viewControllers: [UIViewController], tabItems: [TabItem]? = nil, initialIndex: Int = 0) {
+        let resolvedItems = tabItems ?? [
             TabItem(title: "도감", icon: .dictionary),
             TabItem(title: "북마크", icon: .bookmarkList),
             TabItem(title: "MY", icon: .mypage)
         ]
-        customTabBar = BottomTabBar(tabItems: tabItems, selectedIndex: initialIndex)
+        self.tabItems = resolvedItems
+        customTabBar = BottomTabBar(tabItems: resolvedItems, selectedIndex: initialIndex)
         super.init(nibName: nil, bundle: nil)
         configureUI(controllers: viewControllers)
         selectedIndex = initialIndex

@@ -30,9 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func registerDependencies() {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
-                repository: MockRecommendationRepository(),
-                level: 100,
-                jobId: 100
+                repository: MockRecommendationRepository()
             )
         }
     }

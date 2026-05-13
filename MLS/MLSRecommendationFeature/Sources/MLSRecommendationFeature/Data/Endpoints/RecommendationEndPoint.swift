@@ -8,11 +8,11 @@ enum RecommendationEndPoint {
             baseURL: base,
             path: "/api/v1/maps/recommendations",
             method: .GET,
-            query: FetchQuery(level: level, jobId: jobId, limit: limit)
+            query: FetchQuery(level: Int32(level), jobId: Int32(jobId), limit: limit.map { Int32($0) })
         )
     }
 
-    static func fetchProfile() -> ResponsableEndPoint<UserProfileDTO> {
+    static func fetchProfile() -> ResponsableEndPoint<UserProfileResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/me",
@@ -20,7 +20,7 @@ enum RecommendationEndPoint {
         )
     }
 
-    static func fetchJob(jobId: Int) -> ResponsableEndPoint<JobDTO> {
+    static func fetchJob(jobId: Int) -> ResponsableEndPoint<JobResponseDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/jobs/\(jobId)",
@@ -31,8 +31,8 @@ enum RecommendationEndPoint {
 
 private extension RecommendationEndPoint {
     struct FetchQuery: Encodable {
-        let level: Int
-        let jobId: Int
-        let limit: Int?
+        let level: Int32
+        let jobId: Int32
+        let limit: Int32?
     }
 }

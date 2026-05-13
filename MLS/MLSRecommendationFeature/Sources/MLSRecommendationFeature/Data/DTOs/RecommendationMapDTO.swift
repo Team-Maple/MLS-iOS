@@ -2,7 +2,7 @@ import MLSRecommendationFeatureInterface
 
 struct RecommendationMapDTO: Decodable {
     let mapId: Int
-    let score: Int
+    let score: Double
     let iconUrl: String
     let nameKr: String
     let bookmarkId: Int?

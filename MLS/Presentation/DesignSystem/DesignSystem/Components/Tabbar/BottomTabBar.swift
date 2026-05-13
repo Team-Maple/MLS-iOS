@@ -4,8 +4,13 @@ import SnapKit
 
 // MARK: - Model
 public struct TabItem {
-    var title: String
-    var icon: UIImage
+    public var title: String
+    public var icon: UIImage
+
+    public init(title: String, icon: UIImage) {
+        self.title = title
+        self.icon = icon
+    }
 }
 
 public final class BottomTabBar: UIStackView {

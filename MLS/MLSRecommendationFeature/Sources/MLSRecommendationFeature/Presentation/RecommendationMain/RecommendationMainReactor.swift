@@ -8,7 +8,7 @@ final class RecommendationMainReactor: Reactor {
 
     // MARK: - Reactor
     enum Action {
-        case viewDidLoad
+        case viewWillAppear
         case informationButtonTapped
     }
 
@@ -33,44 +33,44 @@ final class RecommendationMainReactor: Reactor {
     var disposeBag = DisposeBag()
 
     private let repository: RecommendationRepository
-    private let level: Int
-    private let jobId: Int
 
     // MARK: - Init
-    init(
-        repository: RecommendationRepository,
-        level: Int,
-        jobId: Int
-    ) {
+    init(repository: RecommendationRepository) {
         self.repository = repository
-        self.level = level
-        self.jobId = jobId
         self.initialState = State()
     }
 
     // MARK: - Reactor Methods
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .viewDidLoad:
-            let fetchProfile = repository.fetchProfile()
+        case .viewWillAppear:
+            let fetchAll = repository.fetchProfile()
                 .flatMap { [weak self] profile -> Observable<Mutation> in
                     guard let self else { return .empty() }
                     let setProfile = Observable.just(Mutation.setProfile(profile))
-                    guard let jobId = profile.jobId else { return setProfile }
-                    let setJobName = self.repository.fetchJobName(jobId: jobId)
-                        .map { Mutation.setJobName($0) }
-                        .catch { _ in .empty() }
-                    return Observable.concat([setProfile, setJobName])
+                    let setJobName: Observable<Mutation>
+                    if let jobId = profile.jobId {
+                        setJobName = repository.fetchJobName(jobId: jobId)
+                            .map { Mutation.setJobName($0) }
+                            .catch { _ in .empty() }
+                    } else {
+                        setJobName = .empty()
+                    }
+                    let setRecommendations: Observable<Mutation>
+                    if let level = profile.level, level >= 1, let jobId = profile.jobId {
+                        setRecommendations = repository.fetchRecommendations(level: level, jobId: jobId, limit: 5)
+                            .map { Mutation.setRecommendations($0) }
+                            .catch { _ in .empty() }
+                    } else {
+                        setRecommendations = .empty()
+                    }
+                    return Observable.concat([setProfile, setJobName, setRecommendations])
                 }
-                .catch { _ in .empty() }
-
-            let fetchRecommendations = repository.fetchRecommendations(level: level, jobId: jobId, limit: 5)
-                .map { Mutation.setRecommendations($0) }
                 .catch { _ in .empty() }
 
             return Observable.concat([
                 .just(.setLoading(true)),
-                Observable.merge(fetchProfile, fetchRecommendations),
+                fetchAll,
                 .just(.setLoading(false))
             ])
 
