@@ -142,10 +142,11 @@ extension RecommendationMainViewController: UICollectionViewDelegate, UICollecti
         cell.cardView.setType(type: .recommended(rank: indexPath.row + 1))
         cell.cardView.isIconSelected = map.isBookmarked
 
-        ImageLoader.shared.loadImage(stringURL: map.iconUrl) { image in
-            guard let image else { return }
+        ImageLoader.shared.loadImage(stringURL: map.iconUrl) { [weak self] image in
+            guard let self, let image else { return }
             DispatchQueue.main.async {
-                cell.cardView.setImage(image: image, backgroundColor: .clear)
+                guard let currentCell = self.mainView.collectionView.cellForItem(at: indexPath) as? CardListCell else { return }
+                currentCell.cardView.setImage(image: image, backgroundColor: .clear)
             }
         }
 

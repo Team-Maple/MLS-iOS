@@ -64,7 +64,8 @@ final class RecommendationMainReactor: Reactor {
                     } else {
                         setRecommendations = .empty()
                     }
-                    return Observable.concat([setProfile, setJobName, setRecommendations])
+                    let parallelRequests = Observable.merge([setJobName, setRecommendations])
+                    return Observable.concat([setProfile, parallelRequests])
                 }
                 .catch { _ in .empty() }
 
