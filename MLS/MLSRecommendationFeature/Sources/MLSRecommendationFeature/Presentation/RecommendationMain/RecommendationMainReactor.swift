@@ -21,7 +21,7 @@ final class RecommendationMainReactor: Reactor {
     }
 
     struct State {
-        var profile: UserProfile? = nil
+        var profile: UserProfile?
         var jobName: String = ""
         var recommendations: [RecommendationMap] = []
         var isLoading: Bool = false

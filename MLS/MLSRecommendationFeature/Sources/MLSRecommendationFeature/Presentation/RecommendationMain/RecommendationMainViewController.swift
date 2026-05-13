@@ -61,7 +61,7 @@ extension RecommendationMainViewController {
             .map { Reactor.Action.informationButtonTapped }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         rx.viewWillAppear
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)

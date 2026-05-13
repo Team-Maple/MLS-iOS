@@ -130,7 +130,7 @@ public final class CardList: UIView {
     }()
 
     private let badge = Badge(style: .currentQuest)
-    
+
     private let rankContainer = {
         let view = UIView()
         view.backgroundColor = .primary50
@@ -196,7 +196,7 @@ private extension CardList {
         rankContainer.snp.makeConstraints { make in
             make.height.equalTo(Constant.tagHeight)
         }
-        
+
         rankTag.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.tagHorizontalInset)
             make.verticalEdges.equalToSuperview().inset(Constant.tagVerticalInset)
