@@ -20,6 +20,7 @@
 		085A7F752DAF99570046663F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 085A7F742DAF99570046663F /* .swiftlint.yml */; };
 		085BDF5E2DF6B6B3009CFB90 /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF5D2DF6B6B3009CFB90 /* DataMock.framework */; };
 		085BDF5F2DF6B6B3009CFB90 /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 085BDF5D2DF6B6B3009CFB90 /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		088636972FB4664E00006D4A /* MLSRecommendationFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */; };
 		08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B32E1B9827009097A6 /* FirebaseFirestore */; };
 		08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B52E1B9827009097A6 /* FirebaseMessaging */; };
 		08DA58A72E1E5BE3009097A6 /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08DA58A62E1E5BE3009097A6 /* DictionaryFeature.framework */; };
@@ -282,6 +283,7 @@
 			files = (
 				08F7DC802F9DEA8100EF5C06 /* MLSRecommendationFeature in Frameworks */,
 				08F7DC822F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface in Frameworks */,
+				088636972FB4664E00006D4A /* MLSRecommendationFeatureTesting in Frameworks */,
 				08F7DC842F9DEA8100EF5C06 /* MLSCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +492,7 @@
 				08F7DC812F9DEA8100EF5C06 /* MLSRecommendationFeature */,
 				08F7DC832F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface */,
 				08F7DC852F9DEA8100EF5C06 /* MLSCore */,
+				088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */,
 			);
 			productName = MLSRecommendationFeatureExample;
 			productReference = 08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */;
@@ -1320,6 +1323,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSRecommendationFeatureTesting;
+		};
 		08DA51B32E1B9827009097A6 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08DA51B22E1B9827009097A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

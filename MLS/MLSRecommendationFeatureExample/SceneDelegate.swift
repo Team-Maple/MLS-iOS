@@ -3,6 +3,7 @@ import UIKit
 import MLSCore
 import MLSRecommendationFeature
 import MLSRecommendationFeatureInterface
+import MLSRecommendationFeatureTesting
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -28,7 +29,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     private func registerDependencies() {
         DIContainer.register(type: RecommendationMainFactory.self) {
-            RecommendationMainFactoryImpl()
+            RecommendationMainFactoryImpl(
+                repository: MockRecommendationRepository(),
+                level: 100,
+                jobId: 100
+            )
         }
     }
 }
