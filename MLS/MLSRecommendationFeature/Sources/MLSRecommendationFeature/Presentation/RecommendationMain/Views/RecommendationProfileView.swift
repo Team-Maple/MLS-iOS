@@ -65,7 +65,6 @@ private extension RecommendationProfileView {
     }
 
     func configureUI() {
-        profileImageView.backgroundColor = .red
         alignment = .center
         spacing = Constant.outerStackViewSpacing
 

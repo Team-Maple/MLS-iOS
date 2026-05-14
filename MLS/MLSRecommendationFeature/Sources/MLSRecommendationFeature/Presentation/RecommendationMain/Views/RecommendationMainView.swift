@@ -19,6 +19,7 @@ internal final class RecommendationMainView: UIView {
         static let collectionViewHorizontalInset: CGFloat = 16
         static let cellHeight: CGFloat = 104
         static let cellSpacing: CGFloat = 8
+        static let bottomTabHeight: CGFloat = 64
     }
 
     // MARK: - Properties
@@ -98,7 +99,8 @@ private extension RecommendationMainView {
 
         grayBackgroundView.snp.makeConstraints { make in
             make.top.equalTo(profileView.snp.bottom).offset(Constant.grayViewTopOffset)
-            make.horizontalEdges.bottom.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
         }
 
         informationButton.snp.makeConstraints { make in

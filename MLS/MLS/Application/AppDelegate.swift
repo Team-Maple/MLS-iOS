@@ -16,6 +16,8 @@ import Domain
 import DomainInterface
 import Firebase
 import KakaoSDKCommon
+import MLSRecommendationFeature
+import MLSRecommendationFeatureInterface
 import MyPageFeature
 import MyPageFeatureInterface
 import os
@@ -127,6 +129,9 @@ private extension AppDelegate {
         DIContainer.register(type: AppCoordinatorProtocol.self) {
             AppCoordinator(
                 window: nil,
+                recommendationMainFactory: DIContainer.resolve(
+                    type: RecommendationMainFactory.self
+                ),
                 dictionaryMainViewFactory: DIContainer.resolve(
                     type: DictionaryMainViewFactory.self
                 ),
@@ -213,6 +218,9 @@ private extension AppDelegate {
                 provider: DIContainer.resolve(type: NetworkProvider.self),
                 tokenInterceptor: DIContainer.resolve(type: Interceptor.self, name: "tokenInterceptor")
             )
+        }
+        DIContainer.register(type: RecommendationRepository.self) {
+            RecommendationRepositoryImpl()
         }
     }
 
@@ -1247,6 +1255,11 @@ private extension AppDelegate {
         }
         DIContainer.register(type: PolicyFactory.self) {
             PolicyFactoryImpl()
+        }
+        DIContainer.register(type: RecommendationMainFactory.self) {
+            RecommendationMainFactoryImpl(
+                repository: DIContainer.resolve(type: RecommendationRepository.self)
+            )
         }
     }
 }
