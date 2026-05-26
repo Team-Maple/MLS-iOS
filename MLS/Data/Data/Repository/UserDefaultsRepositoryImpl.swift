@@ -22,17 +22,20 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
     }
 
     public func addRecentSearch(keyword: String) -> Completable {
-        return Completable.create { completable in
-            var current = UserDefaults.standard.stringArray(forKey: self.recentSearchkey) ?? []
+        let keyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
 
-            // 중복 제거
-            current.removeAll(where: { $0 == keyword })
-            current.insert(keyword, at: 0)
-
-            UserDefaults.standard.set(current, forKey: self.recentSearchkey)
-            completable(.completed)
-            return Disposables.create()
+        guard !keyword.isEmpty else {
+            return .empty()
         }
+
+        var current = UserDefaults.standard.stringArray(forKey: recentSearchkey) ?? []
+
+        current.removeAll(where: { $0 == keyword })
+        current.insert(keyword, at: 0)
+
+        UserDefaults.standard.set(current, forKey: recentSearchkey)
+
+        return .empty()
     }
 
     public func removeRecentSearch(keyword: String) -> Completable {

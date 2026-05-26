@@ -7,21 +7,79 @@ let package = Package(
     name: "MLSDictionaryFeature",
     platforms: [.iOS(.v15)],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "MLSDictionaryFeatureInterface",
+            targets: ["MLSDictionaryFeatureInterface"]
+        ),
         .library(
             name: "MLSDictionaryFeature",
             targets: ["MLSDictionaryFeature"]
         ),
+        .library(
+            name: "MLSDictionaryFeatureTesting",
+            targets: ["MLSDictionaryFeatureTesting"]
+        )
+    ],
+    dependencies: [
+        .package(path: "../MLSAuthFeature"),
+        .package(path: "../MLSMyPageFeature"),
+        .package(path: "../MLSCore"),
+        .package(path: "../MLSDesignSystem"),
+        .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
+        .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
+        .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1")
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        // Interface
         .target(
-            name: "MLSDictionaryFeature"
+            name: "MLSDictionaryFeatureInterface",
+            dependencies: [
+                .product(name: "MLSCore", package: "MLSCore"),
+                .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "RxSwift", package: "RxSwift")
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
         ),
+        // Feature
+        .target(
+            name: "MLSDictionaryFeature",
+            dependencies: [
+                "MLSDictionaryFeatureInterface",
+                .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSCore", package: "MLSCore"),
+                .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
+                .product(name: "ReactorKit", package: "ReactorKit"),
+                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxCocoa", package: "RxSwift"),
+                .product(name: "RxRelay", package: "RxSwift"),
+                .product(name: "RxKeyboard", package: "RxKeyboard"),
+                .product(name: "SnapKit", package: "SnapKit")
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
+        ),
+        // Mock
+        .target(
+            name: "MLSDictionaryFeatureTesting",
+            dependencies: [
+                "MLSDictionaryFeatureInterface",
+                .product(name: "MLSAuthFeatureInterface",package: "MLSAuthFeature"),
+                .product(name: "MLSMyPageFeatureInterface",package: "MLSMyPageFeature"),
+                .product(name: "RxSwift", package: "RxSwift")
+            ],
+            swiftSettings: [.swiftLanguageMode(.v5)]
+        ),
+        // Tests
         .testTarget(
             name: "MLSDictionaryFeatureTests",
-            dependencies: ["MLSDictionaryFeature"]
-        ),
+            dependencies: [
+                "MLSDictionaryFeature",
+                "MLSDictionaryFeatureInterface",
+                "MLSDictionaryFeatureTesting",
+                .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "RxBlocking", package: "RxSwift")
+            ],
+        )
     ]
 )

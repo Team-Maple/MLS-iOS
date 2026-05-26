@@ -5,9 +5,10 @@ public enum DesignSystemAsset {
 
     public static func image(named name: String) -> UIImage {
         guard let image = UIImage(named: name, in: .module, compatibleWith: nil) else {
-               fatalError("❌ Image not found: \(name)")
-           }
-           return image
+            print("❌ Image not found: \(name)")
+            return UIImage()
+        }
+        return image
     }
 }
 
