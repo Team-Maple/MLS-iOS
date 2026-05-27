@@ -51,7 +51,7 @@ public enum DictionaryItemType: String {
             return .quest
         }
     }
-    
+
     public var backgroundColor: UIColor {
         switch self {
         case .item:

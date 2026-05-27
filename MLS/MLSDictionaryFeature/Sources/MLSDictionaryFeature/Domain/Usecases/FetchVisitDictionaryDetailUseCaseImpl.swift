@@ -1,5 +1,5 @@
-import MLSDictionaryFeatureInterface
 import Foundation
+import MLSDictionaryFeatureInterface
 
 import RxSwift
 

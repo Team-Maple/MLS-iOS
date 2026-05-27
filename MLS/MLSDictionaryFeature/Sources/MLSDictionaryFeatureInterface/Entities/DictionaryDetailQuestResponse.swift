@@ -63,7 +63,7 @@ public struct Reward: Decodable, Equatable {
     public let exp: Int?
     public let meso: Int?
     public let popularity: Int?
-    
+
     public init(exp: Int?, meso: Int?, popularity: Int?) {
         self.exp = exp
         self.meso = meso
