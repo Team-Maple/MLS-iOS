@@ -78,6 +78,7 @@ let package = Package(
                 "MLSDictionaryFeatureInterface",
                 "MLSDictionaryFeatureTesting",
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSAuthFeatureTesting", package: "MLSAuthFeature"),
                 .product(name: "RxBlocking", package: "RxSwift")
             ],
         )

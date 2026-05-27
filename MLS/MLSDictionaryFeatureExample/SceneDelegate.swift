@@ -26,7 +26,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // MARK: - Repository
         let dictionaryListAPIRepository = MockDictionaryListAPIRepository()
         let dictionaryDetailAPIRepository = MockDictionaryDetailAPIRepository()
-        let recentSearchRepository = RecentSearchRepositoryImpl()
+        let recentSearchRepository = MockRecentSearchRepository()
         let bookmarkRepository = MockBookmarkRepository()
         let authRepository = MockAuthAPIRepository()
         let tokenRepository = MockTokenRepository()

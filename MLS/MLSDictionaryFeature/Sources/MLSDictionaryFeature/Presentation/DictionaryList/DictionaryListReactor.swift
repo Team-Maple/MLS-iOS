@@ -56,7 +56,7 @@ public final class DictionaryListReactor: Reactor {
 
     // MARK: - State
     public struct State {
-        @Pulse var uiEvent: UIEvent = .none
+        @Pulse public var uiEvent: UIEvent = .none
         @Pulse var route: Route
         public var listItems: [DictionaryMainItemResponse] = []
         public var type: DictionaryType
@@ -74,7 +74,7 @@ public final class DictionaryListReactor: Reactor {
         var isLogin: Bool
         var lastDeletedBookmark: DictionaryMainItemResponse?
         var isBookmarkUpdateOnly = false
-        var isFirstFetch = true
+        public var isFirstFetch = true
     }
 
     public var initialState: State
