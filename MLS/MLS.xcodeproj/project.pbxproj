@@ -74,6 +74,12 @@
 		77FA68BA2F72C9C10064B6EB /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68B92F72C9C10064B6EB /* RxSwift */; };
 		77FA68BC2F72C9C70064B6EB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68BB2F72C9C70064B6EB /* SnapKit */; };
 		77FA68BE2F72CA490064B6EB /* MLSDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 77FA68BD2F72CA490064B6EB /* MLSDesignSystem */; };
+		BBCC0B002FA000000000BBCC /* MLSBookmarkFeature in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC0C002FA000000000BBCC /* MLSBookmarkFeature */; };
+		BBCC0D002FA000000000BBCC /* MLSBookmarkFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC0E002FA000000000BBCC /* MLSBookmarkFeatureInterface */; };
+		BBCC0F002FA000000000BBCC /* MLSBookmarkFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC10002FA000000000BBCC /* MLSBookmarkFeatureTesting */; };
+		BBCC11002FA000000000BBCC /* MLSCore in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC12002FA000000000BBCC /* MLSCore */; };
+		BBCC13002FA000000000BBCC /* MLSAuthFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC14002FA000000000BBCC /* MLSAuthFeatureInterface */; };
+		BBCC15002FA000000000BBCC /* MLSDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = BBCC16002FA000000000BBCC /* MLSDesignSystem */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -165,6 +171,7 @@
 		77E260402EEABEC40059E889 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = MLS/Resource/Settings.bundle; sourceTree = "<group>"; };
 		77EB18D52DED9256004FB380 /* AuthFeature.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AuthFeature.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSDesignSystemExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BBCC02002FA000000000BBCC /* MLSBookmarkFeatureExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MLSBookmarkFeatureExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -202,6 +209,13 @@
 				Info.plist,
 			);
 			target = 77FA68792F72C7360064B6EB /* MLSDesignSystemExample */;
+		};
+		BBCC04002FA000000000BBCC /* Exceptions for "MLSBookmarkFeatureExample" folder in "MLSBookmarkFeatureExample" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BBCC01002FA000000000BBCC /* MLSBookmarkFeatureExample */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -249,6 +263,14 @@
 				77FA688B2F72C7380064B6EB /* Exceptions for "MLSDesignSystemExample" folder in "MLSDesignSystemExample" target */,
 			);
 			path = MLSDesignSystemExample;
+			sourceTree = "<group>";
+		};
+		BBCC03002FA000000000BBCC /* MLSBookmarkFeatureExample */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BBCC04002FA000000000BBCC /* Exceptions for "MLSBookmarkFeatureExample" folder in "MLSBookmarkFeatureExample" target */,
+			);
+			path = MLSBookmarkFeatureExample;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -342,6 +364,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BBCC06002FA000000000BBCC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BBCC0B002FA000000000BBCC /* MLSBookmarkFeature in Frameworks */,
+				BBCC0D002FA000000000BBCC /* MLSBookmarkFeatureInterface in Frameworks */,
+				BBCC0F002FA000000000BBCC /* MLSBookmarkFeatureTesting in Frameworks */,
+				BBCC11002FA000000000BBCC /* MLSCore in Frameworks */,
+				BBCC13002FA000000000BBCC /* MLSAuthFeatureInterface in Frameworks */,
+				BBCC15002FA000000000BBCC /* MLSDesignSystem in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -428,6 +463,7 @@
 				08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */,
 				77217FBF2F9A04CF000915EF /* MLSMyPageFeatureExample */,
 				08F7DC622F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
+				BBCC03002FA000000000BBCC /* MLSBookmarkFeatureExample */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
@@ -442,6 +478,7 @@
 				08F7A9232F86745C00EF5C06 /* MLSAuthFeatureExample.app */,
 				77217FBE2F9A04CF000915EF /* MLSMyPageFeatureExample.app */,
 				08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */,
+				BBCC02002FA000000000BBCC /* MLSBookmarkFeatureExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -613,6 +650,34 @@
 			productReference = 77FA687A2F72C7360064B6EB /* MLSDesignSystemExample.app */;
 			productType = "com.apple.product-type.application";
 		};
+		BBCC01002FA000000000BBCC /* MLSBookmarkFeatureExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BBCC08002FA000000000BBCC /* Build configuration list for PBXNativeTarget "MLSBookmarkFeatureExample" */;
+			buildPhases = (
+				BBCC05002FA000000000BBCC /* Sources */,
+				BBCC06002FA000000000BBCC /* Frameworks */,
+				BBCC07002FA000000000BBCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				BBCC03002FA000000000BBCC /* MLSBookmarkFeatureExample */,
+			);
+			name = MLSBookmarkFeatureExample;
+			packageProductDependencies = (
+				BBCC0C002FA000000000BBCC /* MLSBookmarkFeature */,
+				BBCC0E002FA000000000BBCC /* MLSBookmarkFeatureInterface */,
+				BBCC10002FA000000000BBCC /* MLSBookmarkFeatureTesting */,
+				BBCC12002FA000000000BBCC /* MLSCore */,
+				BBCC14002FA000000000BBCC /* MLSAuthFeatureInterface */,
+				BBCC16002FA000000000BBCC /* MLSDesignSystem */,
+			);
+			productName = MLSBookmarkFeatureExample;
+			productReference = BBCC02002FA000000000BBCC /* MLSBookmarkFeatureExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -699,6 +764,7 @@
 				08F7A9222F86745C00EF5C06 /* MLSAuthFeatureExample */,
 				77217FBD2F9A04CF000915EF /* MLSMyPageFeatureExample */,
 				08F7DC602F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
+				BBCC01002FA000000000BBCC /* MLSBookmarkFeatureExample */,
 			);
 		};
 /* End PBXProject section */
@@ -743,6 +809,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77FA68782F72C7360064B6EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBCC07002FA000000000BBCC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -809,6 +882,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		77FA68762F72C7360064B6EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BBCC05002FA000000000BBCC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1365,6 +1445,78 @@
 			};
 			name = Release;
 		};
+		BBCC09002FA000000000BBCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSBookmarkFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.BookmarkFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BBCC0A002FA000000000BBCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = W5QTRMS954;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MLSBookmarkFeatureExample/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.donggle.MLS.BookmarkFeatureExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1427,6 +1579,15 @@
 			buildConfigurations = (
 				77FA688D2F72C7380064B6EB /* Debug */,
 				77FA688E2F72C7380064B6EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BBCC08002FA000000000BBCC /* Build configuration list for PBXNativeTarget "MLSBookmarkFeatureExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BBCC09002FA000000000BBCC /* Debug */,
+				BBCC0A002FA000000000BBCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1616,6 +1777,30 @@
 			productName = SnapKit;
 		};
 		77FA68BD2F72CA490064B6EB /* MLSDesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSDesignSystem;
+		};
+		BBCC0C002FA000000000BBCC /* MLSBookmarkFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSBookmarkFeature;
+		};
+		BBCC0E002FA000000000BBCC /* MLSBookmarkFeatureInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSBookmarkFeatureInterface;
+		};
+		BBCC10002FA000000000BBCC /* MLSBookmarkFeatureTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSBookmarkFeatureTesting;
+		};
+		BBCC12002FA000000000BBCC /* MLSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSCore;
+		};
+		BBCC14002FA000000000BBCC /* MLSAuthFeatureInterface */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSAuthFeatureInterface;
+		};
+		BBCC16002FA000000000BBCC /* MLSDesignSystem */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MLSDesignSystem;
 		};
