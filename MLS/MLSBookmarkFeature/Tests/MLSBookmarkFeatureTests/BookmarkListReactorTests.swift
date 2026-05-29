@@ -1,8 +1,8 @@
+@testable import MLSBookmarkFeature
 import MLSBookmarkFeatureInterface
 import MLSBookmarkFeatureTesting
 import RxBlocking
 import XCTest
-@testable import MLSBookmarkFeature
 
 final class BookmarkListReactorTests: XCTestCase {
     var authRepository: MockBookmarkAuthRepository!

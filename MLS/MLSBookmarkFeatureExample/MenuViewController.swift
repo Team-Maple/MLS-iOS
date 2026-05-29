@@ -99,7 +99,7 @@ final class MenuViewController: UITableViewController {
             let vc = factory.make()
             vc.modalPresentationStyle = .fullScreen
             nav.present(vc, animated: true)
-        },
+        }
     ]
 
     override func viewDidLoad() {

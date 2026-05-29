@@ -8,7 +8,7 @@ import UIKit
 // MARK: - Stub Modal ViewController
 
 public final class StubModalViewController: BaseViewController, ModalPresentable {
-    public var modalHeight: CGFloat? = nil
+    public var modalHeight: CGFloat?
 }
 
 // MARK: - Login

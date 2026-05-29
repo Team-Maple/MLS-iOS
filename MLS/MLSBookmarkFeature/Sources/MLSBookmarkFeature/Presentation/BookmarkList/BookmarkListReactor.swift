@@ -69,9 +69,7 @@ final class BookmarkListReactor: Reactor {
         var endLevel: Int?
         var lastDeletedBookmark: BookmarkResponse?
         var viewState: ViewState {
-            if !isLogin { return .logout }
-            else if items.isEmpty { return .loginWithoutData }
-            else { return .loginWithData }
+            if !isLogin { return .logout } else if items.isEmpty { return .loginWithoutData } else { return .loginWithData }
         }
     }
 
