@@ -4,7 +4,7 @@ import Foundation
 import RxSwift
 
 public class FetchVisitDictionaryDetailUseCaseImpl: FetchVisitDictionaryDetailUseCase {
-    var repository: UserDefaultsRepository
+    private let repository: UserDefaultsRepository
     public init(repository: UserDefaultsRepository) {
         self.repository = repository
     }

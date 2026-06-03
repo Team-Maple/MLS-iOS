@@ -175,6 +175,7 @@ extension DictionaryNotificationViewController: UICollectionViewDelegate, UIColl
         let frameHeight = scrollView.frame.size.height
 
         if offsetY > contentHeight - frameHeight - 100 {
+            lastPagingTime = now
             reactor.action.onNext(.loadMore)
         }
     }
