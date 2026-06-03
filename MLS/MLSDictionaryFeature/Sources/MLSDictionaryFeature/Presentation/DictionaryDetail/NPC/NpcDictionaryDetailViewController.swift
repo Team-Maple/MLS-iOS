@@ -53,7 +53,7 @@ private extension NpcDictionaryDetailViewController {
         appearMapView.reset()
         if maps.isEmpty {
             // 출현맵
-            
+
         } else {
             setContentView(view: appearMapView, detailType: .appearMap)
             for map in maps {
