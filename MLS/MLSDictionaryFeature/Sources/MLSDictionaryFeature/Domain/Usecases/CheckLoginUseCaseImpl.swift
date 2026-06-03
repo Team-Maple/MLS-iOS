@@ -14,33 +14,36 @@ public final class CheckLoginUseCaseImpl: CheckLoginUseCase {
     }
 
     public func execute() -> Observable<Bool> {
-        switch tokenRepository.fetchToken(type: .refreshToken) {
-        case .success(let token):
-            guard !token.isEmpty else { return .just(false) }
+        return Observable.deferred { [weak self] in
+            guard let self else { return .just(false) }
+            switch self.tokenRepository.fetchToken(type: .refreshToken) {
+            case .success(let token):
+                guard !token.isEmpty else { return .just(false) }
 
-            return authRepository.reissueToken(refreshToken: token)
-                .map { [weak self] response in
-                    guard let self else { return false }
+                return self.authRepository.reissueToken(refreshToken: token)
+                    .map { [weak self] response in
+                        guard let self else { return false }
 
-                    let accessResult = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
-                    let refreshResult = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
+                        let accessResult = self.tokenRepository.saveToken(type: .accessToken, value: response.accessToken)
+                        let refreshResult = self.tokenRepository.saveToken(type: .refreshToken, value: response.refreshToken)
 
-                    switch (accessResult, refreshResult) {
-                    case (.success, .success):
-                        return true
-                    case (.failure(let error), _),
-                         (_, .failure(let error)):
-                        print("Token 저장 실패:", error.localizedDescription)
-                        return false
+                        switch (accessResult, refreshResult) {
+                        case (.success, .success):
+                            return true
+                        case (.failure(let error), _),
+                             (_, .failure(let error)):
+                            print("Token 저장 실패:", error.localizedDescription)
+                            return false
+                        }
                     }
-                }
-                .catch { error in
-                    print("reissueToken 실패:", error.localizedDescription)
-                    return .just(false)
-                }
+                    .catch { error in
+                        print("reissueToken 실패:", error.localizedDescription)
+                        return .just(false)
+                    }
 
-        case .failure:
-            return .just(false)
+            case .failure:
+                return .just(false)
+            }
         }
     }
 }
