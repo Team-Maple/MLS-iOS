@@ -295,7 +295,7 @@ extension DictionaryDetailBaseViewController {
     func didSelectMenuTab(index: Int) {
         // 인덱스 유효성 검사
         guard index < contentViews.count else { return }
-        
+
         // 각 탭에 맞는 뷰 설정
         mainView.setTabView(index: index, contentViews: contentViews)
         currentTabIndex = index
