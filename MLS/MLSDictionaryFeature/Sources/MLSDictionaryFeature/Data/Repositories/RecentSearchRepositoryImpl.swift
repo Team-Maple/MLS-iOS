@@ -19,20 +19,23 @@ public final class RecentSearchRepositoryImpl: RecentSearchRepository {
     }
 
     public func addRecentSearch(keyword: String) -> Completable {
-        let keyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
+        return Completable.create { [recentSearchkey] completable in
+            let trimmedKeyword = keyword.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        guard !keyword.isEmpty else {
-            return .empty()
+            guard !trimmedKeyword.isEmpty else {
+                completable(.completed)
+                return Disposables.create()
+            }
+
+            var current = UserDefaults.standard.stringArray(forKey: recentSearchkey) ?? []
+
+            current.removeAll(where: { $0 == trimmedKeyword })
+            current.insert(trimmedKeyword, at: 0)
+
+            UserDefaults.standard.set(current, forKey: recentSearchkey)
+            completable(.completed)
+            return Disposables.create()
         }
-
-        var current = UserDefaults.standard.stringArray(forKey: recentSearchkey) ?? []
-
-        current.removeAll(where: { $0 == keyword })
-        current.insert(keyword, at: 0)
-
-        UserDefaults.standard.set(current, forKey: recentSearchkey)
-
-        return .empty()
     }
 
     public func removeRecentSearch(keyword: String) -> Completable {
