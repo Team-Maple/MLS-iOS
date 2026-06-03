@@ -1,12 +1,12 @@
-import MLSCore
 import MLSAuthFeatureInterface
+import MLSCore
 import MLSDictionaryFeatureInterface
 
 public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let checkLoginUseCase: CheckLoginUseCase
     private let setBookmarkUseCase: SetBookmarkUseCase
     private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
-    
+
     private let dictionaryListAPIRepository: DictionaryListAPIRepository
 
     private let itemFilterFactory: ItemFilterBottomSheetFactory

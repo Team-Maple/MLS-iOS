@@ -12,4 +12,3 @@ public final class MockNotificationSettingFactory: NotificationSettingFactory {
         return viewcontroller
     }
 }
-

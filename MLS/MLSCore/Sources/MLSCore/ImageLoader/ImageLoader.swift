@@ -52,7 +52,7 @@ public final class ImageLoader: @unchecked Sendable {
     ///   - stringURL: 이미지 URL 문자열
     ///   - defaultImage: 로드 실패 시 반환할 기본 이미지
     ///   - completion: 로드 완료 후 호출되는 클로저
-    @MainActor public func loadImage(url: URL?, defaultImage: UIImage? = nil, completion:  @MainActor @escaping @Sendable (UIImage?) -> Void) {
+    @MainActor public func loadImage(url: URL?, defaultImage: UIImage? = nil, completion: @MainActor @escaping @Sendable (UIImage?) -> Void) {
         loadImage(url: url) { result in
             DispatchQueue.main.async {
                 switch result {

@@ -64,8 +64,8 @@ let package = Package(
             name: "MLSDictionaryFeatureTesting",
             dependencies: [
                 "MLSDictionaryFeatureInterface",
-                .product(name: "MLSAuthFeatureInterface",package: "MLSAuthFeature"),
-                .product(name: "MLSMyPageFeatureInterface",package: "MLSMyPageFeature"),
+                .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
                 .product(name: "RxSwift", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]

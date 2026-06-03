@@ -3,7 +3,6 @@ import ReactorKit
 import MLSDictionaryFeatureInterface
 import MLSMyPageFeatureInterface
 
-
 public final class DictionaryMainReactor: Reactor {
     // MARK: - Reactor
     public enum Route {

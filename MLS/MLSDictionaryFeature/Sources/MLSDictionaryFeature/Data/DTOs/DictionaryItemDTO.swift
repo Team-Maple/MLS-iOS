@@ -6,7 +6,7 @@ public struct DictionaryItemDTO: DictionaryDTOProtocol {
     public let type: String
     public let bookmarkId: Int?
     public var id: Int { itemId }
-    
+
     public init(itemId: Int, name: String, imageUrl: String?, level: Int?, type: String, bookmarkId: Int?) {
         self.itemId = itemId
         self.name = name
