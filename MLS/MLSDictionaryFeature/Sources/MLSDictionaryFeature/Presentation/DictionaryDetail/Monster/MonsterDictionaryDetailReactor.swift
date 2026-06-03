@@ -118,11 +118,25 @@ public final class MonsterDictionaryDetailReactor: Reactor {
         case .undoLastDeletedBookmark:
             return handleUndoLastDeletedBookmark()
 
-        case .itemTapped(index: let index):
-            return .just(.navigateTo(.detail(type: .item, id: currentState.dropItems[index].itemId)))
+        case let .itemTapped(index):
+            guard currentState.dropItems.indices.contains(index) else {
+                return .empty()
+            }
 
-        case .mapTapped(index: let index):
-            return .just(.navigateTo(.detail(type: .map, id: currentState.spawnMaps[index].mapId)))
+            return .just(
+                .navigateTo(.detail(type: .item, id: currentState.dropItems[index].itemId)
+                )
+            )
+
+        case let .mapTapped(index):
+            guard currentState.spawnMaps.indices.contains(index) else {
+                return .empty()
+            }
+
+            return .just(
+                .navigateTo(.detail(type: .map, id: currentState.spawnMaps[index].mapId)
+                )
+            )
         }
     }
 
