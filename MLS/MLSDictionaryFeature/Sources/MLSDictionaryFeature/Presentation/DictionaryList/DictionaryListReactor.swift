@@ -39,7 +39,7 @@ public final class DictionaryListReactor: Reactor {
 
     // MARK: - Mutation
     public enum Mutation {
-        case navigatTo(Route)
+        case navigateTo(Route)
         case setListItem(DictionaryMainResponse, updateBookmarkOnly: Bool = false)
         case setSort(String)
         case setFilter(start: Int?, end: Int?)
@@ -109,9 +109,9 @@ public final class DictionaryListReactor: Reactor {
         case .viewWillAppear:
             return handleViewWillAppear()
         case .sortButtonTapped:
-            return .just(.navigatTo(.sort(currentState.type)))
+            return .just(.navigateTo(.sort(currentState.type)))
         case .filterButtonTapped:
-            return .just(.navigatTo(.filter(currentState.type)))
+            return .just(.navigateTo(.filter(currentState.type)))
         case let .sortOptionSelected(sort):
             return handleSortOptionSelected(sort: sort)
         case let .filterOptionSelected(startLevel, endLevel):
@@ -137,7 +137,7 @@ public final class DictionaryListReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case let .navigatTo(route):
+        case let .navigateTo(route):
             newState.route = route
         case let .setListItem(items, updateBookmarkOnly):
             newState.isBookmarkUpdateOnly = updateBookmarkOnly
@@ -296,7 +296,7 @@ private extension DictionaryListReactor {
             return .from([lastItem, updateMutation, eventMutation])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 
@@ -351,7 +351,7 @@ private extension DictionaryListReactor {
             return .from([lastItem, updateMutation, eventMutation])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 

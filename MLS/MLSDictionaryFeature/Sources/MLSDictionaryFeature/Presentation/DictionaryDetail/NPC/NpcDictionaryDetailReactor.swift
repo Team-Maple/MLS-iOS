@@ -31,7 +31,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
 
     // MARK: - Mutation
     public enum Mutation {
-        case navigatTo(Route)
+        case navigateTo(Route)
         case setDetailData(DictionaryDetailNpcResponse)
         case setDetailMaps([DictionaryDetailMonsterMapResponse])
         case setDetailQuests([DictionaryDetailNpcQuestResponse])
@@ -88,7 +88,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.navigatTo(.filter(currentState.questFilter)))
+            return .just(.navigateTo(.filter(currentState.questFilter)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -106,10 +106,10 @@ public final class NpcDictionaryDetailReactor: Reactor {
             return handleUndoLastDeletedBookmark()
 
         case .mapTapped(index: let index):
-            return .just(.navigatTo(.detail(type: .map, id: currentState.maps[index].mapId)))
+            return .just(.navigateTo(.detail(type: .map, id: currentState.maps[index].mapId)))
 
         case .questTapped(index: let index):
-            return .just(.navigatTo(.detail(type: .quest, id: currentState.quests[index].questId)))
+            return .just(.navigateTo(.detail(type: .quest, id: currentState.quests[index].questId)))
         }
     }
 
@@ -117,7 +117,7 @@ public final class NpcDictionaryDetailReactor: Reactor {
     public func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .navigatTo(let route):
+        case .navigateTo(let route):
             newState.route = route
         case let .setDetailData(data):
             newState.npcDetailInfo = data
@@ -159,7 +159,7 @@ private extension NpcDictionaryDetailReactor {
             return .concat([eventMutation, refresh])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 
@@ -182,7 +182,7 @@ private extension NpcDictionaryDetailReactor {
             return .concat([eventMutation, refresh])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 }

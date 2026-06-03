@@ -31,7 +31,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
 
     // MARK: Mutation
     public enum Mutation {
-        case navigatTo(Route)
+        case navigateTo(Route)
         case setDetailData(DictionaryDetailItemResponse)
         case setDetailDropMonsterData([DictionaryDetailItemDropMonsterResponse])
         case setLoginState(Bool)
@@ -83,7 +83,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .filterButtonTapped:
-            return .just(.navigatTo(.filter(currentState.type)))
+            return .just(.navigateTo(.filter(currentState.type)))
         case .viewWillAppear:
             return .merge([
                 checkLoginUseCase.execute().map { .setLoginState($0) },
@@ -101,7 +101,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
 
         case .dataTapped(let index):
             guard let id = currentState.monsters[index].monsterId else { return .empty() }
-            return .just(.navigatTo(.detail(id)))
+            return .just(.navigateTo(.detail(id)))
         }
     }
 
@@ -115,7 +115,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
             newState.monsters = data
         case let .setLoginState(isLogin):
             newState.isLogin = isLogin
-        case .navigatTo(let route):
+        case .navigateTo(let route):
             newState.route = route
         case let .setEvent(event):
             newState.event = event
@@ -147,7 +147,7 @@ private extension ItemDictionaryDetailReactor {
             return .concat([eventMutation, refresh])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 
@@ -170,7 +170,7 @@ private extension ItemDictionaryDetailReactor {
             return .concat([eventMutation, refresh])
         }
         .catch { _ in
-            .just(.navigatTo(.bookmarkError))
+            .just(.navigateTo(.bookmarkError))
         }
     }
 }
