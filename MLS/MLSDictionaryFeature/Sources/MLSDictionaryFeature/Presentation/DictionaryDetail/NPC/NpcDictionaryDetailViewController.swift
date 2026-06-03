@@ -51,12 +51,11 @@ private extension NpcDictionaryDetailViewController {
         let maps = reactor.currentState.maps
 
         appearMapView.reset()
-        contentViews.append(appearMapView)
         if maps.isEmpty {
             // 출현맵
-            contentViews[0] = DetailEmptyView(type: .appearMap)
+            
         } else {
-            contentViews[0] = appearMapView
+            setContentView(view: appearMapView, detailType: .appearMap)
             for map in maps {
                 appearMapView.inject(input: DetailStackCardView.Input(
                     type: .appearMap,
@@ -76,12 +75,11 @@ private extension NpcDictionaryDetailViewController {
 
         let quests = reactor.currentState.quests
         questView.reset()
-        contentViews.append(questView)
         if quests.isEmpty {
             // 퀘스트
-            contentViews[1] = DetailEmptyView(type: .quest)
+            setContentView(view: DetailEmptyView(type: .quest), detailType: .quest)
         } else {
-            contentViews[1] = questView
+            setContentView(view: questView, detailType: .quest)
             for quest in quests {
                 questView.inject(input: DetailStackCardView.Input(
                     type: .quest,

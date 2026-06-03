@@ -53,7 +53,7 @@ private extension MonsterDictionaryDetailViewController {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.infos
 
-        contentViews.append(detailView)
+        setContentView(view: detailView, detailType: .normal)
 
         for info in infos {
             detailView.addInfo(mainText: info.name, subText: info.desc)
@@ -68,11 +68,10 @@ private extension MonsterDictionaryDetailViewController {
 
         let maps = reactor.currentState.spawnMaps
         appearMapView.reset()
-        contentViews.append(appearMapView)
         if maps.isEmpty {
-            contentViews[1] = DetailEmptyView(type: .appearMap)
+            setContentView(view: DetailEmptyView(type: .appearMap), detailType: .appearMapWithText)
         } else {
-            contentViews[1] = appearMapView
+            setContentView(view: appearMapView, detailType: .appearMapWithText)
 
             for map in maps {
                 appearMapView.inject(input: DetailStackCardView
@@ -102,13 +101,12 @@ private extension MonsterDictionaryDetailViewController {
         let items = reactor.currentState.dropItems
 
         dropItemView.reset()
-        contentViews.append(dropItemView)
         // 드롭아이템
         if items.isEmpty {
             // 드롭 아이템
-            contentViews[2] = DetailEmptyView(type: .dropItemWithText)
+            setContentView(view: DetailEmptyView(type: .dropItemWithText), detailType: .dropItemWithText)
         } else {
-            contentViews[2] = dropItemView
+            setContentView(view: dropItemView, detailType: .dropItemWithText)
             for item in items {
                 dropItemView
                     .inject(

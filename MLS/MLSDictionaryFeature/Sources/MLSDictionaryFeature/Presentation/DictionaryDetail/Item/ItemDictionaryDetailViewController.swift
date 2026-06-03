@@ -43,11 +43,11 @@ private extension ItemDictionaryDetailViewController {
         guard let reactor = reactor else { return }
         let infos = reactor.currentState.itemDetailInfo
 
-        contentViews.append(detailInfoView)
+        detailInfoView.reset()
         // descriptionText
         detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
+        setContentView(view: detailInfoView, detailType: .normal)
 
-        detailInfoView.reset()
         if let npcPrice = infos.npcPrice {
             detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice.formatted()) 메소")
         }
@@ -153,11 +153,11 @@ private extension ItemDictionaryDetailViewController {
         let monsters = reactor.currentState.monsters
         monsterCardView.reset()
 
-        contentViews.append(monsterCardView)
         if monsters.isEmpty {
-            contentViews[1] = DetailEmptyView(type: .dropMonsterWithText)
+            setContentView(view: DetailEmptyView(type: .dropMonsterWithText), detailType: .dropMonsterWithText)
         } else {
-            contentViews[1] = monsterCardView
+            setContentView(view: monsterCardView
+                           , detailType: .dropMonsterWithText)
             for monster in monsters {
                 monsterCardView.inject(input: DetailStackCardView.Input(type: .dropMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, additionalText: "\(monster.dropRate ?? 0)%")
                 )

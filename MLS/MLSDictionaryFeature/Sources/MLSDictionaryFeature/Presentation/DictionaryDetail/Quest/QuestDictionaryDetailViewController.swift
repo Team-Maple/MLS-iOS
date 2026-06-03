@@ -46,11 +46,10 @@ private extension QuestDictionaryDetailViewController {
         let rewardInfos = reactor.currentState.detailInfo.reward
         let rewardItemInfos = reactor.currentState.detailInfo.rewardItems
 
-        contentViews.append(detailInfoView)
         // 뭘로 빈페이지 보여줄지 정하지..
         detailInfoView.reset()
         if !(detailInfos.startNpcName == nil) {
-            contentViews.append(detailInfoView)
+            setContentView(view: detailInfoView, detailType: .normal)
             // 완료조건 추가
             if let requirements = detailInfos.requirements {
                 for requirement in requirements {
@@ -119,7 +118,7 @@ private extension QuestDictionaryDetailViewController {
             }
 
         } else {
-            contentViews.append(DetailEmptyView(type: .normal))
+            setContentView(view: DetailEmptyView(type: .normal), detailType: .normal)
         }
     }
 
@@ -128,12 +127,11 @@ private extension QuestDictionaryDetailViewController {
         let quests = reactor.currentState.totalQuest
 
         linkedQuestView.reset()
-        contentViews.append(linkedQuestView)
 
         if quests.isEmpty {
-            contentViews[1] = DetailEmptyView(type: .quest)
+            setContentView(view: DetailEmptyView(type: .quest), detailType: .linkedQuest)
         } else {
-            contentViews[1] = linkedQuestView
+            setContentView(view: linkedQuestView, detailType: .linkedQuest)
 
             for data in quests {
                 linkedQuestView.inject(

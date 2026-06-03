@@ -1,7 +1,7 @@
 import UIKit
 
 import MLSAuthFeatureInterface
-//import MLSBookmarkFeatureInterface 추가 예정
+// import MLSBookmarkFeatureInterface 추가 예정
 import MLSCore
 import MLSDesignSystem
 import MLSDictionaryFeatureInterface
@@ -19,13 +19,12 @@ class DictionaryDetailBaseViewController: BaseViewController {
     var loginRelay: PublishRelay<Void>?
 
     /// 각 탭에 해당하는 콘텐츠 뷰들을 담는 배열
-    public var contentViews: [UIView] = [] {
-        didSet {
-            let index = currentTabIndex ?? 0
-            guard index < contentViews.count else { return }
-            mainView.setTabView(index: index, contentViews: contentViews)
-        }
-    }
+    private(set) lazy var contentViews: [UIView] = {
+        Array(
+            repeating: UIView(),
+            count: type.detailTypes.count
+        )
+    }()
 
     /// 현재 보여지고 있는 뷰의 인덱스
     private var currentTabIndex: Int?
@@ -80,6 +79,7 @@ class DictionaryDetailBaseViewController: BaseViewController {
         setupConstraints()
         configureUI()
         bind() // 액션 바인딩
+//        configureContentView()
         setupMenu(type.detailTypes)
     }
 
@@ -103,6 +103,32 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     open func undoBookmark() {
         assertionFailure("Subclass should override undoBookmark()")
+    }
+
+//    func configureContentView() {
+//        contentViews = Array(
+//            repeating: UIView(),
+//            count: type.detailTypes.count
+//        )
+//    }
+
+    func index(of detailType: DetailType) -> Int? {
+        type.detailTypes.firstIndex { $0 == detailType }
+    }
+
+    func setContentView(view: UIView, detailType: DetailType) {
+        guard let index = index(of: detailType) else {
+            assertionFailure("detailType not found")
+            return
+        }
+        contentViews[index] = view
+
+        if currentTabIndex == index {
+            mainView.setTabView(
+                index: index,
+                contentViews: contentViews
+            )
+        }
     }
 }
 
@@ -271,9 +297,7 @@ extension DictionaryDetailBaseViewController {
     func didSelectMenuTab(index: Int) {
         // 인덱스 유효성 검사
         guard index < contentViews.count else { return }
-
-        // 현재 뷰가 같다면 변경 안함
-        if currentTabIndex == index { return }
+        
         // 각 탭에 맞는 뷰 설정
         mainView.setTabView(index: index, contentViews: contentViews)
         currentTabIndex = index
@@ -410,7 +434,7 @@ extension DictionaryDetailBaseViewController {
             sheet.prefersGrabberVisible = true
             sheet.preferredCornerRadius = 16
         }
-        self.present(viewController, animated: true)
+        present(viewController, animated: true)
     }
 
     func presentLoginGuide() {

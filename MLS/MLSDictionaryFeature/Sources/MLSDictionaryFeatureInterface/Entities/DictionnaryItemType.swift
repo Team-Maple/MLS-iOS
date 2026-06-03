@@ -68,7 +68,7 @@ public enum DictionaryItemType: String {
     }
 }
 
-public enum DetailType {
+public enum DetailType: Equatable {
     case normal
     case mapInfo
     case appearMap

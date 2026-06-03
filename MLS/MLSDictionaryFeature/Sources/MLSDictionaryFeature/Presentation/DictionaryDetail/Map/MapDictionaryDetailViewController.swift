@@ -53,13 +53,11 @@ private extension MapDictionaryDetailViewController {
 
     func setUpMapView() {
         guard let reactor = reactor else { return }
-
-        contentViews.append(mapInfoView)
         if let mapUrl = reactor.currentState.mapDetailInfo.mapUrl, !mapUrl.isEmpty {
-            mapInfoView.setUpMapView(imageUrl: reactor.currentState.mapDetailInfo.mapUrl)
-            contentViews[0] = mapInfoView
+            mapInfoView.setUpMapView(imageUrl: mapUrl)
+            setContentView(view: mapInfoView, detailType: .mapInfo)
         } else {
-            contentViews[0] = DetailEmptyView(type: .mapInfo)
+            setContentView(view: DetailEmptyView(type: .mapInfo), detailType: .mapInfo)
         }
     }
 
@@ -70,11 +68,10 @@ private extension MapDictionaryDetailViewController {
 
         appearMonsterView.reset()
         let monsters = reactor.currentState.spawnMonsters
-        contentViews.append(appearMonsterView)
         if monsters.isEmpty {
-            contentViews[1] = DetailEmptyView(type: .appearMonsterWithText)
+            setContentView(view: DetailEmptyView(type: .appearMonsterWithText), detailType: .appearMonsterWithText)
         } else {
-            contentViews[1] = appearMonsterView
+            setContentView(view: appearMonsterView, detailType: .appearMonsterWithText)
             for monster in monsters {
                 appearMonsterView.inject(input: DetailStackCardView.Input(type: .appearMonsterWithText, imageUrl: monster.imageUrl ?? "", mainText: monster.monsterName, subText: "Lv.\(monster.level ?? 0)", additionalText: {
                     if let count = monster.maxSpawnCount {
@@ -92,11 +89,10 @@ private extension MapDictionaryDetailViewController {
 
         let npcs = reactor.currentState.npcs
         appearNpcView.reset()
-        contentViews.append(appearNpcView)
         if npcs.isEmpty {
-            contentViews[2] = DetailEmptyView(type: .appearNPC)
+            setContentView(view: DetailEmptyView(type: .appearNPC), detailType: .appearNPC)
         } else {
-            contentViews[2] = appearNpcView
+            setContentView(view: appearNpcView, detailType: .appearNPC)
             for npc in npcs {
                 appearNpcView.inject(input: DetailStackCardView.Input(type: .appearNPC, imageUrl: npc.iconUrl ?? "", mainText: npc.npcName))
             }
@@ -116,7 +112,7 @@ private extension MapDictionaryDetailViewController {
                 let viewController = PinchMapViewController(imageUrl: url)
                 viewController.modalPresentationStyle = .overFullScreen
                 owner.isBottomTabbarHidden = true
-                self.present(viewController, animated: true)
+                owner.present(viewController, animated: true)
             })
             .disposed(by: disposeBag)
     }
