@@ -7,7 +7,6 @@ import RxCocoa
 public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let loginFactory: () -> LoginFactory
     private let bookmarkModalFactory: BookmarkModalFactory
-    private let dictionaryDetailFactory: () -> DictionaryDetailFactory
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: () -> AppCoordinatorProtocol
     private let dictionaryDetailAPIRepository: DictionaryDetailAPIRepository
@@ -18,7 +17,6 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     public init(
         loginFactory: @escaping () -> LoginFactory,
         bookmarkModalFactory: BookmarkModalFactory,
-        dictionaryDetailFactory: @escaping () -> DictionaryDetailFactory,
         detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: @escaping () -> AppCoordinatorProtocol,
         dictionaryDetailAPIRepository: DictionaryDetailAPIRepository,
@@ -29,125 +27,205 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         self.loginFactory = loginFactory
         self.bookmarkModalFactory = bookmarkModalFactory
         self.detailOnBoardingFactory = detailOnBoardingFactory
+        self.appCoordinator = appCoordinator
         self.dictionaryDetailAPIRepository = dictionaryDetailAPIRepository
         self.checkLoginUseCase = checkLoginUseCase
         self.setBookmarkUseCase = setBookmarkUseCase
-        self.appCoordinator = appCoordinator
-        self.dictionaryDetailFactory = dictionaryDetailFactory
         self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
     }
 
-    public func make(type: DictionaryType, id: Int, bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?, loginRelay: PublishRelay<Void>?) -> BaseViewController {
-        var viewController = BaseViewController()
+    public func make(
+        type: DictionaryType,
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController: BaseViewController
+
         switch type {
-        case .total:
-            break
-        case .collection:
-            break
+        case .total, .collection:
+            viewController = BaseViewController()
+
         case .item:
-            viewController = ItemDictionaryDetailViewController(
-                type: .item,
-                bookmarkModalFactory: bookmarkModalFactory,
-                loginFactory: loginFactory(),
-                dictionaryDetailFactory: dictionaryDetailFactory(),
-                detailOnBoardingFactory: detailOnBoardingFactory,
-                appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            viewController = makeItemViewController(
+                id: id,
                 bookmarkRelay: bookmarkRelay,
                 loginRelay: loginRelay
             )
-            let reactor = ItemDictionaryDetailReactor(
-                dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
-                checkLoginUseCase: checkLoginUseCase,
-                setBookmarkUseCase: setBookmarkUseCase,
-                id: id
-            )
-            if let viewController = viewController as? ItemDictionaryDetailViewController {
-                viewController.reactor = reactor
-            }
+
         case .monster:
-            viewController = MonsterDictionaryDetailViewController(
-                type: .monster,
-                bookmarkModalFactory: bookmarkModalFactory,
-                loginFactory: loginFactory(),
-                dictionaryDetailFactory: dictionaryDetailFactory(),
-                detailOnBoardingFactory: detailOnBoardingFactory,
-                appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            viewController = makeMonsterViewController(
+                id: id,
                 bookmarkRelay: bookmarkRelay,
                 loginRelay: loginRelay
             )
-            let reactor = MonsterDictionaryDetailReactor(
-                dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
-                checkLoginUseCase: checkLoginUseCase,
-                setBookmarkUseCase: setBookmarkUseCase,
-                id: id
-            )
-            if let viewController = viewController as? MonsterDictionaryDetailViewController {
-                viewController.reactor = reactor
-            }
+
         case .map:
-            viewController = MapDictionaryDetailViewController(
-                type: .map,
-                bookmarkModalFactory: bookmarkModalFactory,
-                loginFactory: loginFactory(),
-                dictionaryDetailFactory: dictionaryDetailFactory(),
-                detailOnBoardingFactory: detailOnBoardingFactory,
-                appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            viewController = makeMapViewController(
+                id: id,
                 bookmarkRelay: bookmarkRelay,
                 loginRelay: loginRelay
             )
-            let reactor = MapDictionaryDetailReactor(
-                dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
-                checkLoginUseCase: checkLoginUseCase,
-                setBookmarkUseCase: setBookmarkUseCase,
-                id: id
-            )
-            if let viewController = viewController as? MapDictionaryDetailViewController {
-                viewController.reactor = reactor
-            }
+
         case .npc:
-            viewController = NpcDictionaryDetailViewController(
-                type: .npc,
-                bookmarkModalFactory: bookmarkModalFactory,
-                loginFactory: loginFactory(),
-                dictionaryDetailFactory: dictionaryDetailFactory(),
-                detailOnBoardingFactory: detailOnBoardingFactory,
-                appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            viewController = makeNpcViewController(
+                id: id,
                 bookmarkRelay: bookmarkRelay,
                 loginRelay: loginRelay
             )
-            let reactor = NpcDictionaryDetailReactor(
-                dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
-                checkLoginUseCase: checkLoginUseCase,
-                setBookmarkUseCase: setBookmarkUseCase,
-                id: id
-            )
-            if let viewController = viewController as? NpcDictionaryDetailViewController {
-                viewController.reactor = reactor
-            }
+
         case .quest:
-            viewController = QuestDictionaryDetailViewController(
-                type: .quest,
-                bookmarkModalFactory: bookmarkModalFactory,
-                loginFactory: loginFactory(),
-                dictionaryDetailFactory: dictionaryDetailFactory(),
-                detailOnBoardingFactory: detailOnBoardingFactory,
-                appCoordinator: appCoordinator(), fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            viewController = makeQuestViewController(
+                id: id,
                 bookmarkRelay: bookmarkRelay,
                 loginRelay: loginRelay
             )
-            let reactor = QuestDictionaryDetailReactor(
-                dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
-                checkLoginUseCase: checkLoginUseCase,
-                setBookmarkUseCase: setBookmarkUseCase,
-                id: id
-            )
-            if let viewController = viewController as? QuestDictionaryDetailViewController {
-                viewController.reactor = reactor
-            }
         }
 
         // 하단 탭바 히든
         viewController.isBottomTabbarHidden = true
+        return viewController
+    }
+}
+
+private extension DictionaryDetailFactoryImpl {
+    func makeItemViewController(
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController = ItemDictionaryDetailViewController(
+            type: .item,
+            bookmarkModalFactory: bookmarkModalFactory,
+            loginFactory: loginFactory(),
+            detailOnBoardingFactory: detailOnBoardingFactory,
+            appCoordinator: appCoordinator(),
+            fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            bookmarkRelay: bookmarkRelay,
+            loginRelay: loginRelay
+        )
+
+        viewController.dictionaryDetailFactory = self
+
+        viewController.reactor = ItemDictionaryDetailReactor(
+            dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            id: id
+        )
+
+        return viewController
+    }
+
+    func makeMonsterViewController(
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController = MonsterDictionaryDetailViewController(
+            type: .monster,
+            bookmarkModalFactory: bookmarkModalFactory,
+            loginFactory: loginFactory(),
+            detailOnBoardingFactory: detailOnBoardingFactory,
+            appCoordinator: appCoordinator(),
+            fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            bookmarkRelay: bookmarkRelay,
+            loginRelay: loginRelay
+        )
+
+        viewController.dictionaryDetailFactory = self
+
+        viewController.reactor = MonsterDictionaryDetailReactor(
+            dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            id: id
+        )
+
+        return viewController
+    }
+
+    func makeMapViewController(
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController = MapDictionaryDetailViewController(
+            type: .map,
+            bookmarkModalFactory: bookmarkModalFactory,
+            loginFactory: loginFactory(),
+            detailOnBoardingFactory: detailOnBoardingFactory,
+            appCoordinator: appCoordinator(),
+            fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            bookmarkRelay: bookmarkRelay,
+            loginRelay: loginRelay
+        )
+
+        viewController.dictionaryDetailFactory = self
+
+        viewController.reactor = MapDictionaryDetailReactor(
+            dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            id: id
+        )
+
+        return viewController
+    }
+
+    func makeNpcViewController(
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController = NpcDictionaryDetailViewController(
+            type: .npc,
+            bookmarkModalFactory: bookmarkModalFactory,
+            loginFactory: loginFactory(),
+            detailOnBoardingFactory: detailOnBoardingFactory,
+            appCoordinator: appCoordinator(),
+            fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            bookmarkRelay: bookmarkRelay,
+            loginRelay: loginRelay
+        )
+
+        viewController.dictionaryDetailFactory = self
+
+        viewController.reactor = NpcDictionaryDetailReactor(
+            dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            id: id
+        )
+
+        return viewController
+    }
+
+    func makeQuestViewController(
+        id: Int,
+        bookmarkRelay: PublishRelay<(id: Int, newBookmarkId: Int?)>?,
+        loginRelay: PublishRelay<Void>?
+    ) -> BaseViewController {
+        let viewController = QuestDictionaryDetailViewController(
+            type: .quest,
+            bookmarkModalFactory: bookmarkModalFactory,
+            loginFactory: loginFactory(),
+            detailOnBoardingFactory: detailOnBoardingFactory,
+            appCoordinator: appCoordinator(),
+            fetchVisitDictionaryDetailUseCase: fetchVisitDictionaryDetailUseCase,
+            bookmarkRelay: bookmarkRelay,
+            loginRelay: loginRelay
+        )
+
+        viewController.dictionaryDetailFactory = self
+
+        viewController.reactor = QuestDictionaryDetailReactor(
+            dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            checkLoginUseCase: checkLoginUseCase,
+            setBookmarkUseCase: setBookmarkUseCase,
+            id: id
+        )
+
         return viewController
     }
 }

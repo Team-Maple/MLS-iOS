@@ -232,7 +232,7 @@ extension ItemDictionaryDetailViewController {
                     }
                     owner.tabBarController?.presentModal(viewController, hideTabBar: true)
                 case let .detail(id):
-                    let viewController = owner.dictionaryDetailFactory.make(type: .monster, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay)
+                    guard let viewController = owner.dictionaryDetailFactory?.make(type: .monster, id: id, bookmarkRelay: owner.bookmarkRelay, loginRelay: owner.loginRelay) else { return }
                     owner.navigationController?.pushViewController(viewController, animated: true)
                 case .bookmarkError:
                     ToastFactory.createToast(message: "북마크 요청에 실패했어요. 다시 시도해주세요.")

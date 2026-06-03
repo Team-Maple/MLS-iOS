@@ -31,8 +31,8 @@ class DictionaryDetailBaseViewController: BaseViewController {
 
     let bookmarkModalFactory: BookmarkModalFactory
     let loginFactory: LoginFactory
-    public let dictionaryDetailFactory: DictionaryDetailFactory
     private let detailOnBoardingFactory: DetailOnBoardingFactory
+    weak var dictionaryDetailFactory: DictionaryDetailFactory?
     private let appCoordinator: AppCoordinatorProtocol
 
     private let fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase
@@ -47,7 +47,6 @@ class DictionaryDetailBaseViewController: BaseViewController {
         type: DictionaryItemType,
         bookmarkModalFactory: BookmarkModalFactory,
         loginFactory: LoginFactory,
-        dictionaryDetailFactory: DictionaryDetailFactory,
         detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: AppCoordinatorProtocol,
         fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase,
@@ -58,7 +57,6 @@ class DictionaryDetailBaseViewController: BaseViewController {
         self.bookmarkModalFactory = bookmarkModalFactory
         self.loginFactory = loginFactory
         self.appCoordinator = appCoordinator
-        self.dictionaryDetailFactory = dictionaryDetailFactory
         self.detailOnBoardingFactory = detailOnBoardingFactory
         self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
         mainView.titleLabel.attributedText = .makeStyledString(font: .sub_m_b, text: type.detailTitle)

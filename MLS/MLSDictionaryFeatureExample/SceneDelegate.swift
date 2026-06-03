@@ -60,16 +60,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             MockNotificationSettingFactory()
 
         // MARK: - Detail Factory
-        var detailFactory: DictionaryDetailFactoryImpl!
-
-        detailFactory = DictionaryDetailFactoryImpl(
+        var detailFactory = DictionaryDetailFactoryImpl(
             loginFactory: {
                 loginFactory
             },
             bookmarkModalFactory: bookmarkModalFactory,
-            dictionaryDetailFactory: {
-                detailFactory
-            },
+//            dictionaryDetailFactory: {
+//                detailFactory
+//            },
             detailOnBoardingFactory: detailOnBoardingFactory,
             appCoordinator: {
                 MockAppCoordinator()
