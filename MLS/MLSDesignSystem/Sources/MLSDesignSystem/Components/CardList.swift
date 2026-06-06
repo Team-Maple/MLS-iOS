@@ -294,6 +294,7 @@ public extension CardList {
             iconButton.isHidden = false
             dropInfoStack.isHidden = true
             badge.isHidden = true
+            rankContainer.isHidden = true
         }
     }
 
