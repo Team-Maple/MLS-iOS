@@ -56,4 +56,7 @@
    <FileRef
       location = "group:MLSMyPageFeature">
    </FileRef>
+   <FileRef
+      location = "group:MLSBookmarkFeature">
+   </FileRef>
 </Workspace>
