@@ -1,7 +1,4 @@
-public protocol DictionaryTabControllable: AnyObject {
-    func changeTab(index: Int)
-}
-
+@MainActor
 public enum DictionaryTabRegistry {
     private static weak var controller: DictionaryTabControllable?
 

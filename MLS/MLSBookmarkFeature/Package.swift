@@ -19,6 +19,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(path: "../MLSAppFeature"),
         .package(path: "../MLSAuthFeature"),
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
@@ -43,6 +44,7 @@ let package = Package(
             name: "MLSBookmarkFeature",
             dependencies: [
                 "MLSBookmarkFeatureInterface",
+                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),

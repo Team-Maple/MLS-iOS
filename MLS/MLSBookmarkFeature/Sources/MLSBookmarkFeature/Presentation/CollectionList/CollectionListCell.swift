@@ -34,6 +34,7 @@ extension CollectionListCell {
     }
 }
 
+@MainActor
 private func loadImages(from urls: [String?], completion: @escaping ([UIImage?]) -> Void) {
     var results = [UIImage?](repeating: nil, count: urls.count)
     let group = DispatchGroup()
