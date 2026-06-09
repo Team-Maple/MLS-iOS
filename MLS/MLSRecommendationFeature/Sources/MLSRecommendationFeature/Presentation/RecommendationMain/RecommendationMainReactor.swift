@@ -52,7 +52,10 @@ final class RecommendationMainReactor: Reactor {
                     if let jobId = profile.jobId {
                         setJobName = repository.fetchJobName(jobId: jobId)
                             .map { Mutation.setJobName($0) }
-                            .catch { _ in .empty() }
+                            .catch { error in
+                                print("⚠️ [Recommendation] fetchJobName 실패: \(error)")
+                                return .empty()
+                            }
                     } else {
                         setJobName = .empty()
                     }
@@ -60,14 +63,20 @@ final class RecommendationMainReactor: Reactor {
                     if let level = profile.level, level >= 1, let jobId = profile.jobId {
                         setRecommendations = repository.fetchRecommendations(level: level, jobId: jobId, limit: 5)
                             .map { Mutation.setRecommendations($0) }
-                            .catch { _ in .empty() }
+                            .catch { error in
+                                print("⚠️ [Recommendation] fetchRecommendations 실패: \(error)")
+                                return .empty()
+                            }
                     } else {
                         setRecommendations = .empty()
                     }
                     let parallelRequests = Observable.merge([setJobName, setRecommendations])
                     return Observable.concat([setProfile, parallelRequests])
                 }
-                .catch { _ in .empty() }
+                .catch { error in
+                    print("⚠️ [Recommendation] fetchProfile 실패: \(error)")
+                    return .empty()
+                }
 
             return Observable.concat([
                 .just(.setLoading(true)),

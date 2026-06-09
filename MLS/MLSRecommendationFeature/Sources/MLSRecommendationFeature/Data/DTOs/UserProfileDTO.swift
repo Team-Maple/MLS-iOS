@@ -1,12 +1,5 @@
 import MLSRecommendationFeatureInterface
 
-struct UserProfileResponseDTO: Decodable {
-    let success: Bool
-    let code: String?
-    let message: String?
-    let data: UserProfileDTO?
-}
-
 struct UserProfileDTO: Decodable {
     let id: String?
     let provider: String?
