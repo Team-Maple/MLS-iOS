@@ -438,6 +438,12 @@ public enum FactoryAssembly {
                 },
                 makeCharacterSettingVC: {
                     DIContainer.resolve(type: SetCharacterFactory.self).make()
+                },
+                makeSearchVC: {
+                    DIContainer.resolve(type: DictionarySearchFactory.self).make()
+                },
+                makeNotificationVC: {
+                    DIContainer.resolve(type: DictionaryNotificationFactory.self).make()
                 }
             )
         }

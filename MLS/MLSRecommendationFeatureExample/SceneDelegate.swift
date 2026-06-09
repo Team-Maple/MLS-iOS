@@ -40,6 +40,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     let vc = UIViewController()
                     vc.view.backgroundColor = .white
                     return vc
+                },
+                makeSearchVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeNotificationVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
                 }
             )
         }

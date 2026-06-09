@@ -17,6 +17,8 @@ final class RecommendationMainViewController: BaseViewController, View {
     var disposeBag = DisposeBag()
     var onLoginTapped: (() -> UIViewController?)?
     var onEditTapped: (() -> UIViewController?)?
+    var onSearchTapped: (() -> UIViewController?)?
+    var onNotificationTapped: (() -> UIViewController?)?
 
     private var mainView = RecommendationMainView()
 }
@@ -62,6 +64,22 @@ extension RecommendationMainViewController {
         mainView.informationButton.rx.tap
             .map { Reactor.Action.informationButtonTapped }
             .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        mainView.header.firstIconButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                guard let vc = owner.onSearchTapped?() else { return }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+
+        mainView.header.secondIconButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                guard let vc = owner.onNotificationTapped?() else { return }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
             .disposed(by: disposeBag)
 
         rx.viewWillAppear
