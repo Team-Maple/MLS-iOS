@@ -34,40 +34,12 @@
 		77A293322F79989200845081 /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77A293302F79989200845081 /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77AB59ED2FBE20FD00BAB8A3 /* MLSAuthFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 77AB59EC2FBE20FD00BAB8A3 /* MLSAuthFeatureTesting */; };
 		77AB59EF2FBE20FD00BAB8A3 /* MLSMyPageFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 77AB59EE2FBE20FD00BAB8A3 /* MLSMyPageFeatureTesting */; };
+		77AF68822FD839E9008AAE68 /* MLSCore in Frameworks */ = {isa = PBXBuildFile; productRef = 77AF68812FD839E9008AAE68 /* MLSCore */; };
+		77AF68842FD839F3008AAE68 /* MLSDesignSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 77AF68832FD839F3008AAE68 /* MLSDesignSystem */; };
 		77B1F9952EE06A4E00AE4B4D /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 77B1F9942EE06A4E00AE4B4D /* RxGesture */; };
 		77CEA6EE2FD70F2700E052BC /* MLSAppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 77CEA6ED2FD70F2700E052BC /* MLSAppFeature */; };
 		77DE6DEF2F9F9EA1007FD8AC /* MLSAuthFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 77DE6DEE2F9F9EA1007FD8AC /* MLSAuthFeatureTesting */; };
 		77E260412EEABEC40059E889 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 77E260402EEABEC40059E889 /* Settings.bundle */; };
-		77E7B7202FD73F630077358E /* AuthFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7112FD73F630077358E /* AuthFeature.framework */; };
-		77E7B7212FD73F630077358E /* AuthFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7112FD73F630077358E /* AuthFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7222FD73F630077358E /* AuthFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7122FD73F630077358E /* AuthFeatureInterface.framework */; };
-		77E7B7232FD73F630077358E /* AuthFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7122FD73F630077358E /* AuthFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7242FD73F630077358E /* BaseFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7132FD73F630077358E /* BaseFeature.framework */; };
-		77E7B7252FD73F630077358E /* BaseFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7132FD73F630077358E /* BaseFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7262FD73F630077358E /* BookmarkFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7142FD73F630077358E /* BookmarkFeature.framework */; };
-		77E7B7272FD73F630077358E /* BookmarkFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7142FD73F630077358E /* BookmarkFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7282FD73F630077358E /* BookmarkFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7152FD73F630077358E /* BookmarkFeatureInterface.framework */; };
-		77E7B7292FD73F630077358E /* BookmarkFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7152FD73F630077358E /* BookmarkFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B72A2FD73F630077358E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7162FD73F630077358E /* Core.framework */; };
-		77E7B72B2FD73F630077358E /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7162FD73F630077358E /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B72C2FD73F630077358E /* Data.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7172FD73F630077358E /* Data.framework */; };
-		77E7B72D2FD73F630077358E /* Data.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7172FD73F630077358E /* Data.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B72E2FD73F630077358E /* DataMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7182FD73F630077358E /* DataMock.framework */; };
-		77E7B72F2FD73F630077358E /* DataMock.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7182FD73F630077358E /* DataMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7302FD73F630077358E /* DesignSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7192FD73F630077358E /* DesignSystem.framework */; };
-		77E7B7312FD73F630077358E /* DesignSystem.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B7192FD73F630077358E /* DesignSystem.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7322FD73F630077358E /* DictionaryFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71A2FD73F630077358E /* DictionaryFeature.framework */; };
-		77E7B7332FD73F630077358E /* DictionaryFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71A2FD73F630077358E /* DictionaryFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7342FD73F630077358E /* DictionaryFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71B2FD73F630077358E /* DictionaryFeatureInterface.framework */; };
-		77E7B7352FD73F630077358E /* DictionaryFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71B2FD73F630077358E /* DictionaryFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7362FD73F630077358E /* Domain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71C2FD73F630077358E /* Domain.framework */; };
-		77E7B7372FD73F630077358E /* Domain.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71C2FD73F630077358E /* Domain.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B7382FD73F630077358E /* DomainInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71D2FD73F630077358E /* DomainInterface.framework */; };
-		77E7B7392FD73F630077358E /* DomainInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71D2FD73F630077358E /* DomainInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B73A2FD73F630077358E /* MyPageFeature.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71E2FD73F630077358E /* MyPageFeature.framework */; };
-		77E7B73B2FD73F630077358E /* MyPageFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71E2FD73F630077358E /* MyPageFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		77E7B73C2FD73F630077358E /* MyPageFeatureInterface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71F2FD73F630077358E /* MyPageFeatureInterface.framework */; };
-		77E7B73D2FD73F630077358E /* MyPageFeatureInterface.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 77E7B71F2FD73F630077358E /* MyPageFeatureInterface.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		77F7C2262FBCB2A200D515A8 /* MLSDictionaryFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 77F7C2252FBCB2A200D515A8 /* MLSDictionaryFeature */; };
 		77F7C2282FBCB2A200D515A8 /* MLSDictionaryFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 77F7C2272FBCB2A200D515A8 /* MLSDictionaryFeatureTesting */; };
 		77F7C22C2FBE18D400D515A8 /* MLSDictionaryFeatureInterface in Frameworks */ = {isa = PBXBuildFile; productRef = 77F7C22B2FBE18D400D515A8 /* MLSDictionaryFeatureInterface */; };
@@ -101,31 +73,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				77A293322F79989200845081 /* DesignSystem.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		77E7B73E2FD73F630077358E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				77E7B7372FD73F630077358E /* Domain.framework in Embed Frameworks */,
-				77E7B7292FD73F630077358E /* BookmarkFeatureInterface.framework in Embed Frameworks */,
-				77E7B72B2FD73F630077358E /* Core.framework in Embed Frameworks */,
-				77E7B72F2FD73F630077358E /* DataMock.framework in Embed Frameworks */,
-				77E7B73D2FD73F630077358E /* MyPageFeatureInterface.framework in Embed Frameworks */,
-				77E7B7332FD73F630077358E /* DictionaryFeature.framework in Embed Frameworks */,
-				77E7B7352FD73F630077358E /* DictionaryFeatureInterface.framework in Embed Frameworks */,
-				77E7B73B2FD73F630077358E /* MyPageFeature.framework in Embed Frameworks */,
-				77E7B7312FD73F630077358E /* DesignSystem.framework in Embed Frameworks */,
-				77E7B7392FD73F630077358E /* DomainInterface.framework in Embed Frameworks */,
-				77E7B7212FD73F630077358E /* AuthFeature.framework in Embed Frameworks */,
-				77E7B7252FD73F630077358E /* BaseFeature.framework in Embed Frameworks */,
-				77E7B72D2FD73F630077358E /* Data.framework in Embed Frameworks */,
-				77E7B7232FD73F630077358E /* AuthFeatureInterface.framework in Embed Frameworks */,
-				77E7B7272FD73F630077358E /* BookmarkFeature.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,32 +257,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77E7B7302FD73F630077358E /* DesignSystem.framework in Frameworks */,
-				77E7B73C2FD73F630077358E /* MyPageFeatureInterface.framework in Frameworks */,
+				77AF68842FD839F3008AAE68 /* MLSDesignSystem in Frameworks */,
 				08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */,
-				77E7B7242FD73F630077358E /* BaseFeature.framework in Frameworks */,
-				77E7B7322FD73F630077358E /* DictionaryFeature.framework in Frameworks */,
-				77E7B72C2FD73F630077358E /* Data.framework in Frameworks */,
-				77E7B7382FD73F630077358E /* DomainInterface.framework in Frameworks */,
 				770ADB1F2E433EDA00270506 /* RxKeyboard in Frameworks */,
-				77E7B7202FD73F630077358E /* AuthFeature.framework in Frameworks */,
-				77E7B7282FD73F630077358E /* BookmarkFeatureInterface.framework in Frameworks */,
-				77E7B7342FD73F630077358E /* DictionaryFeatureInterface.framework in Frameworks */,
+				77AF68822FD839E9008AAE68 /* MLSCore in Frameworks */,
 				77CEA6EE2FD70F2700E052BC /* MLSAppFeature in Frameworks */,
 				08ED492C2DCFDED4002C21A2 /* RxSwift in Frameworks */,
-				77E7B72A2FD73F630077358E /* Core.framework in Frameworks */,
-				77E7B7362FD73F630077358E /* Domain.framework in Frameworks */,
-				77E7B73A2FD73F630077358E /* MyPageFeature.framework in Frameworks */,
 				77B1F9952EE06A4E00AE4B4D /* RxGesture in Frameworks */,
-				77E7B7262FD73F630077358E /* BookmarkFeature.framework in Frameworks */,
 				7721A5082E0EE7F100A7B58C /* ReactorKit in Frameworks */,
-				77E7B7222FD73F630077358E /* AuthFeatureInterface.framework in Frameworks */,
 				08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */,
 				08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */,
 				77660AD52DD0D3DD007A4EF3 /* KakaoSDKAuth in Frameworks */,
 				77660AD72DD0D3DD007A4EF3 /* KakaoSDKUser in Frameworks */,
 				08ED492A2DCFDED4002C21A2 /* RxRelay in Frameworks */,
-				77E7B72E2FD73F630077358E /* DataMock.framework in Frameworks */,
 				08ED4DB12DCFE098002C21A2 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,13 +447,13 @@
 				77660AD12DD0D361007A4EF3 /* KakaoConfig.xcconfig */,
 				085A7F742DAF99570046663F /* .swiftlint.yml */,
 				087D3EEA2DA7972C002F924D /* MLS */,
-				77BEB0412DBA84B0002FFCFC /* MLSTests */,
-				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
 				08F7A9242F86745C00EF5C06 /* MLSAuthFeatureExample */,
+				BBCC03002FA000000000BBCC /* MLSBookmarkFeatureExample */,
+				77FA687B2F72C7360064B6EB /* MLSDesignSystemExample */,
+				7794E1072FBCA8AA001474A2 /* MLSDictionaryFeatureExample */,
 				77217FBF2F9A04CF000915EF /* MLSMyPageFeatureExample */,
 				08F7DC622F9DEA8000EF5C06 /* MLSRecommendationFeatureExample */,
-				BBCC03002FA000000000BBCC /* MLSBookmarkFeatureExample */,
-				7794E1072FBCA8AA001474A2 /* MLSDictionaryFeatureExample */,
+				77BEB0412DBA84B0002FFCFC /* MLSTests */,
 				084A25312DB93A5400C395C0 /* Frameworks */,
 				087D3EE92DA7972C002F924D /* Products */,
 			);
@@ -551,7 +485,6 @@
 				087D3EE42DA7972C002F924D /* Sources */,
 				087D3EE52DA7972C002F924D /* Frameworks */,
 				087D3EE62DA7972C002F924D /* Resources */,
-				77E7B73E2FD73F630077358E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -574,6 +507,8 @@
 				770ADB1E2E433EDA00270506 /* RxKeyboard */,
 				77B1F9942EE06A4E00AE4B4D /* RxGesture */,
 				77CEA6ED2FD70F2700E052BC /* MLSAppFeature */,
+				77AF68812FD839E9008AAE68 /* MLSCore */,
+				77AF68832FD839F3008AAE68 /* MLSDesignSystem */,
 			);
 			productName = MLS;
 			productReference = 087D3EE82DA7972C002F924D /* MLS.app */;
@@ -1947,6 +1882,14 @@
 		77AB59EE2FBE20FD00BAB8A3 /* MLSMyPageFeatureTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MLSMyPageFeatureTesting;
+		};
+		77AF68812FD839E9008AAE68 /* MLSCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSCore;
+		};
+		77AF68832FD839F3008AAE68 /* MLSDesignSystem */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSDesignSystem;
 		};
 		77B1F9942EE06A4E00AE4B4D /* RxGesture */ = {
 			isa = XCSwiftPackageProductDependency;

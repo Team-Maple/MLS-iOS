@@ -4,36 +4,11 @@
    <FileRef
       location = "group:MLS.xcodeproj">
    </FileRef>
-   <Group
-      location = "group:Presentation"
-      name = "Presentation">
-      <FileRef
-         location = "group:BookmarkFeature/BookmarkFeature.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:AuthFeature/AuthFeature.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "container:Presentation/DictionaryFeature/DictionaryFeature.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:BaseFeature/BaseFeature.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "group:DesignSystem/DesignSystem.xcodeproj">
-      </FileRef>
-      <FileRef
-         location = "container:Presentation/MyPageFeature/MyPageFeature.xcodeproj">
-      </FileRef>
-   </Group>
    <FileRef
-      location = "group:Domain/Domain.xcodeproj">
+      location = "group:MLSCore">
    </FileRef>
    <FileRef
-      location = "group:Data/Data.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Core/Core.xcodeproj">
+      location = "group:MLSDesignSystem">
    </FileRef>
    <FileRef
       location = "group:MLSAppFeature">
@@ -42,13 +17,7 @@
       location = "group:MLSAuthFeature">
    </FileRef>
    <FileRef
-      location = "group:MLSRecommendationFeature">
-   </FileRef>
-   <FileRef
-      location = "group:MLSCore">
-   </FileRef>
-   <FileRef
-      location = "group:MLSDesignSystem">
+      location = "group:MLSBookmarkFeature">
    </FileRef>
    <FileRef
       location = "group:MLSDictionaryFeature">
@@ -57,6 +26,6 @@
       location = "group:MLSMyPageFeature">
    </FileRef>
    <FileRef
-      location = "group:MLSBookmarkFeature">
+      location = "group:MLSRecommendationFeature">
    </FileRef>
 </Workspace>
