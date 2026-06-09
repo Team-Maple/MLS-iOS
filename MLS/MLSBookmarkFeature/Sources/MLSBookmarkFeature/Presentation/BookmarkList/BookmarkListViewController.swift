@@ -1,10 +1,12 @@
 import UIKit
 
 import MLSAppFeatureInterface
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
 
 import ReactorKit
 import RxCocoa

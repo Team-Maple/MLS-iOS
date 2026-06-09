@@ -1,10 +1,13 @@
+import UIKit
+
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
+
 import ReactorKit
 import RxCocoa
 import RxSwift
-import UIKit
 
 final class CollectionDetailViewController: BaseViewController, View {
     typealias Reactor = CollectionDetailReactor

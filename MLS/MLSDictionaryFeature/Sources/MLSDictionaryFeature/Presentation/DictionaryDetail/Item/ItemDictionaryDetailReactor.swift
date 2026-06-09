@@ -1,3 +1,4 @@
+import MLSBookmarkFeatureInterface
 import MLSDictionaryFeatureInterface
 
 import ReactorKit
@@ -53,19 +54,19 @@ public final class ItemDictionaryDetailReactor: Reactor {
     private let disposeBag = DisposeBag()
 
     private let dictionaryDetailAPIRepository: DictionaryDetailAPIRepository
+    private let bookmarkRepository: BookmarkRepository
     private let checkLoginUseCase: CheckLoginUseCase
-    private let setBookmarkUseCase: SetBookmarkUseCase
 
     // MARK: Init
     public init(
         dictionaryDetailAPIRepository: DictionaryDetailAPIRepository,
+        bookmarkRepository: BookmarkRepository,
         checkLoginUseCase: CheckLoginUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase,
         id: Int
     ) {
         self.dictionaryDetailAPIRepository = dictionaryDetailAPIRepository
+        self.bookmarkRepository = bookmarkRepository
         self.checkLoginUseCase = checkLoginUseCase
-        self.setBookmarkUseCase = setBookmarkUseCase
         self.initialState = .init(
             itemDetailInfo: DictionaryDetailItemResponse(
                 itemId: 0, nameKr: nil, nameEn: nil, descriptionText: nil,
@@ -130,47 +131,55 @@ private extension ItemDictionaryDetailReactor {
         let isSelected = item.bookmarkId != nil
         guard let type = currentState.type.toItemType else { return .empty() }
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: isSelected ? item.bookmarkId ?? item.itemId : item.itemId,
-            isBookmark: isSelected ? .delete : .set(type)
-        )
-        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
-            guard let self else { return .empty() }
+        let bookmarkObservable: Observable<Int?>
 
-            item.bookmarkId = newBookmarkId
-            let event: UIEvent = isSelected ? .delete(item) : .add(item)
-            let eventMutation = Observable.just(Mutation.setEvent(event))
-
-            let refresh = self.dictionaryDetailAPIRepository.fetchItemDetail(id: self.currentState.id)
-                .map { Mutation.setDetailData($0) }
-
-            return .concat([eventMutation, refresh])
+        if isSelected, let bookmarkId = item.bookmarkId {
+            bookmarkObservable = bookmarkRepository
+                .deleteBookmark(bookmarkId: bookmarkId)
+        } else {
+            bookmarkObservable = bookmarkRepository
+                .setBookmark(resourceId: item.itemId, type: type)
+                .map { Optional($0) }
         }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+
+        return bookmarkObservable
+            .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+                guard let self else { return .empty() }
+
+                item.bookmarkId = newBookmarkId
+                let event: UIEvent = isSelected ? .delete(item) : .add(item)
+                let eventMutation = Observable.just(Mutation.setEvent(event))
+
+                let refresh = self.dictionaryDetailAPIRepository
+                    .fetchItemDetail(id: self.currentState.id)
+                    .map { Mutation.setDetailData($0) }
+
+                return .concat([eventMutation, refresh])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
         var item = currentState.itemDetailInfo
         guard let type = currentState.type.toItemType else { return .empty() }
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: item.itemId,
-            isBookmark: .set(type)
-        )
-        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
-            guard let self else { return .empty() }
+        return bookmarkRepository
+            .setBookmark(resourceId: item.itemId, type: type)
+            .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+                guard let self else { return .empty() }
 
-            item.bookmarkId = newBookmarkId
-            let eventMutation = Observable.just(Mutation.setEvent(.add(item)))
-            let refresh = self.dictionaryDetailAPIRepository.fetchItemDetail(id: self.currentState.id)
-                .map { Mutation.setDetailData($0) }
+                item.bookmarkId = newBookmarkId
+                let eventMutation = Observable.just(Mutation.setEvent(.add(item)))
+                let refresh = self.dictionaryDetailAPIRepository
+                    .fetchItemDetail(id: self.currentState.id)
+                    .map { Mutation.setDetailData($0) }
 
-            return .concat([eventMutation, refresh])
-        }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+                return .concat([eventMutation, refresh])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 }

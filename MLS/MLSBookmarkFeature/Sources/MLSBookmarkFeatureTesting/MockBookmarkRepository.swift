@@ -1,4 +1,6 @@
 import MLSBookmarkFeatureInterface
+import MLSDictionaryFeatureInterface
+
 import RxSwift
 
 public final class MockBookmarkRepository: BookmarkRepository {

@@ -1,8 +1,11 @@
+import UIKit
+
 import MLSBookmarkFeature
 import MLSBookmarkFeatureInterface
 import MLSBookmarkFeatureTesting
 import MLSCore
-import UIKit
+import MLSDictionaryFeatureInterface
+
 
 final class MenuViewController: UITableViewController {
 

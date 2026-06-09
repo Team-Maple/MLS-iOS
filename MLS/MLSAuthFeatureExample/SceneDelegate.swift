@@ -1,5 +1,6 @@
 import UIKit
 
+import MLSAppFeatureInterface
 import MLSAuthFeature
 import MLSAuthFeatureInterface
 import MLSAuthFeatureTesting

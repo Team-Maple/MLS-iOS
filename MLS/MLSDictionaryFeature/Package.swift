@@ -23,9 +23,10 @@ let package = Package(
     dependencies: [
         .package(path: "../MLSAppFeature"),
         .package(path: "../MLSAuthFeature"),
-        .package(path: "../MLSMyPageFeature"),
+        .package(path: "../MLSBookmarkFeature"),
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
+        .package(path: "../MLSMyPageFeature"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
@@ -49,6 +50,7 @@ let package = Package(
                 "MLSDictionaryFeatureInterface",
                 .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSBookmarkFeatureInterface", package: "MLSBookmarkFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
                 .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
@@ -66,7 +68,9 @@ let package = Package(
             name: "MLSDictionaryFeatureTesting",
             dependencies: [
                 "MLSDictionaryFeatureInterface",
+                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSBookmarkFeatureInterface", package: "MLSBookmarkFeature"),
                 .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
                 .product(name: "RxSwift", package: "RxSwift")
             ],

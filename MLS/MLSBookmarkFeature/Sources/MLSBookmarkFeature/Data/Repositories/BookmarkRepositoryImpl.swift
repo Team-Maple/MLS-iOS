@@ -1,59 +1,61 @@
 import MLSBookmarkFeatureInterface
 import MLSCore
+import MLSDictionaryFeatureInterface
+
 import RxSwift
 
-final class BookmarkRepositoryImpl: BookmarkRepository {
+public final class BookmarkRepositoryImpl: BookmarkRepository {
     private let provider: NetworkProvider
     private let interceptor: Interceptor
 
-    init() {
+    public init() {
         self.provider = NetworkProviderImpl()
         self.interceptor = TokenInterceptor()
     }
 
-    func setBookmark(resourceId: Int, type: DictionaryItemType) -> Observable<Int> {
+    public func setBookmark(resourceId: Int, type: DictionaryItemType) -> Observable<Int> {
         let endpoint = BookmarkEndPoint.setBookmark(body: SetBookmarkBody(bookmarkType: type.rawValue, resourceId: resourceId))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func deleteBookmark(bookmarkId: Int) -> Observable<Int?> {
+    public func deleteBookmark(bookmarkId: Int) -> Observable<Int?> {
         let endpoint = BookmarkEndPoint.deleteBookmark(bookmarkId: bookmarkId)
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toBookmarkDomain() }
     }
 
-    func fetchBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchBookmark(query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func fetchMonsterBookmark(minLevel: Int?, maxLevel: Int?, sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchMonsterBookmark(minLevel: Int?, maxLevel: Int?, sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchMonsterBookmark(query: MonsterQuery(minLevel: minLevel, maxLevel: maxLevel, sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func fetchNPCBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchNPCBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchNPCBookmark(query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func fetchQuestBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchQuestBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchQuestBookmark(query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func fetchItemBookmark(jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchItemBookmark(jobId: Int?, minLevel: Int?, maxLevel: Int?, categoryIds: [Int]?, sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchItemBookmark(query: ItemQuery(jobId: jobId, minLevel: minLevel, maxLevel: maxLevel, categoryIds: categoryIds, sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
 
-    func fetchMapBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
+    public func fetchMapBookmark(sort: String?) -> Observable<[BookmarkResponse]> {
         let endpoint = BookmarkEndPoint.fetchMapBookmark(query: SortQuery(sort: sort))
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }

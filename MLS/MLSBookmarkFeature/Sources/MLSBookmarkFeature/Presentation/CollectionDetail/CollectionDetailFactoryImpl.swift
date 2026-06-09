@@ -1,7 +1,9 @@
+import RxSwift
+
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
-import RxSwift
+import MLSDictionaryFeatureInterface
 
 public final class CollectionDetailFactoryImpl: CollectionDetailFactory {
     private let bookmarkModalFactory: BookmarkModalFactory

@@ -1,8 +1,11 @@
+import UIKit
+
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
+
 import SnapKit
-import UIKit
 
 final class DictionaryListCell: UICollectionViewCell {
     private var onBookmarkTapped: (() -> Void)?

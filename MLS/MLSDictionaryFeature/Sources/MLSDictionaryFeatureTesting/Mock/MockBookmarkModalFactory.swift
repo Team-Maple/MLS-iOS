@@ -1,5 +1,5 @@
 import MLSCore
-import MLSDictionaryFeatureInterface
+import MLSBookmarkFeatureInterface
 
 public final class MockBookmarkModalFactory: BookmarkModalFactory {
     public init() {}

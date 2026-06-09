@@ -1,3 +1,5 @@
+import MLSDictionaryFeatureInterface
+
 import RxSwift
 
 public protocol BookmarkRepository {

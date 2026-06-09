@@ -1,10 +1,11 @@
 import MLSAuthFeatureInterface
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDictionaryFeatureInterface
 
 public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
     private let checkLoginUseCase: CheckLoginUseCase
-    private let setBookmarkUseCase: SetBookmarkUseCase
+    private let bookmarkRepository: BookmarkRepository
     private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
 
     private let dictionaryListAPIRepository: DictionaryListAPIRepository
@@ -18,7 +19,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
 
     public init(
         checkLoginUseCase: CheckLoginUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase,
+        bookmarkRepository: BookmarkRepository,
         parseItemFilterResultUseCase: ParseItemFilterResultUseCase,
         dictionaryListAPIRepository: DictionaryListAPIRepository,
         itemFilterFactory: ItemFilterBottomSheetFactory,
@@ -29,7 +30,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
         loginFactory: @escaping () -> LoginFactory
     ) {
         self.checkLoginUseCase = checkLoginUseCase
-        self.setBookmarkUseCase = setBookmarkUseCase
+        self.bookmarkRepository = bookmarkRepository
         self.parseItemFilterResultUseCase = parseItemFilterResultUseCase
         self.dictionaryListAPIRepository = dictionaryListAPIRepository
         self.itemFilterFactory = itemFilterFactory
@@ -46,7 +47,7 @@ public final class DictionaryListFactoryImpl: DictionaryMainListFactory {
             keyword: keyword,
             dictionaryListAPIRepository: dictionaryListAPIRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
+            bookmarkRepository: bookmarkRepository,
             parseItemFilterResultUseCase: parseItemFilterResultUseCase
         )
         let viewController = DictionaryListViewController(

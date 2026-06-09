@@ -2,16 +2,16 @@ import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import RxSwift
 
-final class BookmarkAuthRepositoryImpl: BookmarkAuthRepository {
+public final class BookmarkAuthRepositoryImpl: BookmarkAuthRepository {
     private let tokenRepository: TokenRepository
     private let authAPIRepository: AuthAPIRepository
 
-    init(tokenRepository: TokenRepository, authAPIRepository: AuthAPIRepository) {
+    public init(tokenRepository: TokenRepository, authAPIRepository: AuthAPIRepository) {
         self.tokenRepository = tokenRepository
         self.authAPIRepository = authAPIRepository
     }
 
-    func isLoggedIn() -> Observable<Bool> {
+    public func isLoggedIn() -> Observable<Bool> {
         switch tokenRepository.fetchToken(type: .refreshToken) {
         case .success(let token):
             guard !token.isEmpty else { return .just(false) }

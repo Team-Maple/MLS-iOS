@@ -1,7 +1,9 @@
+import UIKit
+
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
-import UIKit
+import MLSDictionaryFeatureInterface
 
 public final class BookmarkMainFactoryImpl: BookmarkMainFactory {
     private let authRepository: BookmarkAuthRepository

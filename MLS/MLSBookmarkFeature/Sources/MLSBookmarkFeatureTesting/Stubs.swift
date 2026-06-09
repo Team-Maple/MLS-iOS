@@ -1,9 +1,12 @@
+import UIKit
+
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
+
 import RxRelay
-import UIKit
 
 // MARK: - Stub Modal ViewController
 

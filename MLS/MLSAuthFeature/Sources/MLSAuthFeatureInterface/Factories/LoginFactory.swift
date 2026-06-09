@@ -1,3 +1,4 @@
+import MLSAppFeatureInterface
 import MLSCore
 
 public protocol LoginFactory {

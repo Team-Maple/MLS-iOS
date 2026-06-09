@@ -5,7 +5,7 @@ import MLSMyPageFeatureInterface
 
 import RxSwift
 
-public class AlarmAPIRepositoryImpl: AlarmRepository {
+public class AlarmRepositoryImpl: AlarmRepository {
     private let provider: NetworkProvider
     private let tokenInterceptor: Interceptor
 
@@ -51,7 +51,7 @@ public class AlarmAPIRepositoryImpl: AlarmRepository {
 
 }
 
-private extension AlarmAPIRepositoryImpl {
+private extension AlarmRepositoryImpl {
     struct AlarmQuery: Encodable {
         let cursor: Int?
         let pageSize: Int

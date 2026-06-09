@@ -1,3 +1,4 @@
+import MLSDictionaryFeatureInterface
 import MLSBookmarkFeatureInterface
 
 public final class MockParseItemFilterResultUseCase: ParseItemFilterResultUseCase {

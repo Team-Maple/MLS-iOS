@@ -1,6 +1,7 @@
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
+import MLSDictionaryFeatureInterface
 
 public final class BookmarkListFactoryImpl: BookmarkListFactory {
     private let itemFilterFactory: ItemFilterBottomSheetFactory

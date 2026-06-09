@@ -4,6 +4,7 @@ import MLSAppFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
 
 import ReactorKit
 import RxSwift
