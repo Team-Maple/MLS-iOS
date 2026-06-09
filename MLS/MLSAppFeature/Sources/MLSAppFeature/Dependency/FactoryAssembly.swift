@@ -73,7 +73,7 @@ public enum FactoryAssembly {
                     type: DetailOnBoardingFactory.self
                 ),
                 appCoordinator: {
-                    DIContainer.resolve(type: AppCoordinator.self)
+                    DIContainer.resolve(type: AppCoordinatorProtocol.self)
                 },
                 dictionaryDetailAPIRepository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self
