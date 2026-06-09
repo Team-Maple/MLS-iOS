@@ -36,8 +36,7 @@ public final class TokenLauncher {
 
         if case .success(let accessToken) =
             tokenRepository.fetchToken(type: .accessToken),
-            !accessToken.isEmpty
-        {
+            !accessToken.isEmpty {
             _ = tokenRepository.saveToken(
                 type: .fcmToken,
                 value: token

@@ -1,7 +1,6 @@
 import UIKit
 
 import MLSAppFeatureInterface
-import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore

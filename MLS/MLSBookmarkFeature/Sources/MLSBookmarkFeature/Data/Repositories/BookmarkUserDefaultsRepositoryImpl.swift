@@ -6,7 +6,7 @@ import RxSwift
 
 public final class BookmarkUserDefaultsRepositoryImpl: BookmarkUserDefaultsRepository {
     private let key = "bookmark_onboarding_visited"
-    
+
     public init() {}
 
     public func hasVisitedOnboarding() -> Observable<Bool> {

@@ -1,9 +1,9 @@
 import UIKit
 
 import MLSAuthFeatureInterface
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
-import MLSBookmarkFeatureInterface
 import MLSDictionaryFeatureInterface
 
 import ReactorKit

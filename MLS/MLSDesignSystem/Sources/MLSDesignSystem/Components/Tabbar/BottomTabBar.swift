@@ -6,7 +6,7 @@ import SnapKit
 public struct TabItem {
     var title: String
     var icon: UIImage
-    
+
     public init(title: String, icon: UIImage) {
         self.title = title
         self.icon = icon

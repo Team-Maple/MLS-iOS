@@ -31,7 +31,7 @@ let package = Package(
         .package(path: "../MLSDictionaryFeature"),
         .package(path: "../MLSMyPageFeature"),
         .package(path: "../MLSRecommendationFeature"),
-        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0")
     ],
     targets: [
         // Interface 모듈 (도메인 모델 및 프로토콜)
@@ -56,7 +56,7 @@ let package = Package(
                 .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
                 .product(name: "MLSRecommendationFeature", package: "MLSRecommendationFeature"),
                 .product(name: "MLSRecommendationFeatureInterface", package: "MLSRecommendationFeature"),
-                .product(name: "RxSwift", package: "RxSwift"),
+                .product(name: "RxSwift", package: "RxSwift")
             ]
         ),
         // Testing 모듈 (Mock 객체)

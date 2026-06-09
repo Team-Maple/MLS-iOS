@@ -6,7 +6,6 @@ import MLSBookmarkFeatureTesting
 import MLSCore
 import MLSDictionaryFeatureInterface
 
-
 final class MenuViewController: UITableViewController {
 
     private struct MenuItem {

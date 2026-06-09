@@ -1,8 +1,8 @@
-//import MLSAuthFeatureInterface
+// import MLSAuthFeatureInterface
 //
-//import RxSwift
+// import RxSwift
 //
-//public class CheckEmptyLevelAndRoleUseCaseImpl: CheckEmptyLevelAndRoleUseCase {
+// public class CheckEmptyLevelAndRoleUseCaseImpl: CheckEmptyLevelAndRoleUseCase {
 //    public init() {}
 //
 //    public func execute(level: Int?, job: String?) -> Bool {
@@ -10,4 +10,4 @@
 //        let isValidRole = job != nil && job != ""
 //        return isValidLevel && isValidRole
 //    }
-//}
+// }
