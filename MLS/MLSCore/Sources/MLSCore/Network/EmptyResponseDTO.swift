@@ -1,5 +1,5 @@
 public struct EmptyResponseDTO: Decodable {
-    func toBookmarkDomain() -> Int? {
+    public func toBookmarkDomain() -> Int? {
         return nil
     }
 }

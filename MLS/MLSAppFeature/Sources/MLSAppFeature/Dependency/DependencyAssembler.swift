@@ -9,13 +9,15 @@ import MLSMyPageFeatureInterface
 import MLSRecommendationFeatureInterface
 
 public enum DependencyAssembler {
-    @MainActor
-    public static func assemble(window: UIWindow?) {
+    public static func register() {
         ProviderAssembly.register()
         RepositoryAssembly.register()
         UseCaseAssembly.register()
         FactoryAssembly.register()
+    }
 
+    @MainActor
+    public static func launch(window: UIWindow?) {
         DIContainer.register(type: AppCoordinatorProtocol.self) {
             AppCoordinator(
                 window: window,

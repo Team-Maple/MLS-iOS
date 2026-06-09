@@ -13,7 +13,7 @@ public final class AppLauncher {
     public init() {}
 
     public func launch(window: UIWindow?) {
-        DependencyAssembler.assemble(window: window)
+        DependencyAssembler.launch(window: window)
 
         let tokenRepository = DIContainer.resolve(type: TokenRepository.self)
         let authRepository = DIContainer.resolve(type: AuthAPIRepository.self)
@@ -45,5 +45,9 @@ public final class AppLauncher {
             let coordinator = DIContainer.resolve(type: AppCoordinatorProtocol.self)
             coordinator.showLogin(exitRoute: .home)
         }
+    }
+
+    public func register() {
+        DependencyAssembler.register()
     }
 }
