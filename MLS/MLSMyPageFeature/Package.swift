@@ -21,6 +21,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(path: "../MLSAppFeature"),
         .package(path: "../MLSAuthFeature"),
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
@@ -63,6 +64,7 @@ let package = Package(
             name: "MLSMyPageFeatureTesting",
             dependencies: [
                 "MLSMyPageFeatureInterface",
+                .product(name: "MLSAppFeatureTesting", package: "MLSAppFeature"),
                 .product(name: "RxSwift", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]

@@ -28,9 +28,17 @@ public final class NetworkProviderImpl: NetworkProvider, Loggable {
                     if let data = data {
                         self?.logDebug("Core requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
                         do {
-                            let decoded = try JSONDecoder().decode(T.Response.self, from: data)
+                            let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
                             self?.logDebug("Core requestData: 디코딩 성공 - \(decoded)")
-                            observer.onNext(decoded)
+                            if let decodedData = decoded.data {
+                                observer.onNext(decodedData)
+                            } else {
+                                if T.Response.self == EmptyResponseDTO.self {
+                                    observer.onNext(EmptyResponseDTO() as! T.Response)
+                                } else {
+                                    observer.onError(NetworkError.invalidResponse)
+                                }
+                            }
                             observer.onCompleted()
                         } catch {
                             self?.logError("Core requestData: 디코딩 실패 - \(error)")

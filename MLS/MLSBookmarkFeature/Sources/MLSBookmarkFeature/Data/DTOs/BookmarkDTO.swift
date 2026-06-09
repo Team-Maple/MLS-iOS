@@ -1,4 +1,5 @@
 import MLSBookmarkFeatureInterface
+import MLSDictionaryFeatureInterface
 
 struct BookmarkDTO: Decodable {
     let bookmarkId: Int

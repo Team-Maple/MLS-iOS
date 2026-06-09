@@ -48,6 +48,18 @@ public final class SetProfileViewController: BaseViewController, View {
         addViews()
         setupConstraints()
     }
+
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        (tabBarController as? BottomTabBarController)?
+            .setHidden(hidden: true, animated: false)
+    }
+
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        (tabBarController as? BottomTabBarController)?
+            .setHidden(hidden: false, animated: true)
+    }
 }
 
 // MARK: - Setup

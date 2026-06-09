@@ -1,9 +1,9 @@
 import UIKit
 
 import MLSAuthFeatureInterface
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
-// import MLSBookmarkFeatureInterface로 수정 필요
 import MLSDictionaryFeatureInterface
 
 import ReactorKit

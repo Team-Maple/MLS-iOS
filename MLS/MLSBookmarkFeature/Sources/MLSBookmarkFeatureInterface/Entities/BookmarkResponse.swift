@@ -1,3 +1,5 @@
+import MLSDictionaryFeatureInterface
+
 public struct BookmarkResponse: Equatable {
     public let name: String
     public let bookmarkId: Int

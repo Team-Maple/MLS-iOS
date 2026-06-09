@@ -1,3 +1,4 @@
+import MLSBookmarkFeatureInterface
 import MLSDictionaryFeatureInterface
 
 import ReactorKit
@@ -58,8 +59,8 @@ public final class NpcDictionaryDetailReactor: Reactor {
 
     // MARK: - UseCases
     private let dictionaryDetailAPIRepository: DictionaryDetailAPIRepository
+    private let bookmarkRepository: BookmarkRepository
     private let checkLoginUseCase: CheckLoginUseCase
-    private let setBookmarkUseCase: SetBookmarkUseCase
 
     public var initialState: State
     private let disposeBag = DisposeBag()
@@ -67,13 +68,13 @@ public final class NpcDictionaryDetailReactor: Reactor {
     // MARK: - Init
     public init(
         dictionaryDetailAPIRepository: DictionaryDetailAPIRepository,
+        bookmarkRepository: BookmarkRepository,
         checkLoginUseCase: CheckLoginUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase,
         id: Int
     ) {
         self.dictionaryDetailAPIRepository = dictionaryDetailAPIRepository
+        self.bookmarkRepository = bookmarkRepository
         self.checkLoginUseCase = checkLoginUseCase
-        self.setBookmarkUseCase = setBookmarkUseCase
         self.initialState = State(
             npcDetailInfo: DictionaryDetailNpcResponse(
                 npcId: 0, nameKr: "", nameEn: "", iconUrlDetail: nil, bookmarkId: nil
@@ -142,47 +143,55 @@ private extension NpcDictionaryDetailReactor {
         let isSelected = npc.bookmarkId != nil
         guard let type = currentState.type.toItemType else { return .empty() }
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: isSelected ? npc.bookmarkId ?? npc.npcId : npc.npcId,
-            isBookmark: isSelected ? .delete : .set(type)
-        )
-        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
-            guard let self else { return .empty() }
+        let bookmarkObservable: Observable<Int?>
 
-            npc.bookmarkId = newBookmarkId
-            let event: UIEvent = isSelected ? .delete(npc) : .add(npc)
-            let eventMutation = Observable.just(Mutation.setEvent(event))
-
-            let refresh = self.dictionaryDetailAPIRepository.fetchNpcDetail(id: self.currentState.id)
-                .map { Mutation.setDetailData($0) }
-
-            return .concat([eventMutation, refresh])
+        if isSelected, let bookmarkId = npc.bookmarkId {
+            bookmarkObservable = bookmarkRepository
+                .deleteBookmark(bookmarkId: bookmarkId)
+        } else {
+            bookmarkObservable = bookmarkRepository
+                .setBookmark(resourceId: npc.npcId, type: type)
+                .map { Optional($0) }
         }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+
+        return bookmarkObservable
+            .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+                guard let self else { return .empty() }
+
+                npc.bookmarkId = newBookmarkId
+                let event: UIEvent = isSelected ? .delete(npc) : .add(npc)
+                let eventMutation = Observable.just(Mutation.setEvent(event))
+
+                let refresh = self.dictionaryDetailAPIRepository
+                    .fetchNpcDetail(id: self.currentState.id)
+                    .map { Mutation.setDetailData($0) }
+
+                return .concat([eventMutation, refresh])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
         var npc = currentState.npcDetailInfo
         guard let type = currentState.type.toItemType else { return .empty() }
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: npc.npcId,
-            isBookmark: .set(type)
-        )
-        .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
-            guard let self else { return .empty() }
+        return bookmarkRepository
+            .setBookmark(resourceId: npc.npcId, type: type)
+            .flatMap { [weak self] newBookmarkId -> Observable<Mutation> in
+                guard let self else { return .empty() }
 
-            npc.bookmarkId = newBookmarkId
-            let eventMutation = Observable.just(Mutation.setEvent(.add(npc)))
-            let refresh = self.dictionaryDetailAPIRepository.fetchNpcDetail(id: self.currentState.id)
-                .map { Mutation.setDetailData($0) }
+                npc.bookmarkId = newBookmarkId
+                let eventMutation = Observable.just(Mutation.setEvent(.add(npc)))
+                let refresh = self.dictionaryDetailAPIRepository
+                    .fetchNpcDetail(id: self.currentState.id)
+                    .map { Mutation.setDetailData($0) }
 
-            return .concat([eventMutation, refresh])
-        }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+                return .concat([eventMutation, refresh])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 }

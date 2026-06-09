@@ -1,3 +1,4 @@
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDictionaryFeatureInterface
 
@@ -82,7 +83,7 @@ public final class DictionaryListReactor: Reactor {
     // MARK: - UseCases
     private let dictionaryListAPIRepository: DictionaryListAPIRepository
     private let checkLoginUseCase: CheckLoginUseCase
-    private let setBookmarkUseCase: SetBookmarkUseCase
+    private let bookmarkRepository: BookmarkRepository
     private let parseItemFilterResultUseCase: ParseItemFilterResultUseCase
 
     private let disposeBag = DisposeBag()
@@ -93,13 +94,13 @@ public final class DictionaryListReactor: Reactor {
         keyword: String?,
         dictionaryListAPIRepository: DictionaryListAPIRepository,
         checkLoginUseCase: CheckLoginUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase,
+        bookmarkRepository: BookmarkRepository,
         parseItemFilterResultUseCase: ParseItemFilterResultUseCase
     ) {
         self.initialState = State(route: .none, type: type, keyword: keyword, isLogin: false)
         self.dictionaryListAPIRepository = dictionaryListAPIRepository
         self.checkLoginUseCase = checkLoginUseCase
-        self.setBookmarkUseCase = setBookmarkUseCase
+        self.bookmarkRepository = bookmarkRepository
         self.parseItemFilterResultUseCase = parseItemFilterResultUseCase
     }
 
@@ -282,22 +283,28 @@ private extension DictionaryListReactor {
         let targetItem = currentState.listItems[index]
         let isSelected = targetItem.bookmarkId != nil
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: isSelected ? targetItem.bookmarkId ?? targetItem.id : targetItem.id,
-            isBookmark: isSelected ? .delete : .set(targetItem.type)
-        )
-        .flatMap { newBookmarkId -> Observable<Mutation> in
-            let lastItem = Mutation.setLastDeletedBookmark(targetItem)
+        let bookmarkObservable: Observable<Int?>
 
-            let event: UIEvent = isSelected ? .delete(targetItem) : .add(targetItem)
-            let eventMutation = Mutation.setEvent(event)
+        if isSelected, let bookmarkId = targetItem.bookmarkId {
+            bookmarkObservable = bookmarkRepository
+                .deleteBookmark(bookmarkId: bookmarkId)
+        } else {
+            bookmarkObservable = bookmarkRepository
+                .setBookmark(resourceId: targetItem.id, type: targetItem.type)
+                .map { Optional($0) }
+        }
 
-            let updateMutation = Mutation.updateBookmarkId(id: id, newBookmarkId: newBookmarkId)
-            return .from([lastItem, updateMutation, eventMutation])
-        }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+        return bookmarkObservable
+            .flatMap { newBookmarkId -> Observable<Mutation> in
+                let lastItem = Mutation.setLastDeletedBookmark(targetItem)
+                let event: UIEvent = isSelected ? .delete(targetItem) : .add(targetItem)
+                let eventMutation = Mutation.setEvent(event)
+                let updateMutation = Mutation.updateBookmarkId(id: id, newBookmarkId: newBookmarkId)
+                return .from([lastItem, updateMutation, eventMutation])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 
     func handleUpdateBookmark(id: Int, newBookmarkId: Int?) -> Observable<Mutation> {
@@ -337,22 +344,18 @@ private extension DictionaryListReactor {
     func handleUndoLastDeletedBookmark() -> Observable<Mutation> {
         guard let lastDeleted = currentState.lastDeletedBookmark else { return .empty() }
 
-        return setBookmarkUseCase.execute(
-            bookmarkId: lastDeleted.id,
-            isBookmark: .set(lastDeleted.type)
-        )
-        .flatMap { newBookmarkId -> Observable<Mutation> in
-            let lastItem = Mutation.setLastDeletedBookmark(nil)
-
-            let event: UIEvent = .add(lastDeleted)
-            let eventMutation = Mutation.setEvent(event)
-
-            let updateMutation = Mutation.updateBookmarkId(id: lastDeleted.id, newBookmarkId: newBookmarkId)
-            return .from([lastItem, updateMutation, eventMutation])
-        }
-        .catch { _ in
-            .just(.navigateTo(.bookmarkError))
-        }
+        return bookmarkRepository
+            .setBookmark(resourceId: lastDeleted.id, type: lastDeleted.type)
+            .flatMap { newBookmarkId -> Observable<Mutation> in
+                let lastItem = Mutation.setLastDeletedBookmark(nil)
+                let event: UIEvent = .add(lastDeleted)
+                let eventMutation = Mutation.setEvent(event)
+                let updateMutation = Mutation.updateBookmarkId(id: lastDeleted.id, newBookmarkId: newBookmarkId)
+                return .from([lastItem, updateMutation, eventMutation])
+            }
+            .catch { _ in
+                .just(.navigateTo(.bookmarkError))
+            }
     }
 
     func handleItemFilterOptionSelected(results: [(String, String)]) -> Observable<Mutation> {

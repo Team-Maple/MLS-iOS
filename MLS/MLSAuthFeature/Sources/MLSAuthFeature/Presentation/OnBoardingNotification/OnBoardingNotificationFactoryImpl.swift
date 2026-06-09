@@ -1,3 +1,4 @@
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 import MLSCore
 

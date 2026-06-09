@@ -1,4 +1,5 @@
 import MLSBookmarkFeatureInterface
+import MLSDictionaryFeatureInterface
 
 public final class MockParseItemFilterResultUseCase: ParseItemFilterResultUseCase {
     public var result: ItemFilterCriteria = ItemFilterCriteria(jobIds: [], startLevel: nil, endLevel: nil, categoryIds: [])

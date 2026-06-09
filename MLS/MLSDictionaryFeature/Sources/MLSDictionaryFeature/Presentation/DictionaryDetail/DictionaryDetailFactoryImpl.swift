@@ -1,4 +1,6 @@
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDictionaryFeatureInterface
 
@@ -10,8 +12,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
     private let detailOnBoardingFactory: DetailOnBoardingFactory
     private let appCoordinator: () -> AppCoordinatorProtocol
     private let dictionaryDetailAPIRepository: DictionaryDetailAPIRepository
+    private let bookmarkRepository: BookmarkRepository
     private let checkLoginUseCase: CheckLoginUseCase
-    private let setBookmarkUseCase: SetBookmarkUseCase
     private let fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase
 
     public init(
@@ -20,8 +22,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         detailOnBoardingFactory: DetailOnBoardingFactory,
         appCoordinator: @escaping () -> AppCoordinatorProtocol,
         dictionaryDetailAPIRepository: DictionaryDetailAPIRepository,
+        bookmarkRepository: BookmarkRepository,
         checkLoginUseCase: CheckLoginUseCase,
-        setBookmarkUseCase: SetBookmarkUseCase,
         fetchVisitDictionaryDetailUseCase: FetchVisitDictionaryDetailUseCase
     ) {
         self.loginFactory = loginFactory
@@ -29,8 +31,8 @@ public final class DictionaryDetailFactoryImpl: DictionaryDetailFactory {
         self.detailOnBoardingFactory = detailOnBoardingFactory
         self.appCoordinator = appCoordinator
         self.dictionaryDetailAPIRepository = dictionaryDetailAPIRepository
+        self.bookmarkRepository = bookmarkRepository
         self.checkLoginUseCase = checkLoginUseCase
-        self.setBookmarkUseCase = setBookmarkUseCase
         self.fetchVisitDictionaryDetailUseCase = fetchVisitDictionaryDetailUseCase
     }
 
@@ -109,8 +111,8 @@ private extension DictionaryDetailFactoryImpl {
 
         viewController.reactor = ItemDictionaryDetailReactor(
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             id: id
         )
 
@@ -137,8 +139,8 @@ private extension DictionaryDetailFactoryImpl {
 
         viewController.reactor = MonsterDictionaryDetailReactor(
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             id: id
         )
 
@@ -165,8 +167,8 @@ private extension DictionaryDetailFactoryImpl {
 
         viewController.reactor = MapDictionaryDetailReactor(
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             id: id
         )
 
@@ -193,8 +195,8 @@ private extension DictionaryDetailFactoryImpl {
 
         viewController.reactor = NpcDictionaryDetailReactor(
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             id: id
         )
 
@@ -221,8 +223,8 @@ private extension DictionaryDetailFactoryImpl {
 
         viewController.reactor = QuestDictionaryDetailReactor(
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             id: id
         )
 

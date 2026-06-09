@@ -1,5 +1,6 @@
 import UIKit
 
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 
 public final class MockAppCoordinator: AppCoordinatorProtocol {

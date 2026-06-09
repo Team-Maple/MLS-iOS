@@ -1,11 +1,15 @@
 import Foundation
+
 import MLSBookmarkFeatureInterface
+
 import RxSwift
 
-final class BookmarkUserDefaultsRepositoryImpl: BookmarkUserDefaultsRepository {
+public final class BookmarkUserDefaultsRepositoryImpl: BookmarkUserDefaultsRepository {
     private let key = "bookmark_onboarding_visited"
 
-    func hasVisitedOnboarding() -> Observable<Bool> {
+    public init() {}
+
+    public func hasVisitedOnboarding() -> Observable<Bool> {
         let hasVisited = UserDefaults.standard.bool(forKey: key)
         if !hasVisited {
             UserDefaults.standard.set(true, forKey: key)
@@ -14,7 +18,7 @@ final class BookmarkUserDefaultsRepositoryImpl: BookmarkUserDefaultsRepository {
         return .just(true)
     }
 
-    func markOnboardingVisited() -> Completable {
+    public func markOnboardingVisited() -> Completable {
         return Completable.create { [weak self] observer in
             guard let self else {
                 observer(.completed)

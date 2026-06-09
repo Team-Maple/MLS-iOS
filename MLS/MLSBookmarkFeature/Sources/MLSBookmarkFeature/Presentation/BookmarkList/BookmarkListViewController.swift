@@ -1,12 +1,16 @@
+import UIKit
+
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
+
 import ReactorKit
 import RxCocoa
 import RxRelay
 import RxSwift
-import UIKit
 
 final class BookmarkListViewController: BaseViewController, View {
     typealias Reactor = BookmarkListReactor

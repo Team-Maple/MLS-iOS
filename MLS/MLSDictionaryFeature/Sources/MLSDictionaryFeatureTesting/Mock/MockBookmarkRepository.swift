@@ -1,3 +1,4 @@
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDictionaryFeatureInterface
 
@@ -7,8 +8,8 @@ public final class MockBookmarkRepository: BookmarkRepository {
 
     public init() {}
 
-    public func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Observable<Int> {
-        return .just(bookmarkId)
+    public func setBookmark(resourceId: Int, type: DictionaryItemType) -> Observable<Int> {
+        return .just(resourceId)
     }
 
     public func deleteBookmark(bookmarkId: Int) -> Observable<Int?> {

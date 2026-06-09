@@ -1,4 +1,6 @@
 import MLSBookmarkFeatureInterface
+import MLSDictionaryFeatureInterface
+
 import ReactorKit
 import RxSwift
 

@@ -1,5 +1,6 @@
 import MLSBookmarkFeatureInterface
 import MLSCore
+import MLSDictionaryFeatureInterface
 
 public final class CollectionListFactoryImpl: CollectionListFactory {
     private let collectionRepository: CollectionRepository

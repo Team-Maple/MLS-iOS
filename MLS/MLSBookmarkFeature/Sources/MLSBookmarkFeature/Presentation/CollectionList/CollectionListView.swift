@@ -1,7 +1,10 @@
+import UIKit
+
 import MLSBookmarkFeatureInterface
 import MLSDesignSystem
+import MLSDictionaryFeatureInterface
+
 import SnapKit
-import UIKit
 
 final class CollectionListView: UIView {
     private enum Constant {

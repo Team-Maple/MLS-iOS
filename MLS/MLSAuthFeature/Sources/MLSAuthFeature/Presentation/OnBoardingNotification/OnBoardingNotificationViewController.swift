@@ -1,6 +1,7 @@
 import UIKit
 import UserNotifications
 
+import MLSAppFeatureInterface
 import MLSAuthFeatureInterface
 import MLSCore
 

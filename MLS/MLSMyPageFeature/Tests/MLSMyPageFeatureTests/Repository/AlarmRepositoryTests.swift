@@ -197,8 +197,8 @@ private extension AlarmAPIRepositoryImplTests {
     func makeSUT(
         provider: MockNetworkProvider = MockNetworkProvider(),
         interceptor: MockInterceptor = MockInterceptor()
-    ) -> AlarmAPIRepositoryImpl {
-        AlarmAPIRepositoryImpl(
+    ) -> AlarmRepositoryImpl {
+        AlarmRepositoryImpl(
             provider: provider,
             interceptor: interceptor
         )

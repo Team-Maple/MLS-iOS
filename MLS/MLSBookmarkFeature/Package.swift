@@ -19,9 +19,11 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(path: "../MLSAppFeature"),
         .package(path: "../MLSAuthFeature"),
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
+        .package(path: "../MLSDictionaryFeature"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.7.1")
@@ -33,6 +35,7 @@ let package = Package(
             dependencies: [
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "MLSDictionaryFeatureInterface", package: "MLSDictionaryFeature"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxRelay", package: "RxSwift")
             ],
@@ -43,9 +46,11 @@ let package = Package(
             name: "MLSBookmarkFeature",
             dependencies: [
                 "MLSBookmarkFeatureInterface",
+                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "MLSDictionaryFeatureInterface", package: "MLSDictionaryFeature"),
                 .product(name: "ReactorKit", package: "ReactorKit"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),
@@ -60,6 +65,7 @@ let package = Package(
             dependencies: [
                 "MLSBookmarkFeatureInterface",
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSDictionaryFeatureInterface", package: "MLSDictionaryFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
                 .product(name: "RxSwift", package: "RxSwift"),

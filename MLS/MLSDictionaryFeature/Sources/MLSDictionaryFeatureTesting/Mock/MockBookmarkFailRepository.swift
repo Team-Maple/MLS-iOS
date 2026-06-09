@@ -1,5 +1,6 @@
 import Foundation
 
+import MLSBookmarkFeatureInterface
 import MLSCore
 import MLSDictionaryFeatureInterface
 
@@ -19,7 +20,7 @@ public final class MockBookmarkFailRepository: BookmarkRepository {
         )
     }
 
-    public func setBookmark(bookmarkId: Int, type: DictionaryItemType) -> Observable<Int> {
+    public func setBookmark(resourceId: Int, type: DictionaryItemType) -> Observable<Int> {
         return failError()
     }
 

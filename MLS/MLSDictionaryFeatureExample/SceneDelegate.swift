@@ -37,9 +37,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             authRepository: authRepository,
             tokenRepository: tokenRepository
         )
-        let setBookmarkUseCase = SetBookmarkUseCaseImpl(
-            repository: bookmarkRepository
-        )
         let parseItemFilterResultUseCase = ParseItemFilterResultUseCaseImpl()
         let fetchVisitDictionaryDetailUseCase =
             FetchVisitDictionaryDetailUseCaseImpl(
@@ -60,21 +57,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             MockNotificationSettingFactory()
 
         // MARK: - Detail Factory
-        var detailFactory = DictionaryDetailFactoryImpl(
+        let detailFactory = DictionaryDetailFactoryImpl(
             loginFactory: {
                 loginFactory
             },
             bookmarkModalFactory: bookmarkModalFactory,
-//            dictionaryDetailFactory: {
-//                detailFactory
-//            },
             detailOnBoardingFactory: detailOnBoardingFactory,
             appCoordinator: {
                 MockAppCoordinator()
             },
             dictionaryDetailAPIRepository: dictionaryDetailAPIRepository,
+            bookmarkRepository: bookmarkRepository,
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
             fetchVisitDictionaryDetailUseCase:
             fetchVisitDictionaryDetailUseCase
         )
@@ -82,7 +76,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // MARK: - Dictionary Main List Factory
         let dictionaryMainListFactory = DictionaryListFactoryImpl(
             checkLoginUseCase: checkLoginUseCase,
-            setBookmarkUseCase: setBookmarkUseCase,
+            bookmarkRepository: bookmarkRepository,
             parseItemFilterResultUseCase:
             parseItemFilterResultUseCase,
             dictionaryListAPIRepository:
