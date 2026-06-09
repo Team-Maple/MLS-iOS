@@ -15,6 +15,8 @@ final class RecommendationMainViewController: BaseViewController, View {
 
     // MARK: - Properties
     var disposeBag = DisposeBag()
+    var onLoginTapped: (() -> UIViewController?)?
+    var onEditTapped: (() -> UIViewController?)?
 
     private var mainView = RecommendationMainView()
 }
@@ -66,6 +68,22 @@ extension RecommendationMainViewController {
             .map { Reactor.Action.viewWillAppear }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+
+        mainView.emptyView.button.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                guard let vc = owner.onLoginTapped?() else { return }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
+
+        mainView.profileView.editButton.rx.tap
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                guard let vc = owner.onEditTapped?() else { return }
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 
     func bindProfile(reactor: Reactor) {
@@ -107,6 +125,16 @@ extension RecommendationMainViewController {
                 } else {
                     TooltipFactory.dismiss()
                 }
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .observe(on: MainScheduler.instance)
+            .map { $0.isLogin }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { owner, isLogin in
+                owner.mainView.updateLoginState(isLogin: isLogin)
             }
             .disposed(by: disposeBag)
 

@@ -432,9 +432,13 @@ public enum FactoryAssembly {
         }
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
-                repository: DIContainer.resolve(
-                    type: RecommendationRepository.self
-                )
+                repository: DIContainer.resolve(type: RecommendationRepository.self),
+                makeLoginVC: {
+                    DIContainer.resolve(type: LoginFactory.self).make(exitRoute: .pop)
+                },
+                makeCharacterSettingVC: {
+                    DIContainer.resolve(type: SetCharacterFactory.self).make()
+                }
             )
         }
     }

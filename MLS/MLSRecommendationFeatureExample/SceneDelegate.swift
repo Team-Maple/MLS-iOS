@@ -30,7 +30,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func registerDependencies() {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
-                repository: MockRecommendationRepository()
+                repository: MockRecommendationRepository(),
+                makeLoginVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeCharacterSettingVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                }
             )
         }
     }

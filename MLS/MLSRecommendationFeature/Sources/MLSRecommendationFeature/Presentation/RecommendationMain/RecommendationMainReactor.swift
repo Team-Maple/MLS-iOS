@@ -18,6 +18,7 @@ final class RecommendationMainReactor: Reactor {
         case setRecommendations([RecommendationMap])
         case setLoading(Bool)
         case informationButtonToggle
+        case setLogin(Bool)
     }
 
     struct State {
@@ -26,6 +27,7 @@ final class RecommendationMainReactor: Reactor {
         var recommendations: [RecommendationMap] = []
         var isLoading: Bool = false
         var informationButtonIsOn: Bool = false
+        var isLogin: Bool = false
     }
 
     // MARK: - Properties
@@ -47,6 +49,7 @@ final class RecommendationMainReactor: Reactor {
             let fetchAll = repository.fetchProfile()
                 .flatMap { [weak self] profile -> Observable<Mutation> in
                     guard let self else { return .empty() }
+                    let setLogin = Observable.just(Mutation.setLogin(true))
                     let setProfile = Observable.just(Mutation.setProfile(profile))
                     let setJobName: Observable<Mutation>
                     if let jobId = profile.jobId {
@@ -71,11 +74,11 @@ final class RecommendationMainReactor: Reactor {
                         setRecommendations = .empty()
                     }
                     let parallelRequests = Observable.merge([setJobName, setRecommendations])
-                    return Observable.concat([setProfile, parallelRequests])
+                    return Observable.concat([setLogin, setProfile, parallelRequests])
                 }
                 .catch { error in
                     print("⚠️ [Recommendation] fetchProfile 실패: \(error)")
-                    return .empty()
+                    return Observable.just(.setLogin(false))
                 }
 
             return Observable.concat([
@@ -103,6 +106,8 @@ final class RecommendationMainReactor: Reactor {
             newState.isLoading = isLoading
         case .informationButtonToggle:
             newState.informationButtonIsOn.toggle()
+        case .setLogin(let isLogin):
+            newState.isLogin = isLogin
         }
         return newState
     }

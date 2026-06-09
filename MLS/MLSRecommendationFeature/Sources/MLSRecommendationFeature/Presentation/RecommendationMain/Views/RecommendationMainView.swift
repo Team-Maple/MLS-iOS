@@ -61,6 +61,8 @@ internal final class RecommendationMainView: UIView {
         return view
     }()
 
+    internal let emptyView = ToLoginView(type: .recommend)
+
     // MARK: - init
     init() {
         super.init(frame: .zero)
@@ -85,6 +87,7 @@ private extension RecommendationMainView {
         informationButton.addSubview(informationLabel)
         informationButton.addSubview(informationIconView)
         grayBackgroundView.addSubview(collectionView)
+        addSubview(emptyView)
     }
 
     func setupConstraints() {
@@ -123,5 +126,21 @@ private extension RecommendationMainView {
             make.horizontalEdges.equalToSuperview().inset(Constant.collectionViewHorizontalInset)
             make.bottom.equalToSuperview()
         }
+
+        emptyView.snp.makeConstraints { make in
+            make.top.equalTo(header.snp.bottom)
+            make.horizontalEdges.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
+        }
+        emptyView.isHidden = true
+    }
+}
+
+// MARK: - Login State
+extension RecommendationMainView {
+    func updateLoginState(isLogin: Bool) {
+        profileView.isHidden = !isLogin
+        grayBackgroundView.isHidden = !isLogin
+        emptyView.isHidden = isLogin
     }
 }
