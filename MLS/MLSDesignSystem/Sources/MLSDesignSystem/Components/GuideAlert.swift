@@ -18,7 +18,7 @@ public class GuideAlert: UIView {
     // MARK: - Components
     private let warningIconView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "warning")
+        view.image = DesignSystemAsset.image(named: "warning")
         return view
     }()
 

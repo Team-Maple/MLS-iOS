@@ -22,7 +22,7 @@ public final class FloatingActionButton: UIButton {
 // MARK: - SetUp
 private extension FloatingActionButton {
     func configureUI() {
-        setImage(UIImage(named: "fab"), for: .normal)
+        setImage(DesignSystemAsset.image(named: "fab"), for: .normal)
         layer.cornerRadius = 24
         clipsToBounds = true
         addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)

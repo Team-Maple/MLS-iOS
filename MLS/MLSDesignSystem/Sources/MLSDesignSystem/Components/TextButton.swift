@@ -16,7 +16,7 @@ public final class TextButton: UIButton {
     // MARK: - Properties
     public let iconView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "edit")?.withRenderingMode(.alwaysTemplate)
+        view.image = DesignSystemAsset.image(named: "edit").withRenderingMode(.alwaysTemplate)
         view.tintColor = .neutral700
         return view
     }()
