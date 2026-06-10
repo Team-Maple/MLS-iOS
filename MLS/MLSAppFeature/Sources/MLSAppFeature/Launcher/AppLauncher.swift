@@ -72,6 +72,9 @@ private extension AppLauncher {
             switch status {
             case .force:
                 showForceUpdateAlert()
+                if let existingObserver = forceUpdateObserver {
+                    NotificationCenter.default.removeObserver(existingObserver)
+                }
                 forceUpdateObserver = NotificationCenter.default.addObserver(
                     forName: UIApplication.didBecomeActiveNotification,
                     object: nil,
