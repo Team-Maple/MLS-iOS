@@ -45,17 +45,20 @@ public final class SetCharacterReactor: Reactor {
     private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
     private let checkValidLevelUseCase: CheckValidLevelUseCase
     private let authRepository: AuthAPIRepository
+    private let myPageRepository: MyPageRepository
     var disposeBag = DisposeBag()
 
     // MARK: - init
     public init(
         checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
         checkValidLevelUseCase: CheckValidLevelUseCase,
-        authRepository: AuthAPIRepository
+        authRepository: AuthAPIRepository,
+        myPageRepository: MyPageRepository
     ) {
         self.checkEmptyUseCase = checkEmptyUseCase
         self.checkValidLevelUseCase = checkValidLevelUseCase
         self.authRepository = authRepository
+        self.myPageRepository = myPageRepository
         self.initialState = State()
     }
 
@@ -63,11 +66,28 @@ public final class SetCharacterReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return authRepository.fetchJobList()
-                .map { response in
-                    .setJobList(jobList: response.jobList)
+            return Observable.zip(
+                authRepository.fetchJobList(),
+                myPageRepository.fetchProfile().catchAndReturn(nil)
+            )
+            .flatMap { [weak self] jobResponse, profile -> Observable<Mutation> in
+                guard let self else { return .empty() }
+                var mutations: [Observable<Mutation>] = [
+                    .just(.setJobList(jobList: jobResponse.jobList))
+                ]
+                if let level = profile?.level {
+                    mutations.append(.just(.setLevel(level)))
+                    mutations.append(.just(.setLevelValid(checkValidLevelUseCase.execute(level: level))))
                 }
-                .catchAndReturn(.navigateTo(route: .error))
+                if let jobId = profile?.jobId,
+                   let job = jobResponse.jobList.first(where: { $0.id == jobId }) {
+                    mutations.append(.just(.setRole(job)))
+                }
+                let isEnabled = checkEmptyUseCase.execute(level: profile?.level, job: profile?.jobName)
+                mutations.append(.just(.setButtonEnabled(isEnabled)))
+                return Observable.concat(mutations)
+            }
+            .catchAndReturn(.navigateTo(route: .error))
         case .backButtonTapped:
             return Observable.just(.navigateTo(route: .dismiss))
         case .applyButtonTapped:

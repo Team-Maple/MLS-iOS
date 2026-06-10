@@ -117,6 +117,28 @@ public extension SetCharacterViewController {
             .bind(to: mainView.nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
+        reactor.state
+            .map { $0.level }
+            .compactMap { $0 }
+            .take(1)
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe { owner, level in
+                owner.mainView.inputBox.textField.text = "\(level)"
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.job }
+            .compactMap { $0 }
+            .take(1)
+            .observe(on: MainScheduler.instance)
+            .withUnretained(self)
+            .subscribe { owner, job in
+                owner.mainView.dropDownBox.selectItem(id: job.id)
+            }
+            .disposed(by: disposeBag)
+
         rx.viewDidAppear
             .take(1)
             .flatMapLatest { _ in reactor.pulse(\.$route) }

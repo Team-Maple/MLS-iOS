@@ -415,7 +415,9 @@ public enum FactoryAssembly {
                     DIContainer
                     .resolve(type: CheckValidLevelUseCase.self),
                 authRepository: DIContainer
-                    .resolve(type: AuthAPIRepository.self)
+                    .resolve(type: AuthAPIRepository.self),
+                myPageRepository: DIContainer
+                    .resolve(type: MyPageRepository.self)
             )
         }
         DIContainer.register(type: SelectImageFactory.self) {

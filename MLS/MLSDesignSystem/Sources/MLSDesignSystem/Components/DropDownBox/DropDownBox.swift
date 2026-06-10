@@ -169,6 +169,17 @@ extension DropDownBox: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: - Public Methods
+public extension DropDownBox {
+    func selectItem(id: Int) {
+        guard let index = items.firstIndex(where: { $0.id == id }) else { return }
+        selectedIndex = index
+        inputBox.textField.attributedText = .makeStyledString(
+            font: .b_m_r, text: items[index].name, alignment: .left, lineHeight: 1.0
+        )
+    }
+}
+
 // MARK: Model
 extension DropDownBox {
     public struct Item {
