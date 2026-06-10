@@ -72,6 +72,7 @@ let package = Package(
                 .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
                 .product(name: "MLSBookmarkFeatureInterface", package: "MLSBookmarkFeature"),
                 .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
+                .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "RxSwift", package: "RxSwift")
             ],
             swiftSettings: [.swiftLanguageMode(.v5)]

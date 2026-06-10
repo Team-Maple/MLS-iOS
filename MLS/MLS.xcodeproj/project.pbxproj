@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		085A7F752DAF99570046663F /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 085A7F742DAF99570046663F /* .swiftlint.yml */; };
 		088636972FB4664E00006D4A /* MLSRecommendationFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */; };
+		0898D45E2FD913470031ED17 /* MLSBookmarkFeatureTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 0898D45D2FD913470031ED17 /* MLSBookmarkFeatureTesting */; };
 		08DA51B42E1B9827009097A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B32E1B9827009097A6 /* FirebaseFirestore */; };
 		08DA51B62E1B9827009097A6 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 08DA51B52E1B9827009097A6 /* FirebaseMessaging */; };
 		08ED49282DCFDED4002C21A2 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 08ED49272DCFDED4002C21A2 /* RxCocoa */; };
@@ -289,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0898D45E2FD913470031ED17 /* MLSBookmarkFeatureTesting in Frameworks */,
 				08F7DC802F9DEA8100EF5C06 /* MLSRecommendationFeature in Frameworks */,
 				08F7DC822F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface in Frameworks */,
 				088636972FB4664E00006D4A /* MLSRecommendationFeatureTesting in Frameworks */,
@@ -561,6 +563,7 @@
 				08F7DC832F9DEA8100EF5C06 /* MLSRecommendationFeatureInterface */,
 				08F7DC852F9DEA8100EF5C06 /* MLSCore */,
 				088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */,
+				0898D45D2FD913470031ED17 /* MLSBookmarkFeatureTesting */,
 			);
 			productName = MLSRecommendationFeatureExample;
 			productReference = 08F7DC612F9DEA8000EF5C06 /* MLSRecommendationFeatureExample.app */;
@@ -1784,6 +1787,10 @@
 		088636962FB4664E00006D4A /* MLSRecommendationFeatureTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MLSRecommendationFeatureTesting;
+		};
+		0898D45D2FD913470031ED17 /* MLSBookmarkFeatureTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MLSBookmarkFeatureTesting;
 		};
 		08DA51B32E1B9827009097A6 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;

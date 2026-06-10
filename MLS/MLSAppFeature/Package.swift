@@ -37,7 +37,9 @@ let package = Package(
         // Interface 모듈 (도메인 모델 및 프로토콜)
         .target(
             name: "MLSAppFeatureInterface",
-            dependencies: []
+            dependencies: [
+                .product(name: "MLSCore", package: "MLSCore")
+            ]
         ),
         // Feature 모듈 (실제 구현)
         .target(
