@@ -53,7 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     vc.view.backgroundColor = .white
                     return vc
                 },
-                makeDetailVC: { mapId in
+                makeDetailVC: { _ in
                     let vc = UIViewController()
                     vc.view.backgroundColor = .white
                     return vc
