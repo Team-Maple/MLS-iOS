@@ -23,6 +23,7 @@ public final class SetProfileReactor: Reactor {
         case showBottomSheet
         case inputNickName(String)
         case beginEditingNickName
+        case imageSelected(String)
         case logout
         case withdraw
     }
@@ -37,6 +38,7 @@ public final class SetProfileReactor: Reactor {
         case beginEditting
         case cancelEditting
         case completeEditting
+        case setPendingImageUrl(String?)
     }
 
     // MARK: - State
@@ -47,6 +49,8 @@ public final class SetProfileReactor: Reactor {
         var isEditingNickName = false
         var profile: MyPageResponse?
         var nickName = ""
+        var pendingImageUrl: String?
+        var wasUpdated = false
     }
 
     // MARK: - Properties
@@ -80,12 +84,15 @@ public final class SetProfileReactor: Reactor {
                 .flatMap { Observable.from($0) }
         case .beginEditingNickName:
             return .just(.beginSetText(true))
+        case .imageSelected(let url):
+            return .just(.setPendingImageUrl(url))
         case .backButtonTapped:
             switch currentState.setProfileState {
             case .edit:
                 return .just(.cancelEditting)
             case .normal:
-                return .just(.toNavigate(.dismiss))
+                let route: Route = currentState.wasUpdated ? .dismissWithUpdate : .dismiss
+                return .just(.toNavigate(route))
             }
         case .editButtonTapped:
             switch currentState.setProfileState {
@@ -93,8 +100,15 @@ public final class SetProfileReactor: Reactor {
                 if currentState.isShowError {
                     return .empty()
                 } else {
-                    return myPageRepository.updateNickName(nickName: currentState.nickName)
-                        .flatMap { profile in
+                    let saveImage: Completable
+                    if let url = currentState.pendingImageUrl {
+                        saveImage = myPageRepository.updateProfileImage(url: url)
+                    } else {
+                        saveImage = .empty()
+                    }
+                    return saveImage
+                        .andThen(myPageRepository.updateNickName(nickName: currentState.nickName))
+                        .flatMap { profile -> Observable<Mutation> in
                             Observable.concat([
                                 .just(.setProfile(profile)),
                                 .just(.completeEditting)
@@ -134,15 +148,20 @@ public final class SetProfileReactor: Reactor {
         case .cancelEditting:
             newState.setProfileState = .normal
             newState.nickName = state.profile?.nickname ?? ""
+            newState.pendingImageUrl = nil
         case .beginEditting:
             newState.setProfileState = .edit
         case .completeEditting:
-            newState.route = .dismissWithUpdate
+            newState.setProfileState = .normal
+            newState.pendingImageUrl = nil
+            newState.wasUpdated = true
         case .setProfile(let profile):
             newState.profile = profile
             newState.nickName = profile?.nickname ?? ""
         case .setNickName(let nickname):
             newState.nickName = nickname
+        case .setPendingImageUrl(let url):
+            newState.pendingImageUrl = url
         }
 
         return newState

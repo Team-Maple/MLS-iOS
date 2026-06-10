@@ -2,7 +2,6 @@ import MLSDesignSystem
 import MLSMyPageFeatureInterface
 
 import ReactorKit
-import RxCocoa
 import RxSwift
 
 public final class SelectImageReactor: Reactor {
@@ -44,12 +43,9 @@ public final class SelectImageReactor: Reactor {
     public var initialState: State
     var disposeBag = DisposeBag()
 
-    private let myPageRepository: MyPageRepository
-
     // MARK: - init
-    public init(myPageRepository: MyPageRepository) {
+    public init() {
         self.initialState = State()
-        self.myPageRepository = myPageRepository
     }
 
     // MARK: - Reactor Methods
@@ -58,9 +54,8 @@ public final class SelectImageReactor: Reactor {
         case .cancelButtonTapped:
             return .just(.navigateTo(route: .dismiss))
         case .applyButtonTapped:
-            guard let url = currentState.selectedImage?.url else { return .empty() }
-            return myPageRepository.updateProfileImage(url: url)
-                .andThen(.just(.navigateTo(route: .dismissWithSave)))
+            guard currentState.selectedImage != nil else { return .empty() }
+            return .just(.navigateTo(route: .dismissWithSave))
         case .imageTapped(let index):
             let image = currentState.images[index]
             return .just(.selectImage(image))

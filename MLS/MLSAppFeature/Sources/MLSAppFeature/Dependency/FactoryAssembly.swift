@@ -421,10 +421,7 @@ public enum FactoryAssembly {
             )
         }
         DIContainer.register(type: SelectImageFactory.self) {
-            SelectImageFactoryImpl(
-                myPageRepository: DIContainer
-                    .resolve(type: MyPageRepository.self)
-            )
+            SelectImageFactoryImpl()
         }
         DIContainer.register(type: DetailOnBoardingFactory.self) {
             DetailOnBoardingFactoryImpl()
