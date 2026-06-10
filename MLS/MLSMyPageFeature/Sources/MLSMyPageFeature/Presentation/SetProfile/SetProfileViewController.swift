@@ -49,17 +49,6 @@ public final class SetProfileViewController: BaseViewController, View {
         setupConstraints()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        (tabBarController as? BottomTabBarController)?
-            .setHidden(hidden: true, animated: false)
-    }
-
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        (tabBarController as? BottomTabBarController)?
-            .setHidden(hidden: false, animated: true)
-    }
 }
 
 // MARK: - Setup
@@ -140,6 +129,9 @@ extension SetProfileViewController {
                 owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
                 owner.mainView.setCountHidden(state: state)
                 owner.mainView.setState(state: state)
+                if state == .edit {
+                    owner.mainView.nickNameInputBox.textField.text = reactor.currentState.profile?.nickname ?? ""
+                }
             })
             .disposed(by: disposeBag)
 
