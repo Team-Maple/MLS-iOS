@@ -1,3 +1,4 @@
+import MLSAppFeatureInterface
 import MLSAuthFeature
 import MLSAuthFeatureInterface
 import MLSCore
@@ -80,6 +81,13 @@ public enum UseCaseAssembly {
                     .resolve(type: TokenRepository.self),
                 userDefaultsRepository: DIContainer
                     .resolve(type: UserDefaultsRepository.self, name: "authUserDefaultsRepository")
+            )
+        }
+        DIContainer.register(type: UpdateCheckerUseCaseProtocol.self) {
+            UpdateCheckerUseCase(
+                appID: AppInfo.appStoreID,
+                appStoreRepository: DIContainer.resolve(type: AppStoreRepositoryProtocol.self),
+                skipRepository: DIContainer.resolve(type: UpdateSkipRepositoryProtocol.self)
             )
         }
     }
