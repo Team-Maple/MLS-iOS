@@ -133,6 +133,7 @@ public final class SetProfileReactor: Reactor {
             newState.isEditingNickName = isEditing
         case .cancelEditting:
             newState.setProfileState = .normal
+            newState.nickName = state.profile?.nickname ?? ""
         case .beginEditting:
             newState.setProfileState = .edit
         case .completeEditting:
