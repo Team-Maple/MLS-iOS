@@ -60,11 +60,14 @@ private extension BottomTabBarController {
 
     func configureUI(controllers: [UIViewController]) {
         viewControllers = controllers.map {
-            if $0 is UINavigationController {
-                return $0
+            let nav: UINavigationController
+            if let existing = $0 as? UINavigationController {
+                nav = existing
             } else {
-                return UINavigationController(rootViewController: $0)
+                nav = UINavigationController(rootViewController: $0)
             }
+            nav.delegate = self
+            return nav
         }
         tabBar.isHidden = true
 
@@ -74,6 +77,17 @@ private extension BottomTabBarController {
                 self?.customTabBar.selectTab(index: index)
             }
         }
+    }
+}
+
+extension BottomTabBarController: UINavigationControllerDelegate {
+    public func navigationController(
+        _ navigationController: UINavigationController,
+        willShow viewController: UIViewController,
+        animated: Bool
+    ) {
+        let isRoot = navigationController.viewControllers.count == 1
+        setHidden(hidden: !isRoot, animated: isRoot && animated)
     }
 }
 
