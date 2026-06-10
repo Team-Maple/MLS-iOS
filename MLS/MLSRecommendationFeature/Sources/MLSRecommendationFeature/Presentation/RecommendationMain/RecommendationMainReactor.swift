@@ -32,6 +32,7 @@ final class RecommendationMainReactor: Reactor {
         case updateBookmarkId(mapId: Int, bookmarkId: Int?)
         case setLastDeleted(RecommendationMap?)
         case setUIEvent(UIEvent)
+        case setTogglingBookmark(mapId: Int)
     }
 
     struct State {
@@ -42,6 +43,7 @@ final class RecommendationMainReactor: Reactor {
         var informationButtonIsOn: Bool = false
         var isLogin: Bool = false
         var lastDeleted: RecommendationMap?
+        var togglingBookmarkIds: Set<Int> = []
         @Pulse var uiEvent: UIEvent = .none
     }
 
@@ -132,6 +134,7 @@ final class RecommendationMainReactor: Reactor {
         case .setLogin(let isLogin):
             newState.isLogin = isLogin
         case let .updateBookmarkId(mapId, bookmarkId):
+            newState.togglingBookmarkIds.remove(mapId)
             if let index = newState.recommendations.firstIndex(where: { $0.mapId == mapId }) {
                 let old = newState.recommendations[index]
                 newState.recommendations[index] = RecommendationMap(
@@ -146,6 +149,8 @@ final class RecommendationMainReactor: Reactor {
             newState.lastDeleted = map
         case let .setUIEvent(event):
             newState.uiEvent = event
+        case let .setTogglingBookmark(mapId):
+            newState.togglingBookmarkIds.insert(mapId)
         }
         return newState
     }
@@ -154,34 +159,41 @@ final class RecommendationMainReactor: Reactor {
 // MARK: - Methods
 private extension RecommendationMainReactor {
     func handleToggleBookmark(mapId: Int) -> Observable<Mutation> {
-        guard let map = currentState.recommendations.first(where: { $0.mapId == mapId }) else {
+        guard !currentState.togglingBookmarkIds.contains(mapId),
+              let map = currentState.recommendations.first(where: { $0.mapId == mapId }) else {
             return .empty()
         }
 
         if let bookmarkId = map.bookmarkId {
-            return bookmarkRepository.deleteBookmark(bookmarkId: bookmarkId)
-                .flatMap { _ -> Observable<Mutation> in
-                    .from([
-                        .setLastDeleted(map),
-                        .updateBookmarkId(mapId: mapId, bookmarkId: nil),
-                        .setUIEvent(.deleted(map))
-                    ])
-                }
-                .catch { _ in .empty() }
+            return Observable.concat([
+                .just(.setTogglingBookmark(mapId: mapId)),
+                bookmarkRepository.deleteBookmark(bookmarkId: bookmarkId)
+                    .flatMap { _ -> Observable<Mutation> in
+                        .from([
+                            .setLastDeleted(map),
+                            .updateBookmarkId(mapId: mapId, bookmarkId: nil),
+                            .setUIEvent(.deleted(map))
+                        ])
+                    }
+                    .catch { _ in .just(.updateBookmarkId(mapId: mapId, bookmarkId: bookmarkId)) }
+            ])
         } else {
-            return bookmarkRepository.setBookmark(resourceId: mapId, type: .map)
-                .flatMap { newBookmarkId -> Observable<Mutation> in
-                    let updated = RecommendationMap(
-                        mapId: map.mapId, score: map.score,
-                        iconUrl: map.iconUrl, nameKr: map.nameKr,
-                        bookmarkId: newBookmarkId
-                    )
-                    return .from([
-                        .updateBookmarkId(mapId: mapId, bookmarkId: newBookmarkId),
-                        .setUIEvent(.added(updated))
-                    ])
-                }
-                .catch { _ in .empty() }
+            return Observable.concat([
+                .just(.setTogglingBookmark(mapId: mapId)),
+                bookmarkRepository.setBookmark(resourceId: mapId, type: .map)
+                    .flatMap { newBookmarkId -> Observable<Mutation> in
+                        let updated = RecommendationMap(
+                            mapId: map.mapId, score: map.score,
+                            iconUrl: map.iconUrl, nameKr: map.nameKr,
+                            bookmarkId: newBookmarkId
+                        )
+                        return .from([
+                            .updateBookmarkId(mapId: mapId, bookmarkId: newBookmarkId),
+                            .setUIEvent(.added(updated))
+                        ])
+                    }
+                    .catch { _ in .just(.updateBookmarkId(mapId: mapId, bookmarkId: nil)) }
+            ])
         }
     }
 
