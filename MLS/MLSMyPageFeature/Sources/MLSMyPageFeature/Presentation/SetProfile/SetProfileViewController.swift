@@ -148,6 +148,17 @@ extension SetProfileViewController {
             .disposed(by: disposeBag)
 
         reactor.state
+            .map(\.pendingImageUrl)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, url in
+                owner.mainView.setImage(imageUrl: url)
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
             .compactMap(\.nickName)
             .distinctUntilChanged()
             .withUnretained(self)
@@ -188,16 +199,13 @@ extension SetProfileViewController {
                 case .imageBottomSheet:
                     let viewController = owner.selectImageFactory.make()
 
-                    if let viewController = viewController as? UIViewController {
-                        viewController.rx
-                            .methodInvoked(#selector(UIViewController.viewDidDisappear))
-                            .take(1)
-                            .map { _ in Reactor.Action.viewWillAppear }
-                            .bind(to: reactor.action)
-                            .disposed(by: owner.disposeBag)
+                    if let selectImageVC = viewController as? SelectImageViewContoller {
+                        selectImageVC.onImageSelected = { url in
+                            reactor.action.onNext(.imageSelected(url))
+                        }
                     }
 
-                    owner.presentModal(viewController)
+                    owner.presentModal(viewController, hideTabBar: true)
                 case .dismiss:
                     owner.didReturn.accept(false)
                     owner.navigationController?.popViewController(animated: true)
