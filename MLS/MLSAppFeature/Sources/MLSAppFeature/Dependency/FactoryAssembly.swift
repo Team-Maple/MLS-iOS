@@ -433,6 +433,7 @@ public enum FactoryAssembly {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
                 repository: DIContainer.resolve(type: RecommendationRepository.self),
+                bookmarkRepository: DIContainer.resolve(type: BookmarkRepository.self),
                 makeLoginVC: {
                     DIContainer.resolve(type: LoginFactory.self).make(exitRoute: .pop)
                 },
@@ -444,6 +445,16 @@ public enum FactoryAssembly {
                 },
                 makeNotificationVC: {
                     DIContainer.resolve(type: DictionaryNotificationFactory.self).make()
+                },
+                makeDetailVC: { mapId in
+                    DIContainer.resolve(type: DictionaryDetailFactory.self).make(
+                        type: .map, id: mapId, bookmarkRelay: nil, loginRelay: nil
+                    )
+                },
+                makeBookmarkModalVC: { bookmarkIds, onComplete in
+                    DIContainer.resolve(type: BookmarkModalFactory.self).make(
+                        bookmarkIds: bookmarkIds, onComplete: onComplete
+                    )
                 }
             )
         }

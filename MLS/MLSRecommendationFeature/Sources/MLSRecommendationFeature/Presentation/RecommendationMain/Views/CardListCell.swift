@@ -20,6 +20,11 @@ final class CardListCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("\(#file), \(#function) Error")
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        cardView.onIconTapped = nil
+    }
 }
 
 // MARK: - SetUp

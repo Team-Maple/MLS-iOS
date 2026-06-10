@@ -1,5 +1,6 @@
 import UIKit
 
+import MLSBookmarkFeatureTesting
 import MLSCore
 import MLSRecommendationFeature
 import MLSRecommendationFeatureInterface
@@ -31,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
                 repository: MockRecommendationRepository(),
+                bookmarkRepository: MockBookmarkRepository(),
                 makeLoginVC: {
                     let vc = UIViewController()
                     vc.view.backgroundColor = .white
@@ -47,6 +49,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     return vc
                 },
                 makeNotificationVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeDetailVC: { mapId in
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeBookmarkModalVC: { _, _ in
                     let vc = UIViewController()
                     vc.view.backgroundColor = .white
                     return vc

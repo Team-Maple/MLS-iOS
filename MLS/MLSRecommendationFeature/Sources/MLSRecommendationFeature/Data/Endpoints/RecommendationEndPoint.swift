@@ -27,6 +27,7 @@ enum RecommendationEndPoint {
             method: .GET
         )
     }
+
 }
 
 private extension RecommendationEndPoint {

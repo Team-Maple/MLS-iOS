@@ -1,3 +1,5 @@
+import MLSBookmarkFeatureInterface
+import MLSDictionaryFeatureInterface
 import MLSRecommendationFeatureInterface
 
 import ReactorKit
@@ -10,6 +12,14 @@ final class RecommendationMainReactor: Reactor {
     enum Action {
         case viewWillAppear
         case informationButtonTapped
+        case toggleBookmark(mapId: Int)
+        case undoLastDeletedBookmark
+    }
+
+    enum UIEvent {
+        case none
+        case added(RecommendationMap)
+        case deleted(RecommendationMap)
     }
 
     enum Mutation {
@@ -19,6 +29,9 @@ final class RecommendationMainReactor: Reactor {
         case setLoading(Bool)
         case informationButtonToggle
         case setLogin(Bool)
+        case updateBookmarkId(mapId: Int, bookmarkId: Int?)
+        case setLastDeleted(RecommendationMap?)
+        case setUIEvent(UIEvent)
     }
 
     struct State {
@@ -28,6 +41,8 @@ final class RecommendationMainReactor: Reactor {
         var isLoading: Bool = false
         var informationButtonIsOn: Bool = false
         var isLogin: Bool = false
+        var lastDeleted: RecommendationMap?
+        @Pulse var uiEvent: UIEvent = .none
     }
 
     // MARK: - Properties
@@ -35,10 +50,12 @@ final class RecommendationMainReactor: Reactor {
     var disposeBag = DisposeBag()
 
     private let repository: RecommendationRepository
+    private let bookmarkRepository: BookmarkRepository
 
     // MARK: - Init
-    init(repository: RecommendationRepository) {
+    init(repository: RecommendationRepository, bookmarkRepository: BookmarkRepository) {
         self.repository = repository
+        self.bookmarkRepository = bookmarkRepository
         self.initialState = State()
     }
 
@@ -89,6 +106,12 @@ final class RecommendationMainReactor: Reactor {
 
         case .informationButtonTapped:
             return .just(.informationButtonToggle)
+
+        case let .toggleBookmark(mapId):
+            return handleToggleBookmark(mapId: mapId)
+
+        case .undoLastDeletedBookmark:
+            return handleUndoLastDeleted()
         }
     }
 
@@ -108,7 +131,75 @@ final class RecommendationMainReactor: Reactor {
             newState.informationButtonIsOn.toggle()
         case .setLogin(let isLogin):
             newState.isLogin = isLogin
+        case let .updateBookmarkId(mapId, bookmarkId):
+            if let index = newState.recommendations.firstIndex(where: { $0.mapId == mapId }) {
+                let old = newState.recommendations[index]
+                newState.recommendations[index] = RecommendationMap(
+                    mapId: old.mapId,
+                    score: old.score,
+                    iconUrl: old.iconUrl,
+                    nameKr: old.nameKr,
+                    bookmarkId: bookmarkId
+                )
+            }
+        case let .setLastDeleted(map):
+            newState.lastDeleted = map
+        case let .setUIEvent(event):
+            newState.uiEvent = event
         }
         return newState
+    }
+}
+
+// MARK: - Methods
+private extension RecommendationMainReactor {
+    func handleToggleBookmark(mapId: Int) -> Observable<Mutation> {
+        guard let map = currentState.recommendations.first(where: { $0.mapId == mapId }) else {
+            return .empty()
+        }
+
+        if let bookmarkId = map.bookmarkId {
+            return bookmarkRepository.deleteBookmark(bookmarkId: bookmarkId)
+                .flatMap { _ -> Observable<Mutation> in
+                    .from([
+                        .setLastDeleted(map),
+                        .updateBookmarkId(mapId: mapId, bookmarkId: nil),
+                        .setUIEvent(.deleted(map))
+                    ])
+                }
+                .catch { _ in .empty() }
+        } else {
+            return bookmarkRepository.setBookmark(resourceId: mapId, type: .map)
+                .flatMap { newBookmarkId -> Observable<Mutation> in
+                    let updated = RecommendationMap(
+                        mapId: map.mapId, score: map.score,
+                        iconUrl: map.iconUrl, nameKr: map.nameKr,
+                        bookmarkId: newBookmarkId
+                    )
+                    return .from([
+                        .updateBookmarkId(mapId: mapId, bookmarkId: newBookmarkId),
+                        .setUIEvent(.added(updated))
+                    ])
+                }
+                .catch { _ in .empty() }
+        }
+    }
+
+    func handleUndoLastDeleted() -> Observable<Mutation> {
+        guard let last = currentState.lastDeleted else { return .empty() }
+        return bookmarkRepository.setBookmark(resourceId: last.mapId, type: .map)
+            .flatMap { newBookmarkId -> Observable<Mutation> in
+                let restored = RecommendationMap(
+                    mapId: last.mapId, score: last.score,
+                    iconUrl: last.iconUrl, nameKr: last.nameKr,
+                    bookmarkId: newBookmarkId
+                )
+                return .from([
+                    .setLastDeleted(nil),
+                    .updateBookmarkId(mapId: last.mapId, bookmarkId: newBookmarkId),
+                    .setUIEvent(.added(restored))
+                ])
+            }
+            .catch { _ in .empty() }
     }
 }

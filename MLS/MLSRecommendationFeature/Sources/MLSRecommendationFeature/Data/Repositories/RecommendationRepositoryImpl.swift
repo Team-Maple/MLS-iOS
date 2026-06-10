@@ -28,4 +28,5 @@ public final class RecommendationRepositoryImpl: RecommendationRepository {
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
             .map { $0.toDomain() }
     }
+
 }
