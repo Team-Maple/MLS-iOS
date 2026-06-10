@@ -151,6 +151,8 @@ public final class SetProfileReactor: Reactor {
             newState.pendingImageUrl = nil
         case .beginEditting:
             newState.setProfileState = .edit
+            newState.isShowError = false
+            newState.isEditingNickName = false
         case .completeEditting:
             newState.setProfileState = .normal
             newState.pendingImageUrl = nil

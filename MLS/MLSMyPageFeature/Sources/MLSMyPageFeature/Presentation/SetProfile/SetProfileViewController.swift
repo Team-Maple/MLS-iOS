@@ -127,6 +127,7 @@ extension SetProfileViewController {
             .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, state in
                 owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
+                owner.mainView.backButton.isHidden = state == .edit
                 owner.mainView.setCountHidden(state: state)
                 owner.mainView.setState(state: state)
                 if state == .edit {
