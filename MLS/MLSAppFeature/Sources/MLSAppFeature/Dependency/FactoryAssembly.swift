@@ -73,7 +73,7 @@ public enum FactoryAssembly {
                     type: DetailOnBoardingFactory.self
                 ),
                 appCoordinator: {
-                    DIContainer.resolve(type: AppCoordinator.self)
+                    DIContainer.resolve(type: AppCoordinatorProtocol.self)
                 },
                 dictionaryDetailAPIRepository: DIContainer.resolve(
                     type: DictionaryDetailAPIRepository.self
@@ -415,14 +415,13 @@ public enum FactoryAssembly {
                     DIContainer
                     .resolve(type: CheckValidLevelUseCase.self),
                 authRepository: DIContainer
-                    .resolve(type: AuthAPIRepository.self)
-            )
-        }
-        DIContainer.register(type: SelectImageFactory.self) {
-            SelectImageFactoryImpl(
+                    .resolve(type: AuthAPIRepository.self),
                 myPageRepository: DIContainer
                     .resolve(type: MyPageRepository.self)
             )
+        }
+        DIContainer.register(type: SelectImageFactory.self) {
+            SelectImageFactoryImpl()
         }
         DIContainer.register(type: DetailOnBoardingFactory.self) {
             DetailOnBoardingFactoryImpl()
@@ -432,9 +431,30 @@ public enum FactoryAssembly {
         }
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
-                repository: DIContainer.resolve(
-                    type: RecommendationRepository.self
-                )
+                repository: DIContainer.resolve(type: RecommendationRepository.self),
+                bookmarkRepository: DIContainer.resolve(type: BookmarkRepository.self),
+                makeLoginVC: {
+                    DIContainer.resolve(type: LoginFactory.self).make(exitRoute: .pop)
+                },
+                makeCharacterSettingVC: {
+                    DIContainer.resolve(type: SetCharacterFactory.self).make()
+                },
+                makeSearchVC: {
+                    DIContainer.resolve(type: DictionarySearchFactory.self).make()
+                },
+                makeNotificationVC: {
+                    DIContainer.resolve(type: DictionaryNotificationFactory.self).make()
+                },
+                makeDetailVC: { mapId in
+                    DIContainer.resolve(type: DictionaryDetailFactory.self).make(
+                        type: .map, id: mapId, bookmarkRelay: nil, loginRelay: nil
+                    )
+                },
+                makeBookmarkModalVC: { bookmarkIds, onComplete in
+                    DIContainer.resolve(type: BookmarkModalFactory.self).make(
+                        bookmarkIds: bookmarkIds, onComplete: onComplete
+                    )
+                }
             )
         }
     }

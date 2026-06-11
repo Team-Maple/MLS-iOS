@@ -14,18 +14,19 @@ public final class RecommendationRepositoryImpl: RecommendationRepository {
     public func fetchProfile() -> Observable<UserProfile> {
         let endpoint = RecommendationEndPoint.fetchProfile()
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
-            .compactMap { $0.data?.toDomain() }
+            .map { $0.toDomain() }
     }
 
     public func fetchJobName(jobId: Int) -> Observable<String> {
         let endpoint = RecommendationEndPoint.fetchJob(jobId: jobId)
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
-            .compactMap { $0.data?.jobName }
+            .map { $0.jobName }
     }
 
     public func fetchRecommendations(level: Int, jobId: Int, limit: Int?) -> Observable<[RecommendationMap]> {
         let endpoint = RecommendationEndPoint.fetchRecommendations(level: level, jobId: jobId, limit: limit)
         return provider.requestData(endPoint: endpoint, interceptor: interceptor)
-            .map { $0.data?.toDomain() ?? [] }
+            .map { $0.toDomain() }
     }
+
 }

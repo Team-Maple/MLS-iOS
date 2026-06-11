@@ -3,7 +3,7 @@ import MLSCore
 enum RecommendationEndPoint {
     static let base = "https://mapleland.2megabytes.me"
 
-    static func fetchRecommendations(level: Int, jobId: Int, limit: Int?) -> ResponsableEndPoint<RecommendationResponseDTO> {
+    static func fetchRecommendations(level: Int, jobId: Int, limit: Int?) -> ResponsableEndPoint<[RecommendationMapDTO]> {
         .init(
             baseURL: base,
             path: "/api/v1/maps/recommendations",
@@ -12,7 +12,7 @@ enum RecommendationEndPoint {
         )
     }
 
-    static func fetchProfile() -> ResponsableEndPoint<UserProfileResponseDTO> {
+    static func fetchProfile() -> ResponsableEndPoint<UserProfileDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/auth/me",
@@ -20,13 +20,14 @@ enum RecommendationEndPoint {
         )
     }
 
-    static func fetchJob(jobId: Int) -> ResponsableEndPoint<JobResponseDTO> {
+    static func fetchJob(jobId: Int) -> ResponsableEndPoint<JobDTO> {
         .init(
             baseURL: base,
             path: "/api/v1/jobs/\(jobId)",
             method: .GET
         )
     }
+
 }
 
 private extension RecommendationEndPoint {

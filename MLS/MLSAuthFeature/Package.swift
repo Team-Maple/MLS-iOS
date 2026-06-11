@@ -36,7 +36,6 @@ let package = Package(
         .target(
             name: "MLSAuthFeatureInterface",
             dependencies: [
-                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
                 .product(name: "RxSwift", package: "RxSwift")

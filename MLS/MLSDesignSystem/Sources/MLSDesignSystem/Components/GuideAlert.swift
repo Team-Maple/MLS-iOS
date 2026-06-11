@@ -18,7 +18,7 @@ public class GuideAlert: UIView {
     // MARK: - Components
     private let warningIconView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "warning")
+        view.image = DesignSystemAsset.image(named: "warning")
         return view
     }()
 
@@ -34,7 +34,7 @@ public class GuideAlert: UIView {
 
     // MARK: - init
     public init(mainText: String, ctaText: String, cancelText: String?, ctaRatio: Double = 0.7) {
-        mainTextLabel.attributedText = .makeStyledString(font: .sub_l_b, text: mainText)
+        mainTextLabel.attributedText = .makeStyledString(font: .sub_m_sb, text: mainText)
         self.ctaButton = CommonButton(style: .normal, title: ctaText, disabledTitle: nil)
         self.cancelButton = cancelText.map { CommonButton(style: .border, title: $0, disabledTitle: nil) }
         mainTextLabel.numberOfLines = 0

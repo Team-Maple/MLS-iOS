@@ -42,7 +42,7 @@ public final class AppCoordinator: AppCoordinatorProtocol {
     }
 
     // MARK: - Public Methods
-    public func showMainTab() {
+    public func showMainTab(selectedIndex: Int = 0) {
         let tabItems: [TabItem] = [
             TabItem(title: "추천", icon: UIImage(systemName: "star.fill") ?? UIImage()),
             TabItem(title: "도감", icon: DesignSystemAsset.image(named: "dictionary")),
@@ -56,7 +56,8 @@ public final class AppCoordinator: AppCoordinatorProtocol {
                 bookmarkMainFactory.make(bottomInset: 64),
                 myPageMainFactory.make()
             ],
-            tabItems: tabItems
+            tabItems: tabItems,
+            initialIndex: selectedIndex
         )
 
         let navigationController = UINavigationController(rootViewController: tabBar)

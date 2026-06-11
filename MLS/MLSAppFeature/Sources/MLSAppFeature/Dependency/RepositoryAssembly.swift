@@ -1,3 +1,4 @@
+import MLSAppFeatureInterface
 import MLSAuthFeature
 import MLSAuthFeatureInterface
 import MLSBookmarkFeature
@@ -79,6 +80,12 @@ public enum RepositoryAssembly {
         }
         DIContainer.register(type: BookmarkUserDefaultsRepository.self) {
             BookmarkUserDefaultsRepositoryImpl()
+        }
+        DIContainer.register(type: AppStoreRepositoryProtocol.self) {
+            AppStoreRepository()
+        }
+        DIContainer.register(type: UpdateSkipRepositoryProtocol.self) {
+            UpdateSkipRepository()
         }
      }
 }

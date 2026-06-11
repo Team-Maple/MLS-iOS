@@ -76,7 +76,7 @@ private extension DictionaryDetailListView {
 
     func makeButton(label: UILabel) -> UIButton {
         let button = UIButton()
-        let icon = UIImageView(image: UIImage(named: "rightArrow"))
+        let icon = UIImageView(image: DesignSystemAsset.image(named: "rightArrow"))
 
         button.addSubview(label)
         button.addSubview(icon)

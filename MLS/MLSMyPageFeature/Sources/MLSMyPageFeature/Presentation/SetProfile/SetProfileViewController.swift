@@ -49,17 +49,6 @@ public final class SetProfileViewController: BaseViewController, View {
         setupConstraints()
     }
 
-    public override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        (tabBarController as? BottomTabBarController)?
-            .setHidden(hidden: true, animated: false)
-    }
-
-    public override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        (tabBarController as? BottomTabBarController)?
-            .setHidden(hidden: false, animated: true)
-    }
 }
 
 // MARK: - Setup
@@ -138,8 +127,12 @@ extension SetProfileViewController {
             .observe(on: MainScheduler.instance)
             .bind(onNext: { owner, state in
                 owner.view.backgroundColor = state == .edit ? .whiteMLS : .neutral100
+                owner.mainView.backButton.isHidden = state == .edit
                 owner.mainView.setCountHidden(state: state)
                 owner.mainView.setState(state: state)
+                if state == .edit {
+                    owner.mainView.nickNameInputBox.textField.text = reactor.currentState.profile?.nickname ?? ""
+                }
             })
             .disposed(by: disposeBag)
 
@@ -152,6 +145,17 @@ extension SetProfileViewController {
                 owner.mainView.setImage(imageUrl: profile.profileUrl)
                 owner.mainView.setPlatform(platform: profile.platform)
                 owner.mainView.nickNameInputBox.textField.text = profile.nickname
+            })
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map(\.pendingImageUrl)
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .withUnretained(self)
+            .observe(on: MainScheduler.instance)
+            .bind(onNext: { owner, url in
+                owner.mainView.setImage(imageUrl: url)
             })
             .disposed(by: disposeBag)
 
@@ -196,16 +200,13 @@ extension SetProfileViewController {
                 case .imageBottomSheet:
                     let viewController = owner.selectImageFactory.make()
 
-                    if let viewController = viewController as? UIViewController {
-                        viewController.rx
-                            .methodInvoked(#selector(UIViewController.viewDidDisappear))
-                            .take(1)
-                            .map { _ in Reactor.Action.viewWillAppear }
-                            .bind(to: reactor.action)
-                            .disposed(by: owner.disposeBag)
+                    if let selectImageVC = viewController as? SelectImageViewContoller {
+                        selectImageVC.onImageSelected = { url in
+                            reactor.action.onNext(.imageSelected(url))
+                        }
                     }
 
-                    owner.presentModal(viewController)
+                    owner.presentModal(viewController, hideTabBar: true)
                 case .dismiss:
                     owner.didReturn.accept(false)
                     owner.navigationController?.popViewController(animated: true)

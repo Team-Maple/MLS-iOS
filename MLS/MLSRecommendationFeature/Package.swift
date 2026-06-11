@@ -24,6 +24,8 @@ let package = Package(
     dependencies: [
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
+        .package(path: "../MLSBookmarkFeature"),
+        .package(path: "../MLSDictionaryFeature"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0"),
         .package(url: "https://github.com/RxSwiftCommunity/RxKeyboard.git", from: "2.0.0"),
@@ -47,6 +49,8 @@ let package = Package(
                 "MLSRecommendationFeatureInterface",
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
+                .product(name: "MLSBookmarkFeatureInterface", package: "MLSBookmarkFeature"),
+                .product(name: "MLSDictionaryFeatureInterface", package: "MLSDictionaryFeature"),
                 .product(name: "ReactorKit", package: "ReactorKit"),
                 .product(name: "RxSwift", package: "RxSwift"),
                 .product(name: "RxCocoa", package: "RxSwift"),

@@ -18,6 +18,7 @@ public final class FailingMockRecommendationRepository: RecommendationRepository
     public func fetchRecommendations(level: Int, jobId: Int, limit: Int?) -> Observable<[RecommendationMap]> {
         return .error(RecommendationRepositoryError.fetchFailed)
     }
+
 }
 
 public enum RecommendationRepositoryError: Error {

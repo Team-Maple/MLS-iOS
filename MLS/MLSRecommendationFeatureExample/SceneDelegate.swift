@@ -1,5 +1,6 @@
 import UIKit
 
+import MLSBookmarkFeatureTesting
 import MLSCore
 import MLSRecommendationFeature
 import MLSRecommendationFeatureInterface
@@ -30,7 +31,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     private func registerDependencies() {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
-                repository: MockRecommendationRepository()
+                repository: MockRecommendationRepository(),
+                bookmarkRepository: MockBookmarkRepository(),
+                makeLoginVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeCharacterSettingVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeSearchVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeNotificationVC: {
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeDetailVC: { _ in
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                },
+                makeBookmarkModalVC: { _, _ in
+                    let vc = UIViewController()
+                    vc.view.backgroundColor = .white
+                    return vc
+                }
             )
         }
     }

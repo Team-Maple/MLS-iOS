@@ -17,6 +17,7 @@ public final class SelectImageViewContoller: BaseViewController, ModalPresentabl
     public typealias Reactor = SelectImageReactor
 
     public var disposeBag = DisposeBag()
+    public var onImageSelected: ((String) -> Void)?
 
     // MARK: - Components
 
@@ -91,6 +92,9 @@ extension SelectImageViewContoller {
                 case .dismiss:
                     owner.dismissCurrentModal()
                 case .dismissWithSave:
+                    if let url = reactor.currentState.selectedImage?.url {
+                        owner.onImageSelected?(url)
+                    }
                     owner.dismissCurrentModal()
                 default:
                     break
