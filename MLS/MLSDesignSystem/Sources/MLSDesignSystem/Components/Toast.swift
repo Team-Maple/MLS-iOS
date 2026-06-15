@@ -4,8 +4,8 @@ import SnapKit
 
 public final class Toast: UIView {
     private enum Constant {
-        static let verticalEdgesInset: CGFloat = 16
         static let horizontalEdges: CGFloat = 16
+        static let height: CGFloat = 44
         static let cornerRadius: CGFloat = 8
     }
 
@@ -37,23 +37,24 @@ public final class Toast: UIView {
 private extension Toast {
     func addViews() {
         addSubview(self.toastContentView)
-        toastContentView.addSubview(self.label)
+        self.toastContentView.addSubview(self.label)
     }
 
     func setupConstraints() {
-        toastContentView.snp.makeConstraints { make in
+        self.toastContentView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+            make.height.equalTo(Constant.height)
         }
 
-        label.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(Constant.verticalEdgesInset)
+        self.label.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(Constant.horizontalEdges)
+            make.centerY.equalToSuperview()
         }
     }
 
     func configureUI(message: String?) {
         layer.cornerRadius = Constant.cornerRadius
         clipsToBounds = true
-        label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .whiteMLS)
+        self.label.attributedText = .makeStyledString(font: .b_s_r, text: message, color: .whiteMLS)
     }
 }
