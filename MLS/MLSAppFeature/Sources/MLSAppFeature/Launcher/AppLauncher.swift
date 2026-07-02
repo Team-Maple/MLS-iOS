@@ -80,7 +80,9 @@ private extension AppLauncher {
                     object: nil,
                     queue: .main
                 ) { [weak self] _ in
-                    self?.showForceUpdateAlert()
+                    Task { @MainActor in
+                        self?.showForceUpdateAlert()
+                    }
                 }
             case .optional(let latestVersion):
                 GuideAlertFactory.show(
