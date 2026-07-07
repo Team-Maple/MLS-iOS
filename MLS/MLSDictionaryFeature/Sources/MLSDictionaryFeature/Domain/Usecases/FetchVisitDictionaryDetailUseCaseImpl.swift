@@ -4,8 +4,8 @@ import MLSDictionaryFeatureInterface
 import RxSwift
 
 public class FetchVisitDictionaryDetailUseCaseImpl: FetchVisitDictionaryDetailUseCase {
-    private let repository: UserDefaultsRepository
-    public init(repository: UserDefaultsRepository) {
+    private let repository: DictionaryUserDefaultsRepository
+    public init(repository: DictionaryUserDefaultsRepository) {
         self.repository = repository
     }
 

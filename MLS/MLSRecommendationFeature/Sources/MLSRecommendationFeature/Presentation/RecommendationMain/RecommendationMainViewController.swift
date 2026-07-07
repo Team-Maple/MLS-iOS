@@ -149,7 +149,7 @@ extension RecommendationMainViewController {
                         owner.navigationController?.pushViewController(vc, animated: true)
                     }, cancelAction: {
                         if let tabBarController = owner.tabBarController as? BottomTabBarController {
-                            tabBarController.selectTab(index: 1)
+                            tabBarController.selectTab(index: 0)
                         }
                     }, ctaRatio: 0.5)
                 }

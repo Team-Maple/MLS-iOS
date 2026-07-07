@@ -53,11 +53,13 @@ final class RecommendationMainReactor: Reactor {
 
     private let repository: RecommendationRepository
     private let bookmarkRepository: BookmarkRepository
+    private let userDefaultsRepository: RecommendationUserDefaultsRepository
 
     // MARK: - Init
-    init(repository: RecommendationRepository, bookmarkRepository: BookmarkRepository) {
+    init(repository: RecommendationRepository, bookmarkRepository: BookmarkRepository, userDefaultsRepository: RecommendationUserDefaultsRepository) {
         self.repository = repository
         self.bookmarkRepository = bookmarkRepository
+        self.userDefaultsRepository = userDefaultsRepository
         self.initialState = State()
     }
 
@@ -65,13 +67,15 @@ final class RecommendationMainReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
+            let saveFirstRecommendationLaunch = userDefaultsRepository
+                .saveFirstLaunch()
+                .andThen(Observable<Mutation>.empty())
+
             let fetchAll = repository.fetchProfile()
                 .flatMap { [weak self] profile -> Observable<Mutation> in
                     guard let self else { return .empty() }
 
                     let setLogin = Observable.just(Mutation.setLogin(true))
-
-                    // 프로필 저장
                     let setProfile = Observable.just(Mutation.setProfile(profile))
 
                     // 프로필 미입력 상태
@@ -121,7 +125,10 @@ final class RecommendationMainReactor: Reactor {
 
             return Observable.concat([
                 .just(.setLoading(true)),
-                fetchAll,
+                Observable.merge([
+                    fetchAll,
+                    saveFirstRecommendationLaunch
+                ]),
                 .just(.setLoading(false))
             ])
 

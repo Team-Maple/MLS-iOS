@@ -7,6 +7,7 @@ import MLSRecommendationFeatureInterface
 public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
     private let repository: RecommendationRepository
     private let bookmarkRepository: BookmarkRepository
+    private let recommendationUserDefaultsRepository: RecommendationUserDefaultsRepository
     private let makeLoginVC: (() -> UIViewController)?
     private let makeCharacterSettingVC: (() -> UIViewController)?
     private let makeSearchVC: (() -> UIViewController)?
@@ -17,6 +18,7 @@ public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
     public init(
         repository: RecommendationRepository,
         bookmarkRepository: BookmarkRepository,
+        recommendationUserDefaultsRepository: RecommendationUserDefaultsRepository,
         makeLoginVC: (() -> UIViewController)? = nil,
         makeCharacterSettingVC: (() -> UIViewController)? = nil,
         makeSearchVC: (() -> UIViewController)? = nil,
@@ -26,6 +28,7 @@ public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
     ) {
         self.repository = repository
         self.bookmarkRepository = bookmarkRepository
+        self.recommendationUserDefaultsRepository = recommendationUserDefaultsRepository
         self.makeLoginVC = makeLoginVC
         self.makeCharacterSettingVC = makeCharacterSettingVC
         self.makeSearchVC = makeSearchVC
@@ -36,7 +39,7 @@ public struct RecommendationMainFactoryImpl: RecommendationMainFactory {
 
     public func make() -> BaseViewController {
         let vc = RecommendationMainViewController()
-        vc.reactor = RecommendationMainReactor(repository: repository, bookmarkRepository: bookmarkRepository)
+        vc.reactor = RecommendationMainReactor(repository: repository, bookmarkRepository: bookmarkRepository, userDefaultsRepository: recommendationUserDefaultsRepository)
         vc.onLoginTapped = makeLoginVC
         vc.onEditTapped = makeCharacterSettingVC
         vc.onSearchTapped = makeSearchVC

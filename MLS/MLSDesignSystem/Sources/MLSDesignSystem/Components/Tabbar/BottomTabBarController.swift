@@ -6,6 +6,13 @@ public final class BottomTabBarController: UITabBarController {
     // MARK: - Type
     private enum Constant {
         static let horizontalInset: CGFloat = 24
+        static let commentBottomMargin: CGFloat = -8
+        static let commentWidth: CGFloat = 152
+        static let commentHeight: CGFloat = 28
+        static let buttonSize: CGFloat = 64
+        static let arrowInset: CGFloat = 16
+        @MainActor static let spacing: CGFloat = (UIScreen.main.bounds.width - (horizontalInset * 2) - (buttonSize * 4)) / 3
+        @MainActor static let commentLeadingOffset: CGFloat = horizontalInset + buttonSize + spacing + (buttonSize / 2) - arrowInset
     }
 
     // MARK: - Components
@@ -15,6 +22,12 @@ public final class BottomTabBarController: UITabBarController {
     private let tabBarBackground: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground
+        return view
+    }()
+    private let recoomendationCommentView: UIImageView = {
+        let view = UIImageView()
+        view.image = DesignSystemAsset.image(named: "recommendationComment")
+        view.isHidden = true
         return view
     }()
 
@@ -50,6 +63,7 @@ private extension BottomTabBarController {
         view.addSubview(tabBarBackground)
         view.addSubview(customTabBar)
         view.addSubview(divider)
+        view.addSubview(recoomendationCommentView)
     }
 
     func setupConstraints() {
@@ -66,6 +80,13 @@ private extension BottomTabBarController {
         tabBarBackground.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview()
             make.top.equalTo(divider.snp.top)
+        }
+
+        recoomendationCommentView.snp.makeConstraints { make in
+            make.bottom.equalTo(customTabBar.snp.top).offset(Constant.commentBottomMargin)
+            make.leading.equalTo(view.snp.leading).offset(Constant.commentLeadingOffset)
+            make.width.equalTo(Constant.commentWidth)
+            make.height.equalTo(Constant.commentHeight)
         }
     }
 
@@ -131,5 +152,9 @@ public extension BottomTabBarController {
             selectedIndex = index
             customTabBar.selectTab(index: index)
         }
+    }
+
+    func checkRecommendationFirstLaunch(isFirst: Bool) {
+        recoomendationCommentView.isHidden = isFirst
     }
 }

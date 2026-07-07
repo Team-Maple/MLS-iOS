@@ -57,8 +57,7 @@ public enum FactoryAssembly {
                     type: SocialLoginUseCase.self
                 ),
                 userDefaultsRepository: DIContainer.resolve(
-                    type: UserDefaultsRepository.self, name: "authUserDefaultsRepository"
-                )
+                    type: UserDefaultsRepository.self)
             )
         }
         DIContainer.register(type: DictionaryDetailFactory.self) {
@@ -184,7 +183,12 @@ public enum FactoryAssembly {
                     type: DictionaryNotificationFactory.self
                 ),
                 loginFactory: DIContainer.resolve(type: LoginFactory.self),
-                fetchProfileUseCase: DIContainer.resolve(
+                userDefaultsRepository: DIContainer
+                    .resolve(
+                        type: DictionaryUserDefaultsRepository.self
+                    ),
+                fetchProfileUseCase: DIContainer
+                    .resolve(
                     type: FetchProfileUseCase.self
                 )
             )
@@ -432,7 +436,7 @@ public enum FactoryAssembly {
         DIContainer.register(type: RecommendationMainFactory.self) {
             RecommendationMainFactoryImpl(
                 repository: DIContainer.resolve(type: RecommendationRepository.self),
-                bookmarkRepository: DIContainer.resolve(type: BookmarkRepository.self),
+                bookmarkRepository: DIContainer.resolve(type: BookmarkRepository.self), recommendationUserDefaultsRepository: DIContainer.resolve(type: RecommendationUserDefaultsRepository.self),
                 makeLoginVC: {
                     DIContainer.resolve(type: LoginFactory.self).make(exitRoute: .pop)
                 },

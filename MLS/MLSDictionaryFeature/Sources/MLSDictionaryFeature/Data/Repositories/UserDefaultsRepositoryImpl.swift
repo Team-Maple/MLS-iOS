@@ -4,8 +4,9 @@ import MLSDictionaryFeatureInterface
 
 import RxSwift
 
-public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
+public final class UserDefaultsRepositoryImpl: DictionaryUserDefaultsRepository {
     private let dictionaryDetailkey = "dictionaryDetailkey"
+    private let recommendationkey = "recommendationkey"
 
     public init() {}
 
@@ -24,5 +25,10 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             completable(.completed)
             return Disposables.create()
         }
+    }
+
+    public func checkFirstLauchRecommendation() -> Observable<Bool> {
+        let hasVisited = UserDefaults.standard.bool(forKey: recommendationkey)
+        return .just(hasVisited)
     }
 }
