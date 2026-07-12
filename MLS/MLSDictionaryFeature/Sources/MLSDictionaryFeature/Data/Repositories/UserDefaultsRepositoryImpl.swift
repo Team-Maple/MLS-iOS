@@ -27,7 +27,7 @@ public final class UserDefaultsRepositoryImpl: DictionaryUserDefaultsRepository 
         }
     }
 
-    public func checkFirstLauchRecommendation() -> Observable<Bool> {
+    public func checkFirstLaunchRecommendation() -> Observable<Bool> {
         let hasVisited = UserDefaults.standard.bool(forKey: recommendationkey)
         return .just(hasVisited)
     }

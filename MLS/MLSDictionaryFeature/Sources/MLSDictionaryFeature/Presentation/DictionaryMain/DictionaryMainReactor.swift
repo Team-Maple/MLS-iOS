@@ -58,7 +58,7 @@ public final class DictionaryMainReactor: Reactor {
         switch action {
         case .viewWillAppear:
             let firstRecommendation = userDefaultsRepository
-                .checkFirstLauchRecommendation()
+                .checkFirstLaunchRecommendation()
                 .map(Mutation.setIsFirstRecommendationLaunch)
 
             let fetchProfile = fetchProfileUseCase.execute()
