@@ -23,6 +23,7 @@ public final class DictionaryMainReactor: Reactor {
         case navigateTo(Route)
         case setLogin(Bool)
         case setCurrentTab(oldIndex: Int, newIndex: Int)
+        case setIsFirstRecommendationLaunch(Bool)
     }
 
     public struct State {
@@ -31,20 +32,24 @@ public final class DictionaryMainReactor: Reactor {
         var sections: [String] {
             return type.pageTabList.map { $0.title }
         }
+
         var isLogin = false
         var currentPageIndex = 0
         var oldPageIndex = 0
+        var isFirstRecommendationLaunch = false
     }
 
     // MARK: - properties
     public var initialState: State
     var disposeBag = DisposeBag()
 
+    private let userDefaultsRepository: DictionaryUserDefaultsRepository
     private let fetchProfileUseCase: FetchProfileUseCase
 
     // MARK: - init
-    public init(fetchProfileUseCase: FetchProfileUseCase) {
+    public init(userDefaultsRepository: DictionaryUserDefaultsRepository, fetchProfileUseCase: FetchProfileUseCase) {
         self.initialState = State()
+        self.userDefaultsRepository = userDefaultsRepository
         self.fetchProfileUseCase = fetchProfileUseCase
     }
 
@@ -52,9 +57,18 @@ public final class DictionaryMainReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
-            return fetchProfileUseCase.execute()
-                .map { .setLogin($0 != nil) }
+            let firstRecommendation = userDefaultsRepository
+                .checkFirstLaunchRecommendation()
+                .map(Mutation.setIsFirstRecommendationLaunch)
+
+            let fetchProfile = fetchProfileUseCase.execute()
+                .map { Mutation.setLogin($0 != nil) }
                 .catchAndReturn(.setLogin(false))
+
+            return Observable.merge(
+                firstRecommendation,
+                fetchProfile
+            )
         case .searchButtonTapped:
             return .just(.navigateTo(.search))
         case .notificationButtonTapped:
@@ -69,13 +83,15 @@ public final class DictionaryMainReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .navigateTo(let route):
+        case let .navigateTo(route):
             newState.route = route
         case let .setLogin(isLogin):
             newState.isLogin = isLogin
         case let .setCurrentTab(oldIndex, newIndex):
             newState.oldPageIndex = oldIndex
             newState.currentPageIndex = newIndex
+        case let .setIsFirstRecommendationLaunch(isFirst):
+            newState.isFirstRecommendationLaunch = isFirst
         }
 
         return newState

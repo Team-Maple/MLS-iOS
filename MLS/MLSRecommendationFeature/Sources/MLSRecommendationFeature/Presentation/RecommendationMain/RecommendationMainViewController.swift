@@ -10,7 +10,6 @@ import RxSwift
 import SnapKit
 
 final class RecommendationMainViewController: BaseViewController, View {
-
     typealias Reactor = RecommendationMainReactor
 
     // MARK: - Properties
@@ -144,6 +143,15 @@ extension RecommendationMainViewController {
                     owner.presentDeleteSnackBar(map: map)
                 case .none:
                     break
+                case .showAlert:
+                    GuideAlertFactory.show(mainText: "레벨과 직업을 모두 입력하면\n맞춤 사냥터를 추천받을 수 있어요", ctaText: "입력하기", cancelText: "도감보러 가기", ctaAction: {
+                        guard let vc = owner.onEditTapped?() else { return }
+                        owner.navigationController?.pushViewController(vc, animated: true)
+                    }, cancelAction: {
+                        if let tabBarController = owner.tabBarController as? BottomTabBarController {
+                            tabBarController.selectTab(index: 0)
+                        }
+                    }, ctaRatio: 0.5)
                 }
             })
             .disposed(by: disposeBag)
@@ -206,7 +214,7 @@ private extension RecommendationMainViewController {
                 buttonAction: { [weak self] in
                     guard let self,
                           let bookmarkId = self.reactor?.currentState.recommendations
-                            .first(where: { $0.mapId == map.mapId })?.bookmarkId else { return }
+                          .first(where: { $0.mapId == map.mapId })?.bookmarkId else { return }
                     let vc = self.onBookmarkModalTapped?([bookmarkId]) { isAdd in
                         if isAdd {
                             ToastFactory.createToast(message: "컬렉션에 추가되었어요. 북마크 탭에서 확인 할 수 있어요.")

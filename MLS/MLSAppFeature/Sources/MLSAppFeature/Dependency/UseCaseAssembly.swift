@@ -24,15 +24,14 @@ public enum UseCaseAssembly {
                     type: TokenRepository.self
                 ),
                 userDefaultsRepository: DIContainer.resolve(
-                    type: UserDefaultsRepository.self, name: "authUserDefaultsRepository"
-                )
+                    type: UserDefaultsRepository.self)
             )
         }
         DIContainer.register(type: SocialSignUpUseCaseImpl.self) {
             SocialSignUpUseCaseImpl(
                 authRepository: DIContainer.resolve(type: AuthAPIRepository.self),
                 tokenRepository: DIContainer.resolve(type: TokenRepository.self),
-                userDefaultsRepository: DIContainer.resolve(type: UserDefaultsRepository.self, name: "authUserDefaultsRepository")
+                userDefaultsRepository: DIContainer.resolve(type: UserDefaultsRepository.self)
             )
         }
         DIContainer.register(type: CheckNotificationPermissionUseCase.self) {
@@ -71,7 +70,7 @@ public enum UseCaseAssembly {
             ParseItemFilterResultUseCaseImpl()
         }
         DIContainer.register(type: FetchVisitDictionaryDetailUseCase.self) {
-            FetchVisitDictionaryDetailUseCaseImpl(repository: DIContainer.resolve(type: UserDefaultsRepository.self, name: "dictionaryUserDefaultsRepository"))
+            FetchVisitDictionaryDetailUseCaseImpl(repository: DIContainer.resolve(type: DictionaryUserDefaultsRepository.self))
         }
         DIContainer.register(type: SocialSignUpUseCase.self) {
             SocialSignUpUseCaseImpl(
@@ -80,7 +79,7 @@ public enum UseCaseAssembly {
                 tokenRepository: DIContainer
                     .resolve(type: TokenRepository.self),
                 userDefaultsRepository: DIContainer
-                    .resolve(type: UserDefaultsRepository.self, name: "authUserDefaultsRepository")
+                    .resolve(type: UserDefaultsRepository.self)
             )
         }
         DIContainer.register(type: UpdateCheckerUseCaseProtocol.self) {

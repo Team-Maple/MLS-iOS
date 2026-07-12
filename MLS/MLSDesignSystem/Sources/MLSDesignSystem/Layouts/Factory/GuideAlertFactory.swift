@@ -16,9 +16,10 @@ public enum GuideAlertFactory {
         ctaText: String,
         cancelText: String? = nil,
         ctaAction: @escaping () -> Void,
-        cancelAction: (() -> Void)? = nil
+        cancelAction: (() -> Void)? = nil,
+        ctaRatio: Double = 0.7
     ) {
-        let alert = GuideAlert(mainText: mainText, ctaText: ctaText, cancelText: cancelText)
+        let alert = GuideAlert(mainText: mainText, ctaText: ctaText, cancelText: cancelText, ctaRatio: ctaRatio)
         presentAlert(alert: alert, ctaAction: ctaAction, cancelAction: cancelAction)
     }
 

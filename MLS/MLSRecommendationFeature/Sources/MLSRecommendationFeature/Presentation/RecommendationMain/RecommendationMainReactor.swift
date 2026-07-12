@@ -7,7 +7,6 @@ import RxCocoa
 import RxSwift
 
 final class RecommendationMainReactor: Reactor {
-
     // MARK: - Reactor
     enum Action {
         case viewWillAppear
@@ -20,6 +19,7 @@ final class RecommendationMainReactor: Reactor {
         case none
         case added(RecommendationMap)
         case deleted(RecommendationMap)
+        case showAlert
     }
 
     enum Mutation {
@@ -53,11 +53,13 @@ final class RecommendationMainReactor: Reactor {
 
     private let repository: RecommendationRepository
     private let bookmarkRepository: BookmarkRepository
+    private let userDefaultsRepository: RecommendationUserDefaultsRepository
 
     // MARK: - Init
-    init(repository: RecommendationRepository, bookmarkRepository: BookmarkRepository) {
+    init(repository: RecommendationRepository, bookmarkRepository: BookmarkRepository, userDefaultsRepository: RecommendationUserDefaultsRepository) {
         self.repository = repository
         self.bookmarkRepository = bookmarkRepository
+        self.userDefaultsRepository = userDefaultsRepository
         self.initialState = State()
     }
 
@@ -65,35 +67,56 @@ final class RecommendationMainReactor: Reactor {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .viewWillAppear:
+            let saveFirstRecommendationLaunch = userDefaultsRepository
+                .saveFirstLaunch()
+                .andThen(Observable<Mutation>.empty())
+
             let fetchAll = repository.fetchProfile()
                 .flatMap { [weak self] profile -> Observable<Mutation> in
                     guard let self else { return .empty() }
+
                     let setLogin = Observable.just(Mutation.setLogin(true))
                     let setProfile = Observable.just(Mutation.setProfile(profile))
-                    let setJobName: Observable<Mutation>
-                    if let jobId = profile.jobId {
-                        setJobName = repository.fetchJobName(jobId: jobId)
-                            .map { Mutation.setJobName($0) }
-                            .catch { error in
-                                print("⚠️ [Recommendation] fetchJobName 실패: \(error)")
-                                return .empty()
-                            }
-                    } else {
-                        setJobName = .empty()
+
+                    // 프로필 미입력 상태
+                    guard
+                        let level = profile.level,
+                        let jobId = profile.jobId
+                    else {
+                        return Observable.concat([
+                            setLogin,
+                            setProfile,
+                            .just(.setUIEvent(.showAlert))
+                        ])
                     }
-                    let setRecommendations: Observable<Mutation>
-                    if let level = profile.level, level >= 1, let jobId = profile.jobId {
-                        setRecommendations = repository.fetchRecommendations(level: level, jobId: jobId, limit: 5)
-                            .map { Mutation.setRecommendations($0) }
-                            .catch { error in
-                                print("⚠️ [Recommendation] fetchRecommendations 실패: \(error)")
-                                return .empty()
-                            }
-                    } else {
-                        setRecommendations = .empty()
+
+                    // 프로필 입력 완료 상태
+                    let setJobName = repository.fetchJobName(jobId: jobId)
+                        .map(Mutation.setJobName)
+                        .catch { error in
+                            print("⚠️ [Recommendation] fetchJobName 실패: \(error)")
+                            return .empty()
+                        }
+
+                    let setRecommendations = repository.fetchRecommendations(
+                        level: level,
+                        jobId: jobId,
+                        limit: 5
+                    )
+                    .map(Mutation.setRecommendations)
+                    .catch { error in
+                        print("⚠️ [Recommendation] fetchRecommendations 실패: \(error)")
+                        return .empty()
                     }
-                    let parallelRequests = Observable.merge([setJobName, setRecommendations])
-                    return Observable.concat([setLogin, setProfile, parallelRequests])
+
+                    return Observable.concat([
+                        setLogin,
+                        setProfile,
+                        Observable.merge([
+                            setJobName,
+                            setRecommendations
+                        ])
+                    ])
                 }
                 .catch { error in
                     print("⚠️ [Recommendation] fetchProfile 실패: \(error)")
@@ -102,7 +125,10 @@ final class RecommendationMainReactor: Reactor {
 
             return Observable.concat([
                 .just(.setLoading(true)),
-                fetchAll,
+                Observable.merge([
+                    fetchAll,
+                    saveFirstRecommendationLaunch
+                ]),
                 .just(.setLoading(false))
             ])
 
@@ -121,17 +147,17 @@ final class RecommendationMainReactor: Reactor {
         var newState = state
 
         switch mutation {
-        case .setProfile(let profile):
+        case let .setProfile(profile):
             newState.profile = profile
-        case .setJobName(let jobName):
+        case let .setJobName(jobName):
             newState.jobName = jobName
-        case .setRecommendations(let maps):
+        case let .setRecommendations(maps):
             newState.recommendations = maps
-        case .setLoading(let isLoading):
+        case let .setLoading(isLoading):
             newState.isLoading = isLoading
         case .informationButtonToggle:
             newState.informationButtonIsOn.toggle()
-        case .setLogin(let isLogin):
+        case let .setLogin(isLogin):
             newState.isLogin = isLogin
         case let .updateBookmarkId(mapId, bookmarkId):
             newState.togglingBookmarkIds.remove(mapId)
@@ -160,7 +186,8 @@ final class RecommendationMainReactor: Reactor {
 private extension RecommendationMainReactor {
     func handleToggleBookmark(mapId: Int) -> Observable<Mutation> {
         guard !currentState.togglingBookmarkIds.contains(mapId),
-              let map = currentState.recommendations.first(where: { $0.mapId == mapId }) else {
+              let map = currentState.recommendations.first(where: { $0.mapId == mapId })
+        else {
             return .empty()
         }
 

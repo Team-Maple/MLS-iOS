@@ -193,6 +193,17 @@ public extension DictionaryMainViewController {
                 owner.moveToTab(oldIndex: oldIndex, newIndex: newIndex)
             })
             .disposed(by: disposeBag)
+
+        reactor.state
+            .observe(on: MainScheduler.instance)
+            .map { $0.isFirstRecommendationLaunch }
+            .distinctUntilChanged()
+            .withUnretained(self)
+            .subscribe { owner, isFirst in
+                (owner.tabBarController as? BottomTabBarController)?
+                    .checkRecommendationFirstLaunch(isFirst: isFirst)
+            }
+            .disposed(by: disposeBag)
     }
 }
 

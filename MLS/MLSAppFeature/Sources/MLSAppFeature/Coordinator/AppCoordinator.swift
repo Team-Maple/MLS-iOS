@@ -44,16 +44,16 @@ public final class AppCoordinator: AppCoordinatorProtocol {
     // MARK: - Public Methods
     public func showMainTab(selectedIndex: Int = 0) {
         let tabItems: [TabItem] = [
+            TabItem(title: "도감", icon: DesignSystemAsset.image(named: "dictionary")),
             TabItem(title: "추천", icon: DesignSystemAsset.image(named: "favorite")
             ),
-            TabItem(title: "도감", icon: DesignSystemAsset.image(named: "dictionary")),
             TabItem(title: "북마크", icon: DesignSystemAsset.image(named: "bookmarkList")),
             TabItem(title: "MY", icon: DesignSystemAsset.image(named: "mypage"))
         ]
         let tabBar = BottomTabBarController(
             viewControllers: [
-                recommendationMainFactory.make(),
                 dictionaryMainViewFactory.make(),
+                recommendationMainFactory.make(),
                 bookmarkMainFactory.make(bottomInset: 64),
                 myPageMainFactory.make()
             ],

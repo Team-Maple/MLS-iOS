@@ -38,11 +38,11 @@ public enum RepositoryAssembly {
         DIContainer.register(type: BookmarkRepository.self) {
             BookmarkRepositoryImpl()
         }
-        DIContainer.register(type: MLSAuthFeatureInterface.UserDefaultsRepository.self, name: "authUserDefaultsRepository") {
-            MLSAuthFeature.UserDefaultsRepositoryImpl()
+        DIContainer.register(type: UserDefaultsRepository.self) {
+            UserDefaultsRepositoryImpl()
         }
-        DIContainer.register(type: MLSDictionaryFeatureInterface.UserDefaultsRepository.self, name: "dictionaryUserDefaultsRepository") {
-            MLSDictionaryFeature.UserDefaultsRepositoryImpl()
+        DIContainer.register(type: DictionaryUserDefaultsRepository.self) {
+            UserDefaultsRepositoryImpl()
         }
         DIContainer.register(type: AlarmRepository.self) {
             AlarmRepositoryImpl(
@@ -87,5 +87,8 @@ public enum RepositoryAssembly {
         DIContainer.register(type: UpdateSkipRepositoryProtocol.self) {
             UpdateSkipRepository()
         }
-     }
+        DIContainer.register(type: RecommendationUserDefaultsRepository.self) {
+            RecommendationUserDefaultsRepositoryImpl()
+        }
+      }
 }
