@@ -24,7 +24,7 @@ public final class BottomTabBarController: UITabBarController {
         view.backgroundColor = .systemBackground
         return view
     }()
-    private let recoomendationCommentView: UIImageView = {
+    private let recommendationCommentView: UIImageView = {
         let view = UIImageView()
         view.image = DesignSystemAsset.image(named: "recommendationComment")
         view.isHidden = true
@@ -63,7 +63,7 @@ private extension BottomTabBarController {
         view.addSubview(tabBarBackground)
         view.addSubview(customTabBar)
         view.addSubview(divider)
-        view.addSubview(recoomendationCommentView)
+        view.addSubview(recommendationCommentView)
     }
 
     func setupConstraints() {
@@ -82,7 +82,7 @@ private extension BottomTabBarController {
             make.top.equalTo(divider.snp.top)
         }
 
-        recoomendationCommentView.snp.makeConstraints { make in
+        recommendationCommentView.snp.makeConstraints { make in
             make.bottom.equalTo(customTabBar.snp.top).offset(Constant.commentBottomMargin)
             make.leading.equalTo(view.snp.leading).offset(Constant.commentLeadingOffset)
             make.width.equalTo(Constant.commentWidth)
@@ -155,6 +155,6 @@ public extension BottomTabBarController {
     }
 
     func checkRecommendationFirstLaunch(isFirst: Bool) {
-        recoomendationCommentView.isHidden = isFirst
+        recommendationCommentView.isHidden = isFirst
     }
 }
