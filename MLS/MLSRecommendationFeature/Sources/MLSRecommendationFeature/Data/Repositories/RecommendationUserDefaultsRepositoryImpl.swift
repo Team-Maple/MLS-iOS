@@ -10,7 +10,9 @@ public final class RecommendationUserDefaultsRepositoryImpl: RecommendationUserD
     public init() {}
 
     public func saveFirstLaunch() -> Completable {
-        UserDefaults.standard.set(true, forKey: recommendationkey)
+        if !UserDefaults.standard.bool(forKey: recommendationkey) {
+            UserDefaults.standard.set(true, forKey: recommendationkey)
+        }
         return .empty()
     }
 }

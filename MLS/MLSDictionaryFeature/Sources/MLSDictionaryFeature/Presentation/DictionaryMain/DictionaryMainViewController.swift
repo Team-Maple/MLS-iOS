@@ -197,6 +197,7 @@ public extension DictionaryMainViewController {
         reactor.state
             .observe(on: MainScheduler.instance)
             .map { $0.isFirstRecommendationLaunch }
+            .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isFirst in
                 (owner.tabBarController as? BottomTabBarController)?
