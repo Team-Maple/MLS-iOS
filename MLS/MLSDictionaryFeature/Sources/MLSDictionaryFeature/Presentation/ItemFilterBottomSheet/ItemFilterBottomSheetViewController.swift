@@ -445,7 +445,7 @@ extension ItemFilterBottomSheetViewController {
 
                     switch section {
                     case .level:
-                        selectedItems.append(("레벨", "레벨 \(state.levelRange.low ?? 0) ~ \(state.levelRange.high ?? 0)"))
+                        selectedItems.append(("레벨", "레벨 \(state.levelRange.low ?? 0) ~ \(state.levelRange.high ?? 200)"))
                     case .job:
                         selectedItems.append(("직업", state.jobs[indexPath.row]))
                     case .weapons:

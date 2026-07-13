@@ -91,7 +91,7 @@ struct ParseItemFilterResultUseCaseTests {
     func test_ignoreInvalidValues() {
         let result = sut.execute(
             results: [
-                ("직업", "해적"),
+                ("직업", "해직"),
                 ("무기", "레이저건")
             ]
         )
