@@ -32,13 +32,13 @@ public final class ItemFilterBottomSheetReactor: Reactor {
 
     public struct State {
         var sections: [String] = ["직업/레벨", "무기", "발사체", "방어구", "장신구", "주문서", "기타"]
-        var jobs: [String] = ["없음", "공용", "마법사", "전사", "궁수", "도적"]
-        var weapons: [String] = ["한손검", "한손도끼", "한손둔기", "창", "단검", "두손검", "두손도끼", "두손둔기", "폴암", "활", "석궁", "완드", "스태프", "아대"]
+        var jobs: [String] = ["없음", "공용", "마법사", "전사", "궁수", "도적", "해적"]
+        var weapons: [String] = ["한손검", "한손도끼", "한손둔기", "창", "단검", "두손검", "두손도끼", "두손둔기", "폴암", "활", "석궁", "완드", "스태프", "아대", "건", "너클"]
         var projectiles: [String] = ["화살", "표창"] // 불렛은 제거
         var armors: [String] = ["모자", "상의", "하의", "장갑", "신발", "방패", "전신갑옷"] // 전신 = 전신갑옷?
         var accessories: [String] = ["귀고리", "망토", "훈장", "눈장식", "얼굴장식", "팬던트", "벨트", "반지", "어깨장식"] // 귀장식 데이터 안줌 -> 귀장식 = 귀고리, 훈장은 서버에서 데이터 안줌.
         @Pulse var scrollCategories: [String] = ["무기 주문서", "방어구 주문서", "기타 주문서"]
-        var originWeaponScrolls: [String] = ["한손검", "한손도끼", "한손둔기", "단검", "완드", "스태프", "두손검", "두손도끼", "두손둔기", "창", "폴암", "활", "석궁", "아대"]
+        var originWeaponScrolls: [String] = ["한손검", "한손도끼", "한손둔기", "단검", "완드", "스태프", "두손검", "두손도끼", "두손둔기", "창", "폴암", "활", "석궁", "아대", "건", "너클"]
         var originArmorScrolls: [String] = ["투구", "상의", "하의", "전신갑옷", "신발", "장갑", "망토", "방패", "귀장식"]
         var originEtcScrolls: [String] = ["펫장비", "연성서", "귀환주문서"]
         @Pulse var weaponScrolls: [String] = []
