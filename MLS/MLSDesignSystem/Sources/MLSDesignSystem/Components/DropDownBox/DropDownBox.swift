@@ -44,7 +44,7 @@ public final class DropDownBox: UIStackView {
         tableView.layer.cornerRadius = 8
         tableView.layer.borderColor = UIColor.neutral300.cgColor
         tableView.separatorStyle = .none
-        tableView.isScrollEnabled = false
+        tableView.isScrollEnabled = true
         tableView.contentInset = UIEdgeInsets(top: 4, left: 0, bottom: 4, right: 0)
         tableView.register(DropDownBoxCell.self, forCellReuseIdentifier: "DropDownCell")
         return tableView
@@ -124,7 +124,8 @@ private extension DropDownBox {
         isExpanded.toggle()
         tableView.isHidden = !isExpanded
         iconButton.setImage(isExpanded ? DesignSystemAsset.image(named: "arrowDropUp") : DesignSystemAsset.image(named: "arrowDropdown"), for: .normal)
-        let height = CGFloat(items.count) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
+        let visibleCount = min(items.count, 4)
+        let height = CGFloat(visibleCount) * 44 + tableView.contentInset.top + tableView.contentInset.bottom
         tableViewHeightConstraint?.update(offset: isExpanded ? height : 0)
     }
 
