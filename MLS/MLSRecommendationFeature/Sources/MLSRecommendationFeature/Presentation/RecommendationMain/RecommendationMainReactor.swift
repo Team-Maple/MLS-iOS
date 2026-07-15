@@ -33,6 +33,7 @@ final class RecommendationMainReactor: Reactor {
         case setLastDeleted(RecommendationMap?)
         case setUIEvent(UIEvent)
         case setTogglingBookmark(mapId: Int)
+        case setHideCommentView(Bool)
     }
 
     struct State {
@@ -45,6 +46,7 @@ final class RecommendationMainReactor: Reactor {
         var lastDeleted: RecommendationMap?
         var togglingBookmarkIds: Set<Int> = []
         @Pulse var uiEvent: UIEvent = .none
+        var shouldHideCommentView: Bool = false
     }
 
     // MARK: - Properties
@@ -124,6 +126,7 @@ final class RecommendationMainReactor: Reactor {
                 }
 
             return Observable.concat([
+                .just(.setHideCommentView(true)),
                 .just(.setLoading(true)),
                 Observable.merge([
                     fetchAll,
@@ -177,6 +180,8 @@ final class RecommendationMainReactor: Reactor {
             newState.uiEvent = event
         case let .setTogglingBookmark(mapId):
             newState.togglingBookmarkIds.insert(mapId)
+        case let .setHideCommentView(hide):
+            newState.shouldHideCommentView = hide
         }
         return newState
     }

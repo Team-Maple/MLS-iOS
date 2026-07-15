@@ -190,6 +190,17 @@ extension RecommendationMainViewController {
 
         reactor.state
             .observe(on: MainScheduler.instance)
+            .map { $0.shouldHideCommentView }
+            .distinctUntilChanged()
+            .filter { $0 }
+            .withUnretained(self)
+            .subscribe { owner, _ in
+                (owner.tabBarController as? BottomTabBarController)?.checkRecommendationFirstLaunch(isFirst: true)
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .observe(on: MainScheduler.instance)
             .map { $0.recommendations }
             .distinctUntilChanged { $0.map { ($0.mapId, $0.bookmarkId) }.elementsEqual($1.map { ($0.mapId, $0.bookmarkId) }) { $0 == $1 } }
             .withUnretained(self)
