@@ -103,6 +103,7 @@ public extension SetCharacterViewController {
 
         reactor.state
             .map { $0.isLevelValid }
+            .observe(on: MainScheduler.instance)
             .distinctUntilChanged()
             .withUnretained(self)
             .subscribe { owner, isLevelValid in
@@ -114,6 +115,7 @@ public extension SetCharacterViewController {
 
         reactor.state
             .map { $0.isButtonEnabled }
+            .observe(on: MainScheduler.instance)
             .bind(to: mainView.nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
