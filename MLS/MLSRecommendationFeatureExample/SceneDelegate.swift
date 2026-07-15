@@ -33,6 +33,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             RecommendationMainFactoryImpl(
                 repository: MockRecommendationRepository(),
                 bookmarkRepository: MockBookmarkRepository(),
+                recommendationUserDefaultsRepository: RecommendationUserDefaultsRepositoryImpl(),
                 makeLoginVC: {
                     let vc = UIViewController()
                     vc.view.backgroundColor = .white
