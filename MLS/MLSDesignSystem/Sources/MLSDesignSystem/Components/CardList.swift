@@ -47,6 +47,7 @@ public final class CardList: UIView {
         static let iconSize: CGFloat = 24
         static let mapImageSize: CGFloat = 40
         static let tagHeight: CGFloat = 24
+        static let tagWidth: CGFloat = 45
         static let tagHorizontalInset: CGFloat = 10
         static let tagVerticalInset: CGFloat = 4
     }
@@ -141,6 +142,7 @@ public final class CardList: UIView {
 
     private let rankTag = {
         let label = UILabel()
+        label.textAlignment = .center
         label.font = .korFont(style: .semiBold, size: 14)
         label.textColor = .primary700
         return label
@@ -195,6 +197,7 @@ private extension CardList {
 
         rankContainer.snp.makeConstraints { make in
             make.height.equalTo(Constant.tagHeight)
+            make.width.equalTo(Constant.tagWidth)
         }
 
         rankTag.snp.makeConstraints { make in

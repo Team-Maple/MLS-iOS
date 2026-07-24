@@ -137,5 +137,11 @@ extension TooltipView {
         shapeLayer.frame = bounds
         shapeLayer.path = bubblePath.cgPath
         shapeLayer.fillColor = UIColor.whiteMLS.cgColor
+
+        shapeLayer.shadowPath = bubblePath.cgPath
+        shapeLayer.shadowColor = UIColor.black.withAlphaComponent(0.15).cgColor
+        shapeLayer.shadowOpacity = 1
+        shapeLayer.shadowRadius = 20
+        shapeLayer.shadowOffset = .zero
     }
 }
