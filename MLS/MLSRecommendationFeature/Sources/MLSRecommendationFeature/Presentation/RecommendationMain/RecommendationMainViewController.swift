@@ -178,6 +178,17 @@ extension RecommendationMainViewController {
 
         reactor.state
             .observe(on: MainScheduler.instance)
+            .map { $0.recommendations }
+            .distinctUntilChanged { $0.map { ($0.mapId, $0.bookmarkId) }.elementsEqual($1.map { ($0.mapId, $0.bookmarkId) }) { $0 == $1 } }
+            .withUnretained(self)
+            .subscribe { owner, mapData in
+                owner.mainView.collectionView.reloadData()
+                owner.mainView.checkEmptyData(isEmpty: mapData.isEmpty)
+            }
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .observe(on: MainScheduler.instance)
             .map { $0.isLogin }
             .distinctUntilChanged()
             .withUnretained(self)
@@ -196,16 +207,6 @@ extension RecommendationMainViewController {
             .withUnretained(self)
             .subscribe { owner, _ in
                 (owner.tabBarController as? BottomTabBarController)?.checkRecommendationFirstLaunch(isFirst: true)
-            }
-            .disposed(by: disposeBag)
-
-        reactor.state
-            .observe(on: MainScheduler.instance)
-            .map { $0.recommendations }
-            .distinctUntilChanged { $0.map { ($0.mapId, $0.bookmarkId) }.elementsEqual($1.map { ($0.mapId, $0.bookmarkId) }) { $0 == $1 } }
-            .withUnretained(self)
-            .subscribe { owner, _ in
-                owner.mainView.collectionView.reloadData()
             }
             .disposed(by: disposeBag)
     }
