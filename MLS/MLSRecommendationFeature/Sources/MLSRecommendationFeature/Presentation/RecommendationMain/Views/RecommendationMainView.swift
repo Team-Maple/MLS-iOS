@@ -20,6 +20,7 @@ internal final class RecommendationMainView: UIView {
         static let cellHeight: CGFloat = 104
         static let cellSpacing: CGFloat = 8
         static let bottomTabHeight: CGFloat = 64
+        static let emptyLabelTopOffset: CGFloat = 16
     }
 
     // MARK: - Properties
@@ -61,6 +62,13 @@ internal final class RecommendationMainView: UIView {
         return view
     }()
 
+    private let emptyDataLabel: UILabel = {
+        let label = UILabel()
+        label.attributedText = .makeStyledString(font: .b_s_r, text: "추천 정보가 존재하지 않습니다.", color: .neutral600, alignment: .center)
+        label.isHidden = true
+        return label
+    }()
+
     internal let emptyView = ToLoginView(type: .recommend)
 
     // MARK: - init
@@ -88,6 +96,7 @@ private extension RecommendationMainView {
         informationButton.addSubview(informationIconView)
         grayBackgroundView.addSubview(collectionView)
         addSubview(emptyView)
+        addSubview(emptyDataLabel)
     }
 
     func setupConstraints() {
@@ -133,6 +142,11 @@ private extension RecommendationMainView {
             make.bottom.equalToSuperview().inset(Constant.bottomTabHeight)
         }
         emptyView.isHidden = true
+
+        emptyDataLabel.snp.makeConstraints { make in
+            make.top.equalTo(informationButton.snp.bottom).offset(Constant.emptyLabelTopOffset)
+            make.centerX.equalToSuperview()
+        }
     }
 }
 
@@ -142,5 +156,11 @@ extension RecommendationMainView {
         profileView.isHidden = !isLogin
         grayBackgroundView.isHidden = !isLogin
         emptyView.isHidden = isLogin
+        emptyDataLabel.isHidden = !isLogin
+    }
+
+    func checkEmptyData(isEmpty: Bool) {
+        collectionView.isHidden = isEmpty
+        emptyDataLabel.isHidden = !isEmpty
     }
 }
