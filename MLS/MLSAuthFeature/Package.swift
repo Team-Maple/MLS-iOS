@@ -22,6 +22,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(path: "../MLSAppFeature"),
         .package(path: "../MLSCore"),
         .package(path: "../MLSDesignSystem"),
         .package(url: "https://github.com/ReactorKit/ReactorKit.git", from: "3.2.0"),
@@ -46,6 +47,7 @@ let package = Package(
             name: "MLSAuthFeature",
             dependencies: [
                 "MLSAuthFeatureInterface",
+                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
                 .product(name: "MLSCore", package: "MLSCore"),
                 .product(name: "MLSDesignSystem", package: "MLSDesignSystem"),
                 .product(name: "ReactorKit", package: "ReactorKit"),

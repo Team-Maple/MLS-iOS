@@ -47,6 +47,9 @@ public final class CardList: UIView {
         static let iconSize: CGFloat = 24
         static let mapImageSize: CGFloat = 40
         static let tagHeight: CGFloat = 24
+        static let tagWidth: CGFloat = 45
+        static let tagHorizontalInset: CGFloat = 10
+        static let tagVerticalInset: CGFloat = 4
     }
 
     // MARK: - Properties
@@ -78,7 +81,7 @@ public final class CardList: UIView {
     public let imageView = ItemImageView(image: nil, cornerRadius: Constant.imageRadius, inset: Constant.imageInset, backgroundColor: .listMap)
 
     private lazy var textLabelStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [rankTag, mainTextLabel, subTextLabel])
+        let view = UIStackView(arrangedSubviews: [rankContainer, mainTextLabel, subTextLabel])
         view.axis = .vertical
         view.spacing = Constant.stackViewSpacing
         view.alignment = .leading
@@ -129,7 +132,21 @@ public final class CardList: UIView {
 
     private let badge = Badge(style: .currentQuest)
 
-    private let rankTag = TagChip(style: .text, text: "순위")
+    private let rankContainer = {
+        let view = UIView()
+        view.backgroundColor = .primary50
+        view.layer.cornerRadius = 12
+        view.clipsToBounds = true
+        return view
+    }()
+
+    private let rankTag = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .korFont(style: .semiBold, size: 14)
+        label.textColor = .primary700
+        return label
+    }()
 
     public init() {
         super.init(frame: .zero)
@@ -153,6 +170,7 @@ private extension CardList {
         addSubview(iconButton)
         addSubview(dropInfoStack)
         addSubview(badge)
+        rankContainer.addSubview(rankTag)
     }
 
     func setupConstraints() {
@@ -177,8 +195,14 @@ private extension CardList {
             make.trailing.equalToSuperview().inset(Constant.cardTrailingInset)
         }
 
-        rankTag.snp.makeConstraints { make in
+        rankContainer.snp.makeConstraints { make in
             make.height.equalTo(Constant.tagHeight)
+            make.width.equalTo(Constant.tagWidth)
+        }
+
+        rankTag.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(Constant.tagHorizontalInset)
+            make.verticalEdges.equalToSuperview().inset(Constant.tagVerticalInset)
         }
 
         iconButton.snp.makeConstraints { make in
@@ -250,29 +274,30 @@ public extension CardList {
             iconButton.isHidden = true
             dropInfoStack.isHidden = true
             badge.isHidden = true
-            rankTag.isHidden = true
+            rankContainer.isHidden = true
         case .detailStackText:
             iconButton.isHidden = true
             dropInfoStack.isHidden = false
             badge.isHidden = true
-            rankTag.isHidden = true
+            rankContainer.isHidden = true
         case .detailStackBadge(let type):
             iconButton.isHidden = true
             dropInfoStack.isHidden = false
             badge.isHidden = false
-            rankTag.isHidden = true
+            rankContainer.isHidden = true
             badge.update(style: type)
         case .recommended(let rank):
-            iconButton.isHidden = true
+            iconButton.isHidden = false
             dropInfoStack.isHidden = true
             subTextLabel.isHidden = true
             badge.isHidden = true
-            rankTag.isHidden = false
+            rankContainer.isHidden = false
             rankTag.text = "\(rank)위"
         default:
             iconButton.isHidden = false
             dropInfoStack.isHidden = true
             badge.isHidden = true
+            rankContainer.isHidden = true
         }
     }
 

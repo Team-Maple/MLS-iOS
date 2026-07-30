@@ -1,0 +1,133 @@
+import MLSAuthFeatureInterface
+import MLSMyPageFeatureInterface
+
+import ReactorKit
+import RxSwift
+
+public final class SetCharacterReactor: Reactor {
+    // MARK: - Reactor
+    public enum Route {
+        case none
+        case dismiss
+        case dismissWithSave
+        case error
+    }
+
+    public enum Action {
+        case viewWillAppear
+        case backButtonTapped
+        case applyButtonTapped
+        case inputLevel(Int?)
+        case inputRole(Job?)
+    }
+
+    public enum Mutation {
+        case setJobList(jobList: [Job])
+        case setButtonEnabled(Bool)
+        case setLevelValid(Bool?)
+        case setLevel(Int?)
+        case setRole(Job?)
+        case navigateTo(route: Route)
+    }
+
+    public struct State {
+        @Pulse var route: Route = .none
+
+        var level: Int?
+        var job: Job?
+        var isButtonEnabled: Bool = false
+        var isLevelValid: Bool?
+        var jobList: [Job] = []
+    }
+
+    // MARK: - properties
+    public var initialState: State
+    private let checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase
+    private let checkValidLevelUseCase: CheckValidLevelUseCase
+    private let authRepository: AuthAPIRepository
+    private let myPageRepository: MyPageRepository
+    var disposeBag = DisposeBag()
+
+    // MARK: - init
+    public init(
+        checkEmptyUseCase: CheckEmptyLevelAndRoleUseCase,
+        checkValidLevelUseCase: CheckValidLevelUseCase,
+        authRepository: AuthAPIRepository,
+        myPageRepository: MyPageRepository
+    ) {
+        self.checkEmptyUseCase = checkEmptyUseCase
+        self.checkValidLevelUseCase = checkValidLevelUseCase
+        self.authRepository = authRepository
+        self.myPageRepository = myPageRepository
+        self.initialState = State()
+    }
+
+    // MARK: - Reactor Methods
+    public func mutate(action: Action) -> Observable<Mutation> {
+        switch action {
+        case .viewWillAppear:
+            return Observable.zip(
+                authRepository.fetchJobList(),
+                myPageRepository.fetchProfile().catchAndReturn(nil)
+            )
+            .flatMap { [weak self] jobResponse, profile -> Observable<Mutation> in
+                guard let self else { return .empty() }
+                var mutations: [Observable<Mutation>] = [
+                    .just(.setJobList(jobList: jobResponse.jobList))
+                ]
+                if let level = profile?.level {
+                    mutations.append(.just(.setLevel(level)))
+                    mutations.append(.just(.setLevelValid(checkValidLevelUseCase.execute(level: level))))
+                }
+                if let jobId = profile?.jobId,
+                   let job = jobResponse.jobList.first(where: { $0.id == jobId }) {
+                    mutations.append(.just(.setRole(job)))
+                }
+                let isEnabled = checkEmptyUseCase.execute(level: profile?.level, job: profile?.jobName)
+                mutations.append(.just(.setButtonEnabled(isEnabled)))
+                return Observable.concat(mutations)
+            }
+            .catchAndReturn(.navigateTo(route: .error))
+        case .backButtonTapped:
+            return Observable.just(.navigateTo(route: .dismiss))
+        case .applyButtonTapped:
+            guard let level = currentState.level,
+                  let job = currentState.job else { return Observable.just(.navigateTo(route: .error)) }
+            return authRepository.updateUserInfo(level: level, selectedJobID: job.id)
+                .andThen(Observable.just(.navigateTo(route: .dismissWithSave)))
+                .catchAndReturn(.navigateTo(route: .error))
+        case .inputLevel(let level):
+            let isButtonEnabled = checkEmptyUseCase.execute(level: level, job: currentState.job?.name)
+            let isLevelValid = checkValidLevelUseCase.execute(level: level)
+            return .of(
+                .setLevel(level),
+                .setButtonEnabled(isButtonEnabled),
+                .setLevelValid(isLevelValid)
+            )
+        case .inputRole(let job):
+            let isButtonEnabled = checkEmptyUseCase.execute(level: currentState.level, job: job?.name)
+            return .of(.setRole(job), .setButtonEnabled(isButtonEnabled))
+        }
+    }
+
+    public func reduce(state: State, mutation: Mutation) -> State {
+        var newState = state
+
+        switch mutation {
+        case .setJobList(let jobList):
+            newState.jobList = jobList
+        case .setButtonEnabled(let isEnabled):
+            newState.isButtonEnabled = isEnabled
+        case .setLevelValid(let isValid):
+            newState.isLevelValid = isValid
+        case .setLevel(let level):
+            newState.level = level
+        case .setRole(let job):
+            newState.job = job
+        case .navigateTo(let route):
+            newState.route = route
+        }
+
+        return newState
+    }
+}

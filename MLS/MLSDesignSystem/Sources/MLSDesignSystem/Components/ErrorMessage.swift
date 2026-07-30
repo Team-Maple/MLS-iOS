@@ -15,7 +15,7 @@ public final class ErrorMessage: UIView {
     // MARK: - Properties
     private let iconView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "error")
+        view.image = DesignSystemAsset.image(named: "error")
         return view
     }()
 

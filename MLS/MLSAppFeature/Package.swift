@@ -23,16 +23,43 @@ let package = Package(
             targets: ["MLSAppFeatureTesting"]
         )
     ],
+    dependencies: [
+        .package(path: "../MLSAppFeature"),
+        .package(path: "../MLSAuthFeature"),
+        .package(path: "../MLSBookmarkFeature"),
+        .package(path: "../MLSCore"),
+        .package(path: "../MLSDictionaryFeature"),
+        .package(path: "../MLSMyPageFeature"),
+        .package(path: "../MLSRecommendationFeature"),
+        .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "6.7.0")
+    ],
     targets: [
         // Interface 모듈 (도메인 모델 및 프로토콜)
         .target(
             name: "MLSAppFeatureInterface",
-            dependencies: []
+            dependencies: [
+                .product(name: "MLSCore", package: "MLSCore")
+            ]
         ),
         // Feature 모듈 (실제 구현)
         .target(
             name: "MLSAppFeature",
-            dependencies: ["MLSAppFeatureInterface"]
+            dependencies: [
+                "MLSAppFeatureInterface",
+                .product(name: "MLSAuthFeature", package: "MLSAuthFeature"),
+                .product(name: "MLSAppFeatureInterface", package: "MLSAppFeature"),
+                .product(name: "MLSAuthFeatureInterface", package: "MLSAuthFeature"),
+                .product(name: "MLSBookmarkFeature", package: "MLSBookmarkFeature"),
+                .product(name: "MLSBookmarkFeatureInterface", package: "MLSBookmarkFeature"),
+                .product(name: "MLSCore", package: "MLSCore"),
+                .product(name: "MLSDictionaryFeature", package: "MLSDictionaryFeature"),
+                .product(name: "MLSDictionaryFeatureInterface", package: "MLSDictionaryFeature"),
+                .product(name: "MLSMyPageFeature", package: "MLSMyPageFeature"),
+                .product(name: "MLSMyPageFeatureInterface", package: "MLSMyPageFeature"),
+                .product(name: "MLSRecommendationFeature", package: "MLSRecommendationFeature"),
+                .product(name: "MLSRecommendationFeatureInterface", package: "MLSRecommendationFeature"),
+                .product(name: "RxSwift", package: "RxSwift")
+            ]
         ),
         // Testing 모듈 (Mock 객체)
         .target(

@@ -2,7 +2,7 @@ import Foundation
 
 import RxSwift
 
-public final class NetworkProviderImpl: NetworkProvider {
+public final class NetworkProviderImpl: NetworkProvider, Loggable {
 
     private let session: URLSession
 
@@ -17,32 +17,40 @@ public final class NetworkProviderImpl: NetworkProvider {
 
     public func requestData<T: Responsable & Requestable>(endPoint: T, interceptor: Interceptor?) -> Observable<T.Response> {
         return Observable.create { [weak self] observer in
-            print("🚀 requestData: 요청 시작 - \(endPoint)")
+            self?.logDebug("Core requestData: 요청 시작 - \(endPoint)")
 
             self?.sendRequest(endPoint: endPoint, interceptor: interceptor, completion: { result in
 
                 switch result {
                 case .success(let data):
-                    print("✅ requestData: 응답 수신")
+                    self?.logDebug("Core requestData: 응답 수신")
 
                     if let data = data {
-                        print("📦 requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
+                        self?.logDebug("Core requestData: 응답 데이터 있음 - \(String(data: data, encoding: .utf8) ?? "디코딩 실패")")
                         do {
-                            let decoded = try JSONDecoder().decode(T.Response.self, from: data)
-                            print("🎯 requestData: 디코딩 성공 - \(decoded)")
-                            observer.onNext(decoded)
+                            let decoded = try JSONDecoder().decode(APIDefaultResponseDTO<T.Response>.self, from: data)
+                            self?.logDebug("Core requestData: 디코딩 성공 - \(decoded)")
+                            if let decodedData = decoded.data {
+                                observer.onNext(decodedData)
+                            } else {
+                                if T.Response.self == EmptyResponseDTO.self {
+                                    observer.onNext(EmptyResponseDTO() as! T.Response)
+                                } else {
+                                    observer.onError(NetworkError.invalidResponse)
+                                }
+                            }
                             observer.onCompleted()
                         } catch {
-                            print("❌ requestData: 디코딩 실패 - \(error)")
+                            self?.logError("Core requestData: 디코딩 실패 - \(error)")
                             observer.onError(NetworkError.decodeError(error))
                         }
                     } else {
-                        print("⚠️ requestData: 응답 데이터 없음")
+                        self?.logWarning("Core requestData: 응답 데이터 없음")
                         observer.onError(NetworkError.noData)
                     }
 
                 case .failure(let error):
-                    print("🔥 requestData: 네트워크 실패 - \(error)")
+                    self?.logError("🔥 requestData: 네트워크 실패 - \(error)")
                     observer.onError(error)
                 }
             })
@@ -53,7 +61,7 @@ public final class NetworkProviderImpl: NetworkProvider {
             errors
                 .enumerated()
                 .flatMap { attempt, error -> Observable<Void> in
-                    print("🔁 requestData: 재시도 \(attempt + 1)회 - 에러: \(error)")
+                    self.logWarning("🔁 requestData: 재시도 \(attempt + 1)회 - 에러: \(error)")
                     if attempt < self.retryAttempt, let networkError = error as? NetworkError, networkError == .retry {
                         return Observable.just(())
                     } else {
@@ -94,10 +102,6 @@ public final class NetworkProviderImpl: NetworkProvider {
 }
 
 private extension NetworkProviderImpl {
-    /// 엔드 포인트를 이용하여 요청을 보내기 위한 함수
-    /// - Parameters:
-    ///   - endPoint: 요청을 위한 엔드포인트 객체
-    ///   - completion: 응답 결과
     func sendRequest<T: Requestable>(endPoint: T, interceptor: Interceptor?, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
         do {
             var request = try endPoint.getUrlRequest()
@@ -113,7 +117,7 @@ private extension NetworkProviderImpl {
                     completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
-                    print("API 통신에러 \(error)")
+                    logError("API 통신에러 \(error)")
                 }
             }
             task.resume()
@@ -122,12 +126,6 @@ private extension NetworkProviderImpl {
         }
     }
 
-    ///  통신간의 유효성 검사를 위한 함수
-    /// - Parameters:
-    ///   - data: 통신 결과로 돌려받은 데이터
-    ///   - response: 상태코드를 포함한 통신 응답
-    ///   - error: 통신간에 발생한 에러
-    /// - Returns: 유효성검사 결과에 따른 데이터와 에러
     func checkValidation(
         data: Data?,
         response: URLResponse?,
@@ -135,7 +133,6 @@ private extension NetworkProviderImpl {
         interceptor: Interceptor?
     ) -> Result<Data?, NetworkError> {
 
-        // 1️⃣ 네트워크 레벨 에러 먼저 체크
         if let error {
             if let urlError = error as? URLError, urlError.code == .unsupportedURL {
                 return .failure(.urlRequest(error))
@@ -143,14 +140,11 @@ private extension NetworkProviderImpl {
             return .failure(.network(error))
         }
 
-        // 2️⃣ HTTP 응답 객체 확인
         guard let httpResponse = response as? HTTPURLResponse else {
             return .failure(.httpError)
         }
 
-        // 3️⃣ 상태 코드 기반 검사
         guard (200 ... 299).contains(httpResponse.statusCode) else {
-            // ❗️여기서만 인터셉터 개입
             if let interceptor = interceptor,
                interceptor.retry(data: data, response: response, error: error) {
                 return .failure(.retry)
@@ -160,7 +154,6 @@ private extension NetworkProviderImpl {
             return .failure(.statusError(httpResponse.statusCode, errorMessage))
         }
 
-        // ✅ 성공 응답
         return .success(data)
     }
 }

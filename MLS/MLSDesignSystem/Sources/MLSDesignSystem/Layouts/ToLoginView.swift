@@ -36,8 +36,18 @@ public final class ToLoginView: UIView {
 
     // MARK: - Components
     public let imageView = UIImageView()
-    private let mainLabel = UILabel()
-    private let subLabel = UILabel()
+
+    private let mainLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
+
+    private let subLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
 
     public let button = CommonButton()
 
