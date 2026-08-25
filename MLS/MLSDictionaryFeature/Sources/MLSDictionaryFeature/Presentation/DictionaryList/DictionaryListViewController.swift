@@ -424,14 +424,17 @@ extension DictionaryListViewController: UICollectionViewDelegate, UICollectionVi
         let now = Date()
         guard now.timeIntervalSince(lastPagingTime) > 0.5 else { return }
 
+        guard let reactor = reactor,
+              reactor.currentState.listItems.count < reactor.currentState.totalCounts else { return }
+
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         let height = scrollView.frame.size.height
 
         if offsetY > contentHeight - height - 100 {
             lastPagingTime = now
-            reactor?.action.onNext(.setCurrentPage)
-            reactor?.action.onNext(.fetchList)
+            reactor.action.onNext(.setCurrentPage)
+            reactor.action.onNext(.fetchList)
         }
     }
 }
