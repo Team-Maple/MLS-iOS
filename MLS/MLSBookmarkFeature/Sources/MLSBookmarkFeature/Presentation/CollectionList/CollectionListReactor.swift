@@ -28,7 +28,7 @@ final class CollectionListReactor: Reactor {
     struct State {
         @Pulse var route: Route
         var collectionList: [CollectionResponse]
-        var sortFilter: [SortType] = [.korean, .latest]
+        var sortFilter: [SortType] = [.latest, .korean]
         var selectedSort: SortType?
     }
 
