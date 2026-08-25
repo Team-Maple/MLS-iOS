@@ -65,6 +65,8 @@ public extension DictionarySearchResultViewController {
         guard let reactor = reactor else { return }
         let type = reactor.currentState.type
 
+        mainView.searchBar.textField.text = keyword
+
         // 기존 viewControllers 제거
         for viewController in viewControllers {
             viewController.removeFromParent()
@@ -117,6 +119,7 @@ private extension DictionarySearchResultViewController {
 
     func configureUI() {
         mainView.searchBar.searchDelegate = self
+        mainView.searchBar.textField.text = reactor?.currentState.keyword
         mainView.searchBar.textField.becomeFirstResponder()
 
         mainView.pageViewController.delegate = self
@@ -192,6 +195,8 @@ public extension DictionarySearchResultViewController {
                 switch route {
                 case .dismiss:
                     owner.navigationController?.popViewController(animated: true)
+                case .standaloneJamoError:
+                    GuideAlertFactory.show(mainText: "초성은 검색이 불가능 합니다.", ctaText: "확인", ctaAction: {})
                 default:
                     break
                 }
@@ -206,11 +211,7 @@ public extension DictionarySearchResultViewController {
             .skip(1)
             .observe(on: MainScheduler.instance)
             .bind(with: self) { owner, newKeyword in
-                if !newKeyword.isOnlyKorean() {
-                    GuideAlertFactory.show(mainText: "초성은 검색할 수 없습니다.", ctaText: "확인", ctaAction: {})
-                } else {
-                    owner.updateViewControllers(keyword: newKeyword)
-                }
+                owner.updateViewControllers(keyword: newKeyword)
             }
             .disposed(by: disposeBag)
 

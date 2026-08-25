@@ -146,6 +146,200 @@ struct DictionarySearchReactorTests {
         }
     }
 
+    // MARK: - 단독 자음/모음 검색 검증
+
+    @Test("단독 자음만 입력 시 standaloneJamoError route 반환")
+    func test_searchButtonTapped_withChosung_returnsStandaloneJamoError() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("ㄱㄴ"))
+            .toBlocking()
+            .toArray()
+
+        let hasStandaloneJamoError = mutations.contains {
+            if case .navigateTo(let route) = $0, case .standaloneJamoError = route { return true }
+            return false
+        }
+
+        #expect(hasStandaloneJamoError)
+    }
+
+    @Test("단독 모음만 입력 시 standaloneJamoError route 반환")
+    func test_searchButtonTapped_withVowel_returnsStandaloneJamoError() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("ㅏㅓ"))
+            .toBlocking()
+            .toArray()
+
+        let hasStandaloneJamoError = mutations.contains {
+            if case .navigateTo(let route) = $0, case .standaloneJamoError = route { return true }
+            return false
+        }
+
+        #expect(hasStandaloneJamoError)
+    }
+
+    @Test("영문+단독 자음 혼합 입력 시 standaloneJamoError route 반환")
+    func test_searchButtonTapped_withMixedChosungAndEnglish_returnsStandaloneJamoError() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("kkㄱ"))
+            .toBlocking()
+            .toArray()
+
+        let hasStandaloneJamoError = mutations.contains {
+            if case .navigateTo(let route) = $0, case .standaloneJamoError = route { return true }
+            return false
+        }
+
+        #expect(hasStandaloneJamoError)
+    }
+
+    @Test("영문+단독 모음 혼합 입력 시 standaloneJamoError route 반환")
+    func test_searchButtonTapped_withMixedVowelAndEnglish_returnsStandaloneJamoError() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("kkㅏ"))
+            .toBlocking()
+            .toArray()
+
+        let hasStandaloneJamoError = mutations.contains {
+            if case .navigateTo(let route) = $0, case .standaloneJamoError = route { return true }
+            return false
+        }
+
+        #expect(hasStandaloneJamoError)
+    }
+
+    @Test("한글+단독 자음 혼합 입력 시 standaloneJamoError route 반환")
+    func test_searchButtonTapped_withMixedChosungAndKorean_returnsStandaloneJamoError() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("슬라임ㄱ"))
+            .toBlocking()
+            .toArray()
+
+        let hasStandaloneJamoError = mutations.contains {
+            if case .navigateTo(let route) = $0, case .standaloneJamoError = route { return true }
+            return false
+        }
+
+        #expect(hasStandaloneJamoError)
+    }
+
+    @Test("단독 자음 한 글자 입력 시 아무 mutation 없음 (최소 2자 미달)")
+    func test_searchButtonTapped_singleStandaloneJamo_emitsNothing() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("ㄱ"))
+            .toBlocking()
+            .toArray()
+
+        #expect(mutations.isEmpty)
+    }
+
+    @Test("1자 이하 입력 시 아무 mutation 없음")
+    func test_searchButtonTapped_tooShort_emitsNothing() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("가"))
+            .toBlocking()
+            .toArray()
+
+        #expect(mutations.isEmpty)
+    }
+
+    @Test("빈 문자열 입력 시 아무 mutation 없음")
+    func test_searchButtonTapped_empty_emitsNothing() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped(""))
+            .toBlocking()
+            .toArray()
+
+        #expect(mutations.isEmpty)
+    }
+
+    // MARK: - 특수기호/공백 처리 검증
+
+    @Test("특수기호 포함 입력 시 특수기호 제거 후 검색")
+    func test_searchButtonTapped_withSpecialChars_sanitizesKeyword() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("슬라임!!"))
+            .toBlocking()
+            .toArray()
+
+        let navigatesWithSanitized = mutations.contains {
+            if case .navigateTo(let route) = $0, case .search(let keyword) = route {
+                return keyword == "슬라임"
+            }
+            return false
+        }
+
+        #expect(navigatesWithSanitized)
+    }
+
+    @Test("공백 포함 입력 시 공백 제거 후 검색")
+    func test_searchButtonTapped_withSpaces_sanitizesKeyword() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("슬라 임"))
+            .toBlocking()
+            .toArray()
+
+        let navigatesWithSanitized = mutations.contains {
+            if case .navigateTo(let route) = $0, case .search(let keyword) = route {
+                return keyword == "슬라임"
+            }
+            return false
+        }
+
+        #expect(navigatesWithSanitized)
+    }
+
+    @Test("특수기호만 입력 시 아무 mutation 없음 (sanitize 후 2자 미달)")
+    func test_searchButtonTapped_onlySpecialChars_emitsNothing() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("!!!"))
+            .toBlocking()
+            .toArray()
+
+        #expect(mutations.isEmpty)
+    }
+
+    @Test("특수기호 제거 후 정확히 2자면 검색 진행")
+    func test_searchButtonTapped_twoCharsAfterSanitize_navigates() throws {
+        let reactor = makeSUT()
+
+        let mutations = try reactor
+            .mutate(action: .searchButtonTapped("가나!!"))
+            .toBlocking()
+            .toArray()
+
+        let hasNavigateMutation = mutations.contains {
+            if case .navigateTo(let route) = $0, case .search(let keyword) = route {
+                return keyword == "가나"
+            }
+            return false
+        }
+
+        #expect(hasNavigateMutation)
+    }
+
     // MARK: - Reduce
 
     @Test("reduce - 최근 검색어 추가")
