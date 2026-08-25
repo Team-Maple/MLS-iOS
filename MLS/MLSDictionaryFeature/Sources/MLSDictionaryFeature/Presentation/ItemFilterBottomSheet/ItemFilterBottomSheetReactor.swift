@@ -32,7 +32,7 @@ public final class ItemFilterBottomSheetReactor: Reactor {
 
     public struct State {
         var sections: [String] = ["직업/레벨", "무기", "발사체", "방어구", "장신구", "주문서", "기타"]
-        var jobs: [String] = ["없음", "공용", "마법사", "전사", "궁수", "도적", "해적"]
+        var jobs: [String] = ["없음", "공용", "마법사", "전사", "궁수", "도적", "해적", "소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "스트라이커"]
         var weapons: [String] = ["한손검", "한손도끼", "한손둔기", "창", "단검", "두손검", "두손도끼", "두손둔기", "폴암", "활", "석궁", "완드", "스태프", "아대", "건", "너클"]
         var projectiles: [String] = ["화살", "표창", "불릿"]
         var armors: [String] = ["모자", "상의", "하의", "장갑", "신발", "방패", "전신갑옷"] // 전신 = 전신갑옷?

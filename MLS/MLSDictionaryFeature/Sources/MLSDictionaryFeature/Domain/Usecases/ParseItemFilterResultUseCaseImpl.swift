@@ -3,7 +3,8 @@ import MLSDictionaryFeatureInterface
 public final class ParseItemFilterResultUseCaseImpl: ParseItemFilterResultUseCase {
 
     private let jobIdMap: [String: Int] = [
-        "전사": 100, "마법사": 200, "도적": 400, "궁수": 300, "해적": 500
+        "전사": 100, "마법사": 200, "도적": 400, "궁수": 300, "해적": 500,
+        "소울마스터": 1100, "플레임위자드": 1200, "윈드브레이커": 1300, "나이트워커": 1400, "스트라이커": 1500
     ]
     private let categoryIdMap: [String: Int] = [
         "한손검": 7, "한손도끼": 8, "한손둔기": 9, "단검": 10, "완드": 12,
