@@ -15,6 +15,7 @@ public final class DictionarySearchReactor: Reactor {
         case none
         case dismiss
         case search(String)
+        case standaloneJamoError
     }
 
     public enum Action {
@@ -92,13 +93,16 @@ public final class DictionarySearchReactor: Reactor {
         case .backButtonTapped:
             return Observable.just(.navigateTo(.dismiss))
         case .searchButtonTapped(let keyword):
-            return recentSearchRepository.addRecentSearch(keyword: keyword)
+            let sanitized = keyword.sanitizedForSearch()
+            guard sanitized.count >= 2 else { return .empty() }
+            guard !sanitized.containsStandaloneJamo() else { return .just(.navigateTo(.standaloneJamoError)) }
+            return recentSearchRepository.addRecentSearch(keyword: sanitized)
                 .andThen(
-                    currentState.recentResult.contains(keyword)
-                        ? .just(.navigateTo(.search(keyword)))
+                    currentState.recentResult.contains(sanitized)
+                        ? .just(.navigateTo(.search(sanitized)))
                         : .concat([
-                            .just(.addRecentItem(keyword)),
-                            .just(.navigateTo(.search(keyword)))
+                            .just(.addRecentItem(sanitized)),
+                            .just(.navigateTo(.search(sanitized)))
                           ])
                 )
         case .cancelRecentButtonTapped(let keyword):

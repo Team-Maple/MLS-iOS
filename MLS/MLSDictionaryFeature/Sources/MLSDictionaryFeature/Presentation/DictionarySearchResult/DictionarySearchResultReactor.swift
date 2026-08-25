@@ -7,6 +7,7 @@ public final class DictionarySearchResultReactor: Reactor {
     public enum Route {
         case none
         case dismiss
+        case standaloneJamoError
     }
 
     public enum Action {
@@ -66,9 +67,11 @@ public final class DictionarySearchResultReactor: Reactor {
             }
         // 검색 결과 화면에서 재검색 시
         case .searchButtonTapped(let keyword):
-            let keyword = keyword ?? ""
-            return recentSearchRepository.addRecentSearch(keyword: keyword)
-                .andThen(.just(.setKeyword(keyword)))
+            let sanitized = (keyword ?? "").sanitizedForSearch()
+            guard sanitized.count >= 2 else { return .empty() }
+            guard !sanitized.containsStandaloneJamo() else { return .just(.navigateTo(.standaloneJamoError)) }
+            return recentSearchRepository.addRecentSearch(keyword: sanitized)
+                .andThen(.just(.setKeyword(sanitized)))
         }
     }
 
