@@ -128,7 +128,7 @@ public extension BaseListView {
     }
 
     func updateBookmarkFilter(type: String) {
-        if type == "total" {
+        if type == "전체" {
             filterButton.isHidden = true
         }
     }
