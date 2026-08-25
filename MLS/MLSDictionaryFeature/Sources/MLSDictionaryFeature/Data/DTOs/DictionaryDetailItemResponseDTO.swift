@@ -8,7 +8,7 @@ public struct DictionaryDetailItemResponseDTO: Decodable {
     public let itemImageUrl: String?
     public let npcPrice: Int?
     public let itemType: String?
-    public let categoryHierachy: CategoryHierachy?
+    public let categoryHierarchy: CategoryHierarchy?
     public let availableJobs: [Jobs]?
     public let requiredStats: RequiredStats? // 요구 스탯
     public let equipmentStats: EquipmentStats? // 착용하면 올라가는 스탯
@@ -24,7 +24,7 @@ public struct DictionaryDetailItemResponseDTO: Decodable {
             imgUrl: itemImageUrl,
             npcPrice: npcPrice,
             itemType: itemType,
-            categoryHierachy: categoryHierachy,
+            categoryHierarchy: categoryHierarchy,
             availableJobs: availableJobs,
             requiredStats: requiredStats,
             equipmentStats: equipmentStats,

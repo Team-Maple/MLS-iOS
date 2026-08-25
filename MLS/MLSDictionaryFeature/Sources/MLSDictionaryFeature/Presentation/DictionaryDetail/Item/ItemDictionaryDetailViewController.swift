@@ -44,14 +44,18 @@ private extension ItemDictionaryDetailViewController {
         let infos = reactor.currentState.itemDetailInfo
 
         detailInfoView.reset()
-        // descriptionText
         detailInfoView.descriptionLabel.text = infos.descriptionText ?? ""
         setContentView(view: detailInfoView, detailType: .normal)
 
+        if let rootCategory = infos.categoryHierarchy?.rootCategory?.name {
+            detailInfoView.addInfo(mainText: "주카테고리", subText: rootCategory)
+        }
+        if let leafCategory = infos.categoryHierarchy?.leafCategory?.name {
+            detailInfoView.addInfo(mainText: "부카테고리", subText: leafCategory)
+        }
         if let npcPrice = infos.npcPrice {
             detailInfoView.addInfo(mainText: "상점판매가", subText: "\(npcPrice.formatted()) 메소")
         }
-
         if let availableJobs = infos.availableJobs {
             let jobNames = availableJobs.compactMap { $0.jobName }.joined(separator: ", ")
             if !jobNames.isEmpty {
@@ -59,88 +63,85 @@ private extension ItemDictionaryDetailViewController {
             }
         }
 
-        if let requiredStats = infos.requiredStats {
-            if let level = requiredStats.level {
-                detailInfoView.addInfo(mainText: "착용레벨", subText: "Lv. \(level)")
-            }
-            if let str = requiredStats.str {
-                detailInfoView.addInfo(mainText: "필요 STR", subText: "\(str)")
-            }
-            if let dex = requiredStats.dex {
-                detailInfoView.addInfo(mainText: "필요 DEX", subText: "\(dex)")
-            }
-            if let int = requiredStats.intelligence {
-                detailInfoView.addInfo(mainText: "필요 INT", subText: "\(int)")
-            }
-            if let luk = requiredStats.luk {
-                detailInfoView.addInfo(mainText: "필요 LUK", subText: "\(luk)")
-            }
-            if let pop = requiredStats.pop {
-                detailInfoView.addInfo(mainText: "필요 POP", subText: "\(pop)")
+        addRequiredStatsInfo(infos.requiredStats)
+        addEquipmentStatsInfo(infos.equipmentStats)
+        addScrollDetailInfo(infos.scrollDetail)
+    }
+
+    private func addRequiredStatsInfo(_ requiredStats: RequiredStats?) {
+        guard let requiredStats = requiredStats else { return }
+        let statMappings: [(title: String, value: Int?)] = [
+            ("착용레벨", requiredStats.level),
+            ("필요 STR", requiredStats.str),
+            ("필요 DEX", requiredStats.dex),
+            ("필요 INT", requiredStats.intelligence),
+            ("필요 LUK", requiredStats.luk),
+            ("필요 POP", requiredStats.pop)
+        ]
+        for (title, value) in statMappings {
+            if let value = value {
+                let subText = title == "착용레벨" ? "Lv. \(value)" : "\(value)"
+                detailInfoView.addInfo(mainText: title, subText: subText)
             }
         }
-        // 해당 스트링들을 상수 추출 하는게 좋을지..
-        if let equipmentStats = infos.equipmentStats {
-            let statMappings: [(title: String, stat: Stats?)] = [
-                ("STR 증가", equipmentStats.str),
-                ("DEX 증가", equipmentStats.dex),
-                ("INT 증가", equipmentStats.intelligence),
-                ("LUK 증가", equipmentStats.luk),
-                ("HP 증가", equipmentStats.hp),
-                ("MP 증가", equipmentStats.mp),
-                ("물리공격력 증가", equipmentStats.weaponAttack),
-                ("마법공격력 증가", equipmentStats.magicAttack),
-                ("물리방어력 증가", equipmentStats.physicalDefense),
-                ("마법방어력 증가", equipmentStats.magicDefense),
-                ("명중률 증가", equipmentStats.accuracy),
-                ("회피율 증가", equipmentStats.evasion),
-                ("이동속도 증가", equipmentStats.speed),
-                ("점프력 증가", equipmentStats.jump)
-            ]
+    }
 
-            for (title, stat) in statMappings {
-                if let base = stat?.base {
-                    let subText = formatStatText(base: base, min: stat?.min, max: stat?.max)
-                    detailInfoView.addInfo(mainText: title, subText: subText)
-                }
-            }
-
-            if let attackSpeed = equipmentStats.attackSpeed, let attackSpeedDetails = equipmentStats.attackSpeedDetails {
-                detailInfoView.addInfo(mainText: "공격속도", subText: "\(attackSpeed.formatted()) (\(attackSpeedDetails))")
+    private func addEquipmentStatsInfo(_ equipmentStats: EquipmentStats?) {
+        guard let equipmentStats = equipmentStats else { return }
+        let statMappings: [(title: String, stat: Stats?)] = [
+            ("STR 증가", equipmentStats.str),
+            ("DEX 증가", equipmentStats.dex),
+            ("INT 증가", equipmentStats.intelligence),
+            ("LUK 증가", equipmentStats.luk),
+            ("HP 증가", equipmentStats.hp),
+            ("MP 증가", equipmentStats.mp),
+            ("물리공격력 증가", equipmentStats.weaponAttack),
+            ("마법공격력 증가", equipmentStats.magicAttack),
+            ("물리방어력 증가", equipmentStats.physicalDefense),
+            ("마법방어력 증가", equipmentStats.magicDefense),
+            ("명중률 증가", equipmentStats.accuracy),
+            ("회피율 증가", equipmentStats.evasion),
+            ("이동속도 증가", equipmentStats.speed),
+            ("점프력 증가", equipmentStats.jump)
+        ]
+        for (title, stat) in statMappings {
+            if let base = stat?.base {
+                detailInfoView.addInfo(mainText: title, subText: formatStatText(base: base, min: stat?.min, max: stat?.max))
             }
         }
+        if let attackSpeed = equipmentStats.attackSpeed, let attackSpeedDetails = equipmentStats.attackSpeedDetails {
+            detailInfoView.addInfo(mainText: "공격속도", subText: "\(attackSpeed.formatted()) (\(attackSpeedDetails))")
+        }
+    }
 
-        if let scrollDetail = infos.scrollDetail {
-            let scrollMappings: [(title: String, value: Int?)] = [
-                ("STR 증가", scrollDetail.strChange),
-                ("DEX 증가", scrollDetail.dexChange),
-                ("INT 증가", scrollDetail.intelligenceChange),
-                ("LUK 증가", scrollDetail.lukChange),
-                ("HP 증가", scrollDetail.hpChange),
-                ("MP 증가", scrollDetail.mpChange),
-                ("물리공격력 증가", scrollDetail.weaponAttackChange),
-                ("마법공격력 증가", scrollDetail.magicAttackChange),
-                ("물리방어력 증가", scrollDetail.physicalDefenseChange),
-                ("마법방어력 증가", scrollDetail.magicDefenseChange),
-                ("명중률 증가", scrollDetail.accuracyChange),
-                ("회피율 증가", scrollDetail.evasionChange),
-                ("이동속도 증가", scrollDetail.speedChange),
-                ("점프력 증가", scrollDetail.jumpChange)
-            ]
-
-            if let successRate = scrollDetail.successRatePercent {
-                detailInfoView.addInfo(mainText: "성공 확률", subText: "\(successRate)%")
-            }
-
-            if let targetItem = scrollDetail.targetItemTypeText {
-                detailInfoView.addInfo(mainText: "사용 가능 장비", subText: targetItem)
-            }
-
-            for (title, value) in scrollMappings {
-                if let value = value {
-                    let sign = value >= 0 ? "+" : ""
-                    detailInfoView.addInfo(mainText: title, subText: "\(sign)\(value.formatted())")
-                }
+    private func addScrollDetailInfo(_ scrollDetail: ScrollDetail?) {
+        guard let scrollDetail = scrollDetail else { return }
+        if let successRate = scrollDetail.successRatePercent {
+            detailInfoView.addInfo(mainText: "성공 확률", subText: "\(successRate)%")
+        }
+        if let targetItem = scrollDetail.targetItemTypeText {
+            detailInfoView.addInfo(mainText: "사용 가능 장비", subText: targetItem)
+        }
+        let scrollMappings: [(title: String, value: Int?)] = [
+            ("STR 증가", scrollDetail.strChange),
+            ("DEX 증가", scrollDetail.dexChange),
+            ("INT 증가", scrollDetail.intelligenceChange),
+            ("LUK 증가", scrollDetail.lukChange),
+            ("HP 증가", scrollDetail.hpChange),
+            ("MP 증가", scrollDetail.mpChange),
+            ("물리공격력 증가", scrollDetail.weaponAttackChange),
+            ("마법공격력 증가", scrollDetail.magicAttackChange),
+            ("물리방어력 증가", scrollDetail.physicalDefenseChange),
+            ("마법방어력 증가", scrollDetail.magicDefenseChange),
+            ("명중률 증가", scrollDetail.accuracyChange),
+            ("회피율 증가", scrollDetail.evasionChange),
+            ("이동속도 증가", scrollDetail.speedChange),
+            ("점프력 증가", scrollDetail.jumpChange)
+        ]
+        for (title, value) in scrollMappings {
+            if let value = value {
+                let sign = value >= 0 ? "+" : ""
+                detailInfoView.addInfo(mainText: title, subText: "\(sign)\(value.formatted())")
             }
         }
     }

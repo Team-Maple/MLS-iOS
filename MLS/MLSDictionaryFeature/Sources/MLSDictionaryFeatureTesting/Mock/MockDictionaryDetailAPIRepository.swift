@@ -142,7 +142,7 @@ public final class MockDictionaryDetailAPIRepository:
                 imgUrl: "",
                 npcPrice: 50,
                 itemType: "consumable",
-                categoryHierachy: nil,
+                categoryHierarchy: nil,
                 availableJobs: nil,
                 requiredStats: nil,
                 equipmentStats: nil,
