@@ -229,7 +229,7 @@ public final class SetProfileView: UIView {
         return view
     }()
 
-    private let errorMessage = ErrorMessage(message: "닉네임은 15자 이하로 입력해주세요.")
+    private let errorMessage = ErrorMessage(message: "한글 2~15자로 입력해 주세요.")
 
     private let countLabel = UILabel()
 
