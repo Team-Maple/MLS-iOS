@@ -25,6 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let myPageRepository = MockMyPageRepository()
         let authRepository = MockAuthAPIRepository()
         let tokenRepository = MockTokenRepository()
+        let userDefaultsRepository = MockUserDefaultsRepository()
         let alarmRepository = MockAlarmRepository()
         let notificationRepository = NotificationPermissionRepositoryImpl()
 
@@ -34,7 +35,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             selectImageFactory: SelectImageFactoryImpl(myPageRepository: myPageRepository),
             checkNickNameUseCase: CheckNickNameUseCaseImpl(),
             logoutUseCase: LogoutUseCaseImpl(repository: tokenRepository),
-            withdrawUseCase: WithdrawUseCaseImpl(authRepository: authRepository, tokenRepository: tokenRepository),
+            withdrawUseCase: WithdrawUseCaseImpl(authRepository: authRepository, tokenRepository: tokenRepository, userDefaultsRepository: userDefaultsRepository),
             fetchProfileUseCase: fetchProfileUseCase,
             myPageRepository: myPageRepository
         )

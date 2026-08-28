@@ -29,4 +29,12 @@ public final class UserDefaultsRepositoryImpl: UserDefaultsRepository {
             return Disposables.create()
         }
     }
+
+    public func deletePlatform() -> Completable {
+        return Completable.create { completable in
+            UserDefaults.standard.removeObject(forKey: self.platformKey)
+            completable(.completed)
+            return Disposables.create()
+        }
+    }
 }

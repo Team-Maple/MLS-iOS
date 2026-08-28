@@ -72,12 +72,13 @@ private extension SetProfileReactorTests {
    func makeSUT() -> SetProfileReactor {
         let authRepo = MockAuthAPIRepository()
         let tokenRepo = MockTokenRepository()
+        let userDefaultsRepo = MockUserDefaultsRepository()
         return SetProfileReactor(
             checkNickNameUseCase: CheckNickNameUseCaseImpl(),
             logoutUseCase: LogoutUseCaseImpl(
                 repository: tokenRepo
             ),
-            withdrawUseCase: WithdrawUseCaseImpl(authRepository: authRepo, tokenRepository: tokenRepo),
+            withdrawUseCase: WithdrawUseCaseImpl(authRepository: authRepo, tokenRepository: tokenRepo, userDefaultsRepository: userDefaultsRepo),
             fetchProfileUseCase: FetchProfileUseCaseImpl(
                 repository: MockMyPageRepository()
             ),

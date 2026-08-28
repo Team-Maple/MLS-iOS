@@ -8,10 +8,12 @@ import RxSwift
 public class WithdrawUseCaseImpl: WithdrawUseCase {
     private let authRepository: AuthAPIRepository
     private let tokenRepository: TokenRepository
+    private let userDefaultsRepository: UserDefaultsRepository
 
-    public init(authRepository: AuthAPIRepository, tokenRepository: TokenRepository) {
+    public init(authRepository: AuthAPIRepository, tokenRepository: TokenRepository, userDefaultsRepository: UserDefaultsRepository) {
         self.authRepository = authRepository
         self.tokenRepository = tokenRepository
+        self.userDefaultsRepository = userDefaultsRepository
     }
 
     public func execute() -> Completable {
@@ -31,5 +33,6 @@ public class WithdrawUseCaseImpl: WithdrawUseCase {
                 }
                 return .empty()
             })
+            .andThen(userDefaultsRepository.deletePlatform())
     }
 }

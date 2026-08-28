@@ -15,4 +15,9 @@ public final class MockUserDefaultsRepository: UserDefaultsRepository {
         self.platform = platform
         return .empty()
     }
+
+    public func deletePlatform() -> Completable {
+        self.platform = nil
+        return .empty()
+    }
 }

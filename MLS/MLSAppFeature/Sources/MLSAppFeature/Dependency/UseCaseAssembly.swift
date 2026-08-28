@@ -63,7 +63,8 @@ public enum UseCaseAssembly {
                 authRepository: DIContainer.resolve(
                     type: AuthAPIRepository.self
                 ),
-                tokenRepository: DIContainer.resolve(type: TokenRepository.self)
+                tokenRepository: DIContainer.resolve(type: TokenRepository.self),
+                userDefaultsRepository: DIContainer.resolve(type: UserDefaultsRepository.self)
             )
         }
         DIContainer.register(type: ParseItemFilterResultUseCase.self) {

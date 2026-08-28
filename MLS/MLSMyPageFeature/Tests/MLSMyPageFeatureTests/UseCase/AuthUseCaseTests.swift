@@ -130,10 +130,12 @@ struct WithdrawUseCaseTests {
     func withdraw_success() throws {
         let authRepo = MockAuthAPIRepository()
         let tokenRepo = MockTokenRepository()
+        let userDefaultsRepo = MockUserDefaultsRepository()
 
         let sut = WithdrawUseCaseImpl(
             authRepository: authRepo,
-            tokenRepository: tokenRepo
+            tokenRepository: tokenRepo,
+            userDefaultsRepository: userDefaultsRepo
         )
 
         _ = try sut.execute().toBlocking().first()
@@ -143,13 +145,15 @@ struct WithdrawUseCaseTests {
     func withdraw_deleteTokens() throws {
         let authRepo = MockAuthAPIRepository()
         let tokenRepo = MockTokenRepository()
+        let userDefaultsRepo = MockUserDefaultsRepository()
 
         _ = tokenRepo.saveToken(type: .accessToken, value: "access")
         _ = tokenRepo.saveToken(type: .refreshToken, value: "refresh")
 
         let sut = WithdrawUseCaseImpl(
             authRepository: authRepo,
-            tokenRepository: tokenRepo
+            tokenRepository: tokenRepo,
+            userDefaultsRepository: userDefaultsRepo
         )
 
         _ = try sut.execute().toBlocking().first()
