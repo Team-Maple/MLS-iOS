@@ -119,7 +119,7 @@ public extension UIViewController {
         view.addSubview(fab)
         fab.snp.makeConstraints { make in
             make.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16 + 32)
             make.size.equalTo(CGSize(width: 48, height: 48))
         }
     }
