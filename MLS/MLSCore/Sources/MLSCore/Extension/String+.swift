@@ -19,6 +19,18 @@ public extension String {
             }
     }
 
+    /// 특수기호, 공백을 제거한 검색용 문자열 반환
+    func sanitizedForSearch() -> String {
+        let allowed = CharacterSet.letters.union(.decimalDigits)
+        return String(self.unicodeScalars.filter { allowed.contains($0) })
+    }
+
+    /// 단독 자음(ㄱ-ㅎ) 또는 단독 모음(ㅏ-ㅣ)이 하나라도 포함된 문자열인지 확인
+    /// 예: "kkㄱ", "ㄱㄴ", "kkㅏ", "ㅏㅓ" 모두 true
+    func containsStandaloneJamo() -> Bool {
+        return self.unicodeScalars.contains { (0x3131...0x3163).contains($0.value) }
+    }
+
     func toDisplayDateString() -> String {
         let inputFormatter = DateFormatter()
         inputFormatter.locale = Locale(identifier: "ko_KR")
