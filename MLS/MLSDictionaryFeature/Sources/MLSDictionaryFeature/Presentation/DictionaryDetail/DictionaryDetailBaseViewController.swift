@@ -336,7 +336,7 @@ private extension DictionaryDetailBaseViewController {
             .observe(on: MainScheduler.instance)
             .withUnretained(self)
             .bind { owner, _ in
-                owner.appCoordinator.showMainTab(selectedIndex: 1)
+                owner.appCoordinator.showMainTab(selectedIndex: 0)
             }
             .disposed(by: disposeBag)
 

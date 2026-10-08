@@ -6,7 +6,7 @@ public struct DictionaryDetailItemResponse: Equatable {
     public let imgUrl: String?
     public let npcPrice: Int?
     public let itemType: String?
-    public let categoryHierachy: CategoryHierachy?
+    public let categoryHierarchy: CategoryHierarchy?
     public let availableJobs: [Jobs]?
     public let requiredStats: RequiredStats? // 요구 스탯
     public let equipmentStats: EquipmentStats? // 착용하면 올라가는 스탯
@@ -21,7 +21,7 @@ public struct DictionaryDetailItemResponse: Equatable {
         imgUrl: String?,
         npcPrice: Int?,
         itemType: String?,
-        categoryHierachy: CategoryHierachy?,
+        categoryHierarchy: CategoryHierarchy?,
         availableJobs: [Jobs]?,
         requiredStats: RequiredStats?,
         equipmentStats: EquipmentStats?,
@@ -35,7 +35,7 @@ public struct DictionaryDetailItemResponse: Equatable {
         self.imgUrl = imgUrl
         self.npcPrice = npcPrice
         self.itemType = itemType
-        self.categoryHierachy = categoryHierachy
+        self.categoryHierarchy = categoryHierarchy
         self.availableJobs = availableJobs
         self.requiredStats = requiredStats
         self.equipmentStats = equipmentStats
@@ -45,7 +45,7 @@ public struct DictionaryDetailItemResponse: Equatable {
 
 }
 
-public struct CategoryHierachy: Decodable, Equatable {
+public struct CategoryHierarchy: Decodable, Equatable {
     public let rootCategory: Category?
     public let leafCategory: Category?
 }

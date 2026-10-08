@@ -70,7 +70,7 @@ public final class ItemDictionaryDetailReactor: Reactor {
         self.initialState = .init(
             itemDetailInfo: DictionaryDetailItemResponse(
                 itemId: 0, nameKr: nil, nameEn: nil, descriptionText: nil,
-                imgUrl: nil, npcPrice: nil, itemType: nil, categoryHierachy: nil,
+                imgUrl: nil, npcPrice: nil, itemType: nil, categoryHierarchy: nil,
                 availableJobs: nil, requiredStats: nil, equipmentStats: nil,
                 scrollDetail: nil, bookmarkId: nil
             ),
